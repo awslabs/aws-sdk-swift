@@ -29,7 +29,7 @@ extension NetworkManagerClientTypes.AWSLocation: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Specifies a location in Amazon Web Services.
-    public struct AWSLocation: Swift.Equatable {
+    public struct AWSLocation {
         /// The Amazon Resource Name (ARN) of the subnet that the device is located in.
         public var subnetArn: Swift.String?
         /// The Zone that the device is located in. Specify the ID of an Availability Zone, Local Zone, Wavelength Zone, or an Outpost.
@@ -57,7 +57,7 @@ extension AcceptAttachmentInput {
     }
 }
 
-public struct AcceptAttachmentInput: Swift.Equatable {
+public struct AcceptAttachmentInput {
     /// The ID of the attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -70,7 +70,7 @@ public struct AcceptAttachmentInput: Swift.Equatable {
     }
 }
 
-struct AcceptAttachmentInputBody: Swift.Equatable {
+struct AcceptAttachmentInputBody {
 }
 
 extension AcceptAttachmentInputBody: Swift.Decodable {
@@ -91,7 +91,7 @@ extension AcceptAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptAttachmentOutput: Swift.Equatable {
+public struct AcceptAttachmentOutput {
     /// The response to the attachment request.
     public var attachment: NetworkManagerClientTypes.Attachment?
 
@@ -103,7 +103,7 @@ public struct AcceptAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct AcceptAttachmentOutputBody: Swift.Equatable {
+struct AcceptAttachmentOutputBody {
     let attachment: NetworkManagerClientTypes.Attachment?
 }
 
@@ -175,7 +175,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -218,7 +218,7 @@ extension NetworkManagerClientTypes.AccountStatus: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the current status of an account within an Amazon Web Services Organization, including service-linked roles (SLRs).
-    public struct AccountStatus: Swift.Equatable {
+    public struct AccountStatus {
         /// The ID of an account within the Amazon Web Services Organization.
         public var accountId: Swift.String?
         /// The status of SLR deployment for the account.
@@ -267,7 +267,7 @@ extension AssociateConnectPeerInput {
     }
 }
 
-public struct AssociateConnectPeerInput: Swift.Equatable {
+public struct AssociateConnectPeerInput {
     /// The ID of the Connect peer.
     /// This member is required.
     public var connectPeerId: Swift.String?
@@ -294,7 +294,7 @@ public struct AssociateConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectPeerInputBody: Swift.Equatable {
+struct AssociateConnectPeerInputBody {
     let connectPeerId: Swift.String?
     let deviceId: Swift.String?
     let linkId: Swift.String?
@@ -330,7 +330,7 @@ extension AssociateConnectPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateConnectPeerOutput: Swift.Equatable {
+public struct AssociateConnectPeerOutput {
     /// The response to the Connect peer request.
     public var connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation?
 
@@ -342,7 +342,7 @@ public struct AssociateConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectPeerOutputBody: Swift.Equatable {
+struct AssociateConnectPeerOutputBody {
     let connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation?
 }
 
@@ -406,7 +406,7 @@ extension AssociateCustomerGatewayInput {
     }
 }
 
-public struct AssociateCustomerGatewayInput: Swift.Equatable {
+public struct AssociateCustomerGatewayInput {
     /// The Amazon Resource Name (ARN) of the customer gateway.
     /// This member is required.
     public var customerGatewayArn: Swift.String?
@@ -433,7 +433,7 @@ public struct AssociateCustomerGatewayInput: Swift.Equatable {
     }
 }
 
-struct AssociateCustomerGatewayInputBody: Swift.Equatable {
+struct AssociateCustomerGatewayInputBody {
     let customerGatewayArn: Swift.String?
     let deviceId: Swift.String?
     let linkId: Swift.String?
@@ -469,7 +469,7 @@ extension AssociateCustomerGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateCustomerGatewayOutput: Swift.Equatable {
+public struct AssociateCustomerGatewayOutput {
     /// The customer gateway association.
     public var customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation?
 
@@ -481,7 +481,7 @@ public struct AssociateCustomerGatewayOutput: Swift.Equatable {
     }
 }
 
-struct AssociateCustomerGatewayOutputBody: Swift.Equatable {
+struct AssociateCustomerGatewayOutputBody {
     let customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation?
 }
 
@@ -541,7 +541,7 @@ extension AssociateLinkInput {
     }
 }
 
-public struct AssociateLinkInput: Swift.Equatable {
+public struct AssociateLinkInput {
     /// The ID of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -564,7 +564,7 @@ public struct AssociateLinkInput: Swift.Equatable {
     }
 }
 
-struct AssociateLinkInputBody: Swift.Equatable {
+struct AssociateLinkInputBody {
     let deviceId: Swift.String?
     let linkId: Swift.String?
 }
@@ -596,7 +596,7 @@ extension AssociateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateLinkOutput: Swift.Equatable {
+public struct AssociateLinkOutput {
     /// The link association.
     public var linkAssociation: NetworkManagerClientTypes.LinkAssociation?
 
@@ -608,7 +608,7 @@ public struct AssociateLinkOutput: Swift.Equatable {
     }
 }
 
-struct AssociateLinkOutputBody: Swift.Equatable {
+struct AssociateLinkOutputBody {
     let linkAssociation: NetworkManagerClientTypes.LinkAssociation?
 }
 
@@ -672,7 +672,7 @@ extension AssociateTransitGatewayConnectPeerInput {
     }
 }
 
-public struct AssociateTransitGatewayConnectPeerInput: Swift.Equatable {
+public struct AssociateTransitGatewayConnectPeerInput {
     /// The ID of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -699,7 +699,7 @@ public struct AssociateTransitGatewayConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct AssociateTransitGatewayConnectPeerInputBody: Swift.Equatable {
+struct AssociateTransitGatewayConnectPeerInputBody {
     let transitGatewayConnectPeerArn: Swift.String?
     let deviceId: Swift.String?
     let linkId: Swift.String?
@@ -735,7 +735,7 @@ extension AssociateTransitGatewayConnectPeerOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct AssociateTransitGatewayConnectPeerOutput: Swift.Equatable {
+public struct AssociateTransitGatewayConnectPeerOutput {
     /// The transit gateway Connect peer association.
     public var transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation?
 
@@ -747,7 +747,7 @@ public struct AssociateTransitGatewayConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct AssociateTransitGatewayConnectPeerOutputBody: Swift.Equatable {
+struct AssociateTransitGatewayConnectPeerOutputBody {
     let transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation?
 }
 
@@ -891,7 +891,7 @@ extension NetworkManagerClientTypes.Attachment: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network attachment.
-    public struct Attachment: Swift.Equatable {
+    public struct Attachment {
         /// The ID of the attachment.
         public var attachmentId: Swift.String?
         /// The policy rule number associated with the attachment.
@@ -1075,7 +1075,7 @@ extension NetworkManagerClientTypes.Bandwidth: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes bandwidth information.
-    public struct Bandwidth: Swift.Equatable {
+    public struct Bandwidth {
         /// Download speed in Mbps.
         public var downloadSpeed: Swift.Int?
         /// Upload speed in Mbps.
@@ -1114,7 +1114,7 @@ extension NetworkManagerClientTypes.BgpOptions: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the BGP options.
-    public struct BgpOptions: Swift.Equatable {
+    public struct BgpOptions {
         /// The Peer ASN of the BGP.
         public var peerAsn: Swift.Int?
 
@@ -1352,7 +1352,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1409,7 +1409,7 @@ extension NetworkManagerClientTypes.ConnectAttachment: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network Connect attachment.
-    public struct ConnectAttachment: Swift.Equatable {
+    public struct ConnectAttachment {
         /// The attachment details.
         public var attachment: NetworkManagerClientTypes.Attachment?
         /// Options for connecting an attachment.
@@ -1452,7 +1452,7 @@ extension NetworkManagerClientTypes.ConnectAttachmentOptions: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network Connect attachment options.
-    public struct ConnectAttachmentOptions: Swift.Equatable {
+    public struct ConnectAttachmentOptions {
         /// The protocol used for the attachment connection.
         public var `protocol`: NetworkManagerClientTypes.TunnelProtocol?
 
@@ -1547,7 +1547,7 @@ extension NetworkManagerClientTypes.ConnectPeer: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network Connect peer.
-    public struct ConnectPeer: Swift.Equatable {
+    public struct ConnectPeer {
         /// The configuration of the Connect peer.
         public var configuration: NetworkManagerClientTypes.ConnectPeerConfiguration?
         /// The ID of the attachment to connect.
@@ -1638,7 +1638,7 @@ extension NetworkManagerClientTypes.ConnectPeerAssociation: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network Connect peer association.
-    public struct ConnectPeerAssociation: Swift.Equatable {
+    public struct ConnectPeerAssociation {
         /// The ID of the Connect peer.
         public var connectPeerId: Swift.String?
         /// The ID of the device to connect to.
@@ -1745,7 +1745,7 @@ extension NetworkManagerClientTypes.ConnectPeerBgpConfiguration: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network BGP configuration.
-    public struct ConnectPeerBgpConfiguration: Swift.Equatable {
+    public struct ConnectPeerBgpConfiguration {
         /// The address of a core network.
         public var coreNetworkAddress: Swift.String?
         /// The ASN of the Coret Network.
@@ -1840,7 +1840,7 @@ extension NetworkManagerClientTypes.ConnectPeerConfiguration: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network Connect peer configuration.
-    public struct ConnectPeerConfiguration: Swift.Equatable {
+    public struct ConnectPeerConfiguration {
         /// The Connect peer BGP configurations.
         public var bgpConfigurations: [NetworkManagerClientTypes.ConnectPeerBgpConfiguration]?
         /// The IP address of a core network.
@@ -1983,7 +1983,7 @@ extension NetworkManagerClientTypes.ConnectPeerSummary: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Summary description of a Connect peer.
-    public struct ConnectPeerSummary: Swift.Equatable {
+    public struct ConnectPeerSummary {
         /// The ID of a Connect peer attachment.
         public var connectAttachmentId: Swift.String?
         /// The ID of a Connect peer.
@@ -2118,7 +2118,7 @@ extension NetworkManagerClientTypes.Connection: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a connection.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// The ID of the second device in the connection.
         public var connectedDeviceId: Swift.String?
         /// The ID of the link for the second device in the connection.
@@ -2205,7 +2205,7 @@ extension NetworkManagerClientTypes.ConnectionHealth: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes connection health.
-    public struct ConnectionHealth: Swift.Equatable {
+    public struct ConnectionHealth {
         /// The connection status.
         public var status: NetworkManagerClientTypes.ConnectionStatus?
         /// The time the status was last updated.
@@ -2434,7 +2434,7 @@ extension NetworkManagerClientTypes.CoreNetwork: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network.
-    public struct CoreNetwork: Swift.Equatable {
+    public struct CoreNetwork {
         /// The ARN of a core network.
         public var coreNetworkArn: Swift.String?
         /// The ID of a core network.
@@ -2531,7 +2531,7 @@ extension NetworkManagerClientTypes.CoreNetworkChange: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Details describing a core network change.
-    public struct CoreNetworkChange: Swift.Equatable {
+    public struct CoreNetworkChange {
         /// The action to take for a core network.
         public var action: NetworkManagerClientTypes.ChangeAction?
         /// The resource identifier.
@@ -2616,7 +2616,7 @@ extension NetworkManagerClientTypes.CoreNetworkChangeEvent: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network change event. This can be a change to a segment, attachment, route, etc.
-    public struct CoreNetworkChangeEvent: Swift.Equatable {
+    public struct CoreNetworkChangeEvent {
         /// The action taken for the change event.
         public var action: NetworkManagerClientTypes.ChangeAction?
         /// The timestamp for an event change in status.
@@ -2689,7 +2689,7 @@ extension NetworkManagerClientTypes.CoreNetworkChangeEventValues: Swift.Codable 
 
 extension NetworkManagerClientTypes {
     /// Describes a core network change event.
-    public struct CoreNetworkChangeEventValues: Swift.Equatable {
+    public struct CoreNetworkChangeEventValues {
         /// The ID of the attachment if the change event is associated with an attachment.
         public var attachmentId: Swift.String?
         /// For a STATIC_ROUTE event, this is the IP address.
@@ -2808,7 +2808,7 @@ extension NetworkManagerClientTypes.CoreNetworkChangeValues: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network change.
-    public struct CoreNetworkChangeValues: Swift.Equatable {
+    public struct CoreNetworkChangeValues {
         /// The ASN of a core network.
         public var asn: Swift.Int?
         /// The IP addresses used for a core network.
@@ -2891,7 +2891,7 @@ extension NetworkManagerClientTypes.CoreNetworkEdge: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network edge.
-    public struct CoreNetworkEdge: Swift.Equatable {
+    public struct CoreNetworkEdge {
         /// The ASN of a core network edge.
         public var asn: Swift.Int?
         /// The Region where a core network edge is located.
@@ -2988,7 +2988,7 @@ extension NetworkManagerClientTypes.CoreNetworkPolicy: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network policy. You can have only one LIVE Core Policy.
-    public struct CoreNetworkPolicy: Swift.Equatable {
+    public struct CoreNetworkPolicy {
         /// Whether a core network policy is the current LIVE policy or the most recently submitted policy.
         public var alias: NetworkManagerClientTypes.CoreNetworkPolicyAlias?
         /// The state of a core network policy.
@@ -3095,7 +3095,7 @@ extension NetworkManagerClientTypes.CoreNetworkPolicyError: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Provides details about an error in a core network policy.
-    public struct CoreNetworkPolicyError: Swift.Equatable {
+    public struct CoreNetworkPolicyError {
         /// The error code associated with a core network policy error.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -3165,7 +3165,7 @@ public struct CoreNetworkPolicyException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct CoreNetworkPolicyExceptionBody: Swift.Equatable {
+struct CoreNetworkPolicyExceptionBody {
     let message: Swift.String?
     let errors: [NetworkManagerClientTypes.CoreNetworkPolicyError]?
 }
@@ -3245,7 +3245,7 @@ extension NetworkManagerClientTypes.CoreNetworkPolicyVersion: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network policy version.
-    public struct CoreNetworkPolicyVersion: Swift.Equatable {
+    public struct CoreNetworkPolicyVersion {
         /// Whether a core network policy is the current policy or the most recently submitted policy.
         public var alias: NetworkManagerClientTypes.CoreNetworkPolicyAlias?
         /// The status of the policy version change set.
@@ -3336,7 +3336,7 @@ extension NetworkManagerClientTypes.CoreNetworkSegment: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a core network segment, which are dedicated routes. Only attachments within this segment can communicate with each other.
-    public struct CoreNetworkSegment: Swift.Equatable {
+    public struct CoreNetworkSegment {
         /// The Regions where the edges are located.
         public var edgeLocations: [Swift.String]?
         /// The name of a core network segment.
@@ -3391,7 +3391,7 @@ extension NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier: Swift.Coda
 
 extension NetworkManagerClientTypes {
     /// Returns details about a core network edge.
-    public struct CoreNetworkSegmentEdgeIdentifier: Swift.Equatable {
+    public struct CoreNetworkSegmentEdgeIdentifier {
         /// The ID of a core network.
         public var coreNetworkId: Swift.String?
         /// The Region where the segment edge is located.
@@ -3520,7 +3520,7 @@ extension NetworkManagerClientTypes.CoreNetworkSummary: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Returns summary information about a core network.
-    public struct CoreNetworkSummary: Swift.Equatable {
+    public struct CoreNetworkSummary {
         /// a core network ARN.
         public var coreNetworkArn: Swift.String?
         /// The ID of a core network.
@@ -3601,7 +3601,7 @@ extension CreateConnectAttachmentInput {
     }
 }
 
-public struct CreateConnectAttachmentInput: Swift.Equatable {
+public struct CreateConnectAttachmentInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of a core network where you want to create the attachment.
@@ -3637,7 +3637,7 @@ public struct CreateConnectAttachmentInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectAttachmentInputBody: Swift.Equatable {
+struct CreateConnectAttachmentInputBody {
     let coreNetworkId: Swift.String?
     let edgeLocation: Swift.String?
     let transportAttachmentId: Swift.String?
@@ -3694,7 +3694,7 @@ extension CreateConnectAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectAttachmentOutput: Swift.Equatable {
+public struct CreateConnectAttachmentOutput {
     /// The response to a Connect attachment request.
     public var connectAttachment: NetworkManagerClientTypes.ConnectAttachment?
 
@@ -3706,7 +3706,7 @@ public struct CreateConnectAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectAttachmentOutputBody: Swift.Equatable {
+struct CreateConnectAttachmentOutputBody {
     let connectAttachment: NetworkManagerClientTypes.ConnectAttachment?
 }
 
@@ -3792,7 +3792,7 @@ extension CreateConnectPeerInput {
     }
 }
 
-public struct CreateConnectPeerInput: Swift.Equatable {
+public struct CreateConnectPeerInput {
     /// The Connect peer BGP options.
     public var bgpOptions: NetworkManagerClientTypes.BgpOptions?
     /// The client token associated with the request.
@@ -3834,7 +3834,7 @@ public struct CreateConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectPeerInputBody: Swift.Equatable {
+struct CreateConnectPeerInputBody {
     let connectAttachmentId: Swift.String?
     let coreNetworkAddress: Swift.String?
     let peerAddress: Swift.String?
@@ -3908,7 +3908,7 @@ extension CreateConnectPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectPeerOutput: Swift.Equatable {
+public struct CreateConnectPeerOutput {
     /// The response to the request.
     public var connectPeer: NetworkManagerClientTypes.ConnectPeer?
 
@@ -3920,7 +3920,7 @@ public struct CreateConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectPeerOutputBody: Swift.Equatable {
+struct CreateConnectPeerOutputBody {
     let connectPeer: NetworkManagerClientTypes.ConnectPeer?
 }
 
@@ -3998,7 +3998,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// The ID of the second device in the connection.
     /// This member is required.
     public var connectedDeviceId: Swift.String?
@@ -4037,7 +4037,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let deviceId: Swift.String?
     let connectedDeviceId: Swift.String?
     let linkId: Swift.String?
@@ -4094,7 +4094,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
     /// Information about the connection.
     public var connection: NetworkManagerClientTypes.Connection?
 
@@ -4106,7 +4106,7 @@ public struct CreateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputBody: Swift.Equatable {
+struct CreateConnectionOutputBody {
     let connection: NetworkManagerClientTypes.Connection?
 }
 
@@ -4177,7 +4177,7 @@ extension CreateCoreNetworkInput {
     }
 }
 
-public struct CreateCoreNetworkInput: Swift.Equatable {
+public struct CreateCoreNetworkInput {
     /// The client token associated with a core network request.
     public var clientToken: Swift.String?
     /// The description of a core network.
@@ -4206,7 +4206,7 @@ public struct CreateCoreNetworkInput: Swift.Equatable {
     }
 }
 
-struct CreateCoreNetworkInputBody: Swift.Equatable {
+struct CreateCoreNetworkInputBody {
     let globalNetworkId: Swift.String?
     let description: Swift.String?
     let tags: [NetworkManagerClientTypes.Tag]?
@@ -4259,7 +4259,7 @@ extension CreateCoreNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCoreNetworkOutput: Swift.Equatable {
+public struct CreateCoreNetworkOutput {
     /// Returns details about a core network.
     public var coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 
@@ -4271,7 +4271,7 @@ public struct CreateCoreNetworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateCoreNetworkOutputBody: Swift.Equatable {
+struct CreateCoreNetworkOutputBody {
     let coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 }
 
@@ -4367,7 +4367,7 @@ extension CreateDeviceInput {
     }
 }
 
-public struct CreateDeviceInput: Swift.Equatable {
+public struct CreateDeviceInput {
     /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
     public var awsLocation: NetworkManagerClientTypes.AWSLocation?
     /// A description of the device. Constraints: Maximum length of 256 characters.
@@ -4416,7 +4416,7 @@ public struct CreateDeviceInput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceInputBody: Swift.Equatable {
+struct CreateDeviceInputBody {
     let awsLocation: NetworkManagerClientTypes.AWSLocation?
     let description: Swift.String?
     let type: Swift.String?
@@ -4485,7 +4485,7 @@ extension CreateDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeviceOutput: Swift.Equatable {
+public struct CreateDeviceOutput {
     /// Information about the device.
     public var device: NetworkManagerClientTypes.Device?
 
@@ -4497,7 +4497,7 @@ public struct CreateDeviceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeviceOutputBody: Swift.Equatable {
+struct CreateDeviceOutputBody {
     let device: NetworkManagerClientTypes.Device?
 }
 
@@ -4557,7 +4557,7 @@ extension CreateGlobalNetworkInput {
     }
 }
 
-public struct CreateGlobalNetworkInput: Swift.Equatable {
+public struct CreateGlobalNetworkInput {
     /// A description of the global network. Constraints: Maximum length of 256 characters.
     public var description: Swift.String?
     /// The tags to apply to the resource during creation.
@@ -4573,7 +4573,7 @@ public struct CreateGlobalNetworkInput: Swift.Equatable {
     }
 }
 
-struct CreateGlobalNetworkInputBody: Swift.Equatable {
+struct CreateGlobalNetworkInputBody {
     let description: Swift.String?
     let tags: [NetworkManagerClientTypes.Tag]?
 }
@@ -4614,7 +4614,7 @@ extension CreateGlobalNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGlobalNetworkOutput: Swift.Equatable {
+public struct CreateGlobalNetworkOutput {
     /// Information about the global network object.
     public var globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 
@@ -4626,7 +4626,7 @@ public struct CreateGlobalNetworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateGlobalNetworkOutputBody: Swift.Equatable {
+struct CreateGlobalNetworkOutputBody {
     let globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 }
 
@@ -4704,7 +4704,7 @@ extension CreateLinkInput {
     }
 }
 
-public struct CreateLinkInput: Swift.Equatable {
+public struct CreateLinkInput {
     /// The upload speed and download speed in Mbps.
     /// This member is required.
     public var bandwidth: NetworkManagerClientTypes.Bandwidth?
@@ -4743,7 +4743,7 @@ public struct CreateLinkInput: Swift.Equatable {
     }
 }
 
-struct CreateLinkInputBody: Swift.Equatable {
+struct CreateLinkInputBody {
     let description: Swift.String?
     let type: Swift.String?
     let bandwidth: NetworkManagerClientTypes.Bandwidth?
@@ -4800,7 +4800,7 @@ extension CreateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLinkOutput: Swift.Equatable {
+public struct CreateLinkOutput {
     /// Information about the link.
     public var link: NetworkManagerClientTypes.Link?
 
@@ -4812,7 +4812,7 @@ public struct CreateLinkOutput: Swift.Equatable {
     }
 }
 
-struct CreateLinkOutputBody: Swift.Equatable {
+struct CreateLinkOutputBody {
     let link: NetworkManagerClientTypes.Link?
 }
 
@@ -4884,7 +4884,7 @@ extension CreateSiteInput {
     }
 }
 
-public struct CreateSiteInput: Swift.Equatable {
+public struct CreateSiteInput {
     /// A description of your site. Constraints: Maximum length of 256 characters.
     public var description: Swift.String?
     /// The ID of the global network.
@@ -4915,7 +4915,7 @@ public struct CreateSiteInput: Swift.Equatable {
     }
 }
 
-struct CreateSiteInputBody: Swift.Equatable {
+struct CreateSiteInputBody {
     let description: Swift.String?
     let location: NetworkManagerClientTypes.Location?
     let tags: [NetworkManagerClientTypes.Tag]?
@@ -4960,7 +4960,7 @@ extension CreateSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSiteOutput: Swift.Equatable {
+public struct CreateSiteOutput {
     /// Information about the site.
     public var site: NetworkManagerClientTypes.Site?
 
@@ -4972,7 +4972,7 @@ public struct CreateSiteOutput: Swift.Equatable {
     }
 }
 
-struct CreateSiteOutputBody: Swift.Equatable {
+struct CreateSiteOutputBody {
     let site: NetworkManagerClientTypes.Site?
 }
 
@@ -5040,7 +5040,7 @@ extension CreateSiteToSiteVpnAttachmentInput {
     }
 }
 
-public struct CreateSiteToSiteVpnAttachmentInput: Swift.Equatable {
+public struct CreateSiteToSiteVpnAttachmentInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of a core network where you're creating a site-to-site VPN attachment.
@@ -5066,7 +5066,7 @@ public struct CreateSiteToSiteVpnAttachmentInput: Swift.Equatable {
     }
 }
 
-struct CreateSiteToSiteVpnAttachmentInputBody: Swift.Equatable {
+struct CreateSiteToSiteVpnAttachmentInputBody {
     let coreNetworkId: Swift.String?
     let vpnConnectionArn: Swift.String?
     let tags: [NetworkManagerClientTypes.Tag]?
@@ -5115,7 +5115,7 @@ extension CreateSiteToSiteVpnAttachmentOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateSiteToSiteVpnAttachmentOutput: Swift.Equatable {
+public struct CreateSiteToSiteVpnAttachmentOutput {
     /// Details about a site-to-site VPN attachment.
     public var siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment?
 
@@ -5127,7 +5127,7 @@ public struct CreateSiteToSiteVpnAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateSiteToSiteVpnAttachmentOutputBody: Swift.Equatable {
+struct CreateSiteToSiteVpnAttachmentOutputBody {
     let siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment?
 }
 
@@ -5194,7 +5194,7 @@ extension CreateTransitGatewayPeeringInput {
     }
 }
 
-public struct CreateTransitGatewayPeeringInput: Swift.Equatable {
+public struct CreateTransitGatewayPeeringInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of a core network.
@@ -5220,7 +5220,7 @@ public struct CreateTransitGatewayPeeringInput: Swift.Equatable {
     }
 }
 
-struct CreateTransitGatewayPeeringInputBody: Swift.Equatable {
+struct CreateTransitGatewayPeeringInputBody {
     let coreNetworkId: Swift.String?
     let transitGatewayArn: Swift.String?
     let tags: [NetworkManagerClientTypes.Tag]?
@@ -5269,7 +5269,7 @@ extension CreateTransitGatewayPeeringOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTransitGatewayPeeringOutput: Swift.Equatable {
+public struct CreateTransitGatewayPeeringOutput {
     /// Returns information about the transit gateway peering connection request.
     public var transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering?
 
@@ -5281,7 +5281,7 @@ public struct CreateTransitGatewayPeeringOutput: Swift.Equatable {
     }
 }
 
-struct CreateTransitGatewayPeeringOutputBody: Swift.Equatable {
+struct CreateTransitGatewayPeeringOutputBody {
     let transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering?
 }
 
@@ -5348,7 +5348,7 @@ extension CreateTransitGatewayRouteTableAttachmentInput {
     }
 }
 
-public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Equatable {
+public struct CreateTransitGatewayRouteTableAttachmentInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of the peer for the
@@ -5374,7 +5374,7 @@ public struct CreateTransitGatewayRouteTableAttachmentInput: Swift.Equatable {
     }
 }
 
-struct CreateTransitGatewayRouteTableAttachmentInputBody: Swift.Equatable {
+struct CreateTransitGatewayRouteTableAttachmentInputBody {
     let peeringId: Swift.String?
     let transitGatewayRouteTableArn: Swift.String?
     let tags: [NetworkManagerClientTypes.Tag]?
@@ -5423,7 +5423,7 @@ extension CreateTransitGatewayRouteTableAttachmentOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateTransitGatewayRouteTableAttachmentOutput: Swift.Equatable {
+public struct CreateTransitGatewayRouteTableAttachmentOutput {
     /// The route table associated with the create transit gateway route table attachment request.
     public var transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment?
 
@@ -5435,7 +5435,7 @@ public struct CreateTransitGatewayRouteTableAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateTransitGatewayRouteTableAttachmentOutputBody: Swift.Equatable {
+struct CreateTransitGatewayRouteTableAttachmentOutputBody {
     let transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment?
 }
 
@@ -5513,7 +5513,7 @@ extension CreateVpcAttachmentInput {
     }
 }
 
-public struct CreateVpcAttachmentInput: Swift.Equatable {
+public struct CreateVpcAttachmentInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of a core network for the VPC attachment.
@@ -5548,7 +5548,7 @@ public struct CreateVpcAttachmentInput: Swift.Equatable {
     }
 }
 
-struct CreateVpcAttachmentInputBody: Swift.Equatable {
+struct CreateVpcAttachmentInputBody {
     let coreNetworkId: Swift.String?
     let vpcArn: Swift.String?
     let subnetArns: [Swift.String]?
@@ -5614,7 +5614,7 @@ extension CreateVpcAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVpcAttachmentOutput: Swift.Equatable {
+public struct CreateVpcAttachmentOutput {
     /// Provides details about the VPC attachment.
     public var vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 
@@ -5626,7 +5626,7 @@ public struct CreateVpcAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateVpcAttachmentOutputBody: Swift.Equatable {
+struct CreateVpcAttachmentOutputBody {
     let vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 }
 
@@ -5703,7 +5703,7 @@ extension NetworkManagerClientTypes.CustomerGatewayAssociation: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the association between a customer gateway, a device, and a link.
-    public struct CustomerGatewayAssociation: Swift.Equatable {
+    public struct CustomerGatewayAssociation {
         /// The Amazon Resource Name (ARN) of the customer gateway.
         public var customerGatewayArn: Swift.String?
         /// The ID of the device.
@@ -5781,7 +5781,7 @@ extension DeleteAttachmentInput {
     }
 }
 
-public struct DeleteAttachmentInput: Swift.Equatable {
+public struct DeleteAttachmentInput {
     /// The ID of the attachment to delete.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -5794,7 +5794,7 @@ public struct DeleteAttachmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteAttachmentInputBody: Swift.Equatable {
+struct DeleteAttachmentInputBody {
 }
 
 extension DeleteAttachmentInputBody: Swift.Decodable {
@@ -5815,7 +5815,7 @@ extension DeleteAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAttachmentOutput: Swift.Equatable {
+public struct DeleteAttachmentOutput {
     /// Information about the deleted attachment.
     public var attachment: NetworkManagerClientTypes.Attachment?
 
@@ -5827,7 +5827,7 @@ public struct DeleteAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAttachmentOutputBody: Swift.Equatable {
+struct DeleteAttachmentOutputBody {
     let attachment: NetworkManagerClientTypes.Attachment?
 }
 
@@ -5869,7 +5869,7 @@ extension DeleteConnectPeerInput {
     }
 }
 
-public struct DeleteConnectPeerInput: Swift.Equatable {
+public struct DeleteConnectPeerInput {
     /// The ID of the deleted Connect peer.
     /// This member is required.
     public var connectPeerId: Swift.String?
@@ -5882,7 +5882,7 @@ public struct DeleteConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectPeerInputBody: Swift.Equatable {
+struct DeleteConnectPeerInputBody {
 }
 
 extension DeleteConnectPeerInputBody: Swift.Decodable {
@@ -5903,7 +5903,7 @@ extension DeleteConnectPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectPeerOutput: Swift.Equatable {
+public struct DeleteConnectPeerOutput {
     /// Information about the deleted Connect peer.
     public var connectPeer: NetworkManagerClientTypes.ConnectPeer?
 
@@ -5915,7 +5915,7 @@ public struct DeleteConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectPeerOutputBody: Swift.Equatable {
+struct DeleteConnectPeerOutputBody {
     let connectPeer: NetworkManagerClientTypes.ConnectPeer?
 }
 
@@ -5960,7 +5960,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The ID of the connection.
     /// This member is required.
     public var connectionId: Swift.String?
@@ -5978,7 +5978,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
 }
 
 extension DeleteConnectionInputBody: Swift.Decodable {
@@ -5999,7 +5999,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
     /// Information about the connection.
     public var connection: NetworkManagerClientTypes.Connection?
 
@@ -6011,7 +6011,7 @@ public struct DeleteConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionOutputBody: Swift.Equatable {
+struct DeleteConnectionOutputBody {
     let connection: NetworkManagerClientTypes.Connection?
 }
 
@@ -6053,7 +6053,7 @@ extension DeleteCoreNetworkInput {
     }
 }
 
-public struct DeleteCoreNetworkInput: Swift.Equatable {
+public struct DeleteCoreNetworkInput {
     /// The network ID of the deleted core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -6066,7 +6066,7 @@ public struct DeleteCoreNetworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreNetworkInputBody: Swift.Equatable {
+struct DeleteCoreNetworkInputBody {
 }
 
 extension DeleteCoreNetworkInputBody: Swift.Decodable {
@@ -6087,7 +6087,7 @@ extension DeleteCoreNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCoreNetworkOutput: Swift.Equatable {
+public struct DeleteCoreNetworkOutput {
     /// Information about the deleted core network.
     public var coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 
@@ -6099,7 +6099,7 @@ public struct DeleteCoreNetworkOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreNetworkOutputBody: Swift.Equatable {
+struct DeleteCoreNetworkOutputBody {
     let coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 }
 
@@ -6144,7 +6144,7 @@ extension DeleteCoreNetworkPolicyVersionInput {
     }
 }
 
-public struct DeleteCoreNetworkPolicyVersionInput: Swift.Equatable {
+public struct DeleteCoreNetworkPolicyVersionInput {
     /// The ID of a core network for the deleted policy.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -6162,7 +6162,7 @@ public struct DeleteCoreNetworkPolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreNetworkPolicyVersionInputBody: Swift.Equatable {
+struct DeleteCoreNetworkPolicyVersionInputBody {
 }
 
 extension DeleteCoreNetworkPolicyVersionInputBody: Swift.Decodable {
@@ -6183,7 +6183,7 @@ extension DeleteCoreNetworkPolicyVersionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteCoreNetworkPolicyVersionOutput: Swift.Equatable {
+public struct DeleteCoreNetworkPolicyVersionOutput {
     /// Returns information about the deleted policy version.
     public var coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 
@@ -6195,7 +6195,7 @@ public struct DeleteCoreNetworkPolicyVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreNetworkPolicyVersionOutputBody: Swift.Equatable {
+struct DeleteCoreNetworkPolicyVersionOutputBody {
     let coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 }
 
@@ -6240,7 +6240,7 @@ extension DeleteDeviceInput {
     }
 }
 
-public struct DeleteDeviceInput: Swift.Equatable {
+public struct DeleteDeviceInput {
     /// The ID of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -6258,7 +6258,7 @@ public struct DeleteDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceInputBody: Swift.Equatable {
+struct DeleteDeviceInputBody {
 }
 
 extension DeleteDeviceInputBody: Swift.Decodable {
@@ -6279,7 +6279,7 @@ extension DeleteDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeviceOutput: Swift.Equatable {
+public struct DeleteDeviceOutput {
     /// Information about the device.
     public var device: NetworkManagerClientTypes.Device?
 
@@ -6291,7 +6291,7 @@ public struct DeleteDeviceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDeviceOutputBody: Swift.Equatable {
+struct DeleteDeviceOutputBody {
     let device: NetworkManagerClientTypes.Device?
 }
 
@@ -6333,7 +6333,7 @@ extension DeleteGlobalNetworkInput {
     }
 }
 
-public struct DeleteGlobalNetworkInput: Swift.Equatable {
+public struct DeleteGlobalNetworkInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -6346,7 +6346,7 @@ public struct DeleteGlobalNetworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteGlobalNetworkInputBody: Swift.Equatable {
+struct DeleteGlobalNetworkInputBody {
 }
 
 extension DeleteGlobalNetworkInputBody: Swift.Decodable {
@@ -6367,7 +6367,7 @@ extension DeleteGlobalNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGlobalNetworkOutput: Swift.Equatable {
+public struct DeleteGlobalNetworkOutput {
     /// Information about the global network.
     public var globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 
@@ -6379,7 +6379,7 @@ public struct DeleteGlobalNetworkOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGlobalNetworkOutputBody: Swift.Equatable {
+struct DeleteGlobalNetworkOutputBody {
     let globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 }
 
@@ -6424,7 +6424,7 @@ extension DeleteLinkInput {
     }
 }
 
-public struct DeleteLinkInput: Swift.Equatable {
+public struct DeleteLinkInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -6442,7 +6442,7 @@ public struct DeleteLinkInput: Swift.Equatable {
     }
 }
 
-struct DeleteLinkInputBody: Swift.Equatable {
+struct DeleteLinkInputBody {
 }
 
 extension DeleteLinkInputBody: Swift.Decodable {
@@ -6463,7 +6463,7 @@ extension DeleteLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLinkOutput: Swift.Equatable {
+public struct DeleteLinkOutput {
     /// Information about the link.
     public var link: NetworkManagerClientTypes.Link?
 
@@ -6475,7 +6475,7 @@ public struct DeleteLinkOutput: Swift.Equatable {
     }
 }
 
-struct DeleteLinkOutputBody: Swift.Equatable {
+struct DeleteLinkOutputBody {
     let link: NetworkManagerClientTypes.Link?
 }
 
@@ -6517,7 +6517,7 @@ extension DeletePeeringInput {
     }
 }
 
-public struct DeletePeeringInput: Swift.Equatable {
+public struct DeletePeeringInput {
     /// The ID of the peering connection to delete.
     /// This member is required.
     public var peeringId: Swift.String?
@@ -6530,7 +6530,7 @@ public struct DeletePeeringInput: Swift.Equatable {
     }
 }
 
-struct DeletePeeringInputBody: Swift.Equatable {
+struct DeletePeeringInputBody {
 }
 
 extension DeletePeeringInputBody: Swift.Decodable {
@@ -6551,7 +6551,7 @@ extension DeletePeeringOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePeeringOutput: Swift.Equatable {
+public struct DeletePeeringOutput {
     /// Information about a deleted peering connection.
     public var peering: NetworkManagerClientTypes.Peering?
 
@@ -6563,7 +6563,7 @@ public struct DeletePeeringOutput: Swift.Equatable {
     }
 }
 
-struct DeletePeeringOutputBody: Swift.Equatable {
+struct DeletePeeringOutputBody {
     let peering: NetworkManagerClientTypes.Peering?
 }
 
@@ -6605,7 +6605,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The ARN of the policy to delete.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6618,7 +6618,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
 }
 
 extension DeleteResourcePolicyInputBody: Swift.Decodable {
@@ -6632,7 +6632,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -6665,7 +6665,7 @@ extension DeleteSiteInput {
     }
 }
 
-public struct DeleteSiteInput: Swift.Equatable {
+public struct DeleteSiteInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -6683,7 +6683,7 @@ public struct DeleteSiteInput: Swift.Equatable {
     }
 }
 
-struct DeleteSiteInputBody: Swift.Equatable {
+struct DeleteSiteInputBody {
 }
 
 extension DeleteSiteInputBody: Swift.Decodable {
@@ -6704,7 +6704,7 @@ extension DeleteSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSiteOutput: Swift.Equatable {
+public struct DeleteSiteOutput {
     /// Information about the site.
     public var site: NetworkManagerClientTypes.Site?
 
@@ -6716,7 +6716,7 @@ public struct DeleteSiteOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSiteOutputBody: Swift.Equatable {
+struct DeleteSiteOutputBody {
     let site: NetworkManagerClientTypes.Site?
 }
 
@@ -6761,7 +6761,7 @@ extension DeregisterTransitGatewayInput {
     }
 }
 
-public struct DeregisterTransitGatewayInput: Swift.Equatable {
+public struct DeregisterTransitGatewayInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -6779,7 +6779,7 @@ public struct DeregisterTransitGatewayInput: Swift.Equatable {
     }
 }
 
-struct DeregisterTransitGatewayInputBody: Swift.Equatable {
+struct DeregisterTransitGatewayInputBody {
 }
 
 extension DeregisterTransitGatewayInputBody: Swift.Decodable {
@@ -6800,7 +6800,7 @@ extension DeregisterTransitGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterTransitGatewayOutput: Swift.Equatable {
+public struct DeregisterTransitGatewayOutput {
     /// The transit gateway registration information.
     public var transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration?
 
@@ -6812,7 +6812,7 @@ public struct DeregisterTransitGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DeregisterTransitGatewayOutputBody: Swift.Equatable {
+struct DeregisterTransitGatewayOutputBody {
     let transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration?
 }
 
@@ -6873,7 +6873,7 @@ extension DescribeGlobalNetworksInput {
     }
 }
 
-public struct DescribeGlobalNetworksInput: Swift.Equatable {
+public struct DescribeGlobalNetworksInput {
     /// The IDs of one or more global networks. The maximum is 10.
     public var globalNetworkIds: [Swift.String]?
     /// The maximum number of results to return.
@@ -6893,7 +6893,7 @@ public struct DescribeGlobalNetworksInput: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalNetworksInputBody: Swift.Equatable {
+struct DescribeGlobalNetworksInputBody {
 }
 
 extension DescribeGlobalNetworksInputBody: Swift.Decodable {
@@ -6916,7 +6916,7 @@ extension DescribeGlobalNetworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeGlobalNetworksOutput: Swift.Equatable {
+public struct DescribeGlobalNetworksOutput {
     /// Information about the global networks.
     public var globalNetworks: [NetworkManagerClientTypes.GlobalNetwork]?
     /// The token for the next page of results.
@@ -6932,7 +6932,7 @@ public struct DescribeGlobalNetworksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeGlobalNetworksOutputBody: Swift.Equatable {
+struct DescribeGlobalNetworksOutputBody {
     let globalNetworks: [NetworkManagerClientTypes.GlobalNetwork]?
     let nextToken: Swift.String?
 }
@@ -7092,7 +7092,7 @@ extension NetworkManagerClientTypes.Device: Swift.CustomDebugStringConvertible {
 
 extension NetworkManagerClientTypes {
     /// Describes a device.
-    public struct Device: Swift.Equatable {
+    public struct Device {
         /// The Amazon Web Services location of the device.
         public var awsLocation: NetworkManagerClientTypes.AWSLocation?
         /// The date and time that the site was created.
@@ -7209,7 +7209,7 @@ extension DisassociateConnectPeerInput {
     }
 }
 
-public struct DisassociateConnectPeerInput: Swift.Equatable {
+public struct DisassociateConnectPeerInput {
     /// The ID of the Connect peer to disassociate from a device.
     /// This member is required.
     public var connectPeerId: Swift.String?
@@ -7227,7 +7227,7 @@ public struct DisassociateConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectPeerInputBody: Swift.Equatable {
+struct DisassociateConnectPeerInputBody {
 }
 
 extension DisassociateConnectPeerInputBody: Swift.Decodable {
@@ -7248,7 +7248,7 @@ extension DisassociateConnectPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateConnectPeerOutput: Swift.Equatable {
+public struct DisassociateConnectPeerOutput {
     /// Describes the Connect peer association.
     public var connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation?
 
@@ -7260,7 +7260,7 @@ public struct DisassociateConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectPeerOutputBody: Swift.Equatable {
+struct DisassociateConnectPeerOutputBody {
     let connectPeerAssociation: NetworkManagerClientTypes.ConnectPeerAssociation?
 }
 
@@ -7305,7 +7305,7 @@ extension DisassociateCustomerGatewayInput {
     }
 }
 
-public struct DisassociateCustomerGatewayInput: Swift.Equatable {
+public struct DisassociateCustomerGatewayInput {
     /// The Amazon Resource Name (ARN) of the customer gateway.
     /// This member is required.
     public var customerGatewayArn: Swift.String?
@@ -7323,7 +7323,7 @@ public struct DisassociateCustomerGatewayInput: Swift.Equatable {
     }
 }
 
-struct DisassociateCustomerGatewayInputBody: Swift.Equatable {
+struct DisassociateCustomerGatewayInputBody {
 }
 
 extension DisassociateCustomerGatewayInputBody: Swift.Decodable {
@@ -7344,7 +7344,7 @@ extension DisassociateCustomerGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateCustomerGatewayOutput: Swift.Equatable {
+public struct DisassociateCustomerGatewayOutput {
     /// Information about the customer gateway association.
     public var customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation?
 
@@ -7356,7 +7356,7 @@ public struct DisassociateCustomerGatewayOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateCustomerGatewayOutputBody: Swift.Equatable {
+struct DisassociateCustomerGatewayOutputBody {
     let customerGatewayAssociation: NetworkManagerClientTypes.CustomerGatewayAssociation?
 }
 
@@ -7418,7 +7418,7 @@ extension DisassociateLinkInput {
     }
 }
 
-public struct DisassociateLinkInput: Swift.Equatable {
+public struct DisassociateLinkInput {
     /// The ID of the device.
     /// This member is required.
     public var deviceId: Swift.String?
@@ -7441,7 +7441,7 @@ public struct DisassociateLinkInput: Swift.Equatable {
     }
 }
 
-struct DisassociateLinkInputBody: Swift.Equatable {
+struct DisassociateLinkInputBody {
 }
 
 extension DisassociateLinkInputBody: Swift.Decodable {
@@ -7462,7 +7462,7 @@ extension DisassociateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateLinkOutput: Swift.Equatable {
+public struct DisassociateLinkOutput {
     /// Information about the link association.
     public var linkAssociation: NetworkManagerClientTypes.LinkAssociation?
 
@@ -7474,7 +7474,7 @@ public struct DisassociateLinkOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateLinkOutputBody: Swift.Equatable {
+struct DisassociateLinkOutputBody {
     let linkAssociation: NetworkManagerClientTypes.LinkAssociation?
 }
 
@@ -7519,7 +7519,7 @@ extension DisassociateTransitGatewayConnectPeerInput {
     }
 }
 
-public struct DisassociateTransitGatewayConnectPeerInput: Swift.Equatable {
+public struct DisassociateTransitGatewayConnectPeerInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -7537,7 +7537,7 @@ public struct DisassociateTransitGatewayConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTransitGatewayConnectPeerInputBody: Swift.Equatable {
+struct DisassociateTransitGatewayConnectPeerInputBody {
 }
 
 extension DisassociateTransitGatewayConnectPeerInputBody: Swift.Decodable {
@@ -7558,7 +7558,7 @@ extension DisassociateTransitGatewayConnectPeerOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DisassociateTransitGatewayConnectPeerOutput: Swift.Equatable {
+public struct DisassociateTransitGatewayConnectPeerOutput {
     /// The transit gateway Connect peer association.
     public var transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation?
 
@@ -7570,7 +7570,7 @@ public struct DisassociateTransitGatewayConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateTransitGatewayConnectPeerOutputBody: Swift.Equatable {
+struct DisassociateTransitGatewayConnectPeerOutputBody {
     let transitGatewayConnectPeerAssociation: NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation?
 }
 
@@ -7615,7 +7615,7 @@ extension ExecuteCoreNetworkChangeSetInput {
     }
 }
 
-public struct ExecuteCoreNetworkChangeSetInput: Swift.Equatable {
+public struct ExecuteCoreNetworkChangeSetInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -7633,7 +7633,7 @@ public struct ExecuteCoreNetworkChangeSetInput: Swift.Equatable {
     }
 }
 
-struct ExecuteCoreNetworkChangeSetInputBody: Swift.Equatable {
+struct ExecuteCoreNetworkChangeSetInputBody {
 }
 
 extension ExecuteCoreNetworkChangeSetInputBody: Swift.Decodable {
@@ -7647,7 +7647,7 @@ extension ExecuteCoreNetworkChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExecuteCoreNetworkChangeSetOutput: Swift.Equatable {
+public struct ExecuteCoreNetworkChangeSetOutput {
 
     public init() { }
 }
@@ -7678,7 +7678,7 @@ extension GetConnectAttachmentInput {
     }
 }
 
-public struct GetConnectAttachmentInput: Swift.Equatable {
+public struct GetConnectAttachmentInput {
     /// The ID of the attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -7691,7 +7691,7 @@ public struct GetConnectAttachmentInput: Swift.Equatable {
     }
 }
 
-struct GetConnectAttachmentInputBody: Swift.Equatable {
+struct GetConnectAttachmentInputBody {
 }
 
 extension GetConnectAttachmentInputBody: Swift.Decodable {
@@ -7712,7 +7712,7 @@ extension GetConnectAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectAttachmentOutput: Swift.Equatable {
+public struct GetConnectAttachmentOutput {
     /// Details about the Connect attachment.
     public var connectAttachment: NetworkManagerClientTypes.ConnectAttachment?
 
@@ -7724,7 +7724,7 @@ public struct GetConnectAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectAttachmentOutputBody: Swift.Equatable {
+struct GetConnectAttachmentOutputBody {
     let connectAttachment: NetworkManagerClientTypes.ConnectAttachment?
 }
 
@@ -7787,7 +7787,7 @@ extension GetConnectPeerAssociationsInput {
     }
 }
 
-public struct GetConnectPeerAssociationsInput: Swift.Equatable {
+public struct GetConnectPeerAssociationsInput {
     /// The IDs of the Connect peers.
     public var connectPeerIds: [Swift.String]?
     /// The ID of the global network.
@@ -7812,7 +7812,7 @@ public struct GetConnectPeerAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetConnectPeerAssociationsInputBody: Swift.Equatable {
+struct GetConnectPeerAssociationsInputBody {
 }
 
 extension GetConnectPeerAssociationsInputBody: Swift.Decodable {
@@ -7835,7 +7835,7 @@ extension GetConnectPeerAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectPeerAssociationsOutput: Swift.Equatable {
+public struct GetConnectPeerAssociationsOutput {
     /// Displays a list of Connect peer associations.
     public var connectPeerAssociations: [NetworkManagerClientTypes.ConnectPeerAssociation]?
     /// The token for the next page of results.
@@ -7851,7 +7851,7 @@ public struct GetConnectPeerAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectPeerAssociationsOutputBody: Swift.Equatable {
+struct GetConnectPeerAssociationsOutputBody {
     let connectPeerAssociations: [NetworkManagerClientTypes.ConnectPeerAssociation]?
     let nextToken: Swift.String?
 }
@@ -7906,7 +7906,7 @@ extension GetConnectPeerInput {
     }
 }
 
-public struct GetConnectPeerInput: Swift.Equatable {
+public struct GetConnectPeerInput {
     /// The ID of the Connect peer.
     /// This member is required.
     public var connectPeerId: Swift.String?
@@ -7919,7 +7919,7 @@ public struct GetConnectPeerInput: Swift.Equatable {
     }
 }
 
-struct GetConnectPeerInputBody: Swift.Equatable {
+struct GetConnectPeerInputBody {
 }
 
 extension GetConnectPeerInputBody: Swift.Decodable {
@@ -7940,7 +7940,7 @@ extension GetConnectPeerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectPeerOutput: Swift.Equatable {
+public struct GetConnectPeerOutput {
     /// Returns information about a core network Connect peer.
     public var connectPeer: NetworkManagerClientTypes.ConnectPeer?
 
@@ -7952,7 +7952,7 @@ public struct GetConnectPeerOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectPeerOutputBody: Swift.Equatable {
+struct GetConnectPeerOutputBody {
     let connectPeer: NetworkManagerClientTypes.ConnectPeer?
 }
 
@@ -8019,7 +8019,7 @@ extension GetConnectionsInput {
     }
 }
 
-public struct GetConnectionsInput: Swift.Equatable {
+public struct GetConnectionsInput {
     /// One or more connection IDs.
     public var connectionIds: [Swift.String]?
     /// The ID of the device.
@@ -8048,7 +8048,7 @@ public struct GetConnectionsInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionsInputBody: Swift.Equatable {
+struct GetConnectionsInputBody {
 }
 
 extension GetConnectionsInputBody: Swift.Decodable {
@@ -8071,7 +8071,7 @@ extension GetConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionsOutput: Swift.Equatable {
+public struct GetConnectionsOutput {
     /// Information about the connections.
     public var connections: [NetworkManagerClientTypes.Connection]?
     /// The token to use for the next page of results.
@@ -8087,7 +8087,7 @@ public struct GetConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionsOutputBody: Swift.Equatable {
+struct GetConnectionsOutputBody {
     let connections: [NetworkManagerClientTypes.Connection]?
     let nextToken: Swift.String?
 }
@@ -8160,7 +8160,7 @@ extension GetCoreNetworkChangeEventsInput {
     }
 }
 
-public struct GetCoreNetworkChangeEventsInput: Swift.Equatable {
+public struct GetCoreNetworkChangeEventsInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -8186,7 +8186,7 @@ public struct GetCoreNetworkChangeEventsInput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkChangeEventsInputBody: Swift.Equatable {
+struct GetCoreNetworkChangeEventsInputBody {
 }
 
 extension GetCoreNetworkChangeEventsInputBody: Swift.Decodable {
@@ -8209,7 +8209,7 @@ extension GetCoreNetworkChangeEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreNetworkChangeEventsOutput: Swift.Equatable {
+public struct GetCoreNetworkChangeEventsOutput {
     /// The response to GetCoreNetworkChangeEventsRequest.
     public var coreNetworkChangeEvents: [NetworkManagerClientTypes.CoreNetworkChangeEvent]?
     /// The token for the next page of results.
@@ -8225,7 +8225,7 @@ public struct GetCoreNetworkChangeEventsOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkChangeEventsOutputBody: Swift.Equatable {
+struct GetCoreNetworkChangeEventsOutputBody {
     let coreNetworkChangeEvents: [NetworkManagerClientTypes.CoreNetworkChangeEvent]?
     let nextToken: Swift.String?
 }
@@ -8298,7 +8298,7 @@ extension GetCoreNetworkChangeSetInput {
     }
 }
 
-public struct GetCoreNetworkChangeSetInput: Swift.Equatable {
+public struct GetCoreNetworkChangeSetInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -8324,7 +8324,7 @@ public struct GetCoreNetworkChangeSetInput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkChangeSetInputBody: Swift.Equatable {
+struct GetCoreNetworkChangeSetInputBody {
 }
 
 extension GetCoreNetworkChangeSetInputBody: Swift.Decodable {
@@ -8347,7 +8347,7 @@ extension GetCoreNetworkChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreNetworkChangeSetOutput: Swift.Equatable {
+public struct GetCoreNetworkChangeSetOutput {
     /// Describes a core network changes.
     public var coreNetworkChanges: [NetworkManagerClientTypes.CoreNetworkChange]?
     /// The token for the next page of results.
@@ -8363,7 +8363,7 @@ public struct GetCoreNetworkChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkChangeSetOutputBody: Swift.Equatable {
+struct GetCoreNetworkChangeSetOutputBody {
     let coreNetworkChanges: [NetworkManagerClientTypes.CoreNetworkChange]?
     let nextToken: Swift.String?
 }
@@ -8417,7 +8417,7 @@ extension GetCoreNetworkInput {
     }
 }
 
-public struct GetCoreNetworkInput: Swift.Equatable {
+public struct GetCoreNetworkInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -8430,7 +8430,7 @@ public struct GetCoreNetworkInput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkInputBody: Swift.Equatable {
+struct GetCoreNetworkInputBody {
 }
 
 extension GetCoreNetworkInputBody: Swift.Decodable {
@@ -8451,7 +8451,7 @@ extension GetCoreNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreNetworkOutput: Swift.Equatable {
+public struct GetCoreNetworkOutput {
     /// Details about a core network.
     public var coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 
@@ -8463,7 +8463,7 @@ public struct GetCoreNetworkOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkOutputBody: Swift.Equatable {
+struct GetCoreNetworkOutputBody {
     let coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 }
 
@@ -8520,7 +8520,7 @@ extension GetCoreNetworkPolicyInput {
     }
 }
 
-public struct GetCoreNetworkPolicyInput: Swift.Equatable {
+public struct GetCoreNetworkPolicyInput {
     /// The alias of a core network policy
     public var alias: NetworkManagerClientTypes.CoreNetworkPolicyAlias?
     /// The ID of a core network.
@@ -8541,7 +8541,7 @@ public struct GetCoreNetworkPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkPolicyInputBody: Swift.Equatable {
+struct GetCoreNetworkPolicyInputBody {
 }
 
 extension GetCoreNetworkPolicyInputBody: Swift.Decodable {
@@ -8562,7 +8562,7 @@ extension GetCoreNetworkPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreNetworkPolicyOutput: Swift.Equatable {
+public struct GetCoreNetworkPolicyOutput {
     /// The details about a core network policy.
     public var coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 
@@ -8574,7 +8574,7 @@ public struct GetCoreNetworkPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreNetworkPolicyOutputBody: Swift.Equatable {
+struct GetCoreNetworkPolicyOutputBody {
     let coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 }
 
@@ -8637,7 +8637,7 @@ extension GetCustomerGatewayAssociationsInput {
     }
 }
 
-public struct GetCustomerGatewayAssociationsInput: Swift.Equatable {
+public struct GetCustomerGatewayAssociationsInput {
     /// One or more customer gateway Amazon Resource Names (ARNs). The maximum is 10.
     public var customerGatewayArns: [Swift.String]?
     /// The ID of the global network.
@@ -8662,7 +8662,7 @@ public struct GetCustomerGatewayAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetCustomerGatewayAssociationsInputBody: Swift.Equatable {
+struct GetCustomerGatewayAssociationsInputBody {
 }
 
 extension GetCustomerGatewayAssociationsInputBody: Swift.Decodable {
@@ -8685,7 +8685,7 @@ extension GetCustomerGatewayAssociationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetCustomerGatewayAssociationsOutput: Swift.Equatable {
+public struct GetCustomerGatewayAssociationsOutput {
     /// The customer gateway associations.
     public var customerGatewayAssociations: [NetworkManagerClientTypes.CustomerGatewayAssociation]?
     /// The token for the next page of results.
@@ -8701,7 +8701,7 @@ public struct GetCustomerGatewayAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomerGatewayAssociationsOutputBody: Swift.Equatable {
+struct GetCustomerGatewayAssociationsOutputBody {
     let customerGatewayAssociations: [NetworkManagerClientTypes.CustomerGatewayAssociation]?
     let nextToken: Swift.String?
 }
@@ -8782,7 +8782,7 @@ extension GetDevicesInput {
     }
 }
 
-public struct GetDevicesInput: Swift.Equatable {
+public struct GetDevicesInput {
     /// One or more device IDs. The maximum is 10.
     public var deviceIds: [Swift.String]?
     /// The ID of the global network.
@@ -8811,7 +8811,7 @@ public struct GetDevicesInput: Swift.Equatable {
     }
 }
 
-struct GetDevicesInputBody: Swift.Equatable {
+struct GetDevicesInputBody {
 }
 
 extension GetDevicesInputBody: Swift.Decodable {
@@ -8834,7 +8834,7 @@ extension GetDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDevicesOutput: Swift.Equatable {
+public struct GetDevicesOutput {
     /// The devices.
     public var devices: [NetworkManagerClientTypes.Device]?
     /// The token for the next page of results.
@@ -8850,7 +8850,7 @@ public struct GetDevicesOutput: Swift.Equatable {
     }
 }
 
-struct GetDevicesOutputBody: Swift.Equatable {
+struct GetDevicesOutputBody {
     let devices: [NetworkManagerClientTypes.Device]?
     let nextToken: Swift.String?
 }
@@ -8928,7 +8928,7 @@ extension GetLinkAssociationsInput {
     }
 }
 
-public struct GetLinkAssociationsInput: Swift.Equatable {
+public struct GetLinkAssociationsInput {
     /// The ID of the device.
     public var deviceId: Swift.String?
     /// The ID of the global network.
@@ -8957,7 +8957,7 @@ public struct GetLinkAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetLinkAssociationsInputBody: Swift.Equatable {
+struct GetLinkAssociationsInputBody {
 }
 
 extension GetLinkAssociationsInputBody: Swift.Decodable {
@@ -8980,7 +8980,7 @@ extension GetLinkAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLinkAssociationsOutput: Swift.Equatable {
+public struct GetLinkAssociationsOutput {
     /// The link associations.
     public var linkAssociations: [NetworkManagerClientTypes.LinkAssociation]?
     /// The token for the next page of results.
@@ -8996,7 +8996,7 @@ public struct GetLinkAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetLinkAssociationsOutputBody: Swift.Equatable {
+struct GetLinkAssociationsOutputBody {
     let linkAssociations: [NetworkManagerClientTypes.LinkAssociation]?
     let nextToken: Swift.String?
 }
@@ -9084,7 +9084,7 @@ extension GetLinksInput {
     }
 }
 
-public struct GetLinksInput: Swift.Equatable {
+public struct GetLinksInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -9121,7 +9121,7 @@ public struct GetLinksInput: Swift.Equatable {
     }
 }
 
-struct GetLinksInputBody: Swift.Equatable {
+struct GetLinksInputBody {
 }
 
 extension GetLinksInputBody: Swift.Decodable {
@@ -9144,7 +9144,7 @@ extension GetLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLinksOutput: Swift.Equatable {
+public struct GetLinksOutput {
     /// The links.
     public var links: [NetworkManagerClientTypes.Link]?
     /// The token for the next page of results.
@@ -9160,7 +9160,7 @@ public struct GetLinksOutput: Swift.Equatable {
     }
 }
 
-struct GetLinksOutputBody: Swift.Equatable {
+struct GetLinksOutputBody {
     let links: [NetworkManagerClientTypes.Link]?
     let nextToken: Swift.String?
 }
@@ -9234,7 +9234,7 @@ extension GetNetworkResourceCountsInput {
     }
 }
 
-public struct GetNetworkResourceCountsInput: Swift.Equatable {
+public struct GetNetworkResourceCountsInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -9291,7 +9291,7 @@ public struct GetNetworkResourceCountsInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceCountsInputBody: Swift.Equatable {
+struct GetNetworkResourceCountsInputBody {
 }
 
 extension GetNetworkResourceCountsInputBody: Swift.Decodable {
@@ -9314,7 +9314,7 @@ extension GetNetworkResourceCountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkResourceCountsOutput: Swift.Equatable {
+public struct GetNetworkResourceCountsOutput {
     /// The count of resources.
     public var networkResourceCounts: [NetworkManagerClientTypes.NetworkResourceCount]?
     /// The token for the next page of results.
@@ -9330,7 +9330,7 @@ public struct GetNetworkResourceCountsOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceCountsOutputBody: Swift.Equatable {
+struct GetNetworkResourceCountsOutputBody {
     let networkResourceCounts: [NetworkManagerClientTypes.NetworkResourceCount]?
     let nextToken: Swift.String?
 }
@@ -9423,7 +9423,7 @@ extension GetNetworkResourceRelationshipsInput {
     }
 }
 
-public struct GetNetworkResourceRelationshipsInput: Swift.Equatable {
+public struct GetNetworkResourceRelationshipsInput {
     /// The Amazon Web Services account ID.
     public var accountId: Swift.String?
     /// The Amazon Web Services Region.
@@ -9500,7 +9500,7 @@ public struct GetNetworkResourceRelationshipsInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceRelationshipsInputBody: Swift.Equatable {
+struct GetNetworkResourceRelationshipsInputBody {
 }
 
 extension GetNetworkResourceRelationshipsInputBody: Swift.Decodable {
@@ -9523,7 +9523,7 @@ extension GetNetworkResourceRelationshipsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetNetworkResourceRelationshipsOutput: Swift.Equatable {
+public struct GetNetworkResourceRelationshipsOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The resource relationships.
@@ -9539,7 +9539,7 @@ public struct GetNetworkResourceRelationshipsOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourceRelationshipsOutputBody: Swift.Equatable {
+struct GetNetworkResourceRelationshipsOutputBody {
     let relationships: [NetworkManagerClientTypes.Relationship]?
     let nextToken: Swift.String?
 }
@@ -9633,7 +9633,7 @@ extension GetNetworkResourcesInput {
     }
 }
 
-public struct GetNetworkResourcesInput: Swift.Equatable {
+public struct GetNetworkResourcesInput {
     /// The Amazon Web Services account ID.
     public var accountId: Swift.String?
     /// The Amazon Web Services Region.
@@ -9710,7 +9710,7 @@ public struct GetNetworkResourcesInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourcesInputBody: Swift.Equatable {
+struct GetNetworkResourcesInputBody {
 }
 
 extension GetNetworkResourcesInputBody: Swift.Decodable {
@@ -9733,7 +9733,7 @@ extension GetNetworkResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkResourcesOutput: Swift.Equatable {
+public struct GetNetworkResourcesOutput {
     /// The network resources.
     public var networkResources: [NetworkManagerClientTypes.NetworkResource]?
     /// The token for the next page of results.
@@ -9749,7 +9749,7 @@ public struct GetNetworkResourcesOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkResourcesOutputBody: Swift.Equatable {
+struct GetNetworkResourcesOutputBody {
     let networkResources: [NetworkManagerClientTypes.NetworkResource]?
     let nextToken: Swift.String?
 }
@@ -9875,7 +9875,7 @@ extension GetNetworkRoutesInput {
     }
 }
 
-public struct GetNetworkRoutesInput: Swift.Equatable {
+public struct GetNetworkRoutesInput {
     /// Filter by route table destination. Possible Values: TRANSIT_GATEWAY_ATTACHMENT_ID, RESOURCE_ID, or RESOURCE_TYPE.
     public var destinationFilters: [Swift.String:[Swift.String]]?
     /// An exact CIDR block.
@@ -9925,7 +9925,7 @@ public struct GetNetworkRoutesInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkRoutesInputBody: Swift.Equatable {
+struct GetNetworkRoutesInputBody {
     let routeTableIdentifier: NetworkManagerClientTypes.RouteTableIdentifier?
     let exactCidrMatches: [Swift.String]?
     let longestPrefixMatches: [Swift.String]?
@@ -10072,7 +10072,7 @@ extension GetNetworkRoutesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkRoutesOutput: Swift.Equatable {
+public struct GetNetworkRoutesOutput {
     /// Describes a core network segment edge.
     public var coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
     /// The network routes.
@@ -10100,7 +10100,7 @@ public struct GetNetworkRoutesOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkRoutesOutputBody: Swift.Equatable {
+struct GetNetworkRoutesOutputBody {
     let routeTableArn: Swift.String?
     let coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
     let routeTableType: NetworkManagerClientTypes.RouteTableType?
@@ -10206,7 +10206,7 @@ extension GetNetworkTelemetryInput {
     }
 }
 
-public struct GetNetworkTelemetryInput: Swift.Equatable {
+public struct GetNetworkTelemetryInput {
     /// The Amazon Web Services account ID.
     public var accountId: Swift.String?
     /// The Amazon Web Services Region.
@@ -10283,7 +10283,7 @@ public struct GetNetworkTelemetryInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkTelemetryInputBody: Swift.Equatable {
+struct GetNetworkTelemetryInputBody {
 }
 
 extension GetNetworkTelemetryInputBody: Swift.Decodable {
@@ -10306,7 +10306,7 @@ extension GetNetworkTelemetryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkTelemetryOutput: Swift.Equatable {
+public struct GetNetworkTelemetryOutput {
     /// The network telemetry.
     public var networkTelemetry: [NetworkManagerClientTypes.NetworkTelemetry]?
     /// The token for the next page of results.
@@ -10322,7 +10322,7 @@ public struct GetNetworkTelemetryOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkTelemetryOutputBody: Swift.Equatable {
+struct GetNetworkTelemetryOutputBody {
     let networkTelemetry: [NetworkManagerClientTypes.NetworkTelemetry]?
     let nextToken: Swift.String?
 }
@@ -10376,7 +10376,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10389,7 +10389,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
 }
 
 extension GetResourcePolicyInputBody: Swift.Decodable {
@@ -10410,7 +10410,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The resource policy document.
     public var policyDocument: Swift.String?
 
@@ -10422,7 +10422,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policyDocument: Swift.String?
 }
 
@@ -10465,7 +10465,7 @@ extension GetRouteAnalysisInput {
     }
 }
 
-public struct GetRouteAnalysisInput: Swift.Equatable {
+public struct GetRouteAnalysisInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -10483,7 +10483,7 @@ public struct GetRouteAnalysisInput: Swift.Equatable {
     }
 }
 
-struct GetRouteAnalysisInputBody: Swift.Equatable {
+struct GetRouteAnalysisInputBody {
 }
 
 extension GetRouteAnalysisInputBody: Swift.Decodable {
@@ -10504,7 +10504,7 @@ extension GetRouteAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRouteAnalysisOutput: Swift.Equatable {
+public struct GetRouteAnalysisOutput {
     /// The route analysis.
     public var routeAnalysis: NetworkManagerClientTypes.RouteAnalysis?
 
@@ -10516,7 +10516,7 @@ public struct GetRouteAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct GetRouteAnalysisOutputBody: Swift.Equatable {
+struct GetRouteAnalysisOutputBody {
     let routeAnalysis: NetworkManagerClientTypes.RouteAnalysis?
 }
 
@@ -10557,7 +10557,7 @@ extension GetSiteToSiteVpnAttachmentInput {
     }
 }
 
-public struct GetSiteToSiteVpnAttachmentInput: Swift.Equatable {
+public struct GetSiteToSiteVpnAttachmentInput {
     /// The ID of the attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -10570,7 +10570,7 @@ public struct GetSiteToSiteVpnAttachmentInput: Swift.Equatable {
     }
 }
 
-struct GetSiteToSiteVpnAttachmentInputBody: Swift.Equatable {
+struct GetSiteToSiteVpnAttachmentInputBody {
 }
 
 extension GetSiteToSiteVpnAttachmentInputBody: Swift.Decodable {
@@ -10591,7 +10591,7 @@ extension GetSiteToSiteVpnAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSiteToSiteVpnAttachmentOutput: Swift.Equatable {
+public struct GetSiteToSiteVpnAttachmentOutput {
     /// Describes the site-to-site attachment.
     public var siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment?
 
@@ -10603,7 +10603,7 @@ public struct GetSiteToSiteVpnAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct GetSiteToSiteVpnAttachmentOutputBody: Swift.Equatable {
+struct GetSiteToSiteVpnAttachmentOutputBody {
     let siteToSiteVpnAttachment: NetworkManagerClientTypes.SiteToSiteVpnAttachment?
 }
 
@@ -10666,7 +10666,7 @@ extension GetSitesInput {
     }
 }
 
-public struct GetSitesInput: Swift.Equatable {
+public struct GetSitesInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -10691,7 +10691,7 @@ public struct GetSitesInput: Swift.Equatable {
     }
 }
 
-struct GetSitesInputBody: Swift.Equatable {
+struct GetSitesInputBody {
 }
 
 extension GetSitesInputBody: Swift.Decodable {
@@ -10714,7 +10714,7 @@ extension GetSitesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSitesOutput: Swift.Equatable {
+public struct GetSitesOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The sites.
@@ -10730,7 +10730,7 @@ public struct GetSitesOutput: Swift.Equatable {
     }
 }
 
-struct GetSitesOutputBody: Swift.Equatable {
+struct GetSitesOutputBody {
     let sites: [NetworkManagerClientTypes.Site]?
     let nextToken: Swift.String?
 }
@@ -10806,7 +10806,7 @@ extension GetTransitGatewayConnectPeerAssociationsInput {
     }
 }
 
-public struct GetTransitGatewayConnectPeerAssociationsInput: Swift.Equatable {
+public struct GetTransitGatewayConnectPeerAssociationsInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -10831,7 +10831,7 @@ public struct GetTransitGatewayConnectPeerAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayConnectPeerAssociationsInputBody: Swift.Equatable {
+struct GetTransitGatewayConnectPeerAssociationsInputBody {
 }
 
 extension GetTransitGatewayConnectPeerAssociationsInputBody: Swift.Decodable {
@@ -10854,7 +10854,7 @@ extension GetTransitGatewayConnectPeerAssociationsOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct GetTransitGatewayConnectPeerAssociationsOutput: Swift.Equatable {
+public struct GetTransitGatewayConnectPeerAssociationsOutput {
     /// The token to use for the next page of results.
     public var nextToken: Swift.String?
     /// Information about the transit gateway Connect peer associations.
@@ -10870,7 +10870,7 @@ public struct GetTransitGatewayConnectPeerAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayConnectPeerAssociationsOutputBody: Swift.Equatable {
+struct GetTransitGatewayConnectPeerAssociationsOutputBody {
     let transitGatewayConnectPeerAssociations: [NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation]?
     let nextToken: Swift.String?
 }
@@ -10925,7 +10925,7 @@ extension GetTransitGatewayPeeringInput {
     }
 }
 
-public struct GetTransitGatewayPeeringInput: Swift.Equatable {
+public struct GetTransitGatewayPeeringInput {
     /// The ID of the peering request.
     /// This member is required.
     public var peeringId: Swift.String?
@@ -10938,7 +10938,7 @@ public struct GetTransitGatewayPeeringInput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayPeeringInputBody: Swift.Equatable {
+struct GetTransitGatewayPeeringInputBody {
 }
 
 extension GetTransitGatewayPeeringInputBody: Swift.Decodable {
@@ -10959,7 +10959,7 @@ extension GetTransitGatewayPeeringOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTransitGatewayPeeringOutput: Swift.Equatable {
+public struct GetTransitGatewayPeeringOutput {
     /// Returns information about a transit gateway peering.
     public var transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering?
 
@@ -10971,7 +10971,7 @@ public struct GetTransitGatewayPeeringOutput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayPeeringOutputBody: Swift.Equatable {
+struct GetTransitGatewayPeeringOutputBody {
     let transitGatewayPeering: NetworkManagerClientTypes.TransitGatewayPeering?
 }
 
@@ -11034,7 +11034,7 @@ extension GetTransitGatewayRegistrationsInput {
     }
 }
 
-public struct GetTransitGatewayRegistrationsInput: Swift.Equatable {
+public struct GetTransitGatewayRegistrationsInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -11059,7 +11059,7 @@ public struct GetTransitGatewayRegistrationsInput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayRegistrationsInputBody: Swift.Equatable {
+struct GetTransitGatewayRegistrationsInputBody {
 }
 
 extension GetTransitGatewayRegistrationsInputBody: Swift.Decodable {
@@ -11082,7 +11082,7 @@ extension GetTransitGatewayRegistrationsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetTransitGatewayRegistrationsOutput: Swift.Equatable {
+public struct GetTransitGatewayRegistrationsOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// The transit gateway registrations.
@@ -11098,7 +11098,7 @@ public struct GetTransitGatewayRegistrationsOutput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayRegistrationsOutputBody: Swift.Equatable {
+struct GetTransitGatewayRegistrationsOutputBody {
     let transitGatewayRegistrations: [NetworkManagerClientTypes.TransitGatewayRegistration]?
     let nextToken: Swift.String?
 }
@@ -11152,7 +11152,7 @@ extension GetTransitGatewayRouteTableAttachmentInput {
     }
 }
 
-public struct GetTransitGatewayRouteTableAttachmentInput: Swift.Equatable {
+public struct GetTransitGatewayRouteTableAttachmentInput {
     /// The ID of the transit gateway route table attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -11165,7 +11165,7 @@ public struct GetTransitGatewayRouteTableAttachmentInput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayRouteTableAttachmentInputBody: Swift.Equatable {
+struct GetTransitGatewayRouteTableAttachmentInputBody {
 }
 
 extension GetTransitGatewayRouteTableAttachmentInputBody: Swift.Decodable {
@@ -11186,7 +11186,7 @@ extension GetTransitGatewayRouteTableAttachmentOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetTransitGatewayRouteTableAttachmentOutput: Swift.Equatable {
+public struct GetTransitGatewayRouteTableAttachmentOutput {
     /// Returns information about the transit gateway route table attachment.
     public var transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment?
 
@@ -11198,7 +11198,7 @@ public struct GetTransitGatewayRouteTableAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct GetTransitGatewayRouteTableAttachmentOutputBody: Swift.Equatable {
+struct GetTransitGatewayRouteTableAttachmentOutputBody {
     let transitGatewayRouteTableAttachment: NetworkManagerClientTypes.TransitGatewayRouteTableAttachment?
 }
 
@@ -11239,7 +11239,7 @@ extension GetVpcAttachmentInput {
     }
 }
 
-public struct GetVpcAttachmentInput: Swift.Equatable {
+public struct GetVpcAttachmentInput {
     /// The ID of the attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -11252,7 +11252,7 @@ public struct GetVpcAttachmentInput: Swift.Equatable {
     }
 }
 
-struct GetVpcAttachmentInputBody: Swift.Equatable {
+struct GetVpcAttachmentInputBody {
 }
 
 extension GetVpcAttachmentInputBody: Swift.Decodable {
@@ -11273,7 +11273,7 @@ extension GetVpcAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVpcAttachmentOutput: Swift.Equatable {
+public struct GetVpcAttachmentOutput {
     /// Returns details about a VPC attachment.
     public var vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 
@@ -11285,7 +11285,7 @@ public struct GetVpcAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct GetVpcAttachmentOutputBody: Swift.Equatable {
+struct GetVpcAttachmentOutputBody {
     let vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 }
 
@@ -11379,7 +11379,7 @@ extension NetworkManagerClientTypes.GlobalNetwork: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a global network. This is a single private network acting as a high-level container for your network objects, including an Amazon Web Services-managed Core Network.
-    public struct GlobalNetwork: Swift.Equatable {
+    public struct GlobalNetwork {
         /// The date and time that the global network was created.
         public var createdAt: ClientRuntime.Date?
         /// The description of the global network.
@@ -11500,7 +11500,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -11609,7 +11609,7 @@ extension NetworkManagerClientTypes.Link: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a link.
-    public struct Link: Swift.Equatable {
+    public struct Link {
         /// The bandwidth for the link.
         public var bandwidth: NetworkManagerClientTypes.Bandwidth?
         /// The date and time that the link was created.
@@ -11702,7 +11702,7 @@ extension NetworkManagerClientTypes.LinkAssociation: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the association between a device and a link.
-    public struct LinkAssociation: Swift.Equatable {
+    public struct LinkAssociation {
         /// The device ID for the link association.
         public var deviceId: Swift.String?
         /// The ID of the global network.
@@ -11843,7 +11843,7 @@ extension ListAttachmentsInput {
     }
 }
 
-public struct ListAttachmentsInput: Swift.Equatable {
+public struct ListAttachmentsInput {
     /// The type of attachment.
     public var attachmentType: NetworkManagerClientTypes.AttachmentType?
     /// The ID of a core network.
@@ -11875,7 +11875,7 @@ public struct ListAttachmentsInput: Swift.Equatable {
     }
 }
 
-struct ListAttachmentsInputBody: Swift.Equatable {
+struct ListAttachmentsInputBody {
 }
 
 extension ListAttachmentsInputBody: Swift.Decodable {
@@ -11898,7 +11898,7 @@ extension ListAttachmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttachmentsOutput: Swift.Equatable {
+public struct ListAttachmentsOutput {
     /// Describes the list of attachments.
     public var attachments: [NetworkManagerClientTypes.Attachment]?
     /// The token for the next page of results.
@@ -11914,7 +11914,7 @@ public struct ListAttachmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListAttachmentsOutputBody: Swift.Equatable {
+struct ListAttachmentsOutputBody {
     let attachments: [NetworkManagerClientTypes.Attachment]?
     let nextToken: Swift.String?
 }
@@ -11988,7 +11988,7 @@ extension ListConnectPeersInput {
     }
 }
 
-public struct ListConnectPeersInput: Swift.Equatable {
+public struct ListConnectPeersInput {
     /// The ID of the attachment.
     public var connectAttachmentId: Swift.String?
     /// The ID of a core network.
@@ -12012,7 +12012,7 @@ public struct ListConnectPeersInput: Swift.Equatable {
     }
 }
 
-struct ListConnectPeersInputBody: Swift.Equatable {
+struct ListConnectPeersInputBody {
 }
 
 extension ListConnectPeersInputBody: Swift.Decodable {
@@ -12035,7 +12035,7 @@ extension ListConnectPeersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectPeersOutput: Swift.Equatable {
+public struct ListConnectPeersOutput {
     /// Describes the Connect peers.
     public var connectPeers: [NetworkManagerClientTypes.ConnectPeerSummary]?
     /// The token for the next page of results.
@@ -12051,7 +12051,7 @@ public struct ListConnectPeersOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectPeersOutputBody: Swift.Equatable {
+struct ListConnectPeersOutputBody {
     let connectPeers: [NetworkManagerClientTypes.ConnectPeerSummary]?
     let nextToken: Swift.String?
 }
@@ -12120,7 +12120,7 @@ extension ListCoreNetworkPolicyVersionsInput {
     }
 }
 
-public struct ListCoreNetworkPolicyVersionsInput: Swift.Equatable {
+public struct ListCoreNetworkPolicyVersionsInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -12141,7 +12141,7 @@ public struct ListCoreNetworkPolicyVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListCoreNetworkPolicyVersionsInputBody: Swift.Equatable {
+struct ListCoreNetworkPolicyVersionsInputBody {
 }
 
 extension ListCoreNetworkPolicyVersionsInputBody: Swift.Decodable {
@@ -12164,7 +12164,7 @@ extension ListCoreNetworkPolicyVersionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListCoreNetworkPolicyVersionsOutput: Swift.Equatable {
+public struct ListCoreNetworkPolicyVersionsOutput {
     /// Describes core network policy versions.
     public var coreNetworkPolicyVersions: [NetworkManagerClientTypes.CoreNetworkPolicyVersion]?
     /// The token for the next page of results.
@@ -12180,7 +12180,7 @@ public struct ListCoreNetworkPolicyVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCoreNetworkPolicyVersionsOutputBody: Swift.Equatable {
+struct ListCoreNetworkPolicyVersionsOutputBody {
     let coreNetworkPolicyVersions: [NetworkManagerClientTypes.CoreNetworkPolicyVersion]?
     let nextToken: Swift.String?
 }
@@ -12247,7 +12247,7 @@ extension ListCoreNetworksInput {
     }
 }
 
-public struct ListCoreNetworksInput: Swift.Equatable {
+public struct ListCoreNetworksInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -12263,7 +12263,7 @@ public struct ListCoreNetworksInput: Swift.Equatable {
     }
 }
 
-struct ListCoreNetworksInputBody: Swift.Equatable {
+struct ListCoreNetworksInputBody {
 }
 
 extension ListCoreNetworksInputBody: Swift.Decodable {
@@ -12286,7 +12286,7 @@ extension ListCoreNetworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoreNetworksOutput: Swift.Equatable {
+public struct ListCoreNetworksOutput {
     /// Describes the list of core networks.
     public var coreNetworks: [NetworkManagerClientTypes.CoreNetworkSummary]?
     /// The token for the next page of results.
@@ -12302,7 +12302,7 @@ public struct ListCoreNetworksOutput: Swift.Equatable {
     }
 }
 
-struct ListCoreNetworksOutputBody: Swift.Equatable {
+struct ListCoreNetworksOutputBody {
     let coreNetworks: [NetworkManagerClientTypes.CoreNetworkSummary]?
     let nextToken: Swift.String?
 }
@@ -12368,7 +12368,7 @@ extension ListOrganizationServiceAccessStatusInput {
     }
 }
 
-public struct ListOrganizationServiceAccessStatusInput: Swift.Equatable {
+public struct ListOrganizationServiceAccessStatusInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The token for the next page of results.
@@ -12384,7 +12384,7 @@ public struct ListOrganizationServiceAccessStatusInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationServiceAccessStatusInputBody: Swift.Equatable {
+struct ListOrganizationServiceAccessStatusInputBody {
 }
 
 extension ListOrganizationServiceAccessStatusInputBody: Swift.Decodable {
@@ -12407,7 +12407,7 @@ extension ListOrganizationServiceAccessStatusOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListOrganizationServiceAccessStatusOutput: Swift.Equatable {
+public struct ListOrganizationServiceAccessStatusOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// Displays the status of an Amazon Web Services Organization.
@@ -12423,7 +12423,7 @@ public struct ListOrganizationServiceAccessStatusOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationServiceAccessStatusOutputBody: Swift.Equatable {
+struct ListOrganizationServiceAccessStatusOutputBody {
     let organizationStatus: NetworkManagerClientTypes.OrganizationStatus?
     let nextToken: Swift.String?
 }
@@ -12492,7 +12492,7 @@ extension ListPeeringsInput {
     }
 }
 
-public struct ListPeeringsInput: Swift.Equatable {
+public struct ListPeeringsInput {
     /// The ID of a core network.
     public var coreNetworkId: Swift.String?
     /// Returns a list edge locations for the
@@ -12524,7 +12524,7 @@ public struct ListPeeringsInput: Swift.Equatable {
     }
 }
 
-struct ListPeeringsInputBody: Swift.Equatable {
+struct ListPeeringsInputBody {
 }
 
 extension ListPeeringsInputBody: Swift.Decodable {
@@ -12547,7 +12547,7 @@ extension ListPeeringsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPeeringsOutput: Swift.Equatable {
+public struct ListPeeringsOutput {
     /// The token for the next page of results.
     public var nextToken: Swift.String?
     /// Lists the transit gateway peerings for the ListPeerings request.
@@ -12563,7 +12563,7 @@ public struct ListPeeringsOutput: Swift.Equatable {
     }
 }
 
-struct ListPeeringsOutputBody: Swift.Equatable {
+struct ListPeeringsOutputBody {
     let peerings: [NetworkManagerClientTypes.Peering]?
     let nextToken: Swift.String?
 }
@@ -12616,7 +12616,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12629,7 +12629,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -12650,7 +12650,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags.
     public var tagList: [NetworkManagerClientTypes.Tag]?
 
@@ -12662,7 +12662,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tagList: [NetworkManagerClientTypes.Tag]?
 }
 
@@ -12741,7 +12741,7 @@ extension NetworkManagerClientTypes.Location: Swift.CustomDebugStringConvertible
 
 extension NetworkManagerClientTypes {
     /// Describes a location.
-    public struct Location: Swift.Equatable {
+    public struct Location {
         /// The physical address.
         public var address: Swift.String?
         /// The latitude.
@@ -12870,7 +12870,7 @@ extension NetworkManagerClientTypes.NetworkResource: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a network resource.
-    public struct NetworkResource: Swift.Equatable {
+    public struct NetworkResource {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The Amazon Web Services Region.
@@ -12983,7 +12983,7 @@ extension NetworkManagerClientTypes.NetworkResourceCount: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a resource count.
-    public struct NetworkResourceCount: Swift.Equatable {
+    public struct NetworkResourceCount {
         /// The resource count.
         public var count: Swift.Int?
         /// The resource type.
@@ -13052,7 +13052,7 @@ extension NetworkManagerClientTypes.NetworkResourceSummary: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a network resource.
-    public struct NetworkResourceSummary: Swift.Equatable {
+    public struct NetworkResourceSummary {
         /// Information about the resource, in JSON format. Network Manager gets this information by describing the resource using its Describe API call.
         public var definition: Swift.String?
         /// Indicates whether this is a middlebox appliance.
@@ -13143,7 +13143,7 @@ extension NetworkManagerClientTypes.NetworkRoute: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a network route.
-    public struct NetworkRoute: Swift.Equatable {
+    public struct NetworkRoute {
         /// A unique identifier for the route, such as a CIDR block.
         public var destinationCidrBlock: Swift.String?
         /// The destinations.
@@ -13224,7 +13224,7 @@ extension NetworkManagerClientTypes.NetworkRouteDestination: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the destination of a network route.
-    public struct NetworkRouteDestination: Swift.Equatable {
+    public struct NetworkRouteDestination {
         /// The ID of a core network attachment.
         public var coreNetworkAttachmentId: Swift.String?
         /// The edge location for the network destination.
@@ -13327,7 +13327,7 @@ extension NetworkManagerClientTypes.NetworkTelemetry: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the telemetry information for a resource.
-    public struct NetworkTelemetry: Swift.Equatable {
+    public struct NetworkTelemetry {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The address.
@@ -13424,7 +13424,7 @@ extension NetworkManagerClientTypes.OrganizationStatus: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// The status of an Amazon Web Services Organization and the accounts within that organization.
-    public struct OrganizationStatus: Swift.Equatable {
+    public struct OrganizationStatus {
         /// The current service-linked role (SLR) deployment status for an Amazon Web Services Organization's accounts. This will be either SUCCEEDED or IN_PROGRESS.
         public var accountStatusList: [NetworkManagerClientTypes.AccountStatus]?
         /// The status of the organization's AWS service access. This will be ENABLED or DISABLED.
@@ -13483,7 +13483,7 @@ extension NetworkManagerClientTypes.PathComponent: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a path component.
-    public struct PathComponent: Swift.Equatable {
+    public struct PathComponent {
         /// The destination CIDR block in the route table.
         public var destinationCidrBlock: Swift.String?
         /// The resource.
@@ -13592,7 +13592,7 @@ extension NetworkManagerClientTypes.Peering: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a peering connection.
-    public struct Peering: Swift.Equatable {
+    public struct Peering {
         /// The ARN of a core network.
         public var coreNetworkArn: Swift.String?
         /// The ID of the core network for the peering request.
@@ -13754,7 +13754,7 @@ extension NetworkManagerClientTypes.ProposedSegmentChange: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a proposed segment change. In some cases, the segment change must first be evaluated and accepted.
-    public struct ProposedSegmentChange: Swift.Equatable {
+    public struct ProposedSegmentChange {
         /// The rule number in the policy document that applies to this change.
         public var attachmentPolicyRuleNumber: Swift.Int?
         /// The name of the segment to change.
@@ -13811,7 +13811,7 @@ extension PutCoreNetworkPolicyInput {
     }
 }
 
-public struct PutCoreNetworkPolicyInput: Swift.Equatable {
+public struct PutCoreNetworkPolicyInput {
     /// The client token associated with the request.
     public var clientToken: Swift.String?
     /// The ID of a core network.
@@ -13841,7 +13841,7 @@ public struct PutCoreNetworkPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutCoreNetworkPolicyInputBody: Swift.Equatable {
+struct PutCoreNetworkPolicyInputBody {
     let policyDocument: Swift.String?
     let description: Swift.String?
     let latestVersionId: Swift.Int?
@@ -13881,7 +13881,7 @@ extension PutCoreNetworkPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutCoreNetworkPolicyOutput: Swift.Equatable {
+public struct PutCoreNetworkPolicyOutput {
     /// Describes the changed core network policy.
     public var coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 
@@ -13893,7 +13893,7 @@ public struct PutCoreNetworkPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutCoreNetworkPolicyOutputBody: Swift.Equatable {
+struct PutCoreNetworkPolicyOutputBody {
     let coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 }
 
@@ -13949,7 +13949,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The JSON resource policy document.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -13967,7 +13967,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let policyDocument: Swift.String?
 }
 
@@ -13988,7 +13988,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
 
     public init() { }
 }
@@ -14032,7 +14032,7 @@ extension RegisterTransitGatewayInput {
     }
 }
 
-public struct RegisterTransitGatewayInput: Swift.Equatable {
+public struct RegisterTransitGatewayInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -14050,7 +14050,7 @@ public struct RegisterTransitGatewayInput: Swift.Equatable {
     }
 }
 
-struct RegisterTransitGatewayInputBody: Swift.Equatable {
+struct RegisterTransitGatewayInputBody {
     let transitGatewayArn: Swift.String?
 }
 
@@ -14078,7 +14078,7 @@ extension RegisterTransitGatewayOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterTransitGatewayOutput: Swift.Equatable {
+public struct RegisterTransitGatewayOutput {
     /// Information about the transit gateway registration.
     public var transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration?
 
@@ -14090,7 +14090,7 @@ public struct RegisterTransitGatewayOutput: Swift.Equatable {
     }
 }
 
-struct RegisterTransitGatewayOutputBody: Swift.Equatable {
+struct RegisterTransitGatewayOutputBody {
     let transitGatewayRegistration: NetworkManagerClientTypes.TransitGatewayRegistration?
 }
 
@@ -14132,7 +14132,7 @@ extension RejectAttachmentInput {
     }
 }
 
-public struct RejectAttachmentInput: Swift.Equatable {
+public struct RejectAttachmentInput {
     /// The ID of the attachment.
     /// This member is required.
     public var attachmentId: Swift.String?
@@ -14145,7 +14145,7 @@ public struct RejectAttachmentInput: Swift.Equatable {
     }
 }
 
-struct RejectAttachmentInputBody: Swift.Equatable {
+struct RejectAttachmentInputBody {
 }
 
 extension RejectAttachmentInputBody: Swift.Decodable {
@@ -14166,7 +14166,7 @@ extension RejectAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectAttachmentOutput: Swift.Equatable {
+public struct RejectAttachmentOutput {
     /// Describes the rejected attachment request.
     public var attachment: NetworkManagerClientTypes.Attachment?
 
@@ -14178,7 +14178,7 @@ public struct RejectAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct RejectAttachmentOutputBody: Swift.Equatable {
+struct RejectAttachmentOutputBody {
     let attachment: NetworkManagerClientTypes.Attachment?
 }
 
@@ -14237,7 +14237,7 @@ extension NetworkManagerClientTypes.Relationship: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a resource relationship.
-    public struct Relationship: Swift.Equatable {
+    public struct Relationship {
         /// The ARN of the resource.
         public var from: Swift.String?
         /// The ARN of the resource.
@@ -14315,7 +14315,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -14365,7 +14365,7 @@ extension RestoreCoreNetworkPolicyVersionInput {
     }
 }
 
-public struct RestoreCoreNetworkPolicyVersionInput: Swift.Equatable {
+public struct RestoreCoreNetworkPolicyVersionInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -14383,7 +14383,7 @@ public struct RestoreCoreNetworkPolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct RestoreCoreNetworkPolicyVersionInputBody: Swift.Equatable {
+struct RestoreCoreNetworkPolicyVersionInputBody {
 }
 
 extension RestoreCoreNetworkPolicyVersionInputBody: Swift.Decodable {
@@ -14404,7 +14404,7 @@ extension RestoreCoreNetworkPolicyVersionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RestoreCoreNetworkPolicyVersionOutput: Swift.Equatable {
+public struct RestoreCoreNetworkPolicyVersionOutput {
     /// Describes the restored core network policy.
     public var coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 
@@ -14416,7 +14416,7 @@ public struct RestoreCoreNetworkPolicyVersionOutput: Swift.Equatable {
     }
 }
 
-struct RestoreCoreNetworkPolicyVersionOutputBody: Swift.Equatable {
+struct RestoreCoreNetworkPolicyVersionOutputBody {
     let coreNetworkPolicy: NetworkManagerClientTypes.CoreNetworkPolicy?
 }
 
@@ -14529,7 +14529,7 @@ extension NetworkManagerClientTypes.RouteAnalysis: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a route analysis.
-    public struct RouteAnalysis: Swift.Equatable {
+    public struct RouteAnalysis {
         /// The destination.
         public var destination: NetworkManagerClientTypes.RouteAnalysisEndpointOptions?
         /// The forward path.
@@ -14628,7 +14628,7 @@ extension NetworkManagerClientTypes.RouteAnalysisCompletion: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the status of an analysis at completion.
-    public struct RouteAnalysisCompletion: Swift.Equatable {
+    public struct RouteAnalysisCompletion {
         /// The reason code. Available only if a connection is not found.
         ///
         /// * BLACKHOLE_ROUTE_FOR_DESTINATION_FOUND - Found a black hole route with the destination CIDR block.
@@ -14792,7 +14792,7 @@ extension NetworkManagerClientTypes.RouteAnalysisEndpointOptions: Swift.Codable 
 
 extension NetworkManagerClientTypes {
     /// Describes a source or a destination.
-    public struct RouteAnalysisEndpointOptions: Swift.Equatable {
+    public struct RouteAnalysisEndpointOptions {
         /// The IP address.
         public var ipAddress: Swift.String?
         /// The ARN of the transit gateway.
@@ -14841,7 +14841,7 @@ extension NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification: S
 
 extension NetworkManagerClientTypes {
     /// Describes a source or a destination.
-    public struct RouteAnalysisEndpointOptionsSpecification: Swift.Equatable {
+    public struct RouteAnalysisEndpointOptionsSpecification {
         /// The IP address.
         public var ipAddress: Swift.String?
         /// The ARN of the transit gateway attachment.
@@ -14898,7 +14898,7 @@ extension NetworkManagerClientTypes.RouteAnalysisPath: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a route analysis path.
-    public struct RouteAnalysisPath: Swift.Equatable {
+    public struct RouteAnalysisPath {
         /// The status of the analysis at completion.
         public var completionStatus: NetworkManagerClientTypes.RouteAnalysisCompletion?
         /// The route analysis path.
@@ -15010,7 +15010,7 @@ extension NetworkManagerClientTypes.RouteTableIdentifier: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a route table.
-    public struct RouteTableIdentifier: Swift.Equatable {
+    public struct RouteTableIdentifier {
         /// The segment edge in a core network.
         public var coreNetworkSegmentEdge: NetworkManagerClientTypes.CoreNetworkSegmentEdgeIdentifier?
         /// The ARN of the transit gateway route table for the attachment request. For example, "TransitGatewayRouteTableArn": "arn:aws:ec2:us-west-2:123456789012:transit-gateway-route-table/tgw-rtb-9876543210123456".
@@ -15159,7 +15159,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -15271,7 +15271,7 @@ extension NetworkManagerClientTypes.Site: Swift.CustomDebugStringConvertible {
 
 extension NetworkManagerClientTypes {
     /// Describes a site.
-    public struct Site: Swift.Equatable {
+    public struct Site {
         /// The date and time that the site was created.
         public var createdAt: ClientRuntime.Date?
         /// The description of the site.
@@ -15378,7 +15378,7 @@ extension NetworkManagerClientTypes.SiteToSiteVpnAttachment: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Creates a site-to-site VPN attachment.
-    public struct SiteToSiteVpnAttachment: Swift.Equatable {
+    public struct SiteToSiteVpnAttachment {
         /// Provides details about a site-to-site VPN attachment.
         public var attachment: NetworkManagerClientTypes.Attachment?
         /// The ARN of the site-to-site VPN attachment.
@@ -15416,7 +15416,7 @@ extension StartOrganizationServiceAccessUpdateInput {
     }
 }
 
-public struct StartOrganizationServiceAccessUpdateInput: Swift.Equatable {
+public struct StartOrganizationServiceAccessUpdateInput {
     /// The action to take for the update request. This can be either ENABLE or DISABLE.
     /// This member is required.
     public var action: Swift.String?
@@ -15429,7 +15429,7 @@ public struct StartOrganizationServiceAccessUpdateInput: Swift.Equatable {
     }
 }
 
-struct StartOrganizationServiceAccessUpdateInputBody: Swift.Equatable {
+struct StartOrganizationServiceAccessUpdateInputBody {
     let action: Swift.String?
 }
 
@@ -15457,7 +15457,7 @@ extension StartOrganizationServiceAccessUpdateOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct StartOrganizationServiceAccessUpdateOutput: Swift.Equatable {
+public struct StartOrganizationServiceAccessUpdateOutput {
     /// The status of the service access update request for an Amazon Web Services Organization.
     public var organizationStatus: NetworkManagerClientTypes.OrganizationStatus?
 
@@ -15469,7 +15469,7 @@ public struct StartOrganizationServiceAccessUpdateOutput: Swift.Equatable {
     }
 }
 
-struct StartOrganizationServiceAccessUpdateOutputBody: Swift.Equatable {
+struct StartOrganizationServiceAccessUpdateOutputBody {
     let organizationStatus: NetworkManagerClientTypes.OrganizationStatus?
 }
 
@@ -15536,7 +15536,7 @@ extension StartRouteAnalysisInput {
     }
 }
 
-public struct StartRouteAnalysisInput: Swift.Equatable {
+public struct StartRouteAnalysisInput {
     /// The destination.
     /// This member is required.
     public var destination: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
@@ -15567,7 +15567,7 @@ public struct StartRouteAnalysisInput: Swift.Equatable {
     }
 }
 
-struct StartRouteAnalysisInputBody: Swift.Equatable {
+struct StartRouteAnalysisInputBody {
     let source: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
     let destination: NetworkManagerClientTypes.RouteAnalysisEndpointOptionsSpecification?
     let includeReturnPath: Swift.Bool?
@@ -15607,7 +15607,7 @@ extension StartRouteAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRouteAnalysisOutput: Swift.Equatable {
+public struct StartRouteAnalysisOutput {
     /// The route analysis.
     public var routeAnalysis: NetworkManagerClientTypes.RouteAnalysis?
 
@@ -15619,7 +15619,7 @@ public struct StartRouteAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct StartRouteAnalysisOutputBody: Swift.Equatable {
+struct StartRouteAnalysisOutputBody {
     let routeAnalysis: NetworkManagerClientTypes.RouteAnalysis?
 }
 
@@ -15678,7 +15678,7 @@ extension NetworkManagerClientTypes.Tag: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key. Constraints: Maximum length of 128 characters.
         public var key: Swift.String?
         /// The tag value. Constraints: Maximum length of 256 characters.
@@ -15722,7 +15722,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -15740,7 +15740,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [NetworkManagerClientTypes.Tag]?
 }
 
@@ -15770,7 +15770,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -15841,7 +15841,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -15902,7 +15902,7 @@ extension NetworkManagerClientTypes.TransitGatewayConnectPeerAssociation: Swift.
 
 extension NetworkManagerClientTypes {
     /// Describes a transit gateway Connect peer association.
-    public struct TransitGatewayConnectPeerAssociation: Swift.Equatable {
+    public struct TransitGatewayConnectPeerAssociation {
         /// The ID of the device.
         public var deviceId: Swift.String?
         /// The ID of the global network.
@@ -16003,7 +16003,7 @@ extension NetworkManagerClientTypes.TransitGatewayPeering: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a transit gateway peering attachment.
-    public struct TransitGatewayPeering: Swift.Equatable {
+    public struct TransitGatewayPeering {
         /// Describes a transit gateway peer connection.
         public var peering: NetworkManagerClientTypes.Peering?
         /// The ARN of the transit gateway.
@@ -16058,7 +16058,7 @@ extension NetworkManagerClientTypes.TransitGatewayRegistration: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the registration of a transit gateway to a global network.
-    public struct TransitGatewayRegistration: Swift.Equatable {
+    public struct TransitGatewayRegistration {
         /// The ID of the global network.
         public var globalNetworkId: Swift.String?
         /// The state of the transit gateway registration.
@@ -16148,7 +16148,7 @@ extension NetworkManagerClientTypes.TransitGatewayRegistrationStateReason: Swift
 
 extension NetworkManagerClientTypes {
     /// Describes the status of a transit gateway registration.
-    public struct TransitGatewayRegistrationStateReason: Swift.Equatable {
+    public struct TransitGatewayRegistrationStateReason {
         /// The code for the state reason.
         public var code: NetworkManagerClientTypes.TransitGatewayRegistrationState?
         /// The message for the state reason.
@@ -16199,7 +16199,7 @@ extension NetworkManagerClientTypes.TransitGatewayRouteTableAttachment: Swift.Co
 
 extension NetworkManagerClientTypes {
     /// Describes a transit gateway route table attachment.
-    public struct TransitGatewayRouteTableAttachment: Swift.Equatable {
+    public struct TransitGatewayRouteTableAttachment {
         /// Describes a core network attachment.
         public var attachment: NetworkManagerClientTypes.Attachment?
         /// The ID of the peering attachment.
@@ -16279,7 +16279,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16297,7 +16297,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -16311,7 +16311,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -16366,7 +16366,7 @@ extension UpdateConnectionInput {
     }
 }
 
-public struct UpdateConnectionInput: Swift.Equatable {
+public struct UpdateConnectionInput {
     /// The ID of the link for the second device in the connection.
     public var connectedLinkId: Swift.String?
     /// The ID of the connection.
@@ -16396,7 +16396,7 @@ public struct UpdateConnectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionInputBody: Swift.Equatable {
+struct UpdateConnectionInputBody {
     let linkId: Swift.String?
     let connectedLinkId: Swift.String?
     let description: Swift.String?
@@ -16432,7 +16432,7 @@ extension UpdateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectionOutput: Swift.Equatable {
+public struct UpdateConnectionOutput {
     /// Information about the connection.
     public var connection: NetworkManagerClientTypes.Connection?
 
@@ -16444,7 +16444,7 @@ public struct UpdateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionOutputBody: Swift.Equatable {
+struct UpdateConnectionOutputBody {
     let connection: NetworkManagerClientTypes.Connection?
 }
 
@@ -16499,7 +16499,7 @@ extension UpdateCoreNetworkInput {
     }
 }
 
-public struct UpdateCoreNetworkInput: Swift.Equatable {
+public struct UpdateCoreNetworkInput {
     /// The ID of a core network.
     /// This member is required.
     public var coreNetworkId: Swift.String?
@@ -16516,7 +16516,7 @@ public struct UpdateCoreNetworkInput: Swift.Equatable {
     }
 }
 
-struct UpdateCoreNetworkInputBody: Swift.Equatable {
+struct UpdateCoreNetworkInputBody {
     let description: Swift.String?
 }
 
@@ -16544,7 +16544,7 @@ extension UpdateCoreNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCoreNetworkOutput: Swift.Equatable {
+public struct UpdateCoreNetworkOutput {
     /// Returns information about a core network update.
     public var coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 
@@ -16556,7 +16556,7 @@ public struct UpdateCoreNetworkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCoreNetworkOutputBody: Swift.Equatable {
+struct UpdateCoreNetworkOutputBody {
     let coreNetwork: NetworkManagerClientTypes.CoreNetwork?
 }
 
@@ -16647,7 +16647,7 @@ extension UpdateDeviceInput {
     }
 }
 
-public struct UpdateDeviceInput: Swift.Equatable {
+public struct UpdateDeviceInput {
     /// The Amazon Web Services location of the device, if applicable. For an on-premises device, you can omit this parameter.
     public var awsLocation: NetworkManagerClientTypes.AWSLocation?
     /// A description of the device. Constraints: Maximum length of 256 characters.
@@ -16697,7 +16697,7 @@ public struct UpdateDeviceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceInputBody: Swift.Equatable {
+struct UpdateDeviceInputBody {
     let awsLocation: NetworkManagerClientTypes.AWSLocation?
     let description: Swift.String?
     let type: Swift.String?
@@ -16753,7 +16753,7 @@ extension UpdateDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDeviceOutput: Swift.Equatable {
+public struct UpdateDeviceOutput {
     /// Information about the device.
     public var device: NetworkManagerClientTypes.Device?
 
@@ -16765,7 +16765,7 @@ public struct UpdateDeviceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDeviceOutputBody: Swift.Equatable {
+struct UpdateDeviceOutputBody {
     let device: NetworkManagerClientTypes.Device?
 }
 
@@ -16820,7 +16820,7 @@ extension UpdateGlobalNetworkInput {
     }
 }
 
-public struct UpdateGlobalNetworkInput: Swift.Equatable {
+public struct UpdateGlobalNetworkInput {
     /// A description of the global network. Constraints: Maximum length of 256 characters.
     public var description: Swift.String?
     /// The ID of your global network.
@@ -16837,7 +16837,7 @@ public struct UpdateGlobalNetworkInput: Swift.Equatable {
     }
 }
 
-struct UpdateGlobalNetworkInputBody: Swift.Equatable {
+struct UpdateGlobalNetworkInputBody {
     let description: Swift.String?
 }
 
@@ -16865,7 +16865,7 @@ extension UpdateGlobalNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGlobalNetworkOutput: Swift.Equatable {
+public struct UpdateGlobalNetworkOutput {
     /// Information about the global network object.
     public var globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 
@@ -16877,7 +16877,7 @@ public struct UpdateGlobalNetworkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGlobalNetworkOutputBody: Swift.Equatable {
+struct UpdateGlobalNetworkOutputBody {
     let globalNetwork: NetworkManagerClientTypes.GlobalNetwork?
 }
 
@@ -16947,7 +16947,7 @@ extension UpdateLinkInput {
     }
 }
 
-public struct UpdateLinkInput: Swift.Equatable {
+public struct UpdateLinkInput {
     /// The upload and download speed in Mbps.
     public var bandwidth: NetworkManagerClientTypes.Bandwidth?
     /// A description of the link. Constraints: Maximum length of 256 characters.
@@ -16981,7 +16981,7 @@ public struct UpdateLinkInput: Swift.Equatable {
     }
 }
 
-struct UpdateLinkInputBody: Swift.Equatable {
+struct UpdateLinkInputBody {
     let description: Swift.String?
     let type: Swift.String?
     let bandwidth: NetworkManagerClientTypes.Bandwidth?
@@ -17021,7 +17021,7 @@ extension UpdateLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLinkOutput: Swift.Equatable {
+public struct UpdateLinkOutput {
     /// Information about the link.
     public var link: NetworkManagerClientTypes.Link?
 
@@ -17033,7 +17033,7 @@ public struct UpdateLinkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLinkOutputBody: Swift.Equatable {
+struct UpdateLinkOutputBody {
     let link: NetworkManagerClientTypes.Link?
 }
 
@@ -17095,7 +17095,7 @@ extension UpdateNetworkResourceMetadataInput {
     }
 }
 
-public struct UpdateNetworkResourceMetadataInput: Swift.Equatable {
+public struct UpdateNetworkResourceMetadataInput {
     /// The ID of the global network.
     /// This member is required.
     public var globalNetworkId: Swift.String?
@@ -17118,7 +17118,7 @@ public struct UpdateNetworkResourceMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkResourceMetadataInputBody: Swift.Equatable {
+struct UpdateNetworkResourceMetadataInputBody {
     let metadata: [Swift.String:Swift.String]?
 }
 
@@ -17157,7 +17157,7 @@ extension UpdateNetworkResourceMetadataOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateNetworkResourceMetadataOutput: Swift.Equatable {
+public struct UpdateNetworkResourceMetadataOutput {
     /// The updated resource metadata.
     public var metadata: [Swift.String:Swift.String]?
     /// The ARN of the resource.
@@ -17173,7 +17173,7 @@ public struct UpdateNetworkResourceMetadataOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkResourceMetadataOutputBody: Swift.Equatable {
+struct UpdateNetworkResourceMetadataOutputBody {
     let resourceArn: Swift.String?
     let metadata: [Swift.String:Swift.String]?
 }
@@ -17253,7 +17253,7 @@ extension UpdateSiteInput {
     }
 }
 
-public struct UpdateSiteInput: Swift.Equatable {
+public struct UpdateSiteInput {
     /// A description of your site. Constraints: Maximum length of 256 characters.
     public var description: Swift.String?
     /// The ID of the global network.
@@ -17285,7 +17285,7 @@ public struct UpdateSiteInput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteInputBody: Swift.Equatable {
+struct UpdateSiteInputBody {
     let description: Swift.String?
     let location: NetworkManagerClientTypes.Location?
 }
@@ -17317,7 +17317,7 @@ extension UpdateSiteOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSiteOutput: Swift.Equatable {
+public struct UpdateSiteOutput {
     /// Information about the site.
     public var site: NetworkManagerClientTypes.Site?
 
@@ -17329,7 +17329,7 @@ public struct UpdateSiteOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSiteOutputBody: Swift.Equatable {
+struct UpdateSiteOutputBody {
     let site: NetworkManagerClientTypes.Site?
 }
 
@@ -17398,7 +17398,7 @@ extension UpdateVpcAttachmentInput {
     }
 }
 
-public struct UpdateVpcAttachmentInput: Swift.Equatable {
+public struct UpdateVpcAttachmentInput {
     /// Adds a subnet ARN to the VPC attachment.
     public var addSubnetArns: [Swift.String]?
     /// The ID of the attachment.
@@ -17423,7 +17423,7 @@ public struct UpdateVpcAttachmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcAttachmentInputBody: Swift.Equatable {
+struct UpdateVpcAttachmentInputBody {
     let addSubnetArns: [Swift.String]?
     let removeSubnetArns: [Swift.String]?
     let options: NetworkManagerClientTypes.VpcOptions?
@@ -17477,7 +17477,7 @@ extension UpdateVpcAttachmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVpcAttachmentOutput: Swift.Equatable {
+public struct UpdateVpcAttachmentOutput {
     /// Describes the updated VPC attachment.
     public var vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 
@@ -17489,7 +17489,7 @@ public struct UpdateVpcAttachmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVpcAttachmentOutputBody: Swift.Equatable {
+struct UpdateVpcAttachmentOutputBody {
     let vpcAttachment: NetworkManagerClientTypes.VpcAttachment?
 }
 
@@ -17573,7 +17573,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: NetworkManagerClientTypes.ValidationExceptionReason?
     let fields: [NetworkManagerClientTypes.ValidationExceptionField]?
@@ -17633,7 +17633,7 @@ extension NetworkManagerClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a validation exception for a field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message for the field.
         /// This member is required.
         public var message: Swift.String?
@@ -17736,7 +17736,7 @@ extension NetworkManagerClientTypes.VpcAttachment: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes a VPC attachment.
-    public struct VpcAttachment: Swift.Equatable {
+    public struct VpcAttachment {
         /// Provides details about the VPC attachment.
         public var attachment: NetworkManagerClientTypes.Attachment?
         /// Provides details about the VPC attachment.
@@ -17785,7 +17785,7 @@ extension NetworkManagerClientTypes.VpcOptions: Swift.Codable {
 
 extension NetworkManagerClientTypes {
     /// Describes the VPC options.
-    public struct VpcOptions: Swift.Equatable {
+    public struct VpcOptions {
         /// Indicates whether appliance mode is supported. If enabled, traffic flow between a source and destination use the same Availability Zone for the VPC attachment for the lifetime of that flow. The default value is false.
         public var applianceModeSupport: Swift.Bool
         /// Indicates whether IPv6 is supported.

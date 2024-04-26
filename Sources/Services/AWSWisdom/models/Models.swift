@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ extension WisdomClientTypes.AppIntegrationsConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Configuration information for Amazon AppIntegrations to automatically ingest content.
-    public struct AppIntegrationsConfiguration: Swift.Equatable {
+    public struct AppIntegrationsConfiguration {
         /// The Amazon Resource Name (ARN) of the AppIntegrations DataIntegration to use for ingesting content.
         ///
         /// * For [ Salesforce](https://developer.salesforce.com/docs/atlas.en-us.knowledge_dev.meta/knowledge_dev/sforce_api_objects_knowledge__kav.htm), your AppIntegrations DataIntegration must have an ObjectConfiguration if objectFields is not provided, including at least Id, ArticleNumber, VersionNumber, Title, PublishStatus, and IsDeleted as source fields.
@@ -203,7 +203,7 @@ extension WisdomClientTypes.AssistantAssociationData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the assistant association.
-    public struct AssistantAssociationData: Swift.Equatable {
+    public struct AssistantAssociationData {
         /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -276,7 +276,7 @@ extension WisdomClientTypes.AssistantAssociationInputData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The data that is input into Wisdom as a result of the assistant association.
-    public enum AssistantAssociationInputData: Swift.Equatable {
+    public enum AssistantAssociationInputData {
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
         case knowledgebaseid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -313,7 +313,7 @@ extension WisdomClientTypes.AssistantAssociationOutputData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The data that is output as a result of the assistant association.
-    public enum AssistantAssociationOutputData: Swift.Equatable {
+    public enum AssistantAssociationOutputData {
         /// The knowledge base where output data is sent.
         case knowledgebaseassociation(WisdomClientTypes.KnowledgeBaseAssociationData)
         case sdkUnknown(Swift.String)
@@ -390,7 +390,7 @@ extension WisdomClientTypes.AssistantAssociationSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the assistant association.
-    public struct AssistantAssociationSummary: Swift.Equatable {
+    public struct AssistantAssociationSummary {
         /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -515,7 +515,7 @@ extension WisdomClientTypes.AssistantData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The assistant data.
-    public struct AssistantData: Swift.Equatable {
+    public struct AssistantData {
         /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -587,7 +587,7 @@ extension WisdomClientTypes.AssistantIntegrationConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information for the Wisdom assistant integration.
-    public struct AssistantIntegrationConfiguration: Swift.Equatable {
+    public struct AssistantIntegrationConfiguration {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public var topicIntegrationArn: Swift.String?
 
@@ -726,7 +726,7 @@ extension WisdomClientTypes.AssistantSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the assistant.
-    public struct AssistantSummary: Swift.Equatable {
+    public struct AssistantSummary {
         /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -864,7 +864,7 @@ extension WisdomClientTypes.Configuration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information of the external data source.
-    public enum Configuration: Swift.Equatable {
+    public enum Configuration {
         /// The configuration information of the Amazon Connect data source.
         case connectconfiguration(WisdomClientTypes.ConnectConfiguration)
         case sdkUnknown(Swift.String)
@@ -911,7 +911,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -948,7 +948,7 @@ extension WisdomClientTypes.ConnectConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information of the Amazon Connect data source.
-    public struct ConnectConfiguration: Swift.Equatable {
+    public struct ConnectConfiguration {
         /// The identifier of the Amazon Connect instance. You can find the instanceId in the ARN of the instance.
         public var instanceId: Swift.String?
 
@@ -1090,7 +1090,7 @@ extension WisdomClientTypes.ContentData: Swift.CustomDebugStringConvertible {
 
 extension WisdomClientTypes {
     /// Information about the content.
-    public struct ContentData: Swift.Equatable {
+    public struct ContentData {
         /// The Amazon Resource Name (ARN) of the content.
         /// This member is required.
         public var contentArn: Swift.String?
@@ -1207,7 +1207,7 @@ extension WisdomClientTypes.ContentReference: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Reference information about the content.
-    public struct ContentReference: Swift.Equatable {
+    public struct ContentReference {
         /// The Amazon Resource Name (ARN) of the content.
         public var contentArn: Swift.String?
         /// The identifier of the content.
@@ -1385,7 +1385,7 @@ extension WisdomClientTypes.ContentSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the content.
-    public struct ContentSummary: Swift.Equatable {
+    public struct ContentSummary {
         /// The Amazon Resource Name (ARN) of the content.
         /// This member is required.
         public var contentArn: Swift.String?
@@ -1487,7 +1487,7 @@ extension CreateAssistantAssociationInput {
     }
 }
 
-public struct CreateAssistantAssociationInput: Swift.Equatable {
+public struct CreateAssistantAssociationInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -1518,7 +1518,7 @@ public struct CreateAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantAssociationInputBody: Swift.Equatable {
+struct CreateAssistantAssociationInputBody {
     let associationType: WisdomClientTypes.AssociationType?
     let association: WisdomClientTypes.AssistantAssociationInputData?
     let clientToken: Swift.String?
@@ -1567,7 +1567,7 @@ extension CreateAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssistantAssociationOutput: Swift.Equatable {
+public struct CreateAssistantAssociationOutput {
     /// The assistant association.
     public var assistantAssociation: WisdomClientTypes.AssistantAssociationData?
 
@@ -1579,7 +1579,7 @@ public struct CreateAssistantAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantAssociationOutputBody: Swift.Equatable {
+struct CreateAssistantAssociationOutputBody {
     let assistantAssociation: WisdomClientTypes.AssistantAssociationData?
 }
 
@@ -1653,7 +1653,7 @@ extension CreateAssistantInput {
     }
 }
 
-public struct CreateAssistantInput: Swift.Equatable {
+public struct CreateAssistantInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the assistant.
@@ -1687,7 +1687,7 @@ public struct CreateAssistantInput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantInputBody: Swift.Equatable {
+struct CreateAssistantInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let type: WisdomClientTypes.AssistantType?
@@ -1744,7 +1744,7 @@ extension CreateAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAssistantOutput: Swift.Equatable {
+public struct CreateAssistantOutput {
     /// Information about the assistant.
     public var assistant: WisdomClientTypes.AssistantData?
 
@@ -1756,7 +1756,7 @@ public struct CreateAssistantOutput: Swift.Equatable {
     }
 }
 
-struct CreateAssistantOutputBody: Swift.Equatable {
+struct CreateAssistantOutputBody {
     let assistant: WisdomClientTypes.AssistantData?
 }
 
@@ -1839,7 +1839,7 @@ extension CreateContentInput {
     }
 }
 
-public struct CreateContentInput: Swift.Equatable {
+public struct CreateContentInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -1882,7 +1882,7 @@ public struct CreateContentInput: Swift.Equatable {
     }
 }
 
-struct CreateContentInputBody: Swift.Equatable {
+struct CreateContentInputBody {
     let name: Swift.String?
     let title: Swift.String?
     let overrideLinkOutUri: Swift.String?
@@ -1952,7 +1952,7 @@ extension CreateContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContentOutput: Swift.Equatable {
+public struct CreateContentOutput {
     /// The content.
     public var content: WisdomClientTypes.ContentData?
 
@@ -1964,7 +1964,7 @@ public struct CreateContentOutput: Swift.Equatable {
     }
 }
 
-struct CreateContentOutputBody: Swift.Equatable {
+struct CreateContentOutputBody {
     let content: WisdomClientTypes.ContentData?
 }
 
@@ -2046,7 +2046,7 @@ extension CreateKnowledgeBaseInput {
     }
 }
 
-public struct CreateKnowledgeBaseInput: Swift.Equatable {
+public struct CreateKnowledgeBaseInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description.
@@ -2088,7 +2088,7 @@ public struct CreateKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseInputBody: Swift.Equatable {
+struct CreateKnowledgeBaseInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let knowledgeBaseType: WisdomClientTypes.KnowledgeBaseType?
@@ -2153,7 +2153,7 @@ extension CreateKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKnowledgeBaseOutput: Swift.Equatable {
+public struct CreateKnowledgeBaseOutput {
     /// The knowledge base.
     public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 
@@ -2165,7 +2165,7 @@ public struct CreateKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateKnowledgeBaseOutputBody: Swift.Equatable {
+struct CreateKnowledgeBaseOutputBody {
     let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 }
 
@@ -2264,7 +2264,7 @@ extension CreateQuickResponseInput {
     }
 }
 
-public struct CreateQuickResponseInput: Swift.Equatable {
+public struct CreateQuickResponseInput {
     /// The Amazon Connect channels this quick response applies to.
     public var channels: [Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -2327,7 +2327,7 @@ public struct CreateQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct CreateQuickResponseInputBody: Swift.Equatable {
+struct CreateQuickResponseInputBody {
     let name: Swift.String?
     let content: WisdomClientTypes.QuickResponseDataProvider?
     let contentType: Swift.String?
@@ -2413,7 +2413,7 @@ extension CreateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQuickResponseOutput: Swift.Equatable {
+public struct CreateQuickResponseOutput {
     /// The quick response.
     public var quickResponse: WisdomClientTypes.QuickResponseData?
 
@@ -2425,7 +2425,7 @@ public struct CreateQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct CreateQuickResponseOutputBody: Swift.Equatable {
+struct CreateQuickResponseOutputBody {
     let quickResponse: WisdomClientTypes.QuickResponseData?
 }
 
@@ -2494,7 +2494,7 @@ extension CreateSessionInput {
     }
 }
 
-public struct CreateSessionInput: Swift.Equatable {
+public struct CreateSessionInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -2524,7 +2524,7 @@ public struct CreateSessionInput: Swift.Equatable {
     }
 }
 
-struct CreateSessionInputBody: Swift.Equatable {
+struct CreateSessionInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2573,7 +2573,7 @@ extension CreateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSessionOutput: Swift.Equatable {
+public struct CreateSessionOutput {
     /// The session.
     public var session: WisdomClientTypes.SessionData?
 
@@ -2585,7 +2585,7 @@ public struct CreateSessionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSessionOutputBody: Swift.Equatable {
+struct CreateSessionOutputBody {
     let session: WisdomClientTypes.SessionData?
 }
 
@@ -2627,7 +2627,7 @@ extension DeleteAssistantAssociationInput {
     }
 }
 
-public struct DeleteAssistantAssociationInput: Swift.Equatable {
+public struct DeleteAssistantAssociationInput {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
@@ -2645,7 +2645,7 @@ public struct DeleteAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssistantAssociationInputBody: Swift.Equatable {
+struct DeleteAssistantAssociationInputBody {
 }
 
 extension DeleteAssistantAssociationInputBody: Swift.Decodable {
@@ -2659,7 +2659,7 @@ extension DeleteAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssistantAssociationOutput: Swift.Equatable {
+public struct DeleteAssistantAssociationOutput {
 
     public init() { }
 }
@@ -2687,7 +2687,7 @@ extension DeleteAssistantInput {
     }
 }
 
-public struct DeleteAssistantInput: Swift.Equatable {
+public struct DeleteAssistantInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -2700,7 +2700,7 @@ public struct DeleteAssistantInput: Swift.Equatable {
     }
 }
 
-struct DeleteAssistantInputBody: Swift.Equatable {
+struct DeleteAssistantInputBody {
 }
 
 extension DeleteAssistantInputBody: Swift.Decodable {
@@ -2714,7 +2714,7 @@ extension DeleteAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAssistantOutput: Swift.Equatable {
+public struct DeleteAssistantOutput {
 
     public init() { }
 }
@@ -2745,7 +2745,7 @@ extension DeleteContentInput {
     }
 }
 
-public struct DeleteContentInput: Swift.Equatable {
+public struct DeleteContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -2763,7 +2763,7 @@ public struct DeleteContentInput: Swift.Equatable {
     }
 }
 
-struct DeleteContentInputBody: Swift.Equatable {
+struct DeleteContentInputBody {
 }
 
 extension DeleteContentInputBody: Swift.Decodable {
@@ -2777,7 +2777,7 @@ extension DeleteContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContentOutput: Swift.Equatable {
+public struct DeleteContentOutput {
 
     public init() { }
 }
@@ -2808,7 +2808,7 @@ extension DeleteImportJobInput {
     }
 }
 
-public struct DeleteImportJobInput: Swift.Equatable {
+public struct DeleteImportJobInput {
     /// The identifier of the import job to be deleted.
     /// This member is required.
     public var importJobId: Swift.String?
@@ -2826,7 +2826,7 @@ public struct DeleteImportJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteImportJobInputBody: Swift.Equatable {
+struct DeleteImportJobInputBody {
 }
 
 extension DeleteImportJobInputBody: Swift.Decodable {
@@ -2840,7 +2840,7 @@ extension DeleteImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImportJobOutput: Swift.Equatable {
+public struct DeleteImportJobOutput {
 
     public init() { }
 }
@@ -2869,7 +2869,7 @@ extension DeleteKnowledgeBaseInput {
     }
 }
 
-public struct DeleteKnowledgeBaseInput: Swift.Equatable {
+public struct DeleteKnowledgeBaseInput {
     /// The knowledge base to delete content from. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -2882,7 +2882,7 @@ public struct DeleteKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct DeleteKnowledgeBaseInputBody: Swift.Equatable {
+struct DeleteKnowledgeBaseInputBody {
 }
 
 extension DeleteKnowledgeBaseInputBody: Swift.Decodable {
@@ -2896,7 +2896,7 @@ extension DeleteKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKnowledgeBaseOutput: Swift.Equatable {
+public struct DeleteKnowledgeBaseOutput {
 
     public init() { }
 }
@@ -2928,7 +2928,7 @@ extension DeleteQuickResponseInput {
     }
 }
 
-public struct DeleteQuickResponseInput: Swift.Equatable {
+public struct DeleteQuickResponseInput {
     /// The knowledge base from which the quick response is deleted. The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -2946,7 +2946,7 @@ public struct DeleteQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct DeleteQuickResponseInputBody: Swift.Equatable {
+struct DeleteQuickResponseInputBody {
 }
 
 extension DeleteQuickResponseInputBody: Swift.Decodable {
@@ -2960,7 +2960,7 @@ extension DeleteQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQuickResponseOutput: Swift.Equatable {
+public struct DeleteQuickResponseOutput {
 
     public init() { }
 }
@@ -3011,7 +3011,7 @@ extension WisdomClientTypes.Document: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The document.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// A reference to the content resource.
         /// This member is required.
         public var contentReference: WisdomClientTypes.ContentReference?
@@ -3078,7 +3078,7 @@ extension WisdomClientTypes.DocumentText: Swift.CustomDebugStringConvertible {
 
 extension WisdomClientTypes {
     /// The text of the document.
-    public struct DocumentText: Swift.Equatable {
+    public struct DocumentText {
         /// Highlights in the document text.
         public var highlights: [WisdomClientTypes.Highlight]?
         /// Text in the document.
@@ -3152,7 +3152,7 @@ extension WisdomClientTypes.ExternalSourceConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information of the external data source.
-    public struct ExternalSourceConfiguration: Swift.Equatable {
+    public struct ExternalSourceConfiguration {
         /// The configuration information of the external data source.
         /// This member is required.
         public var configuration: WisdomClientTypes.Configuration?
@@ -3205,7 +3205,7 @@ extension WisdomClientTypes.Filter: Swift.Codable {
 
 extension WisdomClientTypes {
     /// A search filter.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The field on which to filter.
         /// This member is required.
         public var field: WisdomClientTypes.FilterField?
@@ -3301,7 +3301,7 @@ extension GetAssistantAssociationInput {
     }
 }
 
-public struct GetAssistantAssociationInput: Swift.Equatable {
+public struct GetAssistantAssociationInput {
     /// The identifier of the assistant association. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantAssociationId: Swift.String?
@@ -3319,7 +3319,7 @@ public struct GetAssistantAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetAssistantAssociationInputBody: Swift.Equatable {
+struct GetAssistantAssociationInputBody {
 }
 
 extension GetAssistantAssociationInputBody: Swift.Decodable {
@@ -3340,7 +3340,7 @@ extension GetAssistantAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssistantAssociationOutput: Swift.Equatable {
+public struct GetAssistantAssociationOutput {
     /// The assistant association.
     public var assistantAssociation: WisdomClientTypes.AssistantAssociationData?
 
@@ -3352,7 +3352,7 @@ public struct GetAssistantAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetAssistantAssociationOutputBody: Swift.Equatable {
+struct GetAssistantAssociationOutputBody {
     let assistantAssociation: WisdomClientTypes.AssistantAssociationData?
 }
 
@@ -3391,7 +3391,7 @@ extension GetAssistantInput {
     }
 }
 
-public struct GetAssistantInput: Swift.Equatable {
+public struct GetAssistantInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -3404,7 +3404,7 @@ public struct GetAssistantInput: Swift.Equatable {
     }
 }
 
-struct GetAssistantInputBody: Swift.Equatable {
+struct GetAssistantInputBody {
 }
 
 extension GetAssistantInputBody: Swift.Decodable {
@@ -3425,7 +3425,7 @@ extension GetAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssistantOutput: Swift.Equatable {
+public struct GetAssistantOutput {
     /// Information about the assistant.
     public var assistant: WisdomClientTypes.AssistantData?
 
@@ -3437,7 +3437,7 @@ public struct GetAssistantOutput: Swift.Equatable {
     }
 }
 
-struct GetAssistantOutputBody: Swift.Equatable {
+struct GetAssistantOutputBody {
     let assistant: WisdomClientTypes.AssistantData?
 }
 
@@ -3479,7 +3479,7 @@ extension GetContentInput {
     }
 }
 
-public struct GetContentInput: Swift.Equatable {
+public struct GetContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -3497,7 +3497,7 @@ public struct GetContentInput: Swift.Equatable {
     }
 }
 
-struct GetContentInputBody: Swift.Equatable {
+struct GetContentInputBody {
 }
 
 extension GetContentInputBody: Swift.Decodable {
@@ -3518,7 +3518,7 @@ extension GetContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContentOutput: Swift.Equatable {
+public struct GetContentOutput {
     /// The content.
     public var content: WisdomClientTypes.ContentData?
 
@@ -3530,7 +3530,7 @@ public struct GetContentOutput: Swift.Equatable {
     }
 }
 
-struct GetContentOutputBody: Swift.Equatable {
+struct GetContentOutputBody {
     let content: WisdomClientTypes.ContentData?
 }
 
@@ -3572,7 +3572,7 @@ extension GetContentSummaryInput {
     }
 }
 
-public struct GetContentSummaryInput: Swift.Equatable {
+public struct GetContentSummaryInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -3590,7 +3590,7 @@ public struct GetContentSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetContentSummaryInputBody: Swift.Equatable {
+struct GetContentSummaryInputBody {
 }
 
 extension GetContentSummaryInputBody: Swift.Decodable {
@@ -3611,7 +3611,7 @@ extension GetContentSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContentSummaryOutput: Swift.Equatable {
+public struct GetContentSummaryOutput {
     /// The content summary.
     public var contentSummary: WisdomClientTypes.ContentSummary?
 
@@ -3623,7 +3623,7 @@ public struct GetContentSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetContentSummaryOutputBody: Swift.Equatable {
+struct GetContentSummaryOutputBody {
     let contentSummary: WisdomClientTypes.ContentSummary?
 }
 
@@ -3665,7 +3665,7 @@ extension GetImportJobInput {
     }
 }
 
-public struct GetImportJobInput: Swift.Equatable {
+public struct GetImportJobInput {
     /// The identifier of the import job to retrieve.
     /// This member is required.
     public var importJobId: Swift.String?
@@ -3683,7 +3683,7 @@ public struct GetImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetImportJobInputBody: Swift.Equatable {
+struct GetImportJobInputBody {
 }
 
 extension GetImportJobInputBody: Swift.Decodable {
@@ -3704,7 +3704,7 @@ extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportJobOutput: Swift.Equatable {
+public struct GetImportJobOutput {
     /// The import job.
     public var importJob: WisdomClientTypes.ImportJobData?
 
@@ -3716,7 +3716,7 @@ public struct GetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetImportJobOutputBody: Swift.Equatable {
+struct GetImportJobOutputBody {
     let importJob: WisdomClientTypes.ImportJobData?
 }
 
@@ -3755,7 +3755,7 @@ extension GetKnowledgeBaseInput {
     }
 }
 
-public struct GetKnowledgeBaseInput: Swift.Equatable {
+public struct GetKnowledgeBaseInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -3768,7 +3768,7 @@ public struct GetKnowledgeBaseInput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseInputBody: Swift.Equatable {
+struct GetKnowledgeBaseInputBody {
 }
 
 extension GetKnowledgeBaseInputBody: Swift.Decodable {
@@ -3789,7 +3789,7 @@ extension GetKnowledgeBaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKnowledgeBaseOutput: Swift.Equatable {
+public struct GetKnowledgeBaseOutput {
     /// The knowledge base.
     public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 
@@ -3801,7 +3801,7 @@ public struct GetKnowledgeBaseOutput: Swift.Equatable {
     }
 }
 
-struct GetKnowledgeBaseOutputBody: Swift.Equatable {
+struct GetKnowledgeBaseOutputBody {
     let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 }
 
@@ -3843,7 +3843,7 @@ extension GetQuickResponseInput {
     }
 }
 
-public struct GetQuickResponseInput: Swift.Equatable {
+public struct GetQuickResponseInput {
     /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -3861,7 +3861,7 @@ public struct GetQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct GetQuickResponseInputBody: Swift.Equatable {
+struct GetQuickResponseInputBody {
 }
 
 extension GetQuickResponseInputBody: Swift.Decodable {
@@ -3882,7 +3882,7 @@ extension GetQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQuickResponseOutput: Swift.Equatable {
+public struct GetQuickResponseOutput {
     /// The quick response.
     public var quickResponse: WisdomClientTypes.QuickResponseData?
 
@@ -3894,7 +3894,7 @@ public struct GetQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct GetQuickResponseOutputBody: Swift.Equatable {
+struct GetQuickResponseOutputBody {
     let quickResponse: WisdomClientTypes.QuickResponseData?
 }
 
@@ -3952,7 +3952,7 @@ extension GetRecommendationsInput {
     }
 }
 
-public struct GetRecommendationsInput: Swift.Equatable {
+public struct GetRecommendationsInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -3978,7 +3978,7 @@ public struct GetRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsInputBody: Swift.Equatable {
+struct GetRecommendationsInputBody {
 }
 
 extension GetRecommendationsInputBody: Swift.Decodable {
@@ -4001,7 +4001,7 @@ extension GetRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationsOutput: Swift.Equatable {
+public struct GetRecommendationsOutput {
     /// The recommendations.
     /// This member is required.
     public var recommendations: [WisdomClientTypes.RecommendationData]?
@@ -4018,7 +4018,7 @@ public struct GetRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationsOutputBody: Swift.Equatable {
+struct GetRecommendationsOutputBody {
     let recommendations: [WisdomClientTypes.RecommendationData]?
     let triggers: [WisdomClientTypes.RecommendationTrigger]?
 }
@@ -4082,7 +4082,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -4100,7 +4100,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
 }
 
 extension GetSessionInputBody: Swift.Decodable {
@@ -4121,7 +4121,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// The session.
     public var session: WisdomClientTypes.SessionData?
 
@@ -4133,7 +4133,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let session: WisdomClientTypes.SessionData?
 }
 
@@ -4206,7 +4206,7 @@ extension WisdomClientTypes.GroupingConfiguration: Swift.CustomDebugStringConver
 
 extension WisdomClientTypes {
     /// The configuration information of the grouping of Wisdom users.
-    public struct GroupingConfiguration: Swift.Equatable {
+    public struct GroupingConfiguration {
         /// The criteria used for grouping Wisdom users. The following is the list of supported criteria values.
         ///
         /// * RoutingProfileArn: Grouping the users by their [Amazon Connect routing profile ARN](https://docs.aws.amazon.com/connect/latest/APIReference/API_RoutingProfile.html). User should have [SearchRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_SearchRoutingProfiles.html) and [DescribeRoutingProfile](https://docs.aws.amazon.com/connect/latest/APIReference/API_DescribeRoutingProfile.html) permissions when setting criteria to this value.
@@ -4255,7 +4255,7 @@ extension WisdomClientTypes.Highlight: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Offset specification to describe highlighting of document excerpts for rendering search results and recommendations.
-    public struct Highlight: Swift.Equatable {
+    public struct Highlight {
         /// The offset for the start of the highlight.
         public var beginOffsetInclusive: Swift.Int
         /// The offset for the end of the highlight.
@@ -4383,7 +4383,7 @@ extension WisdomClientTypes.ImportJobData: Swift.CustomDebugStringConvertible {
 
 extension WisdomClientTypes {
     /// Summary information about the import job.
-    public struct ImportJobData: Swift.Equatable {
+    public struct ImportJobData {
         /// The timestamp when the import job was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -4586,7 +4586,7 @@ extension WisdomClientTypes.ImportJobSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the import job.
-    public struct ImportJobSummary: Swift.Equatable {
+    public struct ImportJobSummary {
         /// The timestamp when the import job was created.
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -4700,7 +4700,7 @@ extension WisdomClientTypes.KnowledgeBaseAssociationData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Association information about the knowledge base.
-    public struct KnowledgeBaseAssociationData: Swift.Equatable {
+    public struct KnowledgeBaseAssociationData {
         /// The Amazon Resource Name (ARN) of the knowledge base.
         public var knowledgeBaseArn: Swift.String?
         /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it.
@@ -4811,7 +4811,7 @@ extension WisdomClientTypes.KnowledgeBaseData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the knowledge base.
-    public struct KnowledgeBaseData: Swift.Equatable {
+    public struct KnowledgeBaseData {
         /// The description.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
@@ -5001,7 +5001,7 @@ extension WisdomClientTypes.KnowledgeBaseSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the knowledge base.
-    public struct KnowledgeBaseSummary: Swift.Equatable {
+    public struct KnowledgeBaseSummary {
         /// The description of the knowledge base.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the knowledge base.
@@ -5117,7 +5117,7 @@ extension ListAssistantAssociationsInput {
     }
 }
 
-public struct ListAssistantAssociationsInput: Swift.Equatable {
+public struct ListAssistantAssociationsInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -5138,7 +5138,7 @@ public struct ListAssistantAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListAssistantAssociationsInputBody: Swift.Equatable {
+struct ListAssistantAssociationsInputBody {
 }
 
 extension ListAssistantAssociationsInputBody: Swift.Decodable {
@@ -5161,7 +5161,7 @@ extension ListAssistantAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssistantAssociationsOutput: Swift.Equatable {
+public struct ListAssistantAssociationsOutput {
     /// Summary information about assistant associations.
     /// This member is required.
     public var assistantAssociationSummaries: [WisdomClientTypes.AssistantAssociationSummary]?
@@ -5178,7 +5178,7 @@ public struct ListAssistantAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssistantAssociationsOutputBody: Swift.Equatable {
+struct ListAssistantAssociationsOutputBody {
     let assistantAssociationSummaries: [WisdomClientTypes.AssistantAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -5243,7 +5243,7 @@ extension ListAssistantsInput {
     }
 }
 
-public struct ListAssistantsInput: Swift.Equatable {
+public struct ListAssistantsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5259,7 +5259,7 @@ public struct ListAssistantsInput: Swift.Equatable {
     }
 }
 
-struct ListAssistantsInputBody: Swift.Equatable {
+struct ListAssistantsInputBody {
 }
 
 extension ListAssistantsInputBody: Swift.Decodable {
@@ -5282,7 +5282,7 @@ extension ListAssistantsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssistantsOutput: Swift.Equatable {
+public struct ListAssistantsOutput {
     /// Information about the assistants.
     /// This member is required.
     public var assistantSummaries: [WisdomClientTypes.AssistantSummary]?
@@ -5299,7 +5299,7 @@ public struct ListAssistantsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssistantsOutputBody: Swift.Equatable {
+struct ListAssistantsOutputBody {
     let assistantSummaries: [WisdomClientTypes.AssistantSummary]?
     let nextToken: Swift.String?
 }
@@ -5366,7 +5366,7 @@ extension ListContentsInput {
     }
 }
 
-public struct ListContentsInput: Swift.Equatable {
+public struct ListContentsInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -5387,7 +5387,7 @@ public struct ListContentsInput: Swift.Equatable {
     }
 }
 
-struct ListContentsInputBody: Swift.Equatable {
+struct ListContentsInputBody {
 }
 
 extension ListContentsInputBody: Swift.Decodable {
@@ -5410,7 +5410,7 @@ extension ListContentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContentsOutput: Swift.Equatable {
+public struct ListContentsOutput {
     /// Information about the content.
     /// This member is required.
     public var contentSummaries: [WisdomClientTypes.ContentSummary]?
@@ -5427,7 +5427,7 @@ public struct ListContentsOutput: Swift.Equatable {
     }
 }
 
-struct ListContentsOutputBody: Swift.Equatable {
+struct ListContentsOutputBody {
     let contentSummaries: [WisdomClientTypes.ContentSummary]?
     let nextToken: Swift.String?
 }
@@ -5495,7 +5495,7 @@ extension ListImportJobsInput {
     }
 }
 
-public struct ListImportJobsInput: Swift.Equatable {
+public struct ListImportJobsInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -5516,7 +5516,7 @@ public struct ListImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsInputBody: Swift.Equatable {
+struct ListImportJobsInputBody {
 }
 
 extension ListImportJobsInputBody: Swift.Decodable {
@@ -5539,7 +5539,7 @@ extension ListImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportJobsOutput: Swift.Equatable {
+public struct ListImportJobsOutput {
     /// Summary information about the import jobs.
     /// This member is required.
     public var importJobSummaries: [WisdomClientTypes.ImportJobSummary]?
@@ -5556,7 +5556,7 @@ public struct ListImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsOutputBody: Swift.Equatable {
+struct ListImportJobsOutputBody {
     let importJobSummaries: [WisdomClientTypes.ImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -5620,7 +5620,7 @@ extension ListKnowledgeBasesInput {
     }
 }
 
-public struct ListKnowledgeBasesInput: Swift.Equatable {
+public struct ListKnowledgeBasesInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5636,7 +5636,7 @@ public struct ListKnowledgeBasesInput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesInputBody: Swift.Equatable {
+struct ListKnowledgeBasesInputBody {
 }
 
 extension ListKnowledgeBasesInputBody: Swift.Decodable {
@@ -5659,7 +5659,7 @@ extension ListKnowledgeBasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKnowledgeBasesOutput: Swift.Equatable {
+public struct ListKnowledgeBasesOutput {
     /// Information about the knowledge bases.
     /// This member is required.
     public var knowledgeBaseSummaries: [WisdomClientTypes.KnowledgeBaseSummary]?
@@ -5676,7 +5676,7 @@ public struct ListKnowledgeBasesOutput: Swift.Equatable {
     }
 }
 
-struct ListKnowledgeBasesOutputBody: Swift.Equatable {
+struct ListKnowledgeBasesOutputBody {
     let knowledgeBaseSummaries: [WisdomClientTypes.KnowledgeBaseSummary]?
     let nextToken: Swift.String?
 }
@@ -5743,7 +5743,7 @@ extension ListQuickResponsesInput {
     }
 }
 
-public struct ListQuickResponsesInput: Swift.Equatable {
+public struct ListQuickResponsesInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -5764,7 +5764,7 @@ public struct ListQuickResponsesInput: Swift.Equatable {
     }
 }
 
-struct ListQuickResponsesInputBody: Swift.Equatable {
+struct ListQuickResponsesInputBody {
 }
 
 extension ListQuickResponsesInputBody: Swift.Decodable {
@@ -5787,7 +5787,7 @@ extension ListQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQuickResponsesOutput: Swift.Equatable {
+public struct ListQuickResponsesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Summary information about the quick responses.
@@ -5804,7 +5804,7 @@ public struct ListQuickResponsesOutput: Swift.Equatable {
     }
 }
 
-struct ListQuickResponsesOutputBody: Swift.Equatable {
+struct ListQuickResponsesOutputBody {
     let quickResponseSummaries: [WisdomClientTypes.QuickResponseSummary]?
     let nextToken: Swift.String?
 }
@@ -5856,7 +5856,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5869,7 +5869,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5890,7 +5890,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -5902,7 +5902,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5965,7 +5965,7 @@ extension WisdomClientTypes.NotifyRecommendationsReceivedError: Swift.Codable {
 
 extension WisdomClientTypes {
     /// An error occurred when creating a recommendation.
-    public struct NotifyRecommendationsReceivedError: Swift.Equatable {
+    public struct NotifyRecommendationsReceivedError {
         /// A recommendation is causing an error.
         public var message: Swift.String?
         /// The identifier of the recommendation that is in error.
@@ -6012,7 +6012,7 @@ extension NotifyRecommendationsReceivedInput {
     }
 }
 
-public struct NotifyRecommendationsReceivedInput: Swift.Equatable {
+public struct NotifyRecommendationsReceivedInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -6035,7 +6035,7 @@ public struct NotifyRecommendationsReceivedInput: Swift.Equatable {
     }
 }
 
-struct NotifyRecommendationsReceivedInputBody: Swift.Equatable {
+struct NotifyRecommendationsReceivedInputBody {
     let recommendationIds: [Swift.String]?
 }
 
@@ -6074,7 +6074,7 @@ extension NotifyRecommendationsReceivedOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct NotifyRecommendationsReceivedOutput: Swift.Equatable {
+public struct NotifyRecommendationsReceivedOutput {
     /// The identifiers of recommendations that are causing errors.
     public var errors: [WisdomClientTypes.NotifyRecommendationsReceivedError]?
     /// The identifiers of the recommendations.
@@ -6090,7 +6090,7 @@ public struct NotifyRecommendationsReceivedOutput: Swift.Equatable {
     }
 }
 
-struct NotifyRecommendationsReceivedOutputBody: Swift.Equatable {
+struct NotifyRecommendationsReceivedOutputBody {
     let recommendationIds: [Swift.String]?
     let errors: [WisdomClientTypes.NotifyRecommendationsReceivedError]?
 }
@@ -6212,7 +6212,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -6299,7 +6299,7 @@ extension QueryAssistantInput {
     }
 }
 
-public struct QueryAssistantInput: Swift.Equatable {
+public struct QueryAssistantInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -6325,7 +6325,7 @@ public struct QueryAssistantInput: Swift.Equatable {
     }
 }
 
-struct QueryAssistantInputBody: Swift.Equatable {
+struct QueryAssistantInputBody {
     let queryText: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6363,7 +6363,7 @@ extension QueryAssistantOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryAssistantOutput: Swift.Equatable {
+public struct QueryAssistantOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The results of the query.
@@ -6380,7 +6380,7 @@ public struct QueryAssistantOutput: Swift.Equatable {
     }
 }
 
-struct QueryAssistantOutputBody: Swift.Equatable {
+struct QueryAssistantOutputBody {
     let results: [WisdomClientTypes.ResultData]?
     let nextToken: Swift.String?
 }
@@ -6449,7 +6449,7 @@ extension WisdomClientTypes.QueryRecommendationTriggerData: Swift.CustomDebugStr
 
 extension WisdomClientTypes {
     /// Data associated with the QUERY RecommendationTriggerType.
-    public struct QueryRecommendationTriggerData: Swift.Equatable {
+    public struct QueryRecommendationTriggerData {
         /// The text associated with the recommendation trigger.
         public var text: Swift.String?
 
@@ -6492,7 +6492,7 @@ extension WisdomClientTypes.QuickResponseContentProvider: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The container quick response content.
-    public enum QuickResponseContentProvider: Swift.Equatable {
+    public enum QuickResponseContentProvider {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
@@ -6527,7 +6527,7 @@ extension WisdomClientTypes.QuickResponseContents: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The content of the quick response stored in different media types.
-    public struct QuickResponseContents: Swift.Equatable {
+    public struct QuickResponseContents {
         /// The container quick response content.
         public var markdown: WisdomClientTypes.QuickResponseContentProvider?
         /// The container quick response content.
@@ -6692,7 +6692,7 @@ extension WisdomClientTypes.QuickResponseData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the quick response.
-    public struct QuickResponseData: Swift.Equatable {
+    public struct QuickResponseData {
         /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
@@ -6816,7 +6816,7 @@ extension WisdomClientTypes.QuickResponseDataProvider: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The container of quick response data.
-    public enum QuickResponseDataProvider: Swift.Equatable {
+    public enum QuickResponseDataProvider {
         /// The content of the quick response.
         case content(Swift.String)
         case sdkUnknown(Swift.String)
@@ -6899,7 +6899,7 @@ extension WisdomClientTypes {
     /// * groupingConfiguration.criteria
     ///
     /// * groupingConfiguration.values
-    public struct QuickResponseFilterField: Swift.Equatable {
+    public struct QuickResponseFilterField {
         /// Whether to treat null value as a match for the attribute field.
         public var includeNoExistence: Swift.Bool?
         /// The name of the attribute field to filter the quick responses by.
@@ -7010,7 +7010,7 @@ extension WisdomClientTypes {
     /// * groupingConfiguration.criteria
     ///
     /// * groupingConfiguration.values
-    public struct QuickResponseOrderField: Swift.Equatable {
+    public struct QuickResponseOrderField {
         /// The name of the attribute to order the quick response query results by.
         /// This member is required.
         public var name: Swift.String?
@@ -7094,7 +7094,7 @@ extension WisdomClientTypes {
     /// * description
     ///
     /// * shortcutKey
-    public struct QuickResponseQueryField: Swift.Equatable {
+    public struct QuickResponseQueryField {
         /// Whether the query expects only exact matches on the attribute field values. The results of the query will only include exact matches if this parameter is set to false.
         public var allowFuzziness: Swift.Bool?
         /// The name of the attribute to query the quick responses by.
@@ -7216,7 +7216,7 @@ extension WisdomClientTypes.QuickResponseSearchExpression: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the import job.
-    public struct QuickResponseSearchExpression: Swift.Equatable {
+    public struct QuickResponseSearchExpression {
         /// The configuration of filtering rules applied to quick response query results.
         public var filters: [WisdomClientTypes.QuickResponseFilterField]?
         /// The quick response attribute fields on which the query results are ordered.
@@ -7426,7 +7426,7 @@ extension WisdomClientTypes.QuickResponseSearchResultData: Swift.CustomDebugStri
 
 extension WisdomClientTypes {
     /// The result of quick response search.
-    public struct QuickResponseSearchResultData: Swift.Equatable {
+    public struct QuickResponseSearchResultData {
         /// The user defined contact attributes that are resolved when the search result is returned.
         public var attributesInterpolated: [Swift.String]?
         /// The user defined contact attributes that are not resolved when the search result is returned.
@@ -7704,7 +7704,7 @@ extension WisdomClientTypes.QuickResponseSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The summary information about the quick response.
-    public struct QuickResponseSummary: Swift.Equatable {
+    public struct QuickResponseSummary {
         /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
         public var channels: [Swift.String]?
         /// The media type of the quick response content.
@@ -7828,7 +7828,7 @@ extension WisdomClientTypes.RecommendationData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the recommendation.
-    public struct RecommendationData: Swift.Equatable {
+    public struct RecommendationData {
         /// The recommended document.
         /// This member is required.
         public var document: WisdomClientTypes.Document?
@@ -7952,7 +7952,7 @@ extension WisdomClientTypes.RecommendationTrigger: Swift.Codable {
 
 extension WisdomClientTypes {
     /// A recommendation trigger provides context on the event that produced the referenced recommendations. Recommendations are only referenced in recommendationIds by a single RecommendationTrigger.
-    public struct RecommendationTrigger: Swift.Equatable {
+    public struct RecommendationTrigger {
         /// A union type containing information related to the trigger.
         /// This member is required.
         public var data: WisdomClientTypes.RecommendationTriggerData?
@@ -8020,7 +8020,7 @@ extension WisdomClientTypes.RecommendationTriggerData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// A union type containing information related to the trigger.
-    public enum RecommendationTriggerData: Swift.Equatable {
+    public enum RecommendationTriggerData {
         /// Data associated with the QUERY RecommendationTriggerType.
         case query(WisdomClientTypes.QueryRecommendationTriggerData)
         case sdkUnknown(Swift.String)
@@ -8131,7 +8131,7 @@ extension RemoveKnowledgeBaseTemplateUriInput {
     }
 }
 
-public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
+public struct RemoveKnowledgeBaseTemplateUriInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -8144,7 +8144,7 @@ public struct RemoveKnowledgeBaseTemplateUriInput: Swift.Equatable {
     }
 }
 
-struct RemoveKnowledgeBaseTemplateUriInputBody: Swift.Equatable {
+struct RemoveKnowledgeBaseTemplateUriInputBody {
 }
 
 extension RemoveKnowledgeBaseTemplateUriInputBody: Swift.Decodable {
@@ -8158,7 +8158,7 @@ extension RemoveKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct RemoveKnowledgeBaseTemplateUriOutput: Swift.Equatable {
+public struct RemoveKnowledgeBaseTemplateUriOutput {
 
     public init() { }
 }
@@ -8197,7 +8197,7 @@ extension WisdomClientTypes.RenderingConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about how to render the content.
-    public struct RenderingConfiguration: Swift.Equatable {
+    public struct RenderingConfiguration {
         /// A URI template containing exactly one variable in ${variableName} format. This can only be set for EXTERNAL knowledge bases. For Salesforce, ServiceNow, and Zendesk, the variable must be one of the following:
         ///
         /// * Salesforce: Id, ArticleNumber, VersionNumber, Title, PublishStatus, or IsDeleted
@@ -8259,7 +8259,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct RequestTimeoutExceptionBody: Swift.Equatable {
+struct RequestTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -8320,7 +8320,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -8373,7 +8373,7 @@ extension WisdomClientTypes.ResultData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the result.
-    public struct ResultData: Swift.Equatable {
+    public struct ResultData {
         /// The document.
         /// This member is required.
         public var document: WisdomClientTypes.Document?
@@ -8436,7 +8436,7 @@ extension SearchContentInput {
     }
 }
 
-public struct SearchContentInput: Swift.Equatable {
+public struct SearchContentInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -8462,7 +8462,7 @@ public struct SearchContentInput: Swift.Equatable {
     }
 }
 
-struct SearchContentInputBody: Swift.Equatable {
+struct SearchContentInputBody {
     let searchExpression: WisdomClientTypes.SearchExpression?
 }
 
@@ -8492,7 +8492,7 @@ extension SearchContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchContentOutput: Swift.Equatable {
+public struct SearchContentOutput {
     /// Summary information about the content.
     /// This member is required.
     public var contentSummaries: [WisdomClientTypes.ContentSummary]?
@@ -8509,7 +8509,7 @@ public struct SearchContentOutput: Swift.Equatable {
     }
 }
 
-struct SearchContentOutputBody: Swift.Equatable {
+struct SearchContentOutputBody {
     let contentSummaries: [WisdomClientTypes.ContentSummary]?
     let nextToken: Swift.String?
 }
@@ -8584,7 +8584,7 @@ extension WisdomClientTypes.SearchExpression: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The search expression.
-    public struct SearchExpression: Swift.Equatable {
+    public struct SearchExpression {
         /// The search expression filters.
         /// This member is required.
         public var filters: [WisdomClientTypes.Filter]?
@@ -8650,7 +8650,7 @@ extension SearchQuickResponsesInput {
     }
 }
 
-public struct SearchQuickResponsesInput: Swift.Equatable {
+public struct SearchQuickResponsesInput {
     /// The [user-defined Amazon Connect contact attributes](https://docs.aws.amazon.com/connect/latest/adminguide/connect-attrib-list.html#user-defined-attributes) to be resolved when search results are returned.
     public var attributes: [Swift.String:Swift.String]?
     /// The identifier of the knowledge base. This should be a QUICK_RESPONSES type knowledge base. Can be either the ID or the ARN. URLs cannot contain the ARN.
@@ -8680,7 +8680,7 @@ public struct SearchQuickResponsesInput: Swift.Equatable {
     }
 }
 
-struct SearchQuickResponsesInputBody: Swift.Equatable {
+struct SearchQuickResponsesInputBody {
     let searchExpression: WisdomClientTypes.QuickResponseSearchExpression?
     let attributes: [Swift.String:Swift.String]?
 }
@@ -8723,7 +8723,7 @@ extension SearchQuickResponsesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchQuickResponsesOutput: Swift.Equatable {
+public struct SearchQuickResponsesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The results of the quick response search.
@@ -8740,7 +8740,7 @@ public struct SearchQuickResponsesOutput: Swift.Equatable {
     }
 }
 
-struct SearchQuickResponsesOutputBody: Swift.Equatable {
+struct SearchQuickResponsesOutputBody {
     let results: [WisdomClientTypes.QuickResponseSearchResultData]?
     let nextToken: Swift.String?
 }
@@ -8822,7 +8822,7 @@ extension SearchSessionsInput {
     }
 }
 
-public struct SearchSessionsInput: Swift.Equatable {
+public struct SearchSessionsInput {
     /// The identifier of the Wisdom assistant. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var assistantId: Swift.String?
@@ -8848,7 +8848,7 @@ public struct SearchSessionsInput: Swift.Equatable {
     }
 }
 
-struct SearchSessionsInputBody: Swift.Equatable {
+struct SearchSessionsInputBody {
     let searchExpression: WisdomClientTypes.SearchExpression?
 }
 
@@ -8878,7 +8878,7 @@ extension SearchSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchSessionsOutput: Swift.Equatable {
+public struct SearchSessionsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// Summary information about the sessions.
@@ -8895,7 +8895,7 @@ public struct SearchSessionsOutput: Swift.Equatable {
     }
 }
 
-struct SearchSessionsOutputBody: Swift.Equatable {
+struct SearchSessionsOutputBody {
     let sessionSummaries: [WisdomClientTypes.SessionSummary]?
     let nextToken: Swift.String?
 }
@@ -8958,7 +8958,7 @@ extension WisdomClientTypes.ServerSideEncryptionConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information for the customer managed key used for encryption.
-    public struct ServerSideEncryptionConfiguration: Swift.Equatable {
+    public struct ServerSideEncryptionConfiguration {
         /// The customer managed key used for encryption. For more information about setting up a customer managed key for Wisdom, see [Enable Amazon Connect Wisdom for your instance](https://docs.aws.amazon.com/connect/latest/adminguide/enable-wisdom.html). For information about valid ID values, see [Key identifiers (KeyId)](https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id).
         public var kmsKeyId: Swift.String?
 
@@ -9011,7 +9011,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9090,7 +9090,7 @@ extension WisdomClientTypes.SessionData: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Information about the session.
-    public struct SessionData: Swift.Equatable {
+    public struct SessionData {
         /// The description of the session.
         public var description: Swift.String?
         /// The configuration information for the session integration.
@@ -9148,7 +9148,7 @@ extension WisdomClientTypes.SessionIntegrationConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// The configuration information for the session integration.
-    public struct SessionIntegrationConfiguration: Swift.Equatable {
+    public struct SessionIntegrationConfiguration {
         /// The Amazon Resource Name (ARN) of the integrated Amazon SNS topic used for streaming chat messages.
         public var topicIntegrationArn: Swift.String?
 
@@ -9201,7 +9201,7 @@ extension WisdomClientTypes.SessionSummary: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Summary information about the session.
-    public struct SessionSummary: Swift.Equatable {
+    public struct SessionSummary {
         /// The Amazon Resource Name (ARN) of the Wisdom assistant.
         /// This member is required.
         public var assistantArn: Swift.String?
@@ -9260,7 +9260,7 @@ extension WisdomClientTypes.SourceConfiguration: Swift.Codable {
 
 extension WisdomClientTypes {
     /// Configuration information about the external data source.
-    public enum SourceConfiguration: Swift.Equatable {
+    public enum SourceConfiguration {
         /// Configuration information for Amazon AppIntegrations to automatically ingest content.
         case appintegrations(WisdomClientTypes.AppIntegrationsConfiguration)
         case sdkUnknown(Swift.String)
@@ -9295,7 +9295,7 @@ extension StartContentUploadInput {
     }
 }
 
-public struct StartContentUploadInput: Swift.Equatable {
+public struct StartContentUploadInput {
     /// The type of content to upload.
     /// This member is required.
     public var contentType: Swift.String?
@@ -9317,7 +9317,7 @@ public struct StartContentUploadInput: Swift.Equatable {
     }
 }
 
-struct StartContentUploadInputBody: Swift.Equatable {
+struct StartContentUploadInputBody {
     let contentType: Swift.String?
     let presignedUrlTimeToLive: Swift.Int?
 }
@@ -9360,7 +9360,7 @@ extension StartContentUploadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartContentUploadOutput: Swift.Equatable {
+public struct StartContentUploadOutput {
     /// The headers to include in the upload.
     /// This member is required.
     public var headersToInclude: [Swift.String:Swift.String]?
@@ -9388,7 +9388,7 @@ public struct StartContentUploadOutput: Swift.Equatable {
     }
 }
 
-struct StartContentUploadOutputBody: Swift.Equatable {
+struct StartContentUploadOutputBody {
     let uploadId: Swift.String?
     let url: Swift.String?
     let urlExpiry: ClientRuntime.Date?
@@ -9480,7 +9480,7 @@ extension StartImportJobInput {
     }
 }
 
-public struct StartImportJobInput: Swift.Equatable {
+public struct StartImportJobInput {
     /// The tags used to organize, track, or control access for this resource.
     public var clientToken: Swift.String?
     /// The configuration information of the external source that the resource data are imported from.
@@ -9519,7 +9519,7 @@ public struct StartImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartImportJobInputBody: Swift.Equatable {
+struct StartImportJobInputBody {
     let importJobType: WisdomClientTypes.ImportJobType?
     let uploadId: Swift.String?
     let clientToken: Swift.String?
@@ -9572,7 +9572,7 @@ extension StartImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportJobOutput: Swift.Equatable {
+public struct StartImportJobOutput {
     /// The import job.
     public var importJob: WisdomClientTypes.ImportJobData?
 
@@ -9584,7 +9584,7 @@ public struct StartImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartImportJobOutputBody: Swift.Equatable {
+struct StartImportJobOutputBody {
     let importJob: WisdomClientTypes.ImportJobData?
 }
 
@@ -9641,7 +9641,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9659,7 +9659,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -9689,7 +9689,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -9751,7 +9751,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -9797,7 +9797,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9815,7 +9815,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -9829,7 +9829,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -9894,7 +9894,7 @@ extension UpdateContentInput {
     }
 }
 
-public struct UpdateContentInput: Swift.Equatable {
+public struct UpdateContentInput {
     /// The identifier of the content. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var contentId: Swift.String?
@@ -9936,7 +9936,7 @@ public struct UpdateContentInput: Swift.Equatable {
     }
 }
 
-struct UpdateContentInputBody: Swift.Equatable {
+struct UpdateContentInputBody {
     let revisionId: Swift.String?
     let title: Swift.String?
     let overrideLinkOutUri: Swift.String?
@@ -9993,7 +9993,7 @@ extension UpdateContentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContentOutput: Swift.Equatable {
+public struct UpdateContentOutput {
     /// The content.
     public var content: WisdomClientTypes.ContentData?
 
@@ -10005,7 +10005,7 @@ public struct UpdateContentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateContentOutputBody: Swift.Equatable {
+struct UpdateContentOutputBody {
     let content: WisdomClientTypes.ContentData?
 }
 
@@ -10058,7 +10058,7 @@ extension UpdateKnowledgeBaseTemplateUriInput {
     }
 }
 
-public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
+public struct UpdateKnowledgeBaseTemplateUriInput {
     /// The identifier of the knowledge base. This should not be a QUICK_RESPONSES type knowledge base if you're storing Wisdom Content resource to it. Can be either the ID or the ARN. URLs cannot contain the ARN.
     /// This member is required.
     public var knowledgeBaseId: Swift.String?
@@ -10076,7 +10076,7 @@ public struct UpdateKnowledgeBaseTemplateUriInput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseTemplateUriInputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseTemplateUriInputBody {
     let templateUri: Swift.String?
 }
 
@@ -10104,7 +10104,7 @@ extension UpdateKnowledgeBaseTemplateUriOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
+public struct UpdateKnowledgeBaseTemplateUriOutput {
     /// The knowledge base to update.
     public var knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 
@@ -10116,7 +10116,7 @@ public struct UpdateKnowledgeBaseTemplateUriOutput: Swift.Equatable {
     }
 }
 
-struct UpdateKnowledgeBaseTemplateUriOutputBody: Swift.Equatable {
+struct UpdateKnowledgeBaseTemplateUriOutputBody {
     let knowledgeBase: WisdomClientTypes.KnowledgeBaseData?
 }
 
@@ -10218,7 +10218,7 @@ extension UpdateQuickResponseInput {
     }
 }
 
-public struct UpdateQuickResponseInput: Swift.Equatable {
+public struct UpdateQuickResponseInput {
     /// The Amazon Connect contact channels this quick response applies to. The supported contact channel types include Chat.
     public var channels: [Swift.String]?
     /// The updated content of the quick response.
@@ -10288,7 +10288,7 @@ public struct UpdateQuickResponseInput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickResponseInputBody: Swift.Equatable {
+struct UpdateQuickResponseInputBody {
     let name: Swift.String?
     let content: WisdomClientTypes.QuickResponseDataProvider?
     let contentType: Swift.String?
@@ -10369,7 +10369,7 @@ extension UpdateQuickResponseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQuickResponseOutput: Swift.Equatable {
+public struct UpdateQuickResponseOutput {
     /// The quick response.
     public var quickResponse: WisdomClientTypes.QuickResponseData?
 
@@ -10381,7 +10381,7 @@ public struct UpdateQuickResponseOutput: Swift.Equatable {
     }
 }
 
-struct UpdateQuickResponseOutputBody: Swift.Equatable {
+struct UpdateQuickResponseOutputBody {
     let quickResponse: WisdomClientTypes.QuickResponseData?
 }
 
@@ -10451,7 +10451,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

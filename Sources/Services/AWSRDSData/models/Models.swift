@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -178,7 +178,7 @@ extension RDSDataClientTypes.ArrayValue: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains an array.
-    public indirect enum ArrayValue: Swift.Equatable {
+    public indirect enum ArrayValue {
         /// An array of Boolean values.
         case booleanvalues([Swift.Bool])
         /// An array of integers.
@@ -234,7 +234,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -301,7 +301,7 @@ extension BatchExecuteStatementInput {
 }
 
 /// The request parameters represent the input of a SQL statement over an array of data.
-public struct BatchExecuteStatementInput: Swift.Equatable {
+public struct BatchExecuteStatementInput {
     /// The name of the database.
     public var database: Swift.String?
     /// The parameter set for the batch operation. The SQL statement is executed as many times as the number of parameter sets provided. To execute a SQL statement with no parameters, use one of the following options:
@@ -347,7 +347,7 @@ public struct BatchExecuteStatementInput: Swift.Equatable {
     }
 }
 
-struct BatchExecuteStatementInputBody: Swift.Equatable {
+struct BatchExecuteStatementInputBody {
     let resourceArn: Swift.String?
     let secretArn: Swift.String?
     let sql: Swift.String?
@@ -418,7 +418,7 @@ extension BatchExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a SQL statement over an array of data.
-public struct BatchExecuteStatementOutput: Swift.Equatable {
+public struct BatchExecuteStatementOutput {
     /// The execution results of each batch entry.
     public var updateResults: [RDSDataClientTypes.UpdateResult]?
 
@@ -430,7 +430,7 @@ public struct BatchExecuteStatementOutput: Swift.Equatable {
     }
 }
 
-struct BatchExecuteStatementOutputBody: Swift.Equatable {
+struct BatchExecuteStatementOutputBody {
     let updateResults: [RDSDataClientTypes.UpdateResult]?
 }
 
@@ -511,7 +511,7 @@ extension BeginTransactionInput {
 }
 
 /// The request parameters represent the input of a request to start a SQL transaction.
-public struct BeginTransactionInput: Swift.Equatable {
+public struct BeginTransactionInput {
     /// The name of the database.
     public var database: Swift.String?
     /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
@@ -537,7 +537,7 @@ public struct BeginTransactionInput: Swift.Equatable {
     }
 }
 
-struct BeginTransactionInputBody: Swift.Equatable {
+struct BeginTransactionInputBody {
     let resourceArn: Swift.String?
     let secretArn: Swift.String?
     let database: Swift.String?
@@ -578,7 +578,7 @@ extension BeginTransactionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to start a SQL transaction.
-public struct BeginTransactionOutput: Swift.Equatable {
+public struct BeginTransactionOutput {
     /// The transaction ID of the transaction started by the call.
     public var transactionId: Swift.String?
 
@@ -590,7 +590,7 @@ public struct BeginTransactionOutput: Swift.Equatable {
     }
 }
 
-struct BeginTransactionOutputBody: Swift.Equatable {
+struct BeginTransactionOutputBody {
     let transactionId: Swift.String?
 }
 
@@ -728,7 +728,7 @@ extension RDSDataClientTypes.ColumnMetadata: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains the metadata for a column.
-    public struct ColumnMetadata: Swift.Equatable {
+    public struct ColumnMetadata {
         /// The type of the column.
         public var arrayBaseColumnType: Swift.Int
         /// A value that indicates whether the column increments automatically.
@@ -823,7 +823,7 @@ extension CommitTransactionInput {
 }
 
 /// The request parameters represent the input of a commit transaction request.
-public struct CommitTransactionInput: Swift.Equatable {
+public struct CommitTransactionInput {
     /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -846,7 +846,7 @@ public struct CommitTransactionInput: Swift.Equatable {
     }
 }
 
-struct CommitTransactionInputBody: Swift.Equatable {
+struct CommitTransactionInputBody {
     let resourceArn: Swift.String?
     let secretArn: Swift.String?
     let transactionId: Swift.String?
@@ -883,7 +883,7 @@ extension CommitTransactionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a commit transaction request.
-public struct CommitTransactionOutput: Swift.Equatable {
+public struct CommitTransactionOutput {
     /// The status of the commit operation.
     public var transactionStatus: Swift.String?
 
@@ -895,7 +895,7 @@ public struct CommitTransactionOutput: Swift.Equatable {
     }
 }
 
-struct CommitTransactionOutputBody: Swift.Equatable {
+struct CommitTransactionOutputBody {
     let transactionStatus: Swift.String?
 }
 
@@ -974,7 +974,7 @@ public struct DatabaseErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct DatabaseErrorExceptionBody: Swift.Equatable {
+struct DatabaseErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -1029,7 +1029,7 @@ public struct DatabaseNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DatabaseNotFoundExceptionBody: Swift.Equatable {
+struct DatabaseNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1135,7 +1135,7 @@ extension ExecuteSqlInput {
 }
 
 /// The request parameters represent the input of a request to run one or more SQL statements.
-public struct ExecuteSqlInput: Swift.Equatable {
+public struct ExecuteSqlInput {
     /// The Amazon Resource Name (ARN) of the secret that enables access to the DB cluster. Enter the database user name and password for the credentials in the secret. For information about creating the secret, see [Create a database secret](https://docs.aws.amazon.com/secretsmanager/latest/userguide/create_database_secret.html).
     /// This member is required.
     public var awsSecretStoreArn: Swift.String?
@@ -1166,7 +1166,7 @@ public struct ExecuteSqlInput: Swift.Equatable {
     }
 }
 
-struct ExecuteSqlInputBody: Swift.Equatable {
+struct ExecuteSqlInputBody {
     let dbClusterOrInstanceArn: Swift.String?
     let awsSecretStoreArn: Swift.String?
     let sqlStatements: Swift.String?
@@ -1211,7 +1211,7 @@ extension ExecuteSqlOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to run one or more SQL statements.
-public struct ExecuteSqlOutput: Swift.Equatable {
+public struct ExecuteSqlOutput {
     /// The results of the SQL statement or statements.
     public var sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]?
 
@@ -1223,7 +1223,7 @@ public struct ExecuteSqlOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteSqlOutputBody: Swift.Equatable {
+struct ExecuteSqlOutputBody {
     let sqlStatementResults: [RDSDataClientTypes.SqlStatementResult]?
 }
 
@@ -1327,7 +1327,7 @@ extension ExecuteStatementInput {
 }
 
 /// The request parameters represent the input of a request to run a SQL statement against a database.
-public struct ExecuteStatementInput: Swift.Equatable {
+public struct ExecuteStatementInput {
     /// A value that indicates whether to continue running the statement after the call times out. By default, the statement stops running when the call times out. For DDL statements, we recommend continuing to run the statement after the call times out. When a DDL statement terminates before it is finished running, it can result in errors and possibly corrupted data structures.
     public var continueAfterTimeout: Swift.Bool
     /// The name of the database.
@@ -1382,7 +1382,7 @@ public struct ExecuteStatementInput: Swift.Equatable {
     }
 }
 
-struct ExecuteStatementInputBody: Swift.Equatable {
+struct ExecuteStatementInputBody {
     let resourceArn: Swift.String?
     let secretArn: Swift.String?
     let sql: Swift.String?
@@ -1468,7 +1468,7 @@ extension ExecuteStatementOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to run a SQL statement against a database.
-public struct ExecuteStatementOutput: Swift.Equatable {
+public struct ExecuteStatementOutput {
     /// Metadata for the columns included in the results. This field is blank if the formatRecordsAs parameter is set to JSON.
     public var columnMetadata: [RDSDataClientTypes.ColumnMetadata]?
     /// A string value that represents the result set of a SELECT statement in JSON format. This value is only present when the formatRecordsAs parameter is set to JSON. The size limit for this field is currently 10 MB. If the JSON-formatted string representing the result set requires more than 10 MB, the call returns an error.
@@ -1496,7 +1496,7 @@ public struct ExecuteStatementOutput: Swift.Equatable {
     }
 }
 
-struct ExecuteStatementOutputBody: Swift.Equatable {
+struct ExecuteStatementOutputBody {
     let records: [[RDSDataClientTypes.Field]]?
     let columnMetadata: [RDSDataClientTypes.ColumnMetadata]?
     let numberOfRecordsUpdated: Swift.Int
@@ -1665,7 +1665,7 @@ extension RDSDataClientTypes.Field: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains a value.
-    public indirect enum Field: Swift.Equatable {
+    public indirect enum Field {
         /// A NULL value.
         case isnull(Swift.Bool)
         /// A value of Boolean data type.
@@ -1725,7 +1725,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1780,7 +1780,7 @@ public struct HttpEndpointNotEnabledException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct HttpEndpointNotEnabledExceptionBody: Swift.Equatable {
+struct HttpEndpointNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -1856,7 +1856,7 @@ public struct InvalidSecretException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidSecretExceptionBody: Swift.Equatable {
+struct InvalidSecretExceptionBody {
     let message: Swift.String?
 }
 
@@ -1944,7 +1944,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1995,7 +1995,7 @@ extension RDSDataClientTypes.Record: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// A record returned by a call. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The values returned in the record.
         public var values: [RDSDataClientTypes.Value]?
 
@@ -2080,7 +2080,7 @@ extension RDSDataClientTypes.ResultFrame: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// The result set returned by a SQL statement. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct ResultFrame: Swift.Equatable {
+    public struct ResultFrame {
         /// The records in the result set.
         public var records: [RDSDataClientTypes.Record]?
         /// The result-set metadata in the result set.
@@ -2137,7 +2137,7 @@ extension RDSDataClientTypes.ResultSetMetadata: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// The metadata of the result set returned by a SQL statement.
-    public struct ResultSetMetadata: Swift.Equatable {
+    public struct ResultSetMetadata {
         /// The number of columns in the result set.
         public var columnCount: Swift.Int
         /// The metadata of the columns in the result set.
@@ -2182,7 +2182,7 @@ extension RDSDataClientTypes.ResultSetOptions: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Options that control how the result set is returned.
-    public struct ResultSetOptions: Swift.Equatable {
+    public struct ResultSetOptions {
         /// A value that indicates how a field of DECIMAL type is represented in the response. The value of STRING, the default, specifies that it is converted to a String value. The value of DOUBLE_OR_LONG specifies that it is converted to a Long value if its scale is 0, or to a Double value otherwise. Conversion to Double or Long can result in roundoff errors due to precision loss. We recommend converting to String, especially when working with currency values.
         public var decimalReturnType: RDSDataClientTypes.DecimalReturnType?
         /// A value that indicates how a field of LONG type is represented. Allowed values are LONG and STRING. The default is LONG. Specify STRING if the length or precision of numeric values might cause truncation or rounding errors.
@@ -2229,7 +2229,7 @@ extension RollbackTransactionInput {
 }
 
 /// The request parameters represent the input of a request to perform a rollback of a transaction.
-public struct RollbackTransactionInput: Swift.Equatable {
+public struct RollbackTransactionInput {
     /// The Amazon Resource Name (ARN) of the Aurora Serverless DB cluster.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2252,7 +2252,7 @@ public struct RollbackTransactionInput: Swift.Equatable {
     }
 }
 
-struct RollbackTransactionInputBody: Swift.Equatable {
+struct RollbackTransactionInputBody {
     let resourceArn: Swift.String?
     let secretArn: Swift.String?
     let transactionId: Swift.String?
@@ -2289,7 +2289,7 @@ extension RollbackTransactionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response elements represent the output of a request to perform a rollback of a transaction.
-public struct RollbackTransactionOutput: Swift.Equatable {
+public struct RollbackTransactionOutput {
     /// The status of the rollback operation.
     public var transactionStatus: Swift.String?
 
@@ -2301,7 +2301,7 @@ public struct RollbackTransactionOutput: Swift.Equatable {
     }
 }
 
-struct RollbackTransactionOutputBody: Swift.Equatable {
+struct RollbackTransactionOutputBody {
     let transactionStatus: Swift.String?
 }
 
@@ -2386,7 +2386,7 @@ public struct SecretsErrorException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct SecretsErrorExceptionBody: Swift.Equatable {
+struct SecretsErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2456,7 +2456,7 @@ extension RDSDataClientTypes.SqlParameter: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// A parameter used in a SQL statement.
-    public struct SqlParameter: Swift.Equatable {
+    public struct SqlParameter {
         /// The name of the parameter.
         public var name: Swift.String?
         /// A hint that specifies the correct object type for data type mapping. Possible values are as follows:
@@ -2517,7 +2517,7 @@ extension RDSDataClientTypes.SqlStatementResult: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// The result of a SQL statement. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct SqlStatementResult: Swift.Equatable {
+    public struct SqlStatementResult {
         /// The number of records updated by a SQL statement.
         public var numberOfRecordsUpdated: Swift.Int
         /// The result set of the SQL statement.
@@ -2581,7 +2581,7 @@ public struct StatementTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct StatementTimeoutExceptionBody: Swift.Equatable {
+struct StatementTimeoutExceptionBody {
     let message: Swift.String?
     let dbConnectionId: Swift.Int
 }
@@ -2634,7 +2634,7 @@ extension RDSDataClientTypes.StructValue: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// A structure value returned by a call. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public struct StructValue: Swift.Equatable {
+    public struct StructValue {
         /// The attributes returned in the record.
         public var attributes: [RDSDataClientTypes.Value]?
 
@@ -2687,7 +2687,7 @@ public struct TransactionNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct TransactionNotFoundExceptionBody: Swift.Equatable {
+struct TransactionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2792,7 +2792,7 @@ public struct UnsupportedResultException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct UnsupportedResultExceptionBody: Swift.Equatable {
+struct UnsupportedResultExceptionBody {
     let message: Swift.String?
 }
 
@@ -2841,7 +2841,7 @@ extension RDSDataClientTypes.UpdateResult: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// The response elements represent the results of an update.
-    public struct UpdateResult: Swift.Equatable {
+    public struct UpdateResult {
         /// Values for fields generated during the request.
         public var generatedFields: [RDSDataClientTypes.Field]?
 
@@ -2968,7 +2968,7 @@ extension RDSDataClientTypes.Value: Swift.Codable {
 
 extension RDSDataClientTypes {
     /// Contains the value of a column. This data structure is only used with the deprecated ExecuteSql operation. Use the BatchExecuteStatement or ExecuteStatement operation instead.
-    public indirect enum Value: Swift.Equatable {
+    public indirect enum Value {
         /// A NULL value.
         case isnull(Swift.Bool)
         /// A value for a column of BIT data type.

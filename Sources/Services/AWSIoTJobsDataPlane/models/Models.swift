@@ -42,7 +42,7 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct CertificateValidationExceptionBody: Swift.Equatable {
+struct CertificateValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -87,7 +87,7 @@ extension DescribeJobExecutionInput {
     }
 }
 
-public struct DescribeJobExecutionInput: Swift.Equatable {
+public struct DescribeJobExecutionInput {
     /// Optional. A number that identifies a particular job execution on a particular device. If not specified, the latest job execution is returned.
     public var executionNumber: Swift.Int?
     /// Optional. When set to true, the response contains the job document. The default is false.
@@ -113,7 +113,7 @@ public struct DescribeJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobExecutionInputBody: Swift.Equatable {
+struct DescribeJobExecutionInputBody {
 }
 
 extension DescribeJobExecutionInputBody: Swift.Decodable {
@@ -134,7 +134,7 @@ extension DescribeJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobExecutionOutput: Swift.Equatable {
+public struct DescribeJobExecutionOutput {
     /// Contains data about a job execution.
     public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
 
@@ -146,7 +146,7 @@ public struct DescribeJobExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobExecutionOutputBody: Swift.Equatable {
+struct DescribeJobExecutionOutputBody {
     let execution: IoTJobsDataPlaneClientTypes.JobExecution?
 }
 
@@ -188,7 +188,7 @@ extension GetPendingJobExecutionsInput {
     }
 }
 
-public struct GetPendingJobExecutionsInput: Swift.Equatable {
+public struct GetPendingJobExecutionsInput {
     /// The name of the thing that is executing the job.
     /// This member is required.
     public var thingName: Swift.String?
@@ -201,7 +201,7 @@ public struct GetPendingJobExecutionsInput: Swift.Equatable {
     }
 }
 
-struct GetPendingJobExecutionsInputBody: Swift.Equatable {
+struct GetPendingJobExecutionsInputBody {
 }
 
 extension GetPendingJobExecutionsInputBody: Swift.Decodable {
@@ -224,7 +224,7 @@ extension GetPendingJobExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPendingJobExecutionsOutput: Swift.Equatable {
+public struct GetPendingJobExecutionsOutput {
     /// A list of JobExecutionSummary objects with status IN_PROGRESS.
     public var inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
     /// A list of JobExecutionSummary objects with status QUEUED.
@@ -240,7 +240,7 @@ public struct GetPendingJobExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct GetPendingJobExecutionsOutputBody: Swift.Equatable {
+struct GetPendingJobExecutionsOutputBody {
     let inProgressJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
     let queuedJobs: [IoTJobsDataPlaneClientTypes.JobExecutionSummary]?
 }
@@ -333,7 +333,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -388,7 +388,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidStateTransitionExceptionBody: Swift.Equatable {
+struct InvalidStateTransitionExceptionBody {
     let message: Swift.String?
 }
 
@@ -499,7 +499,7 @@ extension IoTJobsDataPlaneClientTypes.JobExecution: Swift.Codable {
 
 extension IoTJobsDataPlaneClientTypes {
     /// Contains data about a job execution.
-    public struct JobExecution: Swift.Equatable {
+    public struct JobExecution {
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT.
         public var approximateSecondsBeforeTimedOut: Swift.Int?
         /// A number that identifies a particular job execution on a particular device. It can be used later in commands that return or update job execution information.
@@ -598,7 +598,7 @@ extension IoTJobsDataPlaneClientTypes.JobExecutionState: Swift.Codable {
 
 extension IoTJobsDataPlaneClientTypes {
     /// Contains data about the state of a job execution.
-    public struct JobExecutionState: Swift.Equatable {
+    public struct JobExecutionState {
         /// The status of the job execution. Can be one of: "QUEUED", "IN_PROGRESS", "FAILED", "SUCCESS", "CANCELED", "REJECTED", or "REMOVED".
         public var status: IoTJobsDataPlaneClientTypes.JobExecutionStatus?
         /// A collection of name/value pairs that describe the status of the job execution.
@@ -721,7 +721,7 @@ extension IoTJobsDataPlaneClientTypes.JobExecutionSummary: Swift.Codable {
 
 extension IoTJobsDataPlaneClientTypes {
     /// Contains a subset of information about a job execution.
-    public struct JobExecutionSummary: Swift.Equatable {
+    public struct JobExecutionSummary {
         /// A number that identifies a particular job execution on a particular device.
         public var executionNumber: Swift.Int?
         /// The unique identifier you assigned to this job when it was created.
@@ -795,7 +795,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -851,7 +851,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -897,7 +897,7 @@ extension StartNextPendingJobExecutionInput {
     }
 }
 
-public struct StartNextPendingJobExecutionInput: Swift.Equatable {
+public struct StartNextPendingJobExecutionInput {
     /// A collection of name/value pairs that describe the status of the job execution. If not specified, the statusDetails are unchanged.
     public var statusDetails: [Swift.String:Swift.String]?
     /// Specifies the amount of time this device has to finish execution of this job. If the job execution status is not set to a terminal state before this timer expires, or before the timer is reset (by calling UpdateJobExecution, setting the status to IN_PROGRESS and specifying a new timeout value in field stepTimeoutInMinutes) the job execution status will be automatically set to TIMED_OUT. Note that setting this timeout has no effect on that job execution timeout which may have been specified when the job was created (CreateJob using field timeoutConfig).
@@ -918,7 +918,7 @@ public struct StartNextPendingJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartNextPendingJobExecutionInputBody: Swift.Equatable {
+struct StartNextPendingJobExecutionInputBody {
     let statusDetails: [Swift.String:Swift.String]?
     let stepTimeoutInMinutes: Swift.Int?
 }
@@ -959,7 +959,7 @@ extension StartNextPendingJobExecutionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StartNextPendingJobExecutionOutput: Swift.Equatable {
+public struct StartNextPendingJobExecutionOutput {
     /// A JobExecution object.
     public var execution: IoTJobsDataPlaneClientTypes.JobExecution?
 
@@ -971,7 +971,7 @@ public struct StartNextPendingJobExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartNextPendingJobExecutionOutputBody: Swift.Equatable {
+struct StartNextPendingJobExecutionOutputBody {
     let execution: IoTJobsDataPlaneClientTypes.JobExecution?
 }
 
@@ -1041,7 +1041,7 @@ public struct TerminalStateException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct TerminalStateExceptionBody: Swift.Equatable {
+struct TerminalStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -1103,7 +1103,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let payload: ClientRuntime.Data?
 }
@@ -1176,7 +1176,7 @@ extension UpdateJobExecutionInput {
     }
 }
 
-public struct UpdateJobExecutionInput: Swift.Equatable {
+public struct UpdateJobExecutionInput {
     /// Optional. A number that identifies a particular job execution on a particular device.
     public var executionNumber: Swift.Int?
     /// Optional. The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
@@ -1223,7 +1223,7 @@ public struct UpdateJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobExecutionInputBody: Swift.Equatable {
+struct UpdateJobExecutionInputBody {
     let status: IoTJobsDataPlaneClientTypes.JobExecutionStatus?
     let statusDetails: [Swift.String:Swift.String]?
     let stepTimeoutInMinutes: Swift.Int?
@@ -1286,7 +1286,7 @@ extension UpdateJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobExecutionOutput: Swift.Equatable {
+public struct UpdateJobExecutionOutput {
     /// A JobExecutionState object.
     public var executionState: IoTJobsDataPlaneClientTypes.JobExecutionState?
     /// The contents of the Job Documents.
@@ -1302,7 +1302,7 @@ public struct UpdateJobExecutionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJobExecutionOutputBody: Swift.Equatable {
+struct UpdateJobExecutionOutputBody {
     let executionState: IoTJobsDataPlaneClientTypes.JobExecutionState?
     let jobDocument: Swift.String?
 }

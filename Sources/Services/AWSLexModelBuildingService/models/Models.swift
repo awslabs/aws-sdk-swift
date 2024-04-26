@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -175,7 +175,7 @@ extension LexModelBuildingClientTypes.BotAliasMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a bot alias.
-    public struct BotAliasMetadata: Swift.Equatable {
+    public struct BotAliasMetadata {
         /// The name of the bot to which the alias points.
         public var botName: Swift.String?
         /// The version of the Amazon Lex bot to which the alias points.
@@ -303,7 +303,7 @@ extension LexModelBuildingClientTypes.BotChannelAssociation: Swift.CustomDebugSt
 
 extension LexModelBuildingClientTypes {
     /// Represents an association between an Amazon Lex bot and an external messaging platform.
-    public struct BotChannelAssociation: Swift.Equatable {
+    public struct BotChannelAssociation {
         /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
         public var botAlias: Swift.String?
         /// Provides information necessary to communicate with the messaging platform.
@@ -406,7 +406,7 @@ extension LexModelBuildingClientTypes.BotMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a bot. .
-    public struct BotMetadata: Swift.Equatable {
+    public struct BotMetadata {
         /// The date that the bot was created.
         public var createdDate: ClientRuntime.Date?
         /// A description of the bot.
@@ -479,7 +479,7 @@ extension LexModelBuildingClientTypes.BuiltinIntentMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides metadata for a built-in intent.
-    public struct BuiltinIntentMetadata: Swift.Equatable {
+    public struct BuiltinIntentMetadata {
         /// A unique identifier for the built-in intent. To find the signature for an intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents) in the Alexa Skills Kit.
         public var signature: Swift.String?
         /// A list of identifiers for the locales that the intent supports.
@@ -518,7 +518,7 @@ extension LexModelBuildingClientTypes.BuiltinIntentSlot: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a slot used in a built-in intent.
-    public struct BuiltinIntentSlot: Swift.Equatable {
+    public struct BuiltinIntentSlot {
         /// A list of the slots defined for the intent.
         public var name: Swift.String?
 
@@ -571,7 +571,7 @@ extension LexModelBuildingClientTypes.BuiltinSlotTypeMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a built in slot type.
-    public struct BuiltinSlotTypeMetadata: Swift.Equatable {
+    public struct BuiltinSlotTypeMetadata {
         /// A unique identifier for the built-in slot type. To find the signature for a slot type, see [Slot Type Reference](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/slot-type-reference) in the Alexa Skills Kit.
         public var signature: Swift.String?
         /// A list of target locales for the slot.
@@ -689,7 +689,7 @@ extension LexModelBuildingClientTypes.CodeHook: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot..
-    public struct CodeHook: Swift.Equatable {
+    public struct CodeHook {
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function. For more information, see [using-lambda].
         /// This member is required.
         public var messageVersion: Swift.String?
@@ -748,7 +748,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -838,7 +838,7 @@ extension LexModelBuildingClientTypes.ConversationLogsRequest: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides the settings needed for conversation logs.
-    public struct ConversationLogsRequest: Swift.Equatable {
+    public struct ConversationLogsRequest {
         /// The Amazon Resource Name (ARN) of an IAM role with permission to write to your CloudWatch Logs for text logs and your S3 bucket for audio logs. If audio encryption is enabled, this role also provides access permission for the AWS KMS key used for encrypting audio logs. For more information, see [Creating an IAM Role and Policy for Conversation Logs](https://docs.aws.amazon.com/lex/latest/dg/conversation-logs-role-and-policy.html).
         /// This member is required.
         public var iamRoleArn: Swift.String?
@@ -897,7 +897,7 @@ extension LexModelBuildingClientTypes.ConversationLogsResponse: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Contains information about conversation log settings.
-    public struct ConversationLogsResponse: Swift.Equatable {
+    public struct ConversationLogsResponse {
         /// The Amazon Resource Name (ARN) of the IAM role used to write your logs to CloudWatch Logs or an S3 bucket.
         public var iamRoleArn: Swift.String?
         /// The settings for your conversation logs. You can log text, audio, or both.
@@ -938,7 +938,7 @@ extension CreateBotVersionInput {
     }
 }
 
-public struct CreateBotVersionInput: Swift.Equatable {
+public struct CreateBotVersionInput {
     /// Identifies a specific revision of the $LATEST version of the bot. If you specify a checksum and the $LATEST version of the bot has a different checksum, a PreconditionFailedException exception is returned and Amazon Lex doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
     /// The name of the bot that you want to create a new version of. The name is case sensitive.
@@ -955,7 +955,7 @@ public struct CreateBotVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateBotVersionInputBody: Swift.Equatable {
+struct CreateBotVersionInputBody {
     let checksum: Swift.String?
 }
 
@@ -1015,7 +1015,7 @@ extension CreateBotVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotVersionOutput: Swift.Equatable {
+public struct CreateBotVersionOutput {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
     /// Checksum identifying the version of the bot that was created.
@@ -1091,7 +1091,7 @@ public struct CreateBotVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotVersionOutputBody: Swift.Equatable {
+struct CreateBotVersionOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let intents: [LexModelBuildingClientTypes.Intent]?
@@ -1219,7 +1219,7 @@ extension CreateIntentVersionInput {
     }
 }
 
-public struct CreateIntentVersionInput: Swift.Equatable {
+public struct CreateIntentVersionInput {
     /// Checksum of the $LATEST version of the intent that should be used to create the new version. If you specify a checksum and the $LATEST version of the intent has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish a new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
     /// The name of the intent that you want to create a new version of. The name is case sensitive.
@@ -1236,7 +1236,7 @@ public struct CreateIntentVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateIntentVersionInputBody: Swift.Equatable {
+struct CreateIntentVersionInputBody {
     let checksum: Swift.String?
 }
 
@@ -1298,7 +1298,7 @@ extension CreateIntentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIntentVersionOutput: Swift.Equatable {
+public struct CreateIntentVersionOutput {
     /// Checksum of the intent version created.
     public var checksum: Swift.String?
     /// After the Lambda function specified in the fulfillmentActivity field fulfills the intent, Amazon Lex conveys this statement to the user.
@@ -1378,7 +1378,7 @@ public struct CreateIntentVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateIntentVersionOutputBody: Swift.Equatable {
+struct CreateIntentVersionOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let slots: [LexModelBuildingClientTypes.Slot]?
@@ -1537,7 +1537,7 @@ extension CreateSlotTypeVersionInput {
     }
 }
 
-public struct CreateSlotTypeVersionInput: Swift.Equatable {
+public struct CreateSlotTypeVersionInput {
     /// Checksum for the $LATEST version of the slot type that you want to publish. If you specify a checksum and the $LATEST version of the slot type has a different checksum, Amazon Lex returns a PreconditionFailedException exception and doesn't publish the new version. If you don't specify a checksum, Amazon Lex publishes the $LATEST version.
     public var checksum: Swift.String?
     /// The name of the slot type that you want to create a new version for. The name is case sensitive.
@@ -1554,7 +1554,7 @@ public struct CreateSlotTypeVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateSlotTypeVersionInputBody: Swift.Equatable {
+struct CreateSlotTypeVersionInputBody {
     let checksum: Swift.String?
 }
 
@@ -1600,7 +1600,7 @@ extension CreateSlotTypeVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSlotTypeVersionOutput: Swift.Equatable {
+public struct CreateSlotTypeVersionOutput {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
     /// The date that the slot type was created.
@@ -1648,7 +1648,7 @@ public struct CreateSlotTypeVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSlotTypeVersionOutputBody: Swift.Equatable {
+struct CreateSlotTypeVersionOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
@@ -1747,7 +1747,7 @@ extension DeleteBotAliasInput {
     }
 }
 
-public struct DeleteBotAliasInput: Swift.Equatable {
+public struct DeleteBotAliasInput {
     /// The name of the bot that the alias points to.
     /// This member is required.
     public var botName: Swift.String?
@@ -1765,7 +1765,7 @@ public struct DeleteBotAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotAliasInputBody: Swift.Equatable {
+struct DeleteBotAliasInputBody {
 }
 
 extension DeleteBotAliasInputBody: Swift.Decodable {
@@ -1779,7 +1779,7 @@ extension DeleteBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotAliasOutput: Swift.Equatable {
+public struct DeleteBotAliasOutput {
 
     public init() { }
 }
@@ -1816,7 +1816,7 @@ extension DeleteBotChannelAssociationInput {
     }
 }
 
-public struct DeleteBotChannelAssociationInput: Swift.Equatable {
+public struct DeleteBotChannelAssociationInput {
     /// An alias that points to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
     public var botAlias: Swift.String?
@@ -1839,7 +1839,7 @@ public struct DeleteBotChannelAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotChannelAssociationInputBody: Swift.Equatable {
+struct DeleteBotChannelAssociationInputBody {
 }
 
 extension DeleteBotChannelAssociationInputBody: Swift.Decodable {
@@ -1853,7 +1853,7 @@ extension DeleteBotChannelAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotChannelAssociationOutput: Swift.Equatable {
+public struct DeleteBotChannelAssociationOutput {
 
     public init() { }
 }
@@ -1883,7 +1883,7 @@ extension DeleteBotInput {
     }
 }
 
-public struct DeleteBotInput: Swift.Equatable {
+public struct DeleteBotInput {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -1896,7 +1896,7 @@ public struct DeleteBotInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotInputBody: Swift.Equatable {
+struct DeleteBotInputBody {
 }
 
 extension DeleteBotInputBody: Swift.Decodable {
@@ -1910,7 +1910,7 @@ extension DeleteBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotOutput: Swift.Equatable {
+public struct DeleteBotOutput {
 
     public init() { }
 }
@@ -1944,7 +1944,7 @@ extension DeleteBotVersionInput {
     }
 }
 
-public struct DeleteBotVersionInput: Swift.Equatable {
+public struct DeleteBotVersionInput {
     /// The name of the bot.
     /// This member is required.
     public var name: Swift.String?
@@ -1962,7 +1962,7 @@ public struct DeleteBotVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotVersionInputBody: Swift.Equatable {
+struct DeleteBotVersionInputBody {
 }
 
 extension DeleteBotVersionInputBody: Swift.Decodable {
@@ -1976,7 +1976,7 @@ extension DeleteBotVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotVersionOutput: Swift.Equatable {
+public struct DeleteBotVersionOutput {
 
     public init() { }
 }
@@ -2007,7 +2007,7 @@ extension DeleteIntentInput {
     }
 }
 
-public struct DeleteIntentInput: Swift.Equatable {
+public struct DeleteIntentInput {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -2020,7 +2020,7 @@ public struct DeleteIntentInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntentInputBody: Swift.Equatable {
+struct DeleteIntentInputBody {
 }
 
 extension DeleteIntentInputBody: Swift.Decodable {
@@ -2034,7 +2034,7 @@ extension DeleteIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIntentOutput: Swift.Equatable {
+public struct DeleteIntentOutput {
 
     public init() { }
 }
@@ -2068,7 +2068,7 @@ extension DeleteIntentVersionInput {
     }
 }
 
-public struct DeleteIntentVersionInput: Swift.Equatable {
+public struct DeleteIntentVersionInput {
     /// The name of the intent.
     /// This member is required.
     public var name: Swift.String?
@@ -2086,7 +2086,7 @@ public struct DeleteIntentVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntentVersionInputBody: Swift.Equatable {
+struct DeleteIntentVersionInputBody {
 }
 
 extension DeleteIntentVersionInputBody: Swift.Decodable {
@@ -2100,7 +2100,7 @@ extension DeleteIntentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIntentVersionOutput: Swift.Equatable {
+public struct DeleteIntentVersionOutput {
 
     public init() { }
 }
@@ -2131,7 +2131,7 @@ extension DeleteSlotTypeInput {
     }
 }
 
-public struct DeleteSlotTypeInput: Swift.Equatable {
+public struct DeleteSlotTypeInput {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -2144,7 +2144,7 @@ public struct DeleteSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlotTypeInputBody: Swift.Equatable {
+struct DeleteSlotTypeInputBody {
 }
 
 extension DeleteSlotTypeInputBody: Swift.Decodable {
@@ -2158,7 +2158,7 @@ extension DeleteSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSlotTypeOutput: Swift.Equatable {
+public struct DeleteSlotTypeOutput {
 
     public init() { }
 }
@@ -2192,7 +2192,7 @@ extension DeleteSlotTypeVersionInput {
     }
 }
 
-public struct DeleteSlotTypeVersionInput: Swift.Equatable {
+public struct DeleteSlotTypeVersionInput {
     /// The name of the slot type.
     /// This member is required.
     public var name: Swift.String?
@@ -2210,7 +2210,7 @@ public struct DeleteSlotTypeVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlotTypeVersionInputBody: Swift.Equatable {
+struct DeleteSlotTypeVersionInputBody {
 }
 
 extension DeleteSlotTypeVersionInputBody: Swift.Decodable {
@@ -2224,7 +2224,7 @@ extension DeleteSlotTypeVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSlotTypeVersionOutput: Swift.Equatable {
+public struct DeleteSlotTypeVersionOutput {
 
     public init() { }
 }
@@ -2258,7 +2258,7 @@ extension DeleteUtterancesInput {
     }
 }
 
-public struct DeleteUtterancesInput: Swift.Equatable {
+public struct DeleteUtterancesInput {
     /// The name of the bot that stored the utterances.
     /// This member is required.
     public var botName: Swift.String?
@@ -2276,7 +2276,7 @@ public struct DeleteUtterancesInput: Swift.Equatable {
     }
 }
 
-struct DeleteUtterancesInputBody: Swift.Equatable {
+struct DeleteUtterancesInputBody {
 }
 
 extension DeleteUtterancesInputBody: Swift.Decodable {
@@ -2290,7 +2290,7 @@ extension DeleteUtterancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUtterancesOutput: Swift.Equatable {
+public struct DeleteUtterancesOutput {
 
     public init() { }
 }
@@ -2386,7 +2386,7 @@ extension LexModelBuildingClientTypes {
     /// * thin
     ///
     /// * stuffed
-    public struct EnumerationValue: Swift.Equatable {
+    public struct EnumerationValue {
         /// Additional values related to the slot type value.
         public var synonyms: [Swift.String]?
         /// The value of the slot type.
@@ -2499,7 +2499,7 @@ extension LexModelBuildingClientTypes.FollowUpPrompt: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// A prompt for additional activity after an intent is fulfilled. For example, after the OrderPizza intent is fulfilled, you might prompt the user to find out whether the user wants to order drinks.
-    public struct FollowUpPrompt: Swift.Equatable {
+    public struct FollowUpPrompt {
         /// Prompts for information from the user.
         /// This member is required.
         public var prompt: LexModelBuildingClientTypes.Prompt?
@@ -2550,7 +2550,7 @@ extension LexModelBuildingClientTypes {
     /// * In a pizza ordering application, after the user provides all of the information for placing an order, you use a Lambda function to place an order with a pizzeria.
     ///
     /// * In a gaming application, when a user says "pick up a rock," this information must go back to the client application so that it can perform the operation and update the graphics. In this case, you want Amazon Lex to return the intent data to the client.
-    public struct FulfillmentActivity: Swift.Equatable {
+    public struct FulfillmentActivity {
         /// A description of the Lambda function that is run to fulfill the intent.
         public var codeHook: LexModelBuildingClientTypes.CodeHook?
         /// How the intent should be fulfilled, either by running a Lambda function or by returning the slot data to the client application.
@@ -2614,7 +2614,7 @@ extension GetBotAliasInput {
     }
 }
 
-public struct GetBotAliasInput: Swift.Equatable {
+public struct GetBotAliasInput {
     /// The name of the bot.
     /// This member is required.
     public var botName: Swift.String?
@@ -2632,7 +2632,7 @@ public struct GetBotAliasInput: Swift.Equatable {
     }
 }
 
-struct GetBotAliasInputBody: Swift.Equatable {
+struct GetBotAliasInputBody {
 }
 
 extension GetBotAliasInputBody: Swift.Decodable {
@@ -2667,7 +2667,7 @@ extension GetBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotAliasOutput: Swift.Equatable {
+public struct GetBotAliasOutput {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
     /// The version of the bot that the alias points to.
@@ -2707,7 +2707,7 @@ public struct GetBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct GetBotAliasOutputBody: Swift.Equatable {
+struct GetBotAliasOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let botVersion: Swift.String?
@@ -2795,7 +2795,7 @@ extension GetBotAliasesInput {
     }
 }
 
-public struct GetBotAliasesInput: Swift.Equatable {
+public struct GetBotAliasesInput {
     /// The name of the bot.
     /// This member is required.
     public var botName: Swift.String?
@@ -2820,7 +2820,7 @@ public struct GetBotAliasesInput: Swift.Equatable {
     }
 }
 
-struct GetBotAliasesInputBody: Swift.Equatable {
+struct GetBotAliasesInputBody {
 }
 
 extension GetBotAliasesInputBody: Swift.Decodable {
@@ -2843,7 +2843,7 @@ extension GetBotAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotAliasesOutput: Swift.Equatable {
+public struct GetBotAliasesOutput {
     /// An array of BotAliasMetadata objects, each describing a bot alias.
     public var botAliases: [LexModelBuildingClientTypes.BotAliasMetadata]?
     /// A pagination token for fetching next page of aliases. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of aliases, specify the pagination token in the next request.
@@ -2859,7 +2859,7 @@ public struct GetBotAliasesOutput: Swift.Equatable {
     }
 }
 
-struct GetBotAliasesOutputBody: Swift.Equatable {
+struct GetBotAliasesOutputBody {
     let botAliases: [LexModelBuildingClientTypes.BotAliasMetadata]?
     let nextToken: Swift.String?
 }
@@ -2917,7 +2917,7 @@ extension GetBotChannelAssociationInput {
     }
 }
 
-public struct GetBotChannelAssociationInput: Swift.Equatable {
+public struct GetBotChannelAssociationInput {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
     public var botAlias: Swift.String?
@@ -2940,7 +2940,7 @@ public struct GetBotChannelAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetBotChannelAssociationInputBody: Swift.Equatable {
+struct GetBotChannelAssociationInputBody {
 }
 
 extension GetBotChannelAssociationInputBody: Swift.Decodable {
@@ -2982,7 +2982,7 @@ extension GetBotChannelAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotChannelAssociationOutput: Swift.Equatable {
+public struct GetBotChannelAssociationOutput {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     public var botAlias: Swift.String?
     /// Provides information that the messaging platform needs to communicate with the Amazon Lex bot.
@@ -3032,7 +3032,7 @@ public struct GetBotChannelAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetBotChannelAssociationOutputBody: Swift.Equatable {
+struct GetBotChannelAssociationOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let botAlias: Swift.String?
@@ -3136,7 +3136,7 @@ extension GetBotChannelAssociationsInput {
     }
 }
 
-public struct GetBotChannelAssociationsInput: Swift.Equatable {
+public struct GetBotChannelAssociationsInput {
     /// An alias pointing to the specific version of the Amazon Lex bot to which this association is being made.
     /// This member is required.
     public var botAlias: Swift.String?
@@ -3166,7 +3166,7 @@ public struct GetBotChannelAssociationsInput: Swift.Equatable {
     }
 }
 
-struct GetBotChannelAssociationsInputBody: Swift.Equatable {
+struct GetBotChannelAssociationsInputBody {
 }
 
 extension GetBotChannelAssociationsInputBody: Swift.Decodable {
@@ -3189,7 +3189,7 @@ extension GetBotChannelAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotChannelAssociationsOutput: Swift.Equatable {
+public struct GetBotChannelAssociationsOutput {
     /// An array of objects, one for each association, that provides information about the Amazon Lex bot and its association with the channel.
     public var botChannelAssociations: [LexModelBuildingClientTypes.BotChannelAssociation]?
     /// A pagination token that fetches the next page of associations. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of associations, specify the pagination token in the next request.
@@ -3205,7 +3205,7 @@ public struct GetBotChannelAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct GetBotChannelAssociationsOutputBody: Swift.Equatable {
+struct GetBotChannelAssociationsOutputBody {
     let botChannelAssociations: [LexModelBuildingClientTypes.BotChannelAssociation]?
     let nextToken: Swift.String?
 }
@@ -3260,7 +3260,7 @@ extension GetBotInput {
     }
 }
 
-public struct GetBotInput: Swift.Equatable {
+public struct GetBotInput {
     /// The name of the bot. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -3278,7 +3278,7 @@ public struct GetBotInput: Swift.Equatable {
     }
 }
 
-struct GetBotInputBody: Swift.Equatable {
+struct GetBotInputBody {
 }
 
 extension GetBotInputBody: Swift.Decodable {
@@ -3333,7 +3333,7 @@ extension GetBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotOutput: Swift.Equatable {
+public struct GetBotOutput {
     /// The message that Amazon Lex returns when the user elects to end the conversation without completing it. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
     /// Checksum of the bot used to identify a specific revision of the bot's $LATEST version.
@@ -3413,7 +3413,7 @@ public struct GetBotOutput: Swift.Equatable {
     }
 }
 
-struct GetBotOutputBody: Swift.Equatable {
+struct GetBotOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let intents: [LexModelBuildingClientTypes.Intent]?
@@ -3546,7 +3546,7 @@ extension GetBotVersionsInput {
     }
 }
 
-public struct GetBotVersionsInput: Swift.Equatable {
+public struct GetBotVersionsInput {
     /// The maximum number of bot versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// The name of the bot for which versions should be returned.
@@ -3567,7 +3567,7 @@ public struct GetBotVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetBotVersionsInputBody: Swift.Equatable {
+struct GetBotVersionsInputBody {
 }
 
 extension GetBotVersionsInputBody: Swift.Decodable {
@@ -3590,7 +3590,7 @@ extension GetBotVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotVersionsOutput: Swift.Equatable {
+public struct GetBotVersionsOutput {
     /// An array of BotMetadata objects, one for each numbered version of the bot plus one for the $LATEST version.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
     /// A pagination token for fetching the next page of bot versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
@@ -3606,7 +3606,7 @@ public struct GetBotVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetBotVersionsOutputBody: Swift.Equatable {
+struct GetBotVersionsOutputBody {
     let bots: [LexModelBuildingClientTypes.BotMetadata]?
     let nextToken: Swift.String?
 }
@@ -3676,7 +3676,7 @@ extension GetBotsInput {
     }
 }
 
-public struct GetBotsInput: Swift.Equatable {
+public struct GetBotsInput {
     /// The maximum number of bots to return in the response that the request will return. The default is 10.
     public var maxResults: Swift.Int?
     /// Substring to match in bot names. A bot will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -3696,7 +3696,7 @@ public struct GetBotsInput: Swift.Equatable {
     }
 }
 
-struct GetBotsInputBody: Swift.Equatable {
+struct GetBotsInputBody {
 }
 
 extension GetBotsInputBody: Swift.Decodable {
@@ -3719,7 +3719,7 @@ extension GetBotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBotsOutput: Swift.Equatable {
+public struct GetBotsOutput {
     /// An array of botMetadata objects, with one entry for each bot.
     public var bots: [LexModelBuildingClientTypes.BotMetadata]?
     /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of bots.
@@ -3735,7 +3735,7 @@ public struct GetBotsOutput: Swift.Equatable {
     }
 }
 
-struct GetBotsOutputBody: Swift.Equatable {
+struct GetBotsOutputBody {
     let bots: [LexModelBuildingClientTypes.BotMetadata]?
     let nextToken: Swift.String?
 }
@@ -3788,7 +3788,7 @@ extension GetBuiltinIntentInput {
     }
 }
 
-public struct GetBuiltinIntentInput: Swift.Equatable {
+public struct GetBuiltinIntentInput {
     /// The unique identifier for a built-in intent. To find the signature for an intent, see [Standard Built-in Intents](https://developer.amazon.com/public/solutions/alexa/alexa-skills-kit/docs/built-in-intent-ref/standard-intents) in the Alexa Skills Kit.
     /// This member is required.
     public var signature: Swift.String?
@@ -3801,7 +3801,7 @@ public struct GetBuiltinIntentInput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinIntentInputBody: Swift.Equatable {
+struct GetBuiltinIntentInputBody {
 }
 
 extension GetBuiltinIntentInputBody: Swift.Decodable {
@@ -3826,7 +3826,7 @@ extension GetBuiltinIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBuiltinIntentOutput: Swift.Equatable {
+public struct GetBuiltinIntentOutput {
     /// The unique identifier for a built-in intent.
     public var signature: Swift.String?
     /// An array of BuiltinIntentSlot objects, one entry for each slot type in the intent.
@@ -3846,7 +3846,7 @@ public struct GetBuiltinIntentOutput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinIntentOutputBody: Swift.Equatable {
+struct GetBuiltinIntentOutputBody {
     let signature: Swift.String?
     let supportedLocales: [LexModelBuildingClientTypes.Locale]?
     let slots: [LexModelBuildingClientTypes.BuiltinIntentSlot]?
@@ -3933,7 +3933,7 @@ extension GetBuiltinIntentsInput {
     }
 }
 
-public struct GetBuiltinIntentsInput: Swift.Equatable {
+public struct GetBuiltinIntentsInput {
     /// A list of locales that the intent supports.
     public var locale: LexModelBuildingClientTypes.Locale?
     /// The maximum number of intents to return in the response. The default is 10.
@@ -3957,7 +3957,7 @@ public struct GetBuiltinIntentsInput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinIntentsInputBody: Swift.Equatable {
+struct GetBuiltinIntentsInputBody {
 }
 
 extension GetBuiltinIntentsInputBody: Swift.Decodable {
@@ -3980,7 +3980,7 @@ extension GetBuiltinIntentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBuiltinIntentsOutput: Swift.Equatable {
+public struct GetBuiltinIntentsOutput {
     /// An array of builtinIntentMetadata objects, one for each intent in the response.
     public var intents: [LexModelBuildingClientTypes.BuiltinIntentMetadata]?
     /// A pagination token that fetches the next page of intents. If the response to this API call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of intents, specify the pagination token in the next request.
@@ -3996,7 +3996,7 @@ public struct GetBuiltinIntentsOutput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinIntentsOutputBody: Swift.Equatable {
+struct GetBuiltinIntentsOutputBody {
     let intents: [LexModelBuildingClientTypes.BuiltinIntentMetadata]?
     let nextToken: Swift.String?
 }
@@ -4069,7 +4069,7 @@ extension GetBuiltinSlotTypesInput {
     }
 }
 
-public struct GetBuiltinSlotTypesInput: Swift.Equatable {
+public struct GetBuiltinSlotTypesInput {
     /// A list of locales that the slot type supports.
     public var locale: LexModelBuildingClientTypes.Locale?
     /// The maximum number of slot types to return in the response. The default is 10.
@@ -4093,7 +4093,7 @@ public struct GetBuiltinSlotTypesInput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinSlotTypesInputBody: Swift.Equatable {
+struct GetBuiltinSlotTypesInputBody {
 }
 
 extension GetBuiltinSlotTypesInputBody: Swift.Decodable {
@@ -4116,7 +4116,7 @@ extension GetBuiltinSlotTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBuiltinSlotTypesOutput: Swift.Equatable {
+public struct GetBuiltinSlotTypesOutput {
     /// If the response is truncated, the response includes a pagination token that you can use in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
     /// An array of BuiltInSlotTypeMetadata objects, one entry for each slot type returned.
@@ -4132,7 +4132,7 @@ public struct GetBuiltinSlotTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetBuiltinSlotTypesOutputBody: Swift.Equatable {
+struct GetBuiltinSlotTypesOutputBody {
     let slotTypes: [LexModelBuildingClientTypes.BuiltinSlotTypeMetadata]?
     let nextToken: Swift.String?
 }
@@ -4213,7 +4213,7 @@ extension GetExportInput {
     }
 }
 
-public struct GetExportInput: Swift.Equatable {
+public struct GetExportInput {
     /// The format of the exported data.
     /// This member is required.
     public var exportType: LexModelBuildingClientTypes.ExportType?
@@ -4241,7 +4241,7 @@ public struct GetExportInput: Swift.Equatable {
     }
 }
 
-struct GetExportInputBody: Swift.Equatable {
+struct GetExportInputBody {
 }
 
 extension GetExportInputBody: Swift.Decodable {
@@ -4274,7 +4274,7 @@ extension GetExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExportOutput: Swift.Equatable {
+public struct GetExportOutput {
     /// The status of the export.
     ///
     /// * IN_PROGRESS - The export is in progress.
@@ -4316,7 +4316,7 @@ public struct GetExportOutput: Swift.Equatable {
     }
 }
 
-struct GetExportOutputBody: Swift.Equatable {
+struct GetExportOutputBody {
     let name: Swift.String?
     let version: Swift.String?
     let resourceType: LexModelBuildingClientTypes.ResourceType?
@@ -4380,7 +4380,7 @@ extension GetImportInput {
     }
 }
 
-public struct GetImportInput: Swift.Equatable {
+public struct GetImportInput {
     /// The identifier of the import job information to return.
     /// This member is required.
     public var importId: Swift.String?
@@ -4393,7 +4393,7 @@ public struct GetImportInput: Swift.Equatable {
     }
 }
 
-struct GetImportInputBody: Swift.Equatable {
+struct GetImportInputBody {
 }
 
 extension GetImportInputBody: Swift.Decodable {
@@ -4426,7 +4426,7 @@ extension GetImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportOutput: Swift.Equatable {
+public struct GetImportOutput {
     /// A timestamp for the date and time that the import job was created.
     public var createdDate: ClientRuntime.Date?
     /// A string that describes why an import job failed to complete.
@@ -4462,7 +4462,7 @@ public struct GetImportOutput: Swift.Equatable {
     }
 }
 
-struct GetImportOutputBody: Swift.Equatable {
+struct GetImportOutputBody {
     let name: Swift.String?
     let resourceType: LexModelBuildingClientTypes.ResourceType?
     let mergeStrategy: LexModelBuildingClientTypes.MergeStrategy?
@@ -4538,7 +4538,7 @@ extension GetIntentInput {
     }
 }
 
-public struct GetIntentInput: Swift.Equatable {
+public struct GetIntentInput {
     /// The name of the intent. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -4556,7 +4556,7 @@ public struct GetIntentInput: Swift.Equatable {
     }
 }
 
-struct GetIntentInputBody: Swift.Equatable {
+struct GetIntentInputBody {
 }
 
 extension GetIntentInputBody: Swift.Decodable {
@@ -4611,7 +4611,7 @@ extension GetIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIntentOutput: Swift.Equatable {
+public struct GetIntentOutput {
     /// Checksum of the intent.
     public var checksum: Swift.String?
     /// After the Lambda function specified in the fulfillmentActivity element fulfills the intent, Amazon Lex conveys this statement to the user.
@@ -4691,7 +4691,7 @@ public struct GetIntentOutput: Swift.Equatable {
     }
 }
 
-struct GetIntentOutputBody: Swift.Equatable {
+struct GetIntentOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let slots: [LexModelBuildingClientTypes.Slot]?
@@ -4851,7 +4851,7 @@ extension GetIntentVersionsInput {
     }
 }
 
-public struct GetIntentVersionsInput: Swift.Equatable {
+public struct GetIntentVersionsInput {
     /// The maximum number of intent versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// The name of the intent for which versions should be returned.
@@ -4872,7 +4872,7 @@ public struct GetIntentVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetIntentVersionsInputBody: Swift.Equatable {
+struct GetIntentVersionsInputBody {
 }
 
 extension GetIntentVersionsInputBody: Swift.Decodable {
@@ -4895,7 +4895,7 @@ extension GetIntentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIntentVersionsOutput: Swift.Equatable {
+public struct GetIntentVersionsOutput {
     /// An array of IntentMetadata objects, one for each numbered version of the intent plus one for the $LATEST version.
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
     /// A pagination token for fetching the next page of intent versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
@@ -4911,7 +4911,7 @@ public struct GetIntentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetIntentVersionsOutputBody: Swift.Equatable {
+struct GetIntentVersionsOutputBody {
     let intents: [LexModelBuildingClientTypes.IntentMetadata]?
     let nextToken: Swift.String?
 }
@@ -4981,7 +4981,7 @@ extension GetIntentsInput {
     }
 }
 
-public struct GetIntentsInput: Swift.Equatable {
+public struct GetIntentsInput {
     /// The maximum number of intents to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// Substring to match in intent names. An intent will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -5001,7 +5001,7 @@ public struct GetIntentsInput: Swift.Equatable {
     }
 }
 
-struct GetIntentsInputBody: Swift.Equatable {
+struct GetIntentsInputBody {
 }
 
 extension GetIntentsInputBody: Swift.Decodable {
@@ -5024,7 +5024,7 @@ extension GetIntentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIntentsOutput: Swift.Equatable {
+public struct GetIntentsOutput {
     /// An array of Intent objects. For more information, see [PutBot].
     public var intents: [LexModelBuildingClientTypes.IntentMetadata]?
     /// If the response is truncated, the response includes a pagination token that you can specify in your next request to fetch the next page of intents.
@@ -5040,7 +5040,7 @@ public struct GetIntentsOutput: Swift.Equatable {
     }
 }
 
-struct GetIntentsOutputBody: Swift.Equatable {
+struct GetIntentsOutputBody {
     let intents: [LexModelBuildingClientTypes.IntentMetadata]?
     let nextToken: Swift.String?
 }
@@ -5093,7 +5093,7 @@ extension GetMigrationInput {
     }
 }
 
-public struct GetMigrationInput: Swift.Equatable {
+public struct GetMigrationInput {
     /// The unique identifier of the migration to view. The migrationID is returned by the operation.
     /// This member is required.
     public var migrationId: Swift.String?
@@ -5106,7 +5106,7 @@ public struct GetMigrationInput: Swift.Equatable {
     }
 }
 
-struct GetMigrationInputBody: Swift.Equatable {
+struct GetMigrationInputBody {
 }
 
 extension GetMigrationInputBody: Swift.Decodable {
@@ -5145,7 +5145,7 @@ extension GetMigrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMigrationOutput: Swift.Equatable {
+public struct GetMigrationOutput {
     /// A list of alerts and warnings that indicate issues with the migration for the Amazon Lex V1 bot to Amazon Lex V2. You receive a warning when an Amazon Lex V1 feature has a different implementation if Amazon Lex V2. For more information, see [Migrating a bot](https://docs.aws.amazon.com/lexv2/latest/dg/migrate.html) in the Amazon Lex V2 developer guide.
     public var alerts: [LexModelBuildingClientTypes.MigrationAlert]?
     /// The unique identifier of the migration. This is the same as the identifier used when calling the GetMigration operation.
@@ -5197,7 +5197,7 @@ public struct GetMigrationOutput: Swift.Equatable {
     }
 }
 
-struct GetMigrationOutputBody: Swift.Equatable {
+struct GetMigrationOutputBody {
     let migrationId: Swift.String?
     let v1BotName: Swift.String?
     let v1BotVersion: Swift.String?
@@ -5311,7 +5311,7 @@ extension GetMigrationsInput {
     }
 }
 
-public struct GetMigrationsInput: Swift.Equatable {
+public struct GetMigrationsInput {
     /// The maximum number of migrations to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// Filters the list to contain only migrations in the specified state.
@@ -5343,7 +5343,7 @@ public struct GetMigrationsInput: Swift.Equatable {
     }
 }
 
-struct GetMigrationsInputBody: Swift.Equatable {
+struct GetMigrationsInputBody {
 }
 
 extension GetMigrationsInputBody: Swift.Decodable {
@@ -5366,7 +5366,7 @@ extension GetMigrationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMigrationsOutput: Swift.Equatable {
+public struct GetMigrationsOutput {
     /// An array of summaries for migrations from Amazon Lex V1 to Amazon Lex V2. To see details of the migration, use the migrationId from the summary in a call to the operation.
     public var migrationSummaries: [LexModelBuildingClientTypes.MigrationSummary]?
     /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of migrations.
@@ -5382,7 +5382,7 @@ public struct GetMigrationsOutput: Swift.Equatable {
     }
 }
 
-struct GetMigrationsOutputBody: Swift.Equatable {
+struct GetMigrationsOutputBody {
     let migrationSummaries: [LexModelBuildingClientTypes.MigrationSummary]?
     let nextToken: Swift.String?
 }
@@ -5437,7 +5437,7 @@ extension GetSlotTypeInput {
     }
 }
 
-public struct GetSlotTypeInput: Swift.Equatable {
+public struct GetSlotTypeInput {
     /// The name of the slot type. The name is case sensitive.
     /// This member is required.
     public var name: Swift.String?
@@ -5455,7 +5455,7 @@ public struct GetSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypeInputBody: Swift.Equatable {
+struct GetSlotTypeInputBody {
 }
 
 extension GetSlotTypeInputBody: Swift.Decodable {
@@ -5494,7 +5494,7 @@ extension GetSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSlotTypeOutput: Swift.Equatable {
+public struct GetSlotTypeOutput {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
     /// The date that the slot type was created.
@@ -5542,7 +5542,7 @@ public struct GetSlotTypeOutput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypeOutputBody: Swift.Equatable {
+struct GetSlotTypeOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
@@ -5652,7 +5652,7 @@ extension GetSlotTypeVersionsInput {
     }
 }
 
-public struct GetSlotTypeVersionsInput: Swift.Equatable {
+public struct GetSlotTypeVersionsInput {
     /// The maximum number of slot type versions to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// The name of the slot type for which versions should be returned.
@@ -5673,7 +5673,7 @@ public struct GetSlotTypeVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypeVersionsInputBody: Swift.Equatable {
+struct GetSlotTypeVersionsInputBody {
 }
 
 extension GetSlotTypeVersionsInputBody: Swift.Decodable {
@@ -5696,7 +5696,7 @@ extension GetSlotTypeVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSlotTypeVersionsOutput: Swift.Equatable {
+public struct GetSlotTypeVersionsOutput {
     /// A pagination token for fetching the next page of slot type versions. If the response to this call is truncated, Amazon Lex returns a pagination token in the response. To fetch the next page of versions, specify the pagination token in the next request.
     public var nextToken: Swift.String?
     /// An array of SlotTypeMetadata objects, one for each numbered version of the slot type plus one for the $LATEST version.
@@ -5712,7 +5712,7 @@ public struct GetSlotTypeVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypeVersionsOutputBody: Swift.Equatable {
+struct GetSlotTypeVersionsOutputBody {
     let slotTypes: [LexModelBuildingClientTypes.SlotTypeMetadata]?
     let nextToken: Swift.String?
 }
@@ -5782,7 +5782,7 @@ extension GetSlotTypesInput {
     }
 }
 
-public struct GetSlotTypesInput: Swift.Equatable {
+public struct GetSlotTypesInput {
     /// The maximum number of slot types to return in the response. The default is 10.
     public var maxResults: Swift.Int?
     /// Substring to match in slot type names. A slot type will be returned if any part of its name matches the substring. For example, "xyz" matches both "xyzabc" and "abcxyz."
@@ -5802,7 +5802,7 @@ public struct GetSlotTypesInput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypesInputBody: Swift.Equatable {
+struct GetSlotTypesInputBody {
 }
 
 extension GetSlotTypesInputBody: Swift.Decodable {
@@ -5825,7 +5825,7 @@ extension GetSlotTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSlotTypesOutput: Swift.Equatable {
+public struct GetSlotTypesOutput {
     /// If the response is truncated, it includes a pagination token that you can specify in your next request to fetch the next page of slot types.
     public var nextToken: Swift.String?
     /// An array of objects, one for each slot type, that provides information such as the name of the slot type, the version, and a description.
@@ -5841,7 +5841,7 @@ public struct GetSlotTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetSlotTypesOutputBody: Swift.Equatable {
+struct GetSlotTypesOutputBody {
     let slotTypes: [LexModelBuildingClientTypes.SlotTypeMetadata]?
     let nextToken: Swift.String?
 }
@@ -5917,7 +5917,7 @@ extension GetUtterancesViewInput {
     }
 }
 
-public struct GetUtterancesViewInput: Swift.Equatable {
+public struct GetUtterancesViewInput {
     /// The name of the bot for which utterance information should be returned.
     /// This member is required.
     public var botName: Swift.String?
@@ -5940,7 +5940,7 @@ public struct GetUtterancesViewInput: Swift.Equatable {
     }
 }
 
-struct GetUtterancesViewInputBody: Swift.Equatable {
+struct GetUtterancesViewInputBody {
 }
 
 extension GetUtterancesViewInputBody: Swift.Decodable {
@@ -5963,7 +5963,7 @@ extension GetUtterancesViewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUtterancesViewOutput: Swift.Equatable {
+public struct GetUtterancesViewOutput {
     /// The name of the bot for which utterance information was returned.
     public var botName: Swift.String?
     /// An array of [UtteranceList] objects, each containing a list of [UtteranceData] objects describing the utterances that were processed by your bot. The response contains a maximum of 100 UtteranceData objects for each version. Amazon Lex returns the most frequent utterances received by the bot in the last 15 days.
@@ -5979,7 +5979,7 @@ public struct GetUtterancesViewOutput: Swift.Equatable {
     }
 }
 
-struct GetUtterancesViewOutputBody: Swift.Equatable {
+struct GetUtterancesViewOutputBody {
     let botName: Swift.String?
     let utterances: [LexModelBuildingClientTypes.UtteranceList]?
 }
@@ -6077,7 +6077,7 @@ extension LexModelBuildingClientTypes.InputContext: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// The name of a context that must be active for an intent to be selected by Amazon Lex.
-    public struct InputContext: Swift.Equatable {
+    public struct InputContext {
         /// The name of the context.
         /// This member is required.
         public var name: Swift.String?
@@ -6119,7 +6119,7 @@ extension LexModelBuildingClientTypes.Intent: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Identifies the specific version of an intent.
-    public struct Intent: Swift.Equatable {
+    public struct Intent {
         /// The name of the intent.
         /// This member is required.
         public var intentName: Swift.String?
@@ -6184,7 +6184,7 @@ extension LexModelBuildingClientTypes.IntentMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about an intent.
-    public struct IntentMetadata: Swift.Equatable {
+    public struct IntentMetadata {
         /// The date that the intent was created.
         public var createdDate: ClientRuntime.Date?
         /// A description of the intent.
@@ -6253,7 +6253,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -6302,7 +6302,7 @@ extension LexModelBuildingClientTypes.KendraConfiguration: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides configuration information for the AMAZON.KendraSearchIntent intent. When you use this intent, Amazon Lex searches the specified Amazon Kendra index and returns documents from the index that match the user's utterance. For more information, see [ AMAZON.KendraSearchIntent](http://docs.aws.amazon.com/lex/latest/dg/built-in-intent-kendra-search.html).
-    public struct KendraConfiguration: Swift.Equatable {
+    public struct KendraConfiguration {
         /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot. If the Amazon Kendra index does not exist, you get an exception when you call the PutIntent operation.
         /// This member is required.
         public var kendraIndex: Swift.String?
@@ -6375,7 +6375,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6401,7 +6401,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6414,7 +6414,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6435,7 +6435,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with a resource.
     public var tags: [LexModelBuildingClientTypes.Tag]?
 
@@ -6447,7 +6447,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [LexModelBuildingClientTypes.Tag]?
 }
 
@@ -6590,7 +6590,7 @@ extension LexModelBuildingClientTypes.LogSettingsRequest: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Settings used to configure delivery mode and destination for conversation logs.
-    public struct LogSettingsRequest: Swift.Equatable {
+    public struct LogSettingsRequest {
         /// Where the logs will be delivered. Text logs are delivered to a CloudWatch Logs log group. Audio logs are delivered to an S3 bucket.
         /// This member is required.
         public var destination: LexModelBuildingClientTypes.Destination?
@@ -6664,7 +6664,7 @@ extension LexModelBuildingClientTypes.LogSettingsResponse: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// The settings for conversation logs.
-    public struct LogSettingsResponse: Swift.Equatable {
+    public struct LogSettingsResponse {
         /// The destination where logs are delivered.
         public var destination: LexModelBuildingClientTypes.Destination?
         /// The Amazon Resource Name (ARN) of the key used to encrypt audio logs in an S3 bucket.
@@ -6791,7 +6791,7 @@ extension LexModelBuildingClientTypes.Message: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// The message object that provides the message text and its type.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The text of the message.
         /// This member is required.
         public var content: Swift.String?
@@ -6878,7 +6878,7 @@ extension LexModelBuildingClientTypes.MigrationAlert: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about alerts and warnings that Amazon Lex sends during a migration. The alerts include information about how to resolve the issue.
-    public struct MigrationAlert: Swift.Equatable {
+    public struct MigrationAlert {
         /// Additional details about the alert.
         public var details: [Swift.String]?
         /// A message that describes why the alert was issued.
@@ -7108,7 +7108,7 @@ extension LexModelBuildingClientTypes.MigrationSummary: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about migrating a bot from Amazon Lex V1 to Amazon Lex V2.
-    public struct MigrationSummary: Swift.Equatable {
+    public struct MigrationSummary {
         /// The unique identifier that Amazon Lex assigned to the migration.
         public var migrationId: Swift.String?
         /// The status of the operation. When the status is COMPLETE the bot is available in Amazon Lex V2. There may be alerts and warnings that need to be resolved to complete the migration.
@@ -7193,7 +7193,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7274,7 +7274,7 @@ extension LexModelBuildingClientTypes.OutputContext: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// The specification of an output context that is set when an intent is fulfilled.
-    public struct OutputContext: Swift.Equatable {
+    public struct OutputContext {
         /// The name of the context.
         /// This member is required.
         public var name: Swift.String?
@@ -7338,7 +7338,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -7431,7 +7431,7 @@ extension LexModelBuildingClientTypes.Prompt: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Obtains information from the user. To define a prompt, provide one or more messages and specify the number of attempts to get information from the user. If you provide more than one message, Amazon Lex chooses one of the messages to use to prompt the user. For more information, see [how-it-works].
-    public struct Prompt: Swift.Equatable {
+    public struct Prompt {
         /// The number of times to prompt the user for information.
         /// This member is required.
         public var maxAttempts: Swift.Int?
@@ -7500,7 +7500,7 @@ extension PutBotAliasInput {
     }
 }
 
-public struct PutBotAliasInput: Swift.Equatable {
+public struct PutBotAliasInput {
     /// The name of the bot.
     /// This member is required.
     public var botName: Swift.String?
@@ -7539,7 +7539,7 @@ public struct PutBotAliasInput: Swift.Equatable {
     }
 }
 
-struct PutBotAliasInputBody: Swift.Equatable {
+struct PutBotAliasInputBody {
     let description: Swift.String?
     let botVersion: Swift.String?
     let checksum: Swift.String?
@@ -7608,7 +7608,7 @@ extension PutBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutBotAliasOutput: Swift.Equatable {
+public struct PutBotAliasOutput {
     /// The name of the bot that the alias points to.
     public var botName: Swift.String?
     /// The version of the bot that the alias points to.
@@ -7652,7 +7652,7 @@ public struct PutBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct PutBotAliasOutputBody: Swift.Equatable {
+struct PutBotAliasOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let botVersion: Swift.String?
@@ -7809,7 +7809,7 @@ extension PutBotInput {
     }
 }
 
-public struct PutBotInput: Swift.Equatable {
+public struct PutBotInput {
     /// When Amazon Lex can't understand the user's input in context, it tries to elicit the information a few times. After that, Amazon Lex sends the message defined in abortStatement to the user, and then cancels the conversation. To set the number of retries, use the valueElicitationPrompt field for the slot type. For example, in a pizza ordering bot, Amazon Lex might ask a user "What type of crust would you like?" If the user's response is not one of the expected responses (for example, "thin crust, "deep dish," etc.), Amazon Lex tries to elicit a correct response a few more times. For example, in a pizza ordering application, OrderPizza might be one of the intents. This intent might require the CrustType slot. You specify the valueElicitationPrompt field when you create the CrustType slot. If you have defined a fallback intent the cancel statement will not be sent to the user, the fallback intent is used instead. For more information, see [ AMAZON.FallbackIntent](https://docs.aws.amazon.com/lex/latest/dg/built-in-intent-fallback.html).
     public var abortStatement: LexModelBuildingClientTypes.Statement?
     /// Identifies a specific revision of the $LATEST version. When you create a new bot, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a bot, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
@@ -7920,7 +7920,7 @@ public struct PutBotInput: Swift.Equatable {
     }
 }
 
-struct PutBotInputBody: Swift.Equatable {
+struct PutBotInputBody {
     let description: Swift.String?
     let intents: [LexModelBuildingClientTypes.Intent]?
     let enableModelImprovements: Swift.Bool?
@@ -8060,7 +8060,7 @@ extension PutBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutBotOutput: Swift.Equatable {
+public struct PutBotOutput {
     /// The message that Amazon Lex uses to cancel a conversation. For more information, see [PutBot].
     public var abortStatement: LexModelBuildingClientTypes.Statement?
     /// Checksum of the bot that you created.
@@ -8148,7 +8148,7 @@ public struct PutBotOutput: Swift.Equatable {
     }
 }
 
-struct PutBotOutputBody: Swift.Equatable {
+struct PutBotOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let intents: [LexModelBuildingClientTypes.Intent]?
@@ -8364,7 +8364,7 @@ extension PutIntentInput {
     }
 }
 
-public struct PutIntentInput: Swift.Equatable {
+public struct PutIntentInput {
     /// Identifies a specific revision of the $LATEST version. When you create a new intent, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a intent, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
     /// The statement that you want Amazon Lex to convey to the user after the intent is successfully fulfilled by the Lambda function. This element is relevant only if you provide a Lambda function in the fulfillmentActivity. If you return the intent to the client application, you can't specify this element. The followUpPrompt and conclusionStatement are mutually exclusive. You can specify only one.
@@ -8448,7 +8448,7 @@ public struct PutIntentInput: Swift.Equatable {
     }
 }
 
-struct PutIntentInputBody: Swift.Equatable {
+struct PutIntentInputBody {
     let description: Swift.String?
     let slots: [LexModelBuildingClientTypes.Slot]?
     let sampleUtterances: [Swift.String]?
@@ -8604,7 +8604,7 @@ extension PutIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutIntentOutput: Swift.Equatable {
+public struct PutIntentOutput {
     /// Checksum of the $LATESTversion of the intent created or updated.
     public var checksum: Swift.String?
     /// After the Lambda function specified in thefulfillmentActivityintent fulfills the intent, Amazon Lex conveys this statement to the user.
@@ -8688,7 +8688,7 @@ public struct PutIntentOutput: Swift.Equatable {
     }
 }
 
-struct PutIntentOutputBody: Swift.Equatable {
+struct PutIntentOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let slots: [LexModelBuildingClientTypes.Slot]?
@@ -8880,7 +8880,7 @@ extension PutSlotTypeInput {
     }
 }
 
-public struct PutSlotTypeInput: Swift.Equatable {
+public struct PutSlotTypeInput {
     /// Identifies a specific revision of the $LATEST version. When you create a new slot type, leave the checksum field blank. If you specify a checksum you get a BadRequestException exception. When you want to update a slot type, set the checksum field to the checksum of the most recent revision of the $LATEST version. If you don't specify the  checksum field, or if the checksum does not match the $LATEST version, you get a PreconditionFailedException exception.
     public var checksum: Swift.String?
     /// When set to true a new numbered version of the slot type is created. This is the same as calling the CreateSlotTypeVersion operation. If you do not specify createVersion, the default is false.
@@ -8928,7 +8928,7 @@ public struct PutSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct PutSlotTypeInputBody: Swift.Equatable {
+struct PutSlotTypeInputBody {
     let description: Swift.String?
     let enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
     let checksum: Swift.String?
@@ -9018,7 +9018,7 @@ extension PutSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSlotTypeOutput: Swift.Equatable {
+public struct PutSlotTypeOutput {
     /// Checksum of the $LATEST version of the slot type.
     public var checksum: Swift.String?
     /// True if a new version of the slot type was created. If the createVersion field was not specified in the request, the createVersion field is set to false in the response.
@@ -9070,7 +9070,7 @@ public struct PutSlotTypeOutput: Swift.Equatable {
     }
 }
 
-struct PutSlotTypeOutputBody: Swift.Equatable {
+struct PutSlotTypeOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let enumerationValues: [LexModelBuildingClientTypes.EnumerationValue]?
@@ -9246,7 +9246,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let referenceType: LexModelBuildingClientTypes.ReferenceType?
     let exampleReference: LexModelBuildingClientTypes.ResourceReference?
 }
@@ -9293,7 +9293,7 @@ extension LexModelBuildingClientTypes.ResourceReference: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Describes the resource that refers to the resource that you are attempting to delete. This object is returned as part of the ResourceInUseException exception.
-    public struct ResourceReference: Swift.Equatable {
+    public struct ResourceReference {
         /// The name of the resource that is using the resource that you are trying to delete.
         public var name: Swift.String?
         /// The version of the resource that is using the resource that you are trying to delete.
@@ -9439,7 +9439,7 @@ extension LexModelBuildingClientTypes.Slot: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Identifies the version of a specific slot.
-    public struct Slot: Swift.Equatable {
+    public struct Slot {
         /// A list of default values for the slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public var defaultValueSpec: LexModelBuildingClientTypes.SlotDefaultValueSpec?
         /// A description of the slot.
@@ -9548,7 +9548,7 @@ extension LexModelBuildingClientTypes.SlotDefaultValue: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// A default value for a slot.
-    public struct SlotDefaultValue: Swift.Equatable {
+    public struct SlotDefaultValue {
         /// The default value for the slot. You can specify one of the following:
         ///
         /// * #context-name.slot-name - The slot value "slot-name" in the context "context-name."
@@ -9602,7 +9602,7 @@ extension LexModelBuildingClientTypes.SlotDefaultValueSpec: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Contains the default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot.
-    public struct SlotDefaultValueSpec: Swift.Equatable {
+    public struct SlotDefaultValueSpec {
         /// The default values for a slot. You can specify more than one default. For example, you can specify a default value to use from a matching context variable, a session attribute, or a fixed value. The default value chosen is selected based on the order that you specify them in the list. For example, if you specify a context variable and a fixed value in that order, Amazon Lex uses the context variable if it is available, else it uses the fixed value.
         /// This member is required.
         public var defaultValueList: [LexModelBuildingClientTypes.SlotDefaultValue]?
@@ -9638,7 +9638,7 @@ extension LexModelBuildingClientTypes.SlotTypeConfiguration: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides configuration information for a slot type.
-    public struct SlotTypeConfiguration: Swift.Equatable {
+    public struct SlotTypeConfiguration {
         /// A regular expression used to validate the value of a slot.
         public var regexConfiguration: LexModelBuildingClientTypes.SlotTypeRegexConfiguration?
 
@@ -9697,7 +9697,7 @@ extension LexModelBuildingClientTypes.SlotTypeMetadata: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a slot type..
-    public struct SlotTypeMetadata: Swift.Equatable {
+    public struct SlotTypeMetadata {
         /// The date that the slot type was created.
         public var createdDate: ClientRuntime.Date?
         /// A description of the slot type.
@@ -9748,7 +9748,7 @@ extension LexModelBuildingClientTypes.SlotTypeRegexConfiguration: Swift.Codable 
 
 extension LexModelBuildingClientTypes {
     /// Provides a regular expression used to validate the value of a slot.
-    public struct SlotTypeRegexConfiguration: Swift.Equatable {
+    public struct SlotTypeRegexConfiguration {
         /// A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:
         ///
         /// * A-Z, a-z
@@ -9875,7 +9875,7 @@ extension StartImportInput {
     }
 }
 
-public struct StartImportInput: Swift.Equatable {
+public struct StartImportInput {
     /// Specifies the action that the StartImport operation should take when there is an existing resource with the same name.
     ///
     /// * FAIL_ON_CONFLICT - The import operation is stopped on the first conflict between a resource in the import file and an existing resource. The name of the resource causing the conflict is in the failureReason field of the response to the GetImport operation. OVERWRITE_LATEST - The import operation proceeds even if there is a conflict with an existing resource. The $LASTEST version of the existing resource is overwritten with the data from the import file.
@@ -9908,7 +9908,7 @@ public struct StartImportInput: Swift.Equatable {
     }
 }
 
-struct StartImportInputBody: Swift.Equatable {
+struct StartImportInputBody {
     let payload: ClientRuntime.Data?
     let resourceType: LexModelBuildingClientTypes.ResourceType?
     let mergeStrategy: LexModelBuildingClientTypes.MergeStrategy?
@@ -9969,7 +9969,7 @@ extension StartImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportOutput: Swift.Equatable {
+public struct StartImportOutput {
     /// A timestamp for the date and time that the import job was requested.
     public var createdDate: ClientRuntime.Date?
     /// The identifier for the specific import job.
@@ -10005,7 +10005,7 @@ public struct StartImportOutput: Swift.Equatable {
     }
 }
 
-struct StartImportOutputBody: Swift.Equatable {
+struct StartImportOutputBody {
     let name: Swift.String?
     let resourceType: LexModelBuildingClientTypes.ResourceType?
     let mergeStrategy: LexModelBuildingClientTypes.MergeStrategy?
@@ -10103,7 +10103,7 @@ extension StartMigrationInput {
     }
 }
 
-public struct StartMigrationInput: Swift.Equatable {
+public struct StartMigrationInput {
     /// The strategy used to conduct the migration.
     ///
     /// * CREATE_NEW - Creates a new Amazon Lex V2 bot and migrates the Amazon Lex V1 bot to the new bot.
@@ -10144,7 +10144,7 @@ public struct StartMigrationInput: Swift.Equatable {
     }
 }
 
-struct StartMigrationInputBody: Swift.Equatable {
+struct StartMigrationInputBody {
     let v1BotName: Swift.String?
     let v1BotVersion: Swift.String?
     let v2BotName: Swift.String?
@@ -10202,7 +10202,7 @@ extension StartMigrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMigrationOutput: Swift.Equatable {
+public struct StartMigrationOutput {
     /// The unique identifier that Amazon Lex assigned to the migration.
     public var migrationId: Swift.String?
     /// The strategy used to conduct the migration.
@@ -10242,7 +10242,7 @@ public struct StartMigrationOutput: Swift.Equatable {
     }
 }
 
-struct StartMigrationOutputBody: Swift.Equatable {
+struct StartMigrationOutputBody {
     let v1BotName: Swift.String?
     let v1BotVersion: Swift.String?
     let v1BotLocale: LexModelBuildingClientTypes.Locale?
@@ -10340,7 +10340,7 @@ extension LexModelBuildingClientTypes.Statement: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// A collection of messages that convey information to the user. At runtime, Amazon Lex selects the message to convey.
-    public struct Statement: Swift.Equatable {
+    public struct Statement {
         /// A collection of message objects.
         /// This member is required.
         public var messages: [LexModelBuildingClientTypes.Message]?
@@ -10459,7 +10459,7 @@ extension LexModelBuildingClientTypes.Tag: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// A list of key/value pairs that identify a bot, bot alias, or bot channel. Tag keys and values can consist of Unicode letters, digits, white space, and any of the following symbols: _ . : / = + - @.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. Keys are not case-sensitive and must be unique.
         /// This member is required.
         public var key: Swift.String?
@@ -10505,7 +10505,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10523,7 +10523,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [LexModelBuildingClientTypes.Tag]?
 }
 
@@ -10553,7 +10553,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -10599,7 +10599,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10617,7 +10617,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -10631,7 +10631,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -10696,7 +10696,7 @@ extension LexModelBuildingClientTypes.UtteranceData: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides information about a single utterance that was made to your bot.
-    public struct UtteranceData: Swift.Equatable {
+    public struct UtteranceData {
         /// The number of times that the utterance was processed.
         public var count: Swift.Int?
         /// The total number of individuals that used the utterance.
@@ -10765,7 +10765,7 @@ extension LexModelBuildingClientTypes.UtteranceList: Swift.Codable {
 
 extension LexModelBuildingClientTypes {
     /// Provides a list of utterances that have been made to a specific version of your bot. The list contains a maximum of 100 utterances.
-    public struct UtteranceList: Swift.Equatable {
+    public struct UtteranceList {
         /// The version of the bot that processed the list.
         public var botVersion: Swift.String?
         /// One or more [UtteranceData] objects that contain information about the utterances that have been made to a bot. The maximum number of object is 100.

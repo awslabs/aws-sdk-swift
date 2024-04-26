@@ -38,7 +38,7 @@ extension AssociateTeamMemberInput {
     }
 }
 
-public struct AssociateTeamMemberInput: Swift.Equatable {
+public struct AssociateTeamMemberInput {
     /// A user- or system-generated token that identifies the entity that requested the team member association to the project. This token can be used to repeat the request.
     public var clientRequestToken: Swift.String?
     /// The ID of the project to which you will add the IAM user.
@@ -69,7 +69,7 @@ public struct AssociateTeamMemberInput: Swift.Equatable {
     }
 }
 
-struct AssociateTeamMemberInputBody: Swift.Equatable {
+struct AssociateTeamMemberInputBody {
     let projectId: Swift.String?
     let clientRequestToken: Swift.String?
     let userArn: Swift.String?
@@ -113,7 +113,7 @@ extension AssociateTeamMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateTeamMemberOutput: Swift.Equatable {
+public struct AssociateTeamMemberOutput {
     /// The user- or system-generated token from the initial request that can be used to repeat the request.
     public var clientRequestToken: Swift.String?
 
@@ -125,7 +125,7 @@ public struct AssociateTeamMemberOutput: Swift.Equatable {
     }
 }
 
-struct AssociateTeamMemberOutputBody: Swift.Equatable {
+struct AssociateTeamMemberOutputBody {
     let clientRequestToken: Swift.String?
 }
 
@@ -185,7 +185,7 @@ extension CodeStarClientTypes.Code: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// Location and destination information about the source code files provided with the project request. The source code is uploaded to the new project source repository after project creation.
-    public struct Code: Swift.Equatable {
+    public struct Code {
         /// The repository to be created in AWS CodeStar. Valid values are AWS CodeCommit or GitHub. After AWS CodeStar provisions the new repository, the source code files provided with the project request are placed in the repository.
         /// This member is required.
         public var destination: CodeStarClientTypes.CodeDestination?
@@ -226,7 +226,7 @@ extension CodeStarClientTypes.CodeCommitCodeDestination: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// Information about the AWS CodeCommit repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
-    public struct CodeCommitCodeDestination: Swift.Equatable {
+    public struct CodeCommitCodeDestination {
         /// The name of the AWS CodeCommit repository to be created in AWS CodeStar.
         /// This member is required.
         public var name: Swift.String?
@@ -268,7 +268,7 @@ extension CodeStarClientTypes.CodeDestination: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// The repository to be created in AWS CodeStar. Valid values are AWS CodeCommit or GitHub. After AWS CodeStar provisions the new repository, the source code files provided with the project request are placed in the repository.
-    public struct CodeDestination: Swift.Equatable {
+    public struct CodeDestination {
         /// Information about the AWS CodeCommit repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
         public var codeCommit: CodeStarClientTypes.CodeCommitCodeDestination?
         /// Information about the GitHub repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
@@ -307,7 +307,7 @@ extension CodeStarClientTypes.CodeSource: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// The location where the source code files provided with the project request are stored. AWS CodeStar retrieves the files during project creation.
-    public struct CodeSource: Swift.Equatable {
+    public struct CodeSource {
         /// Information about the Amazon S3 location where the source code files provided with the project request are stored.
         /// This member is required.
         public var s3: CodeStarClientTypes.S3Location?
@@ -363,7 +363,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -434,7 +434,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// A user- or system-generated token that identifies the entity that requested project creation. This token can be used to repeat the request.
     public var clientRequestToken: Swift.String?
     /// The description of the project, if any.
@@ -472,7 +472,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let name: Swift.String?
     let id: Swift.String?
     let description: Swift.String?
@@ -548,7 +548,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The Amazon Resource Name (ARN) of the created project.
     /// This member is required.
     public var arn: Swift.String?
@@ -574,7 +574,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let clientRequestToken: Swift.String?
@@ -656,7 +656,7 @@ extension CreateUserProfileInput {
     }
 }
 
-public struct CreateUserProfileInput: Swift.Equatable {
+public struct CreateUserProfileInput {
     /// The name that will be displayed as the friendly name for the user in AWS CodeStar.
     /// This member is required.
     public var displayName: Swift.String?
@@ -683,7 +683,7 @@ public struct CreateUserProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateUserProfileInputBody: Swift.Equatable {
+struct CreateUserProfileInputBody {
     let userArn: Swift.String?
     let displayName: Swift.String?
     let emailAddress: Swift.String?
@@ -738,7 +738,7 @@ extension CreateUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserProfileOutput: Swift.Equatable {
+public struct CreateUserProfileOutput {
     /// The date the user profile was created, in timestamp format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The name that is displayed as the friendly name for the user in AWS CodeStar.
@@ -771,7 +771,7 @@ public struct CreateUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserProfileOutputBody: Swift.Equatable {
+struct CreateUserProfileOutputBody {
     let userArn: Swift.String?
     let displayName: Swift.String?
     let emailAddress: Swift.String?
@@ -847,7 +847,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// A user- or system-generated token that identifies the entity that requested project deletion. This token can be used to repeat the request.
     public var clientRequestToken: Swift.String?
     /// Whether to send a delete request for the primary stack in AWS CloudFormation originally used to generate the project and its resources. This option will delete all AWS resources for the project (except for any buckets in Amazon S3) as well as deleting the project itself. Recommended for most use cases.
@@ -868,7 +868,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
     let id: Swift.String?
     let clientRequestToken: Swift.String?
     let deleteStack: Swift.Bool?
@@ -906,7 +906,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
     /// The Amazon Resource Name (ARN) of the deleted project.
     public var projectArn: Swift.String?
     /// The ID of the primary stack in AWS CloudFormation that will be deleted as part of deleting the project and its resources.
@@ -922,7 +922,7 @@ public struct DeleteProjectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputBody: Swift.Equatable {
+struct DeleteProjectOutputBody {
     let stackId: Swift.String?
     let projectArn: Swift.String?
 }
@@ -975,7 +975,7 @@ extension DeleteUserProfileInput {
     }
 }
 
-public struct DeleteUserProfileInput: Swift.Equatable {
+public struct DeleteUserProfileInput {
     /// The Amazon Resource Name (ARN) of the user to delete from AWS CodeStar.
     /// This member is required.
     public var userArn: Swift.String?
@@ -988,7 +988,7 @@ public struct DeleteUserProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserProfileInputBody: Swift.Equatable {
+struct DeleteUserProfileInputBody {
     let userArn: Swift.String?
 }
 
@@ -1016,7 +1016,7 @@ extension DeleteUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserProfileOutput: Swift.Equatable {
+public struct DeleteUserProfileOutput {
     /// The Amazon Resource Name (ARN) of the user deleted from AWS CodeStar.
     /// This member is required.
     public var userArn: Swift.String?
@@ -1029,7 +1029,7 @@ public struct DeleteUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUserProfileOutputBody: Swift.Equatable {
+struct DeleteUserProfileOutputBody {
     let userArn: Swift.String?
 }
 
@@ -1076,7 +1076,7 @@ extension DescribeProjectInput {
     }
 }
 
-public struct DescribeProjectInput: Swift.Equatable {
+public struct DescribeProjectInput {
     /// The ID of the project.
     /// This member is required.
     public var id: Swift.String?
@@ -1089,7 +1089,7 @@ public struct DescribeProjectInput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectInputBody: Swift.Equatable {
+struct DescribeProjectInputBody {
     let id: Swift.String?
 }
 
@@ -1138,7 +1138,7 @@ extension DescribeProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProjectOutput: Swift.Equatable {
+public struct DescribeProjectOutput {
     /// The Amazon Resource Name (ARN) for the project.
     public var arn: Swift.String?
     /// A user- or system-generated token that identifies the entity that requested project creation.
@@ -1182,7 +1182,7 @@ public struct DescribeProjectOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProjectOutputBody: Swift.Equatable {
+struct DescribeProjectOutputBody {
     let name: Swift.String?
     let id: Swift.String?
     let arn: Swift.String?
@@ -1265,7 +1265,7 @@ extension DescribeUserProfileInput {
     }
 }
 
-public struct DescribeUserProfileInput: Swift.Equatable {
+public struct DescribeUserProfileInput {
     /// The Amazon Resource Name (ARN) of the user.
     /// This member is required.
     public var userArn: Swift.String?
@@ -1278,7 +1278,7 @@ public struct DescribeUserProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserProfileInputBody: Swift.Equatable {
+struct DescribeUserProfileInputBody {
     let userArn: Swift.String?
 }
 
@@ -1321,7 +1321,7 @@ extension DescribeUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserProfileOutput: Swift.Equatable {
+public struct DescribeUserProfileOutput {
     /// The date and time when the user profile was created in AWS CodeStar, in timestamp format.
     /// This member is required.
     public var createdTimestamp: ClientRuntime.Date?
@@ -1356,7 +1356,7 @@ public struct DescribeUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserProfileOutputBody: Swift.Equatable {
+struct DescribeUserProfileOutputBody {
     let userArn: Swift.String?
     let displayName: Swift.String?
     let emailAddress: Swift.String?
@@ -1428,7 +1428,7 @@ extension DisassociateTeamMemberInput {
     }
 }
 
-public struct DisassociateTeamMemberInput: Swift.Equatable {
+public struct DisassociateTeamMemberInput {
     /// The ID of the AWS CodeStar project from which you want to remove a team member.
     /// This member is required.
     public var projectId: Swift.String?
@@ -1446,7 +1446,7 @@ public struct DisassociateTeamMemberInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTeamMemberInputBody: Swift.Equatable {
+struct DisassociateTeamMemberInputBody {
     let projectId: Swift.String?
     let userArn: Swift.String?
 }
@@ -1471,7 +1471,7 @@ extension DisassociateTeamMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateTeamMemberOutput: Swift.Equatable {
+public struct DisassociateTeamMemberOutput {
 
     public init() { }
 }
@@ -1552,7 +1552,7 @@ extension CodeStarClientTypes.GitHubCodeDestination: Swift.CustomDebugStringConv
 
 extension CodeStarClientTypes {
     /// Information about the GitHub repository to be created in AWS CodeStar. This is where the source code files provided with the project request will be uploaded after project creation.
-    public struct GitHubCodeDestination: Swift.Equatable {
+    public struct GitHubCodeDestination {
         /// Description for the GitHub repository to be created in AWS CodeStar. This description displays in GitHub after the repository is created.
         public var description: Swift.String?
         /// Whether to enable issues for the GitHub repository.
@@ -1635,7 +1635,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1690,7 +1690,7 @@ public struct InvalidServiceRoleException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidServiceRoleExceptionBody: Swift.Equatable {
+struct InvalidServiceRoleExceptionBody {
     let message: Swift.String?
 }
 
@@ -1745,7 +1745,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1785,7 +1785,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// The maximum amount of data that can be contained in a single set of results.
     public var maxResults: Swift.Int?
     /// The continuation token to be used to return the next set of results, if the results cannot be returned in one response.
@@ -1801,7 +1801,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -1835,7 +1835,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
     public var nextToken: Swift.String?
     /// A list of projects.
@@ -1852,7 +1852,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let projects: [CodeStarClientTypes.ProjectSummary]?
     let nextToken: Swift.String?
 }
@@ -1921,7 +1921,7 @@ extension ListResourcesInput {
     }
 }
 
-public struct ListResourcesInput: Swift.Equatable {
+public struct ListResourcesInput {
     /// The maximum amount of data that can be contained in a single set of results.
     public var maxResults: Swift.Int?
     /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -1942,7 +1942,7 @@ public struct ListResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesInputBody: Swift.Equatable {
+struct ListResourcesInputBody {
     let projectId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1980,7 +1980,7 @@ extension ListResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesOutput: Swift.Equatable {
+public struct ListResourcesOutput {
     /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
     public var nextToken: Swift.String?
     /// An array of resources associated with the project.
@@ -1996,7 +1996,7 @@ public struct ListResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesOutputBody: Swift.Equatable {
+struct ListResourcesOutputBody {
     let resources: [CodeStarClientTypes.Resource]?
     let nextToken: Swift.String?
 }
@@ -2066,7 +2066,7 @@ extension ListTagsForProjectInput {
     }
 }
 
-public struct ListTagsForProjectInput: Swift.Equatable {
+public struct ListTagsForProjectInput {
     /// The ID of the project to get tags for.
     /// This member is required.
     public var id: Swift.String?
@@ -2087,7 +2087,7 @@ public struct ListTagsForProjectInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForProjectInputBody: Swift.Equatable {
+struct ListTagsForProjectInputBody {
     let id: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2125,7 +2125,7 @@ extension ListTagsForProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForProjectOutput: Swift.Equatable {
+public struct ListTagsForProjectOutput {
     /// Reserved for future use.
     public var nextToken: Swift.String?
     /// The tags for the project.
@@ -2141,7 +2141,7 @@ public struct ListTagsForProjectOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForProjectOutputBody: Swift.Equatable {
+struct ListTagsForProjectOutputBody {
     let tags: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
 }
@@ -2211,7 +2211,7 @@ extension ListTeamMembersInput {
     }
 }
 
-public struct ListTeamMembersInput: Swift.Equatable {
+public struct ListTeamMembersInput {
     /// The maximum number of team members you want returned in a response.
     public var maxResults: Swift.Int?
     /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -2232,7 +2232,7 @@ public struct ListTeamMembersInput: Swift.Equatable {
     }
 }
 
-struct ListTeamMembersInputBody: Swift.Equatable {
+struct ListTeamMembersInputBody {
     let projectId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2270,7 +2270,7 @@ extension ListTeamMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTeamMembersOutput: Swift.Equatable {
+public struct ListTeamMembersOutput {
     /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
     public var nextToken: Swift.String?
     /// A list of team member objects for the project.
@@ -2287,7 +2287,7 @@ public struct ListTeamMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListTeamMembersOutputBody: Swift.Equatable {
+struct ListTeamMembersOutputBody {
     let teamMembers: [CodeStarClientTypes.TeamMember]?
     let nextToken: Swift.String?
 }
@@ -2353,7 +2353,7 @@ extension ListUserProfilesInput {
     }
 }
 
-public struct ListUserProfilesInput: Swift.Equatable {
+public struct ListUserProfilesInput {
     /// The maximum number of results to return in a response.
     public var maxResults: Swift.Int?
     /// The continuation token for the next set of results, if the results cannot be returned in one response.
@@ -2369,7 +2369,7 @@ public struct ListUserProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListUserProfilesInputBody: Swift.Equatable {
+struct ListUserProfilesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2403,7 +2403,7 @@ extension ListUserProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserProfilesOutput: Swift.Equatable {
+public struct ListUserProfilesOutput {
     /// The continuation token to use when requesting the next set of results, if there are more results to be returned.
     public var nextToken: Swift.String?
     /// All the user profiles configured in AWS CodeStar for an AWS account.
@@ -2420,7 +2420,7 @@ public struct ListUserProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListUserProfilesOutputBody: Swift.Equatable {
+struct ListUserProfilesOutputBody {
     let userProfiles: [CodeStarClientTypes.UserProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -2500,7 +2500,7 @@ public struct ProjectAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ProjectAlreadyExistsExceptionBody: Swift.Equatable {
+struct ProjectAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2555,7 +2555,7 @@ public struct ProjectConfigurationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ProjectConfigurationExceptionBody: Swift.Equatable {
+struct ProjectConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2610,7 +2610,7 @@ public struct ProjectCreationFailedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ProjectCreationFailedExceptionBody: Swift.Equatable {
+struct ProjectCreationFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2665,7 +2665,7 @@ public struct ProjectNotFoundException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ProjectNotFoundExceptionBody: Swift.Equatable {
+struct ProjectNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -2708,7 +2708,7 @@ extension CodeStarClientTypes.ProjectStatus: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// An indication of whether a project creation or deletion is failed or successful.
-    public struct ProjectStatus: Swift.Equatable {
+    public struct ProjectStatus {
         /// In the case of a project creation or deletion failure, a reason for the failure.
         public var reason: Swift.String?
         /// The phase of completion for a project creation or deletion.
@@ -2754,7 +2754,7 @@ extension CodeStarClientTypes.ProjectSummary: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// Information about the metadata for a project.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// The Amazon Resource Name (ARN) of the project.
         public var projectArn: Swift.String?
         /// The ID of the project.
@@ -2793,7 +2793,7 @@ extension CodeStarClientTypes.Resource: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// Information about a resource for a project.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The Amazon Resource Name (ARN) of the resource.
         /// This member is required.
         public var id: Swift.String?
@@ -2835,7 +2835,7 @@ extension CodeStarClientTypes.S3Location: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// The Amazon S3 location where the source code files provided with the project request are stored.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The Amazon S3 object key where the source code files provided with the project request are stored.
         public var bucketKey: Swift.String?
         /// The Amazon S3 bucket name where the source code files provided with the project request are stored.
@@ -2880,7 +2880,7 @@ extension TagProjectInput {
     }
 }
 
-public struct TagProjectInput: Swift.Equatable {
+public struct TagProjectInput {
     /// The ID of the project you want to add a tag to.
     /// This member is required.
     public var id: Swift.String?
@@ -2898,7 +2898,7 @@ public struct TagProjectInput: Swift.Equatable {
     }
 }
 
-struct TagProjectInputBody: Swift.Equatable {
+struct TagProjectInputBody {
     let id: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2939,7 +2939,7 @@ extension TagProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagProjectOutput: Swift.Equatable {
+public struct TagProjectOutput {
     /// The tags for the project.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2951,7 +2951,7 @@ public struct TagProjectOutput: Swift.Equatable {
     }
 }
 
-struct TagProjectOutputBody: Swift.Equatable {
+struct TagProjectOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3023,7 +3023,7 @@ extension CodeStarClientTypes.TeamMember: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// Information about a team member in a project.
-    public struct TeamMember: Swift.Equatable {
+    public struct TeamMember {
         /// The role assigned to the user in the project. Project roles have different levels of access. For more information, see [Working with Teams](http://docs.aws.amazon.com/codestar/latest/userguide/working-with-teams.html) in the AWS CodeStar User Guide.
         /// This member is required.
         public var projectRole: Swift.String?
@@ -3086,7 +3086,7 @@ public struct TeamMemberAlreadyAssociatedException: ClientRuntime.ModeledError, 
     }
 }
 
-struct TeamMemberAlreadyAssociatedExceptionBody: Swift.Equatable {
+struct TeamMemberAlreadyAssociatedExceptionBody {
     let message: Swift.String?
 }
 
@@ -3141,7 +3141,7 @@ public struct TeamMemberNotFoundException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct TeamMemberNotFoundExceptionBody: Swift.Equatable {
+struct TeamMemberNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3202,7 +3202,7 @@ extension CodeStarClientTypes.Toolchain: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// The toolchain template file provided with the project request. AWS CodeStar uses the template to provision the toolchain stack in AWS CloudFormation.
-    public struct Toolchain: Swift.Equatable {
+    public struct Toolchain {
         /// The service role ARN for AWS CodeStar to use for the toolchain template during stack provisioning.
         public var roleArn: Swift.String?
         /// The Amazon S3 location where the toolchain template file provided with the project request is stored. AWS CodeStar retrieves the file during project creation.
@@ -3246,7 +3246,7 @@ extension CodeStarClientTypes.ToolchainSource: Swift.Codable {
 
 extension CodeStarClientTypes {
     /// The Amazon S3 location where the toolchain template file provided with the project request is stored. AWS CodeStar retrieves the file during project creation.
-    public struct ToolchainSource: Swift.Equatable {
+    public struct ToolchainSource {
         /// The Amazon S3 bucket where the toolchain template file provided with the project request is stored.
         /// This member is required.
         public var s3: CodeStarClientTypes.S3Location?
@@ -3288,7 +3288,7 @@ extension UntagProjectInput {
     }
 }
 
-public struct UntagProjectInput: Swift.Equatable {
+public struct UntagProjectInput {
     /// The ID of the project to remove tags from.
     /// This member is required.
     public var id: Swift.String?
@@ -3306,7 +3306,7 @@ public struct UntagProjectInput: Swift.Equatable {
     }
 }
 
-struct UntagProjectInputBody: Swift.Equatable {
+struct UntagProjectInputBody {
     let id: Swift.String?
     let tags: [Swift.String]?
 }
@@ -3340,7 +3340,7 @@ extension UntagProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagProjectOutput: Swift.Equatable {
+public struct UntagProjectOutput {
 
     public init() { }
 }
@@ -3392,7 +3392,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// The description of the project, if any.
     public var description: Swift.String?
     /// The ID of the project you want to update.
@@ -3413,7 +3413,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let id: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3442,7 +3442,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
 
     public init() { }
 }
@@ -3491,7 +3491,7 @@ extension UpdateTeamMemberInput {
     }
 }
 
-public struct UpdateTeamMemberInput: Swift.Equatable {
+public struct UpdateTeamMemberInput {
     /// The ID of the project.
     /// This member is required.
     public var projectId: Swift.String?
@@ -3517,7 +3517,7 @@ public struct UpdateTeamMemberInput: Swift.Equatable {
     }
 }
 
-struct UpdateTeamMemberInputBody: Swift.Equatable {
+struct UpdateTeamMemberInputBody {
     let projectId: Swift.String?
     let userArn: Swift.String?
     let projectRole: Swift.String?
@@ -3561,7 +3561,7 @@ extension UpdateTeamMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTeamMemberOutput: Swift.Equatable {
+public struct UpdateTeamMemberOutput {
     /// The project role granted to the user.
     public var projectRole: Swift.String?
     /// Whether a team member is allowed to remotely access project resources using the SSH public key associated with the user's profile.
@@ -3581,7 +3581,7 @@ public struct UpdateTeamMemberOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTeamMemberOutputBody: Swift.Equatable {
+struct UpdateTeamMemberOutputBody {
     let userArn: Swift.String?
     let projectRole: Swift.String?
     let remoteAccessAllowed: Swift.Bool?
@@ -3659,7 +3659,7 @@ extension UpdateUserProfileInput {
     }
 }
 
-public struct UpdateUserProfileInput: Swift.Equatable {
+public struct UpdateUserProfileInput {
     /// The name that is displayed as the friendly name for the user in AWS CodeStar.
     public var displayName: Swift.String?
     /// The email address that is displayed as part of the user's profile in AWS CodeStar.
@@ -3684,7 +3684,7 @@ public struct UpdateUserProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserProfileInputBody: Swift.Equatable {
+struct UpdateUserProfileInputBody {
     let userArn: Swift.String?
     let displayName: Swift.String?
     let emailAddress: Swift.String?
@@ -3739,7 +3739,7 @@ extension UpdateUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserProfileOutput: Swift.Equatable {
+public struct UpdateUserProfileOutput {
     /// The date the user profile was created, in timestamp format.
     public var createdTimestamp: ClientRuntime.Date?
     /// The name that is displayed as the friendly name for the user in AWS CodeStar.
@@ -3772,7 +3772,7 @@ public struct UpdateUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserProfileOutputBody: Swift.Equatable {
+struct UpdateUserProfileOutputBody {
     let userArn: Swift.String?
     let displayName: Swift.String?
     let emailAddress: Swift.String?
@@ -3859,7 +3859,7 @@ public struct UserProfileAlreadyExistsException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct UserProfileAlreadyExistsExceptionBody: Swift.Equatable {
+struct UserProfileAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3914,7 +3914,7 @@ public struct UserProfileNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UserProfileNotFoundExceptionBody: Swift.Equatable {
+struct UserProfileNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3974,7 +3974,7 @@ extension CodeStarClientTypes.UserProfileSummary: Swift.CustomDebugStringConvert
 
 extension CodeStarClientTypes {
     /// Information about a user's profile in AWS CodeStar.
-    public struct UserProfileSummary: Swift.Equatable {
+    public struct UserProfileSummary {
         /// The display name of a user in AWS CodeStar. For example, this could be set to both first and last name ("Mary Major") or a single name ("Mary"). The display name is also used to generate the initial icon associated with the user in AWS CodeStar projects. If spaces are included in the display name, the first character that appears after the space will be used as the second character in the user initial icon. The initial icon displays a maximum of two characters, so a display name with more than one space (for example "Mary Jane Major") would generate an initial icon using the first character and the first character after the space ("MJ", not "MM").
         public var displayName: Swift.String?
         /// The email address associated with the user.
@@ -4039,7 +4039,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

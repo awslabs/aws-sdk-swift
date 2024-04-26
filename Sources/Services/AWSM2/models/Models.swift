@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -97,7 +97,7 @@ extension M2ClientTypes.AlternateKey: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines an alternate key. This value is optional. A legacy data set might not have any alternate key defined but if those alternate keys definitions exist, provide them, as some applications will make use of them.
-    public struct AlternateKey: Swift.Equatable {
+    public struct AlternateKey {
         /// Indicates whether the alternate key values are supposed to be unique for the given data set.
         public var allowDuplicates: Swift.Bool
         /// A strictly positive integer value representing the length of the alternate key.
@@ -309,7 +309,7 @@ extension M2ClientTypes.ApplicationSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of the possible application attributes. Used in the application list.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The Amazon Resource Name (ARN) of the application.
         /// This member is required.
         public var applicationArn: Swift.String?
@@ -452,7 +452,7 @@ extension M2ClientTypes.ApplicationVersionSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines an application version summary.
-    public struct ApplicationVersionSummary: Swift.Equatable {
+    public struct ApplicationVersionSummary {
         /// The application version.
         /// This member is required.
         public var applicationVersion: Swift.Int?
@@ -518,7 +518,7 @@ extension M2ClientTypes.BatchJobDefinition: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines the details of a batch job.
-    public enum BatchJobDefinition: Swift.Equatable {
+    public enum BatchJobDefinition {
         /// Specifies a file containing a batch job definition.
         case filebatchjobdefinition(M2ClientTypes.FileBatchJobDefinition)
         /// A script containing a batch job definition.
@@ -659,7 +659,7 @@ extension M2ClientTypes.BatchJobExecutionSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of the possible batch job attributes. Used in the batch job list.
-    public struct BatchJobExecutionSummary: Swift.Equatable {
+    public struct BatchJobExecutionSummary {
         /// The unique identifier of the application that hosts this batch job.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -766,7 +766,7 @@ extension M2ClientTypes.BatchJobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// Identifies a specific batch job.
-    public enum BatchJobIdentifier: Swift.Equatable {
+    public enum BatchJobIdentifier {
         /// Specifies a file associated with a specific batch job.
         case filebatchjobidentifier(M2ClientTypes.FileBatchJobIdentifier)
         /// A batch job identifier in which the batch job to run is identified by the script name.
@@ -828,7 +828,7 @@ extension CancelBatchJobExecutionInput {
     }
 }
 
-public struct CancelBatchJobExecutionInput: Swift.Equatable {
+public struct CancelBatchJobExecutionInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -846,7 +846,7 @@ public struct CancelBatchJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct CancelBatchJobExecutionInputBody: Swift.Equatable {
+struct CancelBatchJobExecutionInputBody {
 }
 
 extension CancelBatchJobExecutionInputBody: Swift.Decodable {
@@ -860,7 +860,7 @@ extension CancelBatchJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelBatchJobExecutionOutput: Swift.Equatable {
+public struct CancelBatchJobExecutionOutput {
 
     public init() { }
 }
@@ -933,7 +933,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1008,7 +1008,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// Unique, case-sensitive identifier the service generates to ensure the idempotency of the request to create an application. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
     public var clientToken: Swift.String?
     /// The application definition for this application. You can specify either inline JSON or an S3 bucket location.
@@ -1051,7 +1051,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let engineType: M2ClientTypes.EngineType?
@@ -1120,7 +1120,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -1143,7 +1143,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationArn: Swift.String?
     let applicationId: Swift.String?
     let applicationVersion: Swift.Int?
@@ -1210,7 +1210,7 @@ extension CreateDataSetImportTaskInput {
     }
 }
 
-public struct CreateDataSetImportTaskInput: Swift.Equatable {
+public struct CreateDataSetImportTaskInput {
     /// The unique identifier of the application for which you want to import data sets.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1232,7 +1232,7 @@ public struct CreateDataSetImportTaskInput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetImportTaskInputBody: Swift.Equatable {
+struct CreateDataSetImportTaskInputBody {
     let importConfig: M2ClientTypes.DataSetImportConfig?
     let clientToken: Swift.String?
 }
@@ -1264,7 +1264,7 @@ extension CreateDataSetImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataSetImportTaskOutput: Swift.Equatable {
+public struct CreateDataSetImportTaskOutput {
     /// The task identifier. This operation is asynchronous. Use this identifier with the [GetDataSetImportTask] operation to obtain the status of this task.
     /// This member is required.
     public var taskId: Swift.String?
@@ -1277,7 +1277,7 @@ public struct CreateDataSetImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataSetImportTaskOutputBody: Swift.Equatable {
+struct CreateDataSetImportTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -1341,7 +1341,7 @@ extension CreateDeploymentInput {
     }
 }
 
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// The application identifier.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1368,7 +1368,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let environmentId: Swift.String?
     let applicationVersion: Swift.Int?
     let clientToken: Swift.String?
@@ -1404,7 +1404,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// The unique identifier of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -1417,7 +1417,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let deploymentId: Swift.String?
 }
 
@@ -1534,7 +1534,7 @@ extension CreateEnvironmentInput {
     }
 }
 
-public struct CreateEnvironmentInput: Swift.Equatable {
+public struct CreateEnvironmentInput {
     /// Unique, case-sensitive identifier you provide to ensure the idempotency of the request to create an environment. The service generates the clientToken when the API call is triggered. The token expires after one hour, so if you retry the API within this timeframe with the same clientToken, you will get the same response. The service also handles deleting the clientToken after it expires.
     public var clientToken: Swift.String?
     /// The description of the runtime environment.
@@ -1601,7 +1601,7 @@ public struct CreateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentInputBody: Swift.Equatable {
+struct CreateEnvironmentInputBody {
     let name: Swift.String?
     let instanceType: Swift.String?
     let description: Swift.String?
@@ -1717,7 +1717,7 @@ extension CreateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentOutput: Swift.Equatable {
+public struct CreateEnvironmentOutput {
     /// The unique identifier of the runtime environment.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -1730,7 +1730,7 @@ public struct CreateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentOutputBody: Swift.Equatable {
+struct CreateEnvironmentOutputBody {
     let environmentId: Swift.String?
 }
 
@@ -1807,7 +1807,7 @@ extension M2ClientTypes.DataSet: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines a data set.
-    public struct DataSet: Swift.Equatable {
+    public struct DataSet {
         /// The logical identifier for a specific data set (in mainframe format).
         /// This member is required.
         public var datasetName: Swift.String?
@@ -1889,7 +1889,7 @@ extension M2ClientTypes.DataSetImportConfig: Swift.Codable {
 
 extension M2ClientTypes {
     /// Identifies one or more data sets you want to import with the [CreateDataSetImportTask] operation.
-    public enum DataSetImportConfig: Swift.Equatable {
+    public enum DataSetImportConfig {
         /// The Amazon S3 location of the data sets.
         case s3location(Swift.String)
         /// The data sets.
@@ -1926,7 +1926,7 @@ extension M2ClientTypes.DataSetImportItem: Swift.Codable {
 
 extension M2ClientTypes {
     /// Identifies a specific data set to import from an external location.
-    public struct DataSetImportItem: Swift.Equatable {
+    public struct DataSetImportItem {
         /// The data set.
         /// This member is required.
         public var dataSet: M2ClientTypes.DataSet?
@@ -1991,7 +1991,7 @@ extension M2ClientTypes.DataSetImportSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// Represents a summary of data set imports.
-    public struct DataSetImportSummary: Swift.Equatable {
+    public struct DataSetImportSummary {
         /// The number of data set imports that have failed.
         /// This member is required.
         public var failed: Swift.Int
@@ -2065,7 +2065,7 @@ extension M2ClientTypes.DataSetImportTask: Swift.Codable {
 
 extension M2ClientTypes {
     /// Contains information about a data set import task.
-    public struct DataSetImportTask: Swift.Equatable {
+    public struct DataSetImportTask {
         /// The status of the data set import task.
         /// This member is required.
         public var status: M2ClientTypes.DataSetTaskLifecycle?
@@ -2145,7 +2145,7 @@ extension M2ClientTypes.DataSetSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of the possible data set attributes.
-    public struct DataSetSummary: Swift.Equatable {
+    public struct DataSetSummary {
         /// The timestamp when the data set was created.
         public var creationTime: ClientRuntime.Date?
         /// The name of the data set.
@@ -2271,7 +2271,7 @@ extension M2ClientTypes.DatasetDetailOrgAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// Additional details about the data set. Different attributes correspond to different data set organizations. The values are populated based on datasetOrg, storageType and backend (Blu Age or Micro Focus).
-    public enum DatasetDetailOrgAttributes: Swift.Equatable {
+    public enum DatasetDetailOrgAttributes {
         /// The details of a VSAM data set.
         case vsam(M2ClientTypes.VsamDetailAttributes)
         /// The generation data group of the data set.
@@ -2338,7 +2338,7 @@ extension M2ClientTypes.DatasetOrgAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// Additional details about the data set. Different attributes correspond to different data set organizations. The values are populated based on datasetOrg, storageType and backend (Blu Age or Micro Focus).
-    public enum DatasetOrgAttributes: Swift.Equatable {
+    public enum DatasetOrgAttributes {
         /// The details of a VSAM data set.
         case vsam(M2ClientTypes.VsamAttributes)
         /// The generation data group of the data set.
@@ -2389,7 +2389,7 @@ extension M2ClientTypes.Definition: Swift.Codable {
 
 extension M2ClientTypes {
     /// The application definition for a particular application.
-    public enum Definition: Swift.Equatable {
+    public enum Definition {
         /// The S3 bucket that contains the application definition.
         case s3location(Swift.String)
         /// The content of the application definition. This is a JSON object that contains the resource configuration/definitions that identify an application.
@@ -2412,7 +2412,7 @@ extension DeleteApplicationFromEnvironmentInput {
     }
 }
 
-public struct DeleteApplicationFromEnvironmentInput: Swift.Equatable {
+public struct DeleteApplicationFromEnvironmentInput {
     /// The unique identifier of the application you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2430,7 +2430,7 @@ public struct DeleteApplicationFromEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationFromEnvironmentInputBody: Swift.Equatable {
+struct DeleteApplicationFromEnvironmentInputBody {
 }
 
 extension DeleteApplicationFromEnvironmentInputBody: Swift.Decodable {
@@ -2444,7 +2444,7 @@ extension DeleteApplicationFromEnvironmentOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteApplicationFromEnvironmentOutput: Swift.Equatable {
+public struct DeleteApplicationFromEnvironmentOutput {
 
     public init() { }
 }
@@ -2475,7 +2475,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The unique identifier of the application you want to delete.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2488,7 +2488,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -2502,7 +2502,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -2532,7 +2532,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// The unique identifier of the runtime environment you want to delete.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -2545,7 +2545,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
 }
 
 extension DeleteEnvironmentInputBody: Swift.Decodable {
@@ -2559,7 +2559,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
 
     public init() { }
 }
@@ -2612,7 +2612,7 @@ extension M2ClientTypes.DeployedVersionSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// Contains a summary of a deployed application.
-    public struct DeployedVersionSummary: Swift.Equatable {
+    public struct DeployedVersionSummary {
         /// The version of the deployed application.
         /// This member is required.
         public var applicationVersion: Swift.Int?
@@ -2731,7 +2731,7 @@ extension M2ClientTypes.DeploymentSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of information about a specific deployment.
-    public struct DeploymentSummary: Swift.Equatable {
+    public struct DeploymentSummary {
         /// The unique identifier of the application.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -2802,7 +2802,7 @@ extension M2ClientTypes.EfsStorageConfiguration: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines the storage configuration for an Amazon EFS file system.
-    public struct EfsStorageConfiguration: Swift.Equatable {
+    public struct EfsStorageConfiguration {
         /// The file system identifier.
         /// This member is required.
         public var fileSystemId: Swift.String?
@@ -2881,7 +2881,7 @@ extension M2ClientTypes.EngineVersionsSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of information about the engine version for a specific application.
-    public struct EngineVersionsSummary: Swift.Equatable {
+    public struct EngineVersionsSummary {
         /// The type of target platform for the application.
         /// This member is required.
         public var engineType: Swift.String?
@@ -3005,7 +3005,7 @@ extension M2ClientTypes.EnvironmentSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// Contains a subset of the possible runtime environment attributes. Used in the environment list.
-    public struct EnvironmentSummary: Swift.Equatable {
+    public struct EnvironmentSummary {
         /// The timestamp when the runtime environment was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -3095,7 +3095,7 @@ public struct ExecutionTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ExecutionTimeoutExceptionBody: Swift.Equatable {
+struct ExecutionTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -3140,7 +3140,7 @@ extension M2ClientTypes.ExternalLocation: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines an external storage location.
-    public enum ExternalLocation: Swift.Equatable {
+    public enum ExternalLocation {
         /// The URI of the Amazon S3 bucket.
         case s3location(Swift.String)
         case sdkUnknown(Swift.String)
@@ -3175,7 +3175,7 @@ extension M2ClientTypes.FileBatchJobDefinition: Swift.Codable {
 
 extension M2ClientTypes {
     /// A file containing a batch job definition.
-    public struct FileBatchJobDefinition: Swift.Equatable {
+    public struct FileBatchJobDefinition {
         /// The name of the file containing the batch job definition.
         /// This member is required.
         public var fileName: Swift.String?
@@ -3221,7 +3221,7 @@ extension M2ClientTypes.FileBatchJobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// A batch job identifier in which the batch job to run is identified by the file name and the relative path to the file name.
-    public struct FileBatchJobIdentifier: Swift.Equatable {
+    public struct FileBatchJobIdentifier {
         /// The file name for the batch job identifier.
         /// This member is required.
         public var fileName: Swift.String?
@@ -3267,7 +3267,7 @@ extension M2ClientTypes.FsxStorageConfiguration: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines the storage configuration for an Amazon FSx file system.
-    public struct FsxStorageConfiguration: Swift.Equatable {
+    public struct FsxStorageConfiguration {
         /// The file system identifier.
         /// This member is required.
         public var fileSystemId: Swift.String?
@@ -3314,7 +3314,7 @@ extension M2ClientTypes.GdgAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The required attributes for a generation data group data set. A generation data set is one of a collection of successive, historically related, catalogued data sets that together are known as a generation data group (GDG). Use this structure when you want to import a GDG. For more information on GDG, see [Generation data sets](https://www.ibm.com/docs/en/zos/2.3.0?topic=guide-generation-data-sets).
-    public struct GdgAttributes: Swift.Equatable {
+    public struct GdgAttributes {
         /// The maximum number of generation data sets, up to 255, in a GDG.
         public var limit: Swift.Int
         /// The disposition of the data set in the catalog.
@@ -3359,7 +3359,7 @@ extension M2ClientTypes.GdgDetailAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The required attributes for a generation data group data set. A generation data set is one of a collection of successive, historically related, catalogued data sets that together are known as a generation data group (GDG). Use this structure when you want to import a GDG. For more information on GDG, see [Generation data sets](https://www.ibm.com/docs/en/zos/2.3.0?topic=guide-generation-data-sets).
-    public struct GdgDetailAttributes: Swift.Equatable {
+    public struct GdgDetailAttributes {
         /// The maximum number of generation data sets, up to 255, in a GDG.
         public var limit: Swift.Int
         /// The disposition of the data set in the catalog.
@@ -3387,7 +3387,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3400,7 +3400,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -3459,7 +3459,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -3554,7 +3554,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let applicationId: Swift.String?
@@ -3719,7 +3719,7 @@ extension GetApplicationVersionInput {
     }
 }
 
-public struct GetApplicationVersionInput: Swift.Equatable {
+public struct GetApplicationVersionInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3737,7 +3737,7 @@ public struct GetApplicationVersionInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationVersionInputBody: Swift.Equatable {
+struct GetApplicationVersionInputBody {
 }
 
 extension GetApplicationVersionInputBody: Swift.Decodable {
@@ -3770,7 +3770,7 @@ extension GetApplicationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationVersionOutput: Swift.Equatable {
+public struct GetApplicationVersionOutput {
     /// The specific version of the application.
     /// This member is required.
     public var applicationVersion: Swift.Int?
@@ -3811,7 +3811,7 @@ public struct GetApplicationVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationVersionOutputBody: Swift.Equatable {
+struct GetApplicationVersionOutputBody {
     let name: Swift.String?
     let applicationVersion: Swift.Int?
     let description: Swift.String?
@@ -3879,7 +3879,7 @@ extension GetBatchJobExecutionInput {
     }
 }
 
-public struct GetBatchJobExecutionInput: Swift.Equatable {
+public struct GetBatchJobExecutionInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3897,7 +3897,7 @@ public struct GetBatchJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetBatchJobExecutionInputBody: Swift.Equatable {
+struct GetBatchJobExecutionInputBody {
 }
 
 extension GetBatchJobExecutionInputBody: Swift.Decodable {
@@ -3942,7 +3942,7 @@ extension GetBatchJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBatchJobExecutionOutput: Swift.Equatable {
+public struct GetBatchJobExecutionOutput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4006,7 +4006,7 @@ public struct GetBatchJobExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetBatchJobExecutionOutputBody: Swift.Equatable {
+struct GetBatchJobExecutionOutputBody {
     let executionId: Swift.String?
     let applicationId: Swift.String?
     let jobId: Swift.String?
@@ -4098,7 +4098,7 @@ extension GetDataSetDetailsInput {
     }
 }
 
-public struct GetDataSetDetailsInput: Swift.Equatable {
+public struct GetDataSetDetailsInput {
     /// The unique identifier of the application that this data set is associated with.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4116,7 +4116,7 @@ public struct GetDataSetDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetDataSetDetailsInputBody: Swift.Equatable {
+struct GetDataSetDetailsInputBody {
 }
 
 extension GetDataSetDetailsInputBody: Swift.Decodable {
@@ -4153,7 +4153,7 @@ extension GetDataSetDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataSetDetailsOutput: Swift.Equatable {
+public struct GetDataSetDetailsOutput {
     /// The size of the block on disk.
     public var blocksize: Swift.Int?
     /// The timestamp when the data set was created.
@@ -4198,7 +4198,7 @@ public struct GetDataSetDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSetDetailsOutputBody: Swift.Equatable {
+struct GetDataSetDetailsOutputBody {
     let dataSetName: Swift.String?
     let dataSetOrg: M2ClientTypes.DatasetDetailOrgAttributes?
     let recordLength: Swift.Int?
@@ -4277,7 +4277,7 @@ extension GetDataSetImportTaskInput {
     }
 }
 
-public struct GetDataSetImportTaskInput: Swift.Equatable {
+public struct GetDataSetImportTaskInput {
     /// The application identifier.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4295,7 +4295,7 @@ public struct GetDataSetImportTaskInput: Swift.Equatable {
     }
 }
 
-struct GetDataSetImportTaskInputBody: Swift.Equatable {
+struct GetDataSetImportTaskInputBody {
 }
 
 extension GetDataSetImportTaskInputBody: Swift.Decodable {
@@ -4320,7 +4320,7 @@ extension GetDataSetImportTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataSetImportTaskOutput: Swift.Equatable {
+public struct GetDataSetImportTaskOutput {
     /// The status of the task.
     /// This member is required.
     public var status: M2ClientTypes.DataSetTaskLifecycle?
@@ -4342,7 +4342,7 @@ public struct GetDataSetImportTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetDataSetImportTaskOutputBody: Swift.Equatable {
+struct GetDataSetImportTaskOutputBody {
     let taskId: Swift.String?
     let status: M2ClientTypes.DataSetTaskLifecycle?
     let summary: M2ClientTypes.DataSetImportSummary?
@@ -4394,7 +4394,7 @@ extension GetDeploymentInput {
     }
 }
 
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4412,7 +4412,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
 }
 
 extension GetDeploymentInputBody: Swift.Decodable {
@@ -4445,7 +4445,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -4487,7 +4487,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let deploymentId: Swift.String?
     let applicationId: Swift.String?
     let environmentId: Swift.String?
@@ -4552,7 +4552,7 @@ extension GetEnvironmentInput {
     }
 }
 
-public struct GetEnvironmentInput: Swift.Equatable {
+public struct GetEnvironmentInput {
     /// The unique identifier of the runtime environment.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -4565,7 +4565,7 @@ public struct GetEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentInputBody: Swift.Equatable {
+struct GetEnvironmentInputBody {
 }
 
 extension GetEnvironmentInputBody: Swift.Decodable {
@@ -4628,7 +4628,7 @@ extension GetEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEnvironmentOutput: Swift.Equatable {
+public struct GetEnvironmentOutput {
     /// The number of instances included in the runtime environment. A standalone runtime environment has a maximum of one instance. Currently, a high availability runtime environment has a maximum of two instances.
     public var actualCapacity: Swift.Int?
     /// The timestamp when the runtime environment was created.
@@ -4735,7 +4735,7 @@ public struct GetEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetEnvironmentOutputBody: Swift.Equatable {
+struct GetEnvironmentOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let environmentArn: Swift.String?
@@ -4893,12 +4893,12 @@ extension GetSignedBluinsightsUrlInput {
     }
 }
 
-public struct GetSignedBluinsightsUrlInput: Swift.Equatable {
+public struct GetSignedBluinsightsUrlInput {
 
     public init() { }
 }
 
-struct GetSignedBluinsightsUrlInputBody: Swift.Equatable {
+struct GetSignedBluinsightsUrlInputBody {
 }
 
 extension GetSignedBluinsightsUrlInputBody: Swift.Decodable {
@@ -4919,7 +4919,7 @@ extension GetSignedBluinsightsUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSignedBluinsightsUrlOutput: Swift.Equatable {
+public struct GetSignedBluinsightsUrlOutput {
     /// Single sign-on AWS Blu Insights URL.
     /// This member is required.
     public var signedBiUrl: Swift.String?
@@ -4932,7 +4932,7 @@ public struct GetSignedBluinsightsUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetSignedBluinsightsUrlOutputBody: Swift.Equatable {
+struct GetSignedBluinsightsUrlOutputBody {
     let signedBiUrl: Swift.String?
 }
 
@@ -4982,7 +4982,7 @@ extension M2ClientTypes.HighAvailabilityConfig: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines the details of a high availability configuration.
-    public struct HighAvailabilityConfig: Swift.Equatable {
+    public struct HighAvailabilityConfig {
         /// The number of instances in a high availability configuration. The minimum possible value is 1 and the maximum is 100.
         /// This member is required.
         public var desiredCapacity: Swift.Int?
@@ -5046,7 +5046,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5099,7 +5099,7 @@ extension M2ClientTypes.JobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// Identifies a specific batch job.
-    public enum JobIdentifier: Swift.Equatable {
+    public enum JobIdentifier {
         /// The name of the file that contains the batch job definition.
         case filename(Swift.String)
         /// The name of the script that contains the batch job definition.
@@ -5160,7 +5160,7 @@ extension M2ClientTypes.JobStep: Swift.Codable {
 
 extension M2ClientTypes {
     /// Provides information related to a job step.
-    public struct JobStep: Swift.Equatable {
+    public struct JobStep {
         /// The name of a procedure step.
         public var procStepName: Swift.String?
         /// The number of a procedure step.
@@ -5233,7 +5233,7 @@ extension M2ClientTypes.JobStepRestartMarker: Swift.Codable {
 
 extension M2ClientTypes {
     /// Provides restart step information for the most recent restart operation.
-    public struct JobStepRestartMarker: Swift.Equatable {
+    public struct JobStepRestartMarker {
         /// The procedure step name that a job was restarted from.
         public var fromProcStep: Swift.String?
         /// The step name that a batch job restart was from.
@@ -5286,7 +5286,7 @@ extension ListApplicationVersionsInput {
     }
 }
 
-public struct ListApplicationVersionsInput: Swift.Equatable {
+public struct ListApplicationVersionsInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5307,7 +5307,7 @@ public struct ListApplicationVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationVersionsInputBody: Swift.Equatable {
+struct ListApplicationVersionsInputBody {
 }
 
 extension ListApplicationVersionsInputBody: Swift.Decodable {
@@ -5330,7 +5330,7 @@ extension ListApplicationVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationVersionsOutput: Swift.Equatable {
+public struct ListApplicationVersionsOutput {
     /// The list of application versions.
     /// This member is required.
     public var applicationVersions: [M2ClientTypes.ApplicationVersionSummary]?
@@ -5347,7 +5347,7 @@ public struct ListApplicationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationVersionsOutputBody: Swift.Equatable {
+struct ListApplicationVersionsOutputBody {
     let applicationVersions: [M2ClientTypes.ApplicationVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -5424,7 +5424,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The unique identifier of the runtime environment where the applications are deployed.
     public var environmentId: Swift.String?
     /// The maximum number of applications to return.
@@ -5448,7 +5448,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -5471,7 +5471,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// Returns a list of summary details for all the applications in a runtime environment.
     /// This member is required.
     public var applications: [M2ClientTypes.ApplicationSummary]?
@@ -5488,7 +5488,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applications: [M2ClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -5561,7 +5561,7 @@ extension ListBatchJobDefinitionsInput {
     }
 }
 
-public struct ListBatchJobDefinitionsInput: Swift.Equatable {
+public struct ListBatchJobDefinitionsInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5586,7 +5586,7 @@ public struct ListBatchJobDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobDefinitionsInputBody: Swift.Equatable {
+struct ListBatchJobDefinitionsInputBody {
 }
 
 extension ListBatchJobDefinitionsInputBody: Swift.Decodable {
@@ -5609,7 +5609,7 @@ extension ListBatchJobDefinitionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBatchJobDefinitionsOutput: Swift.Equatable {
+public struct ListBatchJobDefinitionsOutput {
     /// The list of batch job definitions.
     /// This member is required.
     public var batchJobDefinitions: [M2ClientTypes.BatchJobDefinition]?
@@ -5626,7 +5626,7 @@ public struct ListBatchJobDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobDefinitionsOutputBody: Swift.Equatable {
+struct ListBatchJobDefinitionsOutputBody {
     let batchJobDefinitions: [M2ClientTypes.BatchJobDefinition]?
     let nextToken: Swift.String?
 }
@@ -5718,7 +5718,7 @@ extension ListBatchJobExecutionsInput {
     }
 }
 
-public struct ListBatchJobExecutionsInput: Swift.Equatable {
+public struct ListBatchJobExecutionsInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5759,7 +5759,7 @@ public struct ListBatchJobExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobExecutionsInputBody: Swift.Equatable {
+struct ListBatchJobExecutionsInputBody {
 }
 
 extension ListBatchJobExecutionsInputBody: Swift.Decodable {
@@ -5782,7 +5782,7 @@ extension ListBatchJobExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBatchJobExecutionsOutput: Swift.Equatable {
+public struct ListBatchJobExecutionsOutput {
     /// Returns a list of batch job executions for an application.
     /// This member is required.
     public var batchJobExecutions: [M2ClientTypes.BatchJobExecutionSummary]?
@@ -5799,7 +5799,7 @@ public struct ListBatchJobExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobExecutionsOutputBody: Swift.Equatable {
+struct ListBatchJobExecutionsOutputBody {
     let batchJobExecutions: [M2ClientTypes.BatchJobExecutionSummary]?
     let nextToken: Swift.String?
 }
@@ -5856,7 +5856,7 @@ extension ListBatchJobRestartPointsInput {
     }
 }
 
-public struct ListBatchJobRestartPointsInput: Swift.Equatable {
+public struct ListBatchJobRestartPointsInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5874,7 +5874,7 @@ public struct ListBatchJobRestartPointsInput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobRestartPointsInputBody: Swift.Equatable {
+struct ListBatchJobRestartPointsInputBody {
 }
 
 extension ListBatchJobRestartPointsInputBody: Swift.Decodable {
@@ -5895,7 +5895,7 @@ extension ListBatchJobRestartPointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBatchJobRestartPointsOutput: Swift.Equatable {
+public struct ListBatchJobRestartPointsOutput {
     /// Returns all the batch job steps and related information for a batch job that previously ran.
     public var batchJobSteps: [M2ClientTypes.JobStep]?
 
@@ -5907,7 +5907,7 @@ public struct ListBatchJobRestartPointsOutput: Swift.Equatable {
     }
 }
 
-struct ListBatchJobRestartPointsOutputBody: Swift.Equatable {
+struct ListBatchJobRestartPointsOutputBody {
     let batchJobSteps: [M2ClientTypes.JobStep]?
 }
 
@@ -5974,7 +5974,7 @@ extension ListDataSetImportHistoryInput {
     }
 }
 
-public struct ListDataSetImportHistoryInput: Swift.Equatable {
+public struct ListDataSetImportHistoryInput {
     /// The unique identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5995,7 +5995,7 @@ public struct ListDataSetImportHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListDataSetImportHistoryInputBody: Swift.Equatable {
+struct ListDataSetImportHistoryInputBody {
 }
 
 extension ListDataSetImportHistoryInputBody: Swift.Decodable {
@@ -6018,7 +6018,7 @@ extension ListDataSetImportHistoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSetImportHistoryOutput: Swift.Equatable {
+public struct ListDataSetImportHistoryOutput {
     /// The data set import tasks.
     /// This member is required.
     public var dataSetImportTasks: [M2ClientTypes.DataSetImportTask]?
@@ -6035,7 +6035,7 @@ public struct ListDataSetImportHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSetImportHistoryOutputBody: Swift.Equatable {
+struct ListDataSetImportHistoryOutputBody {
     let dataSetImportTasks: [M2ClientTypes.DataSetImportTask]?
     let nextToken: Swift.String?
 }
@@ -6113,7 +6113,7 @@ extension ListDataSetsInput {
     }
 }
 
-public struct ListDataSetsInput: Swift.Equatable {
+public struct ListDataSetsInput {
     /// The unique identifier of the application for which you want to list the associated data sets.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6142,7 +6142,7 @@ public struct ListDataSetsInput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsInputBody: Swift.Equatable {
+struct ListDataSetsInputBody {
 }
 
 extension ListDataSetsInputBody: Swift.Decodable {
@@ -6165,7 +6165,7 @@ extension ListDataSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataSetsOutput: Swift.Equatable {
+public struct ListDataSetsOutput {
     /// The list of data sets, containing information including the creation time, the data set name, the data set organization, the data set format, and the last time the data set was referenced or updated.
     /// This member is required.
     public var dataSets: [M2ClientTypes.DataSetSummary]?
@@ -6182,7 +6182,7 @@ public struct ListDataSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataSetsOutputBody: Swift.Equatable {
+struct ListDataSetsOutputBody {
     let dataSets: [M2ClientTypes.DataSetSummary]?
     let nextToken: Swift.String?
 }
@@ -6255,7 +6255,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// The application identifier.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6276,7 +6276,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
 }
 
 extension ListDeploymentsInputBody: Swift.Decodable {
@@ -6299,7 +6299,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// The list of deployments that is returned.
     /// This member is required.
     public var deployments: [M2ClientTypes.DeploymentSummary]?
@@ -6316,7 +6316,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let deployments: [M2ClientTypes.DeploymentSummary]?
     let nextToken: Swift.String?
 }
@@ -6387,7 +6387,7 @@ extension ListEngineVersionsInput {
     }
 }
 
-public struct ListEngineVersionsInput: Swift.Equatable {
+public struct ListEngineVersionsInput {
     /// The type of target platform.
     public var engineType: M2ClientTypes.EngineType?
     /// The maximum number of objects to return.
@@ -6407,7 +6407,7 @@ public struct ListEngineVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListEngineVersionsInputBody: Swift.Equatable {
+struct ListEngineVersionsInputBody {
 }
 
 extension ListEngineVersionsInputBody: Swift.Decodable {
@@ -6430,7 +6430,7 @@ extension ListEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEngineVersionsOutput: Swift.Equatable {
+public struct ListEngineVersionsOutput {
     /// Returns the engine versions.
     /// This member is required.
     public var engineVersions: [M2ClientTypes.EngineVersionsSummary]?
@@ -6447,7 +6447,7 @@ public struct ListEngineVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEngineVersionsOutputBody: Swift.Equatable {
+struct ListEngineVersionsOutputBody {
     let engineVersions: [M2ClientTypes.EngineVersionsSummary]?
     let nextToken: Swift.String?
 }
@@ -6523,7 +6523,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// The engine type for the runtime environment.
     public var engineType: M2ClientTypes.EngineType?
     /// The maximum number of runtime environments to return.
@@ -6547,7 +6547,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
 }
 
 extension ListEnvironmentsInputBody: Swift.Decodable {
@@ -6570,7 +6570,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// Returns a list of summary details for all the runtime environments in your account.
     /// This member is required.
     public var environments: [M2ClientTypes.EnvironmentSummary]?
@@ -6587,7 +6587,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let environments: [M2ClientTypes.EnvironmentSummary]?
     let nextToken: Swift.String?
 }
@@ -6640,7 +6640,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6653,7 +6653,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6674,7 +6674,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -6687,7 +6687,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6754,7 +6754,7 @@ extension M2ClientTypes.LogGroupSummary: Swift.Codable {
 
 extension M2ClientTypes {
     /// A subset of the attributes that describe a log group. In CloudWatch a log group is a group of log streams that share the same retention, monitoring, and access control settings.
-    public struct LogGroupSummary: Swift.Equatable {
+    public struct LogGroupSummary {
         /// The name of the log group.
         /// This member is required.
         public var logGroupName: Swift.String?
@@ -6803,7 +6803,7 @@ extension M2ClientTypes.MaintenanceSchedule: Swift.Codable {
 
 extension M2ClientTypes {
     /// The information about the maintenance schedule.
-    public struct MaintenanceSchedule: Swift.Equatable {
+    public struct MaintenanceSchedule {
         /// The time the scheduled maintenance is to end.
         public var endTime: ClientRuntime.Date?
         /// The time the scheduled maintenance is to start.
@@ -6848,7 +6848,7 @@ extension M2ClientTypes.PendingMaintenance: Swift.Codable {
 
 extension M2ClientTypes {
     /// The scheduled maintenance for a runtime engine.
-    public struct PendingMaintenance: Swift.Equatable {
+    public struct PendingMaintenance {
         /// The specific runtime engine that the maintenance schedule applies to.
         public var engineVersion: Swift.String?
         /// The maintenance schedule for the runtime engine version.
@@ -6911,7 +6911,7 @@ extension M2ClientTypes.PoAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The supported properties for a PO type data set.
-    public struct PoAttributes: Swift.Equatable {
+    public struct PoAttributes {
         /// The character set encoding of the data set.
         public var encoding: Swift.String?
         /// The format of the data set records.
@@ -6962,7 +6962,7 @@ extension M2ClientTypes.PoDetailAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The supported properties for a PO type data set.
-    public struct PoDetailAttributes: Swift.Equatable {
+    public struct PoDetailAttributes {
         /// The character set encoding of the data set.
         /// This member is required.
         public var encoding: Swift.String?
@@ -7015,7 +7015,7 @@ extension M2ClientTypes.PrimaryKey: Swift.Codable {
 
 extension M2ClientTypes {
     /// The primary key for a KSDS data set.
-    public struct PrimaryKey: Swift.Equatable {
+    public struct PrimaryKey {
         /// A strictly positive integer value representing the length of the primary key.
         /// This member is required.
         public var length: Swift.Int
@@ -7066,7 +7066,7 @@ extension M2ClientTypes.PsAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The supported properties for a PS type data set.
-    public struct PsAttributes: Swift.Equatable {
+    public struct PsAttributes {
         /// The character set encoding of the data set.
         public var encoding: Swift.String?
         /// The format of the data set records.
@@ -7112,7 +7112,7 @@ extension M2ClientTypes.PsDetailAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The supported properties for a PS type data set.
-    public struct PsDetailAttributes: Swift.Equatable {
+    public struct PsDetailAttributes {
         /// The character set encoding of the data set.
         /// This member is required.
         public var encoding: Swift.String?
@@ -7159,7 +7159,7 @@ extension M2ClientTypes.RecordLength: Swift.Codable {
 
 extension M2ClientTypes {
     /// The length of the records in the data set.
-    public struct RecordLength: Swift.Equatable {
+    public struct RecordLength {
         /// The maximum record length. In case of fixed, both minimum and maximum are the same.
         /// This member is required.
         public var max: Swift.Int
@@ -7231,7 +7231,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7282,7 +7282,7 @@ extension M2ClientTypes.RestartBatchJobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// An identifier for the StartBatchJob API to show that it is a restart operation.
-    public struct RestartBatchJobIdentifier: Swift.Equatable {
+    public struct RestartBatchJobIdentifier {
         /// The executionId from the StartBatchJob response when the job ran for the first time.
         /// This member is required.
         public var executionId: Swift.String?
@@ -7335,7 +7335,7 @@ extension M2ClientTypes.S3BatchJobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// A batch job identifier in which the batch jobs to run are identified by an Amazon S3 location.
-    public struct S3BatchJobIdentifier: Swift.Equatable {
+    public struct S3BatchJobIdentifier {
         /// The Amazon S3 bucket that contains the batch job definitions.
         /// This member is required.
         public var bucket: Swift.String?
@@ -7380,7 +7380,7 @@ extension M2ClientTypes.ScriptBatchJobDefinition: Swift.Codable {
 
 extension M2ClientTypes {
     /// A batch job definition contained in a script.
-    public struct ScriptBatchJobDefinition: Swift.Equatable {
+    public struct ScriptBatchJobDefinition {
         /// The name of the script containing the batch job definition.
         /// This member is required.
         public var scriptName: Swift.String?
@@ -7416,7 +7416,7 @@ extension M2ClientTypes.ScriptBatchJobIdentifier: Swift.Codable {
 
 extension M2ClientTypes {
     /// A batch job identifier in which the batch job to run is identified by the script name.
-    public struct ScriptBatchJobIdentifier: Swift.Equatable {
+    public struct ScriptBatchJobIdentifier {
         /// The name of the script containing the batch job definition.
         /// This member is required.
         public var scriptName: Swift.String?
@@ -7495,7 +7495,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7567,7 +7567,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -7593,7 +7593,7 @@ extension StartApplicationInput {
     }
 }
 
-public struct StartApplicationInput: Swift.Equatable {
+public struct StartApplicationInput {
     /// The unique identifier of the application you want to start.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7606,7 +7606,7 @@ public struct StartApplicationInput: Swift.Equatable {
     }
 }
 
-struct StartApplicationInputBody: Swift.Equatable {
+struct StartApplicationInputBody {
 }
 
 extension StartApplicationInputBody: Swift.Decodable {
@@ -7620,7 +7620,7 @@ extension StartApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartApplicationOutput: Swift.Equatable {
+public struct StartApplicationOutput {
 
     public init() { }
 }
@@ -7671,7 +7671,7 @@ extension StartBatchJobInput {
     }
 }
 
-public struct StartBatchJobInput: Swift.Equatable {
+public struct StartBatchJobInput {
     /// The unique identifier of the application associated with this batch job.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7693,7 +7693,7 @@ public struct StartBatchJobInput: Swift.Equatable {
     }
 }
 
-struct StartBatchJobInputBody: Swift.Equatable {
+struct StartBatchJobInputBody {
     let batchJobIdentifier: M2ClientTypes.BatchJobIdentifier?
     let jobParams: [Swift.String:Swift.String]?
 }
@@ -7734,7 +7734,7 @@ extension StartBatchJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBatchJobOutput: Swift.Equatable {
+public struct StartBatchJobOutput {
     /// The unique identifier of this execution of the batch job.
     /// This member is required.
     public var executionId: Swift.String?
@@ -7747,7 +7747,7 @@ public struct StartBatchJobOutput: Swift.Equatable {
     }
 }
 
-struct StartBatchJobOutputBody: Swift.Equatable {
+struct StartBatchJobOutputBody {
     let executionId: Swift.String?
 }
 
@@ -7802,7 +7802,7 @@ extension StopApplicationInput {
     }
 }
 
-public struct StopApplicationInput: Swift.Equatable {
+public struct StopApplicationInput {
     /// The unique identifier of the application you want to stop.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7819,7 +7819,7 @@ public struct StopApplicationInput: Swift.Equatable {
     }
 }
 
-struct StopApplicationInputBody: Swift.Equatable {
+struct StopApplicationInputBody {
     let forceStop: Swift.Bool
 }
 
@@ -7840,7 +7840,7 @@ extension StopApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopApplicationOutput: Swift.Equatable {
+public struct StopApplicationOutput {
 
     public init() { }
 }
@@ -7898,7 +7898,7 @@ extension M2ClientTypes.StorageConfiguration: Swift.Codable {
 
 extension M2ClientTypes {
     /// Defines the storage configuration for a runtime environment.
-    public enum StorageConfiguration: Swift.Equatable {
+    public enum StorageConfiguration {
         /// Defines the storage configuration for an Amazon EFS file system.
         case efs(M2ClientTypes.EfsStorageConfiguration)
         /// Defines the storage configuration for an Amazon FSx file system.
@@ -7934,7 +7934,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7952,7 +7952,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7982,7 +7982,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8064,7 +8064,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -8114,7 +8114,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8132,7 +8132,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -8146,7 +8146,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8197,7 +8197,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The unique identifier of the application you want to update.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8223,7 +8223,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let description: Swift.String?
     let currentApplicationVersion: Swift.Int?
     let definition: M2ClientTypes.Definition?
@@ -8259,7 +8259,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// The new version of the application.
     /// This member is required.
     public var applicationVersion: Swift.Int?
@@ -8272,7 +8272,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let applicationVersion: Swift.Int?
 }
 
@@ -8347,7 +8347,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// Indicates whether to update the runtime environment during the maintenance window. The default is false. Currently, Amazon Web Services Mainframe Modernization accepts the engineVersion parameter only if applyDuringMaintenanceWindow is true. If any parameter other than engineVersion is provided in UpdateEnvironmentRequest, it will fail if applyDuringMaintenanceWindow is set to true.
     public var applyDuringMaintenanceWindow: Swift.Bool
     /// The desired capacity for the runtime environment to update. The minimum possible value is 0 and the maximum is 100.
@@ -8384,7 +8384,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let desiredCapacity: Swift.Int?
     let instanceType: Swift.String?
     let engineVersion: Swift.String?
@@ -8432,7 +8432,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
     /// The unique identifier of the runtime environment that was updated.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -8445,7 +8445,7 @@ public struct UpdateEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentOutputBody: Swift.Equatable {
+struct UpdateEnvironmentOutputBody {
     let environmentId: Swift.String?
 }
 
@@ -8530,7 +8530,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: M2ClientTypes.ValidationExceptionReason?
     let fieldList: [M2ClientTypes.ValidationExceptionField]?
@@ -8590,7 +8590,7 @@ extension M2ClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension M2ClientTypes {
     /// Contains information about a validation exception field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message of the exception field.
         /// This member is required.
         public var message: Swift.String?
@@ -8711,7 +8711,7 @@ extension M2ClientTypes.VsamAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The attributes of a VSAM type data set.
-    public struct VsamAttributes: Swift.Equatable {
+    public struct VsamAttributes {
         /// The alternate key definitions, if any. A legacy dataset might not have any alternate key defined, but if those alternate keys definitions exist, provide them as some applications will make use of them.
         public var alternateKeys: [M2ClientTypes.AlternateKey]?
         /// Indicates whether indexes for this dataset are stored as compressed values. If you have a large data set (typically > 100 Mb), consider setting this flag to True.
@@ -8805,7 +8805,7 @@ extension M2ClientTypes.VsamDetailAttributes: Swift.Codable {
 
 extension M2ClientTypes {
     /// The attributes of a VSAM type data set.
-    public struct VsamDetailAttributes: Swift.Equatable {
+    public struct VsamDetailAttributes {
         /// The alternate key definitions, if any. A legacy dataset might not have any alternate key defined, but if those alternate keys definitions exist, provide them as some applications will make use of them.
         public var alternateKeys: [M2ClientTypes.AlternateKey]?
         /// If set to True, enforces loading the data set into cache before it’s used by the application.

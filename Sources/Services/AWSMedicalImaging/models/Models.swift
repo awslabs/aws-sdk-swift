@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -141,7 +141,7 @@ extension MedicalImagingClientTypes.CopyDestinationImageSet: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Copy the destination image set.
-    public struct CopyDestinationImageSet: Swift.Equatable {
+    public struct CopyDestinationImageSet {
         /// The image set identifier for the destination image set.
         /// This member is required.
         public var imageSetId: Swift.String?
@@ -218,7 +218,7 @@ extension MedicalImagingClientTypes.CopyDestinationImageSetProperties: Swift.Cod
 
 extension MedicalImagingClientTypes {
     /// Copy the image set properties of the destination image set.
-    public struct CopyDestinationImageSetProperties: Swift.Equatable {
+    public struct CopyDestinationImageSetProperties {
         /// The timestamp when the destination image set properties were created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) assigned to the destination image set.
@@ -285,7 +285,7 @@ extension MedicalImagingClientTypes.CopyImageSetInformation: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Copy image set information.
-    public struct CopyImageSetInformation: Swift.Equatable {
+    public struct CopyImageSetInformation {
         /// The destination image set.
         public var destinationImageSet: MedicalImagingClientTypes.CopyDestinationImageSet?
         /// The source image set.
@@ -330,7 +330,7 @@ extension CopyImageSetInput {
     }
 }
 
-public struct CopyImageSetInput: Swift.Equatable {
+public struct CopyImageSetInput {
     /// Copy image set information.
     /// This member is required.
     public var copyImageSetInformation: MedicalImagingClientTypes.CopyImageSetInformation?
@@ -353,7 +353,7 @@ public struct CopyImageSetInput: Swift.Equatable {
     }
 }
 
-struct CopyImageSetInputBody: Swift.Equatable {
+struct CopyImageSetInputBody {
     let copyImageSetInformation: MedicalImagingClientTypes.CopyImageSetInformation?
 }
 
@@ -385,7 +385,7 @@ extension CopyImageSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyImageSetOutput: Swift.Equatable {
+public struct CopyImageSetOutput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -408,7 +408,7 @@ public struct CopyImageSetOutput: Swift.Equatable {
     }
 }
 
-struct CopyImageSetOutputBody: Swift.Equatable {
+struct CopyImageSetOutputBody {
     let datastoreId: Swift.String?
     let sourceImageSetProperties: MedicalImagingClientTypes.CopySourceImageSetProperties?
     let destinationImageSetProperties: MedicalImagingClientTypes.CopyDestinationImageSetProperties?
@@ -470,7 +470,7 @@ extension MedicalImagingClientTypes.CopySourceImageSetInformation: Swift.Codable
 
 extension MedicalImagingClientTypes {
     /// Copy source image set information.
-    public struct CopySourceImageSetInformation: Swift.Equatable {
+    public struct CopySourceImageSetInformation {
         /// The latest version identifier for the source image set.
         /// This member is required.
         public var latestVersionId: Swift.String?
@@ -542,7 +542,7 @@ extension MedicalImagingClientTypes.CopySourceImageSetProperties: Swift.Codable 
 
 extension MedicalImagingClientTypes {
     /// Copy source image set properties.
-    public struct CopySourceImageSetProperties: Swift.Equatable {
+    public struct CopySourceImageSetProperties {
         /// The timestamp when the source image set properties were created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) assigned to the source image set.
@@ -617,7 +617,7 @@ extension CreateDatastoreInput {
     }
 }
 
-public struct CreateDatastoreInput: Swift.Equatable {
+public struct CreateDatastoreInput {
     /// A unique identifier for API idempotency.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -642,7 +642,7 @@ public struct CreateDatastoreInput: Swift.Equatable {
     }
 }
 
-struct CreateDatastoreInputBody: Swift.Equatable {
+struct CreateDatastoreInputBody {
     let datastoreName: Swift.String?
     let clientToken: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -693,7 +693,7 @@ extension CreateDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatastoreOutput: Swift.Equatable {
+public struct CreateDatastoreOutput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -711,7 +711,7 @@ public struct CreateDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatastoreOutputBody: Swift.Equatable {
+struct CreateDatastoreOutputBody {
     let datastoreId: Swift.String?
     let datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
 }
@@ -822,7 +822,7 @@ extension MedicalImagingClientTypes.DICOMImportJobProperties: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Properties of the import job.
-    public struct DICOMImportJobProperties: Swift.Equatable {
+    public struct DICOMImportJobProperties {
         /// The Amazon Resource Name (ARN) that grants permissions to access medical imaging resources.
         /// This member is required.
         public var dataAccessRoleArn: Swift.String?
@@ -942,7 +942,7 @@ extension MedicalImagingClientTypes.DICOMImportJobSummary: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Summary of import job.
-    public struct DICOMImportJobSummary: Swift.Equatable {
+    public struct DICOMImportJobSummary {
         /// The Amazon Resource Name (ARN) that grants permissions to access medical imaging resources.
         public var dataAccessRoleArn: Swift.String?
         /// The data store identifier.
@@ -1020,7 +1020,7 @@ extension MedicalImagingClientTypes.DICOMStudyDateAndTime: Swift.CustomDebugStri
 
 extension MedicalImagingClientTypes {
     /// The aggregated structure to store DICOM study date and study time for search capabilities.
-    public struct DICOMStudyDateAndTime: Swift.Equatable {
+    public struct DICOMStudyDateAndTime {
         /// The DICOM study date provided in yyMMdd format.
         /// This member is required.
         public var dicomStudyDate: Swift.String?
@@ -1155,7 +1155,7 @@ extension MedicalImagingClientTypes.DICOMTags: Swift.CustomDebugStringConvertibl
 
 extension MedicalImagingClientTypes {
     /// The DICOM attributes returned as a part of a response. Each image set has these properties as part of a search result.
-    public struct DICOMTags: Swift.Equatable {
+    public struct DICOMTags {
         /// The accession number for the DICOM study.
         public var dicomAccessionNumber: Swift.String?
         /// The total number of instances in the DICOM study.
@@ -1261,7 +1261,7 @@ extension MedicalImagingClientTypes.DICOMUpdates: Swift.CustomDebugStringConvert
 
 extension MedicalImagingClientTypes {
     /// The object containing removableAttributes and updatableAttributes.
-    public struct DICOMUpdates: Swift.Equatable {
+    public struct DICOMUpdates {
         /// The DICOM tags to be removed from ImageSetMetadata.
         public var removableAttributes: ClientRuntime.Data?
         /// The DICOM tags that need to be updated in ImageSetMetadata.
@@ -1336,7 +1336,7 @@ extension MedicalImagingClientTypes.DatastoreProperties: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// The properties associated with the data store.
-    public struct DatastoreProperties: Swift.Equatable {
+    public struct DatastoreProperties {
         /// The timestamp when the data store was created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) for the data store.
@@ -1469,7 +1469,7 @@ extension MedicalImagingClientTypes.DatastoreSummary: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// List of summaries of data stores.
-    public struct DatastoreSummary: Swift.Equatable {
+    public struct DatastoreSummary {
         /// The timestamp when the data store was created.
         public var createdAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) for the data store.
@@ -1516,7 +1516,7 @@ extension DeleteDatastoreInput {
     }
 }
 
-public struct DeleteDatastoreInput: Swift.Equatable {
+public struct DeleteDatastoreInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1529,7 +1529,7 @@ public struct DeleteDatastoreInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatastoreInputBody: Swift.Equatable {
+struct DeleteDatastoreInputBody {
 }
 
 extension DeleteDatastoreInputBody: Swift.Decodable {
@@ -1552,7 +1552,7 @@ extension DeleteDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatastoreOutput: Swift.Equatable {
+public struct DeleteDatastoreOutput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1570,7 +1570,7 @@ public struct DeleteDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDatastoreOutputBody: Swift.Equatable {
+struct DeleteDatastoreOutputBody {
     let datastoreId: Swift.String?
     let datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
 }
@@ -1619,7 +1619,7 @@ extension DeleteImageSetInput {
     }
 }
 
-public struct DeleteImageSetInput: Swift.Equatable {
+public struct DeleteImageSetInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1637,7 +1637,7 @@ public struct DeleteImageSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteImageSetInputBody: Swift.Equatable {
+struct DeleteImageSetInputBody {
 }
 
 extension DeleteImageSetInputBody: Swift.Decodable {
@@ -1664,7 +1664,7 @@ extension DeleteImageSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImageSetOutput: Swift.Equatable {
+public struct DeleteImageSetOutput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1692,7 +1692,7 @@ public struct DeleteImageSetOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImageSetOutputBody: Swift.Equatable {
+struct DeleteImageSetOutputBody {
     let datastoreId: Swift.String?
     let imageSetId: Swift.String?
     let imageSetState: MedicalImagingClientTypes.ImageSetState?
@@ -1749,7 +1749,7 @@ extension GetDICOMImportJobInput {
     }
 }
 
-public struct GetDICOMImportJobInput: Swift.Equatable {
+public struct GetDICOMImportJobInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1767,7 +1767,7 @@ public struct GetDICOMImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetDICOMImportJobInputBody: Swift.Equatable {
+struct GetDICOMImportJobInputBody {
 }
 
 extension GetDICOMImportJobInputBody: Swift.Decodable {
@@ -1788,7 +1788,7 @@ extension GetDICOMImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDICOMImportJobOutput: Swift.Equatable {
+public struct GetDICOMImportJobOutput {
     /// The properties of the import job.
     /// This member is required.
     public var jobProperties: MedicalImagingClientTypes.DICOMImportJobProperties?
@@ -1801,7 +1801,7 @@ public struct GetDICOMImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetDICOMImportJobOutputBody: Swift.Equatable {
+struct GetDICOMImportJobOutputBody {
     let jobProperties: MedicalImagingClientTypes.DICOMImportJobProperties?
 }
 
@@ -1843,7 +1843,7 @@ extension GetDatastoreInput {
     }
 }
 
-public struct GetDatastoreInput: Swift.Equatable {
+public struct GetDatastoreInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1856,7 +1856,7 @@ public struct GetDatastoreInput: Swift.Equatable {
     }
 }
 
-struct GetDatastoreInputBody: Swift.Equatable {
+struct GetDatastoreInputBody {
 }
 
 extension GetDatastoreInputBody: Swift.Decodable {
@@ -1877,7 +1877,7 @@ extension GetDatastoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatastoreOutput: Swift.Equatable {
+public struct GetDatastoreOutput {
     /// The data store properties.
     /// This member is required.
     public var datastoreProperties: MedicalImagingClientTypes.DatastoreProperties?
@@ -1890,7 +1890,7 @@ public struct GetDatastoreOutput: Swift.Equatable {
     }
 }
 
-struct GetDatastoreOutputBody: Swift.Equatable {
+struct GetDatastoreOutputBody {
     let datastoreProperties: MedicalImagingClientTypes.DatastoreProperties?
 }
 
@@ -1947,7 +1947,7 @@ extension GetImageFrameInput {
     }
 }
 
-public struct GetImageFrameInput: Swift.Equatable {
+public struct GetImageFrameInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -1970,7 +1970,7 @@ public struct GetImageFrameInput: Swift.Equatable {
     }
 }
 
-struct GetImageFrameInputBody: Swift.Equatable {
+struct GetImageFrameInputBody {
     let imageFrameInformation: MedicalImagingClientTypes.ImageFrameInformation?
 }
 
@@ -2004,7 +2004,7 @@ extension GetImageFrameOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageFrameOutput: Swift.Equatable {
+public struct GetImageFrameOutput {
     /// The format in which the image frame information is returned to the customer. Default is application/octet-stream.
     public var contentType: Swift.String?
     /// The blob containing the aggregated image frame information.
@@ -2021,7 +2021,7 @@ public struct GetImageFrameOutput: Swift.Equatable {
     }
 }
 
-struct GetImageFrameOutputBody: Swift.Equatable {
+struct GetImageFrameOutputBody {
     let imageFrameBlob: ClientRuntime.ByteStream?
 }
 
@@ -2078,7 +2078,7 @@ extension GetImageSetInput {
     }
 }
 
-public struct GetImageSetInput: Swift.Equatable {
+public struct GetImageSetInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -2100,7 +2100,7 @@ public struct GetImageSetInput: Swift.Equatable {
     }
 }
 
-struct GetImageSetInputBody: Swift.Equatable {
+struct GetImageSetInputBody {
 }
 
 extension GetImageSetInputBody: Swift.Decodable {
@@ -2134,7 +2134,7 @@ extension GetImageSetMetadataInput {
     }
 }
 
-public struct GetImageSetMetadataInput: Swift.Equatable {
+public struct GetImageSetMetadataInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -2156,7 +2156,7 @@ public struct GetImageSetMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetImageSetMetadataInputBody: Swift.Equatable {
+struct GetImageSetMetadataInputBody {
 }
 
 extension GetImageSetMetadataInputBody: Swift.Decodable {
@@ -2188,7 +2188,7 @@ extension GetImageSetMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageSetMetadataOutput: Swift.Equatable {
+public struct GetImageSetMetadataOutput {
     /// The compression format in which image set metadata attributes are returned.
     public var contentEncoding: Swift.String?
     /// The format in which the study metadata is returned to the customer. Default is text/plain.
@@ -2209,7 +2209,7 @@ public struct GetImageSetMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetImageSetMetadataOutputBody: Swift.Equatable {
+struct GetImageSetMetadataOutputBody {
     let imageSetMetadataBlob: ClientRuntime.ByteStream?
 }
 
@@ -2271,7 +2271,7 @@ extension GetImageSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImageSetOutput: Swift.Equatable {
+public struct GetImageSetOutput {
     /// The timestamp when image set properties were created.
     public var createdAt: ClientRuntime.Date?
     /// The data store identifier.
@@ -2323,7 +2323,7 @@ public struct GetImageSetOutput: Swift.Equatable {
     }
 }
 
-struct GetImageSetOutputBody: Swift.Equatable {
+struct GetImageSetOutputBody {
     let datastoreId: Swift.String?
     let imageSetId: Swift.String?
     let versionId: Swift.String?
@@ -2412,7 +2412,7 @@ extension MedicalImagingClientTypes.ImageFrameInformation: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Information about the image frame (pixel data) identifier.
-    public struct ImageFrameInformation: Swift.Equatable {
+    public struct ImageFrameInformation {
         /// The image frame (pixel data) identifier.
         /// This member is required.
         public var imageFrameId: Swift.String?
@@ -2490,7 +2490,7 @@ extension MedicalImagingClientTypes.ImageSetProperties: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// The image set properties.
-    public struct ImageSetProperties: Swift.Equatable {
+    public struct ImageSetProperties {
         /// The timestamp when the image set properties were created.
         public var createdAt: ClientRuntime.Date?
         /// The timestamp when the image set properties were deleted.
@@ -2671,7 +2671,7 @@ extension MedicalImagingClientTypes.ImageSetsMetadataSummary: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Summary of the image set metadata.
-    public struct ImageSetsMetadataSummary: Swift.Equatable {
+    public struct ImageSetsMetadataSummary {
         /// The time an image set is created. Sample creation date is provided in 1985-04-12T23:20:50.52Z format.
         public var createdAt: ClientRuntime.Date?
         /// The DICOM tags associated with the image set.
@@ -2742,7 +2742,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2826,7 +2826,7 @@ extension ListDICOMImportJobsInput {
     }
 }
 
-public struct ListDICOMImportJobsInput: Swift.Equatable {
+public struct ListDICOMImportJobsInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -2851,7 +2851,7 @@ public struct ListDICOMImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDICOMImportJobsInputBody: Swift.Equatable {
+struct ListDICOMImportJobsInputBody {
 }
 
 extension ListDICOMImportJobsInputBody: Swift.Decodable {
@@ -2874,7 +2874,7 @@ extension ListDICOMImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDICOMImportJobsOutput: Swift.Equatable {
+public struct ListDICOMImportJobsOutput {
     /// A list of job summaries.
     /// This member is required.
     public var jobSummaries: [MedicalImagingClientTypes.DICOMImportJobSummary]?
@@ -2891,7 +2891,7 @@ public struct ListDICOMImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDICOMImportJobsOutputBody: Swift.Equatable {
+struct ListDICOMImportJobsOutputBody {
     let jobSummaries: [MedicalImagingClientTypes.DICOMImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -2963,7 +2963,7 @@ extension ListDatastoresInput {
     }
 }
 
-public struct ListDatastoresInput: Swift.Equatable {
+public struct ListDatastoresInput {
     /// The data store status.
     public var datastoreStatus: MedicalImagingClientTypes.DatastoreStatus?
     /// Valid Range: Minimum value of 1. Maximum value of 50.
@@ -2983,7 +2983,7 @@ public struct ListDatastoresInput: Swift.Equatable {
     }
 }
 
-struct ListDatastoresInputBody: Swift.Equatable {
+struct ListDatastoresInputBody {
 }
 
 extension ListDatastoresInputBody: Swift.Decodable {
@@ -3006,7 +3006,7 @@ extension ListDatastoresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatastoresOutput: Swift.Equatable {
+public struct ListDatastoresOutput {
     /// The list of summaries of data stores.
     public var datastoreSummaries: [MedicalImagingClientTypes.DatastoreSummary]?
     /// The pagination token used to retrieve the list of data stores on the next page.
@@ -3022,7 +3022,7 @@ public struct ListDatastoresOutput: Swift.Equatable {
     }
 }
 
-struct ListDatastoresOutputBody: Swift.Equatable {
+struct ListDatastoresOutputBody {
     let datastoreSummaries: [MedicalImagingClientTypes.DatastoreSummary]?
     let nextToken: Swift.String?
 }
@@ -3094,7 +3094,7 @@ extension ListImageSetVersionsInput {
     }
 }
 
-public struct ListImageSetVersionsInput: Swift.Equatable {
+public struct ListImageSetVersionsInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -3120,7 +3120,7 @@ public struct ListImageSetVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListImageSetVersionsInputBody: Swift.Equatable {
+struct ListImageSetVersionsInputBody {
 }
 
 extension ListImageSetVersionsInputBody: Swift.Decodable {
@@ -3143,7 +3143,7 @@ extension ListImageSetVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImageSetVersionsOutput: Swift.Equatable {
+public struct ListImageSetVersionsOutput {
     /// Lists all properties associated with an image set.
     /// This member is required.
     public var imageSetPropertiesList: [MedicalImagingClientTypes.ImageSetProperties]?
@@ -3160,7 +3160,7 @@ public struct ListImageSetVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListImageSetVersionsOutputBody: Swift.Equatable {
+struct ListImageSetVersionsOutputBody {
     let imageSetPropertiesList: [MedicalImagingClientTypes.ImageSetProperties]?
     let nextToken: Swift.String?
 }
@@ -3215,7 +3215,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the medical imaging resource to list tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3228,7 +3228,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3249,7 +3249,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of all tags associated with a medical imaging resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -3262,7 +3262,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3333,7 +3333,7 @@ extension MedicalImagingClientTypes.MetadataUpdates: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Contains DICOMUpdates.
-    public enum MetadataUpdates: Swift.Equatable {
+    public enum MetadataUpdates {
         /// The object containing removableAttributes and updatableAttributes.
         case dicomupdates(MedicalImagingClientTypes.DICOMUpdates)
         case sdkUnknown(Swift.String)
@@ -3413,7 +3413,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3514,7 +3514,7 @@ extension MedicalImagingClientTypes.SearchByAttributeValue: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// The search input attribute value.
-    public enum SearchByAttributeValue: Swift.Equatable {
+    public enum SearchByAttributeValue {
         /// The patient ID input for search.
         case dicompatientid(Swift.String)
         /// The DICOM accession number for search.
@@ -3581,7 +3581,7 @@ extension MedicalImagingClientTypes.SearchCriteria: Swift.CustomDebugStringConve
 
 extension MedicalImagingClientTypes {
     /// The search criteria.
-    public struct SearchCriteria: Swift.Equatable {
+    public struct SearchCriteria {
         /// The filters for the search criteria.
         public var filters: [MedicalImagingClientTypes.SearchFilter]?
         /// The sort input for search criteria.
@@ -3638,7 +3638,7 @@ extension MedicalImagingClientTypes.SearchFilter: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// The search filter.
-    public struct SearchFilter: Swift.Equatable {
+    public struct SearchFilter {
         /// The search filter operator for imageSetDateTime.
         /// This member is required.
         public var `operator`: MedicalImagingClientTypes.Operator?
@@ -3702,7 +3702,7 @@ extension SearchImageSetsInput {
     }
 }
 
-public struct SearchImageSetsInput: Swift.Equatable {
+public struct SearchImageSetsInput {
     /// The identifier of the data store where the image sets reside.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -3727,7 +3727,7 @@ public struct SearchImageSetsInput: Swift.Equatable {
     }
 }
 
-struct SearchImageSetsInputBody: Swift.Equatable {
+struct SearchImageSetsInputBody {
     let searchCriteria: MedicalImagingClientTypes.SearchCriteria?
 }
 
@@ -3759,7 +3759,7 @@ extension SearchImageSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchImageSetsOutput: Swift.Equatable {
+public struct SearchImageSetsOutput {
     /// The model containing the image set results.
     /// This member is required.
     public var imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]?
@@ -3780,7 +3780,7 @@ public struct SearchImageSetsOutput: Swift.Equatable {
     }
 }
 
-struct SearchImageSetsOutputBody: Swift.Equatable {
+struct SearchImageSetsOutputBody {
     let imageSetsMetadataSummaries: [MedicalImagingClientTypes.ImageSetsMetadataSummary]?
     let sort: MedicalImagingClientTypes.Sort?
     let nextToken: Swift.String?
@@ -3869,7 +3869,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3912,7 +3912,7 @@ extension MedicalImagingClientTypes.Sort: Swift.Codable {
 
 extension MedicalImagingClientTypes {
     /// Sort search results.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// The sort field for search criteria.
         /// This member is required.
         public var sortField: MedicalImagingClientTypes.SortField?
@@ -4038,7 +4038,7 @@ extension StartDICOMImportJobInput {
     }
 }
 
-public struct StartDICOMImportJobInput: Swift.Equatable {
+public struct StartDICOMImportJobInput {
     /// A unique identifier for API idempotency.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -4075,7 +4075,7 @@ public struct StartDICOMImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartDICOMImportJobInputBody: Swift.Equatable {
+struct StartDICOMImportJobInputBody {
     let jobName: Swift.String?
     let dataAccessRoleArn: Swift.String?
     let clientToken: Swift.String?
@@ -4125,7 +4125,7 @@ extension StartDICOMImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDICOMImportJobOutput: Swift.Equatable {
+public struct StartDICOMImportJobOutput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -4153,7 +4153,7 @@ public struct StartDICOMImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartDICOMImportJobOutputBody: Swift.Equatable {
+struct StartDICOMImportJobOutputBody {
     let datastoreId: Swift.String?
     let jobId: Swift.String?
     let jobStatus: MedicalImagingClientTypes.JobStatus?
@@ -4224,7 +4224,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the medical imaging resource that tags are being added to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4242,7 +4242,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4272,7 +4272,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4332,7 +4332,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4374,7 +4374,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the medical imaging resource that tags are being removed from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4392,7 +4392,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4406,7 +4406,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4466,7 +4466,7 @@ extension UpdateImageSetMetadataInput {
     }
 }
 
-public struct UpdateImageSetMetadataInput: Swift.Equatable {
+public struct UpdateImageSetMetadataInput {
     /// The data store identifier.
     /// This member is required.
     public var datastoreId: Swift.String?
@@ -4494,7 +4494,7 @@ public struct UpdateImageSetMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateImageSetMetadataInputBody: Swift.Equatable {
+struct UpdateImageSetMetadataInputBody {
     let updateImageSetMetadataUpdates: MedicalImagingClientTypes.MetadataUpdates?
 }
 
@@ -4536,7 +4536,7 @@ extension UpdateImageSetMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateImageSetMetadataOutput: Swift.Equatable {
+public struct UpdateImageSetMetadataOutput {
     /// The timestamp when image set metadata was created.
     public var createdAt: ClientRuntime.Date?
     /// The data store identifier.
@@ -4580,7 +4580,7 @@ public struct UpdateImageSetMetadataOutput: Swift.Equatable {
     }
 }
 
-struct UpdateImageSetMetadataOutputBody: Swift.Equatable {
+struct UpdateImageSetMetadataOutputBody {
     let datastoreId: Swift.String?
     let imageSetId: Swift.String?
     let latestVersionId: Swift.String?
@@ -4681,7 +4681,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

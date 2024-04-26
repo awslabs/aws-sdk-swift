@@ -34,7 +34,7 @@ extension AddRoleToDBClusterInput {
     }
 }
 
-public struct AddRoleToDBClusterInput: Swift.Equatable {
+public struct AddRoleToDBClusterInput {
     /// The name of the DB cluster to associate the IAM role with.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -65,7 +65,7 @@ extension AddRoleToDBClusterOutput {
     }
 }
 
-public struct AddRoleToDBClusterOutput: Swift.Equatable {
+public struct AddRoleToDBClusterOutput {
 
     public init() { }
 }
@@ -116,7 +116,7 @@ extension AddSourceIdentifierToSubscriptionInput {
     }
 }
 
-public struct AddSourceIdentifierToSubscriptionInput: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionInput {
     /// The identifier of the event source to be added. Constraints:
     ///
     /// * If the source type is a DB instance, then a DBInstanceIdentifier must be supplied.
@@ -155,7 +155,7 @@ extension AddSourceIdentifierToSubscriptionOutput {
     }
 }
 
-public struct AddSourceIdentifierToSubscriptionOutput: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionOutput {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -220,7 +220,7 @@ extension AddTagsToResourceInput {
     }
 }
 
-public struct AddTagsToResourceInput: Swift.Equatable {
+public struct AddTagsToResourceInput {
     /// The Amazon Neptune resource that the tags are added to. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -247,7 +247,7 @@ extension AddTagsToResourceOutput {
     }
 }
 
-public struct AddTagsToResourceOutput: Swift.Equatable {
+public struct AddTagsToResourceOutput {
 
     public init() { }
 }
@@ -333,7 +333,7 @@ extension ApplyPendingMaintenanceActionInput {
     }
 }
 
-public struct ApplyPendingMaintenanceActionInput: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionInput {
     /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
     /// This member is required.
     public var applyAction: Swift.String?
@@ -375,7 +375,7 @@ extension ApplyPendingMaintenanceActionOutput {
     }
 }
 
-public struct ApplyPendingMaintenanceActionOutput: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionOutput {
     /// Describes the pending maintenance actions for a resource.
     public var resourcePendingMaintenanceActions: NeptuneClientTypes.ResourcePendingMaintenanceActions?
 
@@ -465,7 +465,7 @@ extension NeptuneClientTypes.AvailabilityZone: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies an Availability Zone.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The name of the availability zone.
         public var name: Swift.String?
 
@@ -545,7 +545,7 @@ extension NeptuneClientTypes.CharacterSet: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies a character set.
-    public struct CharacterSet: Swift.Equatable {
+    public struct CharacterSet {
         /// The description of the character set.
         public var characterSetDescription: Swift.String?
         /// The name of the character set.
@@ -610,7 +610,7 @@ extension NeptuneClientTypes.CloudwatchLogsExportConfiguration: Swift.Encodable 
 
 extension NeptuneClientTypes {
     /// The configuration setting for the log types to be enabled for export to CloudWatch Logs for a specific DB instance or DB cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs will be exported (or not exported) to CloudWatch Logs. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
-    public struct CloudwatchLogsExportConfiguration: Swift.Equatable {
+    public struct CloudwatchLogsExportConfiguration {
         /// The list of log types to disable.
         public var disableLogTypes: [Swift.String]?
         /// The list of log types to enable.
@@ -687,7 +687,7 @@ extension NeptuneClientTypes.ClusterPendingModifiedValues: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This data type is used as a response element in the ModifyDBCluster operation and contains changes that will be applied during the next maintenance window.
-    public struct ClusterPendingModifiedValues: Swift.Equatable {
+    public struct ClusterPendingModifiedValues {
         /// The allocated storage size in gibibytes (GiB) for database engines. For Neptune, AllocatedStorage always returns 1, because Neptune DB cluster storage size isn't fixed, but instead automatically adjusts as needed.
         public var allocatedStorage: Swift.Int?
         /// The number of days for which automatic DB snapshots are retained.
@@ -772,7 +772,7 @@ extension CopyDBClusterParameterGroupInput {
     }
 }
 
-public struct CopyDBClusterParameterGroupInput: Swift.Equatable {
+public struct CopyDBClusterParameterGroupInput {
     /// The identifier or Amazon Resource Name (ARN) for the source DB cluster parameter group. For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing). Constraints:
     ///
     /// * Must specify a valid DB cluster parameter group.
@@ -829,7 +829,7 @@ extension CopyDBClusterParameterGroupOutput {
     }
 }
 
-public struct CopyDBClusterParameterGroupOutput: Swift.Equatable {
+public struct CopyDBClusterParameterGroupOutput {
     /// Contains the details of an Amazon Neptune DB cluster parameter group. This data type is used as a response element in the [DescribeDBClusterParameterGroups] action.
     public var dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 
@@ -911,7 +911,7 @@ extension CopyDBClusterSnapshotInput {
     }
 }
 
-public struct CopyDBClusterSnapshotInput: Swift.Equatable {
+public struct CopyDBClusterSnapshotInput {
     /// True to copy all tags from the source DB cluster snapshot to the target DB cluster snapshot, and otherwise false. The default is false.
     public var copyTags: Swift.Bool?
     /// The Amazon Amazon KMS key ID for an encrypted DB cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted DB cluster snapshot from your Amazon account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the DB cluster snapshot is encrypted with the same KMS key as the source DB cluster snapshot. If you copy an encrypted DB cluster snapshot that is shared from another Amazon account, then you must specify a value for KmsKeyId. KMS encryption keys are specific to the Amazon Region that they are created in, and you can't use encryption keys from one Amazon Region in another Amazon Region. You cannot encrypt an unencrypted DB cluster snapshot when you copy it. If you try to copy an unencrypted DB cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -974,7 +974,7 @@ extension CopyDBClusterSnapshotOutput {
     }
 }
 
-public struct CopyDBClusterSnapshotOutput: Swift.Equatable {
+public struct CopyDBClusterSnapshotOutput {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
 
@@ -1051,7 +1051,7 @@ extension CopyDBParameterGroupInput {
     }
 }
 
-public struct CopyDBParameterGroupInput: Swift.Equatable {
+public struct CopyDBParameterGroupInput {
     /// The identifier or ARN for the source DB parameter group. For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing). Constraints:
     ///
     /// * Must specify a valid DB parameter group.
@@ -1106,7 +1106,7 @@ extension CopyDBParameterGroupOutput {
     }
 }
 
-public struct CopyDBParameterGroupOutput: Swift.Equatable {
+public struct CopyDBParameterGroupOutput {
     /// Contains the details of an Amazon Neptune DB parameter group. This data type is used as a response element in the [DescribeDBParameterGroups] action.
     public var dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 
@@ -1206,7 +1206,7 @@ extension CreateDBClusterEndpointInput {
     }
 }
 
-public struct CreateDBClusterEndpointInput: Swift.Equatable {
+public struct CreateDBClusterEndpointInput {
     /// The identifier to use for the new endpoint. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbClusterEndpointIdentifier: Swift.String?
@@ -1275,7 +1275,7 @@ extension CreateDBClusterEndpointOutput {
 ///
 ///
 /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint.
-public struct CreateDBClusterEndpointOutput: Swift.Equatable {
+public struct CreateDBClusterEndpointOutput {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -1511,7 +1511,7 @@ extension CreateDBClusterInput {
     }
 }
 
-public struct CreateDBClusterInput: Swift.Equatable {
+public struct CreateDBClusterInput {
     /// A list of EC2 Availability Zones that instances in the DB cluster can be created in.
     public var availabilityZones: [Swift.String]?
     /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:
@@ -1684,7 +1684,7 @@ extension CreateDBClusterOutput {
     }
 }
 
-public struct CreateDBClusterOutput: Swift.Equatable {
+public struct CreateDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -1772,7 +1772,7 @@ extension CreateDBClusterParameterGroupInput {
     }
 }
 
-public struct CreateDBClusterParameterGroupInput: Swift.Equatable {
+public struct CreateDBClusterParameterGroupInput {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must match the name of an existing DBClusterParameterGroup.
@@ -1817,7 +1817,7 @@ extension CreateDBClusterParameterGroupOutput {
     }
 }
 
-public struct CreateDBClusterParameterGroupOutput: Swift.Equatable {
+public struct CreateDBClusterParameterGroupOutput {
     /// Contains the details of an Amazon Neptune DB cluster parameter group. This data type is used as a response element in the [DescribeDBClusterParameterGroups] action.
     public var dbClusterParameterGroup: NeptuneClientTypes.DBClusterParameterGroup?
 
@@ -1886,7 +1886,7 @@ extension CreateDBClusterSnapshotInput {
     }
 }
 
-public struct CreateDBClusterSnapshotInput: Swift.Equatable {
+public struct CreateDBClusterSnapshotInput {
     /// The identifier of the DB cluster to create a snapshot for. This parameter is not case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -1935,7 +1935,7 @@ extension CreateDBClusterSnapshotOutput {
     }
 }
 
-public struct CreateDBClusterSnapshotOutput: Swift.Equatable {
+public struct CreateDBClusterSnapshotOutput {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
 
@@ -2199,7 +2199,7 @@ extension CreateDBInstanceInput {
     }
 }
 
-public struct CreateDBInstanceInput: Swift.Equatable {
+public struct CreateDBInstanceInput {
     /// Not supported by Neptune.
     public var allocatedStorage: Swift.Int?
     /// Indicates that minor engine upgrades are applied automatically to the DB instance during the maintenance window. Default: true
@@ -2416,7 +2416,7 @@ extension CreateDBInstanceOutput {
     }
 }
 
-public struct CreateDBInstanceOutput: Swift.Equatable {
+public struct CreateDBInstanceOutput {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public var dbInstance: NeptuneClientTypes.DBInstance?
 
@@ -2505,7 +2505,7 @@ extension CreateDBParameterGroupInput {
     }
 }
 
-public struct CreateDBParameterGroupInput: Swift.Equatable {
+public struct CreateDBParameterGroupInput {
     /// The DB parameter group family name. A DB parameter group can be associated with one and only one DB parameter group family, and can be applied only to a DB instance running a database engine and engine version compatible with that DB parameter group family.
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
@@ -2554,7 +2554,7 @@ extension CreateDBParameterGroupOutput {
     }
 }
 
-public struct CreateDBParameterGroupOutput: Swift.Equatable {
+public struct CreateDBParameterGroupOutput {
     /// Contains the details of an Amazon Neptune DB parameter group. This data type is used as a response element in the [DescribeDBParameterGroups] action.
     public var dbParameterGroup: NeptuneClientTypes.DBParameterGroup?
 
@@ -2636,7 +2636,7 @@ extension CreateDBSubnetGroupInput {
     }
 }
 
-public struct CreateDBSubnetGroupInput: Swift.Equatable {
+public struct CreateDBSubnetGroupInput {
     /// The description for the DB subnet group.
     /// This member is required.
     public var dbSubnetGroupDescription: Swift.String?
@@ -2676,7 +2676,7 @@ extension CreateDBSubnetGroupOutput {
     }
 }
 
-public struct CreateDBSubnetGroupOutput: Swift.Equatable {
+public struct CreateDBSubnetGroupOutput {
     /// Contains the details of an Amazon Neptune DB subnet group. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
     public var dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 
@@ -2782,7 +2782,7 @@ extension CreateEventSubscriptionInput {
     }
 }
 
-public struct CreateEventSubscriptionInput: Swift.Equatable {
+public struct CreateEventSubscriptionInput {
     /// A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
     public var enabled: Swift.Bool?
     /// A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -2843,7 +2843,7 @@ extension CreateEventSubscriptionOutput {
     }
 }
 
-public struct CreateEventSubscriptionOutput: Swift.Equatable {
+public struct CreateEventSubscriptionOutput {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -2920,7 +2920,7 @@ extension CreateGlobalClusterInput {
     }
 }
 
-public struct CreateGlobalClusterInput: Swift.Equatable {
+public struct CreateGlobalClusterInput {
     /// The deletion protection setting for the new global database. The global database can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The name of the database engine to be used in the global database. Valid values: neptune
@@ -2966,7 +2966,7 @@ extension CreateGlobalClusterOutput {
     }
 }
 
-public struct CreateGlobalClusterOutput: Swift.Equatable {
+public struct CreateGlobalClusterOutput {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -3305,7 +3305,7 @@ extension NeptuneClientTypes.DBCluster: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
-    public struct DBCluster: Swift.Equatable {
+    public struct DBCluster {
         /// AllocatedStorage always returns 1, because Neptune DB cluster storage size is not fixed, but instead automatically adjusts as needed.
         public var allocatedStorage: Swift.Int?
         /// Provides a list of the Amazon Identity and Access Management (IAM) roles that are associated with the DB cluster. IAM roles that are associated with a DB cluster grant permission for the DB cluster to access other Amazon services on your behalf.
@@ -3630,7 +3630,7 @@ extension NeptuneClientTypes {
     ///
     ///
     /// For the data structure that represents Amazon Neptune DB instance endpoints, see Endpoint.
-    public struct DBClusterEndpoint: Swift.Equatable {
+    public struct DBClusterEndpoint {
         /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
         public var customEndpointType: Swift.String?
         /// The Amazon Resource Name (ARN) for the endpoint.
@@ -3830,7 +3830,7 @@ extension NeptuneClientTypes.DBClusterMember: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains information about an instance that is part of a DB cluster.
-    public struct DBClusterMember: Swift.Equatable {
+    public struct DBClusterMember {
         /// Specifies the status of the DB cluster parameter group for this member of the DB cluster.
         public var dbClusterParameterGroupStatus: Swift.String?
         /// Specifies the instance identifier for this member of the DB cluster.
@@ -3922,7 +3922,7 @@ extension NeptuneClientTypes.DBClusterOptionGroupStatus: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Not supported by Neptune.
-    public struct DBClusterOptionGroupStatus: Swift.Equatable {
+    public struct DBClusterOptionGroupStatus {
         /// Not supported by Neptune.
         public var dbClusterOptionGroupName: Swift.String?
         /// Not supported by Neptune.
@@ -3979,7 +3979,7 @@ extension NeptuneClientTypes.DBClusterParameterGroup: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB cluster parameter group. This data type is used as a response element in the [DescribeDBClusterParameterGroups] action.
-    public struct DBClusterParameterGroup: Swift.Equatable {
+    public struct DBClusterParameterGroup {
         /// The Amazon Resource Name (ARN) for the DB cluster parameter group.
         public var dbClusterParameterGroupArn: Swift.String?
         /// Provides the name of the DB cluster parameter group.
@@ -4113,7 +4113,7 @@ extension NeptuneClientTypes.DBClusterRole: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Describes an Amazon Identity and Access Management (IAM) role that is associated with a DB cluster.
-    public struct DBClusterRole: Swift.Equatable {
+    public struct DBClusterRole {
         /// The name of the feature associated with the Amazon Identity and Access Management (IAM) role. For the list of supported feature names, see [DescribeDBEngineVersions].
         public var featureName: Swift.String?
         /// The Amazon Resource Name (ARN) of the IAM role that is associated with the DB cluster.
@@ -4385,7 +4385,7 @@ extension NeptuneClientTypes.DBClusterSnapshot: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
-    public struct DBClusterSnapshot: Swift.Equatable {
+    public struct DBClusterSnapshot {
         /// Specifies the allocated storage size in gibibytes (GiB).
         public var allocatedStorage: Swift.Int?
         /// Provides the list of EC2 Availability Zones that instances in the DB cluster snapshot can be restored in.
@@ -4554,7 +4554,7 @@ extension NeptuneClientTypes.DBClusterSnapshotAttribute: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the name and values of a manual DB cluster snapshot attribute. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
-    public struct DBClusterSnapshotAttribute: Swift.Equatable {
+    public struct DBClusterSnapshotAttribute {
         /// The name of the manual DB cluster snapshot attribute. The attribute named restore refers to the list of Amazon accounts that have permission to copy or restore the manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
         public var attributeName: Swift.String?
         /// The value(s) for the manual DB cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon accounts that are authorized to copy or restore the manual DB cluster snapshot. If a value of all is in the list, then the manual DB cluster snapshot is public and available for any Amazon account to copy or restore.
@@ -4610,7 +4610,7 @@ extension NeptuneClientTypes.DBClusterSnapshotAttributesResult: Swift.Encodable 
 
 extension NeptuneClientTypes {
     /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
-    public struct DBClusterSnapshotAttributesResult: Swift.Equatable {
+    public struct DBClusterSnapshotAttributesResult {
         /// The list of attributes and values for the manual DB cluster snapshot.
         public var dbClusterSnapshotAttributes: [NeptuneClientTypes.DBClusterSnapshotAttribute]?
         /// The identifier of the manual DB cluster snapshot that the attributes apply to.
@@ -4785,7 +4785,7 @@ extension NeptuneClientTypes.DBEngineVersion: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This data type is used as a response element in the action [DescribeDBEngineVersions].
-    public struct DBEngineVersion: Swift.Equatable {
+    public struct DBEngineVersion {
         /// The description of the database engine.
         public var dbEngineDescription: Swift.String?
         /// The description of the database engine version.
@@ -5212,7 +5212,7 @@ extension NeptuneClientTypes.DBInstance: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
-    public struct DBInstance: Swift.Equatable {
+    public struct DBInstance {
         /// Not supported by Neptune.
         public var allocatedStorage: Swift.Int?
         /// Indicates that minor version patches are applied automatically.
@@ -5548,7 +5548,7 @@ extension NeptuneClientTypes.DBInstanceStatusInfo: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Provides a list of status information for a DB instance.
-    public struct DBInstanceStatusInfo: Swift.Equatable {
+    public struct DBInstanceStatusInfo {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -5613,7 +5613,7 @@ extension NeptuneClientTypes.DBParameterGroup: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB parameter group. This data type is used as a response element in the [DescribeDBParameterGroups] action.
-    public struct DBParameterGroup: Swift.Equatable {
+    public struct DBParameterGroup {
         /// The Amazon Resource Name (ARN) for the DB parameter group.
         public var dbParameterGroupArn: Swift.String?
         /// Provides the name of the DB parameter group family that this DB parameter group is compatible with.
@@ -5787,7 +5787,7 @@ extension NeptuneClientTypes {
     /// * [ModifyDBInstance]
     ///
     /// * [RebootDBInstance]
-    public struct DBParameterGroupStatus: Swift.Equatable {
+    public struct DBParameterGroupStatus {
         /// The name of the DP parameter group.
         public var dbParameterGroupName: Swift.String?
         /// The status of parameter updates.
@@ -5834,7 +5834,7 @@ extension NeptuneClientTypes.DBSecurityGroupMembership: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies membership in a designated DB security group.
-    public struct DBSecurityGroupMembership: Swift.Equatable {
+    public struct DBSecurityGroupMembership {
         /// The name of the DB security group.
         public var dbSecurityGroupName: Swift.String?
         /// The status of the DB security group.
@@ -6021,7 +6021,7 @@ extension NeptuneClientTypes.DBSubnetGroup: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune DB subnet group. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
-    public struct DBSubnetGroup: Swift.Equatable {
+    public struct DBSubnetGroup {
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public var dbSubnetGroupArn: Swift.String?
         /// Provides the description of the DB subnet group.
@@ -6299,7 +6299,7 @@ extension DeleteDBClusterEndpointInput {
     }
 }
 
-public struct DeleteDBClusterEndpointInput: Swift.Equatable {
+public struct DeleteDBClusterEndpointInput {
     /// The identifier associated with the custom endpoint. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbClusterEndpointIdentifier: Swift.String?
@@ -6346,7 +6346,7 @@ extension DeleteDBClusterEndpointOutput {
 ///
 ///
 /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
-public struct DeleteDBClusterEndpointOutput: Swift.Equatable {
+public struct DeleteDBClusterEndpointOutput {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -6443,7 +6443,7 @@ extension DeleteDBClusterInput {
     }
 }
 
-public struct DeleteDBClusterInput: Swift.Equatable {
+public struct DeleteDBClusterInput {
     /// The DB cluster identifier for the DB cluster to be deleted. This parameter isn't case-sensitive. Constraints:
     ///
     /// * Must match an existing DBClusterIdentifier.
@@ -6485,7 +6485,7 @@ extension DeleteDBClusterOutput {
     }
 }
 
-public struct DeleteDBClusterOutput: Swift.Equatable {
+public struct DeleteDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -6540,7 +6540,7 @@ extension DeleteDBClusterParameterGroupInput {
     }
 }
 
-public struct DeleteDBClusterParameterGroupInput: Swift.Equatable {
+public struct DeleteDBClusterParameterGroupInput {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must be the name of an existing DB cluster parameter group.
@@ -6568,7 +6568,7 @@ extension DeleteDBClusterParameterGroupOutput {
     }
 }
 
-public struct DeleteDBClusterParameterGroupOutput: Swift.Equatable {
+public struct DeleteDBClusterParameterGroupOutput {
 
     public init() { }
 }
@@ -6613,7 +6613,7 @@ extension DeleteDBClusterSnapshotInput {
     }
 }
 
-public struct DeleteDBClusterSnapshotInput: Swift.Equatable {
+public struct DeleteDBClusterSnapshotInput {
     /// The identifier of the DB cluster snapshot to delete. Constraints: Must be the name of an existing DB cluster snapshot in the available state.
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
@@ -6639,7 +6639,7 @@ extension DeleteDBClusterSnapshotOutput {
     }
 }
 
-public struct DeleteDBClusterSnapshotOutput: Swift.Equatable {
+public struct DeleteDBClusterSnapshotOutput {
     /// Contains the details for an Amazon Neptune DB cluster snapshot This data type is used as a response element in the [DescribeDBClusterSnapshots] action.
     public var dbClusterSnapshot: NeptuneClientTypes.DBClusterSnapshot?
 
@@ -6699,7 +6699,7 @@ extension DeleteDBInstanceInput {
     }
 }
 
-public struct DeleteDBInstanceInput: Swift.Equatable {
+public struct DeleteDBInstanceInput {
     /// The DB instance identifier for the DB instance to be deleted. This parameter isn't case-sensitive. Constraints:
     ///
     /// * Must match the name of an existing DB instance.
@@ -6743,7 +6743,7 @@ extension DeleteDBInstanceOutput {
     }
 }
 
-public struct DeleteDBInstanceOutput: Swift.Equatable {
+public struct DeleteDBInstanceOutput {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public var dbInstance: NeptuneClientTypes.DBInstance?
 
@@ -6798,7 +6798,7 @@ extension DeleteDBParameterGroupInput {
     }
 }
 
-public struct DeleteDBParameterGroupInput: Swift.Equatable {
+public struct DeleteDBParameterGroupInput {
     /// The name of the DB parameter group. Constraints:
     ///
     /// * Must be the name of an existing DB parameter group
@@ -6826,7 +6826,7 @@ extension DeleteDBParameterGroupOutput {
     }
 }
 
-public struct DeleteDBParameterGroupOutput: Swift.Equatable {
+public struct DeleteDBParameterGroupOutput {
 
     public init() { }
 }
@@ -6871,7 +6871,7 @@ extension DeleteDBSubnetGroupInput {
     }
 }
 
-public struct DeleteDBSubnetGroupInput: Swift.Equatable {
+public struct DeleteDBSubnetGroupInput {
     /// The name of the database subnet group to delete. You can't delete the default subnet group. Constraints: Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
     /// This member is required.
     public var dbSubnetGroupName: Swift.String?
@@ -6893,7 +6893,7 @@ extension DeleteDBSubnetGroupOutput {
     }
 }
 
-public struct DeleteDBSubnetGroupOutput: Swift.Equatable {
+public struct DeleteDBSubnetGroupOutput {
 
     public init() { }
 }
@@ -6939,7 +6939,7 @@ extension DeleteEventSubscriptionInput {
     }
 }
 
-public struct DeleteEventSubscriptionInput: Swift.Equatable {
+public struct DeleteEventSubscriptionInput {
     /// The name of the event notification subscription you want to delete.
     /// This member is required.
     public var subscriptionName: Swift.String?
@@ -6965,7 +6965,7 @@ extension DeleteEventSubscriptionOutput {
     }
 }
 
-public struct DeleteEventSubscriptionOutput: Swift.Equatable {
+public struct DeleteEventSubscriptionOutput {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -7017,7 +7017,7 @@ extension DeleteGlobalClusterInput {
     }
 }
 
-public struct DeleteGlobalClusterInput: Swift.Equatable {
+public struct DeleteGlobalClusterInput {
     /// The cluster identifier of the global database cluster being deleted.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
@@ -7043,7 +7043,7 @@ extension DeleteGlobalClusterOutput {
     }
 }
 
-public struct DeleteGlobalClusterOutput: Swift.Equatable {
+public struct DeleteGlobalClusterOutput {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -7120,7 +7120,7 @@ extension DescribeDBClusterEndpointsInput {
     }
 }
 
-public struct DescribeDBClusterEndpointsInput: Swift.Equatable {
+public struct DescribeDBClusterEndpointsInput {
     /// The identifier of the endpoint to describe. This parameter is stored as a lowercase string.
     public var dbClusterEndpointIdentifier: Swift.String?
     /// The DB cluster identifier of the DB cluster associated with the endpoint. This parameter is stored as a lowercase string.
@@ -7162,7 +7162,7 @@ extension DescribeDBClusterEndpointsOutput {
     }
 }
 
-public struct DescribeDBClusterEndpointsOutput: Swift.Equatable {
+public struct DescribeDBClusterEndpointsOutput {
     /// Contains the details of the endpoints associated with the cluster and matching any filter conditions.
     public var dbClusterEndpoints: [NeptuneClientTypes.DBClusterEndpoint]?
     /// An optional pagination token provided by a previous DescribeDBClusterEndpoints request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7238,7 +7238,7 @@ extension DescribeDBClusterParameterGroupsInput {
     }
 }
 
-public struct DescribeDBClusterParameterGroupsInput: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsInput {
     /// The name of a specific DB cluster parameter group to return details for. Constraints:
     ///
     /// * If supplied, must match the name of an existing DBClusterParameterGroup.
@@ -7278,7 +7278,7 @@ extension DescribeDBClusterParameterGroupsOutput {
     }
 }
 
-public struct DescribeDBClusterParameterGroupsOutput: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsOutput {
     /// A list of DB cluster parameter groups.
     public var dbClusterParameterGroups: [NeptuneClientTypes.DBClusterParameterGroup]?
     /// An optional pagination token provided by a previous DescribeDBClusterParameterGroups request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7358,7 +7358,7 @@ extension DescribeDBClusterParametersInput {
     }
 }
 
-public struct DescribeDBClusterParametersInput: Swift.Equatable {
+public struct DescribeDBClusterParametersInput {
     /// The name of a specific DB cluster parameter group to return parameter details for. Constraints:
     ///
     /// * If supplied, must match the name of an existing DBClusterParameterGroup.
@@ -7403,7 +7403,7 @@ extension DescribeDBClusterParametersOutput {
     }
 }
 
-public struct DescribeDBClusterParametersOutput: Swift.Equatable {
+public struct DescribeDBClusterParametersOutput {
     /// An optional pagination token provided by a previous DescribeDBClusterParameters request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
     public var marker: Swift.String?
     /// Provides a list of parameters for the DB cluster parameter group.
@@ -7458,7 +7458,7 @@ extension DescribeDBClusterSnapshotAttributesInput {
     }
 }
 
-public struct DescribeDBClusterSnapshotAttributesInput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesInput {
     /// The identifier for the DB cluster snapshot to describe the attributes for.
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
@@ -7484,7 +7484,7 @@ extension DescribeDBClusterSnapshotAttributesOutput {
     }
 }
 
-public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesOutput {
     /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
     public var dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -7572,7 +7572,7 @@ extension DescribeDBClusterSnapshotsInput {
     }
 }
 
-public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsInput {
     /// The ID of the DB cluster to retrieve the list of DB cluster snapshots for. This parameter can't be used in conjunction with the DBClusterSnapshotIdentifier parameter. This parameter is not case-sensitive. Constraints:
     ///
     /// * If supplied, must match the identifier of an existing DBCluster.
@@ -7643,7 +7643,7 @@ extension DescribeDBClusterSnapshotsOutput {
     }
 }
 
-public struct DescribeDBClusterSnapshotsOutput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsOutput {
     /// Provides a list of DB cluster snapshots for the user.
     public var dbClusterSnapshots: [NeptuneClientTypes.DBClusterSnapshot]?
     /// An optional pagination token provided by a previous [DescribeDBClusterSnapshots] request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7719,7 +7719,7 @@ extension DescribeDBClustersInput {
     }
 }
 
-public struct DescribeDBClustersInput: Swift.Equatable {
+public struct DescribeDBClustersInput {
     /// The user-supplied DB cluster identifier. If this parameter is specified, information from only the specific DB cluster is returned. This parameter isn't case-sensitive. Constraints:
     ///
     /// * If supplied, must match an existing DBClusterIdentifier.
@@ -7766,7 +7766,7 @@ extension DescribeDBClustersOutput {
     }
 }
 
-public struct DescribeDBClustersOutput: Swift.Equatable {
+public struct DescribeDBClustersOutput {
     /// Contains a list of DB clusters for the user.
     public var dbClusters: [NeptuneClientTypes.DBCluster]?
     /// A pagination token that can be used in a subsequent DescribeDBClusters request.
@@ -7862,7 +7862,7 @@ extension DescribeDBEngineVersionsInput {
     }
 }
 
-public struct DescribeDBEngineVersionsInput: Swift.Equatable {
+public struct DescribeDBEngineVersionsInput {
     /// The name of a specific DB parameter group family to return details for. Constraints:
     ///
     /// * If supplied, must match an existing DBParameterGroupFamily.
@@ -7922,7 +7922,7 @@ extension DescribeDBEngineVersionsOutput {
     }
 }
 
-public struct DescribeDBEngineVersionsOutput: Swift.Equatable {
+public struct DescribeDBEngineVersionsOutput {
     /// A list of DBEngineVersion elements.
     public var dbEngineVersions: [NeptuneClientTypes.DBEngineVersion]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7997,7 +7997,7 @@ extension DescribeDBInstancesInput {
     }
 }
 
-public struct DescribeDBInstancesInput: Swift.Equatable {
+public struct DescribeDBInstancesInput {
     /// The user-supplied instance identifier. If this parameter is specified, information from only the specific DB instance is returned. This parameter isn't case-sensitive. Constraints:
     ///
     /// * If supplied, must match the identifier of an existing DBInstance.
@@ -8044,7 +8044,7 @@ extension DescribeDBInstancesOutput {
     }
 }
 
-public struct DescribeDBInstancesOutput: Swift.Equatable {
+public struct DescribeDBInstancesOutput {
     /// A list of [DBInstance] instances.
     public var dbInstances: [NeptuneClientTypes.DBInstance]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -8120,7 +8120,7 @@ extension DescribeDBParameterGroupsInput {
     }
 }
 
-public struct DescribeDBParameterGroupsInput: Swift.Equatable {
+public struct DescribeDBParameterGroupsInput {
     /// The name of a specific DB parameter group to return details for. Constraints:
     ///
     /// * If supplied, must match the name of an existing DBClusterParameterGroup.
@@ -8160,7 +8160,7 @@ extension DescribeDBParameterGroupsOutput {
     }
 }
 
-public struct DescribeDBParameterGroupsOutput: Swift.Equatable {
+public struct DescribeDBParameterGroupsOutput {
     /// A list of [DBParameterGroup] instances.
     public var dbParameterGroups: [NeptuneClientTypes.DBParameterGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8240,7 +8240,7 @@ extension DescribeDBParametersInput {
     }
 }
 
-public struct DescribeDBParametersInput: Swift.Equatable {
+public struct DescribeDBParametersInput {
     /// The name of a specific DB parameter group to return details for. Constraints:
     ///
     /// * If supplied, must match the name of an existing DBParameterGroup.
@@ -8285,7 +8285,7 @@ extension DescribeDBParametersOutput {
     }
 }
 
-public struct DescribeDBParametersOutput: Swift.Equatable {
+public struct DescribeDBParametersOutput {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of [Parameter] values.
@@ -8361,7 +8361,7 @@ extension DescribeDBSubnetGroupsInput {
     }
 }
 
-public struct DescribeDBSubnetGroupsInput: Swift.Equatable {
+public struct DescribeDBSubnetGroupsInput {
     /// The name of the DB subnet group to return details for.
     public var dbSubnetGroupName: Swift.String?
     /// This parameter is not currently supported.
@@ -8399,7 +8399,7 @@ extension DescribeDBSubnetGroupsOutput {
     }
 }
 
-public struct DescribeDBSubnetGroupsOutput: Swift.Equatable {
+public struct DescribeDBSubnetGroupsOutput {
     /// A list of [DBSubnetGroup] instances.
     public var dbSubnetGroups: [NeptuneClientTypes.DBSubnetGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8475,7 +8475,7 @@ extension DescribeEngineDefaultClusterParametersInput {
     }
 }
 
-public struct DescribeEngineDefaultClusterParametersInput: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersInput {
     /// The name of the DB cluster parameter group family to return engine parameter information for.
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
@@ -8513,7 +8513,7 @@ extension DescribeEngineDefaultClusterParametersOutput {
     }
 }
 
-public struct DescribeEngineDefaultClusterParametersOutput: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersOutput {
     /// Contains the result of a successful invocation of the [DescribeEngineDefaultParameters] action.
     public var engineDefaults: NeptuneClientTypes.EngineDefaults?
 
@@ -8584,7 +8584,7 @@ extension DescribeEngineDefaultParametersInput {
     }
 }
 
-public struct DescribeEngineDefaultParametersInput: Swift.Equatable {
+public struct DescribeEngineDefaultParametersInput {
     /// The name of the DB parameter group family.
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
@@ -8622,7 +8622,7 @@ extension DescribeEngineDefaultParametersOutput {
     }
 }
 
-public struct DescribeEngineDefaultParametersOutput: Swift.Equatable {
+public struct DescribeEngineDefaultParametersOutput {
     /// Contains the result of a successful invocation of the [DescribeEngineDefaultParameters] action.
     public var engineDefaults: NeptuneClientTypes.EngineDefaults?
 
@@ -8685,7 +8685,7 @@ extension DescribeEventCategoriesInput {
     }
 }
 
-public struct DescribeEventCategoriesInput: Swift.Equatable {
+public struct DescribeEventCategoriesInput {
     /// This parameter is not currently supported.
     public var filters: [NeptuneClientTypes.Filter]?
     /// The type of source that is generating the events. Valid values: db-instance | db-parameter-group | db-security-group | db-snapshot
@@ -8714,7 +8714,7 @@ extension DescribeEventCategoriesOutput {
     }
 }
 
-public struct DescribeEventCategoriesOutput: Swift.Equatable {
+public struct DescribeEventCategoriesOutput {
     /// A list of EventCategoriesMap data types.
     public var eventCategoriesMapList: [NeptuneClientTypes.EventCategoriesMap]?
 
@@ -8785,7 +8785,7 @@ extension DescribeEventSubscriptionsInput {
     }
 }
 
-public struct DescribeEventSubscriptionsInput: Swift.Equatable {
+public struct DescribeEventSubscriptionsInput {
     /// This parameter is not currently supported.
     public var filters: [NeptuneClientTypes.Filter]?
     /// An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -8823,7 +8823,7 @@ extension DescribeEventSubscriptionsOutput {
     }
 }
 
-public struct DescribeEventSubscriptionsOutput: Swift.Equatable {
+public struct DescribeEventSubscriptionsOutput {
     /// A list of EventSubscriptions data types.
     public var eventSubscriptionsList: [NeptuneClientTypes.EventSubscription]?
     /// An optional pagination token provided by a previous DescribeOrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -8928,7 +8928,7 @@ extension DescribeEventsInput {
     }
 }
 
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// The number of minutes to retrieve events for. Default: 60
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. For more information about ISO 8601, go to the [ISO8601 Wikipedia page.](http://en.wikipedia.org/wiki/ISO_8601) Example: 2009-07-08T18:00Z
@@ -8998,7 +8998,7 @@ extension DescribeEventsOutput {
     }
 }
 
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// A list of [Event] instances.
     public var events: [NeptuneClientTypes.Event]?
     /// An optional pagination token provided by a previous Events request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -9060,7 +9060,7 @@ extension DescribeGlobalClustersInput {
     }
 }
 
-public struct DescribeGlobalClustersInput: Swift.Equatable {
+public struct DescribeGlobalClustersInput {
     /// The user-supplied DB cluster identifier. If this parameter is specified, only information about the specified DB cluster is returned. This parameter is not case-sensitive. Constraints: If supplied, must match an existing DB cluster identifier.
     public var globalClusterIdentifier: Swift.String?
     /// (Optional) A pagination token returned by a previous call to DescribeGlobalClusters. If this parameter is specified, the response will only include records beyond the marker, up to the number specified by MaxRecords.
@@ -9094,7 +9094,7 @@ extension DescribeGlobalClustersOutput {
     }
 }
 
-public struct DescribeGlobalClustersOutput: Swift.Equatable {
+public struct DescribeGlobalClustersOutput {
     /// The list of global clusters and instances returned by this request.
     public var globalClusters: [NeptuneClientTypes.GlobalCluster]?
     /// A pagination token. If this parameter is returned in the response, more records are available, which can be retrieved by one or more additional calls to DescribeGlobalClusters.
@@ -9186,7 +9186,7 @@ extension DescribeOrderableDBInstanceOptionsInput {
     }
 }
 
-public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsInput {
     /// The DB instance class filter value. Specify this parameter to show only the available offerings matching the specified DB instance class.
     public var dbInstanceClass: Swift.String?
     /// The name of the engine to retrieve DB instance options for.
@@ -9241,7 +9241,7 @@ extension DescribeOrderableDBInstanceOptionsOutput {
     }
 }
 
-public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsOutput {
     /// An optional pagination token provided by a previous OrderableDBInstanceOptions request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
     public var marker: Swift.String?
     /// An [OrderableDBInstanceOption] structure containing information about orderable options for the DB instance.
@@ -9316,7 +9316,7 @@ extension DescribePendingMaintenanceActionsInput {
     }
 }
 
-public struct DescribePendingMaintenanceActionsInput: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsInput {
     /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:
     ///
     /// * db-cluster-id - Accepts DB cluster identifiers and DB cluster Amazon Resource Names (ARNs). The results list will only include pending maintenance actions for the DB clusters identified by these ARNs.
@@ -9358,7 +9358,7 @@ extension DescribePendingMaintenanceActionsOutput {
     }
 }
 
-public struct DescribePendingMaintenanceActionsOutput: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsOutput {
     /// An optional pagination token provided by a previous DescribePendingMaintenanceActions request. If this parameter is specified, the response includes only records beyond the marker, up to a number of records specified by MaxRecords.
     public var marker: Swift.String?
     /// A list of the pending maintenance actions for the resource.
@@ -9413,7 +9413,7 @@ extension DescribeValidDBInstanceModificationsInput {
     }
 }
 
-public struct DescribeValidDBInstanceModificationsInput: Swift.Equatable {
+public struct DescribeValidDBInstanceModificationsInput {
     /// The customer identifier or the ARN of your DB instance.
     /// This member is required.
     public var dbInstanceIdentifier: Swift.String?
@@ -9439,7 +9439,7 @@ extension DescribeValidDBInstanceModificationsOutput {
     }
 }
 
-public struct DescribeValidDBInstanceModificationsOutput: Swift.Equatable {
+public struct DescribeValidDBInstanceModificationsOutput {
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the [DescribeValidDBInstanceModifications] action. You can use this information when you call [ModifyDBInstance].
     public var validDBInstanceModificationsMessage: NeptuneClientTypes.ValidDBInstanceModificationsMessage?
 
@@ -9508,7 +9508,7 @@ extension NeptuneClientTypes.DomainMembership: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// An Active Directory Domain membership record associated with a DB instance.
-    public struct DomainMembership: Swift.Equatable {
+    public struct DomainMembership {
         /// The identifier of the Active Directory Domain.
         public var domain: Swift.String?
         /// The fully qualified domain name of the Active Directory Domain.
@@ -9600,7 +9600,7 @@ extension NeptuneClientTypes.DoubleRange: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// A range of double values.
-    public struct DoubleRange: Swift.Equatable {
+    public struct DoubleRange {
         /// The minimum value in the range.
         public var from: Swift.Double?
         /// The maximum value in the range.
@@ -9652,7 +9652,7 @@ extension NeptuneClientTypes.Endpoint: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies a connection endpoint. For the data structure that represents Amazon Neptune DB cluster endpoints, see DBClusterEndpoint.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// Specifies the DNS address of the DB instance.
         public var address: Swift.String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -9717,7 +9717,7 @@ extension NeptuneClientTypes.EngineDefaults: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the result of a successful invocation of the [DescribeEngineDefaultParameters] action.
-    public struct EngineDefaults: Swift.Equatable {
+    public struct EngineDefaults : Swift.Equatable {
         /// Specifies the name of the DB parameter group family that the engine default parameters apply to.
         public var dbParameterGroupFamily: Swift.String?
         /// An optional pagination token provided by a previous EngineDefaults request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords .
@@ -9797,7 +9797,7 @@ extension NeptuneClientTypes.Event: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This data type is used as a response element in the [DescribeEvents] action.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// Specifies the date and time of the event.
         public var date: ClientRuntime.Date?
         /// Specifies the category for the event.
@@ -9869,7 +9869,7 @@ extension NeptuneClientTypes.EventCategoriesMap: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the results of a successful invocation of the [DescribeEventCategories] action.
-    public struct EventCategoriesMap: Swift.Equatable {
+    public struct EventCategoriesMap {
         /// The event categories for the specified source type
         public var eventCategories: [Swift.String]?
         /// The source type that the returned categories belong to
@@ -9974,7 +9974,7 @@ extension NeptuneClientTypes.EventSubscription: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
-    public struct EventSubscription: Swift.Equatable {
+    public struct EventSubscription {
         /// The event notification subscription Id.
         public var custSubscriptionId: Swift.String?
         /// The Amazon customer account associated with the event notification subscription.
@@ -10087,7 +10087,7 @@ extension FailoverDBClusterInput {
     }
 }
 
-public struct FailoverDBClusterInput: Swift.Equatable {
+public struct FailoverDBClusterInput {
     /// A DB cluster identifier to force a failover for. This parameter is not case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -10118,7 +10118,7 @@ extension FailoverDBClusterOutput {
     }
 }
 
-public struct FailoverDBClusterOutput: Swift.Equatable {
+public struct FailoverDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -10175,7 +10175,7 @@ extension FailoverGlobalClusterInput {
     }
 }
 
-public struct FailoverGlobalClusterInput: Swift.Equatable {
+public struct FailoverGlobalClusterInput {
     /// Identifier of the Neptune global database that should be failed over. The identifier is the unique key assigned by the user when the Neptune global database was created. In other words, it's the name of the global database that you want to fail over. Constraints: Must match the identifier of an existing Neptune global database.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
@@ -10206,7 +10206,7 @@ extension FailoverGlobalClusterOutput {
     }
 }
 
-public struct FailoverGlobalClusterOutput: Swift.Equatable {
+public struct FailoverGlobalClusterOutput {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -10276,7 +10276,7 @@ extension NeptuneClientTypes.Filter: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This type is not currently supported.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// This parameter is not currently supported.
         /// This member is required.
         public var name: Swift.String?
@@ -10369,7 +10369,7 @@ extension NeptuneClientTypes.GlobalCluster: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
-    public struct GlobalCluster: Swift.Equatable {
+    public struct GlobalCluster {
         /// The deletion protection setting for the global database.
         public var deletionProtection: Swift.Bool?
         /// The Neptune database engine used by the global database ("neptune").
@@ -10495,7 +10495,7 @@ extension NeptuneClientTypes.GlobalClusterMember: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// A data structure with information about any primary and secondary clusters associated with an Neptune global database.
-    public struct GlobalClusterMember: Swift.Equatable {
+    public struct GlobalClusterMember {
         /// The Amazon Resource Name (ARN) for each Neptune cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Neptune cluster is the primary cluster (that is, has read-write capability) for the Neptune global database with which it is associated.
@@ -11329,7 +11329,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// This parameter is not currently supported.
     public var filters: [NeptuneClientTypes.Filter]?
     /// The Amazon Neptune resource with tags to be listed. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing).
@@ -11359,7 +11359,7 @@ extension ListTagsForResourceOutput {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// List of tags returned by the ListTagsForResource operation.
     public var tagList: [NeptuneClientTypes.Tag]?
 
@@ -11442,7 +11442,7 @@ extension ModifyDBClusterEndpointInput {
     }
 }
 
-public struct ModifyDBClusterEndpointInput: Swift.Equatable {
+public struct ModifyDBClusterEndpointInput {
     /// The identifier of the endpoint to modify. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbClusterEndpointIdentifier: Swift.String?
@@ -11501,7 +11501,7 @@ extension ModifyDBClusterEndpointOutput {
 ///
 ///
 /// For the data structure that represents Amazon RDS DB instance endpoints, see Endpoint.
-public struct ModifyDBClusterEndpointOutput: Swift.Equatable {
+public struct ModifyDBClusterEndpointOutput {
     /// The type associated with a custom endpoint. One of: READER, WRITER, ANY.
     public var customEndpointType: Swift.String?
     /// The Amazon Resource Name (ARN) for the endpoint.
@@ -11677,7 +11677,7 @@ extension ModifyDBClusterInput {
     }
 }
 
-public struct ModifyDBClusterInput: Swift.Equatable {
+public struct ModifyDBClusterInput {
     /// A value that indicates whether upgrades between different major versions are allowed. Constraints: You must set the allow-major-version-upgrade flag when providing an EngineVersion parameter that uses a different major version than the DB cluster's current version.
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// A value that specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the DB cluster. If this parameter is set to false, changes to the DB cluster are applied during the next maintenance window. The ApplyImmediately parameter only affects NewDBClusterIdentifier values. If you set the ApplyImmediately parameter value to false, then changes to NewDBClusterIdentifier values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
@@ -11811,7 +11811,7 @@ extension ModifyDBClusterOutput {
     }
 }
 
-public struct ModifyDBClusterOutput: Swift.Equatable {
+public struct ModifyDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -11886,7 +11886,7 @@ extension ModifyDBClusterParameterGroupInput {
     }
 }
 
-public struct ModifyDBClusterParameterGroupInput: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupInput {
     /// The name of the DB cluster parameter group to modify.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
@@ -11917,7 +11917,7 @@ extension ModifyDBClusterParameterGroupOutput {
     }
 }
 
-public struct ModifyDBClusterParameterGroupOutput: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupOutput {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must be 1 to 255 letters or numbers.
@@ -12008,7 +12008,7 @@ extension ModifyDBClusterSnapshotAttributeInput {
     }
 }
 
-public struct ModifyDBClusterSnapshotAttributeInput: Swift.Equatable {
+public struct ModifyDBClusterSnapshotAttributeInput {
     /// The name of the DB cluster snapshot attribute to modify. To manage authorization for other Amazon accounts to copy or restore a manual DB cluster snapshot, set this value to restore.
     /// This member is required.
     public var attributeName: Swift.String?
@@ -12047,7 +12047,7 @@ extension ModifyDBClusterSnapshotAttributeOutput {
     }
 }
 
-public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Equatable {
+public struct ModifyDBClusterSnapshotAttributeOutput {
     /// Contains the results of a successful call to the [DescribeDBClusterSnapshotAttributes] API action. Manual DB cluster snapshot attributes are used to authorize other Amazon accounts to copy or restore a manual DB cluster snapshot. For more information, see the [ModifyDBClusterSnapshotAttribute] API action.
     public var dbClusterSnapshotAttributesResult: NeptuneClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -12267,7 +12267,7 @@ extension ModifyDBInstanceInput {
     }
 }
 
-public struct ModifyDBInstanceInput: Swift.Equatable {
+public struct ModifyDBInstanceInput {
     /// Not supported by Neptune.
     public var allocatedStorage: Swift.Int?
     /// Indicates that major version upgrades are allowed. Changing this parameter doesn't result in an outage and the change is asynchronously applied as soon as possible.
@@ -12461,7 +12461,7 @@ extension ModifyDBInstanceOutput {
     }
 }
 
-public struct ModifyDBInstanceOutput: Swift.Equatable {
+public struct ModifyDBInstanceOutput {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public var dbInstance: NeptuneClientTypes.DBInstance?
 
@@ -12540,7 +12540,7 @@ extension ModifyDBParameterGroupInput {
     }
 }
 
-public struct ModifyDBParameterGroupInput: Swift.Equatable {
+public struct ModifyDBParameterGroupInput {
     /// The name of the DB parameter group. Constraints:
     ///
     /// * If supplied, must match the name of an existing DBParameterGroup.
@@ -12573,7 +12573,7 @@ extension ModifyDBParameterGroupOutput {
     }
 }
 
-public struct ModifyDBParameterGroupOutput: Swift.Equatable {
+public struct ModifyDBParameterGroupOutput {
     /// Provides the name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
 
@@ -12642,7 +12642,7 @@ extension ModifyDBSubnetGroupInput {
     }
 }
 
-public struct ModifyDBSubnetGroupInput: Swift.Equatable {
+public struct ModifyDBSubnetGroupInput {
     /// The description for the DB subnet group.
     public var dbSubnetGroupDescription: Swift.String?
     /// The name for the DB subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
@@ -12677,7 +12677,7 @@ extension ModifyDBSubnetGroupOutput {
     }
 }
 
-public struct ModifyDBSubnetGroupOutput: Swift.Equatable {
+public struct ModifyDBSubnetGroupOutput {
     /// Contains the details of an Amazon Neptune DB subnet group. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
     public var dbSubnetGroup: NeptuneClientTypes.DBSubnetGroup?
 
@@ -12757,7 +12757,7 @@ extension ModifyEventSubscriptionInput {
     }
 }
 
-public struct ModifyEventSubscriptionInput: Swift.Equatable {
+public struct ModifyEventSubscriptionInput {
     /// A Boolean value; set to true to activate the subscription.
     public var enabled: Swift.Bool?
     /// A list of event categories for a SourceType that you want to subscribe to. You can see a list of the categories for a given SourceType by using the DescribeEventCategories action.
@@ -12799,7 +12799,7 @@ extension ModifyEventSubscriptionOutput {
     }
 }
 
-public struct ModifyEventSubscriptionOutput: Swift.Equatable {
+public struct ModifyEventSubscriptionOutput {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -12871,7 +12871,7 @@ extension ModifyGlobalClusterInput {
     }
 }
 
-public struct ModifyGlobalClusterInput: Swift.Equatable {
+public struct ModifyGlobalClusterInput {
     /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades if you specify a value for the EngineVersion parameter that is a different major version than the DB cluster's current version. If you upgrade the major version of a global database, the cluster and DB instance parameter groups are set to the default parameter groups for the new version, so you will need to apply any custom parameter groups after completing the upgrade.
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// Indicates whether the global database has deletion protection enabled. The global database cannot be deleted when deletion protection is enabled.
@@ -12922,7 +12922,7 @@ extension ModifyGlobalClusterOutput {
     }
 }
 
-public struct ModifyGlobalClusterOutput: Swift.Equatable {
+public struct ModifyGlobalClusterOutput {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -12983,7 +12983,7 @@ extension NeptuneClientTypes.OptionGroupMembership: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Not supported by Neptune.
-    public struct OptionGroupMembership: Swift.Equatable {
+    public struct OptionGroupMembership {
         /// Not supported by Neptune.
         public var optionGroupName: Swift.String?
         /// Not supported by Neptune.
@@ -13171,7 +13171,7 @@ extension NeptuneClientTypes.OrderableDBInstanceOption: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains a list of available options for a DB instance. This data type is used as a response element in the [DescribeOrderableDBInstanceOptions] action.
-    public struct OrderableDBInstanceOption: Swift.Equatable {
+    public struct OrderableDBInstanceOption {
         /// A list of Availability Zones for a DB instance.
         public var availabilityZones: [NeptuneClientTypes.AvailabilityZone]?
         /// The DB instance class for a DB instance.
@@ -13334,7 +13334,7 @@ extension NeptuneClientTypes.Parameter: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies a parameter.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter : Swift.Equatable {
         /// Specifies the valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// Indicates when to apply parameter updates.
@@ -13431,7 +13431,7 @@ extension NeptuneClientTypes.PendingCloudwatchLogsExports: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// A list of the log types whose configuration is still pending. In other words, these log types are in the process of being activated or deactivated. Valid log types are: audit (to publish audit logs) and slowquery (to publish slow-query logs). See [Publishing Neptune logs to Amazon CloudWatch logs](https://docs.aws.amazon.com/neptune/latest/userguide/cloudwatch-logs.html).
-    public struct PendingCloudwatchLogsExports: Swift.Equatable {
+    public struct PendingCloudwatchLogsExports {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to CloudWatch Logs.
         public var logTypesToDisable: [Swift.String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
@@ -13498,7 +13498,7 @@ extension NeptuneClientTypes.PendingMaintenanceAction: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Provides information about a pending maintenance action for a resource.
-    public struct PendingMaintenanceAction: Swift.Equatable {
+    public struct PendingMaintenanceAction {
         /// The type of pending maintenance action that is available for the resource.
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -13621,7 +13621,7 @@ extension NeptuneClientTypes.PendingModifiedValues: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This data type is used as a response element in the [ModifyDBInstance] action.
-    public struct PendingModifiedValues: Swift.Equatable {
+    public struct PendingModifiedValues {
         /// Contains the new AllocatedStorage size for the DB instance that will be applied or is currently being applied.
         public var allocatedStorage: Swift.Int?
         /// Specifies the pending number of days for which automated backups are retained.
@@ -13709,7 +13709,7 @@ extension PromoteReadReplicaDBClusterInput {
     }
 }
 
-public struct PromoteReadReplicaDBClusterInput: Swift.Equatable {
+public struct PromoteReadReplicaDBClusterInput {
     /// Not supported.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -13735,7 +13735,7 @@ extension PromoteReadReplicaDBClusterOutput {
     }
 }
 
-public struct PromoteReadReplicaDBClusterOutput: Swift.Equatable {
+public struct PromoteReadReplicaDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -13836,7 +13836,7 @@ extension NeptuneClientTypes.Range: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// A range of integer values.
-    public struct Range: Swift.Equatable {
+    public struct Range {
         /// The minimum value in the range.
         public var from: Swift.Int?
         /// The step value for the range. For example, if you have a range of 5,000 to 10,000, with a step value of 1,000, the valid values start at 5,000 and step up by 1,000. Even though 7,500 is within the range, it isn't a valid value for the range. The valid values are 5,000, 6,000, 7,000, 8,000...
@@ -13884,7 +13884,7 @@ extension RebootDBInstanceInput {
     }
 }
 
-public struct RebootDBInstanceInput: Swift.Equatable {
+public struct RebootDBInstanceInput {
     /// The DB instance identifier. This parameter is stored as a lowercase string. Constraints:
     ///
     /// * Must match the identifier of an existing DBInstance.
@@ -13916,7 +13916,7 @@ extension RebootDBInstanceOutput {
     }
 }
 
-public struct RebootDBInstanceOutput: Swift.Equatable {
+public struct RebootDBInstanceOutput {
     /// Contains the details of an Amazon Neptune DB instance. This data type is used as a response element in the [DescribeDBInstances] action.
     public var dbInstance: NeptuneClientTypes.DBInstance?
 
@@ -13972,7 +13972,7 @@ extension RemoveFromGlobalClusterInput {
     }
 }
 
-public struct RemoveFromGlobalClusterInput: Swift.Equatable {
+public struct RemoveFromGlobalClusterInput {
     /// The Amazon Resource Name (ARN) identifying the cluster to be detached from the Neptune global database cluster.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -14003,7 +14003,7 @@ extension RemoveFromGlobalClusterOutput {
     }
 }
 
-public struct RemoveFromGlobalClusterOutput: Swift.Equatable {
+public struct RemoveFromGlobalClusterOutput {
     /// Contains the details of an Amazon Neptune global database. This data type is used as a response element for the [CreateGlobalCluster], [DescribeGlobalClusters], [ModifyGlobalCluster], [DeleteGlobalCluster], [FailoverGlobalCluster], and [RemoveFromGlobalCluster] actions.
     public var globalCluster: NeptuneClientTypes.GlobalCluster?
 
@@ -14064,7 +14064,7 @@ extension RemoveRoleFromDBClusterInput {
     }
 }
 
-public struct RemoveRoleFromDBClusterInput: Swift.Equatable {
+public struct RemoveRoleFromDBClusterInput {
     /// The name of the DB cluster to disassociate the IAM role from.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -14095,7 +14095,7 @@ extension RemoveRoleFromDBClusterOutput {
     }
 }
 
-public struct RemoveRoleFromDBClusterOutput: Swift.Equatable {
+public struct RemoveRoleFromDBClusterOutput {
 
     public init() { }
 }
@@ -14145,7 +14145,7 @@ extension RemoveSourceIdentifierFromSubscriptionInput {
     }
 }
 
-public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionInput {
     /// The source identifier to be removed from the subscription, such as the DB instance identifier for a DB instance or the name of a security group.
     /// This member is required.
     public var sourceIdentifier: Swift.String?
@@ -14176,7 +14176,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutput {
     }
 }
 
-public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionOutput {
     /// Contains the results of a successful invocation of the [DescribeEventSubscriptions] action.
     public var eventSubscription: NeptuneClientTypes.EventSubscription?
 
@@ -14241,7 +14241,7 @@ extension RemoveTagsFromResourceInput {
     }
 }
 
-public struct RemoveTagsFromResourceInput: Swift.Equatable {
+public struct RemoveTagsFromResourceInput {
     /// The Amazon Neptune resource that the tags are removed from. This value is an Amazon Resource Name (ARN). For information about creating an ARN, see [ Constructing an Amazon Resource Name (ARN)](https://docs.aws.amazon.com/neptune/latest/UserGuide/tagging.ARN.html#tagging.ARN.Constructing).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -14268,7 +14268,7 @@ extension RemoveTagsFromResourceOutput {
     }
 }
 
-public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput {
 
     public init() { }
 }
@@ -14331,7 +14331,7 @@ extension ResetDBClusterParameterGroupInput {
     }
 }
 
-public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
+public struct ResetDBClusterParameterGroupInput {
     /// The name of the DB cluster parameter group to reset.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
@@ -14365,7 +14365,7 @@ extension ResetDBClusterParameterGroupOutput {
     }
 }
 
-public struct ResetDBClusterParameterGroupOutput: Swift.Equatable {
+public struct ResetDBClusterParameterGroupOutput {
     /// The name of the DB cluster parameter group. Constraints:
     ///
     /// * Must be 1 to 255 letters or numbers.
@@ -14443,7 +14443,7 @@ extension ResetDBParameterGroupInput {
     }
 }
 
-public struct ResetDBParameterGroupInput: Swift.Equatable {
+public struct ResetDBParameterGroupInput {
     /// The name of the DB parameter group. Constraints:
     ///
     /// * Must match the name of an existing DBParameterGroup.
@@ -14479,7 +14479,7 @@ extension ResetDBParameterGroupOutput {
     }
 }
 
-public struct ResetDBParameterGroupOutput: Swift.Equatable {
+public struct ResetDBParameterGroupOutput {
     /// Provides the name of the DB parameter group.
     public var dbParameterGroupName: Swift.String?
 
@@ -14584,7 +14584,7 @@ extension NeptuneClientTypes.ResourcePendingMaintenanceActions: Swift.Encodable 
 
 extension NeptuneClientTypes {
     /// Describes the pending maintenance actions for a resource.
-    public struct ResourcePendingMaintenanceActions: Swift.Equatable {
+    public struct ResourcePendingMaintenanceActions {
         /// A list that provides details about the pending maintenance actions for the resource.
         public var pendingMaintenanceActionDetails: [NeptuneClientTypes.PendingMaintenanceAction]?
         /// The ARN of the resource that has pending maintenance actions.
@@ -14732,7 +14732,7 @@ extension RestoreDBClusterFromSnapshotInput {
     }
 }
 
-public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
+public struct RestoreDBClusterFromSnapshotInput {
     /// Provides the list of EC2 Availability Zones that instances in the restored DB cluster can be created in.
     public var availabilityZones: [Swift.String]?
     /// If set to true, tags are copied to any snapshot of the restored DB cluster that is created.
@@ -14849,7 +14849,7 @@ extension RestoreDBClusterFromSnapshotOutput {
     }
 }
 
-public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
+public struct RestoreDBClusterFromSnapshotOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -15006,7 +15006,7 @@ extension RestoreDBClusterToPointInTimeInput {
     }
 }
 
-public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
+public struct RestoreDBClusterToPointInTimeInput {
     /// The name of the new DB cluster to be created. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens
@@ -15132,7 +15132,7 @@ extension RestoreDBClusterToPointInTimeOutput {
     }
 }
 
-public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
+public struct RestoreDBClusterToPointInTimeOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -15317,7 +15317,7 @@ extension NeptuneClientTypes.ServerlessV2ScalingConfiguration: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Contains the scaling configuration of a Neptune Serverless DB cluster. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
-    public struct ServerlessV2ScalingConfiguration: Swift.Equatable {
+    public struct ServerlessV2ScalingConfiguration {
         /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on.
@@ -15364,7 +15364,7 @@ extension NeptuneClientTypes.ServerlessV2ScalingConfigurationInfo: Swift.Encodab
 
 extension NeptuneClientTypes {
     /// Shows the scaling configuration for a Neptune Serverless DB cluster. For more information, see [Using Amazon Neptune Serverless](https://docs.aws.amazon.com/neptune/latest/userguide/neptune-serverless-using.html) in the Amazon Neptune User Guide.
-    public struct ServerlessV2ScalingConfigurationInfo: Swift.Equatable {
+    public struct ServerlessV2ScalingConfigurationInfo {
         /// The maximum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 40, 40.5, 41, and so on.
         public var maxCapacity: Swift.Double?
         /// The minimum number of Neptune capacity units (NCUs) for a DB instance in a Neptune Serverless cluster. You can specify NCU values in half-step increments, such as 8, 8.5, 9, and so on.
@@ -15559,7 +15559,7 @@ extension StartDBClusterInput {
     }
 }
 
-public struct StartDBClusterInput: Swift.Equatable {
+public struct StartDBClusterInput {
     /// The DB cluster identifier of the Neptune DB cluster to be started. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -15585,7 +15585,7 @@ extension StartDBClusterOutput {
     }
 }
 
-public struct StartDBClusterOutput: Swift.Equatable {
+public struct StartDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -15638,7 +15638,7 @@ extension StopDBClusterInput {
     }
 }
 
-public struct StopDBClusterInput: Swift.Equatable {
+public struct StopDBClusterInput {
     /// The DB cluster identifier of the Neptune DB cluster to be stopped. This parameter is stored as a lowercase string.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -15664,7 +15664,7 @@ extension StopDBClusterOutput {
     }
 }
 
-public struct StopDBClusterOutput: Swift.Equatable {
+public struct StopDBClusterOutput {
     /// Contains the details of an Amazon Neptune DB cluster. This data type is used as a response element in the [DescribeDBClusters].
     public var dbCluster: NeptuneClientTypes.DBCluster?
 
@@ -15803,7 +15803,7 @@ extension NeptuneClientTypes.Subnet: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Specifies a subnet. This data type is used as a response element in the [DescribeDBSubnetGroups] action.
-    public struct Subnet: Swift.Equatable {
+    public struct Subnet {
         /// Specifies the EC2 Availability Zone that the subnet is in.
         public var subnetAvailabilityZone: NeptuneClientTypes.AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -16002,7 +16002,7 @@ extension NeptuneClientTypes.Tag: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Metadata assigned to an Amazon Neptune resource consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A key is the required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public var key: Swift.String?
         /// A value is the optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with aws: or rds:. The string can only contain the set of Unicode letters, digits, white-space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -16044,7 +16044,7 @@ extension NeptuneClientTypes.Timezone: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// A time zone associated with a [DBInstance].
-    public struct Timezone: Swift.Equatable {
+    public struct Timezone {
         /// The name of the time zone.
         public var timezoneName: Swift.String?
 
@@ -16107,7 +16107,7 @@ extension NeptuneClientTypes.UpgradeTarget: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// The version of the database engine that a DB instance can be upgraded to.
-    public struct UpgradeTarget: Swift.Equatable {
+    public struct UpgradeTarget {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that a DB instance can be upgraded to.
@@ -16174,7 +16174,7 @@ extension NeptuneClientTypes.ValidDBInstanceModificationsMessage: Swift.Encodabl
 
 extension NeptuneClientTypes {
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the [DescribeValidDBInstanceModifications] action. You can use this information when you call [ModifyDBInstance].
-    public struct ValidDBInstanceModificationsMessage: Swift.Equatable {
+    public struct ValidDBInstanceModificationsMessage {
         /// Valid storage options for your DB instance.
         public var storage: [NeptuneClientTypes.ValidStorageOptions]?
 
@@ -16254,7 +16254,7 @@ extension NeptuneClientTypes.ValidStorageOptions: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// Information about valid modifications that you can make to your DB instance. Contains the result of a successful call to the [DescribeValidDBInstanceModifications] action.
-    public struct ValidStorageOptions: Swift.Equatable {
+    public struct ValidStorageOptions {
         /// The valid range of Provisioned IOPS to gibibytes of storage multiplier. For example, 3-10, which means that provisioned IOPS can be between 3 and 10 times storage.
         public var iopsToStorageRatio: [NeptuneClientTypes.DoubleRange]?
         /// The valid range of provisioned IOPS. For example, 1000-20000.
@@ -16309,7 +16309,7 @@ extension NeptuneClientTypes.VpcSecurityGroupMembership: Swift.Encodable {
 
 extension NeptuneClientTypes {
     /// This data type is used as a response element for queries on VPC security group membership.
-    public struct VpcSecurityGroupMembership: Swift.Equatable {
+    public struct VpcSecurityGroupMembership {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The name of the VPC security group.

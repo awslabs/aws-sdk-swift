@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -89,7 +89,7 @@ extension AddTagsToStreamInput {
 }
 
 /// Represents the input for AddTagsToStream.
-public struct AddTagsToStreamInput: Swift.Equatable {
+public struct AddTagsToStreamInput {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
     /// The name of the stream.
@@ -110,7 +110,7 @@ public struct AddTagsToStreamInput: Swift.Equatable {
     }
 }
 
-struct AddTagsToStreamInputBody: Swift.Equatable {
+struct AddTagsToStreamInputBody {
     let streamName: Swift.String?
     let tags: [Swift.String:Swift.String]?
     let streamARN: Swift.String?
@@ -148,7 +148,7 @@ extension AddTagsToStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddTagsToStreamOutput: Swift.Equatable {
+public struct AddTagsToStreamOutput {
 
     public init() { }
 }
@@ -213,7 +213,7 @@ extension KinesisClientTypes.ChildShard: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Output parameter of the GetRecords API. The existing child shard of the current shard.
-    public struct ChildShard: Swift.Equatable {
+    public struct ChildShard {
         /// The range of possible hash key values for the shard, which is a set of ordered contiguous positive integers.
         /// This member is required.
         public var hashKeyRange: KinesisClientTypes.HashKeyRange?
@@ -277,7 +277,7 @@ extension KinesisClientTypes.Consumer: Swift.Codable {
 
 extension KinesisClientTypes {
     /// An object that represents the details of the consumer you registered. This type of object is returned by [RegisterStreamConsumer].
-    public struct Consumer: Swift.Equatable {
+    public struct Consumer {
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call [SubscribeToShard]. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         /// This member is required.
         public var consumerARN: Swift.String?
@@ -352,7 +352,7 @@ extension KinesisClientTypes.ConsumerDescription: Swift.Codable {
 
 extension KinesisClientTypes {
     /// An object that represents the details of a registered consumer. This type of object is returned by [DescribeStreamConsumer].
-    public struct ConsumerDescription: Swift.Equatable {
+    public struct ConsumerDescription {
         /// When you register a consumer, Kinesis Data Streams generates an ARN for it. You need this ARN to be able to call [SubscribeToShard]. If you delete a consumer and then create a new one with the same name, it won't have the same ARN. That's because consumer ARNs contain the creation timestamp. This is important to keep in mind if you have IAM policies that reference consumer ARNs.
         /// This member is required.
         public var consumerARN: Swift.String?
@@ -451,7 +451,7 @@ extension CreateStreamInput {
 }
 
 /// Represents the input for CreateStream.
-public struct CreateStreamInput: Swift.Equatable {
+public struct CreateStreamInput {
     /// The number of shards that the stream will use. The throughput of the stream is a function of the number of shards; more shards are required for greater provisioned throughput.
     public var shardCount: Swift.Int?
     /// Indicates the capacity mode of the data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
@@ -472,7 +472,7 @@ public struct CreateStreamInput: Swift.Equatable {
     }
 }
 
-struct CreateStreamInputBody: Swift.Equatable {
+struct CreateStreamInputBody {
     let streamName: Swift.String?
     let shardCount: Swift.Int?
     let streamModeDetails: KinesisClientTypes.StreamModeDetails?
@@ -501,7 +501,7 @@ extension CreateStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStreamOutput: Swift.Equatable {
+public struct CreateStreamOutput {
 
     public init() { }
 }
@@ -548,7 +548,7 @@ extension DecreaseStreamRetentionPeriodInput {
 }
 
 /// Represents the input for [DecreaseStreamRetentionPeriod].
-public struct DecreaseStreamRetentionPeriodInput: Swift.Equatable {
+public struct DecreaseStreamRetentionPeriodInput {
     /// The new retention period of the stream, in hours. Must be less than the current retention period.
     /// This member is required.
     public var retentionPeriodHours: Swift.Int?
@@ -569,7 +569,7 @@ public struct DecreaseStreamRetentionPeriodInput: Swift.Equatable {
     }
 }
 
-struct DecreaseStreamRetentionPeriodInputBody: Swift.Equatable {
+struct DecreaseStreamRetentionPeriodInputBody {
     let streamName: Swift.String?
     let retentionPeriodHours: Swift.Int?
     let streamARN: Swift.String?
@@ -598,7 +598,7 @@ extension DecreaseStreamRetentionPeriodOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DecreaseStreamRetentionPeriodOutput: Swift.Equatable {
+public struct DecreaseStreamRetentionPeriodOutput {
 
     public init() { }
 }
@@ -638,7 +638,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the data stream or consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -651,7 +651,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -672,7 +672,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -721,7 +721,7 @@ extension DeleteStreamInput {
 }
 
 /// Represents the input for [DeleteStream].
-public struct DeleteStreamInput: Swift.Equatable {
+public struct DeleteStreamInput {
     /// If this parameter is unset (null) or if you set it to false, and the stream has registered consumers, the call to DeleteStream fails with a ResourceInUseException.
     public var enforceConsumerDeletion: Swift.Bool?
     /// The ARN of the stream.
@@ -741,7 +741,7 @@ public struct DeleteStreamInput: Swift.Equatable {
     }
 }
 
-struct DeleteStreamInputBody: Swift.Equatable {
+struct DeleteStreamInputBody {
     let streamName: Swift.String?
     let enforceConsumerDeletion: Swift.Bool?
     let streamARN: Swift.String?
@@ -770,7 +770,7 @@ extension DeleteStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStreamOutput: Swift.Equatable {
+public struct DeleteStreamOutput {
 
     public init() { }
 }
@@ -818,7 +818,7 @@ extension DeregisterStreamConsumerInput {
     }
 }
 
-public struct DeregisterStreamConsumerInput: Swift.Equatable {
+public struct DeregisterStreamConsumerInput {
     /// The ARN returned by Kinesis Data Streams when you registered the consumer. If you don't know the ARN of the consumer that you want to deregister, you can use the ListStreamConsumers operation to get a list of the descriptions of all the consumers that are currently registered with a given data stream. The description of a consumer contains its ARN.
     public var consumerARN: Swift.String?
     /// The name that you gave to the consumer.
@@ -838,7 +838,7 @@ public struct DeregisterStreamConsumerInput: Swift.Equatable {
     }
 }
 
-struct DeregisterStreamConsumerInputBody: Swift.Equatable {
+struct DeregisterStreamConsumerInputBody {
     let streamARN: Swift.String?
     let consumerName: Swift.String?
     let consumerARN: Swift.String?
@@ -867,7 +867,7 @@ extension DeregisterStreamConsumerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterStreamConsumerOutput: Swift.Equatable {
+public struct DeregisterStreamConsumerOutput {
 
     public init() { }
 }
@@ -900,12 +900,12 @@ extension DescribeLimitsInput {
     }
 }
 
-public struct DescribeLimitsInput: Swift.Equatable {
+public struct DescribeLimitsInput {
 
     public init() { }
 }
 
-struct DescribeLimitsInputBody: Swift.Equatable {
+struct DescribeLimitsInputBody {
 }
 
 extension DescribeLimitsInputBody: Swift.Decodable {
@@ -932,7 +932,7 @@ extension DescribeLimitsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeLimitsOutput: Swift.Equatable {
+public struct DescribeLimitsOutput {
     /// Indicates the number of data streams with the on-demand capacity mode.
     /// This member is required.
     public var onDemandStreamCount: Swift.Int?
@@ -960,7 +960,7 @@ public struct DescribeLimitsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLimitsOutputBody: Swift.Equatable {
+struct DescribeLimitsOutputBody {
     let shardLimit: Swift.Int?
     let openShardCount: Swift.Int?
     let onDemandStreamCount: Swift.Int?
@@ -1027,7 +1027,7 @@ extension DescribeStreamConsumerInput {
     }
 }
 
-public struct DescribeStreamConsumerInput: Swift.Equatable {
+public struct DescribeStreamConsumerInput {
     /// The ARN returned by Kinesis Data Streams when you registered the consumer.
     public var consumerARN: Swift.String?
     /// The name that you gave to the consumer.
@@ -1047,7 +1047,7 @@ public struct DescribeStreamConsumerInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamConsumerInputBody: Swift.Equatable {
+struct DescribeStreamConsumerInputBody {
     let streamARN: Swift.String?
     let consumerName: Swift.String?
     let consumerARN: Swift.String?
@@ -1083,7 +1083,7 @@ extension DescribeStreamConsumerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStreamConsumerOutput: Swift.Equatable {
+public struct DescribeStreamConsumerOutput {
     /// An object that represents the details of the consumer.
     /// This member is required.
     public var consumerDescription: KinesisClientTypes.ConsumerDescription?
@@ -1096,7 +1096,7 @@ public struct DescribeStreamConsumerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamConsumerOutputBody: Swift.Equatable {
+struct DescribeStreamConsumerOutputBody {
     let consumerDescription: KinesisClientTypes.ConsumerDescription?
 }
 
@@ -1158,7 +1158,7 @@ extension DescribeStreamInput {
 }
 
 /// Represents the input for DescribeStream.
-public struct DescribeStreamInput: Swift.Equatable {
+public struct DescribeStreamInput {
     /// The shard ID of the shard to start with. Specify this parameter to indicate that you want to describe the stream starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior for DescribeStream is to describe the stream starting with the first shard in the stream.
     public var exclusiveStartShardId: Swift.String?
     /// The maximum number of shards to return in a single call. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
@@ -1182,7 +1182,7 @@ public struct DescribeStreamInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamInputBody: Swift.Equatable {
+struct DescribeStreamInputBody {
     let streamName: Swift.String?
     let limit: Swift.Int?
     let exclusiveStartShardId: Swift.String?
@@ -1223,7 +1223,7 @@ extension DescribeStreamOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for DescribeStream.
-public struct DescribeStreamOutput: Swift.Equatable {
+public struct DescribeStreamOutput {
     /// The current status of the stream, the stream Amazon Resource Name (ARN), an array of shard objects that comprise the stream, and whether there are more shards available.
     /// This member is required.
     public var streamDescription: KinesisClientTypes.StreamDescription?
@@ -1236,7 +1236,7 @@ public struct DescribeStreamOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamOutputBody: Swift.Equatable {
+struct DescribeStreamOutputBody {
     let streamDescription: KinesisClientTypes.StreamDescription?
 }
 
@@ -1290,7 +1290,7 @@ extension DescribeStreamSummaryInput {
     }
 }
 
-public struct DescribeStreamSummaryInput: Swift.Equatable {
+public struct DescribeStreamSummaryInput {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
     /// The name of the stream to describe.
@@ -1306,7 +1306,7 @@ public struct DescribeStreamSummaryInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamSummaryInputBody: Swift.Equatable {
+struct DescribeStreamSummaryInputBody {
     let streamName: Swift.String?
     let streamARN: Swift.String?
 }
@@ -1338,7 +1338,7 @@ extension DescribeStreamSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStreamSummaryOutput: Swift.Equatable {
+public struct DescribeStreamSummaryOutput {
     /// A [StreamDescriptionSummary] containing information about the stream.
     /// This member is required.
     public var streamDescriptionSummary: KinesisClientTypes.StreamDescriptionSummary?
@@ -1351,7 +1351,7 @@ public struct DescribeStreamSummaryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamSummaryOutputBody: Swift.Equatable {
+struct DescribeStreamSummaryOutputBody {
     let streamDescriptionSummary: KinesisClientTypes.StreamDescriptionSummary?
 }
 
@@ -1413,7 +1413,7 @@ extension DisableEnhancedMonitoringInput {
 }
 
 /// Represents the input for [DisableEnhancedMonitoring].
-public struct DisableEnhancedMonitoringInput: Swift.Equatable {
+public struct DisableEnhancedMonitoringInput {
     /// List of shard-level metrics to disable. The following are the valid shard-level metrics. The value "ALL" disables every metric.
     ///
     /// * IncomingBytes
@@ -1453,7 +1453,7 @@ public struct DisableEnhancedMonitoringInput: Swift.Equatable {
     }
 }
 
-struct DisableEnhancedMonitoringInputBody: Swift.Equatable {
+struct DisableEnhancedMonitoringInputBody {
     let streamName: Swift.String?
     let shardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let streamARN: Swift.String?
@@ -1505,7 +1505,7 @@ extension DisableEnhancedMonitoringOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring].
-public struct DisableEnhancedMonitoringOutput: Swift.Equatable {
+public struct DisableEnhancedMonitoringOutput {
     /// Represents the current state of the metrics that are in the enhanced state before the operation.
     public var currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// Represents the list of all the metrics that would be in the enhanced state after the operation.
@@ -1529,7 +1529,7 @@ public struct DisableEnhancedMonitoringOutput: Swift.Equatable {
     }
 }
 
-struct DisableEnhancedMonitoringOutputBody: Swift.Equatable {
+struct DisableEnhancedMonitoringOutputBody {
     let streamName: Swift.String?
     let currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
@@ -1622,7 +1622,7 @@ extension EnableEnhancedMonitoringInput {
 }
 
 /// Represents the input for [EnableEnhancedMonitoring].
-public struct EnableEnhancedMonitoringInput: Swift.Equatable {
+public struct EnableEnhancedMonitoringInput {
     /// List of shard-level metrics to enable. The following are the valid shard-level metrics. The value "ALL" enables every metric.
     ///
     /// * IncomingBytes
@@ -1662,7 +1662,7 @@ public struct EnableEnhancedMonitoringInput: Swift.Equatable {
     }
 }
 
-struct EnableEnhancedMonitoringInputBody: Swift.Equatable {
+struct EnableEnhancedMonitoringInputBody {
     let streamName: Swift.String?
     let shardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let streamARN: Swift.String?
@@ -1714,7 +1714,7 @@ extension EnableEnhancedMonitoringOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for [EnableEnhancedMonitoring] and [DisableEnhancedMonitoring].
-public struct EnableEnhancedMonitoringOutput: Swift.Equatable {
+public struct EnableEnhancedMonitoringOutput {
     /// Represents the current state of the metrics that are in the enhanced state before the operation.
     public var currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     /// Represents the list of all the metrics that would be in the enhanced state after the operation.
@@ -1738,7 +1738,7 @@ public struct EnableEnhancedMonitoringOutput: Swift.Equatable {
     }
 }
 
-struct EnableEnhancedMonitoringOutputBody: Swift.Equatable {
+struct EnableEnhancedMonitoringOutputBody {
     let streamName: Swift.String?
     let currentShardLevelMetrics: [KinesisClientTypes.MetricsName]?
     let desiredShardLevelMetrics: [KinesisClientTypes.MetricsName]?
@@ -1864,7 +1864,7 @@ extension KinesisClientTypes.EnhancedMetrics: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Represents enhanced metrics types.
-    public struct EnhancedMetrics: Swift.Equatable {
+    public struct EnhancedMetrics {
         /// List of shard-level metrics. The following are the valid shard-level metrics. The value "ALL" enhances every metric.
         ///
         /// * IncomingBytes
@@ -1937,7 +1937,7 @@ public struct ExpiredIteratorException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ExpiredIteratorExceptionBody: Swift.Equatable {
+struct ExpiredIteratorExceptionBody {
     let message: Swift.String?
 }
 
@@ -1992,7 +1992,7 @@ public struct ExpiredNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ExpiredNextTokenExceptionBody: Swift.Equatable {
+struct ExpiredNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -2037,7 +2037,7 @@ extension GetRecordsInput {
 }
 
 /// Represents the input for [GetRecords].
-public struct GetRecordsInput: Swift.Equatable {
+public struct GetRecordsInput {
     /// The maximum number of records to return. Specify a value of up to 10,000. If you specify a value that is greater than 10,000, [GetRecords] throws InvalidArgumentException. The default value is 10,000.
     public var limit: Swift.Int?
     /// The position in the shard from which you want to start sequentially reading data records. A shard iterator specifies this position using the sequence number of a data record in the shard.
@@ -2058,7 +2058,7 @@ public struct GetRecordsInput: Swift.Equatable {
     }
 }
 
-struct GetRecordsInputBody: Swift.Equatable {
+struct GetRecordsInputBody {
     let shardIterator: Swift.String?
     let limit: Swift.Int?
     let streamARN: Swift.String?
@@ -2101,7 +2101,7 @@ extension GetRecordsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for [GetRecords].
-public struct GetRecordsOutput: Swift.Equatable {
+public struct GetRecordsOutput {
     /// The list of the current shard's child shards, returned in the GetRecords API's response only when the end of the current shard is reached.
     public var childShards: [KinesisClientTypes.ChildShard]?
     /// The number of milliseconds the [GetRecords] response is from the tip of the stream, indicating how far behind current time the consumer is. A value of zero indicates that record processing is caught up, and there are no new records to process at this moment.
@@ -2126,7 +2126,7 @@ public struct GetRecordsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecordsOutputBody: Swift.Equatable {
+struct GetRecordsOutputBody {
     let records: [KinesisClientTypes.Record]?
     let nextShardIterator: Swift.String?
     let millisBehindLatest: Swift.Int?
@@ -2213,7 +2213,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the data stream or consumer.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2226,7 +2226,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -2254,7 +2254,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// Details of the resource policy. This is formatted as a JSON string.
     /// This member is required.
     public var policy: Swift.String?
@@ -2267,7 +2267,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -2338,7 +2338,7 @@ extension GetShardIteratorInput {
 }
 
 /// Represents the input for GetShardIterator.
-public struct GetShardIteratorInput: Swift.Equatable {
+public struct GetShardIteratorInput {
     /// The shard ID of the Kinesis Data Streams shard to get the iterator for.
     /// This member is required.
     public var shardId: Swift.String?
@@ -2382,7 +2382,7 @@ public struct GetShardIteratorInput: Swift.Equatable {
     }
 }
 
-struct GetShardIteratorInputBody: Swift.Equatable {
+struct GetShardIteratorInputBody {
     let streamName: Swift.String?
     let shardId: Swift.String?
     let shardIteratorType: KinesisClientTypes.ShardIteratorType?
@@ -2431,7 +2431,7 @@ extension GetShardIteratorOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for GetShardIterator.
-public struct GetShardIteratorOutput: Swift.Equatable {
+public struct GetShardIteratorOutput {
     /// The position in the shard from which to start reading data records sequentially. A shard iterator specifies this position using the sequence number of a data record in a shard.
     public var shardIterator: Swift.String?
 
@@ -2443,7 +2443,7 @@ public struct GetShardIteratorOutput: Swift.Equatable {
     }
 }
 
-struct GetShardIteratorOutputBody: Swift.Equatable {
+struct GetShardIteratorOutputBody {
     let shardIterator: Swift.String?
 }
 
@@ -2500,7 +2500,7 @@ extension KinesisClientTypes.HashKeyRange: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The range of possible hash key values for the shard, which is a set of ordered contiguous positive integers.
-    public struct HashKeyRange: Swift.Equatable {
+    public struct HashKeyRange {
         /// The ending hash key of the hash key range.
         /// This member is required.
         public var endingHashKey: Swift.String?
@@ -2549,7 +2549,7 @@ extension IncreaseStreamRetentionPeriodInput {
 }
 
 /// Represents the input for [IncreaseStreamRetentionPeriod].
-public struct IncreaseStreamRetentionPeriodInput: Swift.Equatable {
+public struct IncreaseStreamRetentionPeriodInput {
     /// The new retention period of the stream, in hours. Must be more than the current retention period.
     /// This member is required.
     public var retentionPeriodHours: Swift.Int?
@@ -2570,7 +2570,7 @@ public struct IncreaseStreamRetentionPeriodInput: Swift.Equatable {
     }
 }
 
-struct IncreaseStreamRetentionPeriodInputBody: Swift.Equatable {
+struct IncreaseStreamRetentionPeriodInputBody {
     let streamName: Swift.String?
     let retentionPeriodHours: Swift.Int?
     let streamARN: Swift.String?
@@ -2599,7 +2599,7 @@ extension IncreaseStreamRetentionPeriodOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct IncreaseStreamRetentionPeriodOutput: Swift.Equatable {
+public struct IncreaseStreamRetentionPeriodOutput {
 
     public init() { }
 }
@@ -2702,7 +2702,7 @@ public struct InvalidArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidArgumentExceptionBody: Swift.Equatable {
+struct InvalidArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -2777,7 +2777,7 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct KMSAccessDeniedExceptionBody: Swift.Equatable {
+struct KMSAccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2852,7 +2852,7 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct KMSDisabledExceptionBody: Swift.Equatable {
+struct KMSDisabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -2927,7 +2927,7 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct KMSInvalidStateExceptionBody: Swift.Equatable {
+struct KMSInvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -3002,7 +3002,7 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct KMSNotFoundExceptionBody: Swift.Equatable {
+struct KMSNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3077,7 +3077,7 @@ public struct KMSOptInRequired: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct KMSOptInRequiredBody: Swift.Equatable {
+struct KMSOptInRequiredBody {
     let message: Swift.String?
 }
 
@@ -3152,7 +3152,7 @@ public struct KMSThrottlingException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct KMSThrottlingExceptionBody: Swift.Equatable {
+struct KMSThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3210,7 +3210,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3270,7 +3270,7 @@ extension ListShardsInput {
     }
 }
 
-public struct ListShardsInput: Swift.Equatable {
+public struct ListShardsInput {
     /// Specify this parameter to indicate that you want to list the shards starting with the shard whose ID immediately follows ExclusiveStartShardId. If you don't specify this parameter, the default behavior is for ListShards to list the shards starting with the first one in the stream. You cannot specify this parameter if you specify NextToken.
     public var exclusiveStartShardId: Swift.String?
     /// The maximum number of shards to return in a single call to ListShards. The maximum number of shards to return in a single call. The default value is 1000. If you specify a value greater than 1000, at most 1000 results are returned. When the number of shards to be listed is greater than the value of MaxResults, the response contains a NextToken value that you can use in a subsequent call to ListShards to list the next set of shards.
@@ -3306,7 +3306,7 @@ public struct ListShardsInput: Swift.Equatable {
     }
 }
 
-struct ListShardsInputBody: Swift.Equatable {
+struct ListShardsInputBody {
     let streamName: Swift.String?
     let nextToken: Swift.String?
     let exclusiveStartShardId: Swift.String?
@@ -3360,7 +3360,7 @@ extension ListShardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListShardsOutput: Swift.Equatable {
+public struct ListShardsOutput {
     /// When the number of shards in the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of shards in the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListShards to list the next set of shards. For more information about the use of this pagination token when calling the ListShards operation, see [ListShardsInput$NextToken]. Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListShards, you have 300 seconds to use that value. If you specify an expired token in a call to ListShards, you get ExpiredNextTokenException.
     public var nextToken: Swift.String?
     /// An array of JSON objects. Each object represents one shard and specifies the IDs of the shard, the shard's parent, and the shard that's adjacent to the shard's parent. Each object also contains the starting and ending hash keys and the starting and ending sequence numbers for the shard.
@@ -3376,7 +3376,7 @@ public struct ListShardsOutput: Swift.Equatable {
     }
 }
 
-struct ListShardsOutputBody: Swift.Equatable {
+struct ListShardsOutputBody {
     let shards: [KinesisClientTypes.Shard]?
     let nextToken: Swift.String?
 }
@@ -3453,7 +3453,7 @@ extension ListStreamConsumersInput {
     }
 }
 
-public struct ListStreamConsumersInput: Swift.Equatable {
+public struct ListStreamConsumersInput {
     /// The maximum number of consumers that you want a single call of ListStreamConsumers to return. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
     public var maxResults: Swift.Int?
     /// When the number of consumers that are registered with the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of consumers that are registered with the data stream, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListStreamConsumers to list the next set of registered consumers. Don't specify StreamName or StreamCreationTimestamp if you specify NextToken because the latter unambiguously identifies the stream. You can optionally specify a value for the MaxResults parameter when you specify NextToken. If you specify a MaxResults value that is less than the number of consumers that the operation returns if you don't specify MaxResults, the response will contain a new NextToken value. You can use the new NextToken value in a subsequent call to the ListStreamConsumers operation to list the next set of consumers. Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListStreamConsumers, you have 300 seconds to use that value. If you specify an expired token in a call to ListStreamConsumers, you get ExpiredNextTokenException.
@@ -3478,7 +3478,7 @@ public struct ListStreamConsumersInput: Swift.Equatable {
     }
 }
 
-struct ListStreamConsumersInputBody: Swift.Equatable {
+struct ListStreamConsumersInputBody {
     let streamARN: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3520,7 +3520,7 @@ extension ListStreamConsumersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStreamConsumersOutput: Swift.Equatable {
+public struct ListStreamConsumersOutput {
     /// An array of JSON objects. Each object represents one registered consumer.
     public var consumers: [KinesisClientTypes.Consumer]?
     /// When the number of consumers that are registered with the data stream is greater than the default value for the MaxResults parameter, or if you explicitly specify a value for MaxResults that is less than the number of registered consumers, the response includes a pagination token named NextToken. You can specify this NextToken value in a subsequent call to ListStreamConsumers to list the next set of registered consumers. For more information about the use of this pagination token when calling the ListStreamConsumers operation, see [ListStreamConsumersInput$NextToken]. Tokens expire after 300 seconds. When you obtain a value for NextToken in the response to a call to ListStreamConsumers, you have 300 seconds to use that value. If you specify an expired token in a call to ListStreamConsumers, you get ExpiredNextTokenException.
@@ -3536,7 +3536,7 @@ public struct ListStreamConsumersOutput: Swift.Equatable {
     }
 }
 
-struct ListStreamConsumersOutputBody: Swift.Equatable {
+struct ListStreamConsumersOutputBody {
     let consumers: [KinesisClientTypes.Consumer]?
     let nextToken: Swift.String?
 }
@@ -3609,7 +3609,7 @@ extension ListStreamsInput {
 }
 
 /// Represents the input for ListStreams.
-public struct ListStreamsInput: Swift.Equatable {
+public struct ListStreamsInput {
     /// The name of the stream to start the list with.
     public var exclusiveStartStreamName: Swift.String?
     /// The maximum number of streams to list. The default value is 100. If you specify a value greater than 100, at most 100 results are returned.
@@ -3629,7 +3629,7 @@ public struct ListStreamsInput: Swift.Equatable {
     }
 }
 
-struct ListStreamsInputBody: Swift.Equatable {
+struct ListStreamsInputBody {
     let limit: Swift.Int?
     let exclusiveStartStreamName: Swift.String?
     let nextToken: Swift.String?
@@ -3672,7 +3672,7 @@ extension ListStreamsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for ListStreams.
-public struct ListStreamsOutput: Swift.Equatable {
+public struct ListStreamsOutput {
     /// If set to true, there are more streams available to list.
     /// This member is required.
     public var hasMoreStreams: Swift.Bool?
@@ -3698,7 +3698,7 @@ public struct ListStreamsOutput: Swift.Equatable {
     }
 }
 
-struct ListStreamsOutputBody: Swift.Equatable {
+struct ListStreamsOutputBody {
     let streamNames: [Swift.String]?
     let hasMoreStreams: Swift.Bool?
     let nextToken: Swift.String?
@@ -3790,7 +3790,7 @@ extension ListTagsForStreamInput {
 }
 
 /// Represents the input for ListTagsForStream.
-public struct ListTagsForStreamInput: Swift.Equatable {
+public struct ListTagsForStreamInput {
     /// The key to use as the starting point for the list of tags. If this parameter is set, ListTagsForStream gets all tags that occur after ExclusiveStartTagKey.
     public var exclusiveStartTagKey: Swift.String?
     /// The number of tags to return. If this number is less than the total number of tags associated with the stream, HasMoreTags is set to true. To list additional tags, set ExclusiveStartTagKey to the last key in the response.
@@ -3814,7 +3814,7 @@ public struct ListTagsForStreamInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForStreamInputBody: Swift.Equatable {
+struct ListTagsForStreamInputBody {
     let streamName: Swift.String?
     let exclusiveStartTagKey: Swift.String?
     let limit: Swift.Int?
@@ -3857,7 +3857,7 @@ extension ListTagsForStreamOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for ListTagsForStream.
-public struct ListTagsForStreamOutput: Swift.Equatable {
+public struct ListTagsForStreamOutput {
     /// If set to true, more tags are available. To request additional tags, set ExclusiveStartTagKey to the key of the last tag returned.
     /// This member is required.
     public var hasMoreTags: Swift.Bool?
@@ -3875,7 +3875,7 @@ public struct ListTagsForStreamOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForStreamOutputBody: Swift.Equatable {
+struct ListTagsForStreamOutputBody {
     let tags: [KinesisClientTypes.Tag]?
     let hasMoreTags: Swift.Bool?
 }
@@ -3951,7 +3951,7 @@ extension MergeShardsInput {
 }
 
 /// Represents the input for MergeShards.
-public struct MergeShardsInput: Swift.Equatable {
+public struct MergeShardsInput {
     /// The shard ID of the adjacent shard for the merge.
     /// This member is required.
     public var adjacentShardToMerge: Swift.String?
@@ -3977,7 +3977,7 @@ public struct MergeShardsInput: Swift.Equatable {
     }
 }
 
-struct MergeShardsInputBody: Swift.Equatable {
+struct MergeShardsInputBody {
     let streamName: Swift.String?
     let shardToMerge: Swift.String?
     let adjacentShardToMerge: Swift.String?
@@ -4010,7 +4010,7 @@ extension MergeShardsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MergeShardsOutput: Swift.Equatable {
+public struct MergeShardsOutput {
 
     public init() { }
 }
@@ -4121,7 +4121,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     }
 }
 
-struct ProvisionedThroughputExceededExceptionBody: Swift.Equatable {
+struct ProvisionedThroughputExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4178,7 +4178,7 @@ extension PutRecordInput {
 }
 
 /// Represents the input for PutRecord.
-public struct PutRecordInput: Swift.Equatable {
+public struct PutRecordInput {
     /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
     /// This member is required.
     public var data: ClientRuntime.Data?
@@ -4212,7 +4212,7 @@ public struct PutRecordInput: Swift.Equatable {
     }
 }
 
-struct PutRecordInputBody: Swift.Equatable {
+struct PutRecordInputBody {
     let streamName: Swift.String?
     let data: ClientRuntime.Data?
     let partitionKey: Swift.String?
@@ -4265,7 +4265,7 @@ extension PutRecordOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the output for PutRecord.
-public struct PutRecordOutput: Swift.Equatable {
+public struct PutRecordOutput {
     /// The encryption type to use on the record. This parameter can be one of the following values:
     ///
     /// * NONE: Do not encrypt the records in the stream.
@@ -4291,7 +4291,7 @@ public struct PutRecordOutput: Swift.Equatable {
     }
 }
 
-struct PutRecordOutputBody: Swift.Equatable {
+struct PutRecordOutputBody {
     let shardId: Swift.String?
     let sequenceNumber: Swift.String?
     let encryptionType: KinesisClientTypes.EncryptionType?
@@ -4367,7 +4367,7 @@ extension PutRecordsInput {
 }
 
 /// A PutRecords request.
-public struct PutRecordsInput: Swift.Equatable {
+public struct PutRecordsInput {
     /// The records associated with the request.
     /// This member is required.
     public var records: [KinesisClientTypes.PutRecordsRequestEntry]?
@@ -4388,7 +4388,7 @@ public struct PutRecordsInput: Swift.Equatable {
     }
 }
 
-struct PutRecordsInputBody: Swift.Equatable {
+struct PutRecordsInputBody {
     let records: [KinesisClientTypes.PutRecordsRequestEntry]?
     let streamName: Swift.String?
     let streamARN: Swift.String?
@@ -4438,7 +4438,7 @@ extension PutRecordsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// PutRecords results.
-public struct PutRecordsOutput: Swift.Equatable {
+public struct PutRecordsOutput {
     /// The encryption type used on the records. This parameter can be one of the following values:
     ///
     /// * NONE: Do not encrypt the records.
@@ -4463,7 +4463,7 @@ public struct PutRecordsOutput: Swift.Equatable {
     }
 }
 
-struct PutRecordsOutputBody: Swift.Equatable {
+struct PutRecordsOutputBody {
     let failedRecordCount: Swift.Int?
     let records: [KinesisClientTypes.PutRecordsResultEntry]?
     let encryptionType: KinesisClientTypes.EncryptionType?
@@ -4549,7 +4549,7 @@ extension KinesisClientTypes.PutRecordsRequestEntry: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Represents the output for PutRecords.
-    public struct PutRecordsRequestEntry: Swift.Equatable {
+    public struct PutRecordsRequestEntry {
         /// The data blob to put into the record, which is base64-encoded when the blob is serialized. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
         /// This member is required.
         public var data: ClientRuntime.Data?
@@ -4612,7 +4612,7 @@ extension KinesisClientTypes.PutRecordsResultEntry: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Represents the result of an individual record from a PutRecords request. A record that is successfully added to a stream includes SequenceNumber and ShardId in the result. A record that fails to be added to the stream includes ErrorCode and ErrorMessage in the result.
-    public struct PutRecordsResultEntry: Swift.Equatable {
+    public struct PutRecordsResultEntry {
         /// The error code for an individual record result. ErrorCodes can be either ProvisionedThroughputExceededException or InternalFailure.
         public var errorCode: Swift.String?
         /// The error message for an individual record result. An ErrorCode value of ProvisionedThroughputExceededException has an error message that includes the account ID, stream name, and shard ID. An ErrorCode value of InternalFailure has the error message "Internal Service Failure".
@@ -4662,7 +4662,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// Details of the resource policy. It must include the identity of the principal and the actions allowed on this resource. This is formatted as a JSON string.
     /// This member is required.
     public var policy: Swift.String?
@@ -4680,7 +4680,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceARN: Swift.String?
     let policy: Swift.String?
 }
@@ -4705,7 +4705,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
 
     public init() { }
 }
@@ -4770,7 +4770,7 @@ extension KinesisClientTypes.Record: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The unit of data of the Kinesis data stream, which is composed of a sequence number, a partition key, and a data blob.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The approximate time that the record was inserted into the stream.
         public var approximateArrivalTimestamp: ClientRuntime.Date?
         /// The data blob. The data in the blob is both opaque and immutable to Kinesis Data Streams, which does not inspect, interpret, or change the data in the blob in any way. When the data blob (the payload before base64-encoding) is added to the partition key size, the total size must not exceed the maximum record size (1 MiB).
@@ -4831,7 +4831,7 @@ extension RegisterStreamConsumerInput {
     }
 }
 
-public struct RegisterStreamConsumerInput: Swift.Equatable {
+public struct RegisterStreamConsumerInput {
     /// For a given Kinesis data stream, each consumer must have a unique name. However, consumer names don't have to be unique across data streams.
     /// This member is required.
     public var consumerName: Swift.String?
@@ -4849,7 +4849,7 @@ public struct RegisterStreamConsumerInput: Swift.Equatable {
     }
 }
 
-struct RegisterStreamConsumerInputBody: Swift.Equatable {
+struct RegisterStreamConsumerInputBody {
     let streamARN: Swift.String?
     let consumerName: Swift.String?
 }
@@ -4881,7 +4881,7 @@ extension RegisterStreamConsumerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterStreamConsumerOutput: Swift.Equatable {
+public struct RegisterStreamConsumerOutput {
     /// An object that represents the details of the consumer you registered. When you register a consumer, it gets an ARN that is generated by Kinesis Data Streams.
     /// This member is required.
     public var consumer: KinesisClientTypes.Consumer?
@@ -4894,7 +4894,7 @@ public struct RegisterStreamConsumerOutput: Swift.Equatable {
     }
 }
 
-struct RegisterStreamConsumerOutputBody: Swift.Equatable {
+struct RegisterStreamConsumerOutputBody {
     let consumer: KinesisClientTypes.Consumer?
 }
 
@@ -4956,7 +4956,7 @@ extension RemoveTagsFromStreamInput {
 }
 
 /// Represents the input for RemoveTagsFromStream.
-public struct RemoveTagsFromStreamInput: Swift.Equatable {
+public struct RemoveTagsFromStreamInput {
     /// The ARN of the stream.
     public var streamARN: Swift.String?
     /// The name of the stream.
@@ -4977,7 +4977,7 @@ public struct RemoveTagsFromStreamInput: Swift.Equatable {
     }
 }
 
-struct RemoveTagsFromStreamInputBody: Swift.Equatable {
+struct RemoveTagsFromStreamInputBody {
     let streamName: Swift.String?
     let tagKeys: [Swift.String]?
     let streamARN: Swift.String?
@@ -5015,7 +5015,7 @@ extension RemoveTagsFromStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveTagsFromStreamOutput: Swift.Equatable {
+public struct RemoveTagsFromStreamOutput {
 
     public init() { }
 }
@@ -5094,7 +5094,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -5169,7 +5169,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5241,7 +5241,7 @@ extension KinesisClientTypes.SequenceNumberRange: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The range of possible sequence numbers for the shard.
-    public struct SequenceNumberRange: Swift.Equatable {
+    public struct SequenceNumberRange {
         /// The ending sequence number for the range. Shards that are in the OPEN state have an ending sequence number of null.
         public var endingSequenceNumber: Swift.String?
         /// The starting sequence number for the range.
@@ -5305,7 +5305,7 @@ extension KinesisClientTypes.Shard: Swift.Codable {
 
 extension KinesisClientTypes {
     /// A uniquely identified group of data records in a Kinesis data stream.
-    public struct Shard: Swift.Equatable {
+    public struct Shard {
         /// The shard ID of the shard adjacent to the shard's parent.
         public var adjacentParentShardId: Swift.String?
         /// The range of possible hash key values for the shard, which is a set of ordered contiguous positive integers.
@@ -5371,7 +5371,7 @@ extension KinesisClientTypes.ShardFilter: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The request parameter used to filter out the response of the ListShards API.
-    public struct ShardFilter: Swift.Equatable {
+    public struct ShardFilter {
         /// The exclusive start shardID speified in the ShardFilter parameter. This property can only be used if the AFTER_SHARD_ID shard type is specified.
         public var shardId: Swift.String?
         /// The timestamps specified in the ShardFilter parameter. A timestamp is a Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. This property can only be used if FROM_TIMESTAMP or AT_TIMESTAMP shard types are specified.
@@ -5524,7 +5524,7 @@ extension SplitShardInput {
 }
 
 /// Represents the input for SplitShard.
-public struct SplitShardInput: Swift.Equatable {
+public struct SplitShardInput {
     /// A hash key value for the starting hash key of one of the child shards created by the split. The hash key range for a given shard constitutes a set of ordered contiguous positive integers. The value for NewStartingHashKey must be in the range of hash keys being mapped into the shard. The NewStartingHashKey hash key value and all higher hash key values in hash key range are distributed to one of the child shards. All the lower hash key values in the range are distributed to the other child shard.
     /// This member is required.
     public var newStartingHashKey: Swift.String?
@@ -5550,7 +5550,7 @@ public struct SplitShardInput: Swift.Equatable {
     }
 }
 
-struct SplitShardInputBody: Swift.Equatable {
+struct SplitShardInputBody {
     let streamName: Swift.String?
     let shardToSplit: Swift.String?
     let newStartingHashKey: Swift.String?
@@ -5583,7 +5583,7 @@ extension SplitShardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SplitShardOutput: Swift.Equatable {
+public struct SplitShardOutput {
 
     public init() { }
 }
@@ -5636,7 +5636,7 @@ extension StartStreamEncryptionInput {
     }
 }
 
-public struct StartStreamEncryptionInput: Swift.Equatable {
+public struct StartStreamEncryptionInput {
     /// The encryption type to use. The only valid value is KMS.
     /// This member is required.
     public var encryptionType: KinesisClientTypes.EncryptionType?
@@ -5672,7 +5672,7 @@ public struct StartStreamEncryptionInput: Swift.Equatable {
     }
 }
 
-struct StartStreamEncryptionInputBody: Swift.Equatable {
+struct StartStreamEncryptionInputBody {
     let streamName: Swift.String?
     let encryptionType: KinesisClientTypes.EncryptionType?
     let keyId: Swift.String?
@@ -5705,7 +5705,7 @@ extension StartStreamEncryptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartStreamEncryptionOutput: Swift.Equatable {
+public struct StartStreamEncryptionOutput {
 
     public init() { }
 }
@@ -5764,7 +5764,7 @@ extension KinesisClientTypes.StartingPosition: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The starting position in the data stream from which to start streaming.
-    public struct StartingPosition: Swift.Equatable {
+    public struct StartingPosition {
         /// The sequence number of the data record in the shard from which to start streaming. To specify a sequence number, set StartingPosition to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER.
         public var sequenceNumber: Swift.String?
         /// The time stamp of the data record from which to start reading. To specify a time stamp, set StartingPosition to Type AT_TIMESTAMP. A time stamp is the Unix epoch date with precision in milliseconds. For example, 2016-04-04T19:58:46.480-00:00 or 1459799926.480. If a record with this exact time stamp does not exist, records will be streamed from the next (later) record. If the time stamp is older than the current trim horizon, records will be streamed from the oldest untrimmed data record (TRIM_HORIZON).
@@ -5819,7 +5819,7 @@ extension StopStreamEncryptionInput {
     }
 }
 
-public struct StopStreamEncryptionInput: Swift.Equatable {
+public struct StopStreamEncryptionInput {
     /// The encryption type. The only valid value is KMS.
     /// This member is required.
     public var encryptionType: KinesisClientTypes.EncryptionType?
@@ -5855,7 +5855,7 @@ public struct StopStreamEncryptionInput: Swift.Equatable {
     }
 }
 
-struct StopStreamEncryptionInputBody: Swift.Equatable {
+struct StopStreamEncryptionInputBody {
     let streamName: Swift.String?
     let encryptionType: KinesisClientTypes.EncryptionType?
     let keyId: Swift.String?
@@ -5888,7 +5888,7 @@ extension StopStreamEncryptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopStreamEncryptionOutput: Swift.Equatable {
+public struct StopStreamEncryptionOutput {
 
     public init() { }
 }
@@ -6013,7 +6013,7 @@ extension KinesisClientTypes.StreamDescription: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Represents the output for [DescribeStream].
-    public struct StreamDescription: Swift.Equatable {
+    public struct StreamDescription {
         /// The server-side encryption type used on the stream. This parameter can be one of the following values:
         ///
         /// * NONE: Do not encrypt the records in the stream.
@@ -6190,7 +6190,7 @@ extension KinesisClientTypes.StreamDescriptionSummary: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Represents the output for [DescribeStreamSummary]
-    public struct StreamDescriptionSummary: Swift.Equatable {
+    public struct StreamDescriptionSummary {
         /// The number of enhanced fan-out consumers registered with the stream.
         public var consumerCount: Swift.Int?
         /// The encryption type used. This value is one of the following:
@@ -6326,7 +6326,7 @@ extension KinesisClientTypes.StreamModeDetails: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
-    public struct StreamModeDetails: Swift.Equatable {
+    public struct StreamModeDetails {
         /// Specifies the capacity mode to which you want to set your data stream. Currently, in Kinesis Data Streams, you can choose between an on-demand capacity mode and a provisioned capacity mode for your data streams.
         /// This member is required.
         public var streamMode: KinesisClientTypes.StreamMode?
@@ -6424,7 +6424,7 @@ extension KinesisClientTypes.StreamSummary: Swift.Codable {
 
 extension KinesisClientTypes {
     /// The summary of a stream.
-    public struct StreamSummary: Swift.Equatable {
+    public struct StreamSummary {
         /// The ARN of the stream.
         /// This member is required.
         public var streamARN: Swift.String?
@@ -6520,7 +6520,7 @@ extension KinesisClientTypes.SubscribeToShardEvent: Swift.Codable {
 
 extension KinesisClientTypes {
     /// After you call [SubscribeToShard], Kinesis Data Streams sends events of this type over an HTTP/2 connection to your consumer.
-    public struct SubscribeToShardEvent: Swift.Equatable {
+    public struct SubscribeToShardEvent {
         /// The list of the child shards of the current shard, returned only at the end of the current shard.
         public var childShards: [KinesisClientTypes.ChildShard]?
         /// Use this as SequenceNumber in the next call to [SubscribeToShard], with StartingPosition set to AT_SEQUENCE_NUMBER or AFTER_SEQUENCE_NUMBER. Use ContinuationSequenceNumber for checkpointing because it captures your shard progress even when no data is written to the shard.
@@ -6598,7 +6598,7 @@ extension KinesisClientTypes.SubscribeToShardEventStream: ClientRuntime.MessageU
 
 extension KinesisClientTypes {
     /// This is a tagged union for all of the types of events an enhanced fan-out consumer can receive over HTTP/2 after a call to [SubscribeToShard].
-    public enum SubscribeToShardEventStream: Swift.Equatable {
+    public enum SubscribeToShardEventStream {
         /// After you call [SubscribeToShard], Kinesis Data Streams sends events of this type to your consumer. For an example of how to handle these events, see [Enhanced Fan-Out Using the Kinesis Data Streams API].
         case subscribetoshardevent(KinesisClientTypes.SubscribeToShardEvent)
         case sdkUnknown(Swift.String)
@@ -6634,7 +6634,7 @@ extension SubscribeToShardInput {
     }
 }
 
-public struct SubscribeToShardInput: Swift.Equatable {
+public struct SubscribeToShardInput {
     /// For this parameter, use the value you obtained when you called [RegisterStreamConsumer].
     /// This member is required.
     public var consumerARN: Swift.String?
@@ -6657,7 +6657,7 @@ public struct SubscribeToShardInput: Swift.Equatable {
     }
 }
 
-struct SubscribeToShardInputBody: Swift.Equatable {
+struct SubscribeToShardInputBody {
     let consumerARN: Swift.String?
     let shardId: Swift.String?
     let startingPosition: KinesisClientTypes.StartingPosition?
@@ -6693,7 +6693,7 @@ extension SubscribeToShardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SubscribeToShardOutput: Swift.Equatable {
+public struct SubscribeToShardOutput {
     /// The event stream that your consumer can use to read records from the shard.
     /// This member is required.
     public var eventStream: AsyncThrowingStream<KinesisClientTypes.SubscribeToShardEventStream, Swift.Error>?
@@ -6748,7 +6748,7 @@ extension KinesisClientTypes.Tag: Swift.Codable {
 
 extension KinesisClientTypes {
     /// Metadata assigned to the stream, consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A unique identifier for the tag. Maximum length: 128 characters. Valid characters: Unicode letters, digits, white space, _ . / = + - % @
         /// This member is required.
         public var key: Swift.String?
@@ -6799,7 +6799,7 @@ extension UpdateShardCountInput {
     }
 }
 
-public struct UpdateShardCountInput: Swift.Equatable {
+public struct UpdateShardCountInput {
     /// The scaling type. Uniform scaling creates shards of equal size.
     /// This member is required.
     public var scalingType: KinesisClientTypes.ScalingType?
@@ -6833,7 +6833,7 @@ public struct UpdateShardCountInput: Swift.Equatable {
     }
 }
 
-struct UpdateShardCountInputBody: Swift.Equatable {
+struct UpdateShardCountInputBody {
     let streamName: Swift.String?
     let targetShardCount: Swift.Int?
     let scalingType: KinesisClientTypes.ScalingType?
@@ -6879,7 +6879,7 @@ extension UpdateShardCountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateShardCountOutput: Swift.Equatable {
+public struct UpdateShardCountOutput {
     /// The current number of shards.
     public var currentShardCount: Swift.Int?
     /// The ARN of the stream.
@@ -6903,7 +6903,7 @@ public struct UpdateShardCountOutput: Swift.Equatable {
     }
 }
 
-struct UpdateShardCountOutputBody: Swift.Equatable {
+struct UpdateShardCountOutputBody {
     let streamName: Swift.String?
     let currentShardCount: Swift.Int?
     let targetShardCount: Swift.Int?
@@ -6971,7 +6971,7 @@ extension UpdateStreamModeInput {
     }
 }
 
-public struct UpdateStreamModeInput: Swift.Equatable {
+public struct UpdateStreamModeInput {
     /// Specifies the ARN of the data stream whose capacity mode you want to update.
     /// This member is required.
     public var streamARN: Swift.String?
@@ -6989,7 +6989,7 @@ public struct UpdateStreamModeInput: Swift.Equatable {
     }
 }
 
-struct UpdateStreamModeInputBody: Swift.Equatable {
+struct UpdateStreamModeInputBody {
     let streamARN: Swift.String?
     let streamModeDetails: KinesisClientTypes.StreamModeDetails?
 }
@@ -7014,7 +7014,7 @@ extension UpdateStreamModeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStreamModeOutput: Swift.Equatable {
+public struct UpdateStreamModeOutput {
 
     public init() { }
 }
@@ -7072,7 +7072,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

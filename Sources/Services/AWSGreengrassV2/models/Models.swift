@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -79,7 +79,7 @@ extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry: Swif
 
 extension GreengrassV2ClientTypes {
     /// Contains a request to associate a client device with a core device. The [BatchAssociateClientDeviceWithCoreDevice](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html) operation consumes a list of these requests.
-    public struct AssociateClientDeviceWithCoreDeviceEntry: Swift.Equatable {
+    public struct AssociateClientDeviceWithCoreDeviceEntry {
         /// The name of the IoT thing that represents the client device to associate.
         /// This member is required.
         public var thingName: Swift.String?
@@ -127,7 +127,7 @@ extension GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry:
 
 extension GreengrassV2ClientTypes {
     /// Contains an error that occurs from a request to associate a client device with a core device. The [BatchAssociateClientDeviceWithCoreDevice](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchAssociateClientDeviceWithCoreDevice.html) operation returns a list of these errors.
-    public struct AssociateClientDeviceWithCoreDeviceErrorEntry: Swift.Equatable {
+    public struct AssociateClientDeviceWithCoreDeviceErrorEntry {
         /// The error code for the request.
         public var code: Swift.String?
         /// A message that provides additional information about the error.
@@ -169,7 +169,7 @@ extension AssociateServiceRoleToAccountInput {
     }
 }
 
-public struct AssociateServiceRoleToAccountInput: Swift.Equatable {
+public struct AssociateServiceRoleToAccountInput {
     /// The Amazon Resource Name (ARN) of the service role to associate with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
     /// This member is required.
     public var roleArn: Swift.String?
@@ -182,7 +182,7 @@ public struct AssociateServiceRoleToAccountInput: Swift.Equatable {
     }
 }
 
-struct AssociateServiceRoleToAccountInputBody: Swift.Equatable {
+struct AssociateServiceRoleToAccountInputBody {
     let roleArn: Swift.String?
 }
 
@@ -210,7 +210,7 @@ extension AssociateServiceRoleToAccountOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateServiceRoleToAccountOutput: Swift.Equatable {
+public struct AssociateServiceRoleToAccountOutput {
     /// The time when the service role was associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
     public var associatedAt: Swift.String?
 
@@ -222,7 +222,7 @@ public struct AssociateServiceRoleToAccountOutput: Swift.Equatable {
     }
 }
 
-struct AssociateServiceRoleToAccountOutputBody: Swift.Equatable {
+struct AssociateServiceRoleToAccountOutputBody {
     let associatedAt: Swift.String?
 }
 
@@ -277,7 +277,7 @@ extension GreengrassV2ClientTypes.AssociatedClientDevice: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a client device that is associated to a core device for cloud discovery.
-    public struct AssociatedClientDevice: Swift.Equatable {
+    public struct AssociatedClientDevice {
         /// The time that the client device was associated, expressed in ISO 8601 format.
         public var associationTimestamp: ClientRuntime.Date?
         /// The name of the IoT thing that represents the associated client device.
@@ -321,7 +321,7 @@ extension BatchAssociateClientDeviceWithCoreDeviceInput {
     }
 }
 
-public struct BatchAssociateClientDeviceWithCoreDeviceInput: Swift.Equatable {
+public struct BatchAssociateClientDeviceWithCoreDeviceInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -338,7 +338,7 @@ public struct BatchAssociateClientDeviceWithCoreDeviceInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateClientDeviceWithCoreDeviceInputBody: Swift.Equatable {
+struct BatchAssociateClientDeviceWithCoreDeviceInputBody {
     let entries: [GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceEntry]?
 }
 
@@ -375,7 +375,7 @@ extension BatchAssociateClientDeviceWithCoreDeviceOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct BatchAssociateClientDeviceWithCoreDeviceOutput: Swift.Equatable {
+public struct BatchAssociateClientDeviceWithCoreDeviceOutput {
     /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to associate.
     public var errorEntries: [GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry]?
 
@@ -387,7 +387,7 @@ public struct BatchAssociateClientDeviceWithCoreDeviceOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateClientDeviceWithCoreDeviceOutputBody: Swift.Equatable {
+struct BatchAssociateClientDeviceWithCoreDeviceOutputBody {
     let errorEntries: [GreengrassV2ClientTypes.AssociateClientDeviceWithCoreDeviceErrorEntry]?
 }
 
@@ -453,7 +453,7 @@ extension BatchDisassociateClientDeviceFromCoreDeviceInput {
     }
 }
 
-public struct BatchDisassociateClientDeviceFromCoreDeviceInput: Swift.Equatable {
+public struct BatchDisassociateClientDeviceFromCoreDeviceInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -470,7 +470,7 @@ public struct BatchDisassociateClientDeviceFromCoreDeviceInput: Swift.Equatable 
     }
 }
 
-struct BatchDisassociateClientDeviceFromCoreDeviceInputBody: Swift.Equatable {
+struct BatchDisassociateClientDeviceFromCoreDeviceInputBody {
     let entries: [GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry]?
 }
 
@@ -507,7 +507,7 @@ extension BatchDisassociateClientDeviceFromCoreDeviceOutput: ClientRuntime.HttpR
     }
 }
 
-public struct BatchDisassociateClientDeviceFromCoreDeviceOutput: Swift.Equatable {
+public struct BatchDisassociateClientDeviceFromCoreDeviceOutput {
     /// The list of any errors for the entries in the request. Each error entry contains the name of the IoT thing that failed to disassociate.
     public var errorEntries: [GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry]?
 
@@ -519,7 +519,7 @@ public struct BatchDisassociateClientDeviceFromCoreDeviceOutput: Swift.Equatable
     }
 }
 
-struct BatchDisassociateClientDeviceFromCoreDeviceOutputBody: Swift.Equatable {
+struct BatchDisassociateClientDeviceFromCoreDeviceOutputBody {
     let errorEntries: [GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEntry]?
 }
 
@@ -569,7 +569,7 @@ extension CancelDeploymentInput {
     }
 }
 
-public struct CancelDeploymentInput: Swift.Equatable {
+public struct CancelDeploymentInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -582,7 +582,7 @@ public struct CancelDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CancelDeploymentInputBody: Swift.Equatable {
+struct CancelDeploymentInputBody {
 }
 
 extension CancelDeploymentInputBody: Swift.Decodable {
@@ -603,7 +603,7 @@ extension CancelDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelDeploymentOutput: Swift.Equatable {
+public struct CancelDeploymentOutput {
     /// A message that communicates if the cancel was successful.
     public var message: Swift.String?
 
@@ -615,7 +615,7 @@ public struct CancelDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CancelDeploymentOutputBody: Swift.Equatable {
+struct CancelDeploymentOutputBody {
     let message: Swift.String?
 }
 
@@ -745,7 +745,7 @@ extension GreengrassV2ClientTypes.CloudComponentStatus: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains the status of a component version in the IoT Greengrass service.
-    public struct CloudComponentStatus: Swift.Equatable {
+    public struct CloudComponentStatus {
         /// The state of the component version.
         public var componentState: GreengrassV2ClientTypes.CloudComponentState?
         /// A dictionary of errors that communicate why the component version is in an error state. For example, if IoT Greengrass can't access an artifact for the component version, then errors contains the artifact's URI as a key, and the error message as the value for that key.
@@ -814,7 +814,7 @@ extension GreengrassV2ClientTypes.Component: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component.
-    public struct Component: Swift.Equatable {
+    public struct Component {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
         public var arn: Swift.String?
         /// The name of the component.
@@ -881,7 +881,7 @@ extension GreengrassV2ClientTypes.ComponentCandidate: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component that is a candidate to deploy to a Greengrass core device.
-    public struct ComponentCandidate: Swift.Equatable {
+    public struct ComponentCandidate {
         /// The name of the component.
         public var componentName: Swift.String?
         /// The version of the component.
@@ -942,7 +942,7 @@ extension GreengrassV2ClientTypes.ComponentConfigurationUpdate: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a deployment's update to a component's configuration on Greengrass core devices. For more information, see [Update component configurations](https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html) in the IoT Greengrass V2 Developer Guide.
-    public struct ComponentConfigurationUpdate: Swift.Equatable {
+    public struct ComponentConfigurationUpdate {
         /// A serialized JSON string that contains the configuration object to merge to target devices. The core device merges this configuration with the component's existing configuration. If this is the first time a component deploys on a device, the core device merges this configuration with the component's default configuration. This means that the core device keeps it's existing configuration for keys and values that you don't specify in this object. For more information, see [Merge configuration updates](https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#merge-configuration-update) in the IoT Greengrass V2 Developer Guide.
         public var merge: Swift.String?
         /// The list of configuration nodes to reset to default values on target devices. Use JSON pointers to specify each node to reset. JSON pointers start with a forward slash (/) and use forward slashes to separate the key for each level in the object. For more information, see the [JSON pointer specification](https://tools.ietf.org/html/rfc6901) and [Reset configuration updates](https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html#reset-configuration-update) in the IoT Greengrass V2 Developer Guide.
@@ -987,7 +987,7 @@ extension GreengrassV2ClientTypes.ComponentDependencyRequirement: Swift.Codable 
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component dependency for a Lambda function component.
-    public struct ComponentDependencyRequirement: Swift.Equatable {
+    public struct ComponentDependencyRequirement {
         /// The type of this dependency. Choose from the following options:
         ///
         /// * SOFT – The component doesn't restart if the dependency changes state.
@@ -1077,7 +1077,7 @@ extension GreengrassV2ClientTypes.ComponentDeploymentSpecification: Swift.Codabl
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component to deploy.
-    public struct ComponentDeploymentSpecification: Swift.Equatable {
+    public struct ComponentDeploymentSpecification {
         /// The version of the component.
         public var componentVersion: Swift.String?
         /// The configuration updates to deploy for the component. You can define reset updates and merge updates. A reset updates the keys that you specify to the default configuration for the component. A merge updates the core device's component configuration with the keys and values that you specify. The IoT Greengrass Core software applies reset updates before it applies merge updates. For more information, see [Update component configurations](https://docs.aws.amazon.com/greengrass/v2/developerguide/update-component-configurations.html) in the IoT Greengrass V2 Developer Guide.
@@ -1162,7 +1162,7 @@ extension GreengrassV2ClientTypes.ComponentLatestVersion: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about the latest version of a component.
-    public struct ComponentLatestVersion: Swift.Equatable {
+    public struct ComponentLatestVersion {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
         public var arn: Swift.String?
         /// The version of the component.
@@ -1235,7 +1235,7 @@ extension GreengrassV2ClientTypes.ComponentPlatform: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a platform that a component supports.
-    public struct ComponentPlatform: Swift.Equatable {
+    public struct ComponentPlatform {
         /// A dictionary of attributes for the platform. The IoT Greengrass Core software defines the os and architecture by default. You can specify additional platform attributes for a core device when you deploy the Greengrass nucleus component. For more information, see the [Greengrass nucleus component](https://docs.aws.amazon.com/greengrass/v2/developerguide/greengrass-nucleus-component.html) in the IoT Greengrass V2 Developer Guide.
         public var attributes: [Swift.String:Swift.String]?
         /// The friendly name of the platform. This name helps you identify the platform. If you omit this parameter, IoT Greengrass creates a friendly name from the os and architecture of the platform.
@@ -1286,7 +1286,7 @@ extension GreengrassV2ClientTypes.ComponentRunWith: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information system user and group that the IoT Greengrass Core software uses to run component processes on the core device. For more information, see [Configure the user and group that run components](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user) in the IoT Greengrass V2 Developer Guide.
-    public struct ComponentRunWith: Swift.Equatable {
+    public struct ComponentRunWith {
         /// The POSIX system user and, optionally, group to use to run this component on Linux core devices. The user, and group if specified, must exist on each Linux core device. Specify the user and group separated by a colon (:) in the following format: user:group. The group is optional. If you don't specify a group, the IoT Greengrass Core software uses the primary user for the group. If you omit this parameter, the IoT Greengrass Core software uses the default system user and group that you configure on the Greengrass nucleus component. For more information, see [Configure the user and group that run components](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-user).
         public var posixUser: Swift.String?
         /// The system resource limits to apply to this component's process on the core device. IoT Greengrass currently supports this feature on only Linux core devices. If you omit this parameter, the IoT Greengrass Core software uses the default system resource limits that you configure on the Greengrass nucleus component. For more information, see [Configure system resource limits for components](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits).
@@ -1341,7 +1341,7 @@ extension GreengrassV2ClientTypes.ComponentVersionListItem: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component version in a list.
-    public struct ComponentVersionListItem: Swift.Equatable {
+    public struct ComponentVersionListItem {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
         public var arn: Swift.String?
         /// The name of the component.
@@ -1449,7 +1449,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1512,7 +1512,7 @@ extension GreengrassV2ClientTypes.ConnectivityInfo: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about an endpoint and port where client devices can connect to an MQTT broker on a Greengrass core device.
-    public struct ConnectivityInfo: Swift.Equatable {
+    public struct ConnectivityInfo {
         /// The IP address or DNS address where client devices can connect to an MQTT broker on the Greengrass core device.
         public var hostAddress: Swift.String?
         /// An ID for the connectivity information.
@@ -1571,7 +1571,7 @@ extension GreengrassV2ClientTypes.CoreDevice: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a Greengrass core device, which is an IoT thing that runs the IoT Greengrass Core software.
-    public struct CoreDevice: Swift.Equatable {
+    public struct CoreDevice {
         /// The name of the core device. This is also the name of the IoT thing.
         public var coreDeviceThingName: Swift.String?
         /// The time at which the core device's status last updated, expressed in ISO 8601 format.
@@ -1664,7 +1664,7 @@ extension CreateComponentVersionInput {
     }
 }
 
-public struct CreateComponentVersionInput: Swift.Equatable {
+public struct CreateComponentVersionInput {
     /// A unique, case-sensitive identifier that you can provide to ensure that the request is idempotent. Idempotency means that the request is successfully processed only once, even if you send the request multiple times. When a request succeeds, and you specify the same client token for subsequent successful requests, the IoT Greengrass V2 service returns the successful response that it caches from the previous request. IoT Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
     public var clientToken: Swift.String?
     /// The recipe to use to create the component. The recipe defines the component's metadata, parameters, dependencies, lifecycle, artifacts, and platform compatibility. You must specify either inlineRecipe or lambdaFunction.
@@ -1688,7 +1688,7 @@ public struct CreateComponentVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentVersionInputBody: Swift.Equatable {
+struct CreateComponentVersionInputBody {
     let inlineRecipe: ClientRuntime.Data?
     let lambdaFunction: GreengrassV2ClientTypes.LambdaFunctionRecipeSource?
     let tags: [Swift.String:Swift.String]?
@@ -1745,7 +1745,7 @@ extension CreateComponentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentVersionOutput: Swift.Equatable {
+public struct CreateComponentVersionOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
     public var arn: Swift.String?
     /// The name of the component.
@@ -1777,7 +1777,7 @@ public struct CreateComponentVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateComponentVersionOutputBody: Swift.Equatable {
+struct CreateComponentVersionOutputBody {
     let arn: Swift.String?
     let componentName: Swift.String?
     let componentVersion: Swift.String?
@@ -1880,7 +1880,7 @@ extension CreateDeploymentInput {
     }
 }
 
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// A unique, case-sensitive identifier that you can provide to ensure that the request is idempotent. Idempotency means that the request is successfully processed only once, even if you send the request multiple times. When a request succeeds, and you specify the same client token for subsequent successful requests, the IoT Greengrass V2 service returns the successful response that it caches from the previous request. IoT Greengrass V2 caches successful responses for idempotent requests for up to 8 hours.
     public var clientToken: Swift.String?
     /// The components to deploy. This is a dictionary, where each key is the name of a component, and each key's value is the version and configuration to deploy for that component.
@@ -1921,7 +1921,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let targetArn: Swift.String?
     let deploymentName: Swift.String?
     let components: [Swift.String:GreengrassV2ClientTypes.ComponentDeploymentSpecification]?
@@ -1999,7 +1999,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// The ID of the deployment.
     public var deploymentId: Swift.String?
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the IoT job that applies the deployment to target devices.
@@ -2019,7 +2019,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let deploymentId: Swift.String?
     let iotJobId: Swift.String?
     let iotJobArn: Swift.String?
@@ -2070,7 +2070,7 @@ extension DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentInput: Swift.Equatable {
+public struct DeleteComponentInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
     /// This member is required.
     public var arn: Swift.String?
@@ -2083,7 +2083,7 @@ public struct DeleteComponentInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentInputBody: Swift.Equatable {
+struct DeleteComponentInputBody {
 }
 
 extension DeleteComponentInputBody: Swift.Decodable {
@@ -2097,7 +2097,7 @@ extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentOutput: Swift.Equatable {
+public struct DeleteComponentOutput {
 
     public init() { }
 }
@@ -2128,7 +2128,7 @@ extension DeleteCoreDeviceInput {
     }
 }
 
-public struct DeleteCoreDeviceInput: Swift.Equatable {
+public struct DeleteCoreDeviceInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -2141,7 +2141,7 @@ public struct DeleteCoreDeviceInput: Swift.Equatable {
     }
 }
 
-struct DeleteCoreDeviceInputBody: Swift.Equatable {
+struct DeleteCoreDeviceInputBody {
 }
 
 extension DeleteCoreDeviceInputBody: Swift.Decodable {
@@ -2155,7 +2155,7 @@ extension DeleteCoreDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCoreDeviceOutput: Swift.Equatable {
+public struct DeleteCoreDeviceOutput {
 
     public init() { }
 }
@@ -2186,7 +2186,7 @@ extension DeleteDeploymentInput {
     }
 }
 
-public struct DeleteDeploymentInput: Swift.Equatable {
+public struct DeleteDeploymentInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -2199,7 +2199,7 @@ public struct DeleteDeploymentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDeploymentInputBody: Swift.Equatable {
+struct DeleteDeploymentInputBody {
 }
 
 extension DeleteDeploymentInputBody: Swift.Decodable {
@@ -2213,7 +2213,7 @@ extension DeleteDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDeploymentOutput: Swift.Equatable {
+public struct DeleteDeploymentOutput {
 
     public init() { }
 }
@@ -2297,7 +2297,7 @@ extension GreengrassV2ClientTypes.Deployment: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a deployment.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// The time at which the deployment was created, expressed in ISO 8601 format.
         public var creationTimestamp: ClientRuntime.Date?
         /// The ID of the deployment.
@@ -2366,7 +2366,7 @@ extension GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy: Swift.Codable
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a deployment's policy that defines when components are safe to update. Each component on a device can report whether or not it's ready to update. After a component and its dependencies are ready, they can apply the update in the deployment. You can configure whether or not the deployment notifies components of an update and waits for a response. You specify the amount of time each component has to respond to the update notification.
-    public struct DeploymentComponentUpdatePolicy: Swift.Equatable {
+    public struct DeploymentComponentUpdatePolicy {
         /// Whether or not to notify components and wait for components to become safe to update. Choose from the following options:
         ///
         /// * NOTIFY_COMPONENTS – The deployment notifies each component before it stops and updates that component. Components can use the [SubscribeToComponentUpdates](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetocomponentupdates) IPC operation to receive these notifications. Then, components can respond with the [DeferComponentUpdate](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-defercomponentupdate) IPC operation. For more information, see [Create deployments](https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html) in the IoT Greengrass V2 Developer Guide.
@@ -2444,7 +2444,7 @@ extension GreengrassV2ClientTypes.DeploymentConfigurationValidationPolicy: Swift
 
 extension GreengrassV2ClientTypes {
     /// Contains information about how long a component on a core device can validate its configuration updates before it times out. Components can use the [SubscribeToValidateConfigurationUpdates](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-subscribetovalidateconfigurationupdates) IPC operation to receive notifications when a deployment specifies a configuration update. Then, components can respond with the [SendConfigurationValidityReport](https://docs.aws.amazon.com/greengrass/v2/developerguide/interprocess-communication.html#ipc-operation-sendconfigurationvalidityreport) IPC operation. For more information, see [Create deployments](https://docs.aws.amazon.com/greengrass/v2/developerguide/create-deployments.html) in the IoT Greengrass V2 Developer Guide.
-    public struct DeploymentConfigurationValidationPolicy: Swift.Equatable {
+    public struct DeploymentConfigurationValidationPolicy {
         /// The amount of time in seconds that a component can validate its configuration updates. If the validation time exceeds this timeout, then the deployment proceeds for the device. Default: 30
         public var timeoutInSeconds: Swift.Int?
 
@@ -2555,7 +2555,7 @@ extension GreengrassV2ClientTypes.DeploymentIoTJobConfiguration: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about an IoT job configuration.
-    public struct DeploymentIoTJobConfiguration: Swift.Equatable {
+    public struct DeploymentIoTJobConfiguration {
         /// The stop configuration for the job. This configuration defines when and how to stop a job rollout.
         public var abortConfig: GreengrassV2ClientTypes.IoTJobAbortConfig?
         /// The rollout configuration for the job. This configuration defines the rate at which the job rolls out to the fleet of target devices.
@@ -2610,7 +2610,7 @@ extension GreengrassV2ClientTypes.DeploymentPolicies: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about policies that define how a deployment updates components and handles failure.
-    public struct DeploymentPolicies: Swift.Equatable {
+    public struct DeploymentPolicies {
         /// The component update policy for the configuration deployment. This policy defines when it's safe to deploy the configuration to devices.
         public var componentUpdatePolicy: GreengrassV2ClientTypes.DeploymentComponentUpdatePolicy?
         /// The configuration validation policy for the configuration deployment. This policy defines how long each component has to validate its configure updates.
@@ -2683,7 +2683,7 @@ extension DescribeComponentInput {
     }
 }
 
-public struct DescribeComponentInput: Swift.Equatable {
+public struct DescribeComponentInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
     /// This member is required.
     public var arn: Swift.String?
@@ -2696,7 +2696,7 @@ public struct DescribeComponentInput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentInputBody: Swift.Equatable {
+struct DescribeComponentInputBody {
 }
 
 extension DescribeComponentInputBody: Swift.Decodable {
@@ -2733,7 +2733,7 @@ extension DescribeComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeComponentOutput: Swift.Equatable {
+public struct DescribeComponentOutput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
     public var arn: Swift.String?
     /// The name of the component.
@@ -2777,7 +2777,7 @@ public struct DescribeComponentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeComponentOutputBody: Swift.Equatable {
+struct DescribeComponentOutputBody {
     let arn: Swift.String?
     let componentName: Swift.String?
     let componentVersion: Swift.String?
@@ -2879,7 +2879,7 @@ extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceEntry: S
 
 extension GreengrassV2ClientTypes {
     /// Contains a request to disassociate a client device from a core device. The [BatchDisassociateClientDeviceWithCoreDevice](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html) operation consumes a list of these requests.
-    public struct DisassociateClientDeviceFromCoreDeviceEntry: Swift.Equatable {
+    public struct DisassociateClientDeviceFromCoreDeviceEntry {
         /// The name of the IoT thing that represents the client device to disassociate.
         /// This member is required.
         public var thingName: Swift.String?
@@ -2927,7 +2927,7 @@ extension GreengrassV2ClientTypes.DisassociateClientDeviceFromCoreDeviceErrorEnt
 
 extension GreengrassV2ClientTypes {
     /// Contains an error that occurs from a request to disassociate a client device from a core device. The [BatchDisassociateClientDeviceWithCoreDevice](https://docs.aws.amazon.com/greengrass/v2/APIReference/API_BatchDisassociateClientDeviceWithCoreDevice.html) operation returns a list of these errors.
-    public struct DisassociateClientDeviceFromCoreDeviceErrorEntry: Swift.Equatable {
+    public struct DisassociateClientDeviceFromCoreDeviceErrorEntry {
         /// The error code for the request.
         public var code: Swift.String?
         /// A message that provides additional information about the error.
@@ -2956,12 +2956,12 @@ extension DisassociateServiceRoleFromAccountInput {
     }
 }
 
-public struct DisassociateServiceRoleFromAccountInput: Swift.Equatable {
+public struct DisassociateServiceRoleFromAccountInput {
 
     public init() { }
 }
 
-struct DisassociateServiceRoleFromAccountInputBody: Swift.Equatable {
+struct DisassociateServiceRoleFromAccountInputBody {
 }
 
 extension DisassociateServiceRoleFromAccountInputBody: Swift.Decodable {
@@ -2982,7 +2982,7 @@ extension DisassociateServiceRoleFromAccountOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DisassociateServiceRoleFromAccountOutput: Swift.Equatable {
+public struct DisassociateServiceRoleFromAccountOutput {
     /// The time when the service role was disassociated from IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
     public var disassociatedAt: Swift.String?
 
@@ -2994,7 +2994,7 @@ public struct DisassociateServiceRoleFromAccountOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateServiceRoleFromAccountOutputBody: Swift.Equatable {
+struct DisassociateServiceRoleFromAccountOutputBody {
     let disassociatedAt: Swift.String?
 }
 
@@ -3102,7 +3102,7 @@ extension GreengrassV2ClientTypes.EffectiveDeployment: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a deployment job that IoT Greengrass sends to a Greengrass core device.
-    public struct EffectiveDeployment: Swift.Equatable {
+    public struct EffectiveDeployment {
         /// The status of the deployment job on the Greengrass core device.
         ///
         /// * IN_PROGRESS – The deployment job is running.
@@ -3279,7 +3279,7 @@ extension GreengrassV2ClientTypes.EffectiveDeploymentStatusDetails: Swift.Codabl
 
 extension GreengrassV2ClientTypes {
     /// Contains all error-related information for the deployment record. The status details will be null if the deployment is in a success state. Greengrass nucleus v2.8.0 or later is required to get an accurate errorStack and errorTypes response. This field will not be returned for earlier Greengrass nucleus versions.
-    public struct EffectiveDeploymentStatusDetails: Swift.Equatable {
+    public struct EffectiveDeploymentStatusDetails {
         /// Contains an ordered list of short error codes that range from the most generic error to the most specific one. The error codes describe the reason for failure whenever the coreDeviceExecutionStatus is in a failed state. The response will be an empty list if there is no error.
         public var errorStack: [Swift.String]?
         /// Contains tags which describe the error. You can use the error types to classify errors to assist with remediating the failure. The response will be an empty list if there is no error.
@@ -3319,7 +3319,7 @@ extension GetComponentInput {
     }
 }
 
-public struct GetComponentInput: Swift.Equatable {
+public struct GetComponentInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
     /// This member is required.
     public var arn: Swift.String?
@@ -3336,7 +3336,7 @@ public struct GetComponentInput: Swift.Equatable {
     }
 }
 
-struct GetComponentInputBody: Swift.Equatable {
+struct GetComponentInputBody {
 }
 
 extension GetComponentInputBody: Swift.Decodable {
@@ -3361,7 +3361,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentOutput: Swift.Equatable {
+public struct GetComponentOutput {
     /// The recipe of the component version.
     /// This member is required.
     public var recipe: ClientRuntime.Data?
@@ -3383,7 +3383,7 @@ public struct GetComponentOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentOutputBody: Swift.Equatable {
+struct GetComponentOutputBody {
     let recipeOutputFormat: GreengrassV2ClientTypes.RecipeOutputFormat?
     let recipe: ClientRuntime.Data?
     let tags: [Swift.String:Swift.String]?
@@ -3444,7 +3444,7 @@ extension GetComponentVersionArtifactInput {
     }
 }
 
-public struct GetComponentVersionArtifactInput: Swift.Equatable {
+public struct GetComponentVersionArtifactInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version. Specify the ARN of a public or a Lambda component version.
     /// This member is required.
     public var arn: Swift.String?
@@ -3462,7 +3462,7 @@ public struct GetComponentVersionArtifactInput: Swift.Equatable {
     }
 }
 
-struct GetComponentVersionArtifactInputBody: Swift.Equatable {
+struct GetComponentVersionArtifactInputBody {
 }
 
 extension GetComponentVersionArtifactInputBody: Swift.Decodable {
@@ -3483,7 +3483,7 @@ extension GetComponentVersionArtifactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentVersionArtifactOutput: Swift.Equatable {
+public struct GetComponentVersionArtifactOutput {
     /// The URL of the artifact.
     /// This member is required.
     public var preSignedUrl: Swift.String?
@@ -3496,7 +3496,7 @@ public struct GetComponentVersionArtifactOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentVersionArtifactOutputBody: Swift.Equatable {
+struct GetComponentVersionArtifactOutputBody {
     let preSignedUrl: Swift.String?
 }
 
@@ -3537,7 +3537,7 @@ extension GetConnectivityInfoInput {
     }
 }
 
-public struct GetConnectivityInfoInput: Swift.Equatable {
+public struct GetConnectivityInfoInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var thingName: Swift.String?
@@ -3550,7 +3550,7 @@ public struct GetConnectivityInfoInput: Swift.Equatable {
     }
 }
 
-struct GetConnectivityInfoInputBody: Swift.Equatable {
+struct GetConnectivityInfoInputBody {
 }
 
 extension GetConnectivityInfoInputBody: Swift.Decodable {
@@ -3573,7 +3573,7 @@ extension GetConnectivityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectivityInfoOutput: Swift.Equatable {
+public struct GetConnectivityInfoOutput {
     /// The connectivity information for the core device.
     public var connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]?
     /// A message about the connectivity information request.
@@ -3589,7 +3589,7 @@ public struct GetConnectivityInfoOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectivityInfoOutputBody: Swift.Equatable {
+struct GetConnectivityInfoOutputBody {
     let connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]?
     let message: Swift.String?
 }
@@ -3640,7 +3640,7 @@ extension GetCoreDeviceInput {
     }
 }
 
-public struct GetCoreDeviceInput: Swift.Equatable {
+public struct GetCoreDeviceInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -3653,7 +3653,7 @@ public struct GetCoreDeviceInput: Swift.Equatable {
     }
 }
 
-struct GetCoreDeviceInputBody: Swift.Equatable {
+struct GetCoreDeviceInputBody {
 }
 
 extension GetCoreDeviceInputBody: Swift.Decodable {
@@ -3686,7 +3686,7 @@ extension GetCoreDeviceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoreDeviceOutput: Swift.Equatable {
+public struct GetCoreDeviceOutput {
     /// The computer architecture of the core device.
     public var architecture: Swift.String?
     /// The name of the core device. This is also the name of the IoT thing.
@@ -3726,7 +3726,7 @@ public struct GetCoreDeviceOutput: Swift.Equatable {
     }
 }
 
-struct GetCoreDeviceOutputBody: Swift.Equatable {
+struct GetCoreDeviceOutputBody {
     let coreDeviceThingName: Swift.String?
     let coreVersion: Swift.String?
     let platform: Swift.String?
@@ -3800,7 +3800,7 @@ extension GetDeploymentInput {
     }
 }
 
-public struct GetDeploymentInput: Swift.Equatable {
+public struct GetDeploymentInput {
     /// The ID of the deployment.
     /// This member is required.
     public var deploymentId: Swift.String?
@@ -3813,7 +3813,7 @@ public struct GetDeploymentInput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentInputBody: Swift.Equatable {
+struct GetDeploymentInputBody {
 }
 
 extension GetDeploymentInputBody: Swift.Decodable {
@@ -3860,7 +3860,7 @@ extension GetDeploymentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDeploymentOutput: Swift.Equatable {
+public struct GetDeploymentOutput {
     /// The components to deploy. This is a dictionary, where each key is the name of a component, and each key's value is the version and configuration to deploy for that component.
     public var components: [Swift.String:GreengrassV2ClientTypes.ComponentDeploymentSpecification]?
     /// The time at which the deployment was created, expressed in ISO 8601 format.
@@ -3924,7 +3924,7 @@ public struct GetDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct GetDeploymentOutputBody: Swift.Equatable {
+struct GetDeploymentOutputBody {
     let targetArn: Swift.String?
     let revisionId: Swift.String?
     let deploymentId: Swift.String?
@@ -4032,12 +4032,12 @@ extension GetServiceRoleForAccountInput {
     }
 }
 
-public struct GetServiceRoleForAccountInput: Swift.Equatable {
+public struct GetServiceRoleForAccountInput {
 
     public init() { }
 }
 
-struct GetServiceRoleForAccountInputBody: Swift.Equatable {
+struct GetServiceRoleForAccountInputBody {
 }
 
 extension GetServiceRoleForAccountInputBody: Swift.Decodable {
@@ -4060,7 +4060,7 @@ extension GetServiceRoleForAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceRoleForAccountOutput: Swift.Equatable {
+public struct GetServiceRoleForAccountOutput {
     /// The time when the service role was associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
     public var associatedAt: Swift.String?
     /// The ARN of the service role that is associated with IoT Greengrass for your Amazon Web Services account in this Amazon Web Services Region.
@@ -4076,7 +4076,7 @@ public struct GetServiceRoleForAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceRoleForAccountOutputBody: Swift.Equatable {
+struct GetServiceRoleForAccountOutputBody {
     let associatedAt: Swift.String?
     let roleArn: Swift.String?
 }
@@ -4190,7 +4190,7 @@ extension GreengrassV2ClientTypes.InstalledComponent: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component on a Greengrass core device.
-    public struct InstalledComponent: Swift.Equatable {
+    public struct InstalledComponent {
         /// The name of the component.
         public var componentName: Swift.String?
         /// The version of the component.
@@ -4367,7 +4367,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4445,7 +4445,7 @@ extension GreengrassV2ClientTypes.IoTJobAbortConfig: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains a list of criteria that define when and how to cancel a configuration deployment.
-    public struct IoTJobAbortConfig: Swift.Equatable {
+    public struct IoTJobAbortConfig {
         /// The list of criteria that define when and how to cancel the configuration deployment.
         /// This member is required.
         public var criteriaList: [GreengrassV2ClientTypes.IoTJobAbortCriteria]?
@@ -4503,7 +4503,7 @@ extension GreengrassV2ClientTypes {
     /// * The number of things that receive the deployment exceeds the minNumberOfExecutedThings.
     ///
     /// * The percentage of failures with type failureType exceeds the thresholdPercentage.
-    public struct IoTJobAbortCriteria: Swift.Equatable {
+    public struct IoTJobAbortCriteria {
         /// The action to perform when the criteria are met.
         /// This member is required.
         public var action: GreengrassV2ClientTypes.IoTJobAbortAction?
@@ -4598,7 +4598,7 @@ extension GreengrassV2ClientTypes.IoTJobExecutionsRolloutConfig: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about the rollout configuration for a job. This configuration defines the rate at which the job deploys a configuration to a fleet of target devices.
-    public struct IoTJobExecutionsRolloutConfig: Swift.Equatable {
+    public struct IoTJobExecutionsRolloutConfig {
         /// The exponential rate to increase the job rollout rate.
         public var exponentialRate: GreengrassV2ClientTypes.IoTJobExponentialRolloutRate?
         /// The maximum number of devices that receive a pending job notification, per minute.
@@ -4649,7 +4649,7 @@ extension GreengrassV2ClientTypes.IoTJobExponentialRolloutRate: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about an exponential rollout rate for a configuration deployment job.
-    public struct IoTJobExponentialRolloutRate: Swift.Equatable {
+    public struct IoTJobExponentialRolloutRate {
         /// The minimum number of devices that receive a pending job notification, per minute, when the job starts. This parameter defines the initial rollout rate of the job.
         /// This member is required.
         public var baseRatePerMinute: Swift.Int?
@@ -4701,7 +4701,7 @@ extension GreengrassV2ClientTypes.IoTJobRateIncreaseCriteria: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about criteria to meet before a job increases its rollout rate. Specify either numberOfNotifiedThings or numberOfSucceededThings.
-    public struct IoTJobRateIncreaseCriteria: Swift.Equatable {
+    public struct IoTJobRateIncreaseCriteria {
         /// The number of devices to receive the job notification before the rollout rate increases.
         public var numberOfNotifiedThings: Swift.Int?
         /// The number of devices to successfully run the configuration job before the rollout rate increases.
@@ -4740,7 +4740,7 @@ extension GreengrassV2ClientTypes.IoTJobTimeoutConfig: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about the timeout configuration for a job.
-    public struct IoTJobTimeoutConfig: Swift.Equatable {
+    public struct IoTJobTimeoutConfig {
         /// The amount of time, in minutes, that devices have to complete the job. The timer starts when the job status is set to IN_PROGRESS. If the job status doesn't change to a terminal state before the time expires, then the job status is set to TIMED_OUT. The timeout interval must be between 1 minute and 7 days (10080 minutes).
         public var inProgressTimeoutInMinutes: Swift.Int?
 
@@ -4817,7 +4817,7 @@ extension GreengrassV2ClientTypes.LambdaContainerParams: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a container in which Lambda functions run on Greengrass core devices.
-    public struct LambdaContainerParams: Swift.Equatable {
+    public struct LambdaContainerParams {
         /// The list of system devices that the container can access.
         public var devices: [GreengrassV2ClientTypes.LambdaDeviceMount]?
         /// The memory size of the container, expressed in kilobytes. Default: 16384 (16 MB)
@@ -4876,7 +4876,7 @@ extension GreengrassV2ClientTypes.LambdaDeviceMount: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a device that Linux processes in a container can access.
-    public struct LambdaDeviceMount: Swift.Equatable {
+    public struct LambdaDeviceMount {
         /// Whether or not to add the component's system user as an owner of the device. Default: false
         public var addGroupOwner: Swift.Bool?
         /// The mount path for the device in the file system.
@@ -4926,7 +4926,7 @@ extension GreengrassV2ClientTypes.LambdaEventSource: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about an event source for an Lambda function. The event source defines the topics on which this Lambda function subscribes to receive messages that run the function.
-    public struct LambdaEventSource: Swift.Equatable {
+    public struct LambdaEventSource {
         /// The topic to which to subscribe to receive event messages.
         /// This member is required.
         public var topic: Swift.String?
@@ -5099,7 +5099,7 @@ extension GreengrassV2ClientTypes.LambdaExecutionParameters: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains parameters for a Lambda function that runs on IoT Greengrass.
-    public struct LambdaExecutionParameters: Swift.Equatable {
+    public struct LambdaExecutionParameters {
         /// The map of environment variables that are available to the Lambda function when it runs.
         public var environmentVariables: [Swift.String:Swift.String]?
         /// The list of event sources to which to subscribe to receive work messages. The Lambda function runs when it receives a message from an event source. You can subscribe this function to local publish/subscribe messages and Amazon Web Services IoT Core MQTT messages.
@@ -5267,7 +5267,7 @@ extension GreengrassV2ClientTypes.LambdaFunctionRecipeSource: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about an Lambda function to import to create a component.
-    public struct LambdaFunctionRecipeSource: Swift.Equatable {
+    public struct LambdaFunctionRecipeSource {
         /// The component versions on which this Lambda function component depends.
         public var componentDependencies: [Swift.String:GreengrassV2ClientTypes.ComponentDependencyRequirement]?
         /// The system and runtime parameters for the Lambda function as it runs on the Greengrass core device.
@@ -5393,7 +5393,7 @@ extension GreengrassV2ClientTypes.LambdaLinuxProcessParams: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains parameters for a Linux process that contains an Lambda function.
-    public struct LambdaLinuxProcessParams: Swift.Equatable {
+    public struct LambdaLinuxProcessParams {
         /// The parameters for the container in which the Lambda function runs.
         public var containerParams: GreengrassV2ClientTypes.LambdaContainerParams?
         /// The isolation mode for the process that contains the Lambda function. The process can run in an isolated runtime environment inside the IoT Greengrass container, or as a regular process outside any container. Default: GreengrassContainer
@@ -5450,7 +5450,7 @@ extension GreengrassV2ClientTypes.LambdaVolumeMount: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a volume that Linux processes in a container can access. When you define a volume, the IoT Greengrass Core software mounts the source files to the destination inside the container.
-    public struct LambdaVolumeMount: Swift.Equatable {
+    public struct LambdaVolumeMount {
         /// Whether or not to add the IoT Greengrass user group as an owner of the volume. Default: false
         public var addGroupOwner: Swift.Bool?
         /// The path to the logical volume in the file system.
@@ -5504,7 +5504,7 @@ extension ListClientDevicesAssociatedWithCoreDeviceInput {
     }
 }
 
-public struct ListClientDevicesAssociatedWithCoreDeviceInput: Swift.Equatable {
+public struct ListClientDevicesAssociatedWithCoreDeviceInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -5525,7 +5525,7 @@ public struct ListClientDevicesAssociatedWithCoreDeviceInput: Swift.Equatable {
     }
 }
 
-struct ListClientDevicesAssociatedWithCoreDeviceInputBody: Swift.Equatable {
+struct ListClientDevicesAssociatedWithCoreDeviceInputBody {
 }
 
 extension ListClientDevicesAssociatedWithCoreDeviceInputBody: Swift.Decodable {
@@ -5548,7 +5548,7 @@ extension ListClientDevicesAssociatedWithCoreDeviceOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct ListClientDevicesAssociatedWithCoreDeviceOutput: Swift.Equatable {
+public struct ListClientDevicesAssociatedWithCoreDeviceOutput {
     /// A list that describes the client devices that are associated with the core device.
     public var associatedClientDevices: [GreengrassV2ClientTypes.AssociatedClientDevice]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -5564,7 +5564,7 @@ public struct ListClientDevicesAssociatedWithCoreDeviceOutput: Swift.Equatable {
     }
 }
 
-struct ListClientDevicesAssociatedWithCoreDeviceOutputBody: Swift.Equatable {
+struct ListClientDevicesAssociatedWithCoreDeviceOutputBody {
     let associatedClientDevices: [GreengrassV2ClientTypes.AssociatedClientDevice]?
     let nextToken: Swift.String?
 }
@@ -5634,7 +5634,7 @@ extension ListComponentVersionsInput {
     }
 }
 
-public struct ListComponentVersionsInput: Swift.Equatable {
+public struct ListComponentVersionsInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component.
     /// This member is required.
     public var arn: Swift.String?
@@ -5655,7 +5655,7 @@ public struct ListComponentVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentVersionsInputBody: Swift.Equatable {
+struct ListComponentVersionsInputBody {
 }
 
 extension ListComponentVersionsInputBody: Swift.Decodable {
@@ -5678,7 +5678,7 @@ extension ListComponentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentVersionsOutput: Swift.Equatable {
+public struct ListComponentVersionsOutput {
     /// A list of versions that exist for the component.
     public var componentVersions: [GreengrassV2ClientTypes.ComponentVersionListItem]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -5694,7 +5694,7 @@ public struct ListComponentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentVersionsOutputBody: Swift.Equatable {
+struct ListComponentVersionsOutputBody {
     let componentVersions: [GreengrassV2ClientTypes.ComponentVersionListItem]?
     let nextToken: Swift.String?
 }
@@ -5765,7 +5765,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// The maximum number of results to be returned per paginated request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -5785,7 +5785,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
 }
 
 extension ListComponentsInputBody: Swift.Decodable {
@@ -5808,7 +5808,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// A list that summarizes each component.
     public var components: [GreengrassV2ClientTypes.Component]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -5824,7 +5824,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let components: [GreengrassV2ClientTypes.Component]?
     let nextToken: Swift.String?
 }
@@ -5899,7 +5899,7 @@ extension ListCoreDevicesInput {
     }
 }
 
-public struct ListCoreDevicesInput: Swift.Equatable {
+public struct ListCoreDevicesInput {
     /// The maximum number of results to be returned per paginated request.
     public var maxResults: Swift.Int?
     /// The token to be used for the next set of paginated results.
@@ -5927,7 +5927,7 @@ public struct ListCoreDevicesInput: Swift.Equatable {
     }
 }
 
-struct ListCoreDevicesInputBody: Swift.Equatable {
+struct ListCoreDevicesInputBody {
 }
 
 extension ListCoreDevicesInputBody: Swift.Decodable {
@@ -5950,7 +5950,7 @@ extension ListCoreDevicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoreDevicesOutput: Swift.Equatable {
+public struct ListCoreDevicesOutput {
     /// A list that summarizes each core device.
     public var coreDevices: [GreengrassV2ClientTypes.CoreDevice]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -5966,7 +5966,7 @@ public struct ListCoreDevicesOutput: Swift.Equatable {
     }
 }
 
-struct ListCoreDevicesOutputBody: Swift.Equatable {
+struct ListCoreDevicesOutputBody {
     let coreDevices: [GreengrassV2ClientTypes.CoreDevice]?
     let nextToken: Swift.String?
 }
@@ -6044,7 +6044,7 @@ extension ListDeploymentsInput {
     }
 }
 
-public struct ListDeploymentsInput: Swift.Equatable {
+public struct ListDeploymentsInput {
     /// The filter for the list of deployments. Choose one of the following options:
     ///
     /// * ALL – The list includes all deployments.
@@ -6079,7 +6079,7 @@ public struct ListDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsInputBody: Swift.Equatable {
+struct ListDeploymentsInputBody {
 }
 
 extension ListDeploymentsInputBody: Swift.Decodable {
@@ -6102,7 +6102,7 @@ extension ListDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDeploymentsOutput: Swift.Equatable {
+public struct ListDeploymentsOutput {
     /// A list that summarizes each deployment.
     public var deployments: [GreengrassV2ClientTypes.Deployment]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -6118,7 +6118,7 @@ public struct ListDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeploymentsOutputBody: Swift.Equatable {
+struct ListDeploymentsOutputBody {
     let deployments: [GreengrassV2ClientTypes.Deployment]?
     let nextToken: Swift.String?
 }
@@ -6187,7 +6187,7 @@ extension ListEffectiveDeploymentsInput {
     }
 }
 
-public struct ListEffectiveDeploymentsInput: Swift.Equatable {
+public struct ListEffectiveDeploymentsInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -6208,7 +6208,7 @@ public struct ListEffectiveDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct ListEffectiveDeploymentsInputBody: Swift.Equatable {
+struct ListEffectiveDeploymentsInputBody {
 }
 
 extension ListEffectiveDeploymentsInputBody: Swift.Decodable {
@@ -6231,7 +6231,7 @@ extension ListEffectiveDeploymentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEffectiveDeploymentsOutput: Swift.Equatable {
+public struct ListEffectiveDeploymentsOutput {
     /// A list that summarizes each deployment on the core device.
     public var effectiveDeployments: [GreengrassV2ClientTypes.EffectiveDeployment]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -6247,7 +6247,7 @@ public struct ListEffectiveDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEffectiveDeploymentsOutputBody: Swift.Equatable {
+struct ListEffectiveDeploymentsOutputBody {
     let effectiveDeployments: [GreengrassV2ClientTypes.EffectiveDeployment]?
     let nextToken: Swift.String?
 }
@@ -6321,7 +6321,7 @@ extension ListInstalledComponentsInput {
     }
 }
 
-public struct ListInstalledComponentsInput: Swift.Equatable {
+public struct ListInstalledComponentsInput {
     /// The name of the core device. This is also the name of the IoT thing.
     /// This member is required.
     public var coreDeviceThingName: Swift.String?
@@ -6353,7 +6353,7 @@ public struct ListInstalledComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListInstalledComponentsInputBody: Swift.Equatable {
+struct ListInstalledComponentsInputBody {
 }
 
 extension ListInstalledComponentsInputBody: Swift.Decodable {
@@ -6376,7 +6376,7 @@ extension ListInstalledComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInstalledComponentsOutput: Swift.Equatable {
+public struct ListInstalledComponentsOutput {
     /// A list that summarizes each component on the core device. Greengrass nucleus v2.7.0 or later is required to get an accurate lastStatusChangeTimestamp response. This response can be inaccurate in earlier Greengrass nucleus versions. Greengrass nucleus v2.8.0 or later is required to get an accurate lastInstallationSource and lastReportedTimestamp response. This response can be inaccurate or null in earlier Greengrass nucleus versions.
     public var installedComponents: [GreengrassV2ClientTypes.InstalledComponent]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -6392,7 +6392,7 @@ public struct ListInstalledComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListInstalledComponentsOutputBody: Swift.Equatable {
+struct ListInstalledComponentsOutputBody {
     let installedComponents: [GreengrassV2ClientTypes.InstalledComponent]?
     let nextToken: Swift.String?
 }
@@ -6446,7 +6446,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6459,7 +6459,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6480,7 +6480,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of key-value pairs that contain metadata for the resource. For more information, see [Tag your resources](https://docs.aws.amazon.com/greengrass/v2/developerguide/tag-resources.html) in the IoT Greengrass V2 Developer Guide.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6492,7 +6492,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6602,7 +6602,7 @@ public struct RequestAlreadyInProgressException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct RequestAlreadyInProgressExceptionBody: Swift.Equatable {
+struct RequestAlreadyInProgressExceptionBody {
     let message: Swift.String?
 }
 
@@ -6645,7 +6645,7 @@ extension ResolveComponentCandidatesInput {
     }
 }
 
-public struct ResolveComponentCandidatesInput: Swift.Equatable {
+public struct ResolveComponentCandidatesInput {
     /// The list of components to resolve.
     public var componentCandidates: [GreengrassV2ClientTypes.ComponentCandidate]?
     /// The platform to use to resolve compatible components.
@@ -6661,7 +6661,7 @@ public struct ResolveComponentCandidatesInput: Swift.Equatable {
     }
 }
 
-struct ResolveComponentCandidatesInputBody: Swift.Equatable {
+struct ResolveComponentCandidatesInputBody {
     let platform: GreengrassV2ClientTypes.ComponentPlatform?
     let componentCandidates: [GreengrassV2ClientTypes.ComponentCandidate]?
 }
@@ -6702,7 +6702,7 @@ extension ResolveComponentCandidatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResolveComponentCandidatesOutput: Swift.Equatable {
+public struct ResolveComponentCandidatesOutput {
     /// A list of components that meet the requirements that you specify in the request. This list includes each component's recipe that you can use to install the component.
     public var resolvedComponentVersions: [GreengrassV2ClientTypes.ResolvedComponentVersion]?
 
@@ -6714,7 +6714,7 @@ public struct ResolveComponentCandidatesOutput: Swift.Equatable {
     }
 }
 
-struct ResolveComponentCandidatesOutputBody: Swift.Equatable {
+struct ResolveComponentCandidatesOutputBody {
     let resolvedComponentVersions: [GreengrassV2ClientTypes.ResolvedComponentVersion]?
 }
 
@@ -6806,7 +6806,7 @@ extension GreengrassV2ClientTypes.ResolvedComponentVersion: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a component version that is compatible to run on a Greengrass core device.
-    public struct ResolvedComponentVersion: Swift.Equatable {
+    public struct ResolvedComponentVersion {
         /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the component version.
         public var arn: Swift.String?
         /// The name of the component.
@@ -6900,7 +6900,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -6990,7 +6990,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7049,7 +7049,7 @@ extension GreengrassV2ClientTypes.SystemResourceLimits: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about system resource limits that the IoT Greengrass Core software applies to a component's processes. For more information, see [Configure system resource limits for components](https://docs.aws.amazon.com/greengrass/v2/developerguide/configure-greengrass-core-v2.html#configure-component-system-resource-limits).
-    public struct SystemResourceLimits: Swift.Equatable {
+    public struct SystemResourceLimits {
         /// The maximum amount of CPU time that a component's processes can use on the core device. A core device's total CPU time is equivalent to the device's number of CPU cores. For example, on a core device with 4 CPU cores, you can set this value to 2 to limit the component's processes to 50 percent usage of each CPU core. On a device with 1 CPU core, you can set this value to 0.25 to limit the component's processes to 25 percent usage of the CPU. If you set this value to a number greater than the number of CPU cores, the IoT Greengrass Core software doesn't limit the component's CPU usage.
         public var cpus: Swift.Double
         /// The maximum amount of RAM, expressed in kilobytes, that a component's processes can use on the core device.
@@ -7093,7 +7093,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7111,7 +7111,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7141,7 +7141,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7220,7 +7220,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -7270,7 +7270,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The [ARN](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) of the resource to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7288,7 +7288,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7302,7 +7302,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7346,7 +7346,7 @@ extension UpdateConnectivityInfoInput {
     }
 }
 
-public struct UpdateConnectivityInfoInput: Swift.Equatable {
+public struct UpdateConnectivityInfoInput {
     /// The connectivity information for the core device.
     /// This member is required.
     public var connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]?
@@ -7364,7 +7364,7 @@ public struct UpdateConnectivityInfoInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectivityInfoInputBody: Swift.Equatable {
+struct UpdateConnectivityInfoInputBody {
     let connectivityInfo: [GreengrassV2ClientTypes.ConnectivityInfo]?
 }
 
@@ -7403,7 +7403,7 @@ extension UpdateConnectivityInfoOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectivityInfoOutput: Swift.Equatable {
+public struct UpdateConnectivityInfoOutput {
     /// A message about the connectivity information update request.
     public var message: Swift.String?
     /// The new version of the connectivity information for the core device.
@@ -7419,7 +7419,7 @@ public struct UpdateConnectivityInfoOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectivityInfoOutputBody: Swift.Equatable {
+struct UpdateConnectivityInfoOutputBody {
     let version: Swift.String?
     let message: Swift.String?
 }
@@ -7503,7 +7503,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: GreengrassV2ClientTypes.ValidationExceptionReason?
     let fields: [GreengrassV2ClientTypes.ValidationExceptionField]?
@@ -7563,7 +7563,7 @@ extension GreengrassV2ClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension GreengrassV2ClientTypes {
     /// Contains information about a validation exception field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message of the exception field.
         /// This member is required.
         public var message: Swift.String?

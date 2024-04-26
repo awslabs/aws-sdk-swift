@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -117,7 +117,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -175,7 +175,7 @@ extension InvokeModelInput {
     }
 }
 
-public struct InvokeModelInput: Swift.Equatable {
+public struct InvokeModelInput {
     /// The desired MIME type of the inference body in the response. The default value is application/json.
     public var accept: Swift.String?
     /// Input data in the format specified in the content-type request header. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
@@ -201,7 +201,7 @@ public struct InvokeModelInput: Swift.Equatable {
     }
 }
 
-struct InvokeModelInputBody: Swift.Equatable {
+struct InvokeModelInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -240,7 +240,7 @@ extension InvokeModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeModelOutput: Swift.Equatable {
+public struct InvokeModelOutput {
     /// Inference response from the model in the format specified in the content-type header field. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -258,7 +258,7 @@ public struct InvokeModelOutput: Swift.Equatable {
     }
 }
 
-struct InvokeModelOutputBody: Swift.Equatable {
+struct InvokeModelOutputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -335,7 +335,7 @@ extension InvokeModelWithResponseStreamInput {
     }
 }
 
-public struct InvokeModelWithResponseStreamInput: Swift.Equatable {
+public struct InvokeModelWithResponseStreamInput {
     /// The desired MIME type of the inference body in the response. The default value is application/json.
     public var accept: Swift.String?
     /// Inference input in the format specified by the content-type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
@@ -361,7 +361,7 @@ public struct InvokeModelWithResponseStreamInput: Swift.Equatable {
     }
 }
 
-struct InvokeModelWithResponseStreamInputBody: Swift.Equatable {
+struct InvokeModelWithResponseStreamInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -394,7 +394,7 @@ extension InvokeModelWithResponseStreamOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct InvokeModelWithResponseStreamOutput: Swift.Equatable {
+public struct InvokeModelWithResponseStreamOutput {
     /// Inference response from the model in the format specified by Content-Type. To see the format and content of this field for different models, refer to [Inference parameters](https://docs.aws.amazon.com/bedrock/latest/userguide/model-parameters.html).
     /// This member is required.
     public var body: AsyncThrowingStream<BedrockRuntimeClientTypes.ResponseStream, Swift.Error>?
@@ -483,7 +483,7 @@ public struct ModelErrorException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ModelErrorExceptionBody: Swift.Equatable {
+struct ModelErrorExceptionBody {
     let message: Swift.String?
     let originalStatusCode: Swift.Int?
     let resourceName: Swift.String?
@@ -546,7 +546,7 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ModelNotReadyExceptionBody: Swift.Equatable {
+struct ModelNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -644,7 +644,7 @@ public struct ModelStreamErrorException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ModelStreamErrorExceptionBody: Swift.Equatable {
+struct ModelStreamErrorExceptionBody {
     let message: Swift.String?
     let originalStatusCode: Swift.Int?
     let originalMessage: Swift.String?
@@ -726,7 +726,7 @@ public struct ModelTimeoutException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ModelTimeoutExceptionBody: Swift.Equatable {
+struct ModelTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -769,7 +769,7 @@ extension BedrockRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringConverti
 
 extension BedrockRuntimeClientTypes {
     /// Payload content included in the response.
-    public struct PayloadPart: Swift.Equatable {
+    public struct PayloadPart {
         /// Base64-encoded bytes of payload data.
         public var bytes: ClientRuntime.Data?
 
@@ -822,7 +822,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -879,7 +879,7 @@ extension BedrockRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUnmarsh
 
 extension BedrockRuntimeClientTypes {
     /// Definition of content in the response stream.
-    public enum ResponseStream: Swift.Equatable {
+    public enum ResponseStream {
         /// Content included in the response.
         case chunk(BedrockRuntimeClientTypes.PayloadPart)
         case sdkUnknown(Swift.String)
@@ -926,7 +926,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1000,7 +1000,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1074,7 +1074,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

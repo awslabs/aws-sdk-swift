@@ -23,7 +23,7 @@ extension SyntheticsClientTypes.ArtifactConfigInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
-    public struct ArtifactConfigInput: Swift.Equatable {
+    public struct ArtifactConfigInput {
         /// A structure that contains the configuration of the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3. Artifact encryption functionality is available only for canaries that use Synthetics runtime version syn-nodejs-puppeteer-3.3 or later. For more information, see [Encrypting canary artifacts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_artifact_encryption.html)
         public var s3Encryption: SyntheticsClientTypes.S3EncryptionConfig?
 
@@ -58,7 +58,7 @@ extension SyntheticsClientTypes.ArtifactConfigOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
-    public struct ArtifactConfigOutput: Swift.Equatable {
+    public struct ArtifactConfigOutput {
         /// A structure that contains the configuration of encryption settings for canary artifacts that are stored in Amazon S3.
         public var s3Encryption: SyntheticsClientTypes.S3EncryptionConfig?
 
@@ -95,7 +95,7 @@ extension AssociateResourceInput {
     }
 }
 
-public struct AssociateResourceInput: Swift.Equatable {
+public struct AssociateResourceInput {
     /// Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier.
     /// This member is required.
     public var groupIdentifier: Swift.String?
@@ -113,7 +113,7 @@ public struct AssociateResourceInput: Swift.Equatable {
     }
 }
 
-struct AssociateResourceInputBody: Swift.Equatable {
+struct AssociateResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -134,7 +134,7 @@ extension AssociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateResourceOutput: Swift.Equatable {
+public struct AssociateResourceOutput {
 
     public init() { }
 }
@@ -193,7 +193,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -248,7 +248,7 @@ extension SyntheticsClientTypes.BaseScreenshot: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure representing a screenshot that is used as a baseline during visual monitoring comparisons made by the canary.
-    public struct BaseScreenshot: Swift.Equatable {
+    public struct BaseScreenshot {
         /// Coordinates that define the part of a screen to ignore during screenshot comparisons. To obtain the coordinates to use here, use the CloudWatch console to draw the boundaries on the screen. For more information, see [ Editing or deleting a canary](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/synthetics_canaries_deletion.html)
         public var ignoreCoordinates: [Swift.String]?
         /// The name of the screenshot. This is generated the first time the canary is run after the UpdateCanary operation that specified for this canary to perform visual monitoring.
@@ -396,7 +396,7 @@ extension SyntheticsClientTypes.Canary: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains all information about one canary in your account.
-    public struct Canary: Swift.Equatable {
+    public struct Canary {
         /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
         public var artifactConfig: SyntheticsClientTypes.ArtifactConfigOutput?
         /// The location in Amazon S3 where Synthetics stores artifacts from the runs of this canary. Artifacts include the log file, screenshots, and HAR files.
@@ -519,7 +519,7 @@ extension SyntheticsClientTypes.CanaryCodeInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// Use this structure to input your script code for the canary. This structure contains the Lambda handler with the location where the canary should start running the script. If the script is stored in an S3 bucket, the bucket name, key, and version are also included. If the script was passed into the canary directly, the script code is contained in the value of Zipfile.
-    public struct CanaryCodeInput: Swift.Equatable {
+    public struct CanaryCodeInput {
         /// The entry point to use for the source code when running the canary. For canaries that use the syn-python-selenium-1.0 runtime or a syn-nodejs.puppeteer runtime earlier than syn-nodejs.puppeteer-3.4, the handler must be specified as  fileName.handler. For syn-python-selenium-1.1, syn-nodejs.puppeteer-3.4, and later runtimes, the handler can be specified as  fileName.functionName , or you can specify a folder where canary scripts reside as  folder/fileName.functionName .
         /// This member is required.
         public var handler: Swift.String?
@@ -577,7 +577,7 @@ extension SyntheticsClientTypes.CanaryCodeOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains information about the canary's Lambda handler and where its code is stored by CloudWatch Synthetics.
-    public struct CanaryCodeOutput: Swift.Equatable {
+    public struct CanaryCodeOutput {
         /// The entry point to use for the source code when running the canary.
         public var handler: Swift.String?
         /// The ARN of the Lambda layer where Synthetics stores the canary script code.
@@ -622,7 +622,7 @@ extension SyntheticsClientTypes.CanaryLastRun: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains information about the most recent run of a single canary.
-    public struct CanaryLastRun: Swift.Equatable {
+    public struct CanaryLastRun {
         /// The name of the canary.
         public var canaryName: Swift.String?
         /// The results from this canary's most recent run.
@@ -685,7 +685,7 @@ extension SyntheticsClientTypes.CanaryRun: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains the details about one run of one canary.
-    public struct CanaryRun: Swift.Equatable {
+    public struct CanaryRun {
         /// The location where the canary stored artifacts from the run. Artifacts include the log file, screenshots, and HAR files.
         public var artifactS3Location: Swift.String?
         /// A unique ID that identifies this canary run.
@@ -766,7 +766,7 @@ extension SyntheticsClientTypes.CanaryRunConfigInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains input information for a canary run.
-    public struct CanaryRunConfigInput: Swift.Equatable {
+    public struct CanaryRunConfigInput {
         /// Specifies whether this canary is to use active X-Ray tracing when it runs. Active tracing enables this canary run to be displayed in the ServiceLens and X-Ray service maps even if the canary does not hit an endpoint that has X-Ray tracing enabled. Using X-Ray tracing incurs charges. For more information, see [ Canaries and X-Ray tracing](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_tracing.html). You can enable active tracing only for canaries that use version syn-nodejs-2.0 or later for their canary runtime.
         public var activeTracing: Swift.Bool?
         /// Specifies the keys and values to use for any environment variables used in the canary script. Use the following format: { "key1" : "value1", "key2" : "value2", ...} Keys must start with a letter and be at least two characters. The total size of your environment variables cannot exceed 4 KB. You can't specify any Lambda reserved environment variables as the keys for your environment variables. For more information about reserved keys, see [ Runtime environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html#configuration-envvars-runtime). The environment variables keys and values are not encrypted. Do not store sensitive information in this field.
@@ -825,7 +825,7 @@ extension SyntheticsClientTypes.CanaryRunConfigOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains information about a canary run.
-    public struct CanaryRunConfigOutput: Swift.Equatable {
+    public struct CanaryRunConfigOutput {
         /// Displays whether this canary run used active X-Ray tracing.
         public var activeTracing: Swift.Bool?
         /// The maximum amount of memory available to the canary while it is running, in MB. This value must be a multiple of 64.
@@ -947,7 +947,7 @@ extension SyntheticsClientTypes.CanaryRunStatus: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains the status information about a canary run.
-    public struct CanaryRunStatus: Swift.Equatable {
+    public struct CanaryRunStatus {
         /// The current state of the run.
         public var state: SyntheticsClientTypes.CanaryRunState?
         /// If run of the canary failed, this field contains the reason for the error.
@@ -996,7 +996,7 @@ extension SyntheticsClientTypes.CanaryRunTimeline: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains the start and end times of a single canary run.
-    public struct CanaryRunTimeline: Swift.Equatable {
+    public struct CanaryRunTimeline {
         /// The end time of the run.
         public var completed: ClientRuntime.Date?
         /// The start time of the run.
@@ -1041,7 +1041,7 @@ extension SyntheticsClientTypes.CanaryScheduleInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure specifies how often a canary is to make runs and the date and time when it should stop making runs.
-    public struct CanaryScheduleInput: Swift.Equatable {
+    public struct CanaryScheduleInput {
         /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value. If you specify 0, the canary continues making runs until you stop it. If you omit this field, the default of 0 is used.
         public var durationInSeconds: Swift.Int?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. You can't schedule a canary to wait for more than a year before running. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
@@ -1087,7 +1087,7 @@ extension SyntheticsClientTypes.CanaryScheduleOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// How long, in seconds, for the canary to continue making regular runs according to the schedule in the Expression value.
-    public struct CanaryScheduleOutput: Swift.Equatable {
+    public struct CanaryScheduleOutput {
         /// How long, in seconds, for the canary to continue making regular runs after it was created. The runs are performed according to the schedule in the Expression value.
         public var durationInSeconds: Swift.Int?
         /// A rate expression or a cron expression that defines how often the canary is to run. For a rate expression, The syntax is rate(number unit). unit can be minute, minutes, or hour. For example, rate(1 minute) runs the canary once a minute, rate(10 minutes) runs it once every 10 minutes, and rate(1 hour) runs it once every hour. You can specify a frequency between rate(1 minute) and rate(1 hour). Specifying rate(0 minute) or rate(0 hour) is a special value that causes the canary to run only once when it is started. Use cron(expression) to specify a cron expression. For information about the syntax for cron expressions, see [ Scheduling canary runs using cron](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_cron.html).
@@ -1253,7 +1253,7 @@ extension SyntheticsClientTypes.CanaryStatus: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains the current state of the canary.
-    public struct CanaryStatus: Swift.Equatable {
+    public struct CanaryStatus {
         /// The current state of the canary.
         public var state: SyntheticsClientTypes.CanaryState?
         /// If the canary has insufficient permissions to run, this field provides more details.
@@ -1314,7 +1314,7 @@ extension SyntheticsClientTypes.CanaryTimeline: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains information about when the canary was created and modified.
-    public struct CanaryTimeline: Swift.Equatable {
+    public struct CanaryTimeline {
         /// The date and time the canary was created.
         public var created: ClientRuntime.Date?
         /// The date and time the canary was most recently modified.
@@ -1379,7 +1379,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1462,7 +1462,7 @@ extension CreateCanaryInput {
     }
 }
 
-public struct CreateCanaryInput: Swift.Equatable {
+public struct CreateCanaryInput {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
@@ -1538,7 +1538,7 @@ public struct CreateCanaryInput: Swift.Equatable {
     }
 }
 
-struct CreateCanaryInputBody: Swift.Equatable {
+struct CreateCanaryInputBody {
     let name: Swift.String?
     let code: SyntheticsClientTypes.CanaryCodeInput?
     let artifactS3Location: Swift.String?
@@ -1619,7 +1619,7 @@ extension CreateCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCanaryOutput: Swift.Equatable {
+public struct CreateCanaryOutput {
     /// The full details about the canary you have created.
     public var canary: SyntheticsClientTypes.Canary?
 
@@ -1631,7 +1631,7 @@ public struct CreateCanaryOutput: Swift.Equatable {
     }
 }
 
-struct CreateCanaryOutputBody: Swift.Equatable {
+struct CreateCanaryOutputBody {
     let canary: SyntheticsClientTypes.Canary?
 }
 
@@ -1687,7 +1687,7 @@ extension CreateGroupInput {
     }
 }
 
-public struct CreateGroupInput: Swift.Equatable {
+public struct CreateGroupInput {
     /// The name for the group. It can include any Unicode characters. The names for all groups in your account, across all Regions, must be unique.
     /// This member is required.
     public var name: Swift.String?
@@ -1704,7 +1704,7 @@ public struct CreateGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateGroupInputBody: Swift.Equatable {
+struct CreateGroupInputBody {
     let name: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -1745,7 +1745,7 @@ extension CreateGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateGroupOutput: Swift.Equatable {
+public struct CreateGroupOutput {
     /// A structure that contains information about the group that was just created.
     public var group: SyntheticsClientTypes.Group?
 
@@ -1757,7 +1757,7 @@ public struct CreateGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateGroupOutputBody: Swift.Equatable {
+struct CreateGroupOutputBody {
     let group: SyntheticsClientTypes.Group?
 }
 
@@ -1809,7 +1809,7 @@ extension DeleteCanaryInput {
     }
 }
 
-public struct DeleteCanaryInput: Swift.Equatable {
+public struct DeleteCanaryInput {
     /// Specifies whether to also delete the Lambda functions and layers used by this canary. The default is false. Type: Boolean
     public var deleteLambda: Swift.Bool?
     /// The name of the canary that you want to delete. To find the names of your canaries, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
@@ -1826,7 +1826,7 @@ public struct DeleteCanaryInput: Swift.Equatable {
     }
 }
 
-struct DeleteCanaryInputBody: Swift.Equatable {
+struct DeleteCanaryInputBody {
 }
 
 extension DeleteCanaryInputBody: Swift.Decodable {
@@ -1840,7 +1840,7 @@ extension DeleteCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCanaryOutput: Swift.Equatable {
+public struct DeleteCanaryOutput {
 
     public init() { }
 }
@@ -1869,7 +1869,7 @@ extension DeleteGroupInput {
     }
 }
 
-public struct DeleteGroupInput: Swift.Equatable {
+public struct DeleteGroupInput {
     /// Specifies which group to delete. You can specify the group name, the ARN, or the group ID as the GroupIdentifier.
     /// This member is required.
     public var groupIdentifier: Swift.String?
@@ -1882,7 +1882,7 @@ public struct DeleteGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteGroupInputBody: Swift.Equatable {
+struct DeleteGroupInputBody {
 }
 
 extension DeleteGroupInputBody: Swift.Decodable {
@@ -1896,7 +1896,7 @@ extension DeleteGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGroupOutput: Swift.Equatable {
+public struct DeleteGroupOutput {
 
     public init() { }
 }
@@ -1946,7 +1946,7 @@ extension DescribeCanariesInput {
     }
 }
 
-public struct DescribeCanariesInput: Swift.Equatable {
+public struct DescribeCanariesInput {
     /// Specify this parameter to limit how many canaries are returned each time you use the DescribeCanaries operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use this parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
@@ -1966,7 +1966,7 @@ public struct DescribeCanariesInput: Swift.Equatable {
     }
 }
 
-struct DescribeCanariesInputBody: Swift.Equatable {
+struct DescribeCanariesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let names: [Swift.String]?
@@ -2030,7 +2030,7 @@ extension DescribeCanariesLastRunInput {
     }
 }
 
-public struct DescribeCanariesLastRunInput: Swift.Equatable {
+public struct DescribeCanariesLastRunInput {
     /// Specify this parameter to limit how many runs are returned each time you use the DescribeLastRun operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// Use this parameter to return only canaries that match the names that you specify here. You can specify as many as five canary names. If you specify this parameter, the operation is successful only if you have authorization to view all the canaries that you specify in your request. If you do not have permission to view any of the canaries, the request fails with a 403 response. You are required to use the Names parameter if you are logged on to a user or role that has an IAM policy that restricts which canaries that you are allowed to view. For more information, see [ Limiting a user to viewing specific canaries](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Restricted.html).
@@ -2050,7 +2050,7 @@ public struct DescribeCanariesLastRunInput: Swift.Equatable {
     }
 }
 
-struct DescribeCanariesLastRunInputBody: Swift.Equatable {
+struct DescribeCanariesLastRunInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let names: [Swift.String]?
@@ -2097,7 +2097,7 @@ extension DescribeCanariesLastRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCanariesLastRunOutput: Swift.Equatable {
+public struct DescribeCanariesLastRunOutput {
     /// An array that contains the information from the most recent run of each canary.
     public var canariesLastRun: [SyntheticsClientTypes.CanaryLastRun]?
     /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanariesLastRun operation to retrieve the next set of results.
@@ -2113,7 +2113,7 @@ public struct DescribeCanariesLastRunOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCanariesLastRunOutputBody: Swift.Equatable {
+struct DescribeCanariesLastRunOutputBody {
     let canariesLastRun: [SyntheticsClientTypes.CanaryLastRun]?
     let nextToken: Swift.String?
 }
@@ -2168,7 +2168,7 @@ extension DescribeCanariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCanariesOutput: Swift.Equatable {
+public struct DescribeCanariesOutput {
     /// Returns an array. Each item in the array contains the full information about one canary.
     public var canaries: [SyntheticsClientTypes.Canary]?
     /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeCanaries operation to retrieve the next set of results.
@@ -2184,7 +2184,7 @@ public struct DescribeCanariesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCanariesOutputBody: Swift.Equatable {
+struct DescribeCanariesOutputBody {
     let canaries: [SyntheticsClientTypes.Canary]?
     let nextToken: Swift.String?
 }
@@ -2249,7 +2249,7 @@ extension DescribeRuntimeVersionsInput {
     }
 }
 
-public struct DescribeRuntimeVersionsInput: Swift.Equatable {
+public struct DescribeRuntimeVersionsInput {
     /// Specify this parameter to limit how many runs are returned each time you use the DescribeRuntimeVersions operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
@@ -2265,7 +2265,7 @@ public struct DescribeRuntimeVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRuntimeVersionsInputBody: Swift.Equatable {
+struct DescribeRuntimeVersionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2299,7 +2299,7 @@ extension DescribeRuntimeVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRuntimeVersionsOutput: Swift.Equatable {
+public struct DescribeRuntimeVersionsOutput {
     /// A token that indicates that there is more data available. You can use this token in a subsequent DescribeRuntimeVersions operation to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An array of objects that display the details about each Synthetics canary runtime version.
@@ -2315,7 +2315,7 @@ public struct DescribeRuntimeVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRuntimeVersionsOutputBody: Swift.Equatable {
+struct DescribeRuntimeVersionsOutputBody {
     let runtimeVersions: [SyntheticsClientTypes.RuntimeVersion]?
     let nextToken: Swift.String?
 }
@@ -2379,7 +2379,7 @@ extension DisassociateResourceInput {
     }
 }
 
-public struct DisassociateResourceInput: Swift.Equatable {
+public struct DisassociateResourceInput {
     /// Specifies the group. You can specify the group name, the ARN, or the group ID as the GroupIdentifier.
     /// This member is required.
     public var groupIdentifier: Swift.String?
@@ -2397,7 +2397,7 @@ public struct DisassociateResourceInput: Swift.Equatable {
     }
 }
 
-struct DisassociateResourceInputBody: Swift.Equatable {
+struct DisassociateResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2418,7 +2418,7 @@ extension DisassociateResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateResourceOutput: Swift.Equatable {
+public struct DisassociateResourceOutput {
 
     public init() { }
 }
@@ -2479,7 +2479,7 @@ extension GetCanaryInput {
     }
 }
 
-public struct GetCanaryInput: Swift.Equatable {
+public struct GetCanaryInput {
     /// The name of the canary that you want details for.
     /// This member is required.
     public var name: Swift.String?
@@ -2492,7 +2492,7 @@ public struct GetCanaryInput: Swift.Equatable {
     }
 }
 
-struct GetCanaryInputBody: Swift.Equatable {
+struct GetCanaryInputBody {
 }
 
 extension GetCanaryInputBody: Swift.Decodable {
@@ -2513,7 +2513,7 @@ extension GetCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCanaryOutput: Swift.Equatable {
+public struct GetCanaryOutput {
     /// A structure that contains the full information about the canary.
     public var canary: SyntheticsClientTypes.Canary?
 
@@ -2525,7 +2525,7 @@ public struct GetCanaryOutput: Swift.Equatable {
     }
 }
 
-struct GetCanaryOutputBody: Swift.Equatable {
+struct GetCanaryOutputBody {
     let canary: SyntheticsClientTypes.Canary?
 }
 
@@ -2580,7 +2580,7 @@ extension GetCanaryRunsInput {
     }
 }
 
-public struct GetCanaryRunsInput: Swift.Equatable {
+public struct GetCanaryRunsInput {
     /// Specify this parameter to limit how many runs are returned each time you use the GetCanaryRuns operation. If you omit this parameter, the default of 100 is used.
     public var maxResults: Swift.Int?
     /// The name of the canary that you want to see runs for.
@@ -2601,7 +2601,7 @@ public struct GetCanaryRunsInput: Swift.Equatable {
     }
 }
 
-struct GetCanaryRunsInputBody: Swift.Equatable {
+struct GetCanaryRunsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2635,7 +2635,7 @@ extension GetCanaryRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCanaryRunsOutput: Swift.Equatable {
+public struct GetCanaryRunsOutput {
     /// An array of structures. Each structure contains the details of one of the retrieved canary runs.
     public var canaryRuns: [SyntheticsClientTypes.CanaryRun]?
     /// A token that indicates that there is more data available. You can use this token in a subsequent GetCanaryRuns operation to retrieve the next set of results.
@@ -2651,7 +2651,7 @@ public struct GetCanaryRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetCanaryRunsOutputBody: Swift.Equatable {
+struct GetCanaryRunsOutputBody {
     let canaryRuns: [SyntheticsClientTypes.CanaryRun]?
     let nextToken: Swift.String?
 }
@@ -2703,7 +2703,7 @@ extension GetGroupInput {
     }
 }
 
-public struct GetGroupInput: Swift.Equatable {
+public struct GetGroupInput {
     /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier.
     /// This member is required.
     public var groupIdentifier: Swift.String?
@@ -2716,7 +2716,7 @@ public struct GetGroupInput: Swift.Equatable {
     }
 }
 
-struct GetGroupInputBody: Swift.Equatable {
+struct GetGroupInputBody {
 }
 
 extension GetGroupInputBody: Swift.Decodable {
@@ -2737,7 +2737,7 @@ extension GetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGroupOutput: Swift.Equatable {
+public struct GetGroupOutput {
     /// A structure that contains information about the group.
     public var group: SyntheticsClientTypes.Group?
 
@@ -2749,7 +2749,7 @@ public struct GetGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetGroupOutputBody: Swift.Equatable {
+struct GetGroupOutputBody {
     let group: SyntheticsClientTypes.Group?
 }
 
@@ -2842,7 +2842,7 @@ extension SyntheticsClientTypes.Group: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains information about one group.
-    public struct Group: Swift.Equatable {
+    public struct Group {
         /// The ARN of the group.
         public var arn: Swift.String?
         /// The date and time that the group was created.
@@ -2909,7 +2909,7 @@ extension SyntheticsClientTypes.GroupSummary: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure containing some information about a group.
-    public struct GroupSummary: Swift.Equatable {
+    public struct GroupSummary {
         /// The ARN of the group.
         public var arn: Swift.String?
         /// The unique ID of the group.
@@ -2970,7 +2970,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -3025,7 +3025,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3068,7 +3068,7 @@ extension ListAssociatedGroupsInput {
     }
 }
 
-public struct ListAssociatedGroupsInput: Swift.Equatable {
+public struct ListAssociatedGroupsInput {
     /// Specify this parameter to limit how many groups are returned each time you use the ListAssociatedGroups operation. If you omit this parameter, the default of 20 is used.
     public var maxResults: Swift.Int?
     /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results.
@@ -3089,7 +3089,7 @@ public struct ListAssociatedGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedGroupsInputBody: Swift.Equatable {
+struct ListAssociatedGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3123,7 +3123,7 @@ extension ListAssociatedGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedGroupsOutput: Swift.Equatable {
+public struct ListAssociatedGroupsOutput {
     /// An array of structures that contain information about the groups that this canary is associated with.
     public var groups: [SyntheticsClientTypes.GroupSummary]?
     /// A token that indicates that there is more data available. You can use this token in a subsequent ListAssociatedGroups operation to retrieve the next set of results.
@@ -3139,7 +3139,7 @@ public struct ListAssociatedGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedGroupsOutputBody: Swift.Equatable {
+struct ListAssociatedGroupsOutputBody {
     let groups: [SyntheticsClientTypes.GroupSummary]?
     let nextToken: Swift.String?
 }
@@ -3208,7 +3208,7 @@ extension ListGroupResourcesInput {
     }
 }
 
-public struct ListGroupResourcesInput: Swift.Equatable {
+public struct ListGroupResourcesInput {
     /// Specifies the group to return information for. You can specify the group name, the ARN, or the group ID as the GroupIdentifier.
     /// This member is required.
     public var groupIdentifier: Swift.String?
@@ -3229,7 +3229,7 @@ public struct ListGroupResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListGroupResourcesInputBody: Swift.Equatable {
+struct ListGroupResourcesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3263,7 +3263,7 @@ extension ListGroupResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupResourcesOutput: Swift.Equatable {
+public struct ListGroupResourcesOutput {
     /// A token that indicates that there is more data available. You can use this token in a subsequent ListGroupResources operation to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// An array of ARNs. These ARNs are for the canaries that are associated with the group.
@@ -3279,7 +3279,7 @@ public struct ListGroupResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupResourcesOutputBody: Swift.Equatable {
+struct ListGroupResourcesOutputBody {
     let resources: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -3346,7 +3346,7 @@ extension ListGroupsInput {
     }
 }
 
-public struct ListGroupsInput: Swift.Equatable {
+public struct ListGroupsInput {
     /// Specify this parameter to limit how many groups are returned each time you use the ListGroups operation. If you omit this parameter, the default of 20 is used.
     public var maxResults: Swift.Int?
     /// A token that indicates that there is more data available. You can use this token in a subsequent operation to retrieve the next set of results.
@@ -3362,7 +3362,7 @@ public struct ListGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListGroupsInputBody: Swift.Equatable {
+struct ListGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -3396,7 +3396,7 @@ extension ListGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListGroupsOutput: Swift.Equatable {
+public struct ListGroupsOutput {
     /// An array of structures that each contain information about one group.
     public var groups: [SyntheticsClientTypes.GroupSummary]?
     /// A token that indicates that there is more data available. You can use this token in a subsequent ListGroups operation to retrieve the next set of results.
@@ -3412,7 +3412,7 @@ public struct ListGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroupsOutputBody: Swift.Equatable {
+struct ListGroupsOutputBody {
     let groups: [SyntheticsClientTypes.GroupSummary]?
     let nextToken: Swift.String?
 }
@@ -3463,7 +3463,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the canary or group that you want to view tags for. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3476,7 +3476,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3497,7 +3497,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tag keys and values associated with the resource that you specified.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3509,7 +3509,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3588,7 +3588,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3643,7 +3643,7 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct RequestEntityTooLargeExceptionBody: Swift.Equatable {
+struct RequestEntityTooLargeExceptionBody {
     let message: Swift.String?
 }
 
@@ -3698,7 +3698,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3753,7 +3753,7 @@ extension SyntheticsClientTypes.RuntimeVersion: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// This structure contains information about one canary runtime version. For more information about runtime versions, see [ Canary Runtime Versions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Library.html).
-    public struct RuntimeVersion: Swift.Equatable {
+    public struct RuntimeVersion {
         /// If this runtime version is deprecated, this value is the date of deprecation.
         public var deprecationDate: ClientRuntime.Date?
         /// A description of the runtime version, created by Amazon.
@@ -3806,7 +3806,7 @@ extension SyntheticsClientTypes.S3EncryptionConfig: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// A structure that contains the configuration of encryption-at-rest settings for canary artifacts that the canary uploads to Amazon S3. For more information, see [Encrypting canary artifacts](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_artifact_encryption.html)
-    public struct S3EncryptionConfig: Swift.Equatable {
+    public struct S3EncryptionConfig {
         /// The encryption method to use for artifacts created by this canary. Specify SSE_S3 to use server-side encryption (SSE) with an Amazon S3-managed key. Specify SSE-KMS to use server-side encryption with a customer-managed KMS key. If you omit this parameter, an Amazon Web Services-managed KMS key is used.
         public var encryptionMode: SyntheticsClientTypes.EncryptionMode?
         /// The ARN of the customer-managed KMS key to use, if you specify SSE-KMS for EncryptionMode
@@ -3863,7 +3863,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3889,7 +3889,7 @@ extension StartCanaryInput {
     }
 }
 
-public struct StartCanaryInput: Swift.Equatable {
+public struct StartCanaryInput {
     /// The name of the canary that you want to run. To find canary names, use [DescribeCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     /// This member is required.
     public var name: Swift.String?
@@ -3902,7 +3902,7 @@ public struct StartCanaryInput: Swift.Equatable {
     }
 }
 
-struct StartCanaryInputBody: Swift.Equatable {
+struct StartCanaryInputBody {
 }
 
 extension StartCanaryInputBody: Swift.Decodable {
@@ -3916,7 +3916,7 @@ extension StartCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCanaryOutput: Swift.Equatable {
+public struct StartCanaryOutput {
 
     public init() { }
 }
@@ -3945,7 +3945,7 @@ extension StopCanaryInput {
     }
 }
 
-public struct StopCanaryInput: Swift.Equatable {
+public struct StopCanaryInput {
     /// The name of the canary that you want to stop. To find the names of your canaries, use [ListCanaries](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_DescribeCanaries.html).
     /// This member is required.
     public var name: Swift.String?
@@ -3958,7 +3958,7 @@ public struct StopCanaryInput: Swift.Equatable {
     }
 }
 
-struct StopCanaryInputBody: Swift.Equatable {
+struct StopCanaryInputBody {
 }
 
 extension StopCanaryInputBody: Swift.Decodable {
@@ -3972,7 +3972,7 @@ extension StopCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopCanaryOutput: Swift.Equatable {
+public struct StopCanaryOutput {
 
     public init() { }
 }
@@ -4019,7 +4019,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the canary or group that you're adding tags to. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4037,7 +4037,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4067,7 +4067,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4126,7 +4126,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4168,7 +4168,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the canary or group that you're removing tags from. The ARN format of a canary is arn:aws:synthetics:Region:account-id:canary:canary-name . The ARN format of a group is arn:aws:synthetics:Region:account-id:group:group-name
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4186,7 +4186,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4200,7 +4200,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4283,7 +4283,7 @@ extension UpdateCanaryInput {
     }
 }
 
-public struct UpdateCanaryInput: Swift.Equatable {
+public struct UpdateCanaryInput {
     /// A structure that contains the configuration for canary artifacts, including the encryption-at-rest settings for artifacts that the canary uploads to Amazon S3.
     public var artifactConfig: SyntheticsClientTypes.ArtifactConfigInput?
     /// The location in Amazon S3 where Synthetics stores artifacts from the test runs of this canary. Artifacts include the log file, screenshots, and HAR files. The name of the S3 bucket can't include a period (.).
@@ -4354,7 +4354,7 @@ public struct UpdateCanaryInput: Swift.Equatable {
     }
 }
 
-struct UpdateCanaryInputBody: Swift.Equatable {
+struct UpdateCanaryInputBody {
     let code: SyntheticsClientTypes.CanaryCodeInput?
     let executionRoleArn: Swift.String?
     let runtimeVersion: Swift.String?
@@ -4415,7 +4415,7 @@ extension UpdateCanaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCanaryOutput: Swift.Equatable {
+public struct UpdateCanaryOutput {
 
     public init() { }
 }
@@ -4474,7 +4474,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4529,7 +4529,7 @@ extension SyntheticsClientTypes.VisualReferenceInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// An object that specifies what screenshots to use as a baseline for visual monitoring by this canary. It can optionally also specify parts of the screenshots to ignore during the visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later. For more information, see [ Visual monitoring](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Library_SyntheticsLogger_VisualTesting.html) and [ Visual monitoring blueprint](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_Blueprints_VisualTesting.html)
-    public struct VisualReferenceInput: Swift.Equatable {
+    public struct VisualReferenceInput {
         /// Specifies which canary run to use the screenshots from as the baseline for future visual monitoring with this canary. Valid values are nextrun to use the screenshots from the next run after this update is made, lastrun to use the screenshots from the most recent run before this update was made, or the value of Id in the [ CanaryRun](https://docs.aws.amazon.com/AmazonSynthetics/latest/APIReference/API_CanaryRun.html) from any past run of this canary.
         /// This member is required.
         public var baseCanaryRunId: Swift.String?
@@ -4587,7 +4587,7 @@ extension SyntheticsClientTypes.VisualReferenceOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// If this canary performs visual monitoring by comparing screenshots, this structure contains the ID of the canary run that is used as the baseline for screenshots, and the coordinates of any parts of those screenshots that are ignored during visual monitoring comparison. Visual monitoring is supported only on canaries running the syn-puppeteer-node-3.2 runtime or later.
-    public struct VisualReferenceOutput: Swift.Equatable {
+    public struct VisualReferenceOutput {
         /// The ID of the canary run that produced the baseline screenshots that are used for visual monitoring comparisons by this canary.
         public var baseCanaryRunId: Swift.String?
         /// An array of screenshots that are used as the baseline for comparisons during visual monitoring.
@@ -4656,7 +4656,7 @@ extension SyntheticsClientTypes.VpcConfigInput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
-    public struct VpcConfigInput: Swift.Equatable {
+    public struct VpcConfigInput {
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.
@@ -4731,7 +4731,7 @@ extension SyntheticsClientTypes.VpcConfigOutput: Swift.Codable {
 
 extension SyntheticsClientTypes {
     /// If this canary is to test an endpoint in a VPC, this structure contains information about the subnets and security groups of the VPC endpoint. For more information, see [ Running a Canary in a VPC](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch_Synthetics_Canaries_VPC.html).
-    public struct VpcConfigOutput: Swift.Equatable {
+    public struct VpcConfigOutput {
         /// The IDs of the security groups for this canary.
         public var securityGroupIds: [Swift.String]?
         /// The IDs of the subnets where this canary is to run.

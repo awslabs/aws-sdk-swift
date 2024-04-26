@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -79,7 +79,7 @@ extension CleanRoomsMLClientTypes.AudienceDestination: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Defines the Amazon S3 bucket where the configured audience is stored.
-    public struct AudienceDestination: Swift.Equatable {
+    public struct AudienceDestination {
         /// The Amazon S3 bucket and path for the configured audience.
         /// This member is required.
         public var s3Destination: CleanRoomsMLClientTypes.S3ConfigMap?
@@ -201,7 +201,7 @@ extension CleanRoomsMLClientTypes.AudienceExportJobSummary: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Provides information about the audience export job.
-    public struct AudienceExportJobSummary: Swift.Equatable {
+    public struct AudienceExportJobSummary {
         /// The Amazon Resource Name (ARN) of the audience generation job that was exported.
         /// This member is required.
         public var audienceGenerationJobArn: Swift.String?
@@ -280,7 +280,7 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobDataSource: Swift.Codable
 
 extension CleanRoomsMLClientTypes {
     /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored.
-    public struct AudienceGenerationJobDataSource: Swift.Equatable {
+    public struct AudienceGenerationJobDataSource {
         /// Defines the Amazon S3 bucket where the seed audience for the generating audience is stored. A valid data source is a JSON line file in the following format: {"user_id": "111111"}
         ///     {"user_id": "222222"}
         ///
@@ -420,7 +420,7 @@ extension CleanRoomsMLClientTypes.AudienceGenerationJobSummary: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Provides information about the configured audience generation job.
-    public struct AudienceGenerationJobSummary: Swift.Equatable {
+    public struct AudienceGenerationJobSummary {
         /// The Amazon Resource Name (ARN) of the audience generation job.
         /// This member is required.
         public var audienceGenerationJobArn: Swift.String?
@@ -576,7 +576,7 @@ extension CleanRoomsMLClientTypes.AudienceModelSummary: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Information about the audience model.
-    public struct AudienceModelSummary: Swift.Equatable {
+    public struct AudienceModelSummary {
         /// The Amazon Resource Name (ARN) of the audience model.
         /// This member is required.
         public var audienceModelArn: Swift.String?
@@ -659,7 +659,7 @@ extension CleanRoomsMLClientTypes.AudienceQualityMetrics: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Metrics that describe the quality of the generated audience.
-    public struct AudienceQualityMetrics: Swift.Equatable {
+    public struct AudienceQualityMetrics {
         /// The recall score of the generated audience. Recall is the percentage of the most similar users (by default, the most similar 20%) from a sample of the training data that are included in the seed audience by the audience generation job. Values range from 0-1, larger values indicate a better audience. A recall value approximately equal to the maximum bin size indicates that the audience model is equivalent to random selection.
         public var recallMetric: Swift.Double?
         /// The relevance scores of the generated audience.
@@ -705,7 +705,7 @@ extension CleanRoomsMLClientTypes.AudienceSize: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// The size of the generated audience. Must match one of the sizes in the configured audience model.
-    public struct AudienceSize: Swift.Equatable {
+    public struct AudienceSize {
         /// Whether the audience size is defined in absolute terms or as a percentage. You can use the ABSOLUTE[AudienceSize] to configure out audience sizes using the count of identifiers in the output. You can use the Percentage[AudienceSize] to configure sizes in the range 1-100 percent.
         /// This member is required.
         public var type: CleanRoomsMLClientTypes.AudienceSizeType?
@@ -764,7 +764,7 @@ extension CleanRoomsMLClientTypes.AudienceSizeConfig: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Configure the list of audience output sizes that can be created. A request to [StartAudienceGenerationJob] that uses this configured audience model must have an audienceSize selected from this list. You can use the ABSOLUTE[AudienceSize] to configure out audience sizes using the count of identifiers in the output. You can use the Percentage[AudienceSize] to configure sizes in the range 1-100 percent.
-    public struct AudienceSizeConfig: Swift.Equatable {
+    public struct AudienceSizeConfig {
         /// An array of the different audience output sizes.
         /// This member is required.
         public var audienceSizeBins: [Swift.Int]?
@@ -857,7 +857,7 @@ extension CleanRoomsMLClientTypes.ColumnSchema: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Metadata for a column.
-    public struct ColumnSchema: Swift.Equatable {
+    public struct ColumnSchema {
         /// The name of a column.
         /// This member is required.
         public var columnName: Swift.String?
@@ -945,7 +945,7 @@ extension CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig: Swift.Cod
 
 extension CleanRoomsMLClientTypes {
     /// Configuration information necessary for the configure audience model output.
-    public struct ConfiguredAudienceModelOutputConfig: Swift.Equatable {
+    public struct ConfiguredAudienceModelOutputConfig {
         /// Defines the Amazon S3 bucket where the configured audience is stored.
         /// This member is required.
         public var destination: CleanRoomsMLClientTypes.AudienceDestination?
@@ -1057,7 +1057,7 @@ extension CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary: Swift.Codable 
 
 extension CleanRoomsMLClientTypes {
     /// Information about the configured audience model.
-    public struct ConfiguredAudienceModelSummary: Swift.Equatable {
+    public struct ConfiguredAudienceModelSummary {
         /// The Amazon Resource Name (ARN) of the audience model that was used to create the configured audience model.
         /// This member is required.
         public var audienceModelArn: Swift.String?
@@ -1146,7 +1146,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1209,7 +1209,7 @@ extension CreateAudienceModelInput {
     }
 }
 
-public struct CreateAudienceModelInput: Swift.Equatable {
+public struct CreateAudienceModelInput {
     /// The description of the audience model.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) of the KMS key. This key is used to encrypt and decrypt customer-owned data in the trained ML model and the associated data.
@@ -1261,7 +1261,7 @@ public struct CreateAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct CreateAudienceModelInputBody: Swift.Equatable {
+struct CreateAudienceModelInputBody {
     let trainingDataStartTime: ClientRuntime.Date?
     let trainingDataEndTime: ClientRuntime.Date?
     let name: Swift.String?
@@ -1322,7 +1322,7 @@ extension CreateAudienceModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAudienceModelOutput: Swift.Equatable {
+public struct CreateAudienceModelOutput {
     /// The Amazon Resource Name (ARN) of the audience model.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -1335,7 +1335,7 @@ public struct CreateAudienceModelOutput: Swift.Equatable {
     }
 }
 
-struct CreateAudienceModelOutputBody: Swift.Equatable {
+struct CreateAudienceModelOutputBody {
     let audienceModelArn: Swift.String?
 }
 
@@ -1424,7 +1424,7 @@ extension CreateConfiguredAudienceModelInput {
     }
 }
 
-public struct CreateConfiguredAudienceModelInput: Swift.Equatable {
+public struct CreateConfiguredAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the audience model to use for the configured audience model.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -1486,7 +1486,7 @@ public struct CreateConfiguredAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredAudienceModelInputBody: Swift.Equatable {
+struct CreateConfiguredAudienceModelInputBody {
     let name: Swift.String?
     let audienceModelArn: Swift.String?
     let outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig?
@@ -1564,7 +1564,7 @@ extension CreateConfiguredAudienceModelOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateConfiguredAudienceModelOutput: Swift.Equatable {
+public struct CreateConfiguredAudienceModelOutput {
     /// The Amazon Resource Name (ARN) of the configured audience model.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -1577,7 +1577,7 @@ public struct CreateConfiguredAudienceModelOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfiguredAudienceModelOutputBody: Swift.Equatable {
+struct CreateConfiguredAudienceModelOutputBody {
     let configuredAudienceModelArn: Swift.String?
 }
 
@@ -1650,7 +1650,7 @@ extension CreateTrainingDatasetInput {
     }
 }
 
-public struct CreateTrainingDatasetInput: Swift.Equatable {
+public struct CreateTrainingDatasetInput {
     /// The description of the training dataset.
     public var description: Swift.String?
     /// The name of the training dataset. This name must be unique in your account and region.
@@ -1695,7 +1695,7 @@ public struct CreateTrainingDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateTrainingDatasetInputBody: Swift.Equatable {
+struct CreateTrainingDatasetInputBody {
     let name: Swift.String?
     let roleArn: Swift.String?
     let trainingData: [CleanRoomsMLClientTypes.Dataset]?
@@ -1757,7 +1757,7 @@ extension CreateTrainingDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTrainingDatasetOutput: Swift.Equatable {
+public struct CreateTrainingDatasetOutput {
     /// The Amazon Resource Name (ARN) of the training dataset resource.
     /// This member is required.
     public var trainingDatasetArn: Swift.String?
@@ -1770,7 +1770,7 @@ public struct CreateTrainingDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateTrainingDatasetOutputBody: Swift.Equatable {
+struct CreateTrainingDatasetOutputBody {
     let trainingDatasetArn: Swift.String?
 }
 
@@ -1820,7 +1820,7 @@ extension CleanRoomsMLClientTypes.DataSource: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Defines information about the Glue data source that contains the training data.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// A GlueDataSource object that defines the catalog ID, database name, and table name for the training data.
         /// This member is required.
         public var glueDataSource: CleanRoomsMLClientTypes.GlueDataSource?
@@ -1862,7 +1862,7 @@ extension CleanRoomsMLClientTypes.Dataset: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Defines where the training dataset is located, what type of data it contains, and how to access the data.
-    public struct Dataset: Swift.Equatable {
+    public struct Dataset {
         /// A DatasetInputConfig object that defines the data source and schema mapping.
         /// This member is required.
         public var inputConfig: CleanRoomsMLClientTypes.DatasetInputConfig?
@@ -1921,7 +1921,7 @@ extension CleanRoomsMLClientTypes.DatasetInputConfig: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Defines the Glue data source and schema mapping information.
-    public struct DatasetInputConfig: Swift.Equatable {
+    public struct DatasetInputConfig {
         /// A DataSource object that specifies the Glue data source for the training data.
         /// This member is required.
         public var dataSource: CleanRoomsMLClientTypes.DataSource?
@@ -1980,7 +1980,7 @@ extension DeleteAudienceGenerationJobInput {
     }
 }
 
-public struct DeleteAudienceGenerationJobInput: Swift.Equatable {
+public struct DeleteAudienceGenerationJobInput {
     /// The Amazon Resource Name (ARN) of the audience generation job that you want to delete.
     /// This member is required.
     public var audienceGenerationJobArn: Swift.String?
@@ -1993,7 +1993,7 @@ public struct DeleteAudienceGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteAudienceGenerationJobInputBody: Swift.Equatable {
+struct DeleteAudienceGenerationJobInputBody {
 }
 
 extension DeleteAudienceGenerationJobInputBody: Swift.Decodable {
@@ -2007,7 +2007,7 @@ extension DeleteAudienceGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAudienceGenerationJobOutput: Swift.Equatable {
+public struct DeleteAudienceGenerationJobOutput {
 
     public init() { }
 }
@@ -2036,7 +2036,7 @@ extension DeleteAudienceModelInput {
     }
 }
 
-public struct DeleteAudienceModelInput: Swift.Equatable {
+public struct DeleteAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the audience model that you want to delete.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -2049,7 +2049,7 @@ public struct DeleteAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteAudienceModelInputBody: Swift.Equatable {
+struct DeleteAudienceModelInputBody {
 }
 
 extension DeleteAudienceModelInputBody: Swift.Decodable {
@@ -2063,7 +2063,7 @@ extension DeleteAudienceModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAudienceModelOutput: Swift.Equatable {
+public struct DeleteAudienceModelOutput {
 
     public init() { }
 }
@@ -2092,7 +2092,7 @@ extension DeleteConfiguredAudienceModelInput {
     }
 }
 
-public struct DeleteConfiguredAudienceModelInput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the configured audience model that you want to delete.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -2105,7 +2105,7 @@ public struct DeleteConfiguredAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredAudienceModelInputBody: Swift.Equatable {
+struct DeleteConfiguredAudienceModelInputBody {
 }
 
 extension DeleteConfiguredAudienceModelInputBody: Swift.Decodable {
@@ -2119,7 +2119,7 @@ extension DeleteConfiguredAudienceModelOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteConfiguredAudienceModelOutput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelOutput {
 
     public init() { }
 }
@@ -2148,7 +2148,7 @@ extension DeleteConfiguredAudienceModelPolicyInput {
     }
 }
 
-public struct DeleteConfiguredAudienceModelPolicyInput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelPolicyInput {
     /// The Amazon Resource Name (ARN) of the configured audience model policy that you want to delete.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -2161,7 +2161,7 @@ public struct DeleteConfiguredAudienceModelPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfiguredAudienceModelPolicyInputBody: Swift.Equatable {
+struct DeleteConfiguredAudienceModelPolicyInputBody {
 }
 
 extension DeleteConfiguredAudienceModelPolicyInputBody: Swift.Decodable {
@@ -2175,7 +2175,7 @@ extension DeleteConfiguredAudienceModelPolicyOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeleteConfiguredAudienceModelPolicyOutput: Swift.Equatable {
+public struct DeleteConfiguredAudienceModelPolicyOutput {
 
     public init() { }
 }
@@ -2203,7 +2203,7 @@ extension DeleteTrainingDatasetInput {
     }
 }
 
-public struct DeleteTrainingDatasetInput: Swift.Equatable {
+public struct DeleteTrainingDatasetInput {
     /// The Amazon Resource Name (ARN) of the training dataset that you want to delete.
     /// This member is required.
     public var trainingDatasetArn: Swift.String?
@@ -2216,7 +2216,7 @@ public struct DeleteTrainingDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteTrainingDatasetInputBody: Swift.Equatable {
+struct DeleteTrainingDatasetInputBody {
 }
 
 extension DeleteTrainingDatasetInputBody: Swift.Decodable {
@@ -2230,7 +2230,7 @@ extension DeleteTrainingDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTrainingDatasetOutput: Swift.Equatable {
+public struct DeleteTrainingDatasetOutput {
 
     public init() { }
 }
@@ -2259,7 +2259,7 @@ extension GetAudienceGenerationJobInput {
     }
 }
 
-public struct GetAudienceGenerationJobInput: Swift.Equatable {
+public struct GetAudienceGenerationJobInput {
     /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in.
     /// This member is required.
     public var audienceGenerationJobArn: Swift.String?
@@ -2272,7 +2272,7 @@ public struct GetAudienceGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct GetAudienceGenerationJobInputBody: Swift.Equatable {
+struct GetAudienceGenerationJobInputBody {
 }
 
 extension GetAudienceGenerationJobInputBody: Swift.Decodable {
@@ -2319,7 +2319,7 @@ extension GetAudienceGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAudienceGenerationJobOutput: Swift.Equatable {
+public struct GetAudienceGenerationJobOutput {
     /// The Amazon Resource Name (ARN) of the audience generation job.
     /// This member is required.
     public var audienceGenerationJobArn: Swift.String?
@@ -2389,7 +2389,7 @@ public struct GetAudienceGenerationJobOutput: Swift.Equatable {
     }
 }
 
-struct GetAudienceGenerationJobOutputBody: Swift.Equatable {
+struct GetAudienceGenerationJobOutputBody {
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
     let audienceGenerationJobArn: Swift.String?
@@ -2489,7 +2489,7 @@ extension GetAudienceModelInput {
     }
 }
 
-public struct GetAudienceModelInput: Swift.Equatable {
+public struct GetAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the audience model that you are interested in.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -2502,7 +2502,7 @@ public struct GetAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct GetAudienceModelInputBody: Swift.Equatable {
+struct GetAudienceModelInputBody {
 }
 
 extension GetAudienceModelInputBody: Swift.Decodable {
@@ -2545,7 +2545,7 @@ extension GetAudienceModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAudienceModelOutput: Swift.Equatable {
+public struct GetAudienceModelOutput {
     /// The Amazon Resource Name (ARN) of the audience model.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -2607,7 +2607,7 @@ public struct GetAudienceModelOutput: Swift.Equatable {
     }
 }
 
-struct GetAudienceModelOutputBody: Swift.Equatable {
+struct GetAudienceModelOutputBody {
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
     let trainingDataStartTime: ClientRuntime.Date?
@@ -2699,7 +2699,7 @@ extension GetConfiguredAudienceModelInput {
     }
 }
 
-public struct GetConfiguredAudienceModelInput: Swift.Equatable {
+public struct GetConfiguredAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the configured audience model that you are interested in.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -2712,7 +2712,7 @@ public struct GetConfiguredAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelInputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelInputBody {
 }
 
 extension GetConfiguredAudienceModelInputBody: Swift.Decodable {
@@ -2757,7 +2757,7 @@ extension GetConfiguredAudienceModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConfiguredAudienceModelOutput: Swift.Equatable {
+public struct GetConfiguredAudienceModelOutput {
     /// The Amazon Resource Name (ARN) of the audience model used for this configured audience model.
     /// This member is required.
     public var audienceModelArn: Swift.String?
@@ -2825,7 +2825,7 @@ public struct GetConfiguredAudienceModelOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelOutputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelOutputBody {
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
     let configuredAudienceModelArn: Swift.String?
@@ -2930,7 +2930,7 @@ extension GetConfiguredAudienceModelPolicyInput {
     }
 }
 
-public struct GetConfiguredAudienceModelPolicyInput: Swift.Equatable {
+public struct GetConfiguredAudienceModelPolicyInput {
     /// The Amazon Resource Name (ARN) of the configured audience model that you are interested in.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -2943,7 +2943,7 @@ public struct GetConfiguredAudienceModelPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelPolicyInputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelPolicyInputBody {
 }
 
 extension GetConfiguredAudienceModelPolicyInputBody: Swift.Decodable {
@@ -2968,7 +2968,7 @@ extension GetConfiguredAudienceModelPolicyOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetConfiguredAudienceModelPolicyOutput: Swift.Equatable {
+public struct GetConfiguredAudienceModelPolicyOutput {
     /// The Amazon Resource Name (ARN) of the configured audience model.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -2991,7 +2991,7 @@ public struct GetConfiguredAudienceModelPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetConfiguredAudienceModelPolicyOutputBody: Swift.Equatable {
+struct GetConfiguredAudienceModelPolicyOutputBody {
     let configuredAudienceModelArn: Swift.String?
     let configuredAudienceModelPolicy: Swift.String?
     let policyHash: Swift.String?
@@ -3038,7 +3038,7 @@ extension GetTrainingDatasetInput {
     }
 }
 
-public struct GetTrainingDatasetInput: Swift.Equatable {
+public struct GetTrainingDatasetInput {
     /// The Amazon Resource Name (ARN) of the training dataset that you are interested in.
     /// This member is required.
     public var trainingDatasetArn: Swift.String?
@@ -3051,7 +3051,7 @@ public struct GetTrainingDatasetInput: Swift.Equatable {
     }
 }
 
-struct GetTrainingDatasetInputBody: Swift.Equatable {
+struct GetTrainingDatasetInputBody {
 }
 
 extension GetTrainingDatasetInputBody: Swift.Decodable {
@@ -3088,7 +3088,7 @@ extension GetTrainingDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrainingDatasetOutput: Swift.Equatable {
+public struct GetTrainingDatasetOutput {
     /// The time at which the training dataset was created.
     /// This member is required.
     public var createTime: ClientRuntime.Date?
@@ -3139,7 +3139,7 @@ public struct GetTrainingDatasetOutput: Swift.Equatable {
     }
 }
 
-struct GetTrainingDatasetOutputBody: Swift.Equatable {
+struct GetTrainingDatasetOutputBody {
     let createTime: ClientRuntime.Date?
     let updateTime: ClientRuntime.Date?
     let trainingDatasetArn: Swift.String?
@@ -3251,7 +3251,7 @@ extension CleanRoomsMLClientTypes.GlueDataSource: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Defines the Glue data source that contains the training data.
-    public struct GlueDataSource: Swift.Equatable {
+    public struct GlueDataSource {
         /// The Glue catalog that contains the training data.
         public var catalogId: Swift.String?
         /// The Glue database that contains the training data.
@@ -3302,7 +3302,7 @@ extension ListAudienceExportJobsInput {
     }
 }
 
-public struct ListAudienceExportJobsInput: Swift.Equatable {
+public struct ListAudienceExportJobsInput {
     /// The Amazon Resource Name (ARN) of the audience generation job that you are interested in.
     public var audienceGenerationJobArn: Swift.String?
     /// The maximum size of the results that is returned per call.
@@ -3322,7 +3322,7 @@ public struct ListAudienceExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListAudienceExportJobsInputBody: Swift.Equatable {
+struct ListAudienceExportJobsInputBody {
 }
 
 extension ListAudienceExportJobsInputBody: Swift.Decodable {
@@ -3345,7 +3345,7 @@ extension ListAudienceExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAudienceExportJobsOutput: Swift.Equatable {
+public struct ListAudienceExportJobsOutput {
     /// The audience export jobs that match the request.
     /// This member is required.
     public var audienceExportJobs: [CleanRoomsMLClientTypes.AudienceExportJobSummary]?
@@ -3362,7 +3362,7 @@ public struct ListAudienceExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListAudienceExportJobsOutputBody: Swift.Equatable {
+struct ListAudienceExportJobsOutputBody {
     let nextToken: Swift.String?
     let audienceExportJobs: [CleanRoomsMLClientTypes.AudienceExportJobSummary]?
 }
@@ -3434,7 +3434,7 @@ extension ListAudienceGenerationJobsInput {
     }
 }
 
-public struct ListAudienceGenerationJobsInput: Swift.Equatable {
+public struct ListAudienceGenerationJobsInput {
     /// The identifier of the collaboration that contains the audience generation jobs that you are interested in.
     public var collaborationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the configured audience model that was used for the audience generation jobs that you are interested in.
@@ -3458,7 +3458,7 @@ public struct ListAudienceGenerationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListAudienceGenerationJobsInputBody: Swift.Equatable {
+struct ListAudienceGenerationJobsInputBody {
 }
 
 extension ListAudienceGenerationJobsInputBody: Swift.Decodable {
@@ -3481,7 +3481,7 @@ extension ListAudienceGenerationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAudienceGenerationJobsOutput: Swift.Equatable {
+public struct ListAudienceGenerationJobsOutput {
     /// The audience generation jobs that match the request.
     /// This member is required.
     public var audienceGenerationJobs: [CleanRoomsMLClientTypes.AudienceGenerationJobSummary]?
@@ -3498,7 +3498,7 @@ public struct ListAudienceGenerationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListAudienceGenerationJobsOutputBody: Swift.Equatable {
+struct ListAudienceGenerationJobsOutputBody {
     let nextToken: Swift.String?
     let audienceGenerationJobs: [CleanRoomsMLClientTypes.AudienceGenerationJobSummary]?
 }
@@ -3562,7 +3562,7 @@ extension ListAudienceModelsInput {
     }
 }
 
-public struct ListAudienceModelsInput: Swift.Equatable {
+public struct ListAudienceModelsInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3578,7 +3578,7 @@ public struct ListAudienceModelsInput: Swift.Equatable {
     }
 }
 
-struct ListAudienceModelsInputBody: Swift.Equatable {
+struct ListAudienceModelsInputBody {
 }
 
 extension ListAudienceModelsInputBody: Swift.Decodable {
@@ -3601,7 +3601,7 @@ extension ListAudienceModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAudienceModelsOutput: Swift.Equatable {
+public struct ListAudienceModelsOutput {
     /// The audience models that match the request.
     /// This member is required.
     public var audienceModels: [CleanRoomsMLClientTypes.AudienceModelSummary]?
@@ -3618,7 +3618,7 @@ public struct ListAudienceModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListAudienceModelsOutputBody: Swift.Equatable {
+struct ListAudienceModelsOutputBody {
     let nextToken: Swift.String?
     let audienceModels: [CleanRoomsMLClientTypes.AudienceModelSummary]?
 }
@@ -3682,7 +3682,7 @@ extension ListConfiguredAudienceModelsInput {
     }
 }
 
-public struct ListConfiguredAudienceModelsInput: Swift.Equatable {
+public struct ListConfiguredAudienceModelsInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3698,7 +3698,7 @@ public struct ListConfiguredAudienceModelsInput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredAudienceModelsInputBody: Swift.Equatable {
+struct ListConfiguredAudienceModelsInputBody {
 }
 
 extension ListConfiguredAudienceModelsInputBody: Swift.Decodable {
@@ -3721,7 +3721,7 @@ extension ListConfiguredAudienceModelsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListConfiguredAudienceModelsOutput: Swift.Equatable {
+public struct ListConfiguredAudienceModelsOutput {
     /// The configured audience models.
     /// This member is required.
     public var configuredAudienceModels: [CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary]?
@@ -3738,7 +3738,7 @@ public struct ListConfiguredAudienceModelsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfiguredAudienceModelsOutputBody: Swift.Equatable {
+struct ListConfiguredAudienceModelsOutputBody {
     let nextToken: Swift.String?
     let configuredAudienceModels: [CleanRoomsMLClientTypes.ConfiguredAudienceModelSummary]?
 }
@@ -3789,7 +3789,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you are interested in.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3802,7 +3802,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3823,7 +3823,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags that are associated with the resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -3836,7 +3836,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3897,7 +3897,7 @@ extension ListTrainingDatasetsInput {
     }
 }
 
-public struct ListTrainingDatasetsInput: Swift.Equatable {
+public struct ListTrainingDatasetsInput {
     /// The maximum size of the results that is returned per call.
     public var maxResults: Swift.Int?
     /// The token value retrieved from a previous call to access the next page of results.
@@ -3913,7 +3913,7 @@ public struct ListTrainingDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListTrainingDatasetsInputBody: Swift.Equatable {
+struct ListTrainingDatasetsInputBody {
 }
 
 extension ListTrainingDatasetsInputBody: Swift.Decodable {
@@ -3936,7 +3936,7 @@ extension ListTrainingDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrainingDatasetsOutput: Swift.Equatable {
+public struct ListTrainingDatasetsOutput {
     /// The token value retrieved from a previous call to access the next page of results.
     public var nextToken: Swift.String?
     /// The training datasets that match the request.
@@ -3953,7 +3953,7 @@ public struct ListTrainingDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListTrainingDatasetsOutputBody: Swift.Equatable {
+struct ListTrainingDatasetsOutputBody {
     let nextToken: Swift.String?
     let trainingDatasets: [CleanRoomsMLClientTypes.TrainingDatasetSummary]?
 }
@@ -4057,7 +4057,7 @@ extension PutConfiguredAudienceModelPolicyInput {
     }
 }
 
-public struct PutConfiguredAudienceModelPolicyInput: Swift.Equatable {
+public struct PutConfiguredAudienceModelPolicyInput {
     /// The Amazon Resource Name (ARN) of the configured audience model that the resource policy will govern.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -4083,7 +4083,7 @@ public struct PutConfiguredAudienceModelPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutConfiguredAudienceModelPolicyInputBody: Swift.Equatable {
+struct PutConfiguredAudienceModelPolicyInputBody {
     let configuredAudienceModelPolicy: Swift.String?
     let previousPolicyHash: Swift.String?
     let policyExistenceCondition: CleanRoomsMLClientTypes.PolicyExistenceCondition?
@@ -4121,7 +4121,7 @@ extension PutConfiguredAudienceModelPolicyOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct PutConfiguredAudienceModelPolicyOutput: Swift.Equatable {
+public struct PutConfiguredAudienceModelPolicyOutput {
     /// The IAM resource policy.
     /// This member is required.
     public var configuredAudienceModelPolicy: Swift.String?
@@ -4139,7 +4139,7 @@ public struct PutConfiguredAudienceModelPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutConfiguredAudienceModelPolicyOutputBody: Swift.Equatable {
+struct PutConfiguredAudienceModelPolicyOutputBody {
     let configuredAudienceModelPolicy: Swift.String?
     let policyHash: Swift.String?
 }
@@ -4199,7 +4199,7 @@ extension CleanRoomsMLClientTypes.RelevanceMetric: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// The relevance score of a generated audience.
-    public struct RelevanceMetric: Swift.Equatable {
+    public struct RelevanceMetric {
         /// The size of the generated audience. Must match one of the sizes in the configured audience model.
         /// This member is required.
         public var audienceSize: CleanRoomsMLClientTypes.AudienceSize?
@@ -4258,7 +4258,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4295,7 +4295,7 @@ extension CleanRoomsMLClientTypes.S3ConfigMap: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Provides information about an Amazon S3 bucket and path.
-    public struct S3ConfigMap: Swift.Equatable {
+    public struct S3ConfigMap {
         /// The Amazon S3 location URI.
         /// This member is required.
         public var s3Uri: Swift.String?
@@ -4350,7 +4350,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4430,7 +4430,7 @@ extension StartAudienceExportJobInput {
     }
 }
 
-public struct StartAudienceExportJobInput: Swift.Equatable {
+public struct StartAudienceExportJobInput {
     /// The Amazon Resource Name (ARN) of the audience generation job that you want to export.
     /// This member is required.
     public var audienceGenerationJobArn: Swift.String?
@@ -4457,7 +4457,7 @@ public struct StartAudienceExportJobInput: Swift.Equatable {
     }
 }
 
-struct StartAudienceExportJobInputBody: Swift.Equatable {
+struct StartAudienceExportJobInputBody {
     let name: Swift.String?
     let audienceGenerationJobArn: Swift.String?
     let audienceSize: CleanRoomsMLClientTypes.AudienceSize?
@@ -4490,7 +4490,7 @@ extension StartAudienceExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAudienceExportJobOutput: Swift.Equatable {
+public struct StartAudienceExportJobOutput {
 
     public init() { }
 }
@@ -4557,7 +4557,7 @@ extension StartAudienceGenerationJobInput {
     }
 }
 
-public struct StartAudienceGenerationJobInput: Swift.Equatable {
+public struct StartAudienceGenerationJobInput {
     /// The identifier of the collaboration that contains the audience generation job.
     public var collaborationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the configured audience model that is used for this audience generation job.
@@ -4610,7 +4610,7 @@ public struct StartAudienceGenerationJobInput: Swift.Equatable {
     }
 }
 
-struct StartAudienceGenerationJobInputBody: Swift.Equatable {
+struct StartAudienceGenerationJobInputBody {
     let name: Swift.String?
     let configuredAudienceModelArn: Swift.String?
     let seedAudience: CleanRoomsMLClientTypes.AudienceGenerationJobDataSource?
@@ -4671,7 +4671,7 @@ extension StartAudienceGenerationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAudienceGenerationJobOutput: Swift.Equatable {
+public struct StartAudienceGenerationJobOutput {
     /// The Amazon Resource Name (ARN) of the audience generation job.
     /// This member is required.
     public var audienceGenerationJobArn: Swift.String?
@@ -4684,7 +4684,7 @@ public struct StartAudienceGenerationJobOutput: Swift.Equatable {
     }
 }
 
-struct StartAudienceGenerationJobOutputBody: Swift.Equatable {
+struct StartAudienceGenerationJobOutputBody {
     let audienceGenerationJobArn: Swift.String?
 }
 
@@ -4742,7 +4742,7 @@ extension CleanRoomsMLClientTypes.StatusDetails: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Details about the status of a resource.
-    public struct StatusDetails: Swift.Equatable {
+    public struct StatusDetails {
         /// The error message that was returned. The message is intended for human consumption and can change at any time. Use the statusCode for programmatic error handling.
         public var message: Swift.String?
         /// The status code that was returned. The status code is intended for programmatic error handling. Clean Rooms ML will not change the status code for existing error conditions.
@@ -4818,7 +4818,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to assign tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4850,7 +4850,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4880,7 +4880,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4978,7 +4978,7 @@ extension CleanRoomsMLClientTypes.TrainingDatasetSummary: Swift.Codable {
 
 extension CleanRoomsMLClientTypes {
     /// Provides information about the training dataset.
-    public struct TrainingDatasetSummary: Swift.Equatable {
+    public struct TrainingDatasetSummary {
         /// The time at which the training dataset was created.
         /// This member is required.
         public var createTime: ClientRuntime.Date?
@@ -5043,7 +5043,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5061,7 +5061,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5075,7 +5075,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5139,7 +5139,7 @@ extension UpdateConfiguredAudienceModelInput {
     }
 }
 
-public struct UpdateConfiguredAudienceModelInput: Swift.Equatable {
+public struct UpdateConfiguredAudienceModelInput {
     /// The Amazon Resource Name (ARN) of the new audience model that you want to use.
     public var audienceModelArn: Swift.String?
     /// The new audience size configuration.
@@ -5176,7 +5176,7 @@ public struct UpdateConfiguredAudienceModelInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredAudienceModelInputBody: Swift.Equatable {
+struct UpdateConfiguredAudienceModelInputBody {
     let outputConfig: CleanRoomsMLClientTypes.ConfiguredAudienceModelOutputConfig?
     let audienceModelArn: Swift.String?
     let sharedAudienceMetrics: [CleanRoomsMLClientTypes.SharedAudienceMetrics]?
@@ -5233,7 +5233,7 @@ extension UpdateConfiguredAudienceModelOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateConfiguredAudienceModelOutput: Swift.Equatable {
+public struct UpdateConfiguredAudienceModelOutput {
     /// The Amazon Resource Name (ARN) of the configured audience model that was updated.
     /// This member is required.
     public var configuredAudienceModelArn: Swift.String?
@@ -5246,7 +5246,7 @@ public struct UpdateConfiguredAudienceModelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfiguredAudienceModelOutputBody: Swift.Equatable {
+struct UpdateConfiguredAudienceModelOutputBody {
     let configuredAudienceModelArn: Swift.String?
 }
 
@@ -5316,7 +5316,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

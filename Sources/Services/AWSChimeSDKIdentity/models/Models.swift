@@ -84,7 +84,7 @@ extension ChimeSDKIdentityClientTypes.AppInstance: Swift.CustomDebugStringConver
 
 extension ChimeSDKIdentityClientTypes {
     /// The details of an AppInstance, an instance of an Amazon Chime SDK messaging application.
-    public struct AppInstance: Swift.Equatable {
+    public struct AppInstance {
         /// The ARN of the messaging instance.
         public var appInstanceArn: Swift.String?
         /// The time at which an AppInstance was created. In epoch milliseconds.
@@ -147,7 +147,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceAdmin: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// The name and ARN of the admin for the AppInstance.
-    public struct AppInstanceAdmin: Swift.Equatable {
+    public struct AppInstanceAdmin {
         /// The AppInstanceAdmin data.
         public var admin: ChimeSDKIdentityClientTypes.Identity?
         /// The ARN of the AppInstance for which the user is an administrator.
@@ -190,7 +190,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceAdminSummary: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// Summary of the details of an AppInstanceAdmin.
-    public struct AppInstanceAdminSummary: Swift.Equatable {
+    public struct AppInstanceAdminSummary {
         /// The details of the AppInstanceAdmin.
         public var admin: ChimeSDKIdentityClientTypes.Identity?
 
@@ -260,7 +260,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceBot: Swift.CustomDebugStringCon
 
 extension ChimeSDKIdentityClientTypes {
     /// An Amazon Lex V2 chat bot created under an AppInstance.
-    public struct AppInstanceBot: Swift.Equatable {
+    public struct AppInstanceBot {
         /// The ARN of the AppInstanceBot.
         public var appInstanceBotArn: Swift.String?
         /// The data processing instructions for an AppInstanceBot.
@@ -332,7 +332,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceBotSummary: Swift.CustomDebugSt
 
 extension ChimeSDKIdentityClientTypes {
     /// High-level information about an AppInstanceBot.
-    public struct AppInstanceBotSummary: Swift.Equatable {
+    public struct AppInstanceBotSummary {
         /// The ARN of the AppInstanceBot.
         public var appInstanceBotArn: Swift.String?
         /// The metadata of the AppInstanceBot.
@@ -375,7 +375,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings: Swift.Codabl
 
 extension ChimeSDKIdentityClientTypes {
     /// The details of the data-retention settings for an AppInstance.
-    public struct AppInstanceRetentionSettings: Swift.Equatable {
+    public struct AppInstanceRetentionSettings {
         /// The length of time in days to retain the messages in a channel.
         public var channelRetentionSettings: ChimeSDKIdentityClientTypes.ChannelRetentionSettings?
 
@@ -427,7 +427,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceSummary: Swift.CustomDebugStrin
 
 extension ChimeSDKIdentityClientTypes {
     /// Summary of the data for an AppInstance.
-    public struct AppInstanceSummary: Swift.Equatable {
+    public struct AppInstanceSummary {
         /// The AppInstance ARN.
         public var appInstanceArn: Swift.String?
         /// The metadata of the AppInstance.
@@ -505,7 +505,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUser: Swift.CustomDebugStringCo
 
 extension ChimeSDKIdentityClientTypes {
     /// The details of an AppInstanceUser.
-    public struct AppInstanceUser: Swift.Equatable {
+    public struct AppInstanceUser {
         /// The ARN of the AppInstanceUser.
         public var appInstanceUserArn: Swift.String?
         /// The time at which the AppInstanceUser was created.
@@ -619,7 +619,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint: Swift.CustomDebug
 
 extension ChimeSDKIdentityClientTypes {
     /// An endpoint under an Amazon Chime AppInstanceUser that receives messages for a user. For push notifications, the endpoint is a mobile device used to receive mobile push notifications for a user.
-    public struct AppInstanceUserEndpoint: Swift.Equatable {
+    public struct AppInstanceUserEndpoint {
         /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
         public var allowMessages: ChimeSDKIdentityClientTypes.AllowMessages?
         /// The ARN of the AppInstanceUser.
@@ -733,7 +733,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary: Swift.Cust
 
 extension ChimeSDKIdentityClientTypes {
     /// Summary of the details of an AppInstanceUserEndpoint.
-    public struct AppInstanceUserEndpointSummary: Swift.Equatable {
+    public struct AppInstanceUserEndpointSummary {
         /// BBoolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
         public var allowMessages: ChimeSDKIdentityClientTypes.AllowMessages?
         /// The ARN of the AppInstanceUser.
@@ -840,7 +840,7 @@ extension ChimeSDKIdentityClientTypes.AppInstanceUserSummary: Swift.CustomDebugS
 
 extension ChimeSDKIdentityClientTypes {
     /// Summary of the details of an AppInstanceUser.
-    public struct AppInstanceUserSummary: Swift.Equatable {
+    public struct AppInstanceUserSummary {
         /// The ARN of the AppInstanceUser.
         public var appInstanceUserArn: Swift.String?
         /// The metadata of the AppInstanceUser.
@@ -906,7 +906,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -947,7 +947,7 @@ extension ChimeSDKIdentityClientTypes.ChannelRetentionSettings: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// The details of the retention settings for a channel.
-    public struct ChannelRetentionSettings: Swift.Equatable {
+    public struct ChannelRetentionSettings {
         /// The time in days to retain the messages in a channel.
         public var retentionDays: Swift.Int?
 
@@ -984,7 +984,7 @@ extension ChimeSDKIdentityClientTypes.Configuration: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// A structure that contains configuration data.
-    public struct Configuration: Swift.Equatable {
+    public struct Configuration {
         /// The configuration for an Amazon Lex V2 bot.
         /// This member is required.
         public var lex: ChimeSDKIdentityClientTypes.LexConfiguration?
@@ -1043,7 +1043,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -1086,7 +1086,7 @@ extension CreateAppInstanceAdminInput {
     }
 }
 
-public struct CreateAppInstanceAdminInput: Swift.Equatable {
+public struct CreateAppInstanceAdminInput {
     /// The ARN of the administrator of the current AppInstance.
     /// This member is required.
     public var appInstanceAdminArn: Swift.String?
@@ -1104,7 +1104,7 @@ public struct CreateAppInstanceAdminInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceAdminInputBody: Swift.Equatable {
+struct CreateAppInstanceAdminInputBody {
     let appInstanceAdminArn: Swift.String?
 }
 
@@ -1134,7 +1134,7 @@ extension CreateAppInstanceAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppInstanceAdminOutput: Swift.Equatable {
+public struct CreateAppInstanceAdminOutput {
     /// The ARN and name of the administrator, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceAdmin: ChimeSDKIdentityClientTypes.Identity?
     /// The ARN of the of the admin for the AppInstance.
@@ -1150,7 +1150,7 @@ public struct CreateAppInstanceAdminOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceAdminOutputBody: Swift.Equatable {
+struct CreateAppInstanceAdminOutputBody {
     let appInstanceAdmin: ChimeSDKIdentityClientTypes.Identity?
     let appInstanceArn: Swift.String?
 }
@@ -1236,7 +1236,7 @@ extension CreateAppInstanceBotInput {
     }
 }
 
-public struct CreateAppInstanceBotInput: Swift.Equatable {
+public struct CreateAppInstanceBotInput {
     /// The ARN of the AppInstance request.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -1271,7 +1271,7 @@ public struct CreateAppInstanceBotInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceBotInputBody: Swift.Equatable {
+struct CreateAppInstanceBotInputBody {
     let appInstanceArn: Swift.String?
     let name: Swift.String?
     let metadata: Swift.String?
@@ -1328,7 +1328,7 @@ extension CreateAppInstanceBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppInstanceBotOutput: Swift.Equatable {
+public struct CreateAppInstanceBotOutput {
     /// The ARN of the AppinstanceBot.
     public var appInstanceBotArn: Swift.String?
 
@@ -1340,7 +1340,7 @@ public struct CreateAppInstanceBotOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceBotOutputBody: Swift.Equatable {
+struct CreateAppInstanceBotOutputBody {
     let appInstanceBotArn: Swift.String?
 }
 
@@ -1414,7 +1414,7 @@ extension CreateAppInstanceInput {
     }
 }
 
-public struct CreateAppInstanceInput: Swift.Equatable {
+public struct CreateAppInstanceInput {
     /// The unique ID of the request. Use different tokens to create different AppInstances.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -1440,7 +1440,7 @@ public struct CreateAppInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceInputBody: Swift.Equatable {
+struct CreateAppInstanceInputBody {
     let name: Swift.String?
     let metadata: Swift.String?
     let clientRequestToken: Swift.String?
@@ -1489,7 +1489,7 @@ extension CreateAppInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppInstanceOutput: Swift.Equatable {
+public struct CreateAppInstanceOutput {
     /// The Amazon Resource Number (ARN) of the AppInstance.
     public var appInstanceArn: Swift.String?
 
@@ -1501,7 +1501,7 @@ public struct CreateAppInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceOutputBody: Swift.Equatable {
+struct CreateAppInstanceOutputBody {
     let appInstanceArn: Swift.String?
 }
 
@@ -1587,7 +1587,7 @@ extension CreateAppInstanceUserInput {
     }
 }
 
-public struct CreateAppInstanceUserInput: Swift.Equatable {
+public struct CreateAppInstanceUserInput {
     /// The ARN of the AppInstance request.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -1627,7 +1627,7 @@ public struct CreateAppInstanceUserInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceUserInputBody: Swift.Equatable {
+struct CreateAppInstanceUserInputBody {
     let appInstanceArn: Swift.String?
     let appInstanceUserId: Swift.String?
     let name: Swift.String?
@@ -1688,7 +1688,7 @@ extension CreateAppInstanceUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppInstanceUserOutput: Swift.Equatable {
+public struct CreateAppInstanceUserOutput {
     /// The user's ARN.
     public var appInstanceUserArn: Swift.String?
 
@@ -1700,7 +1700,7 @@ public struct CreateAppInstanceUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppInstanceUserOutputBody: Swift.Equatable {
+struct CreateAppInstanceUserOutputBody {
     let appInstanceUserArn: Swift.String?
 }
 
@@ -1747,7 +1747,7 @@ extension DeleteAppInstanceAdminInput {
     }
 }
 
-public struct DeleteAppInstanceAdminInput: Swift.Equatable {
+public struct DeleteAppInstanceAdminInput {
     /// The ARN of the AppInstance's administrator.
     /// This member is required.
     public var appInstanceAdminArn: Swift.String?
@@ -1765,7 +1765,7 @@ public struct DeleteAppInstanceAdminInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInstanceAdminInputBody: Swift.Equatable {
+struct DeleteAppInstanceAdminInputBody {
 }
 
 extension DeleteAppInstanceAdminInputBody: Swift.Decodable {
@@ -1779,7 +1779,7 @@ extension DeleteAppInstanceAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppInstanceAdminOutput: Swift.Equatable {
+public struct DeleteAppInstanceAdminOutput {
 
     public init() { }
 }
@@ -1812,7 +1812,7 @@ extension DeleteAppInstanceBotInput {
     }
 }
 
-public struct DeleteAppInstanceBotInput: Swift.Equatable {
+public struct DeleteAppInstanceBotInput {
     /// The ARN of the AppInstanceBot being deleted.
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
@@ -1825,7 +1825,7 @@ public struct DeleteAppInstanceBotInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInstanceBotInputBody: Swift.Equatable {
+struct DeleteAppInstanceBotInputBody {
 }
 
 extension DeleteAppInstanceBotInputBody: Swift.Decodable {
@@ -1839,7 +1839,7 @@ extension DeleteAppInstanceBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppInstanceBotOutput: Swift.Equatable {
+public struct DeleteAppInstanceBotOutput {
 
     public init() { }
 }
@@ -1872,7 +1872,7 @@ extension DeleteAppInstanceInput {
     }
 }
 
-public struct DeleteAppInstanceInput: Swift.Equatable {
+public struct DeleteAppInstanceInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -1885,7 +1885,7 @@ public struct DeleteAppInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInstanceInputBody: Swift.Equatable {
+struct DeleteAppInstanceInputBody {
 }
 
 extension DeleteAppInstanceInputBody: Swift.Decodable {
@@ -1899,7 +1899,7 @@ extension DeleteAppInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppInstanceOutput: Swift.Equatable {
+public struct DeleteAppInstanceOutput {
 
     public init() { }
 }
@@ -1931,7 +1931,7 @@ extension DeleteAppInstanceUserInput {
     }
 }
 
-public struct DeleteAppInstanceUserInput: Swift.Equatable {
+public struct DeleteAppInstanceUserInput {
     /// The ARN of the user request being deleted.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -1944,7 +1944,7 @@ public struct DeleteAppInstanceUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInstanceUserInputBody: Swift.Equatable {
+struct DeleteAppInstanceUserInputBody {
 }
 
 extension DeleteAppInstanceUserInputBody: Swift.Decodable {
@@ -1958,7 +1958,7 @@ extension DeleteAppInstanceUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppInstanceUserOutput: Swift.Equatable {
+public struct DeleteAppInstanceUserOutput {
 
     public init() { }
 }
@@ -1994,7 +1994,7 @@ extension DeregisterAppInstanceUserEndpointInput {
     }
 }
 
-public struct DeregisterAppInstanceUserEndpointInput: Swift.Equatable {
+public struct DeregisterAppInstanceUserEndpointInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -2012,7 +2012,7 @@ public struct DeregisterAppInstanceUserEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeregisterAppInstanceUserEndpointInputBody: Swift.Equatable {
+struct DeregisterAppInstanceUserEndpointInputBody {
 }
 
 extension DeregisterAppInstanceUserEndpointInputBody: Swift.Decodable {
@@ -2026,7 +2026,7 @@ extension DeregisterAppInstanceUserEndpointOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeregisterAppInstanceUserEndpointOutput: Swift.Equatable {
+public struct DeregisterAppInstanceUserEndpointOutput {
 
     public init() { }
 }
@@ -2060,7 +2060,7 @@ extension DescribeAppInstanceAdminInput {
     }
 }
 
-public struct DescribeAppInstanceAdminInput: Swift.Equatable {
+public struct DescribeAppInstanceAdminInput {
     /// The ARN of the AppInstanceAdmin.
     /// This member is required.
     public var appInstanceAdminArn: Swift.String?
@@ -2078,7 +2078,7 @@ public struct DescribeAppInstanceAdminInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceAdminInputBody: Swift.Equatable {
+struct DescribeAppInstanceAdminInputBody {
 }
 
 extension DescribeAppInstanceAdminInputBody: Swift.Decodable {
@@ -2099,7 +2099,7 @@ extension DescribeAppInstanceAdminOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppInstanceAdminOutput: Swift.Equatable {
+public struct DescribeAppInstanceAdminOutput {
     /// The ARN and name of the AppInstanceUser, the ARN of the AppInstance, and the created and last-updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceAdmin: ChimeSDKIdentityClientTypes.AppInstanceAdmin?
 
@@ -2111,7 +2111,7 @@ public struct DescribeAppInstanceAdminOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceAdminOutputBody: Swift.Equatable {
+struct DescribeAppInstanceAdminOutputBody {
     let appInstanceAdmin: ChimeSDKIdentityClientTypes.AppInstanceAdmin?
 }
 
@@ -2153,7 +2153,7 @@ extension DescribeAppInstanceBotInput {
     }
 }
 
-public struct DescribeAppInstanceBotInput: Swift.Equatable {
+public struct DescribeAppInstanceBotInput {
     /// The ARN of the AppInstanceBot.
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
@@ -2166,7 +2166,7 @@ public struct DescribeAppInstanceBotInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceBotInputBody: Swift.Equatable {
+struct DescribeAppInstanceBotInputBody {
 }
 
 extension DescribeAppInstanceBotInputBody: Swift.Decodable {
@@ -2187,7 +2187,7 @@ extension DescribeAppInstanceBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppInstanceBotOutput: Swift.Equatable {
+public struct DescribeAppInstanceBotOutput {
     /// The detials of the AppInstanceBot.
     public var appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot?
 
@@ -2199,7 +2199,7 @@ public struct DescribeAppInstanceBotOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceBotOutputBody: Swift.Equatable {
+struct DescribeAppInstanceBotOutputBody {
     let appInstanceBot: ChimeSDKIdentityClientTypes.AppInstanceBot?
 }
 
@@ -2242,7 +2242,7 @@ extension DescribeAppInstanceInput {
     }
 }
 
-public struct DescribeAppInstanceInput: Swift.Equatable {
+public struct DescribeAppInstanceInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -2255,7 +2255,7 @@ public struct DescribeAppInstanceInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceInputBody: Swift.Equatable {
+struct DescribeAppInstanceInputBody {
 }
 
 extension DescribeAppInstanceInputBody: Swift.Decodable {
@@ -2276,7 +2276,7 @@ extension DescribeAppInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppInstanceOutput: Swift.Equatable {
+public struct DescribeAppInstanceOutput {
     /// The ARN, metadata, created and last-updated timestamps, and the name of the AppInstance. All timestamps use epoch milliseconds.
     public var appInstance: ChimeSDKIdentityClientTypes.AppInstance?
 
@@ -2288,7 +2288,7 @@ public struct DescribeAppInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceOutputBody: Swift.Equatable {
+struct DescribeAppInstanceOutputBody {
     let appInstance: ChimeSDKIdentityClientTypes.AppInstance?
 }
 
@@ -2333,7 +2333,7 @@ extension DescribeAppInstanceUserEndpointInput {
     }
 }
 
-public struct DescribeAppInstanceUserEndpointInput: Swift.Equatable {
+public struct DescribeAppInstanceUserEndpointInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -2351,7 +2351,7 @@ public struct DescribeAppInstanceUserEndpointInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceUserEndpointInputBody: Swift.Equatable {
+struct DescribeAppInstanceUserEndpointInputBody {
 }
 
 extension DescribeAppInstanceUserEndpointInputBody: Swift.Decodable {
@@ -2372,7 +2372,7 @@ extension DescribeAppInstanceUserEndpointOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeAppInstanceUserEndpointOutput: Swift.Equatable {
+public struct DescribeAppInstanceUserEndpointOutput {
     /// The full details of an AppInstanceUserEndpoint: the AppInstanceUserArn, ID, name, type, resource ARN, attributes, allow messages, state, and created and last updated timestamps. All timestamps use epoch milliseconds.
     public var appInstanceUserEndpoint: ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint?
 
@@ -2384,7 +2384,7 @@ public struct DescribeAppInstanceUserEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceUserEndpointOutputBody: Swift.Equatable {
+struct DescribeAppInstanceUserEndpointOutputBody {
     let appInstanceUserEndpoint: ChimeSDKIdentityClientTypes.AppInstanceUserEndpoint?
 }
 
@@ -2426,7 +2426,7 @@ extension DescribeAppInstanceUserInput {
     }
 }
 
-public struct DescribeAppInstanceUserInput: Swift.Equatable {
+public struct DescribeAppInstanceUserInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -2439,7 +2439,7 @@ public struct DescribeAppInstanceUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceUserInputBody: Swift.Equatable {
+struct DescribeAppInstanceUserInputBody {
 }
 
 extension DescribeAppInstanceUserInputBody: Swift.Decodable {
@@ -2460,7 +2460,7 @@ extension DescribeAppInstanceUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppInstanceUserOutput: Swift.Equatable {
+public struct DescribeAppInstanceUserOutput {
     /// The name of the AppInstanceUser.
     public var appInstanceUser: ChimeSDKIdentityClientTypes.AppInstanceUser?
 
@@ -2472,7 +2472,7 @@ public struct DescribeAppInstanceUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInstanceUserOutputBody: Swift.Equatable {
+struct DescribeAppInstanceUserOutputBody {
     let appInstanceUser: ChimeSDKIdentityClientTypes.AppInstanceUser?
 }
 
@@ -2536,7 +2536,7 @@ extension ChimeSDKIdentityClientTypes.EndpointAttributes: Swift.CustomDebugStrin
 
 extension ChimeSDKIdentityClientTypes {
     /// The attributes of an Endpoint.
-    public struct EndpointAttributes: Swift.Equatable {
+    public struct EndpointAttributes {
         /// The device token for the GCM, APNS, and APNS_SANDBOX endpoint types.
         /// This member is required.
         public var deviceToken: Swift.String?
@@ -2590,7 +2590,7 @@ extension ChimeSDKIdentityClientTypes {
     /// * INVALID_DEVICE_TOKEN indicates that an AppInstanceUserEndpoint is INACTIVE due to invalid device token
     ///
     /// * INVALID_PINPOINT_ARN indicates that an AppInstanceUserEndpoint is INACTIVE due to an invalid pinpoint ARN that was input through the ResourceArn field.
-    public struct EndpointState: Swift.Equatable {
+    public struct EndpointState {
         /// Enum that indicates the Status of an AppInstanceUserEndpoint.
         /// This member is required.
         public var status: ChimeSDKIdentityClientTypes.EndpointStatus?
@@ -2800,7 +2800,7 @@ extension ChimeSDKIdentityClientTypes.ExpirationSettings: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// Determines the interval after which an AppInstanceUser is automatically deleted.
-    public struct ExpirationSettings: Swift.Equatable {
+    public struct ExpirationSettings {
         /// Specifies the conditions under which an AppInstanceUser will expire.
         /// This member is required.
         public var expirationCriterion: ChimeSDKIdentityClientTypes.ExpirationCriterion?
@@ -2864,7 +2864,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -2894,7 +2894,7 @@ extension GetAppInstanceRetentionSettingsInput {
     }
 }
 
-public struct GetAppInstanceRetentionSettingsInput: Swift.Equatable {
+public struct GetAppInstanceRetentionSettingsInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -2907,7 +2907,7 @@ public struct GetAppInstanceRetentionSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetAppInstanceRetentionSettingsInputBody: Swift.Equatable {
+struct GetAppInstanceRetentionSettingsInputBody {
 }
 
 extension GetAppInstanceRetentionSettingsInputBody: Swift.Decodable {
@@ -2930,7 +2930,7 @@ extension GetAppInstanceRetentionSettingsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetAppInstanceRetentionSettingsOutput: Swift.Equatable {
+public struct GetAppInstanceRetentionSettingsOutput {
     /// The retention settings for the AppInstance.
     public var appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
     /// The timestamp representing the time at which the specified items are retained, in Epoch Seconds.
@@ -2946,7 +2946,7 @@ public struct GetAppInstanceRetentionSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAppInstanceRetentionSettingsOutputBody: Swift.Equatable {
+struct GetAppInstanceRetentionSettingsOutputBody {
     let appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
     let initiateDeletionTimestamp: ClientRuntime.Date?
 }
@@ -3014,7 +3014,7 @@ extension ChimeSDKIdentityClientTypes.Identity: Swift.CustomDebugStringConvertib
 
 extension ChimeSDKIdentityClientTypes {
     /// The details of a user or bot.
-    public struct Identity: Swift.Equatable {
+    public struct Identity {
         /// The ARN in an Identity.
         public var arn: Swift.String?
         /// The name in an Identity.
@@ -3059,7 +3059,7 @@ extension ChimeSDKIdentityClientTypes.InvokedBy: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// Specifies the type of message that triggers a bot.
-    public struct InvokedBy: Swift.Equatable {
+    public struct InvokedBy {
         /// Sets standard messages as the bot trigger. For standard messages:
         ///
         /// * ALL: The bot processes all standard messages.
@@ -3136,7 +3136,7 @@ extension ChimeSDKIdentityClientTypes.LexConfiguration: Swift.Codable {
 
 extension ChimeSDKIdentityClientTypes {
     /// The configuration for an Amazon Lex V2 bot.
-    public struct LexConfiguration: Swift.Equatable {
+    public struct LexConfiguration {
         /// Specifies the type of message that triggers a bot.
         public var invokedBy: ChimeSDKIdentityClientTypes.InvokedBy?
         /// The ARN of the Amazon Lex V2 bot's alias. The ARN uses this format: arn:aws:lex:REGION:ACCOUNT:bot-alias/MYBOTID/MYBOTALIAS
@@ -3199,7 +3199,7 @@ extension ListAppInstanceAdminsInput {
     }
 }
 
-public struct ListAppInstanceAdminsInput: Swift.Equatable {
+public struct ListAppInstanceAdminsInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -3220,7 +3220,7 @@ public struct ListAppInstanceAdminsInput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceAdminsInputBody: Swift.Equatable {
+struct ListAppInstanceAdminsInputBody {
 }
 
 extension ListAppInstanceAdminsInputBody: Swift.Decodable {
@@ -3250,7 +3250,7 @@ extension ListAppInstanceAdminsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppInstanceAdminsOutput: Swift.Equatable {
+public struct ListAppInstanceAdminsOutput {
     /// The information for each administrator.
     public var appInstanceAdmins: [ChimeSDKIdentityClientTypes.AppInstanceAdminSummary]?
     /// The ARN of the AppInstance.
@@ -3270,7 +3270,7 @@ public struct ListAppInstanceAdminsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceAdminsOutputBody: Swift.Equatable {
+struct ListAppInstanceAdminsOutputBody {
     let appInstanceArn: Swift.String?
     let appInstanceAdmins: [ChimeSDKIdentityClientTypes.AppInstanceAdminSummary]?
     let nextToken: Swift.String?
@@ -3354,7 +3354,7 @@ extension ListAppInstanceBotsInput {
     }
 }
 
-public struct ListAppInstanceBotsInput: Swift.Equatable {
+public struct ListAppInstanceBotsInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -3375,7 +3375,7 @@ public struct ListAppInstanceBotsInput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceBotsInputBody: Swift.Equatable {
+struct ListAppInstanceBotsInputBody {
 }
 
 extension ListAppInstanceBotsInputBody: Swift.Decodable {
@@ -3405,7 +3405,7 @@ extension ListAppInstanceBotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppInstanceBotsOutput: Swift.Equatable {
+public struct ListAppInstanceBotsOutput {
     /// The ARN of the AppInstance.
     public var appInstanceArn: Swift.String?
     /// The information for each requested AppInstanceBot.
@@ -3425,7 +3425,7 @@ public struct ListAppInstanceBotsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceBotsOutputBody: Swift.Equatable {
+struct ListAppInstanceBotsOutputBody {
     let appInstanceArn: Swift.String?
     let appInstanceBots: [ChimeSDKIdentityClientTypes.AppInstanceBotSummary]?
     let nextToken: Swift.String?
@@ -3506,7 +3506,7 @@ extension ListAppInstanceUserEndpointsInput {
     }
 }
 
-public struct ListAppInstanceUserEndpointsInput: Swift.Equatable {
+public struct ListAppInstanceUserEndpointsInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -3527,7 +3527,7 @@ public struct ListAppInstanceUserEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceUserEndpointsInputBody: Swift.Equatable {
+struct ListAppInstanceUserEndpointsInputBody {
 }
 
 extension ListAppInstanceUserEndpointsInputBody: Swift.Decodable {
@@ -3555,7 +3555,7 @@ extension ListAppInstanceUserEndpointsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListAppInstanceUserEndpointsOutput: Swift.Equatable {
+public struct ListAppInstanceUserEndpointsOutput {
     /// The information for each requested AppInstanceUserEndpoint.
     public var appInstanceUserEndpoints: [ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary]?
     /// The token passed by previous API calls until all requested endpoints are returned.
@@ -3571,7 +3571,7 @@ public struct ListAppInstanceUserEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceUserEndpointsOutputBody: Swift.Equatable {
+struct ListAppInstanceUserEndpointsOutputBody {
     let appInstanceUserEndpoints: [ChimeSDKIdentityClientTypes.AppInstanceUserEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -3650,7 +3650,7 @@ extension ListAppInstanceUsersInput {
     }
 }
 
-public struct ListAppInstanceUsersInput: Swift.Equatable {
+public struct ListAppInstanceUsersInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -3671,7 +3671,7 @@ public struct ListAppInstanceUsersInput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceUsersInputBody: Swift.Equatable {
+struct ListAppInstanceUsersInputBody {
 }
 
 extension ListAppInstanceUsersInputBody: Swift.Decodable {
@@ -3701,7 +3701,7 @@ extension ListAppInstanceUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppInstanceUsersOutput: Swift.Equatable {
+public struct ListAppInstanceUsersOutput {
     /// The ARN of the AppInstance.
     public var appInstanceArn: Swift.String?
     /// The information for each requested AppInstanceUser.
@@ -3721,7 +3721,7 @@ public struct ListAppInstanceUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListAppInstanceUsersOutputBody: Swift.Equatable {
+struct ListAppInstanceUsersOutputBody {
     let appInstanceArn: Swift.String?
     let appInstanceUsers: [ChimeSDKIdentityClientTypes.AppInstanceUserSummary]?
     let nextToken: Swift.String?
@@ -3798,7 +3798,7 @@ extension ListAppInstancesInput {
     }
 }
 
-public struct ListAppInstancesInput: Swift.Equatable {
+public struct ListAppInstancesInput {
     /// The maximum number of AppInstances that you want to return.
     public var maxResults: Swift.Int?
     /// The token passed by previous API requests until you reach the maximum number of AppInstances.
@@ -3814,7 +3814,7 @@ public struct ListAppInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListAppInstancesInputBody: Swift.Equatable {
+struct ListAppInstancesInputBody {
 }
 
 extension ListAppInstancesInputBody: Swift.Decodable {
@@ -3842,7 +3842,7 @@ extension ListAppInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppInstancesOutput: Swift.Equatable {
+public struct ListAppInstancesOutput {
     /// The information for each AppInstance.
     public var appInstances: [ChimeSDKIdentityClientTypes.AppInstanceSummary]?
     /// The token passed by previous API requests until the maximum number of AppInstances is reached.
@@ -3858,7 +3858,7 @@ public struct ListAppInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListAppInstancesOutputBody: Swift.Equatable {
+struct ListAppInstancesOutputBody {
     let appInstances: [ChimeSDKIdentityClientTypes.AppInstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -3924,7 +3924,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3937,7 +3937,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3958,7 +3958,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tag key-value pairs.
     public var tags: [ChimeSDKIdentityClientTypes.Tag]?
 
@@ -3970,7 +3970,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ChimeSDKIdentityClientTypes.Tag]?
 }
 
@@ -4055,7 +4055,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -4098,7 +4098,7 @@ extension PutAppInstanceRetentionSettingsInput {
     }
 }
 
-public struct PutAppInstanceRetentionSettingsInput: Swift.Equatable {
+public struct PutAppInstanceRetentionSettingsInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -4116,7 +4116,7 @@ public struct PutAppInstanceRetentionSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutAppInstanceRetentionSettingsInputBody: Swift.Equatable {
+struct PutAppInstanceRetentionSettingsInputBody {
     let appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
 }
 
@@ -4146,7 +4146,7 @@ extension PutAppInstanceRetentionSettingsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutAppInstanceRetentionSettingsOutput: Swift.Equatable {
+public struct PutAppInstanceRetentionSettingsOutput {
     /// The time in days to retain data. Data type: number.
     public var appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
     /// The time at which the API deletes data.
@@ -4162,7 +4162,7 @@ public struct PutAppInstanceRetentionSettingsOutput: Swift.Equatable {
     }
 }
 
-struct PutAppInstanceRetentionSettingsOutputBody: Swift.Equatable {
+struct PutAppInstanceRetentionSettingsOutputBody {
     let appInstanceRetentionSettings: ChimeSDKIdentityClientTypes.AppInstanceRetentionSettings?
     let initiateDeletionTimestamp: ClientRuntime.Date?
 }
@@ -4221,7 +4221,7 @@ extension PutAppInstanceUserExpirationSettingsInput {
     }
 }
 
-public struct PutAppInstanceUserExpirationSettingsInput: Swift.Equatable {
+public struct PutAppInstanceUserExpirationSettingsInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -4238,7 +4238,7 @@ public struct PutAppInstanceUserExpirationSettingsInput: Swift.Equatable {
     }
 }
 
-struct PutAppInstanceUserExpirationSettingsInputBody: Swift.Equatable {
+struct PutAppInstanceUserExpirationSettingsInputBody {
     let expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
 }
 
@@ -4268,7 +4268,7 @@ extension PutAppInstanceUserExpirationSettingsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct PutAppInstanceUserExpirationSettingsOutput: Swift.Equatable {
+public struct PutAppInstanceUserExpirationSettingsOutput {
     /// The ARN of the AppInstanceUser.
     public var appInstanceUserArn: Swift.String?
     /// Settings that control the interval after which an AppInstanceUser is automatically deleted.
@@ -4284,7 +4284,7 @@ public struct PutAppInstanceUserExpirationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct PutAppInstanceUserExpirationSettingsOutputBody: Swift.Equatable {
+struct PutAppInstanceUserExpirationSettingsOutputBody {
     let appInstanceUserArn: Swift.String?
     let expirationSettings: ChimeSDKIdentityClientTypes.ExpirationSettings?
 }
@@ -4369,7 +4369,7 @@ extension RegisterAppInstanceUserEndpointInput {
     }
 }
 
-public struct RegisterAppInstanceUserEndpointInput: Swift.Equatable {
+public struct RegisterAppInstanceUserEndpointInput {
     /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint receives all messages. NONE indicates the endpoint receives no messages.
     public var allowMessages: ChimeSDKIdentityClientTypes.AllowMessages?
     /// The ARN of the AppInstanceUser.
@@ -4419,7 +4419,7 @@ public struct RegisterAppInstanceUserEndpointInput: Swift.Equatable {
     }
 }
 
-struct RegisterAppInstanceUserEndpointInputBody: Swift.Equatable {
+struct RegisterAppInstanceUserEndpointInputBody {
     let name: Swift.String?
     let type: ChimeSDKIdentityClientTypes.AppInstanceUserEndpointType?
     let resourceArn: Swift.String?
@@ -4469,7 +4469,7 @@ extension RegisterAppInstanceUserEndpointOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct RegisterAppInstanceUserEndpointOutput: Swift.Equatable {
+public struct RegisterAppInstanceUserEndpointOutput {
     /// The ARN of the AppInstanceUser.
     public var appInstanceUserArn: Swift.String?
     /// The unique identifier of the AppInstanceUserEndpoint.
@@ -4485,7 +4485,7 @@ public struct RegisterAppInstanceUserEndpointOutput: Swift.Equatable {
     }
 }
 
-struct RegisterAppInstanceUserEndpointOutputBody: Swift.Equatable {
+struct RegisterAppInstanceUserEndpointOutputBody {
     let appInstanceUserArn: Swift.String?
     let endpointId: Swift.String?
 }
@@ -4567,7 +4567,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -4660,7 +4660,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServiceFailureExceptionBody: Swift.Equatable {
+struct ServiceFailureExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -4724,7 +4724,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -4814,7 +4814,7 @@ extension ChimeSDKIdentityClientTypes.Tag: Swift.CustomDebugStringConvertible {
 
 extension ChimeSDKIdentityClientTypes {
     /// A tag object containing a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key in a tag.
         /// This member is required.
         public var key: Swift.String?
@@ -4870,7 +4870,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4888,7 +4888,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ChimeSDKIdentityClientTypes.Tag]?
 }
@@ -4922,7 +4922,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5020,7 +5020,7 @@ public struct ThrottledClientException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ThrottledClientExceptionBody: Swift.Equatable {
+struct ThrottledClientExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -5084,7 +5084,7 @@ public struct UnauthorizedClientException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct UnauthorizedClientExceptionBody: Swift.Equatable {
+struct UnauthorizedClientExceptionBody {
     let code: ChimeSDKIdentityClientTypes.ErrorCode?
     let message: Swift.String?
 }
@@ -5140,7 +5140,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -5158,7 +5158,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5192,7 +5192,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5249,7 +5249,7 @@ extension UpdateAppInstanceBotInput {
     }
 }
 
-public struct UpdateAppInstanceBotInput: Swift.Equatable {
+public struct UpdateAppInstanceBotInput {
     /// The ARN of the AppInstanceBot.
     /// This member is required.
     public var appInstanceBotArn: Swift.String?
@@ -5276,7 +5276,7 @@ public struct UpdateAppInstanceBotInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceBotInputBody: Swift.Equatable {
+struct UpdateAppInstanceBotInputBody {
     let name: Swift.String?
     let metadata: Swift.String?
     let configuration: ChimeSDKIdentityClientTypes.Configuration?
@@ -5312,7 +5312,7 @@ extension UpdateAppInstanceBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppInstanceBotOutput: Swift.Equatable {
+public struct UpdateAppInstanceBotOutput {
     /// The ARN of the AppInstanceBot.
     public var appInstanceBotArn: Swift.String?
 
@@ -5324,7 +5324,7 @@ public struct UpdateAppInstanceBotOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceBotOutputBody: Swift.Equatable {
+struct UpdateAppInstanceBotOutputBody {
     let appInstanceBotArn: Swift.String?
 }
 
@@ -5390,7 +5390,7 @@ extension UpdateAppInstanceInput {
     }
 }
 
-public struct UpdateAppInstanceInput: Swift.Equatable {
+public struct UpdateAppInstanceInput {
     /// The ARN of the AppInstance.
     /// This member is required.
     public var appInstanceArn: Swift.String?
@@ -5413,7 +5413,7 @@ public struct UpdateAppInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceInputBody: Swift.Equatable {
+struct UpdateAppInstanceInputBody {
     let name: Swift.String?
     let metadata: Swift.String?
 }
@@ -5445,7 +5445,7 @@ extension UpdateAppInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppInstanceOutput: Swift.Equatable {
+public struct UpdateAppInstanceOutput {
     /// The ARN of the AppInstance.
     public var appInstanceArn: Swift.String?
 
@@ -5457,7 +5457,7 @@ public struct UpdateAppInstanceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceOutputBody: Swift.Equatable {
+struct UpdateAppInstanceOutputBody {
     let appInstanceArn: Swift.String?
 }
 
@@ -5525,7 +5525,7 @@ extension UpdateAppInstanceUserEndpointInput {
     }
 }
 
-public struct UpdateAppInstanceUserEndpointInput: Swift.Equatable {
+public struct UpdateAppInstanceUserEndpointInput {
     /// Boolean that controls whether the AppInstanceUserEndpoint is opted in to receive messages. ALL indicates the endpoint will receive all messages. NONE indicates the endpoint will receive no messages.
     public var allowMessages: ChimeSDKIdentityClientTypes.AllowMessages?
     /// The ARN of the AppInstanceUser.
@@ -5551,7 +5551,7 @@ public struct UpdateAppInstanceUserEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceUserEndpointInputBody: Swift.Equatable {
+struct UpdateAppInstanceUserEndpointInputBody {
     let name: Swift.String?
     let allowMessages: ChimeSDKIdentityClientTypes.AllowMessages?
 }
@@ -5585,7 +5585,7 @@ extension UpdateAppInstanceUserEndpointOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateAppInstanceUserEndpointOutput: Swift.Equatable {
+public struct UpdateAppInstanceUserEndpointOutput {
     /// The ARN of the AppInstanceUser.
     public var appInstanceUserArn: Swift.String?
     /// The unique identifier of the AppInstanceUserEndpoint.
@@ -5601,7 +5601,7 @@ public struct UpdateAppInstanceUserEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceUserEndpointOutputBody: Swift.Equatable {
+struct UpdateAppInstanceUserEndpointOutputBody {
     let appInstanceUserArn: Swift.String?
     let endpointId: Swift.String?
 }
@@ -5670,7 +5670,7 @@ extension UpdateAppInstanceUserInput {
     }
 }
 
-public struct UpdateAppInstanceUserInput: Swift.Equatable {
+public struct UpdateAppInstanceUserInput {
     /// The ARN of the AppInstanceUser.
     /// This member is required.
     public var appInstanceUserArn: Swift.String?
@@ -5693,7 +5693,7 @@ public struct UpdateAppInstanceUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceUserInputBody: Swift.Equatable {
+struct UpdateAppInstanceUserInputBody {
     let name: Swift.String?
     let metadata: Swift.String?
 }
@@ -5725,7 +5725,7 @@ extension UpdateAppInstanceUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppInstanceUserOutput: Swift.Equatable {
+public struct UpdateAppInstanceUserOutput {
     /// The ARN of the AppInstanceUser.
     public var appInstanceUserArn: Swift.String?
 
@@ -5737,7 +5737,7 @@ public struct UpdateAppInstanceUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInstanceUserOutputBody: Swift.Equatable {
+struct UpdateAppInstanceUserOutputBody {
     let appInstanceUserArn: Swift.String?
 }
 

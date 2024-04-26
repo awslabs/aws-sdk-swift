@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -112,7 +112,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -226,7 +226,7 @@ extension CreateDbInstanceInput {
     }
 }
 
-public struct CreateDbInstanceInput: Swift.Equatable {
+public struct CreateDbInstanceInput {
     /// The amount of storage to allocate for your DB storage type in GiB (gibibytes).
     /// This member is required.
     public var allocatedStorage: Swift.Int?
@@ -306,7 +306,7 @@ public struct CreateDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateDbInstanceInputBody: Swift.Equatable {
+struct CreateDbInstanceInputBody {
     let name: Swift.String?
     let username: Swift.String?
     let password: Swift.String?
@@ -449,7 +449,7 @@ extension CreateDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDbInstanceOutput: Swift.Equatable {
+public struct CreateDbInstanceOutput {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -529,7 +529,7 @@ public struct CreateDbInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateDbInstanceOutputBody: Swift.Equatable {
+struct CreateDbInstanceOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -679,7 +679,7 @@ extension CreateDbParameterGroupInput {
     }
 }
 
-public struct CreateDbParameterGroupInput: Swift.Equatable {
+public struct CreateDbParameterGroupInput {
     /// A description of the DB parameter group.
     public var description: Swift.String?
     /// The name of the DB parameter group. The name must be unique per customer and per region.
@@ -704,7 +704,7 @@ public struct CreateDbParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateDbParameterGroupInputBody: Swift.Equatable {
+struct CreateDbParameterGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let parameters: TimestreamInfluxDBClientTypes.Parameters?
@@ -761,7 +761,7 @@ extension CreateDbParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDbParameterGroupOutput: Swift.Equatable {
+public struct CreateDbParameterGroupOutput {
     /// The Amazon Resource Name (ARM) of the DB parameter group.
     /// This member is required.
     public var arn: Swift.String?
@@ -792,7 +792,7 @@ public struct CreateDbParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateDbParameterGroupOutputBody: Swift.Equatable {
+struct CreateDbParameterGroupOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -910,7 +910,7 @@ extension TimestreamInfluxDBClientTypes.DbInstanceSummary: Swift.Codable {
 
 extension TimestreamInfluxDBClientTypes {
     /// Contains a summary of a DB instance.
-    public struct DbInstanceSummary: Swift.Equatable {
+    public struct DbInstanceSummary {
         /// The amount of storage to allocate for your DbStorageType in GiB (gibibytes).
         public var allocatedStorage: Swift.Int?
         /// The Amazon Resource Name (ARN) of the DB instance.
@@ -1048,7 +1048,7 @@ extension TimestreamInfluxDBClientTypes.DbParameterGroupSummary: Swift.Codable {
 
 extension TimestreamInfluxDBClientTypes {
     /// Contains a summary of a DB parameter group.
-    public struct DbParameterGroupSummary: Swift.Equatable {
+    public struct DbParameterGroupSummary {
         /// The Amazon Resource Name (ARN) of the DB parameter group.
         /// This member is required.
         public var arn: Swift.String?
@@ -1132,7 +1132,7 @@ extension DeleteDbInstanceInput {
     }
 }
 
-public struct DeleteDbInstanceInput: Swift.Equatable {
+public struct DeleteDbInstanceInput {
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1145,7 +1145,7 @@ public struct DeleteDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteDbInstanceInputBody: Swift.Equatable {
+struct DeleteDbInstanceInputBody {
     let identifier: Swift.String?
 }
 
@@ -1205,7 +1205,7 @@ extension DeleteDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDbInstanceOutput: Swift.Equatable {
+public struct DeleteDbInstanceOutput {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -1285,7 +1285,7 @@ public struct DeleteDbInstanceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDbInstanceOutputBody: Swift.Equatable {
+struct DeleteDbInstanceOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1451,7 +1451,7 @@ extension GetDbInstanceInput {
     }
 }
 
-public struct GetDbInstanceInput: Swift.Equatable {
+public struct GetDbInstanceInput {
     /// The id of the DB instance.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1464,7 +1464,7 @@ public struct GetDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct GetDbInstanceInputBody: Swift.Equatable {
+struct GetDbInstanceInputBody {
     let identifier: Swift.String?
 }
 
@@ -1524,7 +1524,7 @@ extension GetDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDbInstanceOutput: Swift.Equatable {
+public struct GetDbInstanceOutput {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -1604,7 +1604,7 @@ public struct GetDbInstanceOutput: Swift.Equatable {
     }
 }
 
-struct GetDbInstanceOutputBody: Swift.Equatable {
+struct GetDbInstanceOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1737,7 +1737,7 @@ extension GetDbParameterGroupInput {
     }
 }
 
-public struct GetDbParameterGroupInput: Swift.Equatable {
+public struct GetDbParameterGroupInput {
     /// The id of the DB parameter group.
     /// This member is required.
     public var identifier: Swift.String?
@@ -1750,7 +1750,7 @@ public struct GetDbParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct GetDbParameterGroupInputBody: Swift.Equatable {
+struct GetDbParameterGroupInputBody {
     let identifier: Swift.String?
 }
 
@@ -1786,7 +1786,7 @@ extension GetDbParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDbParameterGroupOutput: Swift.Equatable {
+public struct GetDbParameterGroupOutput {
     /// The Amazon Resource Name (ARN) of the DB parameter group.
     /// This member is required.
     public var arn: Swift.String?
@@ -1817,7 +1817,7 @@ public struct GetDbParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetDbParameterGroupOutputBody: Swift.Equatable {
+struct GetDbParameterGroupOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1921,7 +1921,7 @@ extension TimestreamInfluxDBClientTypes.InfluxDBv2Parameters: Swift.Codable {
 
 extension TimestreamInfluxDBClientTypes {
     /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
-    public struct InfluxDBv2Parameters: Swift.Equatable {
+    public struct InfluxDBv2Parameters {
         /// Include option to show detailed logs for Flux queries. Default: false
         public var fluxLogEnabled: Swift.Bool?
         /// Log output level. InfluxDB outputs log entries with severity levels greater than or equal to the level specified. Default: info
@@ -1999,7 +1999,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2039,7 +2039,7 @@ extension ListDbInstancesInput {
     }
 }
 
-public struct ListDbInstancesInput: Swift.Equatable {
+public struct ListDbInstancesInput {
     /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -2055,7 +2055,7 @@ public struct ListDbInstancesInput: Swift.Equatable {
     }
 }
 
-struct ListDbInstancesInputBody: Swift.Equatable {
+struct ListDbInstancesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2089,7 +2089,7 @@ extension ListDbInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDbInstancesOutput: Swift.Equatable {
+public struct ListDbInstancesOutput {
     /// A list of Timestream for InfluxDB DB instance summaries.
     /// This member is required.
     public var items: [TimestreamInfluxDBClientTypes.DbInstanceSummary]?
@@ -2106,7 +2106,7 @@ public struct ListDbInstancesOutput: Swift.Equatable {
     }
 }
 
-struct ListDbInstancesOutputBody: Swift.Equatable {
+struct ListDbInstancesOutputBody {
     let items: [TimestreamInfluxDBClientTypes.DbInstanceSummary]?
     let nextToken: Swift.String?
 }
@@ -2174,7 +2174,7 @@ extension ListDbParameterGroupsInput {
     }
 }
 
-public struct ListDbParameterGroupsInput: Swift.Equatable {
+public struct ListDbParameterGroupsInput {
     /// The maximum number of items to return in the output. If the total number of items available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -2190,7 +2190,7 @@ public struct ListDbParameterGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListDbParameterGroupsInputBody: Swift.Equatable {
+struct ListDbParameterGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2224,7 +2224,7 @@ extension ListDbParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDbParameterGroupsOutput: Swift.Equatable {
+public struct ListDbParameterGroupsOutput {
     /// A list of Timestream for InfluxDB DB parameter group summaries.
     /// This member is required.
     public var items: [TimestreamInfluxDBClientTypes.DbParameterGroupSummary]?
@@ -2241,7 +2241,7 @@ public struct ListDbParameterGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListDbParameterGroupsOutputBody: Swift.Equatable {
+struct ListDbParameterGroupsOutputBody {
     let items: [TimestreamInfluxDBClientTypes.DbParameterGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -2305,7 +2305,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2318,7 +2318,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -2346,7 +2346,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags used to categorize and track resources.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2358,7 +2358,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2415,7 +2415,7 @@ extension TimestreamInfluxDBClientTypes.LogDeliveryConfiguration: Swift.Codable 
 
 extension TimestreamInfluxDBClientTypes {
     /// Configuration for sending InfluxDB engine logs to send to specified S3 bucket.
-    public struct LogDeliveryConfiguration: Swift.Equatable {
+    public struct LogDeliveryConfiguration {
         /// Configuration for S3 bucket log delivery.
         /// This member is required.
         public var s3Configuration: TimestreamInfluxDBClientTypes.S3Configuration?
@@ -2494,7 +2494,7 @@ extension TimestreamInfluxDBClientTypes.Parameters: Swift.Codable {
 
 extension TimestreamInfluxDBClientTypes {
     /// The parameters that comprise the parameter group.
-    public enum Parameters: Swift.Equatable {
+    public enum Parameters {
         /// All the customer-modifiable InfluxDB v2 parameters in Timestream for InfluxDB.
         case influxdbv2(TimestreamInfluxDBClientTypes.InfluxDBv2Parameters)
         case sdkUnknown(Swift.String)
@@ -2556,7 +2556,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2607,7 +2607,7 @@ extension TimestreamInfluxDBClientTypes.S3Configuration: Swift.Codable {
 
 extension TimestreamInfluxDBClientTypes {
     /// Configuration for S3 bucket log delivery.
-    public struct S3Configuration: Swift.Equatable {
+    public struct S3Configuration {
         /// The name of the S3 bucket to deliver logs to.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -2667,7 +2667,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2757,7 +2757,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2775,7 +2775,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -2809,7 +2809,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2874,7 +2874,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2947,7 +2947,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the tagged resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2965,7 +2965,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -2995,7 +2995,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3039,7 +3039,7 @@ extension UpdateDbInstanceInput {
     }
 }
 
-public struct UpdateDbInstanceInput: Swift.Equatable {
+public struct UpdateDbInstanceInput {
     /// The id of the DB parameter group to assign to your DB instance. DB parameter groups specify how the database is configured. For example, DB parameter groups can specify the limit for query concurrency.
     public var dbParameterGroupIdentifier: Swift.String?
     /// The id of the DB instance.
@@ -3060,7 +3060,7 @@ public struct UpdateDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateDbInstanceInputBody: Swift.Equatable {
+struct UpdateDbInstanceInputBody {
     let identifier: Swift.String?
     let logDeliveryConfiguration: TimestreamInfluxDBClientTypes.LogDeliveryConfiguration?
     let dbParameterGroupIdentifier: Swift.String?
@@ -3128,7 +3128,7 @@ extension UpdateDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDbInstanceOutput: Swift.Equatable {
+public struct UpdateDbInstanceOutput {
     /// The amount of storage allocated for your DB storage type (in gibibytes).
     public var allocatedStorage: Swift.Int?
     /// The Amazon Resource Name (ARN) of the DB instance.
@@ -3208,7 +3208,7 @@ public struct UpdateDbInstanceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDbInstanceOutputBody: Swift.Equatable {
+struct UpdateDbInstanceOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -3369,7 +3369,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: TimestreamInfluxDBClientTypes.ValidationExceptionReason?
 }

@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -123,7 +123,7 @@ extension ConnectCasesClientTypes.AuditEvent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Represents the content of a particular audit event.
-    public struct AuditEvent: Swift.Equatable {
+    public struct AuditEvent {
         /// Unique identifier of a case audit history event.
         /// This member is required.
         public var eventId: Swift.String?
@@ -194,7 +194,7 @@ extension ConnectCasesClientTypes.AuditEventField: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Fields for audit event.
-    public struct AuditEventField: Swift.Equatable {
+    public struct AuditEventField {
         /// Unique identifier of field in an Audit History entry.
         /// This member is required.
         public var eventFieldId: Swift.String?
@@ -279,7 +279,7 @@ extension ConnectCasesClientTypes.AuditEventFieldValueUnion: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object to store union of Field values. This data type is a UNION, so only one of the following members can be specified when used or returned.
-    public enum AuditEventFieldValueUnion: Swift.Equatable {
+    public enum AuditEventFieldValueUnion {
         /// Can be either null, or have a String value type. Only one value can be provided.
         case stringvalue(Swift.String)
         /// Can be either null, or have a Double value type. Only one value can be provided.
@@ -322,7 +322,7 @@ extension ConnectCasesClientTypes.AuditEventPerformedBy: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Information of the user which performed the audit.
-    public struct AuditEventPerformedBy: Swift.Equatable {
+    public struct AuditEventPerformedBy {
         /// Unique identifier of an IAM role.
         /// This member is required.
         public var iamPrincipalArn: Swift.String?
@@ -403,7 +403,7 @@ extension ConnectCasesClientTypes.BasicLayout: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of agent application.
-    public struct BasicLayout: Swift.Equatable {
+    public struct BasicLayout {
         /// This represents sections in a tab of the page layout.
         public var moreInfo: ConnectCasesClientTypes.LayoutSections?
         /// This represents sections in a panel of the page layout.
@@ -447,7 +447,7 @@ extension BatchGetFieldInput {
     }
 }
 
-public struct BatchGetFieldInput: Swift.Equatable {
+public struct BatchGetFieldInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -465,7 +465,7 @@ public struct BatchGetFieldInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFieldInputBody: Swift.Equatable {
+struct BatchGetFieldInputBody {
     let fields: [ConnectCasesClientTypes.FieldIdentifier]?
 }
 
@@ -504,7 +504,7 @@ extension BatchGetFieldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFieldOutput: Swift.Equatable {
+public struct BatchGetFieldOutput {
     /// A list of field errors.
     /// This member is required.
     public var errors: [ConnectCasesClientTypes.FieldError]?
@@ -522,7 +522,7 @@ public struct BatchGetFieldOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFieldOutputBody: Swift.Equatable {
+struct BatchGetFieldOutputBody {
     let fields: [ConnectCasesClientTypes.GetFieldResponse]?
     let errors: [ConnectCasesClientTypes.FieldError]?
 }
@@ -604,7 +604,7 @@ extension BatchPutFieldOptionsInput {
     }
 }
 
-public struct BatchPutFieldOptionsInput: Swift.Equatable {
+public struct BatchPutFieldOptionsInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -627,7 +627,7 @@ public struct BatchPutFieldOptionsInput: Swift.Equatable {
     }
 }
 
-struct BatchPutFieldOptionsInputBody: Swift.Equatable {
+struct BatchPutFieldOptionsInputBody {
     let options: [ConnectCasesClientTypes.FieldOption]?
 }
 
@@ -664,7 +664,7 @@ extension BatchPutFieldOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchPutFieldOptionsOutput: Swift.Equatable {
+public struct BatchPutFieldOptionsOutput {
     /// A list of field errors.
     public var errors: [ConnectCasesClientTypes.FieldOptionError]?
 
@@ -676,7 +676,7 @@ public struct BatchPutFieldOptionsOutput: Swift.Equatable {
     }
 }
 
-struct BatchPutFieldOptionsOutputBody: Swift.Equatable {
+struct BatchPutFieldOptionsOutputBody {
     let errors: [ConnectCasesClientTypes.FieldOptionError]?
 }
 
@@ -750,7 +750,7 @@ extension ConnectCasesClientTypes.CaseEventIncludedData: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Details of what case data is published through the case event stream.
-    public struct CaseEventIncludedData: Swift.Equatable {
+    public struct CaseEventIncludedData {
         /// List of field identifiers.
         /// This member is required.
         public var fields: [ConnectCasesClientTypes.FieldIdentifier]?
@@ -842,7 +842,7 @@ extension ConnectCasesClientTypes.CaseFilter: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A filter for cases. Only one value can be provided.
-    public indirect enum CaseFilter: Swift.Equatable {
+    public indirect enum CaseFilter {
         /// A list of fields to filter on.
         case field(ConnectCasesClientTypes.FieldFilter)
         /// A filter for cases. Only one value can be provided.
@@ -883,7 +883,7 @@ extension ConnectCasesClientTypes.CaseSummary: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Case summary information.
-    public struct CaseSummary: Swift.Equatable {
+    public struct CaseSummary {
         /// A unique identifier of the case.
         /// This member is required.
         public var caseId: Swift.String?
@@ -959,7 +959,7 @@ extension ConnectCasesClientTypes.CommentContent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Represents the content of a Comment to be returned to agents.
-    public struct CommentContent: Swift.Equatable {
+    public struct CommentContent {
         /// Text in the body of a Comment on a case.
         /// This member is required.
         public var body: Swift.String?
@@ -992,7 +992,7 @@ extension ConnectCasesClientTypes.CommentFilter: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A filter for related items of type Comment.
-    public struct CommentFilter: Swift.Equatable {
+    public struct CommentFilter {
 
         public init() { }
     }
@@ -1039,7 +1039,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1078,7 +1078,7 @@ extension ConnectCasesClientTypes.Contact: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// An object that represents an Amazon Connect contact object.
-    public struct Contact: Swift.Equatable {
+    public struct Contact {
         /// A unique identifier of a contact in Amazon Connect.
         /// This member is required.
         public var contactArn: Swift.String?
@@ -1126,7 +1126,7 @@ extension ConnectCasesClientTypes.ContactContent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// An object that represents a content of an Amazon Connect contact object.
-    public struct ContactContent: Swift.Equatable {
+    public struct ContactContent {
         /// A list of channels to filter on for related items of type Contact.
         /// This member is required.
         public var channel: Swift.String?
@@ -1190,7 +1190,7 @@ extension ConnectCasesClientTypes.ContactFilter: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A filter for related items of type Contact.
-    public struct ContactFilter: Swift.Equatable {
+    public struct ContactFilter {
         /// A list of channels to filter on for related items of type Contact.
         public var channel: [Swift.String]?
         /// A unique identifier of a contact in Amazon Connect.
@@ -1246,7 +1246,7 @@ extension CreateCaseInput {
     }
 }
 
-public struct CreateCaseInput: Swift.Equatable {
+public struct CreateCaseInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -1277,7 +1277,7 @@ public struct CreateCaseInput: Swift.Equatable {
     }
 }
 
-struct CreateCaseInputBody: Swift.Equatable {
+struct CreateCaseInputBody {
     let templateId: Swift.String?
     let fields: [ConnectCasesClientTypes.FieldValue]?
     let clientToken: Swift.String?
@@ -1328,7 +1328,7 @@ extension CreateCaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCaseOutput: Swift.Equatable {
+public struct CreateCaseOutput {
     /// The Amazon Resource Name (ARN) of the case.
     /// This member is required.
     public var caseArn: Swift.String?
@@ -1346,7 +1346,7 @@ public struct CreateCaseOutput: Swift.Equatable {
     }
 }
 
-struct CreateCaseOutputBody: Swift.Equatable {
+struct CreateCaseOutputBody {
     let caseId: Swift.String?
     let caseArn: Swift.String?
 }
@@ -1402,7 +1402,7 @@ extension CreateDomainInput {
     }
 }
 
-public struct CreateDomainInput: Swift.Equatable {
+public struct CreateDomainInput {
     /// The name for your Cases domain. It must be unique for your Amazon Web Services account.
     /// This member is required.
     public var name: Swift.String?
@@ -1415,7 +1415,7 @@ public struct CreateDomainInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainInputBody: Swift.Equatable {
+struct CreateDomainInputBody {
     let name: Swift.String?
 }
 
@@ -1447,7 +1447,7 @@ extension CreateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDomainOutput: Swift.Equatable {
+public struct CreateDomainOutput {
     /// The Amazon Resource Name (ARN) for the Cases domain.
     /// This member is required.
     public var domainArn: Swift.String?
@@ -1470,7 +1470,7 @@ public struct CreateDomainOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainOutputBody: Swift.Equatable {
+struct CreateDomainOutputBody {
     let domainId: Swift.String?
     let domainArn: Swift.String?
     let domainStatus: ConnectCasesClientTypes.DomainStatus?
@@ -1541,7 +1541,7 @@ extension CreateFieldInput {
     }
 }
 
-public struct CreateFieldInput: Swift.Equatable {
+public struct CreateFieldInput {
     /// The description of the field.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -1568,7 +1568,7 @@ public struct CreateFieldInput: Swift.Equatable {
     }
 }
 
-struct CreateFieldInputBody: Swift.Equatable {
+struct CreateFieldInputBody {
     let name: Swift.String?
     let type: ConnectCasesClientTypes.FieldType?
     let description: Swift.String?
@@ -1606,7 +1606,7 @@ extension CreateFieldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFieldOutput: Swift.Equatable {
+public struct CreateFieldOutput {
     /// The Amazon Resource Name (ARN) of the field.
     /// This member is required.
     public var fieldArn: Swift.String?
@@ -1624,7 +1624,7 @@ public struct CreateFieldOutput: Swift.Equatable {
     }
 }
 
-struct CreateFieldOutputBody: Swift.Equatable {
+struct CreateFieldOutputBody {
     let fieldId: Swift.String?
     let fieldArn: Swift.String?
 }
@@ -1688,7 +1688,7 @@ extension CreateLayoutInput {
     }
 }
 
-public struct CreateLayoutInput: Swift.Equatable {
+public struct CreateLayoutInput {
     /// Information about which fields will be present in the layout, and information about the order of the fields.
     /// This member is required.
     public var content: ConnectCasesClientTypes.LayoutContent?
@@ -1711,7 +1711,7 @@ public struct CreateLayoutInput: Swift.Equatable {
     }
 }
 
-struct CreateLayoutInputBody: Swift.Equatable {
+struct CreateLayoutInputBody {
     let name: Swift.String?
     let content: ConnectCasesClientTypes.LayoutContent?
 }
@@ -1745,7 +1745,7 @@ extension CreateLayoutOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLayoutOutput: Swift.Equatable {
+public struct CreateLayoutOutput {
     /// The Amazon Resource Name (ARN) of the newly created layout.
     /// This member is required.
     public var layoutArn: Swift.String?
@@ -1763,7 +1763,7 @@ public struct CreateLayoutOutput: Swift.Equatable {
     }
 }
 
-struct CreateLayoutOutputBody: Swift.Equatable {
+struct CreateLayoutOutputBody {
     let layoutId: Swift.String?
     let layoutArn: Swift.String?
 }
@@ -1834,7 +1834,7 @@ extension CreateRelatedItemInput {
     }
 }
 
-public struct CreateRelatedItemInput: Swift.Equatable {
+public struct CreateRelatedItemInput {
     /// A unique identifier of the case.
     /// This member is required.
     public var caseId: Swift.String?
@@ -1866,7 +1866,7 @@ public struct CreateRelatedItemInput: Swift.Equatable {
     }
 }
 
-struct CreateRelatedItemInputBody: Swift.Equatable {
+struct CreateRelatedItemInputBody {
     let type: ConnectCasesClientTypes.RelatedItemType?
     let content: ConnectCasesClientTypes.RelatedItemInputContent?
     let performedBy: ConnectCasesClientTypes.UserUnion?
@@ -1904,7 +1904,7 @@ extension CreateRelatedItemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRelatedItemOutput: Swift.Equatable {
+public struct CreateRelatedItemOutput {
     /// The Amazon Resource Name (ARN) of the related item.
     /// This member is required.
     public var relatedItemArn: Swift.String?
@@ -1922,7 +1922,7 @@ public struct CreateRelatedItemOutput: Swift.Equatable {
     }
 }
 
-struct CreateRelatedItemOutputBody: Swift.Equatable {
+struct CreateRelatedItemOutputBody {
     let relatedItemId: Swift.String?
     let relatedItemArn: Swift.String?
 }
@@ -2000,7 +2000,7 @@ extension CreateTemplateInput {
     }
 }
 
-public struct CreateTemplateInput: Swift.Equatable {
+public struct CreateTemplateInput {
     /// A brief description of the template.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -2034,7 +2034,7 @@ public struct CreateTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateInputBody: Swift.Equatable {
+struct CreateTemplateInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
@@ -2089,7 +2089,7 @@ extension CreateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateOutput: Swift.Equatable {
+public struct CreateTemplateOutput {
     /// The Amazon Resource Name (ARN) of the newly created template.
     /// This member is required.
     public var templateArn: Swift.String?
@@ -2107,7 +2107,7 @@ public struct CreateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateOutputBody: Swift.Equatable {
+struct CreateTemplateOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
 }
@@ -2154,7 +2154,7 @@ extension DeleteDomainInput {
     }
 }
 
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -2167,7 +2167,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainInputBody: Swift.Equatable {
+struct DeleteDomainInputBody {
 }
 
 extension DeleteDomainInputBody: Swift.Decodable {
@@ -2181,7 +2181,7 @@ extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
 
     public init() { }
 }
@@ -2270,7 +2270,7 @@ extension ConnectCasesClientTypes.DomainSummary: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for the summarized details of the domain.
-    public struct DomainSummary: Swift.Equatable {
+    public struct DomainSummary {
         /// The Amazon Resource Name (ARN) of the domain.
         /// This member is required.
         public var domainArn: Swift.String?
@@ -2308,7 +2308,7 @@ extension ConnectCasesClientTypes.EmptyFieldValue: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// An empty value. You cannot set EmptyFieldValue on a field that is required on a case template. This structure will never have any data members. It signifies an empty value on a case field.
-    public struct EmptyFieldValue: Swift.Equatable {
+    public struct EmptyFieldValue {
 
         public init() { }
     }
@@ -2342,7 +2342,7 @@ extension ConnectCasesClientTypes.EventBridgeConfiguration: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Configuration to enable EventBridge case event delivery and determine what data is delivered.
-    public struct EventBridgeConfiguration: Swift.Equatable {
+    public struct EventBridgeConfiguration {
         /// Indicates whether the to broadcast case event data to the customer.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -2388,7 +2388,7 @@ extension ConnectCasesClientTypes.EventIncludedData: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Details of what case and related item data is published through the case event stream.
-    public struct EventIncludedData: Swift.Equatable {
+    public struct EventIncludedData {
         /// Details of what case data is published through the case event stream.
         public var caseData: ConnectCasesClientTypes.CaseEventIncludedData?
         /// Details of what related item data is published through the case event stream.
@@ -2439,7 +2439,7 @@ extension ConnectCasesClientTypes.FieldError: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for errors on fields.
-    public struct FieldError: Swift.Equatable {
+    public struct FieldError {
         /// The error code from getting a field.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -2532,7 +2532,7 @@ extension ConnectCasesClientTypes.FieldFilter: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A filter for fields. Only one value can be provided.
-    public enum FieldFilter: Swift.Equatable {
+    public enum FieldFilter {
         /// Object containing field identifier and value information.
         case equalto(ConnectCasesClientTypes.FieldValue)
         /// Object containing field identifier and value information.
@@ -2589,7 +2589,7 @@ extension ConnectCasesClientTypes.FieldGroup: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for a group of fields and associated properties.
-    public struct FieldGroup: Swift.Equatable {
+    public struct FieldGroup {
         /// Represents an ordered list containing field related information.
         /// This member is required.
         public var fields: [ConnectCasesClientTypes.FieldItem]?
@@ -2629,7 +2629,7 @@ extension ConnectCasesClientTypes.FieldIdentifier: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for unique identifier of a field.
-    public struct FieldIdentifier: Swift.Equatable {
+    public struct FieldIdentifier {
         /// Unique identifier of a field.
         /// This member is required.
         public var id: Swift.String?
@@ -2665,7 +2665,7 @@ extension ConnectCasesClientTypes.FieldItem: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for field related information.
-    public struct FieldItem: Swift.Equatable {
+    public struct FieldItem {
         /// Unique identifier of a field.
         /// This member is required.
         public var id: Swift.String?
@@ -2745,7 +2745,7 @@ extension ConnectCasesClientTypes.FieldOption: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for field Options information.
-    public struct FieldOption: Swift.Equatable {
+    public struct FieldOption {
         /// Describes whether the FieldOption is active (displayed) or inactive.
         /// This member is required.
         public var active: Swift.Bool?
@@ -2803,7 +2803,7 @@ extension ConnectCasesClientTypes.FieldOptionError: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for field Options errors.
-    public struct FieldOptionError: Swift.Equatable {
+    public struct FieldOptionError {
         /// Error code from creating or updating field option.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -2873,7 +2873,7 @@ extension ConnectCasesClientTypes.FieldSummary: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for the summarized details of the field.
-    public struct FieldSummary: Swift.Equatable {
+    public struct FieldSummary {
         /// The Amazon Resource Name (ARN) of the field.
         /// This member is required.
         public var fieldArn: Swift.String?
@@ -2982,7 +2982,7 @@ extension ConnectCasesClientTypes.FieldValue: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for case field values.
-    public struct FieldValue: Swift.Equatable {
+    public struct FieldValue {
         /// Unique identifier of a field.
         /// This member is required.
         public var id: Swift.String?
@@ -3063,7 +3063,7 @@ extension ConnectCasesClientTypes.FieldValueUnion: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object to store union of Field values. The Summary system field accepts 1500 characters while all other fields accept 500 characters.
-    public enum FieldValueUnion: Swift.Equatable {
+    public enum FieldValueUnion {
         /// String value type.
         case stringvalue(Swift.String)
         /// Can be either null, or have a Double number value type. Only one value can be provided.
@@ -3109,7 +3109,7 @@ extension GetCaseAuditEventsInput {
     }
 }
 
-public struct GetCaseAuditEventsInput: Swift.Equatable {
+public struct GetCaseAuditEventsInput {
     /// A unique identifier of the case.
     /// This member is required.
     public var caseId: Swift.String?
@@ -3135,7 +3135,7 @@ public struct GetCaseAuditEventsInput: Swift.Equatable {
     }
 }
 
-struct GetCaseAuditEventsInputBody: Swift.Equatable {
+struct GetCaseAuditEventsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -3169,7 +3169,7 @@ extension GetCaseAuditEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCaseAuditEventsOutput: Swift.Equatable {
+public struct GetCaseAuditEventsOutput {
     /// A list of case audits where each represents a particular edit of the case.
     /// This member is required.
     public var auditEvents: [ConnectCasesClientTypes.AuditEvent?]?
@@ -3186,7 +3186,7 @@ public struct GetCaseAuditEventsOutput: Swift.Equatable {
     }
 }
 
-struct GetCaseAuditEventsOutputBody: Swift.Equatable {
+struct GetCaseAuditEventsOutputBody {
     let nextToken: Swift.String?
     let auditEvents: [ConnectCasesClientTypes.AuditEvent?]?
 }
@@ -3238,7 +3238,7 @@ extension GetCaseEventConfigurationInput {
     }
 }
 
-public struct GetCaseEventConfigurationInput: Swift.Equatable {
+public struct GetCaseEventConfigurationInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -3251,7 +3251,7 @@ public struct GetCaseEventConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetCaseEventConfigurationInputBody: Swift.Equatable {
+struct GetCaseEventConfigurationInputBody {
 }
 
 extension GetCaseEventConfigurationInputBody: Swift.Decodable {
@@ -3272,7 +3272,7 @@ extension GetCaseEventConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCaseEventConfigurationOutput: Swift.Equatable {
+public struct GetCaseEventConfigurationOutput {
     /// Configuration to enable EventBridge case event delivery and determine what data is delivered.
     /// This member is required.
     public var eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration?
@@ -3285,7 +3285,7 @@ public struct GetCaseEventConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetCaseEventConfigurationOutputBody: Swift.Equatable {
+struct GetCaseEventConfigurationOutputBody {
     let eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration?
 }
 
@@ -3349,7 +3349,7 @@ extension GetCaseInput {
     }
 }
 
-public struct GetCaseInput: Swift.Equatable {
+public struct GetCaseInput {
     /// A unique identifier of the case.
     /// This member is required.
     public var caseId: Swift.String?
@@ -3376,7 +3376,7 @@ public struct GetCaseInput: Swift.Equatable {
     }
 }
 
-struct GetCaseInputBody: Swift.Equatable {
+struct GetCaseInputBody {
     let fields: [ConnectCasesClientTypes.FieldIdentifier]?
     let nextToken: Swift.String?
 }
@@ -3423,7 +3423,7 @@ extension GetCaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCaseOutput: Swift.Equatable {
+public struct GetCaseOutput {
     /// A list of detailed field information.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldValue]?
@@ -3449,7 +3449,7 @@ public struct GetCaseOutput: Swift.Equatable {
     }
 }
 
-struct GetCaseOutputBody: Swift.Equatable {
+struct GetCaseOutputBody {
     let fields: [ConnectCasesClientTypes.FieldValue]?
     let templateId: Swift.String?
     let nextToken: Swift.String?
@@ -3518,7 +3518,7 @@ extension GetDomainInput {
     }
 }
 
-public struct GetDomainInput: Swift.Equatable {
+public struct GetDomainInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -3531,7 +3531,7 @@ public struct GetDomainInput: Swift.Equatable {
     }
 }
 
-struct GetDomainInputBody: Swift.Equatable {
+struct GetDomainInputBody {
 }
 
 extension GetDomainInputBody: Swift.Decodable {
@@ -3562,7 +3562,7 @@ extension GetDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDomainOutput: Swift.Equatable {
+public struct GetDomainOutput {
     /// The timestamp when the Cases domain was created.
     /// This member is required.
     public var createdTime: ClientRuntime.Date?
@@ -3599,7 +3599,7 @@ public struct GetDomainOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainOutputBody: Swift.Equatable {
+struct GetDomainOutputBody {
     let domainId: Swift.String?
     let domainArn: Swift.String?
     let name: Swift.String?
@@ -3728,7 +3728,7 @@ extension ConnectCasesClientTypes.GetFieldResponse: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object to store detailed field information.
-    public struct GetFieldResponse: Swift.Equatable {
+    public struct GetFieldResponse {
         /// Description of the field.
         public var description: Swift.String?
         /// The Amazon Resource Name (ARN) of the field.
@@ -3784,7 +3784,7 @@ extension GetLayoutInput {
     }
 }
 
-public struct GetLayoutInput: Swift.Equatable {
+public struct GetLayoutInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -3802,7 +3802,7 @@ public struct GetLayoutInput: Swift.Equatable {
     }
 }
 
-struct GetLayoutInputBody: Swift.Equatable {
+struct GetLayoutInputBody {
 }
 
 extension GetLayoutInputBody: Swift.Decodable {
@@ -3831,7 +3831,7 @@ extension GetLayoutOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLayoutOutput: Swift.Equatable {
+public struct GetLayoutOutput {
     /// Information about which fields will be present in the layout, the order of the fields, and read-only attribute of the field.
     /// This member is required.
     public var content: ConnectCasesClientTypes.LayoutContent?
@@ -3863,7 +3863,7 @@ public struct GetLayoutOutput: Swift.Equatable {
     }
 }
 
-struct GetLayoutOutputBody: Swift.Equatable {
+struct GetLayoutOutputBody {
     let layoutId: Swift.String?
     let layoutArn: Swift.String?
     let name: Swift.String?
@@ -3930,7 +3930,7 @@ extension GetTemplateInput {
     }
 }
 
-public struct GetTemplateInput: Swift.Equatable {
+public struct GetTemplateInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -3948,7 +3948,7 @@ public struct GetTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateInputBody: Swift.Equatable {
+struct GetTemplateInputBody {
 }
 
 extension GetTemplateInputBody: Swift.Decodable {
@@ -3983,7 +3983,7 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateOutput: Swift.Equatable {
+public struct GetTemplateOutput {
     /// A brief description of the template.
     public var description: Swift.String?
     /// Configuration of layouts associated to the template.
@@ -4027,7 +4027,7 @@ public struct GetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateOutputBody: Swift.Equatable {
+struct GetTemplateOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
     let name: Swift.String?
@@ -4151,7 +4151,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4188,7 +4188,7 @@ extension ConnectCasesClientTypes.LayoutConfiguration: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object to store configuration of layouts associated to the template.
-    public struct LayoutConfiguration: Swift.Equatable {
+    public struct LayoutConfiguration {
         /// Unique identifier of a layout.
         public var defaultLayout: Swift.String?
 
@@ -4231,7 +4231,7 @@ extension ConnectCasesClientTypes.LayoutContent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object to store union of different versions of layout content.
-    public enum LayoutContent: Swift.Equatable {
+    public enum LayoutContent {
         /// Content specific to BasicLayout type. It configures fields in the top panel and More Info tab of Cases user interface.
         case basic(ConnectCasesClientTypes.BasicLayout)
         case sdkUnknown(Swift.String)
@@ -4272,7 +4272,7 @@ extension ConnectCasesClientTypes.LayoutSections: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Ordered list containing different kinds of sections that can be added. A LayoutSections object can only contain one section.
-    public struct LayoutSections: Swift.Equatable {
+    public struct LayoutSections {
         /// Ordered list containing different kinds of sections that can be added.
         public var sections: [ConnectCasesClientTypes.Section]?
 
@@ -4319,7 +4319,7 @@ extension ConnectCasesClientTypes.LayoutSummary: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Object for the summarized details of the layout.
-    public struct LayoutSummary: Swift.Equatable {
+    public struct LayoutSummary {
         /// The Amazon Resource Name (ARN) of the layout.
         /// This member is required.
         public var layoutArn: Swift.String?
@@ -4375,7 +4375,7 @@ extension ListCasesForContactInput {
     }
 }
 
-public struct ListCasesForContactInput: Swift.Equatable {
+public struct ListCasesForContactInput {
     /// A unique identifier of a contact in Amazon Connect.
     /// This member is required.
     public var contactArn: Swift.String?
@@ -4401,7 +4401,7 @@ public struct ListCasesForContactInput: Swift.Equatable {
     }
 }
 
-struct ListCasesForContactInputBody: Swift.Equatable {
+struct ListCasesForContactInputBody {
     let contactArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4439,7 +4439,7 @@ extension ListCasesForContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCasesForContactOutput: Swift.Equatable {
+public struct ListCasesForContactOutput {
     /// A list of Case summary information.
     /// This member is required.
     public var cases: [ConnectCasesClientTypes.CaseSummary]?
@@ -4456,7 +4456,7 @@ public struct ListCasesForContactOutput: Swift.Equatable {
     }
 }
 
-struct ListCasesForContactOutputBody: Swift.Equatable {
+struct ListCasesForContactOutputBody {
     let cases: [ConnectCasesClientTypes.CaseSummary]?
     let nextToken: Swift.String?
 }
@@ -4523,7 +4523,7 @@ extension ListDomainsInput {
     }
 }
 
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -4539,7 +4539,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
 }
 
 extension ListDomainsInputBody: Swift.Decodable {
@@ -4562,7 +4562,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// The Cases domain.
     /// This member is required.
     public var domains: [ConnectCasesClientTypes.DomainSummary]?
@@ -4579,7 +4579,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domains: [ConnectCasesClientTypes.DomainSummary]?
     let nextToken: Swift.String?
 }
@@ -4657,7 +4657,7 @@ extension ListFieldOptionsInput {
     }
 }
 
-public struct ListFieldOptionsInput: Swift.Equatable {
+public struct ListFieldOptionsInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -4687,7 +4687,7 @@ public struct ListFieldOptionsInput: Swift.Equatable {
     }
 }
 
-struct ListFieldOptionsInputBody: Swift.Equatable {
+struct ListFieldOptionsInputBody {
 }
 
 extension ListFieldOptionsInputBody: Swift.Decodable {
@@ -4710,7 +4710,7 @@ extension ListFieldOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFieldOptionsOutput: Swift.Equatable {
+public struct ListFieldOptionsOutput {
     /// The token for the next set of results. This is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of FieldOption objects.
@@ -4727,7 +4727,7 @@ public struct ListFieldOptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListFieldOptionsOutputBody: Swift.Equatable {
+struct ListFieldOptionsOutputBody {
     let options: [ConnectCasesClientTypes.FieldOption]?
     let nextToken: Swift.String?
 }
@@ -4797,7 +4797,7 @@ extension ListFieldsInput {
     }
 }
 
-public struct ListFieldsInput: Swift.Equatable {
+public struct ListFieldsInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -4818,7 +4818,7 @@ public struct ListFieldsInput: Swift.Equatable {
     }
 }
 
-struct ListFieldsInputBody: Swift.Equatable {
+struct ListFieldsInputBody {
 }
 
 extension ListFieldsInputBody: Swift.Decodable {
@@ -4841,7 +4841,7 @@ extension ListFieldsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFieldsOutput: Swift.Equatable {
+public struct ListFieldsOutput {
     /// List of detailed field information.
     /// This member is required.
     public var fields: [ConnectCasesClientTypes.FieldSummary]?
@@ -4858,7 +4858,7 @@ public struct ListFieldsOutput: Swift.Equatable {
     }
 }
 
-struct ListFieldsOutputBody: Swift.Equatable {
+struct ListFieldsOutputBody {
     let fields: [ConnectCasesClientTypes.FieldSummary]?
     let nextToken: Swift.String?
 }
@@ -4928,7 +4928,7 @@ extension ListLayoutsInput {
     }
 }
 
-public struct ListLayoutsInput: Swift.Equatable {
+public struct ListLayoutsInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -4949,7 +4949,7 @@ public struct ListLayoutsInput: Swift.Equatable {
     }
 }
 
-struct ListLayoutsInputBody: Swift.Equatable {
+struct ListLayoutsInputBody {
 }
 
 extension ListLayoutsInputBody: Swift.Decodable {
@@ -4972,7 +4972,7 @@ extension ListLayoutsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLayoutsOutput: Swift.Equatable {
+public struct ListLayoutsOutput {
     /// The layouts for the domain.
     /// This member is required.
     public var layouts: [ConnectCasesClientTypes.LayoutSummary]?
@@ -4989,7 +4989,7 @@ public struct ListLayoutsOutput: Swift.Equatable {
     }
 }
 
-struct ListLayoutsOutputBody: Swift.Equatable {
+struct ListLayoutsOutputBody {
     let layouts: [ConnectCasesClientTypes.LayoutSummary]?
     let nextToken: Swift.String?
 }
@@ -5043,7 +5043,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN)
     /// This member is required.
     public var arn: Swift.String?
@@ -5056,7 +5056,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5077,7 +5077,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of of key-value pairs that represent tags on a resource. Tags are used to organize, track, or control access for this resource.
     public var tags: [Swift.String:Swift.String?]?
 
@@ -5089,7 +5089,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String?]?
 }
 
@@ -5159,7 +5159,7 @@ extension ListTemplatesInput {
     }
 }
 
-public struct ListTemplatesInput: Swift.Equatable {
+public struct ListTemplatesInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -5184,7 +5184,7 @@ public struct ListTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesInputBody: Swift.Equatable {
+struct ListTemplatesInputBody {
 }
 
 extension ListTemplatesInputBody: Swift.Decodable {
@@ -5207,7 +5207,7 @@ extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutput: Swift.Equatable {
+public struct ListTemplatesOutput {
     /// The token for the next set of results. This is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// List of template summary objects.
@@ -5224,7 +5224,7 @@ public struct ListTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputBody: Swift.Equatable {
+struct ListTemplatesOutputBody {
     let templates: [ConnectCasesClientTypes.TemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -5323,7 +5323,7 @@ extension PutCaseEventConfigurationInput {
     }
 }
 
-public struct PutCaseEventConfigurationInput: Swift.Equatable {
+public struct PutCaseEventConfigurationInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -5341,7 +5341,7 @@ public struct PutCaseEventConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutCaseEventConfigurationInputBody: Swift.Equatable {
+struct PutCaseEventConfigurationInputBody {
     let eventBridge: ConnectCasesClientTypes.EventBridgeConfiguration?
 }
 
@@ -5362,7 +5362,7 @@ extension PutCaseEventConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutCaseEventConfigurationOutput: Swift.Equatable {
+public struct PutCaseEventConfigurationOutput {
 
     public init() { }
 }
@@ -5419,7 +5419,7 @@ extension ConnectCasesClientTypes.RelatedItemContent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Represents the content of a particular type of related item.
-    public enum RelatedItemContent: Swift.Equatable {
+    public enum RelatedItemContent {
         /// Represents the content of a contact to be returned to agents.
         case contact(ConnectCasesClientTypes.ContactContent)
         /// Represents the content of a comment to be returned to agents.
@@ -5450,7 +5450,7 @@ extension ConnectCasesClientTypes.RelatedItemEventIncludedData: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Details of what related item data is published through the case event stream.
-    public struct RelatedItemEventIncludedData: Swift.Equatable {
+    public struct RelatedItemEventIncludedData {
         /// Details of what related item data is published through the case event stream.
         /// This member is required.
         public var includeContent: Swift.Bool?
@@ -5502,7 +5502,7 @@ extension ConnectCasesClientTypes.RelatedItemInputContent: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Represents the content of a related item to be created.
-    public enum RelatedItemInputContent: Swift.Equatable {
+    public enum RelatedItemInputContent {
         /// Object representing a contact in Amazon Connect as an API request field.
         case contact(ConnectCasesClientTypes.Contact)
         /// Represents the content of a comment to be returned to agents.
@@ -5581,7 +5581,7 @@ extension ConnectCasesClientTypes.RelatedItemTypeFilter: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// The list of types of related items and their parameters to use for filtering.
-    public enum RelatedItemTypeFilter: Swift.Equatable {
+    public enum RelatedItemTypeFilter {
         /// A filter for related items of type Contact.
         case contact(ConnectCasesClientTypes.ContactFilter)
         /// A filter for related items of type Comment.
@@ -5612,7 +5612,7 @@ extension ConnectCasesClientTypes.RequiredField: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// List of fields that must have a value provided to create a case.
-    public struct RequiredField: Swift.Equatable {
+    public struct RequiredField {
         /// Unique identifier of a field.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -5681,7 +5681,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -5754,7 +5754,7 @@ extension SearchCasesInput {
     }
 }
 
-public struct SearchCasesInput: Swift.Equatable {
+public struct SearchCasesInput {
     /// The unique identifier of the Cases domain.
     /// This member is required.
     public var domainId: Swift.String?
@@ -5791,7 +5791,7 @@ public struct SearchCasesInput: Swift.Equatable {
     }
 }
 
-struct SearchCasesInputBody: Swift.Equatable {
+struct SearchCasesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let searchTerm: Swift.String?
@@ -5859,7 +5859,7 @@ extension SearchCasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchCasesOutput: Swift.Equatable {
+public struct SearchCasesOutput {
     /// A list of case documents where each case contains the properties CaseId and Fields where each field is a complex union structure.
     /// This member is required.
     public var cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]?
@@ -5876,7 +5876,7 @@ public struct SearchCasesOutput: Swift.Equatable {
     }
 }
 
-struct SearchCasesOutputBody: Swift.Equatable {
+struct SearchCasesOutputBody {
     let nextToken: Swift.String?
     let cases: [ConnectCasesClientTypes.SearchCasesResponseItem?]?
 }
@@ -5983,7 +5983,7 @@ extension ConnectCasesClientTypes.SearchCasesResponseItem: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A list of items that represent cases.
-    public struct SearchCasesResponseItem: Swift.Equatable {
+    public struct SearchCasesResponseItem {
         /// A unique identifier of the case.
         /// This member is required.
         public var caseId: Swift.String?
@@ -6049,7 +6049,7 @@ extension SearchRelatedItemsInput {
     }
 }
 
-public struct SearchRelatedItemsInput: Swift.Equatable {
+public struct SearchRelatedItemsInput {
     /// A unique identifier of the case.
     /// This member is required.
     public var caseId: Swift.String?
@@ -6079,7 +6079,7 @@ public struct SearchRelatedItemsInput: Swift.Equatable {
     }
 }
 
-struct SearchRelatedItemsInputBody: Swift.Equatable {
+struct SearchRelatedItemsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let filters: [ConnectCasesClientTypes.RelatedItemTypeFilter]?
@@ -6126,7 +6126,7 @@ extension SearchRelatedItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchRelatedItemsOutput: Swift.Equatable {
+public struct SearchRelatedItemsOutput {
     /// The token for the next set of results. This is null if there are no more results to return.
     public var nextToken: Swift.String?
     /// A list of items related to a case.
@@ -6143,7 +6143,7 @@ public struct SearchRelatedItemsOutput: Swift.Equatable {
     }
 }
 
-struct SearchRelatedItemsOutputBody: Swift.Equatable {
+struct SearchRelatedItemsOutputBody {
     let nextToken: Swift.String?
     let relatedItems: [ConnectCasesClientTypes.SearchRelatedItemsResponseItem?]?
 }
@@ -6250,7 +6250,7 @@ extension ConnectCasesClientTypes.SearchRelatedItemsResponseItem: Swift.Codable 
 
 extension ConnectCasesClientTypes {
     /// A list of items that represent RelatedItems.
-    public struct SearchRelatedItemsResponseItem: Swift.Equatable {
+    public struct SearchRelatedItemsResponseItem {
         /// Time at which a related item was associated with a case.
         /// This member is required.
         public var associationTime: ClientRuntime.Date?
@@ -6317,7 +6317,7 @@ extension ConnectCasesClientTypes.Section: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// This represents a sections within a panel or tab of the page layout.
-    public enum Section: Swift.Equatable {
+    public enum Section {
         /// Consists of a group of fields and associated properties.
         case fieldgroup(ConnectCasesClientTypes.FieldGroup)
         case sdkUnknown(Swift.String)
@@ -6365,7 +6365,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6408,7 +6408,7 @@ extension ConnectCasesClientTypes.Sort: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// A structured set of sort terms.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// Unique identifier of a field.
         /// This member is required.
         public var fieldId: Swift.String?
@@ -6458,7 +6458,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN)
     /// This member is required.
     public var arn: Swift.String?
@@ -6476,7 +6476,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String?]?
 }
 
@@ -6504,7 +6504,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6595,7 +6595,7 @@ extension ConnectCasesClientTypes.TemplateSummary: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Template summary information.
-    public struct TemplateSummary: Swift.Equatable {
+    public struct TemplateSummary {
         /// The template name.
         /// This member is required.
         public var name: Swift.String?
@@ -6665,7 +6665,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -6707,7 +6707,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN)
     /// This member is required.
     public var arn: Swift.String?
@@ -6725,7 +6725,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6739,7 +6739,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6792,7 +6792,7 @@ extension UpdateCaseInput {
     }
 }
 
-public struct UpdateCaseInput: Swift.Equatable {
+public struct UpdateCaseInput {
     /// A unique identifier of the case.
     /// This member is required.
     public var caseId: Swift.String?
@@ -6819,7 +6819,7 @@ public struct UpdateCaseInput: Swift.Equatable {
     }
 }
 
-struct UpdateCaseInputBody: Swift.Equatable {
+struct UpdateCaseInputBody {
     let fields: [ConnectCasesClientTypes.FieldValue]?
     let performedBy: ConnectCasesClientTypes.UserUnion?
 }
@@ -6853,7 +6853,7 @@ extension UpdateCaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCaseOutput: Swift.Equatable {
+public struct UpdateCaseOutput {
 
     public init() { }
 }
@@ -6903,7 +6903,7 @@ extension UpdateFieldInput {
     }
 }
 
-public struct UpdateFieldInput: Swift.Equatable {
+public struct UpdateFieldInput {
     /// The description of a field.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -6929,7 +6929,7 @@ public struct UpdateFieldInput: Swift.Equatable {
     }
 }
 
-struct UpdateFieldInputBody: Swift.Equatable {
+struct UpdateFieldInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -6954,7 +6954,7 @@ extension UpdateFieldOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFieldOutput: Swift.Equatable {
+public struct UpdateFieldOutput {
 
     public init() { }
 }
@@ -7005,7 +7005,7 @@ extension UpdateLayoutInput {
     }
 }
 
-public struct UpdateLayoutInput: Swift.Equatable {
+public struct UpdateLayoutInput {
     /// Information about which fields will be present in the layout, the order of the fields.
     public var content: ConnectCasesClientTypes.LayoutContent?
     /// The unique identifier of the Cases domain.
@@ -7031,7 +7031,7 @@ public struct UpdateLayoutInput: Swift.Equatable {
     }
 }
 
-struct UpdateLayoutInputBody: Swift.Equatable {
+struct UpdateLayoutInputBody {
     let name: Swift.String?
     let content: ConnectCasesClientTypes.LayoutContent?
 }
@@ -7056,7 +7056,7 @@ extension UpdateLayoutOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLayoutOutput: Swift.Equatable {
+public struct UpdateLayoutOutput {
 
     public init() { }
 }
@@ -7123,7 +7123,7 @@ extension UpdateTemplateInput {
     }
 }
 
-public struct UpdateTemplateInput: Swift.Equatable {
+public struct UpdateTemplateInput {
     /// A brief description of the template.
     public var description: Swift.String?
     /// The unique identifier of the Cases domain.
@@ -7161,7 +7161,7 @@ public struct UpdateTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateInputBody: Swift.Equatable {
+struct UpdateTemplateInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let layoutConfiguration: ConnectCasesClientTypes.LayoutConfiguration?
@@ -7207,7 +7207,7 @@ extension UpdateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateOutput: Swift.Equatable {
+public struct UpdateTemplateOutput {
 
     public init() { }
 }
@@ -7257,7 +7257,7 @@ extension ConnectCasesClientTypes.UserUnion: Swift.Codable {
 
 extension ConnectCasesClientTypes {
     /// Represents the identity of the person who performed the action.
-    public enum UserUnion: Swift.Equatable {
+    public enum UserUnion {
         /// Represents the Amazon Connect ARN of the user.
         case userarn(Swift.String)
         case sdkUnknown(Swift.String)
@@ -7305,7 +7305,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

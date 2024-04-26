@@ -43,7 +43,7 @@ extension ElasticLoadBalancingClientTypes.AccessLog: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the AccessLog attribute.
-    public struct AccessLog: Swift.Equatable {
+    public struct AccessLog {
         /// The interval for publishing the access logs. You can specify an interval of either 5 minutes or 60 minutes. Default: 60 minutes
         public var emitInterval: Swift.Int?
         /// Specifies whether access logs are enabled for the load balancer.
@@ -151,7 +151,7 @@ extension AddTagsInput {
 }
 
 /// Contains the parameters for AddTags.
-public struct AddTagsInput: Swift.Equatable {
+public struct AddTagsInput {
     /// The name of the load balancer. You can specify one load balancer only.
     /// This member is required.
     public var loadBalancerNames: [Swift.String]?
@@ -179,7 +179,7 @@ extension AddTagsOutput {
 }
 
 /// Contains the output of AddTags.
-public struct AddTagsOutput: Swift.Equatable {
+public struct AddTagsOutput {
 
     public init() { }
 }
@@ -232,7 +232,7 @@ extension ElasticLoadBalancingClientTypes.AdditionalAttribute: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about additional load balancer attributes.
-    public struct AdditionalAttribute: Swift.Equatable {
+    public struct AdditionalAttribute {
         /// The name of the attribute. The following attribute is supported.
         ///
         /// * elb.http.desyncmitigationmode - Determines how the load balancer handles requests that might pose a security risk to your application. The possible values are monitor, defensive, and strictest. The default is defensive.
@@ -281,7 +281,7 @@ extension ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy: Swift.Encod
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy for application-controlled session stickiness.
-    public struct AppCookieStickinessPolicy: Swift.Equatable {
+    public struct AppCookieStickinessPolicy {
         /// The name of the application cookie used for stickiness.
         public var cookieName: Swift.String?
         /// The mnemonic name for the policy being created. The name must be unique within a set of policies for this load balancer.
@@ -335,7 +335,7 @@ extension ApplySecurityGroupsToLoadBalancerInput {
 }
 
 /// Contains the parameters for ApplySecurityGroupsToLoadBalancer.
-public struct ApplySecurityGroupsToLoadBalancerInput: Swift.Equatable {
+public struct ApplySecurityGroupsToLoadBalancerInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -367,7 +367,7 @@ extension ApplySecurityGroupsToLoadBalancerOutput {
 }
 
 /// Contains the output of ApplySecurityGroupsToLoadBalancer.
-public struct ApplySecurityGroupsToLoadBalancerOutput: Swift.Equatable {
+public struct ApplySecurityGroupsToLoadBalancerOutput {
     /// The IDs of the security groups associated with the load balancer.
     public var securityGroups: [Swift.String]?
 
@@ -434,7 +434,7 @@ extension AttachLoadBalancerToSubnetsInput {
 }
 
 /// Contains the parameters for AttachLoaBalancerToSubnets.
-public struct AttachLoadBalancerToSubnetsInput: Swift.Equatable {
+public struct AttachLoadBalancerToSubnetsInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -466,7 +466,7 @@ extension AttachLoadBalancerToSubnetsOutput {
 }
 
 /// Contains the output of AttachLoadBalancerToSubnets.
-public struct AttachLoadBalancerToSubnetsOutput: Swift.Equatable {
+public struct AttachLoadBalancerToSubnetsOutput {
     /// The IDs of the subnets attached to the load balancer.
     public var subnets: [Swift.String]?
 
@@ -536,7 +536,7 @@ extension ElasticLoadBalancingClientTypes.BackendServerDescription: Swift.Encoda
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the configuration of an EC2 instance.
-    public struct BackendServerDescription: Swift.Equatable {
+    public struct BackendServerDescription {
         /// The port on which the EC2 instance is listening.
         public var instancePort: Swift.Int?
         /// The names of the policies enabled for the EC2 instance.
@@ -617,7 +617,7 @@ extension ConfigureHealthCheckInput {
 }
 
 /// Contains the parameters for ConfigureHealthCheck.
-public struct ConfigureHealthCheckInput: Swift.Equatable {
+public struct ConfigureHealthCheckInput {
     /// The configuration information.
     /// This member is required.
     public var healthCheck: ElasticLoadBalancingClientTypes.HealthCheck?
@@ -649,7 +649,7 @@ extension ConfigureHealthCheckOutput {
 }
 
 /// Contains the output of ConfigureHealthCheck.
-public struct ConfigureHealthCheckOutput: Swift.Equatable {
+public struct ConfigureHealthCheckOutput {
     /// The updated health check.
     public var healthCheck: ElasticLoadBalancingClientTypes.HealthCheck?
 
@@ -707,7 +707,7 @@ extension ElasticLoadBalancingClientTypes.ConnectionDraining: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the ConnectionDraining attribute.
-    public struct ConnectionDraining: Swift.Equatable {
+    public struct ConnectionDraining {
         /// Specifies whether connection draining is enabled for the load balancer.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -750,7 +750,7 @@ extension ElasticLoadBalancingClientTypes.ConnectionSettings: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the ConnectionSettings attribute.
-    public struct ConnectionSettings: Swift.Equatable {
+    public struct ConnectionSettings {
         /// The time, in seconds, that the connection is allowed to be idle (no data has been sent over the connection) before it is closed by the load balancer.
         /// This member is required.
         public var idleTimeout: Swift.Int?
@@ -796,7 +796,7 @@ extension CreateAppCookieStickinessPolicyInput {
 }
 
 /// Contains the parameters for CreateAppCookieStickinessPolicy.
-public struct CreateAppCookieStickinessPolicyInput: Swift.Equatable {
+public struct CreateAppCookieStickinessPolicyInput {
     /// The name of the application cookie used for stickiness.
     /// This member is required.
     public var cookieName: Swift.String?
@@ -829,7 +829,7 @@ extension CreateAppCookieStickinessPolicyOutput {
 }
 
 /// Contains the output for CreateAppCookieStickinessPolicy.
-public struct CreateAppCookieStickinessPolicyOutput: Swift.Equatable {
+public struct CreateAppCookieStickinessPolicyOutput {
 
     public init() { }
 }
@@ -885,7 +885,7 @@ extension CreateLBCookieStickinessPolicyInput {
 }
 
 /// Contains the parameters for CreateLBCookieStickinessPolicy.
-public struct CreateLBCookieStickinessPolicyInput: Swift.Equatable {
+public struct CreateLBCookieStickinessPolicyInput {
     /// The time period, in seconds, after which the cookie should be considered stale. If you do not specify this parameter, the default value is 0, which indicates that the sticky session should last for the duration of the browser session.
     public var cookieExpirationPeriod: Swift.Int?
     /// The name of the load balancer.
@@ -917,7 +917,7 @@ extension CreateLBCookieStickinessPolicyOutput {
 }
 
 /// Contains the output for CreateLBCookieStickinessPolicy.
-public struct CreateLBCookieStickinessPolicyOutput: Swift.Equatable {
+public struct CreateLBCookieStickinessPolicyOutput {
 
     public init() { }
 }
@@ -1034,7 +1034,7 @@ extension CreateLoadBalancerInput {
 }
 
 /// Contains the parameters for CreateLoadBalancer.
-public struct CreateLoadBalancerInput: Swift.Equatable {
+public struct CreateLoadBalancerInput {
     /// One or more Availability Zones from the same region as the load balancer. You must specify at least one Availability Zone. You can add more Availability Zones after you create the load balancer using [EnableAvailabilityZonesForLoadBalancer].
     public var availabilityZones: [Swift.String]?
     /// The listeners. For more information, see [Listeners for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html) in the Classic Load Balancers Guide.
@@ -1108,7 +1108,7 @@ extension CreateLoadBalancerListenersInput {
 }
 
 /// Contains the parameters for CreateLoadBalancerListeners.
-public struct CreateLoadBalancerListenersInput: Swift.Equatable {
+public struct CreateLoadBalancerListenersInput {
     /// The listeners.
     /// This member is required.
     public var listeners: [ElasticLoadBalancingClientTypes.Listener]?
@@ -1136,7 +1136,7 @@ extension CreateLoadBalancerListenersOutput {
 }
 
 /// Contains the parameters for CreateLoadBalancerListener.
-public struct CreateLoadBalancerListenersOutput: Swift.Equatable {
+public struct CreateLoadBalancerListenersOutput {
 
     public init() { }
 }
@@ -1176,7 +1176,7 @@ extension CreateLoadBalancerOutput {
 }
 
 /// Contains the output for CreateLoadBalancer.
-public struct CreateLoadBalancerOutput: Swift.Equatable {
+public struct CreateLoadBalancerOutput {
     /// The DNS name of the load balancer.
     public var dnsName: Swift.String?
 
@@ -1260,7 +1260,7 @@ extension CreateLoadBalancerPolicyInput {
 }
 
 /// Contains the parameters for CreateLoadBalancerPolicy.
-public struct CreateLoadBalancerPolicyInput: Swift.Equatable {
+public struct CreateLoadBalancerPolicyInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -1297,7 +1297,7 @@ extension CreateLoadBalancerPolicyOutput {
 }
 
 /// Contains the output of CreateLoadBalancerPolicy.
-public struct CreateLoadBalancerPolicyOutput: Swift.Equatable {
+public struct CreateLoadBalancerPolicyOutput {
 
     public init() { }
 }
@@ -1347,7 +1347,7 @@ extension ElasticLoadBalancingClientTypes.CrossZoneLoadBalancing: Swift.Encodabl
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the CrossZoneLoadBalancing attribute.
-    public struct CrossZoneLoadBalancing: Swift.Equatable {
+    public struct CrossZoneLoadBalancing {
         /// Specifies whether cross-zone load balancing is enabled for the load balancer.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -1385,7 +1385,7 @@ extension DeleteLoadBalancerInput {
 }
 
 /// Contains the parameters for DeleteLoadBalancer.
-public struct DeleteLoadBalancerInput: Swift.Equatable {
+public struct DeleteLoadBalancerInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -1434,7 +1434,7 @@ extension DeleteLoadBalancerListenersInput {
 }
 
 /// Contains the parameters for DeleteLoadBalancerListeners.
-public struct DeleteLoadBalancerListenersInput: Swift.Equatable {
+public struct DeleteLoadBalancerListenersInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -1462,7 +1462,7 @@ extension DeleteLoadBalancerListenersOutput {
 }
 
 /// Contains the output of DeleteLoadBalancerListeners.
-public struct DeleteLoadBalancerListenersOutput: Swift.Equatable {
+public struct DeleteLoadBalancerListenersOutput {
 
     public init() { }
 }
@@ -1494,7 +1494,7 @@ extension DeleteLoadBalancerOutput {
 }
 
 /// Contains the output of DeleteLoadBalancer.
-public struct DeleteLoadBalancerOutput: Swift.Equatable {
+public struct DeleteLoadBalancerOutput {
 
     public init() { }
 }
@@ -1542,7 +1542,7 @@ extension DeleteLoadBalancerPolicyInput {
 }
 
 /// Contains the parameters for DeleteLoadBalancerPolicy.
-public struct DeleteLoadBalancerPolicyInput: Swift.Equatable {
+public struct DeleteLoadBalancerPolicyInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -1570,7 +1570,7 @@ extension DeleteLoadBalancerPolicyOutput {
 }
 
 /// Contains the output of DeleteLoadBalancerPolicy.
-public struct DeleteLoadBalancerPolicyOutput: Swift.Equatable {
+public struct DeleteLoadBalancerPolicyOutput {
 
     public init() { }
 }
@@ -1665,7 +1665,7 @@ extension DeregisterInstancesFromLoadBalancerInput {
 }
 
 /// Contains the parameters for DeregisterInstancesFromLoadBalancer.
-public struct DeregisterInstancesFromLoadBalancerInput: Swift.Equatable {
+public struct DeregisterInstancesFromLoadBalancerInput {
     /// The IDs of the instances.
     /// This member is required.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
@@ -1697,7 +1697,7 @@ extension DeregisterInstancesFromLoadBalancerOutput {
 }
 
 /// Contains the output of DeregisterInstancesFromLoadBalancer.
-public struct DeregisterInstancesFromLoadBalancerOutput: Swift.Equatable {
+public struct DeregisterInstancesFromLoadBalancerOutput {
     /// The remaining instances registered with the load balancer.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
 
@@ -1753,7 +1753,7 @@ extension DescribeAccountLimitsInput {
     }
 }
 
-public struct DescribeAccountLimitsInput: Swift.Equatable {
+public struct DescribeAccountLimitsInput {
     /// The marker for the next set of results. (You received this marker from a previous call.)
     public var marker: Swift.String?
     /// The maximum number of results to return with this call.
@@ -1783,7 +1783,7 @@ extension DescribeAccountLimitsOutput {
     }
 }
 
-public struct DescribeAccountLimitsOutput: Swift.Equatable {
+public struct DescribeAccountLimitsOutput {
     /// Information about the limits.
     public var limits: [ElasticLoadBalancingClientTypes.Limit]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -1851,7 +1851,7 @@ extension DescribeInstanceHealthInput {
 }
 
 /// Contains the parameters for DescribeInstanceHealth.
-public struct DescribeInstanceHealthInput: Swift.Equatable {
+public struct DescribeInstanceHealthInput {
     /// The IDs of the instances.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
     /// The name of the load balancer.
@@ -1882,7 +1882,7 @@ extension DescribeInstanceHealthOutput {
 }
 
 /// Contains the output for DescribeInstanceHealth.
-public struct DescribeInstanceHealthOutput: Swift.Equatable {
+public struct DescribeInstanceHealthOutput {
     /// Information about the health of the instances.
     public var instanceStates: [ElasticLoadBalancingClientTypes.InstanceState]?
 
@@ -1935,7 +1935,7 @@ extension DescribeLoadBalancerAttributesInput {
 }
 
 /// Contains the parameters for DescribeLoadBalancerAttributes.
-public struct DescribeLoadBalancerAttributesInput: Swift.Equatable {
+public struct DescribeLoadBalancerAttributesInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -1962,7 +1962,7 @@ extension DescribeLoadBalancerAttributesOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerAttributes.
-public struct DescribeLoadBalancerAttributesOutput: Swift.Equatable {
+public struct DescribeLoadBalancerAttributesOutput {
     /// Information about the load balancer attributes.
     public var loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
 
@@ -2028,7 +2028,7 @@ extension DescribeLoadBalancerPoliciesInput {
 }
 
 /// Contains the parameters for DescribeLoadBalancerPolicies.
-public struct DescribeLoadBalancerPoliciesInput: Swift.Equatable {
+public struct DescribeLoadBalancerPoliciesInput {
     /// The name of the load balancer.
     public var loadBalancerName: Swift.String?
     /// The names of the policies.
@@ -2058,7 +2058,7 @@ extension DescribeLoadBalancerPoliciesOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerPolicies.
-public struct DescribeLoadBalancerPoliciesOutput: Swift.Equatable {
+public struct DescribeLoadBalancerPoliciesOutput {
     /// Information about the policies.
     public var policyDescriptions: [ElasticLoadBalancingClientTypes.PolicyDescription]?
 
@@ -2120,7 +2120,7 @@ extension DescribeLoadBalancerPolicyTypesInput {
 }
 
 /// Contains the parameters for DescribeLoadBalancerPolicyTypes.
-public struct DescribeLoadBalancerPolicyTypesInput: Swift.Equatable {
+public struct DescribeLoadBalancerPolicyTypesInput {
     /// The names of the policy types. If no names are specified, describes all policy types defined by Elastic Load Balancing.
     public var policyTypeNames: [Swift.String]?
 
@@ -2146,7 +2146,7 @@ extension DescribeLoadBalancerPolicyTypesOutput {
 }
 
 /// Contains the output of DescribeLoadBalancerPolicyTypes.
-public struct DescribeLoadBalancerPolicyTypesOutput: Swift.Equatable {
+public struct DescribeLoadBalancerPolicyTypesOutput {
     /// Information about the policy types.
     public var policyTypeDescriptions: [ElasticLoadBalancingClientTypes.PolicyTypeDescription]?
 
@@ -2215,7 +2215,7 @@ extension DescribeLoadBalancersInput {
 }
 
 /// Contains the parameters for DescribeLoadBalancers.
-public struct DescribeLoadBalancersInput: Swift.Equatable {
+public struct DescribeLoadBalancersInput {
     /// The names of the load balancers.
     public var loadBalancerNames: [Swift.String]?
     /// The marker for the next set of results. (You received this marker from a previous call.)
@@ -2250,7 +2250,7 @@ extension DescribeLoadBalancersOutput {
 }
 
 /// Contains the parameters for DescribeLoadBalancers.
-public struct DescribeLoadBalancersOutput: Swift.Equatable {
+public struct DescribeLoadBalancersOutput {
     /// Information about the load balancers.
     public var loadBalancerDescriptions: [ElasticLoadBalancingClientTypes.LoadBalancerDescription]?
     /// The marker to use when requesting the next set of results. If there are no additional results, the string is empty.
@@ -2316,7 +2316,7 @@ extension DescribeTagsInput {
 }
 
 /// Contains the parameters for DescribeTags.
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// The names of the load balancers.
     /// This member is required.
     public var loadBalancerNames: [Swift.String]?
@@ -2343,7 +2343,7 @@ extension DescribeTagsOutput {
 }
 
 /// Contains the output for DescribeTags.
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// Information about the tags.
     public var tagDescriptions: [ElasticLoadBalancingClientTypes.TagDescription]?
 
@@ -2408,7 +2408,7 @@ extension DetachLoadBalancerFromSubnetsInput {
 }
 
 /// Contains the parameters for DetachLoadBalancerFromSubnets.
-public struct DetachLoadBalancerFromSubnetsInput: Swift.Equatable {
+public struct DetachLoadBalancerFromSubnetsInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -2440,7 +2440,7 @@ extension DetachLoadBalancerFromSubnetsOutput {
 }
 
 /// Contains the output of DetachLoadBalancerFromSubnets.
-public struct DetachLoadBalancerFromSubnetsOutput: Swift.Equatable {
+public struct DetachLoadBalancerFromSubnetsOutput {
     /// The IDs of the remaining subnets for the load balancer.
     public var subnets: [Swift.String]?
 
@@ -2506,7 +2506,7 @@ extension DisableAvailabilityZonesForLoadBalancerInput {
 }
 
 /// Contains the parameters for DisableAvailabilityZonesForLoadBalancer.
-public struct DisableAvailabilityZonesForLoadBalancerInput: Swift.Equatable {
+public struct DisableAvailabilityZonesForLoadBalancerInput {
     /// The Availability Zones.
     /// This member is required.
     public var availabilityZones: [Swift.String]?
@@ -2538,7 +2538,7 @@ extension DisableAvailabilityZonesForLoadBalancerOutput {
 }
 
 /// Contains the output for DisableAvailabilityZonesForLoadBalancer.
-public struct DisableAvailabilityZonesForLoadBalancerOutput: Swift.Equatable {
+public struct DisableAvailabilityZonesForLoadBalancerOutput {
     /// The remaining Availability Zones for the load balancer.
     public var availabilityZones: [Swift.String]?
 
@@ -2750,7 +2750,7 @@ extension EnableAvailabilityZonesForLoadBalancerInput {
 }
 
 /// Contains the parameters for EnableAvailabilityZonesForLoadBalancer.
-public struct EnableAvailabilityZonesForLoadBalancerInput: Swift.Equatable {
+public struct EnableAvailabilityZonesForLoadBalancerInput {
     /// The Availability Zones. These must be in the same region as the load balancer.
     /// This member is required.
     public var availabilityZones: [Swift.String]?
@@ -2782,7 +2782,7 @@ extension EnableAvailabilityZonesForLoadBalancerOutput {
 }
 
 /// Contains the output of EnableAvailabilityZonesForLoadBalancer.
-public struct EnableAvailabilityZonesForLoadBalancerOutput: Swift.Equatable {
+public struct EnableAvailabilityZonesForLoadBalancerOutput {
     /// The updated list of Availability Zones for the load balancer.
     public var availabilityZones: [Swift.String]?
 
@@ -2855,7 +2855,7 @@ extension ElasticLoadBalancingClientTypes.HealthCheck: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a health check.
-    public struct HealthCheck: Swift.Equatable {
+    public struct HealthCheck {
         /// The number of consecutive health checks successes required before moving the instance to the Healthy state.
         /// This member is required.
         public var healthyThreshold: Swift.Int?
@@ -2914,7 +2914,7 @@ extension ElasticLoadBalancingClientTypes.Instance: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// The ID of an EC2 instance.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The instance ID.
         public var instanceId: Swift.String?
 
@@ -2967,7 +2967,7 @@ extension ElasticLoadBalancingClientTypes.InstanceState: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about the state of an EC2 instance.
-    public struct InstanceState: Swift.Equatable {
+    public struct InstanceState {
         /// A description of the instance state. This string can contain one or more of the following messages.
         ///
         /// * N/A
@@ -3226,7 +3226,7 @@ extension ElasticLoadBalancingClientTypes.LBCookieStickinessPolicy: Swift.Encoda
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy for duration-based session stickiness.
-    public struct LBCookieStickinessPolicy: Swift.Equatable {
+    public struct LBCookieStickinessPolicy {
         /// The time period, in seconds, after which the cookie should be considered stale. If this parameter is not specified, the stickiness session lasts for the duration of the browser session.
         public var cookieExpirationPeriod: Swift.Int?
         /// The name of the policy. This name must be unique within the set of policies for this load balancer.
@@ -3273,7 +3273,7 @@ extension ElasticLoadBalancingClientTypes.Limit: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about an Elastic Load Balancing resource limit for your AWS account.
-    public struct Limit: Swift.Equatable {
+    public struct Limit {
         /// The maximum value of the limit.
         public var max: Swift.String?
         /// The name of the limit. The possible values are:
@@ -3341,7 +3341,7 @@ extension ElasticLoadBalancingClientTypes.Listener: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a listener. For information about the protocols and the ports supported by Elastic Load Balancing, see [Listeners for Your Classic Load Balancer](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/elb-listener-config.html) in the Classic Load Balancers Guide.
-    public struct Listener: Swift.Equatable {
+    public struct Listener {
         /// The port on which the instance is listening.
         /// This member is required.
         public var instancePort: Swift.Int?
@@ -3412,7 +3412,7 @@ extension ElasticLoadBalancingClientTypes.ListenerDescription: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// The policies enabled for a listener.
-    public struct ListenerDescription: Swift.Equatable {
+    public struct ListenerDescription {
         /// The listener.
         public var listener: ElasticLoadBalancingClientTypes.Listener?
         /// The policies. If there are no policies enabled, the list is empty.
@@ -3555,7 +3555,7 @@ extension ElasticLoadBalancingClientTypes.LoadBalancerAttributes: Swift.Encodabl
 
 extension ElasticLoadBalancingClientTypes {
     /// The attributes for a load balancer.
-    public struct LoadBalancerAttributes: Swift.Equatable {
+    public struct LoadBalancerAttributes {
         /// If enabled, the load balancer captures detailed information of all requests and delivers the information to the Amazon S3 bucket that you specify. For more information, see [Enable Access Logs](https://docs.aws.amazon.com/elasticloadbalancing/latest/classic/enable-access-logs.html) in the Classic Load Balancers Guide.
         public var accessLog: ElasticLoadBalancingClientTypes.AccessLog?
         /// Any additional attributes.
@@ -3738,7 +3738,7 @@ extension ElasticLoadBalancingClientTypes.LoadBalancerDescription: Swift.Encodab
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a load balancer.
-    public struct LoadBalancerDescription: Swift.Equatable {
+    public struct LoadBalancerDescription {
         /// The Availability Zones for the load balancer.
         public var availabilityZones: [Swift.String]?
         /// Information about your EC2 instances.
@@ -3839,7 +3839,7 @@ extension ModifyLoadBalancerAttributesInput {
 }
 
 /// Contains the parameters for ModifyLoadBalancerAttributes.
-public struct ModifyLoadBalancerAttributesInput: Swift.Equatable {
+public struct ModifyLoadBalancerAttributesInput {
     /// The attributes for the load balancer.
     /// This member is required.
     public var loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
@@ -3872,7 +3872,7 @@ extension ModifyLoadBalancerAttributesOutput {
 }
 
 /// Contains the output of ModifyLoadBalancerAttributes.
-public struct ModifyLoadBalancerAttributesOutput: Swift.Equatable {
+public struct ModifyLoadBalancerAttributesOutput {
     /// Information about the load balancer attributes.
     public var loadBalancerAttributes: ElasticLoadBalancingClientTypes.LoadBalancerAttributes?
     /// The name of the load balancer.
@@ -4004,7 +4004,7 @@ extension ElasticLoadBalancingClientTypes.Policies: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// The policies for a load balancer.
-    public struct Policies: Swift.Equatable {
+    public struct Policies {
         /// The stickiness policies created using [CreateAppCookieStickinessPolicy].
         public var appCookieStickinessPolicies: [ElasticLoadBalancingClientTypes.AppCookieStickinessPolicy]?
         /// The stickiness policies created using [CreateLBCookieStickinessPolicy].
@@ -4055,7 +4055,7 @@ extension ElasticLoadBalancingClientTypes.PolicyAttribute: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy attribute.
-    public struct PolicyAttribute: Swift.Equatable {
+    public struct PolicyAttribute {
         /// The name of the attribute.
         public var attributeName: Swift.String?
         /// The value of the attribute.
@@ -4102,7 +4102,7 @@ extension ElasticLoadBalancingClientTypes.PolicyAttributeDescription: Swift.Enco
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy attribute.
-    public struct PolicyAttributeDescription: Swift.Equatable {
+    public struct PolicyAttributeDescription {
         /// The name of the attribute.
         public var attributeName: Swift.String?
         /// The value of the attribute.
@@ -4164,7 +4164,7 @@ extension ElasticLoadBalancingClientTypes.PolicyAttributeTypeDescription: Swift.
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy attribute type.
-    public struct PolicyAttributeTypeDescription: Swift.Equatable {
+    public struct PolicyAttributeTypeDescription {
         /// The name of the attribute.
         public var attributeName: Swift.String?
         /// The type of the attribute. For example, Boolean or Integer.
@@ -4245,7 +4245,7 @@ extension ElasticLoadBalancingClientTypes.PolicyDescription: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy.
-    public struct PolicyDescription: Swift.Equatable {
+    public struct PolicyDescription {
         /// The policy attributes.
         public var policyAttributeDescriptions: [ElasticLoadBalancingClientTypes.PolicyAttributeDescription]?
         /// The name of the policy.
@@ -4346,7 +4346,7 @@ extension ElasticLoadBalancingClientTypes.PolicyTypeDescription: Swift.Encodable
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a policy type.
-    public struct PolicyTypeDescription: Swift.Equatable {
+    public struct PolicyTypeDescription {
         /// A description of the policy type.
         public var description: Swift.String?
         /// The description of the policy attributes associated with the policies defined by Elastic Load Balancing.
@@ -4440,7 +4440,7 @@ extension RegisterInstancesWithLoadBalancerInput {
 }
 
 /// Contains the parameters for RegisterInstancesWithLoadBalancer.
-public struct RegisterInstancesWithLoadBalancerInput: Swift.Equatable {
+public struct RegisterInstancesWithLoadBalancerInput {
     /// The IDs of the instances.
     /// This member is required.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
@@ -4472,7 +4472,7 @@ extension RegisterInstancesWithLoadBalancerOutput {
 }
 
 /// Contains the output of RegisterInstancesWithLoadBalancer.
-public struct RegisterInstancesWithLoadBalancerOutput: Swift.Equatable {
+public struct RegisterInstancesWithLoadBalancerOutput {
     /// The updated list of instances for the load balancer.
     public var instances: [ElasticLoadBalancingClientTypes.Instance]?
 
@@ -4547,7 +4547,7 @@ extension RemoveTagsInput {
 }
 
 /// Contains the parameters for RemoveTags.
-public struct RemoveTagsInput: Swift.Equatable {
+public struct RemoveTagsInput {
     /// The name of the load balancer. You can specify a maximum of one load balancer name.
     /// This member is required.
     public var loadBalancerNames: [Swift.String]?
@@ -4575,7 +4575,7 @@ extension RemoveTagsOutput {
 }
 
 /// Contains the output of RemoveTags.
-public struct RemoveTagsOutput: Swift.Equatable {
+public struct RemoveTagsOutput {
 
     public init() { }
 }
@@ -4628,7 +4628,7 @@ extension SetLoadBalancerListenerSSLCertificateInput {
 }
 
 /// Contains the parameters for SetLoadBalancerListenerSSLCertificate.
-public struct SetLoadBalancerListenerSSLCertificateInput: Swift.Equatable {
+public struct SetLoadBalancerListenerSSLCertificateInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -4661,7 +4661,7 @@ extension SetLoadBalancerListenerSSLCertificateOutput {
 }
 
 /// Contains the output of SetLoadBalancerListenerSSLCertificate.
-public struct SetLoadBalancerListenerSSLCertificateOutput: Swift.Equatable {
+public struct SetLoadBalancerListenerSSLCertificateOutput {
 
     public init() { }
 }
@@ -4727,7 +4727,7 @@ extension SetLoadBalancerPoliciesForBackendServerInput {
 }
 
 /// Contains the parameters for SetLoadBalancerPoliciesForBackendServer.
-public struct SetLoadBalancerPoliciesForBackendServerInput: Swift.Equatable {
+public struct SetLoadBalancerPoliciesForBackendServerInput {
     /// The port number associated with the EC2 instance.
     /// This member is required.
     public var instancePort: Swift.Int?
@@ -4760,7 +4760,7 @@ extension SetLoadBalancerPoliciesForBackendServerOutput {
 }
 
 /// Contains the output of SetLoadBalancerPoliciesForBackendServer.
-public struct SetLoadBalancerPoliciesForBackendServerOutput: Swift.Equatable {
+public struct SetLoadBalancerPoliciesForBackendServerOutput {
 
     public init() { }
 }
@@ -4824,7 +4824,7 @@ extension SetLoadBalancerPoliciesOfListenerInput {
 }
 
 /// Contains the parameters for SetLoadBalancePoliciesOfListener.
-public struct SetLoadBalancerPoliciesOfListenerInput: Swift.Equatable {
+public struct SetLoadBalancerPoliciesOfListenerInput {
     /// The name of the load balancer.
     /// This member is required.
     public var loadBalancerName: Swift.String?
@@ -4857,7 +4857,7 @@ extension SetLoadBalancerPoliciesOfListenerOutput {
 }
 
 /// Contains the output of SetLoadBalancePoliciesOfListener.
-public struct SetLoadBalancerPoliciesOfListenerOutput: Swift.Equatable {
+public struct SetLoadBalancerPoliciesOfListenerOutput {
 
     public init() { }
 }
@@ -4911,7 +4911,7 @@ extension ElasticLoadBalancingClientTypes.SourceSecurityGroup: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a source security group.
-    public struct SourceSecurityGroup: Swift.Equatable {
+    public struct SourceSecurityGroup {
         /// The name of the security group.
         public var groupName: Swift.String?
         /// The owner of the security group.
@@ -4994,7 +4994,7 @@ extension ElasticLoadBalancingClientTypes.Tag: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// Information about a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -5051,7 +5051,7 @@ extension ElasticLoadBalancingClientTypes.TagDescription: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// The tags associated with a load balancer.
-    public struct TagDescription: Swift.Equatable {
+    public struct TagDescription {
         /// The name of the load balancer.
         public var loadBalancerName: Swift.String?
         /// The tags.
@@ -5093,7 +5093,7 @@ extension ElasticLoadBalancingClientTypes.TagKeyOnly: Swift.Encodable {
 
 extension ElasticLoadBalancingClientTypes {
     /// The key of a tag.
-    public struct TagKeyOnly: Swift.Equatable {
+    public struct TagKeyOnly {
         /// The name of the key.
         public var key: Swift.String?
 

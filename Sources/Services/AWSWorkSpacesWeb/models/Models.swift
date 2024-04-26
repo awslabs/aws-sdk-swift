@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -81,7 +81,7 @@ extension AssociateBrowserSettingsInput {
     }
 }
 
-public struct AssociateBrowserSettingsInput: Swift.Equatable {
+public struct AssociateBrowserSettingsInput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
@@ -99,7 +99,7 @@ public struct AssociateBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct AssociateBrowserSettingsInputBody: Swift.Equatable {
+struct AssociateBrowserSettingsInputBody {
 }
 
 extension AssociateBrowserSettingsInputBody: Swift.Decodable {
@@ -122,7 +122,7 @@ extension AssociateBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateBrowserSettingsOutput: Swift.Equatable {
+public struct AssociateBrowserSettingsOutput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
@@ -140,7 +140,7 @@ public struct AssociateBrowserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateBrowserSettingsOutputBody: Swift.Equatable {
+struct AssociateBrowserSettingsOutputBody {
     let portalArn: Swift.String?
     let browserSettingsArn: Swift.String?
 }
@@ -200,7 +200,7 @@ extension AssociateIpAccessSettingsInput {
     }
 }
 
-public struct AssociateIpAccessSettingsInput: Swift.Equatable {
+public struct AssociateIpAccessSettingsInput {
     /// The ARN of the IP access settings.
     /// This member is required.
     public var ipAccessSettingsArn: Swift.String?
@@ -218,7 +218,7 @@ public struct AssociateIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct AssociateIpAccessSettingsInputBody: Swift.Equatable {
+struct AssociateIpAccessSettingsInputBody {
 }
 
 extension AssociateIpAccessSettingsInputBody: Swift.Decodable {
@@ -241,7 +241,7 @@ extension AssociateIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateIpAccessSettingsOutput: Swift.Equatable {
+public struct AssociateIpAccessSettingsOutput {
     /// The ARN of the IP access settings resource.
     /// This member is required.
     public var ipAccessSettingsArn: Swift.String?
@@ -259,7 +259,7 @@ public struct AssociateIpAccessSettingsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateIpAccessSettingsOutputBody: Swift.Equatable {
+struct AssociateIpAccessSettingsOutputBody {
     let portalArn: Swift.String?
     let ipAccessSettingsArn: Swift.String?
 }
@@ -319,7 +319,7 @@ extension AssociateNetworkSettingsInput {
     }
 }
 
-public struct AssociateNetworkSettingsInput: Swift.Equatable {
+public struct AssociateNetworkSettingsInput {
     /// The ARN of the network settings.
     /// This member is required.
     public var networkSettingsArn: Swift.String?
@@ -337,7 +337,7 @@ public struct AssociateNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct AssociateNetworkSettingsInputBody: Swift.Equatable {
+struct AssociateNetworkSettingsInputBody {
 }
 
 extension AssociateNetworkSettingsInputBody: Swift.Decodable {
@@ -360,7 +360,7 @@ extension AssociateNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateNetworkSettingsOutput: Swift.Equatable {
+public struct AssociateNetworkSettingsOutput {
     /// The ARN of the network settings.
     /// This member is required.
     public var networkSettingsArn: Swift.String?
@@ -378,7 +378,7 @@ public struct AssociateNetworkSettingsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateNetworkSettingsOutputBody: Swift.Equatable {
+struct AssociateNetworkSettingsOutputBody {
     let portalArn: Swift.String?
     let networkSettingsArn: Swift.String?
 }
@@ -438,7 +438,7 @@ extension AssociateTrustStoreInput {
     }
 }
 
-public struct AssociateTrustStoreInput: Swift.Equatable {
+public struct AssociateTrustStoreInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -456,7 +456,7 @@ public struct AssociateTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct AssociateTrustStoreInputBody: Swift.Equatable {
+struct AssociateTrustStoreInputBody {
 }
 
 extension AssociateTrustStoreInputBody: Swift.Decodable {
@@ -479,7 +479,7 @@ extension AssociateTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateTrustStoreOutput: Swift.Equatable {
+public struct AssociateTrustStoreOutput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -497,7 +497,7 @@ public struct AssociateTrustStoreOutput: Swift.Equatable {
     }
 }
 
-struct AssociateTrustStoreOutputBody: Swift.Equatable {
+struct AssociateTrustStoreOutputBody {
     let portalArn: Swift.String?
     let trustStoreArn: Swift.String?
 }
@@ -556,7 +556,7 @@ extension AssociateUserAccessLoggingSettingsInput {
     }
 }
 
-public struct AssociateUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct AssociateUserAccessLoggingSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -574,7 +574,7 @@ public struct AssociateUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct AssociateUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct AssociateUserAccessLoggingSettingsInputBody {
 }
 
 extension AssociateUserAccessLoggingSettingsInputBody: Swift.Decodable {
@@ -597,7 +597,7 @@ extension AssociateUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct AssociateUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct AssociateUserAccessLoggingSettingsOutput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -615,7 +615,7 @@ public struct AssociateUserAccessLoggingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateUserAccessLoggingSettingsOutputBody: Swift.Equatable {
+struct AssociateUserAccessLoggingSettingsOutputBody {
     let portalArn: Swift.String?
     let userAccessLoggingSettingsArn: Swift.String?
 }
@@ -675,7 +675,7 @@ extension AssociateUserSettingsInput {
     }
 }
 
-public struct AssociateUserSettingsInput: Swift.Equatable {
+public struct AssociateUserSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -693,7 +693,7 @@ public struct AssociateUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct AssociateUserSettingsInputBody: Swift.Equatable {
+struct AssociateUserSettingsInputBody {
 }
 
 extension AssociateUserSettingsInputBody: Swift.Decodable {
@@ -716,7 +716,7 @@ extension AssociateUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateUserSettingsOutput: Swift.Equatable {
+public struct AssociateUserSettingsOutput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -734,7 +734,7 @@ public struct AssociateUserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct AssociateUserSettingsOutputBody: Swift.Equatable {
+struct AssociateUserSettingsOutputBody {
     let portalArn: Swift.String?
     let userSettingsArn: Swift.String?
 }
@@ -852,7 +852,7 @@ extension WorkSpacesWebClientTypes.BrowserSettings: Swift.CustomDebugStringConve
 
 extension WorkSpacesWebClientTypes {
     /// The browser settings resource that can be associated with a web portal. Once associated with a web portal, browser settings control how the browser will behave once a user starts a streaming session for the web portal.
-    public struct BrowserSettings: Swift.Equatable {
+    public struct BrowserSettings {
         /// A list of web portal ARNs that this browser settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
@@ -896,7 +896,7 @@ extension WorkSpacesWebClientTypes.BrowserSettingsSummary: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// The summary for browser settings.
-    public struct BrowserSettingsSummary: Swift.Equatable {
+    public struct BrowserSettingsSummary {
         /// The ARN of the browser settings.
         /// This member is required.
         public var browserSettingsArn: Swift.String?
@@ -991,7 +991,7 @@ extension WorkSpacesWebClientTypes.Certificate: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// The certificate.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The body of the certificate.
         public var body: ClientRuntime.Data?
         /// The entity that issued the certificate.
@@ -1070,7 +1070,7 @@ extension WorkSpacesWebClientTypes.CertificateSummary: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// The summary of the certificate.
-    public struct CertificateSummary: Swift.Equatable {
+    public struct CertificateSummary {
         /// The entity that issued the certificate.
         public var issuer: Swift.String?
         /// The certificate is not valid after this date.
@@ -1151,7 +1151,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1208,7 +1208,7 @@ extension WorkSpacesWebClientTypes.CookieSpecification: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// Specifies a single cookie or set of cookies in an end user's browser.
-    public struct CookieSpecification: Swift.Equatable {
+    public struct CookieSpecification {
         /// The domain of the cookie.
         /// This member is required.
         public var domain: Swift.String?
@@ -1288,7 +1288,7 @@ extension WorkSpacesWebClientTypes.CookieSynchronizationConfiguration: Swift.Cus
 
 extension WorkSpacesWebClientTypes {
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
-    public struct CookieSynchronizationConfiguration: Swift.Equatable {
+    public struct CookieSynchronizationConfiguration {
         /// The list of cookie specifications that are allowed to be synchronized to the remote browser.
         /// This member is required.
         public var allowlist: [WorkSpacesWebClientTypes.CookieSpecification]?
@@ -1354,7 +1354,7 @@ extension CreateBrowserSettingsInput {
     }
 }
 
-public struct CreateBrowserSettingsInput: Swift.Equatable {
+public struct CreateBrowserSettingsInput {
     /// Additional encryption context of the browser settings.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
@@ -1383,7 +1383,7 @@ public struct CreateBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct CreateBrowserSettingsInputBody: Swift.Equatable {
+struct CreateBrowserSettingsInputBody {
     let tags: [WorkSpacesWebClientTypes.Tag]?
     let customerManagedKey: Swift.String?
     let additionalEncryptionContext: [Swift.String:Swift.String]?
@@ -1445,7 +1445,7 @@ extension CreateBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBrowserSettingsOutput: Swift.Equatable {
+public struct CreateBrowserSettingsOutput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
@@ -1458,7 +1458,7 @@ public struct CreateBrowserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct CreateBrowserSettingsOutputBody: Swift.Equatable {
+struct CreateBrowserSettingsOutputBody {
     let browserSettingsArn: Swift.String?
 }
 
@@ -1535,7 +1535,7 @@ extension CreateIdentityProviderInput {
     }
 }
 
-public struct CreateIdentityProviderInput: Swift.Equatable {
+public struct CreateIdentityProviderInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The identity provider details. The following list describes the provider detail keys for each identity provider type.
@@ -1635,7 +1635,7 @@ public struct CreateIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct CreateIdentityProviderInputBody: Swift.Equatable {
+struct CreateIdentityProviderInputBody {
     let portalArn: Swift.String?
     let identityProviderName: Swift.String?
     let identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType?
@@ -1688,7 +1688,7 @@ extension CreateIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIdentityProviderOutput: Swift.Equatable {
+public struct CreateIdentityProviderOutput {
     /// The ARN of the identity provider.
     /// This member is required.
     public var identityProviderArn: Swift.String?
@@ -1701,7 +1701,7 @@ public struct CreateIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct CreateIdentityProviderOutputBody: Swift.Equatable {
+struct CreateIdentityProviderOutputBody {
     let identityProviderArn: Swift.String?
 }
 
@@ -1792,7 +1792,7 @@ extension CreateIpAccessSettingsInput {
     }
 }
 
-public struct CreateIpAccessSettingsInput: Swift.Equatable {
+public struct CreateIpAccessSettingsInput {
     /// Additional encryption context of the IP access settings.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
@@ -1829,7 +1829,7 @@ public struct CreateIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct CreateIpAccessSettingsInputBody: Swift.Equatable {
+struct CreateIpAccessSettingsInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let tags: [WorkSpacesWebClientTypes.Tag]?
@@ -1908,7 +1908,7 @@ extension CreateIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIpAccessSettingsOutput: Swift.Equatable {
+public struct CreateIpAccessSettingsOutput {
     /// The ARN of the IP access settings resource.
     /// This member is required.
     public var ipAccessSettingsArn: Swift.String?
@@ -1921,7 +1921,7 @@ public struct CreateIpAccessSettingsOutput: Swift.Equatable {
     }
 }
 
-struct CreateIpAccessSettingsOutputBody: Swift.Equatable {
+struct CreateIpAccessSettingsOutputBody {
     let ipAccessSettingsArn: Swift.String?
 }
 
@@ -1998,7 +1998,7 @@ extension CreateNetworkSettingsInput {
     }
 }
 
-public struct CreateNetworkSettingsInput: Swift.Equatable {
+public struct CreateNetworkSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// One or more security groups used to control access from streaming instances to your VPC.
@@ -2029,7 +2029,7 @@ public struct CreateNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkSettingsInputBody: Swift.Equatable {
+struct CreateNetworkSettingsInputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
@@ -2100,7 +2100,7 @@ extension CreateNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNetworkSettingsOutput: Swift.Equatable {
+public struct CreateNetworkSettingsOutput {
     /// The ARN of the network settings.
     /// This member is required.
     public var networkSettingsArn: Swift.String?
@@ -2113,7 +2113,7 @@ public struct CreateNetworkSettingsOutput: Swift.Equatable {
     }
 }
 
-struct CreateNetworkSettingsOutputBody: Swift.Equatable {
+struct CreateNetworkSettingsOutputBody {
     let networkSettingsArn: Swift.String?
 }
 
@@ -2196,7 +2196,7 @@ extension CreatePortalInput {
     }
 }
 
-public struct CreatePortalInput: Swift.Equatable {
+public struct CreatePortalInput {
     /// The additional encryption context of the portal.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
@@ -2228,7 +2228,7 @@ public struct CreatePortalInput: Swift.Equatable {
     }
 }
 
-struct CreatePortalInputBody: Swift.Equatable {
+struct CreatePortalInputBody {
     let displayName: Swift.String?
     let tags: [WorkSpacesWebClientTypes.Tag]?
     let customerManagedKey: Swift.String?
@@ -2296,7 +2296,7 @@ extension CreatePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePortalOutput: Swift.Equatable {
+public struct CreatePortalOutput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -2314,7 +2314,7 @@ public struct CreatePortalOutput: Swift.Equatable {
     }
 }
 
-struct CreatePortalOutputBody: Swift.Equatable {
+struct CreatePortalOutputBody {
     let portalArn: Swift.String?
     let portalEndpoint: Swift.String?
 }
@@ -2385,7 +2385,7 @@ extension CreateTrustStoreInput {
     }
 }
 
-public struct CreateTrustStoreInput: Swift.Equatable {
+public struct CreateTrustStoreInput {
     /// A list of CA certificates to be added to the trust store.
     /// This member is required.
     public var certificateList: [ClientRuntime.Data]?
@@ -2406,7 +2406,7 @@ public struct CreateTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct CreateTrustStoreInputBody: Swift.Equatable {
+struct CreateTrustStoreInputBody {
     let certificateList: [ClientRuntime.Data]?
     let tags: [WorkSpacesWebClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -2460,7 +2460,7 @@ extension CreateTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTrustStoreOutput: Swift.Equatable {
+public struct CreateTrustStoreOutput {
     /// The ARN of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -2473,7 +2473,7 @@ public struct CreateTrustStoreOutput: Swift.Equatable {
     }
 }
 
-struct CreateTrustStoreOutputBody: Swift.Equatable {
+struct CreateTrustStoreOutputBody {
     let trustStoreArn: Swift.String?
 }
 
@@ -2536,7 +2536,7 @@ extension CreateUserAccessLoggingSettingsInput {
     }
 }
 
-public struct CreateUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct CreateUserAccessLoggingSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The ARN of the Kinesis stream.
@@ -2557,7 +2557,7 @@ public struct CreateUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct CreateUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct CreateUserAccessLoggingSettingsInputBody {
     let kinesisStreamArn: Swift.String?
     let tags: [WorkSpacesWebClientTypes.Tag]?
     let clientToken: Swift.String?
@@ -2602,7 +2602,7 @@ extension CreateUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct CreateUserAccessLoggingSettingsOutput {
     /// The ARN of the user access logging settings.
     /// This member is required.
     public var userAccessLoggingSettingsArn: Swift.String?
@@ -2615,7 +2615,7 @@ public struct CreateUserAccessLoggingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserAccessLoggingSettingsOutputBody: Swift.Equatable {
+struct CreateUserAccessLoggingSettingsOutputBody {
     let userAccessLoggingSettingsArn: Swift.String?
 }
 
@@ -2722,7 +2722,7 @@ extension CreateUserSettingsInput {
     }
 }
 
-public struct CreateUserSettingsInput: Swift.Equatable {
+public struct CreateUserSettingsInput {
     /// The additional encryption context of the user settings.
     public var additionalEncryptionContext: [Swift.String:Swift.String]?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
@@ -2783,7 +2783,7 @@ public struct CreateUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct CreateUserSettingsInputBody: Swift.Equatable {
+struct CreateUserSettingsInputBody {
     let copyAllowed: WorkSpacesWebClientTypes.EnabledType?
     let pasteAllowed: WorkSpacesWebClientTypes.EnabledType?
     let downloadAllowed: WorkSpacesWebClientTypes.EnabledType?
@@ -2873,7 +2873,7 @@ extension CreateUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserSettingsOutput: Swift.Equatable {
+public struct CreateUserSettingsOutput {
     /// The ARN of the user settings.
     /// This member is required.
     public var userSettingsArn: Swift.String?
@@ -2886,7 +2886,7 @@ public struct CreateUserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserSettingsOutputBody: Swift.Equatable {
+struct CreateUserSettingsOutputBody {
     let userSettingsArn: Swift.String?
 }
 
@@ -2928,7 +2928,7 @@ extension DeleteBrowserSettingsInput {
     }
 }
 
-public struct DeleteBrowserSettingsInput: Swift.Equatable {
+public struct DeleteBrowserSettingsInput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
@@ -2941,7 +2941,7 @@ public struct DeleteBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct DeleteBrowserSettingsInputBody: Swift.Equatable {
+struct DeleteBrowserSettingsInputBody {
 }
 
 extension DeleteBrowserSettingsInputBody: Swift.Decodable {
@@ -2955,7 +2955,7 @@ extension DeleteBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBrowserSettingsOutput: Swift.Equatable {
+public struct DeleteBrowserSettingsOutput {
 
     public init() { }
 }
@@ -2985,7 +2985,7 @@ extension DeleteIdentityProviderInput {
     }
 }
 
-public struct DeleteIdentityProviderInput: Swift.Equatable {
+public struct DeleteIdentityProviderInput {
     /// The ARN of the identity provider.
     /// This member is required.
     public var identityProviderArn: Swift.String?
@@ -2998,7 +2998,7 @@ public struct DeleteIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdentityProviderInputBody: Swift.Equatable {
+struct DeleteIdentityProviderInputBody {
 }
 
 extension DeleteIdentityProviderInputBody: Swift.Decodable {
@@ -3012,7 +3012,7 @@ extension DeleteIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIdentityProviderOutput: Swift.Equatable {
+public struct DeleteIdentityProviderOutput {
 
     public init() { }
 }
@@ -3042,7 +3042,7 @@ extension DeleteIpAccessSettingsInput {
     }
 }
 
-public struct DeleteIpAccessSettingsInput: Swift.Equatable {
+public struct DeleteIpAccessSettingsInput {
     /// The ARN of the IP access settings.
     /// This member is required.
     public var ipAccessSettingsArn: Swift.String?
@@ -3055,7 +3055,7 @@ public struct DeleteIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct DeleteIpAccessSettingsInputBody: Swift.Equatable {
+struct DeleteIpAccessSettingsInputBody {
 }
 
 extension DeleteIpAccessSettingsInputBody: Swift.Decodable {
@@ -3069,7 +3069,7 @@ extension DeleteIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIpAccessSettingsOutput: Swift.Equatable {
+public struct DeleteIpAccessSettingsOutput {
 
     public init() { }
 }
@@ -3099,7 +3099,7 @@ extension DeleteNetworkSettingsInput {
     }
 }
 
-public struct DeleteNetworkSettingsInput: Swift.Equatable {
+public struct DeleteNetworkSettingsInput {
     /// The ARN of the network settings.
     /// This member is required.
     public var networkSettingsArn: Swift.String?
@@ -3112,7 +3112,7 @@ public struct DeleteNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct DeleteNetworkSettingsInputBody: Swift.Equatable {
+struct DeleteNetworkSettingsInputBody {
 }
 
 extension DeleteNetworkSettingsInputBody: Swift.Decodable {
@@ -3126,7 +3126,7 @@ extension DeleteNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNetworkSettingsOutput: Swift.Equatable {
+public struct DeleteNetworkSettingsOutput {
 
     public init() { }
 }
@@ -3156,7 +3156,7 @@ extension DeletePortalInput {
     }
 }
 
-public struct DeletePortalInput: Swift.Equatable {
+public struct DeletePortalInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3169,7 +3169,7 @@ public struct DeletePortalInput: Swift.Equatable {
     }
 }
 
-struct DeletePortalInputBody: Swift.Equatable {
+struct DeletePortalInputBody {
 }
 
 extension DeletePortalInputBody: Swift.Decodable {
@@ -3183,7 +3183,7 @@ extension DeletePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePortalOutput: Swift.Equatable {
+public struct DeletePortalOutput {
 
     public init() { }
 }
@@ -3213,7 +3213,7 @@ extension DeleteTrustStoreInput {
     }
 }
 
-public struct DeleteTrustStoreInput: Swift.Equatable {
+public struct DeleteTrustStoreInput {
     /// The ARN of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -3226,7 +3226,7 @@ public struct DeleteTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct DeleteTrustStoreInputBody: Swift.Equatable {
+struct DeleteTrustStoreInputBody {
 }
 
 extension DeleteTrustStoreInputBody: Swift.Decodable {
@@ -3240,7 +3240,7 @@ extension DeleteTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTrustStoreOutput: Swift.Equatable {
+public struct DeleteTrustStoreOutput {
 
     public init() { }
 }
@@ -3270,7 +3270,7 @@ extension DeleteUserAccessLoggingSettingsInput {
     }
 }
 
-public struct DeleteUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct DeleteUserAccessLoggingSettingsInput {
     /// The ARN of the user access logging settings.
     /// This member is required.
     public var userAccessLoggingSettingsArn: Swift.String?
@@ -3283,7 +3283,7 @@ public struct DeleteUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct DeleteUserAccessLoggingSettingsInputBody {
 }
 
 extension DeleteUserAccessLoggingSettingsInputBody: Swift.Decodable {
@@ -3297,7 +3297,7 @@ extension DeleteUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct DeleteUserAccessLoggingSettingsOutput {
 
     public init() { }
 }
@@ -3327,7 +3327,7 @@ extension DeleteUserSettingsInput {
     }
 }
 
-public struct DeleteUserSettingsInput: Swift.Equatable {
+public struct DeleteUserSettingsInput {
     /// The ARN of the user settings.
     /// This member is required.
     public var userSettingsArn: Swift.String?
@@ -3340,7 +3340,7 @@ public struct DeleteUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserSettingsInputBody: Swift.Equatable {
+struct DeleteUserSettingsInputBody {
 }
 
 extension DeleteUserSettingsInputBody: Swift.Decodable {
@@ -3354,7 +3354,7 @@ extension DeleteUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserSettingsOutput: Swift.Equatable {
+public struct DeleteUserSettingsOutput {
 
     public init() { }
 }
@@ -3384,7 +3384,7 @@ extension DisassociateBrowserSettingsInput {
     }
 }
 
-public struct DisassociateBrowserSettingsInput: Swift.Equatable {
+public struct DisassociateBrowserSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3397,7 +3397,7 @@ public struct DisassociateBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateBrowserSettingsInputBody: Swift.Equatable {
+struct DisassociateBrowserSettingsInputBody {
 }
 
 extension DisassociateBrowserSettingsInputBody: Swift.Decodable {
@@ -3411,7 +3411,7 @@ extension DisassociateBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateBrowserSettingsOutput: Swift.Equatable {
+public struct DisassociateBrowserSettingsOutput {
 
     public init() { }
 }
@@ -3441,7 +3441,7 @@ extension DisassociateIpAccessSettingsInput {
     }
 }
 
-public struct DisassociateIpAccessSettingsInput: Swift.Equatable {
+public struct DisassociateIpAccessSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3454,7 +3454,7 @@ public struct DisassociateIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateIpAccessSettingsInputBody: Swift.Equatable {
+struct DisassociateIpAccessSettingsInputBody {
 }
 
 extension DisassociateIpAccessSettingsInputBody: Swift.Decodable {
@@ -3468,7 +3468,7 @@ extension DisassociateIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DisassociateIpAccessSettingsOutput: Swift.Equatable {
+public struct DisassociateIpAccessSettingsOutput {
 
     public init() { }
 }
@@ -3498,7 +3498,7 @@ extension DisassociateNetworkSettingsInput {
     }
 }
 
-public struct DisassociateNetworkSettingsInput: Swift.Equatable {
+public struct DisassociateNetworkSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3511,7 +3511,7 @@ public struct DisassociateNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateNetworkSettingsInputBody: Swift.Equatable {
+struct DisassociateNetworkSettingsInputBody {
 }
 
 extension DisassociateNetworkSettingsInputBody: Swift.Decodable {
@@ -3525,7 +3525,7 @@ extension DisassociateNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateNetworkSettingsOutput: Swift.Equatable {
+public struct DisassociateNetworkSettingsOutput {
 
     public init() { }
 }
@@ -3555,7 +3555,7 @@ extension DisassociateTrustStoreInput {
     }
 }
 
-public struct DisassociateTrustStoreInput: Swift.Equatable {
+public struct DisassociateTrustStoreInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3568,7 +3568,7 @@ public struct DisassociateTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct DisassociateTrustStoreInputBody: Swift.Equatable {
+struct DisassociateTrustStoreInputBody {
 }
 
 extension DisassociateTrustStoreInputBody: Swift.Decodable {
@@ -3582,7 +3582,7 @@ extension DisassociateTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateTrustStoreOutput: Swift.Equatable {
+public struct DisassociateTrustStoreOutput {
 
     public init() { }
 }
@@ -3612,7 +3612,7 @@ extension DisassociateUserAccessLoggingSettingsInput {
     }
 }
 
-public struct DisassociateUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct DisassociateUserAccessLoggingSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3625,7 +3625,7 @@ public struct DisassociateUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct DisassociateUserAccessLoggingSettingsInputBody {
 }
 
 extension DisassociateUserAccessLoggingSettingsInputBody: Swift.Decodable {
@@ -3639,7 +3639,7 @@ extension DisassociateUserAccessLoggingSettingsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct DisassociateUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct DisassociateUserAccessLoggingSettingsOutput {
 
     public init() { }
 }
@@ -3669,7 +3669,7 @@ extension DisassociateUserSettingsInput {
     }
 }
 
-public struct DisassociateUserSettingsInput: Swift.Equatable {
+public struct DisassociateUserSettingsInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -3682,7 +3682,7 @@ public struct DisassociateUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateUserSettingsInputBody: Swift.Equatable {
+struct DisassociateUserSettingsInputBody {
 }
 
 extension DisassociateUserSettingsInputBody: Swift.Decodable {
@@ -3696,7 +3696,7 @@ extension DisassociateUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateUserSettingsOutput: Swift.Equatable {
+public struct DisassociateUserSettingsOutput {
 
     public init() { }
 }
@@ -3758,7 +3758,7 @@ extension GetBrowserSettingsInput {
     }
 }
 
-public struct GetBrowserSettingsInput: Swift.Equatable {
+public struct GetBrowserSettingsInput {
     /// The ARN of the browser settings.
     /// This member is required.
     public var browserSettingsArn: Swift.String?
@@ -3771,7 +3771,7 @@ public struct GetBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetBrowserSettingsInputBody: Swift.Equatable {
+struct GetBrowserSettingsInputBody {
 }
 
 extension GetBrowserSettingsInputBody: Swift.Decodable {
@@ -3792,7 +3792,7 @@ extension GetBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBrowserSettingsOutput: Swift.Equatable {
+public struct GetBrowserSettingsOutput {
     /// The browser settings.
     public var browserSettings: WorkSpacesWebClientTypes.BrowserSettings?
 
@@ -3804,7 +3804,7 @@ public struct GetBrowserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetBrowserSettingsOutputBody: Swift.Equatable {
+struct GetBrowserSettingsOutputBody {
     let browserSettings: WorkSpacesWebClientTypes.BrowserSettings?
 }
 
@@ -3845,7 +3845,7 @@ extension GetIdentityProviderInput {
     }
 }
 
-public struct GetIdentityProviderInput: Swift.Equatable {
+public struct GetIdentityProviderInput {
     /// The ARN of the identity provider.
     /// This member is required.
     public var identityProviderArn: Swift.String?
@@ -3858,7 +3858,7 @@ public struct GetIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct GetIdentityProviderInputBody: Swift.Equatable {
+struct GetIdentityProviderInputBody {
 }
 
 extension GetIdentityProviderInputBody: Swift.Decodable {
@@ -3879,7 +3879,7 @@ extension GetIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIdentityProviderOutput: Swift.Equatable {
+public struct GetIdentityProviderOutput {
     /// The identity provider.
     public var identityProvider: WorkSpacesWebClientTypes.IdentityProvider?
 
@@ -3891,7 +3891,7 @@ public struct GetIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct GetIdentityProviderOutputBody: Swift.Equatable {
+struct GetIdentityProviderOutputBody {
     let identityProvider: WorkSpacesWebClientTypes.IdentityProvider?
 }
 
@@ -3932,7 +3932,7 @@ extension GetIpAccessSettingsInput {
     }
 }
 
-public struct GetIpAccessSettingsInput: Swift.Equatable {
+public struct GetIpAccessSettingsInput {
     /// The ARN of the IP access settings.
     /// This member is required.
     public var ipAccessSettingsArn: Swift.String?
@@ -3945,7 +3945,7 @@ public struct GetIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetIpAccessSettingsInputBody: Swift.Equatable {
+struct GetIpAccessSettingsInputBody {
 }
 
 extension GetIpAccessSettingsInputBody: Swift.Decodable {
@@ -3966,7 +3966,7 @@ extension GetIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIpAccessSettingsOutput: Swift.Equatable {
+public struct GetIpAccessSettingsOutput {
     /// The IP access settings.
     public var ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
 
@@ -3978,7 +3978,7 @@ public struct GetIpAccessSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetIpAccessSettingsOutputBody: Swift.Equatable {
+struct GetIpAccessSettingsOutputBody {
     let ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
 }
 
@@ -4019,7 +4019,7 @@ extension GetNetworkSettingsInput {
     }
 }
 
-public struct GetNetworkSettingsInput: Swift.Equatable {
+public struct GetNetworkSettingsInput {
     /// The ARN of the network settings.
     /// This member is required.
     public var networkSettingsArn: Swift.String?
@@ -4032,7 +4032,7 @@ public struct GetNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetNetworkSettingsInputBody: Swift.Equatable {
+struct GetNetworkSettingsInputBody {
 }
 
 extension GetNetworkSettingsInputBody: Swift.Decodable {
@@ -4053,7 +4053,7 @@ extension GetNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNetworkSettingsOutput: Swift.Equatable {
+public struct GetNetworkSettingsOutput {
     /// The network settings.
     public var networkSettings: WorkSpacesWebClientTypes.NetworkSettings?
 
@@ -4065,7 +4065,7 @@ public struct GetNetworkSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetNetworkSettingsOutputBody: Swift.Equatable {
+struct GetNetworkSettingsOutputBody {
     let networkSettings: WorkSpacesWebClientTypes.NetworkSettings?
 }
 
@@ -4106,7 +4106,7 @@ extension GetPortalInput {
     }
 }
 
-public struct GetPortalInput: Swift.Equatable {
+public struct GetPortalInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -4119,7 +4119,7 @@ public struct GetPortalInput: Swift.Equatable {
     }
 }
 
-struct GetPortalInputBody: Swift.Equatable {
+struct GetPortalInputBody {
 }
 
 extension GetPortalInputBody: Swift.Decodable {
@@ -4140,7 +4140,7 @@ extension GetPortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPortalOutput: Swift.Equatable {
+public struct GetPortalOutput {
     /// The web portal.
     public var portal: WorkSpacesWebClientTypes.Portal?
 
@@ -4152,7 +4152,7 @@ public struct GetPortalOutput: Swift.Equatable {
     }
 }
 
-struct GetPortalOutputBody: Swift.Equatable {
+struct GetPortalOutputBody {
     let portal: WorkSpacesWebClientTypes.Portal?
 }
 
@@ -4193,7 +4193,7 @@ extension GetPortalServiceProviderMetadataInput {
     }
 }
 
-public struct GetPortalServiceProviderMetadataInput: Swift.Equatable {
+public struct GetPortalServiceProviderMetadataInput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -4206,7 +4206,7 @@ public struct GetPortalServiceProviderMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetPortalServiceProviderMetadataInputBody: Swift.Equatable {
+struct GetPortalServiceProviderMetadataInputBody {
 }
 
 extension GetPortalServiceProviderMetadataInputBody: Swift.Decodable {
@@ -4229,7 +4229,7 @@ extension GetPortalServiceProviderMetadataOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetPortalServiceProviderMetadataOutput: Swift.Equatable {
+public struct GetPortalServiceProviderMetadataOutput {
     /// The ARN of the web portal.
     /// This member is required.
     public var portalArn: Swift.String?
@@ -4246,7 +4246,7 @@ public struct GetPortalServiceProviderMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetPortalServiceProviderMetadataOutputBody: Swift.Equatable {
+struct GetPortalServiceProviderMetadataOutputBody {
     let portalArn: Swift.String?
     let serviceProviderSamlMetadata: Swift.String?
 }
@@ -4305,7 +4305,7 @@ extension GetTrustStoreCertificateInput {
     }
 }
 
-public struct GetTrustStoreCertificateInput: Swift.Equatable {
+public struct GetTrustStoreCertificateInput {
     /// The thumbprint of the trust store certificate.
     /// This member is required.
     public var thumbprint: Swift.String?
@@ -4323,7 +4323,7 @@ public struct GetTrustStoreCertificateInput: Swift.Equatable {
     }
 }
 
-struct GetTrustStoreCertificateInputBody: Swift.Equatable {
+struct GetTrustStoreCertificateInputBody {
 }
 
 extension GetTrustStoreCertificateInputBody: Swift.Decodable {
@@ -4346,7 +4346,7 @@ extension GetTrustStoreCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrustStoreCertificateOutput: Swift.Equatable {
+public struct GetTrustStoreCertificateOutput {
     /// The certificate of the trust store certificate.
     public var certificate: WorkSpacesWebClientTypes.Certificate?
     /// The ARN of the trust store certificate.
@@ -4363,7 +4363,7 @@ public struct GetTrustStoreCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GetTrustStoreCertificateOutputBody: Swift.Equatable {
+struct GetTrustStoreCertificateOutputBody {
     let trustStoreArn: Swift.String?
     let certificate: WorkSpacesWebClientTypes.Certificate?
 }
@@ -4408,7 +4408,7 @@ extension GetTrustStoreInput {
     }
 }
 
-public struct GetTrustStoreInput: Swift.Equatable {
+public struct GetTrustStoreInput {
     /// The ARN of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -4421,7 +4421,7 @@ public struct GetTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct GetTrustStoreInputBody: Swift.Equatable {
+struct GetTrustStoreInputBody {
 }
 
 extension GetTrustStoreInputBody: Swift.Decodable {
@@ -4442,7 +4442,7 @@ extension GetTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTrustStoreOutput: Swift.Equatable {
+public struct GetTrustStoreOutput {
     /// The trust store.
     public var trustStore: WorkSpacesWebClientTypes.TrustStore?
 
@@ -4454,7 +4454,7 @@ public struct GetTrustStoreOutput: Swift.Equatable {
     }
 }
 
-struct GetTrustStoreOutputBody: Swift.Equatable {
+struct GetTrustStoreOutputBody {
     let trustStore: WorkSpacesWebClientTypes.TrustStore?
 }
 
@@ -4495,7 +4495,7 @@ extension GetUserAccessLoggingSettingsInput {
     }
 }
 
-public struct GetUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct GetUserAccessLoggingSettingsInput {
     /// The ARN of the user access logging settings.
     /// This member is required.
     public var userAccessLoggingSettingsArn: Swift.String?
@@ -4508,7 +4508,7 @@ public struct GetUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct GetUserAccessLoggingSettingsInputBody {
 }
 
 extension GetUserAccessLoggingSettingsInputBody: Swift.Decodable {
@@ -4529,7 +4529,7 @@ extension GetUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct GetUserAccessLoggingSettingsOutput {
     /// The user access logging settings.
     public var userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings?
 
@@ -4541,7 +4541,7 @@ public struct GetUserAccessLoggingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetUserAccessLoggingSettingsOutputBody: Swift.Equatable {
+struct GetUserAccessLoggingSettingsOutputBody {
     let userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings?
 }
 
@@ -4582,7 +4582,7 @@ extension GetUserSettingsInput {
     }
 }
 
-public struct GetUserSettingsInput: Swift.Equatable {
+public struct GetUserSettingsInput {
     /// The ARN of the user settings.
     /// This member is required.
     public var userSettingsArn: Swift.String?
@@ -4595,7 +4595,7 @@ public struct GetUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetUserSettingsInputBody: Swift.Equatable {
+struct GetUserSettingsInputBody {
 }
 
 extension GetUserSettingsInputBody: Swift.Decodable {
@@ -4616,7 +4616,7 @@ extension GetUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserSettingsOutput: Swift.Equatable {
+public struct GetUserSettingsOutput {
     /// The user settings.
     public var userSettings: WorkSpacesWebClientTypes.UserSettings?
 
@@ -4628,7 +4628,7 @@ public struct GetUserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetUserSettingsOutputBody: Swift.Equatable {
+struct GetUserSettingsOutputBody {
     let userSettings: WorkSpacesWebClientTypes.UserSettings?
 }
 
@@ -4715,7 +4715,7 @@ extension WorkSpacesWebClientTypes.IdentityProvider: Swift.CustomDebugStringConv
 
 extension WorkSpacesWebClientTypes {
     /// The identity provider.
-    public struct IdentityProvider: Swift.Equatable {
+    public struct IdentityProvider {
         /// The ARN of the identity provider.
         /// This member is required.
         public var identityProviderArn: Swift.String?
@@ -4848,7 +4848,7 @@ extension WorkSpacesWebClientTypes.IdentityProviderSummary: Swift.CustomDebugStr
 
 extension WorkSpacesWebClientTypes {
     /// The summary of the identity provider.
-    public struct IdentityProviderSummary: Swift.Equatable {
+    public struct IdentityProviderSummary {
         /// The ARN of the identity provider.
         /// This member is required.
         public var identityProviderArn: Swift.String?
@@ -4963,7 +4963,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5059,7 +5059,7 @@ extension WorkSpacesWebClientTypes.IpAccessSettings: Swift.CustomDebugStringConv
 
 extension WorkSpacesWebClientTypes {
     /// The IP access settings resource that can be associated with a web portal.
-    public struct IpAccessSettings: Swift.Equatable {
+    public struct IpAccessSettings {
         /// A list of web portal ARNs that this IP access settings resource is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The creation date timestamp of the IP access settings.
@@ -5138,7 +5138,7 @@ extension WorkSpacesWebClientTypes.IpAccessSettingsSummary: Swift.CustomDebugStr
 
 extension WorkSpacesWebClientTypes {
     /// The summary of IP access settings.
-    public struct IpAccessSettingsSummary: Swift.Equatable {
+    public struct IpAccessSettingsSummary {
         /// The creation date timestamp of the IP access settings.
         public var creationDate: ClientRuntime.Date?
         /// The description of the IP access settings.
@@ -5197,7 +5197,7 @@ extension WorkSpacesWebClientTypes.IpRule: Swift.CustomDebugStringConvertible {
 
 extension WorkSpacesWebClientTypes {
     /// The IP rules of the IP access settings.
-    public struct IpRule: Swift.Equatable {
+    public struct IpRule {
         /// The description of the IP rule.
         public var description: Swift.String?
         /// The IP range of the IP rule.
@@ -5239,7 +5239,7 @@ extension ListBrowserSettingsInput {
     }
 }
 
-public struct ListBrowserSettingsInput: Swift.Equatable {
+public struct ListBrowserSettingsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5255,7 +5255,7 @@ public struct ListBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct ListBrowserSettingsInputBody: Swift.Equatable {
+struct ListBrowserSettingsInputBody {
 }
 
 extension ListBrowserSettingsInputBody: Swift.Decodable {
@@ -5278,7 +5278,7 @@ extension ListBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBrowserSettingsOutput: Swift.Equatable {
+public struct ListBrowserSettingsOutput {
     /// The browser settings.
     public var browserSettings: [WorkSpacesWebClientTypes.BrowserSettingsSummary]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5294,7 +5294,7 @@ public struct ListBrowserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ListBrowserSettingsOutputBody: Swift.Equatable {
+struct ListBrowserSettingsOutputBody {
     let browserSettings: [WorkSpacesWebClientTypes.BrowserSettingsSummary]?
     let nextToken: Swift.String?
 }
@@ -5363,7 +5363,7 @@ extension ListIdentityProvidersInput {
     }
 }
 
-public struct ListIdentityProvidersInput: Swift.Equatable {
+public struct ListIdentityProvidersInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5384,7 +5384,7 @@ public struct ListIdentityProvidersInput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProvidersInputBody: Swift.Equatable {
+struct ListIdentityProvidersInputBody {
 }
 
 extension ListIdentityProvidersInputBody: Swift.Decodable {
@@ -5407,7 +5407,7 @@ extension ListIdentityProvidersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdentityProvidersOutput: Swift.Equatable {
+public struct ListIdentityProvidersOutput {
     /// The identity providers.
     public var identityProviders: [WorkSpacesWebClientTypes.IdentityProviderSummary]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5423,7 +5423,7 @@ public struct ListIdentityProvidersOutput: Swift.Equatable {
     }
 }
 
-struct ListIdentityProvidersOutputBody: Swift.Equatable {
+struct ListIdentityProvidersOutputBody {
     let nextToken: Swift.String?
     let identityProviders: [WorkSpacesWebClientTypes.IdentityProviderSummary]?
 }
@@ -5489,7 +5489,7 @@ extension ListIpAccessSettingsInput {
     }
 }
 
-public struct ListIpAccessSettingsInput: Swift.Equatable {
+public struct ListIpAccessSettingsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5505,7 +5505,7 @@ public struct ListIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct ListIpAccessSettingsInputBody: Swift.Equatable {
+struct ListIpAccessSettingsInputBody {
 }
 
 extension ListIpAccessSettingsInputBody: Swift.Decodable {
@@ -5528,7 +5528,7 @@ extension ListIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIpAccessSettingsOutput: Swift.Equatable {
+public struct ListIpAccessSettingsOutput {
     /// The IP access settings.
     public var ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5544,7 +5544,7 @@ public struct ListIpAccessSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ListIpAccessSettingsOutputBody: Swift.Equatable {
+struct ListIpAccessSettingsOutputBody {
     let ipAccessSettings: [WorkSpacesWebClientTypes.IpAccessSettingsSummary]?
     let nextToken: Swift.String?
 }
@@ -5610,7 +5610,7 @@ extension ListNetworkSettingsInput {
     }
 }
 
-public struct ListNetworkSettingsInput: Swift.Equatable {
+public struct ListNetworkSettingsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5626,7 +5626,7 @@ public struct ListNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct ListNetworkSettingsInputBody: Swift.Equatable {
+struct ListNetworkSettingsInputBody {
 }
 
 extension ListNetworkSettingsInputBody: Swift.Decodable {
@@ -5649,7 +5649,7 @@ extension ListNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNetworkSettingsOutput: Swift.Equatable {
+public struct ListNetworkSettingsOutput {
     /// The network settings.
     public var networkSettings: [WorkSpacesWebClientTypes.NetworkSettingsSummary]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5665,7 +5665,7 @@ public struct ListNetworkSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ListNetworkSettingsOutputBody: Swift.Equatable {
+struct ListNetworkSettingsOutputBody {
     let networkSettings: [WorkSpacesWebClientTypes.NetworkSettingsSummary]?
     let nextToken: Swift.String?
 }
@@ -5731,7 +5731,7 @@ extension ListPortalsInput {
     }
 }
 
-public struct ListPortalsInput: Swift.Equatable {
+public struct ListPortalsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5747,7 +5747,7 @@ public struct ListPortalsInput: Swift.Equatable {
     }
 }
 
-struct ListPortalsInputBody: Swift.Equatable {
+struct ListPortalsInputBody {
 }
 
 extension ListPortalsInputBody: Swift.Decodable {
@@ -5770,7 +5770,7 @@ extension ListPortalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPortalsOutput: Swift.Equatable {
+public struct ListPortalsOutput {
     /// The pagination token used to retrieve the next page of results for this operation.
     public var nextToken: Swift.String?
     /// The portals in the list.
@@ -5786,7 +5786,7 @@ public struct ListPortalsOutput: Swift.Equatable {
     }
 }
 
-struct ListPortalsOutputBody: Swift.Equatable {
+struct ListPortalsOutputBody {
     let portals: [WorkSpacesWebClientTypes.PortalSummary]?
     let nextToken: Swift.String?
 }
@@ -5839,7 +5839,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5852,7 +5852,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5873,7 +5873,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags of the resource.
     public var tags: [WorkSpacesWebClientTypes.Tag]?
 
@@ -5885,7 +5885,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [WorkSpacesWebClientTypes.Tag]?
 }
 
@@ -5951,7 +5951,7 @@ extension ListTrustStoreCertificatesInput {
     }
 }
 
-public struct ListTrustStoreCertificatesInput: Swift.Equatable {
+public struct ListTrustStoreCertificatesInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -5972,7 +5972,7 @@ public struct ListTrustStoreCertificatesInput: Swift.Equatable {
     }
 }
 
-struct ListTrustStoreCertificatesInputBody: Swift.Equatable {
+struct ListTrustStoreCertificatesInputBody {
 }
 
 extension ListTrustStoreCertificatesInputBody: Swift.Decodable {
@@ -5997,7 +5997,7 @@ extension ListTrustStoreCertificatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrustStoreCertificatesOutput: Swift.Equatable {
+public struct ListTrustStoreCertificatesOutput {
     /// The certificate list.
     public var certificateList: [WorkSpacesWebClientTypes.CertificateSummary]?
     /// The pagination token used to retrieve the next page of results for this operation.>
@@ -6018,7 +6018,7 @@ public struct ListTrustStoreCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTrustStoreCertificatesOutputBody: Swift.Equatable {
+struct ListTrustStoreCertificatesOutputBody {
     let certificateList: [WorkSpacesWebClientTypes.CertificateSummary]?
     let trustStoreArn: Swift.String?
     let nextToken: Swift.String?
@@ -6089,7 +6089,7 @@ extension ListTrustStoresInput {
     }
 }
 
-public struct ListTrustStoresInput: Swift.Equatable {
+public struct ListTrustStoresInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6105,7 +6105,7 @@ public struct ListTrustStoresInput: Swift.Equatable {
     }
 }
 
-struct ListTrustStoresInputBody: Swift.Equatable {
+struct ListTrustStoresInputBody {
 }
 
 extension ListTrustStoresInputBody: Swift.Decodable {
@@ -6128,7 +6128,7 @@ extension ListTrustStoresOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTrustStoresOutput: Swift.Equatable {
+public struct ListTrustStoresOutput {
     /// The pagination token used to retrieve the next page of results for this operation.
     public var nextToken: Swift.String?
     /// The trust stores.
@@ -6144,7 +6144,7 @@ public struct ListTrustStoresOutput: Swift.Equatable {
     }
 }
 
-struct ListTrustStoresOutputBody: Swift.Equatable {
+struct ListTrustStoresOutputBody {
     let trustStores: [WorkSpacesWebClientTypes.TrustStoreSummary]?
     let nextToken: Swift.String?
 }
@@ -6210,7 +6210,7 @@ extension ListUserAccessLoggingSettingsInput {
     }
 }
 
-public struct ListUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct ListUserAccessLoggingSettingsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6226,7 +6226,7 @@ public struct ListUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct ListUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct ListUserAccessLoggingSettingsInputBody {
 }
 
 extension ListUserAccessLoggingSettingsInputBody: Swift.Decodable {
@@ -6249,7 +6249,7 @@ extension ListUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct ListUserAccessLoggingSettingsOutput {
     /// The pagination token used to retrieve the next page of results for this operation.
     public var nextToken: Swift.String?
     /// The user access logging settings.
@@ -6265,7 +6265,7 @@ public struct ListUserAccessLoggingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ListUserAccessLoggingSettingsOutputBody: Swift.Equatable {
+struct ListUserAccessLoggingSettingsOutputBody {
     let userAccessLoggingSettings: [WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary]?
     let nextToken: Swift.String?
 }
@@ -6331,7 +6331,7 @@ extension ListUserSettingsInput {
     }
 }
 
-public struct ListUserSettingsInput: Swift.Equatable {
+public struct ListUserSettingsInput {
     /// The maximum number of results to be included in the next page.
     public var maxResults: Swift.Int?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6347,7 +6347,7 @@ public struct ListUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct ListUserSettingsInputBody: Swift.Equatable {
+struct ListUserSettingsInputBody {
 }
 
 extension ListUserSettingsInputBody: Swift.Decodable {
@@ -6370,7 +6370,7 @@ extension ListUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUserSettingsOutput: Swift.Equatable {
+public struct ListUserSettingsOutput {
     /// The pagination token used to retrieve the next page of results for this operation.
     public var nextToken: Swift.String?
     /// The user settings.
@@ -6386,7 +6386,7 @@ public struct ListUserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct ListUserSettingsOutputBody: Swift.Equatable {
+struct ListUserSettingsOutputBody {
     let userSettings: [WorkSpacesWebClientTypes.UserSettingsSummary]?
     let nextToken: Swift.String?
 }
@@ -6510,7 +6510,7 @@ extension WorkSpacesWebClientTypes.NetworkSettings: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// A network settings resource that can be associated with a web portal. Once associated with a web portal, network settings define how streaming instances will connect with your specified VPC.
-    public struct NetworkSettings: Swift.Equatable {
+    public struct NetworkSettings {
         /// A list of web portal ARNs that this network settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The ARN of the network settings.
@@ -6568,7 +6568,7 @@ extension WorkSpacesWebClientTypes.NetworkSettingsSummary: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// The summary of network settings.
-    public struct NetworkSettingsSummary: Swift.Equatable {
+    public struct NetworkSettingsSummary {
         /// The ARN of the network settings.
         /// This member is required.
         public var networkSettingsArn: Swift.String?
@@ -6697,7 +6697,7 @@ extension WorkSpacesWebClientTypes.Portal: Swift.CustomDebugStringConvertible {
 
 extension WorkSpacesWebClientTypes {
     /// The web portal.
-    public struct Portal: Swift.Equatable {
+    public struct Portal {
         /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with this web portal.
@@ -6907,7 +6907,7 @@ extension WorkSpacesWebClientTypes.PortalSummary: Swift.CustomDebugStringConvert
 
 extension WorkSpacesWebClientTypes {
     /// The summary of the portal.
-    public struct PortalSummary: Swift.Equatable {
+    public struct PortalSummary {
         /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
         public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
         /// The ARN of the browser settings that is associated with the web portal.
@@ -7054,7 +7054,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7141,7 +7141,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -7206,7 +7206,7 @@ extension WorkSpacesWebClientTypes.Tag: Swift.CustomDebugStringConvertible {
 
 extension WorkSpacesWebClientTypes {
     /// The tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -7256,7 +7256,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token returns the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The ARN of the resource.
@@ -7278,7 +7278,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [WorkSpacesWebClientTypes.Tag]?
     let clientToken: Swift.String?
 }
@@ -7312,7 +7312,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7393,7 +7393,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -7462,7 +7462,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -7521,7 +7521,7 @@ extension WorkSpacesWebClientTypes.TrustStore: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// A trust store that can be associated with a web portal. A trust store contains certificate authority (CA) certificates. Once associated with a web portal, the browser in a streaming session will recognize certificates that have been issued using any of the CAs in the trust store. If your organization has internal websites that use certificates issued by private CAs, you should add the private CA certificate to the trust store.
-    public struct TrustStore: Swift.Equatable {
+    public struct TrustStore {
         /// A list of web portal ARNs that this trust store is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The ARN of the trust store.
@@ -7561,7 +7561,7 @@ extension WorkSpacesWebClientTypes.TrustStoreSummary: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// The summary of the trust store.
-    public struct TrustStoreSummary: Swift.Equatable {
+    public struct TrustStoreSummary {
         /// The ARN of the trust store.
         public var trustStoreArn: Swift.String?
 
@@ -7601,7 +7601,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7619,7 +7619,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7633,7 +7633,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7685,7 +7685,7 @@ extension UpdateBrowserSettingsInput {
     }
 }
 
-public struct UpdateBrowserSettingsInput: Swift.Equatable {
+public struct UpdateBrowserSettingsInput {
     /// A JSON string containing Chrome Enterprise policies that will be applied to all streaming sessions.
     public var browserPolicy: Swift.String?
     /// The ARN of the browser settings.
@@ -7706,7 +7706,7 @@ public struct UpdateBrowserSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateBrowserSettingsInputBody: Swift.Equatable {
+struct UpdateBrowserSettingsInputBody {
     let browserPolicy: Swift.String?
     let clientToken: Swift.String?
 }
@@ -7738,7 +7738,7 @@ extension UpdateBrowserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBrowserSettingsOutput: Swift.Equatable {
+public struct UpdateBrowserSettingsOutput {
     /// The browser settings.
     /// This member is required.
     public var browserSettings: WorkSpacesWebClientTypes.BrowserSettings?
@@ -7751,7 +7751,7 @@ public struct UpdateBrowserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBrowserSettingsOutputBody: Swift.Equatable {
+struct UpdateBrowserSettingsOutputBody {
     let browserSettings: WorkSpacesWebClientTypes.BrowserSettings?
 }
 
@@ -7825,7 +7825,7 @@ extension UpdateIdentityProviderInput {
     }
 }
 
-public struct UpdateIdentityProviderInput: Swift.Equatable {
+public struct UpdateIdentityProviderInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The ARN of the identity provider.
@@ -7922,7 +7922,7 @@ public struct UpdateIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderInputBody: Swift.Equatable {
+struct UpdateIdentityProviderInputBody {
     let identityProviderName: Swift.String?
     let identityProviderType: WorkSpacesWebClientTypes.IdentityProviderType?
     let identityProviderDetails: [Swift.String:Swift.String]?
@@ -7971,7 +7971,7 @@ extension UpdateIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIdentityProviderOutput: Swift.Equatable {
+public struct UpdateIdentityProviderOutput {
     /// The identity provider.
     /// This member is required.
     public var identityProvider: WorkSpacesWebClientTypes.IdentityProvider?
@@ -7984,7 +7984,7 @@ public struct UpdateIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdentityProviderOutputBody: Swift.Equatable {
+struct UpdateIdentityProviderOutputBody {
     let identityProvider: WorkSpacesWebClientTypes.IdentityProvider?
 }
 
@@ -8058,7 +8058,7 @@ extension UpdateIpAccessSettingsInput {
     }
 }
 
-public struct UpdateIpAccessSettingsInput: Swift.Equatable {
+public struct UpdateIpAccessSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The description of the IP access settings.
@@ -8087,7 +8087,7 @@ public struct UpdateIpAccessSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateIpAccessSettingsInputBody: Swift.Equatable {
+struct UpdateIpAccessSettingsInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let ipRules: [WorkSpacesWebClientTypes.IpRule]?
@@ -8136,7 +8136,7 @@ extension UpdateIpAccessSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIpAccessSettingsOutput: Swift.Equatable {
+public struct UpdateIpAccessSettingsOutput {
     /// The IP access settings.
     /// This member is required.
     public var ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
@@ -8149,7 +8149,7 @@ public struct UpdateIpAccessSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIpAccessSettingsOutputBody: Swift.Equatable {
+struct UpdateIpAccessSettingsOutputBody {
     let ipAccessSettings: WorkSpacesWebClientTypes.IpAccessSettings?
 }
 
@@ -8221,7 +8221,7 @@ extension UpdateNetworkSettingsInput {
     }
 }
 
-public struct UpdateNetworkSettingsInput: Swift.Equatable {
+public struct UpdateNetworkSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The ARN of the network settings.
@@ -8250,7 +8250,7 @@ public struct UpdateNetworkSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSettingsInputBody: Swift.Equatable {
+struct UpdateNetworkSettingsInputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
@@ -8308,7 +8308,7 @@ extension UpdateNetworkSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNetworkSettingsOutput: Swift.Equatable {
+public struct UpdateNetworkSettingsOutput {
     /// The network settings.
     /// This member is required.
     public var networkSettings: WorkSpacesWebClientTypes.NetworkSettings?
@@ -8321,7 +8321,7 @@ public struct UpdateNetworkSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateNetworkSettingsOutputBody: Swift.Equatable {
+struct UpdateNetworkSettingsOutputBody {
     let networkSettings: WorkSpacesWebClientTypes.NetworkSettings?
 }
 
@@ -8384,7 +8384,7 @@ extension UpdatePortalInput {
     }
 }
 
-public struct UpdatePortalInput: Swift.Equatable {
+public struct UpdatePortalInput {
     /// The type of authentication integration points used when signing into the web portal. Defaults to Standard. Standard web portals are authenticated directly through your identity provider. You need to call CreateIdentityProvider to integrate your identity provider with your web portal. User and group access to your web portal is controlled through your identity provider. IAM_Identity_Center web portals are authenticated through AWS IAM Identity Center (successor to AWS Single Sign-On). They provide additional features, such as IdP-initiated authentication. Identity sources (including external identity provider integration), plus user and group access to your web portal, can be configured in the IAM Identity Center.
     public var authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
     /// The name of the web portal. This is not visible to users who log into the web portal.
@@ -8405,7 +8405,7 @@ public struct UpdatePortalInput: Swift.Equatable {
     }
 }
 
-struct UpdatePortalInputBody: Swift.Equatable {
+struct UpdatePortalInputBody {
     let displayName: Swift.String?
     let authenticationType: WorkSpacesWebClientTypes.AuthenticationType?
 }
@@ -8437,7 +8437,7 @@ extension UpdatePortalOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePortalOutput: Swift.Equatable {
+public struct UpdatePortalOutput {
     /// The web portal.
     public var portal: WorkSpacesWebClientTypes.Portal?
 
@@ -8449,7 +8449,7 @@ public struct UpdatePortalOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePortalOutputBody: Swift.Equatable {
+struct UpdatePortalOutputBody {
     let portal: WorkSpacesWebClientTypes.Portal?
 }
 
@@ -8518,7 +8518,7 @@ extension UpdateTrustStoreInput {
     }
 }
 
-public struct UpdateTrustStoreInput: Swift.Equatable {
+public struct UpdateTrustStoreInput {
     /// A list of CA certificates to add to the trust store.
     public var certificatesToAdd: [ClientRuntime.Data]?
     /// A list of CA certificates to delete from a trust store.
@@ -8543,7 +8543,7 @@ public struct UpdateTrustStoreInput: Swift.Equatable {
     }
 }
 
-struct UpdateTrustStoreInputBody: Swift.Equatable {
+struct UpdateTrustStoreInputBody {
     let certificatesToAdd: [ClientRuntime.Data]?
     let certificatesToDelete: [Swift.String]?
     let clientToken: Swift.String?
@@ -8597,7 +8597,7 @@ extension UpdateTrustStoreOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTrustStoreOutput: Swift.Equatable {
+public struct UpdateTrustStoreOutput {
     /// The ARN of the trust store.
     /// This member is required.
     public var trustStoreArn: Swift.String?
@@ -8610,7 +8610,7 @@ public struct UpdateTrustStoreOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTrustStoreOutputBody: Swift.Equatable {
+struct UpdateTrustStoreOutputBody {
     let trustStoreArn: Swift.String?
 }
 
@@ -8669,7 +8669,7 @@ extension UpdateUserAccessLoggingSettingsInput {
     }
 }
 
-public struct UpdateUserAccessLoggingSettingsInput: Swift.Equatable {
+public struct UpdateUserAccessLoggingSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The ARN of the Kinesis stream.
@@ -8690,7 +8690,7 @@ public struct UpdateUserAccessLoggingSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserAccessLoggingSettingsInputBody: Swift.Equatable {
+struct UpdateUserAccessLoggingSettingsInputBody {
     let kinesisStreamArn: Swift.String?
     let clientToken: Swift.String?
 }
@@ -8722,7 +8722,7 @@ extension UpdateUserAccessLoggingSettingsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateUserAccessLoggingSettingsOutput: Swift.Equatable {
+public struct UpdateUserAccessLoggingSettingsOutput {
     /// The user access logging settings.
     /// This member is required.
     public var userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings?
@@ -8735,7 +8735,7 @@ public struct UpdateUserAccessLoggingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserAccessLoggingSettingsOutputBody: Swift.Equatable {
+struct UpdateUserAccessLoggingSettingsOutputBody {
     let userAccessLoggingSettings: WorkSpacesWebClientTypes.UserAccessLoggingSettings?
 }
 
@@ -8826,7 +8826,7 @@ extension UpdateUserSettingsInput {
     }
 }
 
-public struct UpdateUserSettingsInput: Swift.Equatable {
+public struct UpdateUserSettingsInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, subsequent retries with the same client token return the result from the original successful request. If you do not specify a client token, one is automatically generated by the AWS SDK.
     public var clientToken: Swift.String?
     /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser. If the allowlist and blocklist are empty, the configuration becomes null.
@@ -8875,7 +8875,7 @@ public struct UpdateUserSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserSettingsInputBody: Swift.Equatable {
+struct UpdateUserSettingsInputBody {
     let copyAllowed: WorkSpacesWebClientTypes.EnabledType?
     let pasteAllowed: WorkSpacesWebClientTypes.EnabledType?
     let downloadAllowed: WorkSpacesWebClientTypes.EnabledType?
@@ -8935,7 +8935,7 @@ extension UpdateUserSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserSettingsOutput: Swift.Equatable {
+public struct UpdateUserSettingsOutput {
     /// The user settings.
     /// This member is required.
     public var userSettings: WorkSpacesWebClientTypes.UserSettings?
@@ -8948,7 +8948,7 @@ public struct UpdateUserSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserSettingsOutputBody: Swift.Equatable {
+struct UpdateUserSettingsOutputBody {
     let userSettings: WorkSpacesWebClientTypes.UserSettings?
 }
 
@@ -9024,7 +9024,7 @@ extension WorkSpacesWebClientTypes.UserAccessLoggingSettings: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// A user access logging settings resource that can be associated with a web portal.
-    public struct UserAccessLoggingSettings: Swift.Equatable {
+    public struct UserAccessLoggingSettings {
         /// A list of web portal ARNs that this user access logging settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The ARN of the Kinesis stream.
@@ -9074,7 +9074,7 @@ extension WorkSpacesWebClientTypes.UserAccessLoggingSettingsSummary: Swift.Codab
 
 extension WorkSpacesWebClientTypes {
     /// The summary of user access logging settings.
-    public struct UserAccessLoggingSettingsSummary: Swift.Equatable {
+    public struct UserAccessLoggingSettingsSummary {
         /// The ARN of the Kinesis stream.
         public var kinesisStreamArn: Swift.String?
         /// The ARN of the user access logging settings.
@@ -9185,7 +9185,7 @@ extension WorkSpacesWebClientTypes.UserSettings: Swift.CustomDebugStringConverti
 
 extension WorkSpacesWebClientTypes {
     /// A user settings resource that can be associated with a web portal. Once associated with a web portal, user settings control how users can transfer data between a streaming session and the their local devices.
-    public struct UserSettings: Swift.Equatable {
+    public struct UserSettings {
         /// A list of web portal ARNs that this user settings is associated with.
         public var associatedPortalArns: [Swift.String]?
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
@@ -9310,7 +9310,7 @@ extension WorkSpacesWebClientTypes.UserSettingsSummary: Swift.CustomDebugStringC
 
 extension WorkSpacesWebClientTypes {
     /// The summary of user settings.
-    public struct UserSettingsSummary: Swift.Equatable {
+    public struct UserSettingsSummary {
         /// The configuration that specifies which cookies should be synchronized from the end user's local browser to the remote browser.
         public var cookieSynchronizationConfiguration: WorkSpacesWebClientTypes.CookieSynchronizationConfiguration?
         /// Specifies whether the user can copy text from the streaming session to the local device.
@@ -9408,7 +9408,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: WorkSpacesWebClientTypes.ValidationExceptionReason?
     let fieldList: [WorkSpacesWebClientTypes.ValidationExceptionField]?
@@ -9468,7 +9468,7 @@ extension WorkSpacesWebClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension WorkSpacesWebClientTypes {
     /// Information about a field passed inside a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message describing why the field failed validation.
         /// This member is required.
         public var message: Swift.String?

@@ -41,7 +41,7 @@ public struct AWSServiceAccessNotEnabledException: ClientRuntime.ModeledError, A
     }
 }
 
-struct AWSServiceAccessNotEnabledExceptionBody: Swift.Equatable {
+struct AWSServiceAccessNotEnabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -162,12 +162,12 @@ extension AssociateServiceQuotaTemplateInput {
     }
 }
 
-public struct AssociateServiceQuotaTemplateInput: Swift.Equatable {
+public struct AssociateServiceQuotaTemplateInput {
 
     public init() { }
 }
 
-struct AssociateServiceQuotaTemplateInputBody: Swift.Equatable {
+struct AssociateServiceQuotaTemplateInputBody {
 }
 
 extension AssociateServiceQuotaTemplateInputBody: Swift.Decodable {
@@ -181,7 +181,7 @@ extension AssociateServiceQuotaTemplateOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateServiceQuotaTemplateOutput: Swift.Equatable {
+public struct AssociateServiceQuotaTemplateOutput {
 
     public init() { }
 }
@@ -232,7 +232,7 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateInput {
     }
 }
 
-public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatable {
+public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput {
     /// Specifies the Amazon Web Services Region for which the request was made.
     /// This member is required.
     public var awsRegion: Swift.String?
@@ -255,7 +255,7 @@ public struct DeleteServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatabl
     }
 }
 
-struct DeleteServiceQuotaIncreaseRequestFromTemplateInputBody: Swift.Equatable {
+struct DeleteServiceQuotaIncreaseRequestFromTemplateInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let awsRegion: Swift.String?
@@ -284,7 +284,7 @@ extension DeleteServiceQuotaIncreaseRequestFromTemplateOutput: ClientRuntime.Htt
     }
 }
 
-public struct DeleteServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Equatable {
+public struct DeleteServiceQuotaIncreaseRequestFromTemplateOutput {
 
     public init() { }
 }
@@ -347,7 +347,7 @@ public struct DependencyAccessDeniedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct DependencyAccessDeniedExceptionBody: Swift.Equatable {
+struct DependencyAccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -378,12 +378,12 @@ extension DisassociateServiceQuotaTemplateInput {
     }
 }
 
-public struct DisassociateServiceQuotaTemplateInput: Swift.Equatable {
+public struct DisassociateServiceQuotaTemplateInput {
 
     public init() { }
 }
 
-struct DisassociateServiceQuotaTemplateInputBody: Swift.Equatable {
+struct DisassociateServiceQuotaTemplateInputBody {
 }
 
 extension DisassociateServiceQuotaTemplateInputBody: Swift.Decodable {
@@ -397,7 +397,7 @@ extension DisassociateServiceQuotaTemplateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociateServiceQuotaTemplateOutput: Swift.Equatable {
+public struct DisassociateServiceQuotaTemplateOutput {
 
     public init() { }
 }
@@ -485,7 +485,7 @@ extension ServiceQuotasClientTypes.ErrorReason: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// An error that explains why an action did not succeed.
-    public struct ErrorReason: Swift.Equatable {
+    public struct ErrorReason {
         /// Service Quotas returns the following error values:
         ///
         /// * DEPENDENCY_ACCESS_DENIED_ERROR - The caller does not have the required permissions to complete the action. To resolve the error, you must have permission to access the Amazon Web Service or quota.
@@ -535,7 +535,7 @@ extension GetAWSDefaultServiceQuotaInput {
     }
 }
 
-public struct GetAWSDefaultServiceQuotaInput: Swift.Equatable {
+public struct GetAWSDefaultServiceQuotaInput {
     /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
     /// This member is required.
     public var quotaCode: Swift.String?
@@ -553,7 +553,7 @@ public struct GetAWSDefaultServiceQuotaInput: Swift.Equatable {
     }
 }
 
-struct GetAWSDefaultServiceQuotaInputBody: Swift.Equatable {
+struct GetAWSDefaultServiceQuotaInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
 }
@@ -585,7 +585,7 @@ extension GetAWSDefaultServiceQuotaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAWSDefaultServiceQuotaOutput: Swift.Equatable {
+public struct GetAWSDefaultServiceQuotaOutput {
     /// Information about the quota.
     public var quota: ServiceQuotasClientTypes.ServiceQuota?
 
@@ -597,7 +597,7 @@ public struct GetAWSDefaultServiceQuotaOutput: Swift.Equatable {
     }
 }
 
-struct GetAWSDefaultServiceQuotaOutputBody: Swift.Equatable {
+struct GetAWSDefaultServiceQuotaOutputBody {
     let quota: ServiceQuotasClientTypes.ServiceQuota?
 }
 
@@ -643,12 +643,12 @@ extension GetAssociationForServiceQuotaTemplateInput {
     }
 }
 
-public struct GetAssociationForServiceQuotaTemplateInput: Swift.Equatable {
+public struct GetAssociationForServiceQuotaTemplateInput {
 
     public init() { }
 }
 
-struct GetAssociationForServiceQuotaTemplateInputBody: Swift.Equatable {
+struct GetAssociationForServiceQuotaTemplateInputBody {
 }
 
 extension GetAssociationForServiceQuotaTemplateInputBody: Swift.Decodable {
@@ -669,7 +669,7 @@ extension GetAssociationForServiceQuotaTemplateOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetAssociationForServiceQuotaTemplateOutput: Swift.Equatable {
+public struct GetAssociationForServiceQuotaTemplateOutput {
     /// The association status. If the status is ASSOCIATED, the quota increase requests in the template are automatically applied to new Amazon Web Services accounts in your organization.
     public var serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
 
@@ -681,7 +681,7 @@ public struct GetAssociationForServiceQuotaTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetAssociationForServiceQuotaTemplateOutputBody: Swift.Equatable {
+struct GetAssociationForServiceQuotaTemplateOutputBody {
     let serviceQuotaTemplateAssociationStatus: ServiceQuotasClientTypes.ServiceQuotaTemplateAssociationStatus?
 }
 
@@ -735,7 +735,7 @@ extension GetRequestedServiceQuotaChangeInput {
     }
 }
 
-public struct GetRequestedServiceQuotaChangeInput: Swift.Equatable {
+public struct GetRequestedServiceQuotaChangeInput {
     /// Specifies the ID of the quota increase request.
     /// This member is required.
     public var requestId: Swift.String?
@@ -748,7 +748,7 @@ public struct GetRequestedServiceQuotaChangeInput: Swift.Equatable {
     }
 }
 
-struct GetRequestedServiceQuotaChangeInputBody: Swift.Equatable {
+struct GetRequestedServiceQuotaChangeInputBody {
     let requestId: Swift.String?
 }
 
@@ -776,7 +776,7 @@ extension GetRequestedServiceQuotaChangeOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetRequestedServiceQuotaChangeOutput: Swift.Equatable {
+public struct GetRequestedServiceQuotaChangeOutput {
     /// Information about the quota increase request.
     public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
 
@@ -788,7 +788,7 @@ public struct GetRequestedServiceQuotaChangeOutput: Swift.Equatable {
     }
 }
 
-struct GetRequestedServiceQuotaChangeOutputBody: Swift.Equatable {
+struct GetRequestedServiceQuotaChangeOutputBody {
     let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
 }
 
@@ -847,7 +847,7 @@ extension GetServiceQuotaIncreaseRequestFromTemplateInput {
     }
 }
 
-public struct GetServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatable {
+public struct GetServiceQuotaIncreaseRequestFromTemplateInput {
     /// Specifies the Amazon Web Services Region for which you made the request.
     /// This member is required.
     public var awsRegion: Swift.String?
@@ -870,7 +870,7 @@ public struct GetServiceQuotaIncreaseRequestFromTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetServiceQuotaIncreaseRequestFromTemplateInputBody: Swift.Equatable {
+struct GetServiceQuotaIncreaseRequestFromTemplateInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let awsRegion: Swift.String?
@@ -906,7 +906,7 @@ extension GetServiceQuotaIncreaseRequestFromTemplateOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct GetServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Equatable {
+public struct GetServiceQuotaIncreaseRequestFromTemplateOutput {
     /// Information about the quota increase request.
     public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
 
@@ -918,7 +918,7 @@ public struct GetServiceQuotaIncreaseRequestFromTemplateOutput: Swift.Equatable 
     }
 }
 
-struct GetServiceQuotaIncreaseRequestFromTemplateOutputBody: Swift.Equatable {
+struct GetServiceQuotaIncreaseRequestFromTemplateOutputBody {
     let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
 }
 
@@ -981,7 +981,7 @@ extension GetServiceQuotaInput {
     }
 }
 
-public struct GetServiceQuotaInput: Swift.Equatable {
+public struct GetServiceQuotaInput {
     /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
     public var contextId: Swift.String?
     /// Specifies the quota identifier. To find the quota code for a specific quota, use the [ListServiceQuotas] operation, and look for the QuotaCode response in the output for the quota you want.
@@ -1003,7 +1003,7 @@ public struct GetServiceQuotaInput: Swift.Equatable {
     }
 }
 
-struct GetServiceQuotaInputBody: Swift.Equatable {
+struct GetServiceQuotaInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let contextId: Swift.String?
@@ -1039,7 +1039,7 @@ extension GetServiceQuotaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetServiceQuotaOutput: Swift.Equatable {
+public struct GetServiceQuotaOutput {
     /// Information about the quota.
     public var quota: ServiceQuotasClientTypes.ServiceQuota?
 
@@ -1051,7 +1051,7 @@ public struct GetServiceQuotaOutput: Swift.Equatable {
     }
 }
 
-struct GetServiceQuotaOutputBody: Swift.Equatable {
+struct GetServiceQuotaOutputBody {
     let quota: ServiceQuotasClientTypes.ServiceQuota?
 }
 
@@ -1121,7 +1121,7 @@ public struct IllegalArgumentException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct IllegalArgumentExceptionBody: Swift.Equatable {
+struct IllegalArgumentExceptionBody {
     let message: Swift.String?
 }
 
@@ -1176,7 +1176,7 @@ public struct InvalidPaginationTokenException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPaginationTokenExceptionBody: Swift.Equatable {
+struct InvalidPaginationTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -1231,7 +1231,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidResourceStateExceptionBody: Swift.Equatable {
+struct InvalidResourceStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -1275,7 +1275,7 @@ extension ListAWSDefaultServiceQuotasInput {
     }
 }
 
-public struct ListAWSDefaultServiceQuotasInput: Swift.Equatable {
+public struct ListAWSDefaultServiceQuotasInput {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1296,7 +1296,7 @@ public struct ListAWSDefaultServiceQuotasInput: Swift.Equatable {
     }
 }
 
-struct ListAWSDefaultServiceQuotasInputBody: Swift.Equatable {
+struct ListAWSDefaultServiceQuotasInputBody {
     let serviceCode: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -1334,7 +1334,7 @@ extension ListAWSDefaultServiceQuotasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAWSDefaultServiceQuotasOutput: Swift.Equatable {
+public struct ListAWSDefaultServiceQuotasOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
@@ -1350,7 +1350,7 @@ public struct ListAWSDefaultServiceQuotasOutput: Swift.Equatable {
     }
 }
 
-struct ListAWSDefaultServiceQuotasOutputBody: Swift.Equatable {
+struct ListAWSDefaultServiceQuotasOutputBody {
     let nextToken: Swift.String?
     let quotas: [ServiceQuotasClientTypes.ServiceQuota]?
 }
@@ -1435,7 +1435,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaInput {
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1469,7 +1469,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaInput: Swift.Equatabl
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryByQuotaInputBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryByQuotaInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let status: ServiceQuotasClientTypes.RequestStatus?
@@ -1519,7 +1519,7 @@ extension ListRequestedServiceQuotaChangeHistoryByQuotaOutput: ClientRuntime.Htt
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutput: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1535,7 +1535,7 @@ public struct ListRequestedServiceQuotaChangeHistoryByQuotaOutput: Swift.Equatab
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryByQuotaOutputBody {
     let nextToken: Swift.String?
     let requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
 }
@@ -1616,7 +1616,7 @@ extension ListRequestedServiceQuotaChangeHistoryInput {
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryInput: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryInput {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1644,7 +1644,7 @@ public struct ListRequestedServiceQuotaChangeHistoryInput: Swift.Equatable {
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryInputBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryInputBody {
     let serviceCode: Swift.String?
     let status: ServiceQuotasClientTypes.RequestStatus?
     let nextToken: Swift.String?
@@ -1690,7 +1690,7 @@ extension ListRequestedServiceQuotaChangeHistoryOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListRequestedServiceQuotaChangeHistoryOutput: Swift.Equatable {
+public struct ListRequestedServiceQuotaChangeHistoryOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1706,7 +1706,7 @@ public struct ListRequestedServiceQuotaChangeHistoryOutput: Swift.Equatable {
     }
 }
 
-struct ListRequestedServiceQuotaChangeHistoryOutputBody: Swift.Equatable {
+struct ListRequestedServiceQuotaChangeHistoryOutputBody {
     let nextToken: Swift.String?
     let requestedQuotas: [ServiceQuotasClientTypes.RequestedServiceQuotaChange]?
 }
@@ -1783,7 +1783,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateInput {
     }
 }
 
-public struct ListServiceQuotaIncreaseRequestsInTemplateInput: Swift.Equatable {
+public struct ListServiceQuotaIncreaseRequestsInTemplateInput {
     /// Specifies the Amazon Web Services Region for which you made the request.
     public var awsRegion: Swift.String?
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
@@ -1807,7 +1807,7 @@ public struct ListServiceQuotaIncreaseRequestsInTemplateInput: Swift.Equatable {
     }
 }
 
-struct ListServiceQuotaIncreaseRequestsInTemplateInputBody: Swift.Equatable {
+struct ListServiceQuotaIncreaseRequestsInTemplateInputBody {
     let serviceCode: Swift.String?
     let awsRegion: Swift.String?
     let nextToken: Swift.String?
@@ -1849,7 +1849,7 @@ extension ListServiceQuotaIncreaseRequestsInTemplateOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct ListServiceQuotaIncreaseRequestsInTemplateOutput: Swift.Equatable {
+public struct ListServiceQuotaIncreaseRequestsInTemplateOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quota increase requests.
@@ -1865,7 +1865,7 @@ public struct ListServiceQuotaIncreaseRequestsInTemplateOutput: Swift.Equatable 
     }
 }
 
-struct ListServiceQuotaIncreaseRequestsInTemplateOutputBody: Swift.Equatable {
+struct ListServiceQuotaIncreaseRequestsInTemplateOutputBody {
     let serviceQuotaIncreaseRequestInTemplateList: [ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate]?
     let nextToken: Swift.String?
 }
@@ -1948,7 +1948,7 @@ extension ListServiceQuotasInput {
     }
 }
 
-public struct ListServiceQuotasInput: Swift.Equatable {
+public struct ListServiceQuotasInput {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -1977,7 +1977,7 @@ public struct ListServiceQuotasInput: Swift.Equatable {
     }
 }
 
-struct ListServiceQuotasInputBody: Swift.Equatable {
+struct ListServiceQuotasInputBody {
     let serviceCode: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2023,7 +2023,7 @@ extension ListServiceQuotasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceQuotasOutput: Swift.Equatable {
+public struct ListServiceQuotasOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// Information about the quotas.
@@ -2039,7 +2039,7 @@ public struct ListServiceQuotasOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceQuotasOutputBody: Swift.Equatable {
+struct ListServiceQuotasOutputBody {
     let nextToken: Swift.String?
     let quotas: [ServiceQuotasClientTypes.ServiceQuota]?
 }
@@ -2108,7 +2108,7 @@ extension ListServicesInput {
     }
 }
 
-public struct ListServicesInput: Swift.Equatable {
+public struct ListServicesInput {
     /// Specifies the maximum number of results that you want included on each page of the response. If you do not include this parameter, it defaults to a value appropriate to the operation. If additional items exist beyond those included in the current response, the NextToken response element is present and has a value (is not null). Include that value as the NextToken request parameter in the next call to the operation to get the next part of the results. An API operation can return fewer results than the maximum even when there are more results available. You should check NextToken after every operation to ensure that you receive all of the results.
     public var maxResults: Swift.Int?
     /// Specifies a value for receiving additional results after you receive a NextToken response in a previous request. A NextToken response indicates that more output is available. Set this parameter to the value of the previous call's NextToken response to indicate where the output should continue from.
@@ -2124,7 +2124,7 @@ public struct ListServicesInput: Swift.Equatable {
     }
 }
 
-struct ListServicesInputBody: Swift.Equatable {
+struct ListServicesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2158,7 +2158,7 @@ extension ListServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServicesOutput: Swift.Equatable {
+public struct ListServicesOutput {
     /// If present, indicates that more output is available than is included in the current response. Use this value in the NextToken request parameter in a subsequent call to the operation to get the next part of the output. You should repeat this until the NextToken response element comes back as null.
     public var nextToken: Swift.String?
     /// The list of the Amazon Web Service names and service codes.
@@ -2174,7 +2174,7 @@ public struct ListServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListServicesOutputBody: Swift.Equatable {
+struct ListServicesOutputBody {
     let nextToken: Swift.String?
     let services: [ServiceQuotasClientTypes.ServiceInfo]?
 }
@@ -2238,7 +2238,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the applied quota for which you want to list tags. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2251,7 +2251,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -2279,7 +2279,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A complex data type that contains zero or more tag elements.
     public var tags: [ServiceQuotasClientTypes.Tag]?
 
@@ -2291,7 +2291,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ServiceQuotasClientTypes.Tag]?
 }
 
@@ -2382,7 +2382,7 @@ extension ServiceQuotasClientTypes.MetricInfo: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// Information about the CloudWatch metric that reflects quota usage.
-    public struct MetricInfo: Swift.Equatable {
+    public struct MetricInfo {
         /// The metric dimension. This is a name/value pair that is part of the identity of a metric.
         public var metricDimensions: [Swift.String:Swift.String]?
         /// The name of the metric.
@@ -2447,7 +2447,7 @@ public struct NoAvailableOrganizationException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct NoAvailableOrganizationExceptionBody: Swift.Equatable {
+struct NoAvailableOrganizationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2502,7 +2502,7 @@ public struct NoSuchResourceException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct NoSuchResourceExceptionBody: Swift.Equatable {
+struct NoSuchResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -2557,7 +2557,7 @@ public struct OrganizationNotInAllFeaturesModeException: ClientRuntime.ModeledEr
     }
 }
 
-struct OrganizationNotInAllFeaturesModeExceptionBody: Swift.Equatable {
+struct OrganizationNotInAllFeaturesModeExceptionBody {
     let message: Swift.String?
 }
 
@@ -2652,7 +2652,7 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateInput {
     }
 }
 
-public struct PutServiceQuotaIncreaseRequestIntoTemplateInput: Swift.Equatable {
+public struct PutServiceQuotaIncreaseRequestIntoTemplateInput {
     /// Specifies the Amazon Web Services Region to which the template applies.
     /// This member is required.
     public var awsRegion: Swift.String?
@@ -2680,7 +2680,7 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateInput: Swift.Equatable {
     }
 }
 
-struct PutServiceQuotaIncreaseRequestIntoTemplateInputBody: Swift.Equatable {
+struct PutServiceQuotaIncreaseRequestIntoTemplateInputBody {
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
     let awsRegion: Swift.String?
@@ -2720,7 +2720,7 @@ extension PutServiceQuotaIncreaseRequestIntoTemplateOutput: ClientRuntime.HttpRe
     }
 }
 
-public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Equatable {
+public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput {
     /// Information about the quota increase request.
     public var serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
 
@@ -2732,7 +2732,7 @@ public struct PutServiceQuotaIncreaseRequestIntoTemplateOutput: Swift.Equatable 
     }
 }
 
-struct PutServiceQuotaIncreaseRequestIntoTemplateOutputBody: Swift.Equatable {
+struct PutServiceQuotaIncreaseRequestIntoTemplateOutputBody {
     let serviceQuotaIncreaseRequestInTemplate: ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate?
 }
 
@@ -2801,7 +2801,7 @@ extension ServiceQuotasClientTypes.QuotaContextInfo: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// A structure that describes the context for a service quota. The context identifies what the quota applies to.
-    public struct QuotaContextInfo: Swift.Equatable {
+    public struct QuotaContextInfo {
         /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
         public var contextId: Swift.String?
         /// Specifies whether the quota applies to an Amazon Web Services account, or to a resource.
@@ -2894,7 +2894,7 @@ public struct QuotaExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct QuotaExceededExceptionBody: Swift.Equatable {
+struct QuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2937,7 +2937,7 @@ extension ServiceQuotasClientTypes.QuotaPeriod: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// Information about the quota period.
-    public struct QuotaPeriod: Swift.Equatable {
+    public struct QuotaPeriod {
         /// The time unit.
         public var periodUnit: ServiceQuotasClientTypes.PeriodUnit?
         /// The value associated with the reported PeriodUnit.
@@ -2987,7 +2987,7 @@ extension RequestServiceQuotaIncreaseInput {
     }
 }
 
-public struct RequestServiceQuotaIncreaseInput: Swift.Equatable {
+public struct RequestServiceQuotaIncreaseInput {
     /// Specifies the Amazon Web Services account or resource to which the quota applies. The value in this field depends on the context scope associated with the specified service quota.
     public var contextId: Swift.String?
     /// Specifies the new, increased value for the quota.
@@ -3014,7 +3014,7 @@ public struct RequestServiceQuotaIncreaseInput: Swift.Equatable {
     }
 }
 
-struct RequestServiceQuotaIncreaseInputBody: Swift.Equatable {
+struct RequestServiceQuotaIncreaseInputBody {
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
     let desiredValue: Swift.Double?
@@ -3054,7 +3054,7 @@ extension RequestServiceQuotaIncreaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RequestServiceQuotaIncreaseOutput: Swift.Equatable {
+public struct RequestServiceQuotaIncreaseOutput {
     /// Information about the quota increase request.
     public var requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
 
@@ -3066,7 +3066,7 @@ public struct RequestServiceQuotaIncreaseOutput: Swift.Equatable {
     }
 }
 
-struct RequestServiceQuotaIncreaseOutputBody: Swift.Equatable {
+struct RequestServiceQuotaIncreaseOutputBody {
     let requestedQuota: ServiceQuotasClientTypes.RequestedServiceQuotaChange?
 }
 
@@ -3259,7 +3259,7 @@ extension ServiceQuotasClientTypes.RequestedServiceQuotaChange: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// Information about a quota increase request.
-    public struct RequestedServiceQuotaChange: Swift.Equatable {
+    public struct RequestedServiceQuotaChange {
         /// The case ID.
         public var caseId: Swift.String?
         /// The date and time when the quota increase request was received and the case ID was created.
@@ -3372,7 +3372,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3427,7 +3427,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -3470,7 +3470,7 @@ extension ServiceQuotasClientTypes.ServiceInfo: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// Information about an Amazon Web Service.
-    public struct ServiceInfo: Swift.Equatable {
+    public struct ServiceInfo {
         /// Specifies the service identifier. To find the service code value for an Amazon Web Services service, use the [ListServices] operation.
         public var serviceCode: Swift.String?
         /// Specifies the service name.
@@ -3587,7 +3587,7 @@ extension ServiceQuotasClientTypes.ServiceQuota: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// Information about a quota.
-    public struct ServiceQuota: Swift.Equatable {
+    public struct ServiceQuota {
         /// Indicates whether the quota value can be increased.
         public var adjustable: Swift.Bool
         /// The error code and error reason.
@@ -3716,7 +3716,7 @@ extension ServiceQuotasClientTypes.ServiceQuotaIncreaseRequestInTemplate: Swift.
 
 extension ServiceQuotasClientTypes {
     /// Information about a quota increase request.
-    public struct ServiceQuotaIncreaseRequestInTemplate: Swift.Equatable {
+    public struct ServiceQuotaIncreaseRequestInTemplate {
         /// The Amazon Web Services Region.
         public var awsRegion: Swift.String?
         /// The new, increased value of the quota.
@@ -3829,7 +3829,7 @@ public struct ServiceQuotaTemplateNotInUseException: ClientRuntime.ModeledError,
     }
 }
 
-struct ServiceQuotaTemplateNotInUseExceptionBody: Swift.Equatable {
+struct ServiceQuotaTemplateNotInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -3874,7 +3874,7 @@ extension ServiceQuotasClientTypes.Tag: Swift.Codable {
 
 extension ServiceQuotasClientTypes {
     /// A complex data type that contains a tag key and tag value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A string that contains a tag key. The string length should be between 1 and 128 characters. Valid characters include a-z, A-Z, 0-9, space, and the special characters _ - . : / = + @.
         /// This member is required.
         public var key: Swift.String?
@@ -3933,7 +3933,7 @@ public struct TagPolicyViolationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct TagPolicyViolationExceptionBody: Swift.Equatable {
+struct TagPolicyViolationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3976,7 +3976,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the applied quota. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3994,7 +3994,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ServiceQuotasClientTypes.Tag]?
 }
@@ -4028,7 +4028,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4089,7 +4089,7 @@ public struct TemplatesNotAvailableInRegionException: ClientRuntime.ModeledError
     }
 }
 
-struct TemplatesNotAvailableInRegionExceptionBody: Swift.Equatable {
+struct TemplatesNotAvailableInRegionExceptionBody {
     let message: Swift.String?
 }
 
@@ -4144,7 +4144,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4199,7 +4199,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4242,7 +4242,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the applied quota that you want to untag. You can get this information by using the Service Quotas console, or by listing the quotas using the [list-service-quotas](https://docs.aws.amazon.com/cli/latest/reference/service-quotas/list-service-quotas.html) CLI command or the [ListServiceQuotas](https://docs.aws.amazon.com/servicequotas/2019-06-24/apireference/API_ListServiceQuotas.html) Amazon Web Services API operation.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4260,7 +4260,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4294,7 +4294,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }

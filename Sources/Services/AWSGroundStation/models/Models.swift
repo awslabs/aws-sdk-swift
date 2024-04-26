@@ -89,7 +89,7 @@ extension GroundStationClientTypes.AgentDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Detailed information about the agent.
-    public struct AgentDetails: Swift.Equatable {
+    public struct AgentDetails {
         /// List of CPU cores reserved for the agent.
         public var agentCpuCores: [Swift.Int]?
         /// Current agent version.
@@ -204,7 +204,7 @@ extension GroundStationClientTypes.AggregateStatus: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Aggregate status of Agent components.
-    public struct AggregateStatus: Swift.Equatable {
+    public struct AggregateStatus {
         /// Sparse map of failure signatures.
         public var signatureMap: [Swift.String:Swift.Bool]?
         /// Aggregate status.
@@ -276,7 +276,7 @@ extension GroundStationClientTypes.AntennaDemodDecodeDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Details about an antenna demod decode Config used in a contact.
-    public struct AntennaDemodDecodeDetails: Swift.Equatable {
+    public struct AntennaDemodDecodeDetails {
         /// Name of an antenna demod decode output node used in a contact.
         public var outputNode: Swift.String?
 
@@ -311,7 +311,7 @@ extension GroundStationClientTypes.AntennaDownlinkConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about how AWS Ground Station should configure an antenna for downlink during a contact.
-    public struct AntennaDownlinkConfig: Swift.Equatable {
+    public struct AntennaDownlinkConfig {
         /// Object that describes a spectral Config.
         /// This member is required.
         public var spectrumConfig: GroundStationClientTypes.SpectrumConfig?
@@ -359,7 +359,7 @@ extension GroundStationClientTypes.AntennaDownlinkDemodDecodeConfig: Swift.Codab
 
 extension GroundStationClientTypes {
     /// Information about how AWS Ground Station should conﬁgure an antenna for downlink demod decode during a contact.
-    public struct AntennaDownlinkDemodDecodeConfig: Swift.Equatable {
+    public struct AntennaDownlinkDemodDecodeConfig {
         /// Information about the decode Config.
         /// This member is required.
         public var decodeConfig: GroundStationClientTypes.DecodeConfig?
@@ -417,7 +417,7 @@ extension GroundStationClientTypes.AntennaUplinkConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the uplink Config of an antenna.
-    public struct AntennaUplinkConfig: Swift.Equatable {
+    public struct AntennaUplinkConfig {
         /// Information about the uplink spectral Config.
         /// This member is required.
         public var spectrumConfig: GroundStationClientTypes.UplinkSpectrumConfig?
@@ -518,7 +518,7 @@ extension GroundStationClientTypes.AwsGroundStationAgentEndpoint: Swift.Codable 
 
 extension GroundStationClientTypes {
     /// Information about AwsGroundStationAgentEndpoint.
-    public struct AwsGroundStationAgentEndpoint: Swift.Equatable {
+    public struct AwsGroundStationAgentEndpoint {
         /// The status of AgentEndpoint.
         public var agentStatus: GroundStationClientTypes.AgentStatus?
         /// The results of the audit.
@@ -597,7 +597,7 @@ extension CancelContactInput {
 }
 
 ///
-public struct CancelContactInput: Swift.Equatable {
+public struct CancelContactInput {
     /// UUID of a contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -610,7 +610,7 @@ public struct CancelContactInput: Swift.Equatable {
     }
 }
 
-struct CancelContactInputBody: Swift.Equatable {
+struct CancelContactInputBody {
 }
 
 extension CancelContactInputBody: Swift.Decodable {
@@ -632,7 +632,7 @@ extension CancelContactOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CancelContactOutput: Swift.Equatable {
+public struct CancelContactOutput {
     /// UUID of a contact.
     public var contactId: Swift.String?
 
@@ -644,7 +644,7 @@ public struct CancelContactOutput: Swift.Equatable {
     }
 }
 
-struct CancelContactOutputBody: Swift.Equatable {
+struct CancelContactOutputBody {
     let contactId: Swift.String?
 }
 
@@ -809,7 +809,7 @@ extension GroundStationClientTypes.ComponentStatusData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Data on the status of agent components.
-    public struct ComponentStatusData: Swift.Equatable {
+    public struct ComponentStatusData {
         /// Bytes received by the component.
         public var bytesReceived: Swift.Int?
         /// Bytes sent by the component.
@@ -890,7 +890,7 @@ extension GroundStationClientTypes.ComponentVersion: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Version information for agent components.
-    public struct ComponentVersion: Swift.Equatable {
+    public struct ComponentVersion {
         /// Component type.
         /// This member is required.
         public var componentType: Swift.String?
@@ -1002,7 +1002,7 @@ extension GroundStationClientTypes.ConfigDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Details for certain Config object types in a contact.
-    public enum ConfigDetails: Swift.Equatable {
+    public enum ConfigDetails {
         /// Information about the endpoint details.
         case endpointdetails(GroundStationClientTypes.EndpointDetails)
         /// Details for antenna demod decode Config in a contact.
@@ -1053,7 +1053,7 @@ extension GroundStationClientTypes.ConfigListItem: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// An item in a list of Config objects.
-    public struct ConfigListItem: Swift.Equatable {
+    public struct ConfigListItem {
         /// ARN of a Config.
         public var configArn: Swift.String?
         /// UUID of a Config.
@@ -1156,7 +1156,7 @@ extension GroundStationClientTypes.ConfigTypeData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object containing the parameters of a Config. See the subtype definitions for what each type of Config contains.
-    public enum ConfigTypeData: Swift.Equatable {
+    public enum ConfigTypeData {
         /// Information about how AWS Ground Station should configure an antenna for downlink during a contact.
         case antennadownlinkconfig(GroundStationClientTypes.AntennaDownlinkConfig)
         /// Object that determines whether tracking should be used during a contact executed with this Config in the mission profile.
@@ -1203,7 +1203,7 @@ extension GroundStationClientTypes.ConnectionDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Egress address of AgentEndpoint with an optional mtu.
-    public struct ConnectionDetails: Swift.Equatable {
+    public struct ConnectionDetails {
         /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
         public var mtu: Swift.Int?
         /// A socket address.
@@ -1339,7 +1339,7 @@ extension GroundStationClientTypes.ContactData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Data describing a contact.
-    public struct ContactData: Swift.Equatable {
+    public struct ContactData {
         /// UUID of a contact.
         public var contactId: Swift.String?
         /// Status of a contact.
@@ -1506,7 +1506,7 @@ extension CreateConfigInput {
 }
 
 ///
-public struct CreateConfigInput: Swift.Equatable {
+public struct CreateConfigInput {
     /// Parameters of a Config.
     /// This member is required.
     public var configData: GroundStationClientTypes.ConfigTypeData?
@@ -1528,7 +1528,7 @@ public struct CreateConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigInputBody: Swift.Equatable {
+struct CreateConfigInputBody {
     let name: Swift.String?
     let configData: GroundStationClientTypes.ConfigTypeData?
     let tags: [Swift.String:Swift.String]?
@@ -1578,7 +1578,7 @@ extension CreateConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateConfigOutput: Swift.Equatable {
+public struct CreateConfigOutput {
     /// ARN of a Config.
     public var configArn: Swift.String?
     /// UUID of a Config.
@@ -1598,7 +1598,7 @@ public struct CreateConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateConfigOutputBody: Swift.Equatable {
+struct CreateConfigOutputBody {
     let configId: Swift.String?
     let configType: GroundStationClientTypes.ConfigCapabilityType?
     let configArn: Swift.String?
@@ -1675,7 +1675,7 @@ extension CreateDataflowEndpointGroupInput {
 }
 
 ///
-public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
+public struct CreateDataflowEndpointGroupInput {
     /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
@@ -1700,7 +1700,7 @@ public struct CreateDataflowEndpointGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateDataflowEndpointGroupInputBody: Swift.Equatable {
+struct CreateDataflowEndpointGroupInputBody {
     let endpointDetails: [GroundStationClientTypes.EndpointDetails]?
     let tags: [Swift.String:Swift.String]?
     let contactPrePassDurationSeconds: Swift.Int?
@@ -1759,7 +1759,7 @@ extension CreateDataflowEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateDataflowEndpointGroupOutput: Swift.Equatable {
+public struct CreateDataflowEndpointGroupOutput {
     /// UUID of a dataflow endpoint group.
     public var dataflowEndpointGroupId: Swift.String?
 
@@ -1771,7 +1771,7 @@ public struct CreateDataflowEndpointGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataflowEndpointGroupOutputBody: Swift.Equatable {
+struct CreateDataflowEndpointGroupOutputBody {
     let dataflowEndpointGroupId: Swift.String?
 }
 
@@ -1851,7 +1851,7 @@ extension CreateEphemerisInput {
     }
 }
 
-public struct CreateEphemerisInput: Swift.Equatable {
+public struct CreateEphemerisInput {
     /// Whether to set the ephemeris status to ENABLED after validation. Setting this to false will set the ephemeris status to DISABLED after validation.
     public var enabled: Swift.Bool?
     /// Ephemeris data.
@@ -1893,7 +1893,7 @@ public struct CreateEphemerisInput: Swift.Equatable {
     }
 }
 
-struct CreateEphemerisInputBody: Swift.Equatable {
+struct CreateEphemerisInputBody {
     let satelliteId: Swift.String?
     let enabled: Swift.Bool?
     let priority: Swift.Int?
@@ -1958,7 +1958,7 @@ extension CreateEphemerisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEphemerisOutput: Swift.Equatable {
+public struct CreateEphemerisOutput {
     /// The AWS Ground Station ephemeris ID.
     public var ephemerisId: Swift.String?
 
@@ -1970,7 +1970,7 @@ public struct CreateEphemerisOutput: Swift.Equatable {
     }
 }
 
-struct CreateEphemerisOutputBody: Swift.Equatable {
+struct CreateEphemerisOutputBody {
     let ephemerisId: Swift.String?
 }
 
@@ -2061,7 +2061,7 @@ extension CreateMissionProfileInput {
 }
 
 ///
-public struct CreateMissionProfileInput: Swift.Equatable {
+public struct CreateMissionProfileInput {
     /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time prior to contact start you’d like to receive a Ground Station Contact State Change event indicating an upcoming pass.
@@ -2109,7 +2109,7 @@ public struct CreateMissionProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateMissionProfileInputBody: Swift.Equatable {
+struct CreateMissionProfileInputBody {
     let name: Swift.String?
     let contactPrePassDurationSeconds: Swift.Int?
     let contactPostPassDurationSeconds: Swift.Int?
@@ -2197,7 +2197,7 @@ extension CreateMissionProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct CreateMissionProfileOutput: Swift.Equatable {
+public struct CreateMissionProfileOutput {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
 
@@ -2209,7 +2209,7 @@ public struct CreateMissionProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateMissionProfileOutputBody: Swift.Equatable {
+struct CreateMissionProfileOutputBody {
     let missionProfileId: Swift.String?
 }
 
@@ -2306,7 +2306,7 @@ extension GroundStationClientTypes.DataflowDetail: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about a dataflow edge used in a contact.
-    public struct DataflowDetail: Swift.Equatable {
+    public struct DataflowDetail {
         /// Dataflow details for the destination side.
         public var destination: GroundStationClientTypes.Destination?
         /// Error message for a dataflow.
@@ -2367,7 +2367,7 @@ extension GroundStationClientTypes.DataflowEndpoint: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about a dataflow endpoint.
-    public struct DataflowEndpoint: Swift.Equatable {
+    public struct DataflowEndpoint {
         /// Socket address of a dataflow endpoint.
         public var address: GroundStationClientTypes.SocketAddress?
         /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
@@ -2420,7 +2420,7 @@ extension GroundStationClientTypes.DataflowEndpointConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the dataflow endpoint Config.
-    public struct DataflowEndpointConfig: Swift.Equatable {
+    public struct DataflowEndpointConfig {
         /// Name of a dataflow endpoint.
         /// This member is required.
         public var dataflowEndpointName: Swift.String?
@@ -2466,7 +2466,7 @@ extension GroundStationClientTypes.DataflowEndpointListItem: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Item in a list of DataflowEndpoint groups.
-    public struct DataflowEndpointListItem: Swift.Equatable {
+    public struct DataflowEndpointListItem {
         /// ARN of a dataflow endpoint group.
         public var dataflowEndpointGroupArn: Swift.String?
         /// UUID of a dataflow endpoint group.
@@ -2505,7 +2505,7 @@ extension GroundStationClientTypes.DecodeConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the decode Config.
-    public struct DecodeConfig: Swift.Equatable {
+    public struct DecodeConfig {
         /// Unvalidated JSON of a decode Config.
         /// This member is required.
         public var unvalidatedJSON: Swift.String?
@@ -2534,7 +2534,7 @@ extension DeleteConfigInput {
 }
 
 ///
-public struct DeleteConfigInput: Swift.Equatable {
+public struct DeleteConfigInput {
     /// UUID of a Config.
     /// This member is required.
     public var configId: Swift.String?
@@ -2552,7 +2552,7 @@ public struct DeleteConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigInputBody: Swift.Equatable {
+struct DeleteConfigInputBody {
 }
 
 extension DeleteConfigInputBody: Swift.Decodable {
@@ -2578,7 +2578,7 @@ extension DeleteConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteConfigOutput: Swift.Equatable {
+public struct DeleteConfigOutput {
     /// ARN of a Config.
     public var configArn: Swift.String?
     /// UUID of a Config.
@@ -2598,7 +2598,7 @@ public struct DeleteConfigOutput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigOutputBody: Swift.Equatable {
+struct DeleteConfigOutputBody {
     let configId: Swift.String?
     let configType: GroundStationClientTypes.ConfigCapabilityType?
     let configArn: Swift.String?
@@ -2646,7 +2646,7 @@ extension DeleteDataflowEndpointGroupInput {
 }
 
 ///
-public struct DeleteDataflowEndpointGroupInput: Swift.Equatable {
+public struct DeleteDataflowEndpointGroupInput {
     /// UUID of a dataflow endpoint group.
     /// This member is required.
     public var dataflowEndpointGroupId: Swift.String?
@@ -2659,7 +2659,7 @@ public struct DeleteDataflowEndpointGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataflowEndpointGroupInputBody: Swift.Equatable {
+struct DeleteDataflowEndpointGroupInputBody {
 }
 
 extension DeleteDataflowEndpointGroupInputBody: Swift.Decodable {
@@ -2681,7 +2681,7 @@ extension DeleteDataflowEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteDataflowEndpointGroupOutput: Swift.Equatable {
+public struct DeleteDataflowEndpointGroupOutput {
     /// UUID of a dataflow endpoint group.
     public var dataflowEndpointGroupId: Swift.String?
 
@@ -2693,7 +2693,7 @@ public struct DeleteDataflowEndpointGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataflowEndpointGroupOutputBody: Swift.Equatable {
+struct DeleteDataflowEndpointGroupOutputBody {
     let dataflowEndpointGroupId: Swift.String?
 }
 
@@ -2732,7 +2732,7 @@ extension DeleteEphemerisInput {
     }
 }
 
-public struct DeleteEphemerisInput: Swift.Equatable {
+public struct DeleteEphemerisInput {
     /// The AWS Ground Station ephemeris ID.
     /// This member is required.
     public var ephemerisId: Swift.String?
@@ -2745,7 +2745,7 @@ public struct DeleteEphemerisInput: Swift.Equatable {
     }
 }
 
-struct DeleteEphemerisInputBody: Swift.Equatable {
+struct DeleteEphemerisInputBody {
 }
 
 extension DeleteEphemerisInputBody: Swift.Decodable {
@@ -2766,7 +2766,7 @@ extension DeleteEphemerisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEphemerisOutput: Swift.Equatable {
+public struct DeleteEphemerisOutput {
     /// The AWS Ground Station ephemeris ID.
     public var ephemerisId: Swift.String?
 
@@ -2778,7 +2778,7 @@ public struct DeleteEphemerisOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEphemerisOutputBody: Swift.Equatable {
+struct DeleteEphemerisOutputBody {
     let ephemerisId: Swift.String?
 }
 
@@ -2818,7 +2818,7 @@ extension DeleteMissionProfileInput {
 }
 
 ///
-public struct DeleteMissionProfileInput: Swift.Equatable {
+public struct DeleteMissionProfileInput {
     /// UUID of a mission profile.
     /// This member is required.
     public var missionProfileId: Swift.String?
@@ -2831,7 +2831,7 @@ public struct DeleteMissionProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteMissionProfileInputBody: Swift.Equatable {
+struct DeleteMissionProfileInputBody {
 }
 
 extension DeleteMissionProfileInputBody: Swift.Decodable {
@@ -2853,7 +2853,7 @@ extension DeleteMissionProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DeleteMissionProfileOutput: Swift.Equatable {
+public struct DeleteMissionProfileOutput {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
 
@@ -2865,7 +2865,7 @@ public struct DeleteMissionProfileOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMissionProfileOutputBody: Swift.Equatable {
+struct DeleteMissionProfileOutputBody {
     let missionProfileId: Swift.String?
 }
 
@@ -2915,7 +2915,7 @@ extension GroundStationClientTypes.DemodulationConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the demodulation Config.
-    public struct DemodulationConfig: Swift.Equatable {
+    public struct DemodulationConfig {
         /// Unvalidated JSON of a demodulation Config.
         /// This member is required.
         public var unvalidatedJSON: Swift.String?
@@ -2975,7 +2975,7 @@ public struct DependencyException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct DependencyExceptionBody: Swift.Equatable {
+struct DependencyExceptionBody {
     let message: Swift.String?
     let parameterName: Swift.String?
 }
@@ -3006,7 +3006,7 @@ extension DescribeContactInput {
 }
 
 ///
-public struct DescribeContactInput: Swift.Equatable {
+public struct DescribeContactInput {
     /// UUID of a contact.
     /// This member is required.
     public var contactId: Swift.String?
@@ -3019,7 +3019,7 @@ public struct DescribeContactInput: Swift.Equatable {
     }
 }
 
-struct DescribeContactInputBody: Swift.Equatable {
+struct DescribeContactInputBody {
 }
 
 extension DescribeContactInputBody: Swift.Decodable {
@@ -3071,7 +3071,7 @@ extension DescribeContactOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeContactOutput: Swift.Equatable {
+public struct DescribeContactOutput {
     /// UUID of a contact.
     public var contactId: Swift.String?
     /// Status of a contact.
@@ -3143,7 +3143,7 @@ public struct DescribeContactOutput: Swift.Equatable {
     }
 }
 
-struct DescribeContactOutputBody: Swift.Equatable {
+struct DescribeContactOutputBody {
     let contactId: Swift.String?
     let missionProfileArn: Swift.String?
     let satelliteArn: Swift.String?
@@ -3260,7 +3260,7 @@ extension DescribeEphemerisInput {
     }
 }
 
-public struct DescribeEphemerisInput: Swift.Equatable {
+public struct DescribeEphemerisInput {
     /// The AWS Ground Station ephemeris ID.
     /// This member is required.
     public var ephemerisId: Swift.String?
@@ -3273,7 +3273,7 @@ public struct DescribeEphemerisInput: Swift.Equatable {
     }
 }
 
-struct DescribeEphemerisInputBody: Swift.Equatable {
+struct DescribeEphemerisInputBody {
 }
 
 extension DescribeEphemerisInputBody: Swift.Decodable {
@@ -3312,7 +3312,7 @@ extension DescribeEphemerisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEphemerisOutput: Swift.Equatable {
+public struct DescribeEphemerisOutput {
     /// The time the ephemeris was uploaded in UTC.
     public var creationTime: ClientRuntime.Date?
     /// Whether or not the ephemeris is enabled.
@@ -3360,7 +3360,7 @@ public struct DescribeEphemerisOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEphemerisOutputBody: Swift.Equatable {
+struct DescribeEphemerisOutputBody {
     let ephemerisId: Swift.String?
     let satelliteId: Swift.String?
     let status: GroundStationClientTypes.EphemerisStatus?
@@ -3473,7 +3473,7 @@ extension GroundStationClientTypes.Destination: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Dataflow details for the destination side.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// Additional details for a Config, if type is dataflow endpoint or antenna demod decode.
         public var configDetails: GroundStationClientTypes.ConfigDetails?
         /// UUID of a Config.
@@ -3568,7 +3568,7 @@ extension GroundStationClientTypes.DiscoveryData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Data for agent discovery.
-    public struct DiscoveryData: Swift.Equatable {
+    public struct DiscoveryData {
         /// List of capabilities to associate with agent.
         /// This member is required.
         public var capabilityArns: [Swift.String]?
@@ -3620,7 +3620,7 @@ extension GroundStationClientTypes.Eirp: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object that represents EIRP.
-    public struct Eirp: Swift.Equatable {
+    public struct Eirp {
         /// Units of an EIRP.
         /// This member is required.
         public var units: GroundStationClientTypes.EirpUnits?
@@ -3696,7 +3696,7 @@ extension GroundStationClientTypes.Elevation: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Elevation angle of the satellite in the sky during a contact.
-    public struct Elevation: Swift.Equatable {
+    public struct Elevation {
         /// Elevation angle units.
         /// This member is required.
         public var unit: GroundStationClientTypes.AngleUnits?
@@ -3773,7 +3773,7 @@ extension GroundStationClientTypes.EndpointDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the endpoint details.
-    public struct EndpointDetails: Swift.Equatable {
+    public struct EndpointDetails {
         /// An agent endpoint.
         public var awsGroundStationAgentEndpoint: GroundStationClientTypes.AwsGroundStationAgentEndpoint?
         /// A dataflow endpoint.
@@ -3881,7 +3881,7 @@ extension GroundStationClientTypes.EphemerisData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Ephemeris data.
-    public enum EphemerisData: Swift.Equatable {
+    public enum EphemerisData {
         /// Two-line element set (TLE) ephemeris.
         case tle(GroundStationClientTypes.TLEEphemeris)
         /// Ephemeris data in Orbit Ephemeris Message (OEM) format.
@@ -3918,7 +3918,7 @@ extension GroundStationClientTypes.EphemerisDescription: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Description of ephemeris.
-    public struct EphemerisDescription: Swift.Equatable {
+    public struct EphemerisDescription {
         /// Supplied ephemeris data.
         public var ephemerisData: Swift.String?
         /// Source S3 object used for the ephemeris.
@@ -4039,7 +4039,7 @@ extension GroundStationClientTypes.EphemerisItem: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Ephemeris item.
-    public struct EphemerisItem: Swift.Equatable {
+    public struct EphemerisItem {
         /// The time the ephemeris was uploaded in UTC.
         public var creationTime: ClientRuntime.Date?
         /// Whether or not the ephemeris is enabled.
@@ -4116,7 +4116,7 @@ extension GroundStationClientTypes.EphemerisMetaData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Metadata describing a particular ephemeris.
-    public struct EphemerisMetaData: Swift.Equatable {
+    public struct EphemerisMetaData {
         /// UUID of a customer-provided ephemeris. This field is not populated for default ephemerides from Space Track.
         public var ephemerisId: Swift.String?
         /// The epoch of a default, ephemeris from Space Track in UTC. This field is not populated for customer-provided ephemerides.
@@ -4256,7 +4256,7 @@ extension GroundStationClientTypes.EphemerisTypeDescription: Swift.Codable {
 
 extension GroundStationClientTypes {
     ///
-    public enum EphemerisTypeDescription: Swift.Equatable {
+    public enum EphemerisTypeDescription {
         /// Description of ephemeris.
         case tle(GroundStationClientTypes.EphemerisDescription)
         /// Description of ephemeris.
@@ -4293,7 +4293,7 @@ extension GroundStationClientTypes.Frequency: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object that describes the frequency.
-    public struct Frequency: Swift.Equatable {
+    public struct Frequency {
         /// Frequency units.
         /// This member is required.
         public var units: GroundStationClientTypes.FrequencyUnits?
@@ -4340,7 +4340,7 @@ extension GroundStationClientTypes.FrequencyBandwidth: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object that describes the frequency bandwidth.
-    public struct FrequencyBandwidth: Swift.Equatable {
+    public struct FrequencyBandwidth {
         /// Frequency bandwidth units.
         /// This member is required.
         public var units: GroundStationClientTypes.BandwidthUnits?
@@ -4411,7 +4411,7 @@ extension GetAgentConfigurationInput {
     }
 }
 
-public struct GetAgentConfigurationInput: Swift.Equatable {
+public struct GetAgentConfigurationInput {
     /// UUID of agent to get configuration information for.
     /// This member is required.
     public var agentId: Swift.String?
@@ -4424,7 +4424,7 @@ public struct GetAgentConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetAgentConfigurationInputBody: Swift.Equatable {
+struct GetAgentConfigurationInputBody {
 }
 
 extension GetAgentConfigurationInputBody: Swift.Decodable {
@@ -4447,7 +4447,7 @@ extension GetAgentConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgentConfigurationOutput: Swift.Equatable {
+public struct GetAgentConfigurationOutput {
     /// UUID of agent.
     public var agentId: Swift.String?
     /// Tasking document for agent.
@@ -4463,7 +4463,7 @@ public struct GetAgentConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAgentConfigurationOutputBody: Swift.Equatable {
+struct GetAgentConfigurationOutputBody {
     let agentId: Swift.String?
     let taskingDocument: Swift.String?
 }
@@ -4510,7 +4510,7 @@ extension GetConfigInput {
 }
 
 ///
-public struct GetConfigInput: Swift.Equatable {
+public struct GetConfigInput {
     /// UUID of a Config.
     /// This member is required.
     public var configId: Swift.String?
@@ -4528,7 +4528,7 @@ public struct GetConfigInput: Swift.Equatable {
     }
 }
 
-struct GetConfigInputBody: Swift.Equatable {
+struct GetConfigInputBody {
 }
 
 extension GetConfigInputBody: Swift.Decodable {
@@ -4560,7 +4560,7 @@ extension GetConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct GetConfigOutput: Swift.Equatable {
+public struct GetConfigOutput {
     /// ARN of a Config
     /// This member is required.
     public var configArn: Swift.String?
@@ -4596,7 +4596,7 @@ public struct GetConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigOutputBody: Swift.Equatable {
+struct GetConfigOutputBody {
     let configId: Swift.String?
     let configArn: Swift.String?
     let name: Swift.String?
@@ -4665,7 +4665,7 @@ extension GetDataflowEndpointGroupInput {
 }
 
 ///
-public struct GetDataflowEndpointGroupInput: Swift.Equatable {
+public struct GetDataflowEndpointGroupInput {
     /// UUID of a dataflow endpoint group.
     /// This member is required.
     public var dataflowEndpointGroupId: Swift.String?
@@ -4678,7 +4678,7 @@ public struct GetDataflowEndpointGroupInput: Swift.Equatable {
     }
 }
 
-struct GetDataflowEndpointGroupInputBody: Swift.Equatable {
+struct GetDataflowEndpointGroupInputBody {
 }
 
 extension GetDataflowEndpointGroupInputBody: Swift.Decodable {
@@ -4710,7 +4710,7 @@ extension GetDataflowEndpointGroupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct GetDataflowEndpointGroupOutput: Swift.Equatable {
+public struct GetDataflowEndpointGroupOutput {
     /// Amount of time, in seconds, after a contact ends that the Ground Station Dataflow Endpoint Group will be in a POSTPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the POSTPASS state.
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time, in seconds, before a contact starts that the Ground Station Dataflow Endpoint Group will be in a PREPASS state. A Ground Station Dataflow Endpoint Group State Change event will be emitted when the Dataflow Endpoint Group enters and exits the PREPASS state.
@@ -4742,7 +4742,7 @@ public struct GetDataflowEndpointGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetDataflowEndpointGroupOutputBody: Swift.Equatable {
+struct GetDataflowEndpointGroupOutputBody {
     let dataflowEndpointGroupId: Swift.String?
     let dataflowEndpointGroupArn: Swift.String?
     let endpointsDetails: [GroundStationClientTypes.EndpointDetails]?
@@ -4834,7 +4834,7 @@ extension GetMinuteUsageInput {
 }
 
 ///
-public struct GetMinuteUsageInput: Swift.Equatable {
+public struct GetMinuteUsageInput {
     /// The month being requested, with a value of 1-12.
     /// This member is required.
     public var month: Swift.Int?
@@ -4852,7 +4852,7 @@ public struct GetMinuteUsageInput: Swift.Equatable {
     }
 }
 
-struct GetMinuteUsageInputBody: Swift.Equatable {
+struct GetMinuteUsageInputBody {
     let month: Swift.Int?
     let year: Swift.Int?
 }
@@ -4893,7 +4893,7 @@ extension GetMinuteUsageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct GetMinuteUsageOutput: Swift.Equatable {
+public struct GetMinuteUsageOutput {
     /// Estimated number of minutes remaining for an account, specific to the month being requested.
     public var estimatedMinutesRemaining: Swift.Int?
     /// Returns whether or not an account has signed up for the reserved minutes pricing plan, specific to the month being requested.
@@ -4921,7 +4921,7 @@ public struct GetMinuteUsageOutput: Swift.Equatable {
     }
 }
 
-struct GetMinuteUsageOutputBody: Swift.Equatable {
+struct GetMinuteUsageOutputBody {
     let isReservedMinutesCustomer: Swift.Bool?
     let totalReservedMinuteAllocation: Swift.Int?
     let upcomingMinutesScheduled: Swift.Int?
@@ -4977,7 +4977,7 @@ extension GetMissionProfileInput {
 }
 
 ///
-public struct GetMissionProfileInput: Swift.Equatable {
+public struct GetMissionProfileInput {
     /// UUID of a mission profile.
     /// This member is required.
     public var missionProfileId: Swift.String?
@@ -4990,7 +4990,7 @@ public struct GetMissionProfileInput: Swift.Equatable {
     }
 }
 
-struct GetMissionProfileInputBody: Swift.Equatable {
+struct GetMissionProfileInputBody {
 }
 
 extension GetMissionProfileInputBody: Swift.Decodable {
@@ -5034,7 +5034,7 @@ extension GetMissionProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct GetMissionProfileOutput: Swift.Equatable {
+public struct GetMissionProfileOutput {
     /// Amount of time after a contact ends that you’d like to receive a CloudWatch event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time prior to contact start you’d like to receive a CloudWatch event indicating an upcoming pass.
@@ -5090,7 +5090,7 @@ public struct GetMissionProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetMissionProfileOutputBody: Swift.Equatable {
+struct GetMissionProfileOutputBody {
     let missionProfileId: Swift.String?
     let missionProfileArn: Swift.String?
     let name: Swift.String?
@@ -5201,7 +5201,7 @@ extension GetSatelliteInput {
 }
 
 ///
-public struct GetSatelliteInput: Swift.Equatable {
+public struct GetSatelliteInput {
     /// UUID of a satellite.
     /// This member is required.
     public var satelliteId: Swift.String?
@@ -5214,7 +5214,7 @@ public struct GetSatelliteInput: Swift.Equatable {
     }
 }
 
-struct GetSatelliteInputBody: Swift.Equatable {
+struct GetSatelliteInputBody {
 }
 
 extension GetSatelliteInputBody: Swift.Decodable {
@@ -5244,7 +5244,7 @@ extension GetSatelliteOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct GetSatelliteOutput: Swift.Equatable {
+public struct GetSatelliteOutput {
     /// The current ephemeris being used to compute the trajectory of the satellite.
     public var currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
     /// A list of ground stations to which the satellite is on-boarded.
@@ -5272,7 +5272,7 @@ public struct GetSatelliteOutput: Swift.Equatable {
     }
 }
 
-struct GetSatelliteOutputBody: Swift.Equatable {
+struct GetSatelliteOutputBody {
     let satelliteId: Swift.String?
     let satelliteArn: Swift.String?
     let noradSatelliteID: Swift.Int
@@ -5361,7 +5361,7 @@ extension GroundStationClientTypes.GroundStationData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the ground station data.
-    public struct GroundStationData: Swift.Equatable {
+    public struct GroundStationData {
         /// UUID of a ground station.
         public var groundStationId: Swift.String?
         /// Name of a ground station.
@@ -5410,7 +5410,7 @@ extension GroundStationClientTypes.IntegerRange: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// An integer range that has a minimum and maximum value.
-    public struct IntegerRange: Swift.Equatable {
+    public struct IntegerRange {
         /// A maximum value.
         /// This member is required.
         public var maximum: Swift.Int?
@@ -5475,7 +5475,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let parameterName: Swift.String?
 }
@@ -5540,7 +5540,7 @@ extension GroundStationClientTypes.KmsKey: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// AWS Key Management Service (KMS) Key.
-    public enum KmsKey: Swift.Equatable {
+    public enum KmsKey {
         /// KMS Key Arn.
         case kmskeyarn(Swift.String)
         /// KMS Alias Arn.
@@ -5576,7 +5576,7 @@ extension ListConfigsInput {
 }
 
 ///
-public struct ListConfigsInput: Swift.Equatable {
+public struct ListConfigsInput {
     /// Maximum number of Configs returned.
     public var maxResults: Swift.Int?
     /// Next token returned in the request of a previous ListConfigs call. Used to get the next page of results.
@@ -5592,7 +5592,7 @@ public struct ListConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigsInputBody: Swift.Equatable {
+struct ListConfigsInputBody {
 }
 
 extension ListConfigsInputBody: Swift.Decodable {
@@ -5616,7 +5616,7 @@ extension ListConfigsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListConfigsOutput: Swift.Equatable {
+public struct ListConfigsOutput {
     /// List of Config items.
     public var configList: [GroundStationClientTypes.ConfigListItem]?
     /// Next token returned in the response of a previous ListConfigs call. Used to get the next page of results.
@@ -5632,7 +5632,7 @@ public struct ListConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigsOutputBody: Swift.Equatable {
+struct ListConfigsOutputBody {
     let nextToken: Swift.String?
     let configList: [GroundStationClientTypes.ConfigListItem]?
 }
@@ -5726,7 +5726,7 @@ extension ListContactsInput {
 }
 
 ///
-public struct ListContactsInput: Swift.Equatable {
+public struct ListContactsInput {
     /// End time of a contact in UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -5769,7 +5769,7 @@ public struct ListContactsInput: Swift.Equatable {
     }
 }
 
-struct ListContactsInputBody: Swift.Equatable {
+struct ListContactsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let statusList: [GroundStationClientTypes.ContactStatus]?
@@ -5837,7 +5837,7 @@ extension ListContactsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListContactsOutput: Swift.Equatable {
+public struct ListContactsOutput {
     /// List of contacts.
     public var contactList: [GroundStationClientTypes.ContactData]?
     /// Next token returned in the response of a previous ListContacts call. Used to get the next page of results.
@@ -5853,7 +5853,7 @@ public struct ListContactsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactsOutputBody: Swift.Equatable {
+struct ListContactsOutputBody {
     let nextToken: Swift.String?
     let contactList: [GroundStationClientTypes.ContactData]?
 }
@@ -5919,7 +5919,7 @@ extension ListDataflowEndpointGroupsInput {
 }
 
 ///
-public struct ListDataflowEndpointGroupsInput: Swift.Equatable {
+public struct ListDataflowEndpointGroupsInput {
     /// Maximum number of dataflow endpoint groups returned.
     public var maxResults: Swift.Int?
     /// Next token returned in the request of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
@@ -5935,7 +5935,7 @@ public struct ListDataflowEndpointGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListDataflowEndpointGroupsInputBody: Swift.Equatable {
+struct ListDataflowEndpointGroupsInputBody {
 }
 
 extension ListDataflowEndpointGroupsInputBody: Swift.Decodable {
@@ -5959,7 +5959,7 @@ extension ListDataflowEndpointGroupsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListDataflowEndpointGroupsOutput: Swift.Equatable {
+public struct ListDataflowEndpointGroupsOutput {
     /// A list of dataflow endpoint groups.
     public var dataflowEndpointGroupList: [GroundStationClientTypes.DataflowEndpointListItem]?
     /// Next token returned in the response of a previous ListDataflowEndpointGroups call. Used to get the next page of results.
@@ -5975,7 +5975,7 @@ public struct ListDataflowEndpointGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataflowEndpointGroupsOutputBody: Swift.Equatable {
+struct ListDataflowEndpointGroupsOutputBody {
     let nextToken: Swift.String?
     let dataflowEndpointGroupList: [GroundStationClientTypes.DataflowEndpointListItem]?
 }
@@ -6068,7 +6068,7 @@ extension ListEphemeridesInput {
     }
 }
 
-public struct ListEphemeridesInput: Swift.Equatable {
+public struct ListEphemeridesInput {
     /// The end time to list in UTC. The operation will return an ephemeris if its expiration time is within the time range defined by the startTime and endTime.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -6103,7 +6103,7 @@ public struct ListEphemeridesInput: Swift.Equatable {
     }
 }
 
-struct ListEphemeridesInputBody: Swift.Equatable {
+struct ListEphemeridesInputBody {
     let satelliteId: Swift.String?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -6154,7 +6154,7 @@ extension ListEphemeridesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEphemeridesOutput: Swift.Equatable {
+public struct ListEphemeridesOutput {
     /// List of ephemerides.
     public var ephemerides: [GroundStationClientTypes.EphemerisItem]?
     /// Pagination token.
@@ -6170,7 +6170,7 @@ public struct ListEphemeridesOutput: Swift.Equatable {
     }
 }
 
-struct ListEphemeridesOutputBody: Swift.Equatable {
+struct ListEphemeridesOutputBody {
     let nextToken: Swift.String?
     let ephemerides: [GroundStationClientTypes.EphemerisItem]?
 }
@@ -6240,7 +6240,7 @@ extension ListGroundStationsInput {
 }
 
 ///
-public struct ListGroundStationsInput: Swift.Equatable {
+public struct ListGroundStationsInput {
     /// Maximum number of ground stations returned.
     public var maxResults: Swift.Int?
     /// Next token that can be supplied in the next call to get the next page of ground stations.
@@ -6260,7 +6260,7 @@ public struct ListGroundStationsInput: Swift.Equatable {
     }
 }
 
-struct ListGroundStationsInputBody: Swift.Equatable {
+struct ListGroundStationsInputBody {
 }
 
 extension ListGroundStationsInputBody: Swift.Decodable {
@@ -6284,7 +6284,7 @@ extension ListGroundStationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListGroundStationsOutput: Swift.Equatable {
+public struct ListGroundStationsOutput {
     /// List of ground stations.
     public var groundStationList: [GroundStationClientTypes.GroundStationData]?
     /// Next token that can be supplied in the next call to get the next page of ground stations.
@@ -6300,7 +6300,7 @@ public struct ListGroundStationsOutput: Swift.Equatable {
     }
 }
 
-struct ListGroundStationsOutputBody: Swift.Equatable {
+struct ListGroundStationsOutputBody {
     let nextToken: Swift.String?
     let groundStationList: [GroundStationClientTypes.GroundStationData]?
 }
@@ -6366,7 +6366,7 @@ extension ListMissionProfilesInput {
 }
 
 ///
-public struct ListMissionProfilesInput: Swift.Equatable {
+public struct ListMissionProfilesInput {
     /// Maximum number of mission profiles returned.
     public var maxResults: Swift.Int?
     /// Next token returned in the request of a previous ListMissionProfiles call. Used to get the next page of results.
@@ -6382,7 +6382,7 @@ public struct ListMissionProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListMissionProfilesInputBody: Swift.Equatable {
+struct ListMissionProfilesInputBody {
 }
 
 extension ListMissionProfilesInputBody: Swift.Decodable {
@@ -6406,7 +6406,7 @@ extension ListMissionProfilesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListMissionProfilesOutput: Swift.Equatable {
+public struct ListMissionProfilesOutput {
     /// List of mission profiles.
     public var missionProfileList: [GroundStationClientTypes.MissionProfileListItem]?
     /// Next token returned in the response of a previous ListMissionProfiles call. Used to get the next page of results.
@@ -6422,7 +6422,7 @@ public struct ListMissionProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListMissionProfilesOutputBody: Swift.Equatable {
+struct ListMissionProfilesOutputBody {
     let nextToken: Swift.String?
     let missionProfileList: [GroundStationClientTypes.MissionProfileListItem]?
 }
@@ -6488,7 +6488,7 @@ extension ListSatellitesInput {
 }
 
 ///
-public struct ListSatellitesInput: Swift.Equatable {
+public struct ListSatellitesInput {
     /// Maximum number of satellites returned.
     public var maxResults: Swift.Int?
     /// Next token that can be supplied in the next call to get the next page of satellites.
@@ -6504,7 +6504,7 @@ public struct ListSatellitesInput: Swift.Equatable {
     }
 }
 
-struct ListSatellitesInputBody: Swift.Equatable {
+struct ListSatellitesInputBody {
 }
 
 extension ListSatellitesInputBody: Swift.Decodable {
@@ -6528,7 +6528,7 @@ extension ListSatellitesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListSatellitesOutput: Swift.Equatable {
+public struct ListSatellitesOutput {
     /// Next token that can be supplied in the next call to get the next page of satellites.
     public var nextToken: Swift.String?
     /// List of satellites.
@@ -6544,7 +6544,7 @@ public struct ListSatellitesOutput: Swift.Equatable {
     }
 }
 
-struct ListSatellitesOutputBody: Swift.Equatable {
+struct ListSatellitesOutputBody {
     let nextToken: Swift.String?
     let satellites: [GroundStationClientTypes.SatelliteListItem]?
 }
@@ -6597,7 +6597,7 @@ extension ListTagsForResourceInput {
 }
 
 ///
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// ARN of a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6610,7 +6610,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -6632,7 +6632,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Tags assigned to a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6644,7 +6644,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6721,7 +6721,7 @@ extension GroundStationClientTypes.MissionProfileListItem: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Item in a list of mission profiles.
-    public struct MissionProfileListItem: Swift.Equatable {
+    public struct MissionProfileListItem {
         /// ARN of a mission profile.
         public var missionProfileArn: Swift.String?
         /// UUID of a mission profile.
@@ -6774,7 +6774,7 @@ extension GroundStationClientTypes.OEMEphemeris: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Ephemeris data in Orbit Ephemeris Message (OEM) format.
-    public struct OEMEphemeris: Swift.Equatable {
+    public struct OEMEphemeris {
         /// The data for an OEM ephemeris, supplied directly in the request rather than through an S3 object.
         public var oemData: Swift.String?
         /// Identifies the S3 object to be used as the ephemeris.
@@ -6854,7 +6854,7 @@ extension GroundStationClientTypes.RangedConnectionDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Ingress address of AgentEndpoint with a port range and an optional mtu.
-    public struct RangedConnectionDetails: Swift.Equatable {
+    public struct RangedConnectionDetails {
         /// Maximum transmission unit (MTU) size in bytes of a dataflow endpoint.
         public var mtu: Swift.Int?
         /// A ranged socket address.
@@ -6900,7 +6900,7 @@ extension GroundStationClientTypes.RangedSocketAddress: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// A socket address with a port range.
-    public struct RangedSocketAddress: Swift.Equatable {
+    public struct RangedSocketAddress {
         /// IPv4 socket address.
         /// This member is required.
         public var name: Swift.String?
@@ -6944,7 +6944,7 @@ extension RegisterAgentInput {
     }
 }
 
-public struct RegisterAgentInput: Swift.Equatable {
+public struct RegisterAgentInput {
     /// Detailed information about the agent being registered.
     /// This member is required.
     public var agentDetails: GroundStationClientTypes.AgentDetails?
@@ -6962,7 +6962,7 @@ public struct RegisterAgentInput: Swift.Equatable {
     }
 }
 
-struct RegisterAgentInputBody: Swift.Equatable {
+struct RegisterAgentInputBody {
     let discoveryData: GroundStationClientTypes.DiscoveryData?
     let agentDetails: GroundStationClientTypes.AgentDetails?
 }
@@ -6994,7 +6994,7 @@ extension RegisterAgentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterAgentOutput: Swift.Equatable {
+public struct RegisterAgentOutput {
     /// UUID of registered agent.
     public var agentId: Swift.String?
 
@@ -7006,7 +7006,7 @@ public struct RegisterAgentOutput: Swift.Equatable {
     }
 }
 
-struct RegisterAgentOutputBody: Swift.Equatable {
+struct RegisterAgentOutputBody {
     let agentId: Swift.String?
 }
 
@@ -7079,7 +7079,7 @@ extension ReserveContactInput {
 }
 
 ///
-public struct ReserveContactInput: Swift.Equatable {
+public struct ReserveContactInput {
     /// End time of a contact in UTC.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -7116,7 +7116,7 @@ public struct ReserveContactInput: Swift.Equatable {
     }
 }
 
-struct ReserveContactInputBody: Swift.Equatable {
+struct ReserveContactInputBody {
     let missionProfileArn: Swift.String?
     let satelliteArn: Swift.String?
     let startTime: ClientRuntime.Date?
@@ -7174,7 +7174,7 @@ extension ReserveContactOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct ReserveContactOutput: Swift.Equatable {
+public struct ReserveContactOutput {
     /// UUID of a contact.
     public var contactId: Swift.String?
 
@@ -7186,7 +7186,7 @@ public struct ReserveContactOutput: Swift.Equatable {
     }
 }
 
-struct ReserveContactOutputBody: Swift.Equatable {
+struct ReserveContactOutputBody {
     let contactId: Swift.String?
 }
 
@@ -7260,7 +7260,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
     let parameterName: Swift.String?
 }
@@ -7319,7 +7319,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -7368,7 +7368,7 @@ extension GroundStationClientTypes.S3Object: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object stored in S3 containing ephemeris data.
-    public struct S3Object: Swift.Equatable {
+    public struct S3Object {
         /// An Amazon S3 Bucket name.
         public var bucket: Swift.String?
         /// An Amazon S3 key for the ephemeris.
@@ -7423,7 +7423,7 @@ extension GroundStationClientTypes.S3RecordingConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about an S3 recording Config.
-    public struct S3RecordingConfig: Swift.Equatable {
+    public struct S3RecordingConfig {
         /// ARN of the bucket to record to.
         /// This member is required.
         public var bucketArn: Swift.String?
@@ -7474,7 +7474,7 @@ extension GroundStationClientTypes.S3RecordingDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Details about an S3 recording Config used in a contact.
-    public struct S3RecordingDetails: Swift.Equatable {
+    public struct S3RecordingDetails {
         /// ARN of the bucket used.
         public var bucketArn: Swift.String?
         /// Key template used for the S3 Recording Configuration
@@ -7549,7 +7549,7 @@ extension GroundStationClientTypes.SatelliteListItem: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Item in a list of satellites.
-    public struct SatelliteListItem: Swift.Equatable {
+    public struct SatelliteListItem {
         /// The current ephemeris being used to compute the trajectory of the satellite.
         public var currentEphemeris: GroundStationClientTypes.EphemerisMetaData?
         /// A list of ground stations to which the satellite is on-boarded.
@@ -7636,7 +7636,7 @@ extension GroundStationClientTypes.SecurityDetails: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about endpoints.
-    public struct SecurityDetails: Swift.Equatable {
+    public struct SecurityDetails {
         /// ARN to a role needed for connecting streams to your instances.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -7688,7 +7688,7 @@ extension GroundStationClientTypes.SocketAddress: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the socket address.
-    public struct SocketAddress: Swift.Equatable {
+    public struct SocketAddress {
         /// Name of a socket address.
         /// This member is required.
         public var name: Swift.String?
@@ -7747,7 +7747,7 @@ extension GroundStationClientTypes.Source: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Dataflow details for the source side.
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// Additional details for a Config, if type is dataflow-endpoint or antenna-downlink-demod-decode
         public var configDetails: GroundStationClientTypes.ConfigDetails?
         /// UUID of a Config.
@@ -7806,7 +7806,7 @@ extension GroundStationClientTypes.SpectrumConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object that describes a spectral Config.
-    public struct SpectrumConfig: Swift.Equatable {
+    public struct SpectrumConfig {
         /// Bandwidth of a spectral Config. AWS Ground Station currently has the following bandwidth limitations:
         ///
         /// * For AntennaDownlinkDemodDecodeconfig, valid values are between 125 kHz to 650 MHz.
@@ -7869,7 +7869,7 @@ extension GroundStationClientTypes.TLEData: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Two-line element set (TLE) data.
-    public struct TLEData: Swift.Equatable {
+    public struct TLEData {
         /// First line of two-line element set (TLE) data.
         /// This member is required.
         public var tleLine1: Swift.String?
@@ -7933,7 +7933,7 @@ extension GroundStationClientTypes.TLEEphemeris: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Two-line element set (TLE) ephemeris.
-    public struct TLEEphemeris: Swift.Equatable {
+    public struct TLEEphemeris {
         /// Identifies the S3 object to be used as the ephemeris.
         public var s3Object: GroundStationClientTypes.S3Object?
         /// The data for a TLE ephemeris, supplied directly in the request rather than through an S3 object.
@@ -7978,7 +7978,7 @@ extension TagResourceInput {
 }
 
 ///
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// ARN of a resource tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7996,7 +7996,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -8027,7 +8027,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8072,7 +8072,7 @@ extension GroundStationClientTypes.TimeRange: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// A time range with a start and end time.
-    public struct TimeRange: Swift.Equatable {
+    public struct TimeRange {
         /// Time in UTC at which the time range ends.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -8113,7 +8113,7 @@ extension GroundStationClientTypes.TrackingConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Object that determines whether tracking should be used during a contact executed with this Config in the mission profile.
-    public struct TrackingConfig: Swift.Equatable {
+    public struct TrackingConfig {
         /// Current setting for autotrack.
         /// This member is required.
         public var autotrack: GroundStationClientTypes.Criticality?
@@ -8155,7 +8155,7 @@ extension UntagResourceInput {
 }
 
 ///
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// ARN of a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8173,7 +8173,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -8188,7 +8188,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8240,7 +8240,7 @@ extension UpdateAgentStatusInput {
     }
 }
 
-public struct UpdateAgentStatusInput: Swift.Equatable {
+public struct UpdateAgentStatusInput {
     /// UUID of agent to update.
     /// This member is required.
     public var agentId: Swift.String?
@@ -8268,7 +8268,7 @@ public struct UpdateAgentStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentStatusInputBody: Swift.Equatable {
+struct UpdateAgentStatusInputBody {
     let taskId: Swift.String?
     let aggregateStatus: GroundStationClientTypes.AggregateStatus?
     let componentStatuses: [GroundStationClientTypes.ComponentStatusData]?
@@ -8313,7 +8313,7 @@ extension UpdateAgentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgentStatusOutput: Swift.Equatable {
+public struct UpdateAgentStatusOutput {
     /// UUID of updated agent.
     /// This member is required.
     public var agentId: Swift.String?
@@ -8326,7 +8326,7 @@ public struct UpdateAgentStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgentStatusOutputBody: Swift.Equatable {
+struct UpdateAgentStatusOutputBody {
     let agentId: Swift.String?
 }
 
@@ -8386,7 +8386,7 @@ extension UpdateConfigInput {
 }
 
 ///
-public struct UpdateConfigInput: Swift.Equatable {
+public struct UpdateConfigInput {
     /// Parameters of a Config.
     /// This member is required.
     public var configData: GroundStationClientTypes.ConfigTypeData?
@@ -8414,7 +8414,7 @@ public struct UpdateConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigInputBody: Swift.Equatable {
+struct UpdateConfigInputBody {
     let name: Swift.String?
     let configData: GroundStationClientTypes.ConfigTypeData?
 }
@@ -8451,7 +8451,7 @@ extension UpdateConfigOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateConfigOutput: Swift.Equatable {
+public struct UpdateConfigOutput {
     /// ARN of a Config.
     public var configArn: Swift.String?
     /// UUID of a Config.
@@ -8471,7 +8471,7 @@ public struct UpdateConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigOutputBody: Swift.Equatable {
+struct UpdateConfigOutputBody {
     let configId: Swift.String?
     let configType: GroundStationClientTypes.ConfigCapabilityType?
     let configArn: Swift.String?
@@ -8539,7 +8539,7 @@ extension UpdateEphemerisInput {
     }
 }
 
-public struct UpdateEphemerisInput: Swift.Equatable {
+public struct UpdateEphemerisInput {
     /// Whether the ephemeris is enabled or not. Changing this value will not require the ephemeris to be re-validated.
     /// This member is required.
     public var enabled: Swift.Bool?
@@ -8565,7 +8565,7 @@ public struct UpdateEphemerisInput: Swift.Equatable {
     }
 }
 
-struct UpdateEphemerisInputBody: Swift.Equatable {
+struct UpdateEphemerisInputBody {
     let enabled: Swift.Bool?
     let name: Swift.String?
     let priority: Swift.Int?
@@ -8601,7 +8601,7 @@ extension UpdateEphemerisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEphemerisOutput: Swift.Equatable {
+public struct UpdateEphemerisOutput {
     /// The AWS Ground Station ephemeris ID.
     public var ephemerisId: Swift.String?
 
@@ -8613,7 +8613,7 @@ public struct UpdateEphemerisOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEphemerisOutputBody: Swift.Equatable {
+struct UpdateEphemerisOutputBody {
     let ephemerisId: Swift.String?
 }
 
@@ -8700,7 +8700,7 @@ extension UpdateMissionProfileInput {
 }
 
 ///
-public struct UpdateMissionProfileInput: Swift.Equatable {
+public struct UpdateMissionProfileInput {
     /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
     public var contactPostPassDurationSeconds: Swift.Int?
     /// Amount of time after a contact ends that you’d like to receive a Ground Station Contact State Change event indicating the pass has finished.
@@ -8745,7 +8745,7 @@ public struct UpdateMissionProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateMissionProfileInputBody: Swift.Equatable {
+struct UpdateMissionProfileInputBody {
     let name: Swift.String?
     let contactPrePassDurationSeconds: Swift.Int?
     let contactPostPassDurationSeconds: Swift.Int?
@@ -8820,7 +8820,7 @@ extension UpdateMissionProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct UpdateMissionProfileOutput: Swift.Equatable {
+public struct UpdateMissionProfileOutput {
     /// UUID of a mission profile.
     public var missionProfileId: Swift.String?
 
@@ -8832,7 +8832,7 @@ public struct UpdateMissionProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMissionProfileOutputBody: Swift.Equatable {
+struct UpdateMissionProfileOutputBody {
     let missionProfileId: Swift.String?
 }
 
@@ -8888,7 +8888,7 @@ extension GroundStationClientTypes.UplinkEchoConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about an uplink echo Config. Parameters from the AntennaUplinkConfig, corresponding to the specified AntennaUplinkConfigArn, are used when this UplinkEchoConfig is used in a contact.
-    public struct UplinkEchoConfig: Swift.Equatable {
+    public struct UplinkEchoConfig {
         /// ARN of an uplink Config.
         /// This member is required.
         public var antennaUplinkConfigArn: Swift.String?
@@ -8935,7 +8935,7 @@ extension GroundStationClientTypes.UplinkSpectrumConfig: Swift.Codable {
 
 extension GroundStationClientTypes {
     /// Information about the uplink spectral Config.
-    public struct UplinkSpectrumConfig: Swift.Equatable {
+    public struct UplinkSpectrumConfig {
         /// Center frequency of an uplink spectral Config. Valid values are between 2025 to 2120 MHz.
         /// This member is required.
         public var centerFrequency: GroundStationClientTypes.Frequency?

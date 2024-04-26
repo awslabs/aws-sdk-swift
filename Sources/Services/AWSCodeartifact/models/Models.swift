@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -167,7 +167,7 @@ extension CodeartifactClientTypes.AssetSummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Contains details about a package version asset.
-    public struct AssetSummary: Swift.Equatable {
+    public struct AssetSummary {
         /// The hashes of the asset.
         public var hashes: [Swift.String:Swift.String]?
         /// The name of the asset.
@@ -227,7 +227,7 @@ extension AssociateExternalConnectionInput {
     }
 }
 
-public struct AssociateExternalConnectionInput: Swift.Equatable {
+public struct AssociateExternalConnectionInput {
     /// The name of the domain that contains the repository.
     /// This member is required.
     public var domain: Swift.String?
@@ -270,7 +270,7 @@ public struct AssociateExternalConnectionInput: Swift.Equatable {
     }
 }
 
-struct AssociateExternalConnectionInputBody: Swift.Equatable {
+struct AssociateExternalConnectionInputBody {
 }
 
 extension AssociateExternalConnectionInputBody: Swift.Decodable {
@@ -291,7 +291,7 @@ extension AssociateExternalConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateExternalConnectionOutput: Swift.Equatable {
+public struct AssociateExternalConnectionOutput {
     /// Information about the connected repository after processing the request.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -303,7 +303,7 @@ public struct AssociateExternalConnectionOutput: Swift.Equatable {
     }
 }
 
-struct AssociateExternalConnectionOutputBody: Swift.Equatable {
+struct AssociateExternalConnectionOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -375,7 +375,7 @@ extension CodeartifactClientTypes.AssociatedPackage: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// A package associated with a package group.
-    public struct AssociatedPackage: Swift.Equatable {
+    public struct AssociatedPackage {
         /// Describes the strength of the association between the package and package group. A strong match can be thought of as an exact match, and a weak match can be thought of as a variation match, for example, the package name matches a variation of the package group pattern. For more information about package group pattern matching, including strong and weak matches, see [Package group definition syntax and matching behavior](https://docs.aws.amazon.com/codeartifact/latest/ug/package-group-definition-syntax-matching-behavior.html) in the CodeArtifact User Guide.
         public var associationType: CodeartifactClientTypes.PackageGroupAssociationType?
         /// A format that specifies the type of the associated package.
@@ -463,7 +463,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: CodeartifactClientTypes.ResourceType?
@@ -571,7 +571,7 @@ extension CopyPackageVersionsInput {
     }
 }
 
-public struct CopyPackageVersionsInput: Swift.Equatable {
+public struct CopyPackageVersionsInput {
     /// Set to true to overwrite a package version that already exists in the destination repository. If set to false and the package version already exists in the destination repository, the package version is returned in the failedVersions field of the response with an ALREADY_EXISTS error code.
     public var allowOverwrite: Swift.Bool?
     /// The name of the repository into which package versions are copied.
@@ -645,7 +645,7 @@ public struct CopyPackageVersionsInput: Swift.Equatable {
     }
 }
 
-struct CopyPackageVersionsInputBody: Swift.Equatable {
+struct CopyPackageVersionsInputBody {
     let versions: [Swift.String]?
     let versionRevisions: [Swift.String:Swift.String]?
     let allowOverwrite: Swift.Bool?
@@ -705,7 +705,7 @@ extension CopyPackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyPackageVersionsOutput: Swift.Equatable {
+public struct CopyPackageVersionsOutput {
     /// A map of package versions that failed to copy and their error codes. The possible error codes are in the PackageVersionError data type. They are:
     ///
     /// * ALREADY_EXISTS
@@ -733,7 +733,7 @@ public struct CopyPackageVersionsOutput: Swift.Equatable {
     }
 }
 
-struct CopyPackageVersionsOutputBody: Swift.Equatable {
+struct CopyPackageVersionsOutputBody {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
@@ -829,7 +829,7 @@ extension CreateDomainInput {
     }
 }
 
-public struct CreateDomainInput: Swift.Equatable {
+public struct CreateDomainInput {
     /// The name of the domain to create. All domain names in an Amazon Web Services Region that are in the same Amazon Web Services account must be unique. The domain name is used as the prefix in DNS hostnames. Do not use sensitive information in a domain name because it is publicly discoverable.
     /// This member is required.
     public var domain: Swift.String?
@@ -850,7 +850,7 @@ public struct CreateDomainInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainInputBody: Swift.Equatable {
+struct CreateDomainInputBody {
     let encryptionKey: Swift.String?
     let tags: [CodeartifactClientTypes.Tag]?
 }
@@ -891,7 +891,7 @@ extension CreateDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDomainOutput: Swift.Equatable {
+public struct CreateDomainOutput {
     /// Contains information about the created domain after processing the request.
     public var domain: CodeartifactClientTypes.DomainDescription?
 
@@ -903,7 +903,7 @@ public struct CreateDomainOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainOutputBody: Swift.Equatable {
+struct CreateDomainOutputBody {
     let domain: CodeartifactClientTypes.DomainDescription?
 }
 
@@ -989,7 +989,7 @@ extension CreatePackageGroupInput {
     }
 }
 
-public struct CreatePackageGroupInput: Swift.Equatable {
+public struct CreatePackageGroupInput {
     /// The contact information for the created package group.
     public var contactInfo: Swift.String?
     /// A description of the package group.
@@ -1023,7 +1023,7 @@ public struct CreatePackageGroupInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageGroupInputBody: Swift.Equatable {
+struct CreatePackageGroupInputBody {
     let packageGroup: Swift.String?
     let contactInfo: Swift.String?
     let description: Swift.String?
@@ -1072,7 +1072,7 @@ extension CreatePackageGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePackageGroupOutput: Swift.Equatable {
+public struct CreatePackageGroupOutput {
     /// Information about the created package group after processing the request.
     public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 
@@ -1084,7 +1084,7 @@ public struct CreatePackageGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageGroupOutputBody: Swift.Equatable {
+struct CreatePackageGroupOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 }
 
@@ -1175,7 +1175,7 @@ extension CreateRepositoryInput {
     }
 }
 
-public struct CreateRepositoryInput: Swift.Equatable {
+public struct CreateRepositoryInput {
     /// A description of the created repository.
     public var description: Swift.String?
     /// The name of the domain that contains the created repository.
@@ -1209,7 +1209,7 @@ public struct CreateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryInputBody: Swift.Equatable {
+struct CreateRepositoryInputBody {
     let description: Swift.String?
     let upstreams: [CodeartifactClientTypes.UpstreamRepository]?
     let tags: [CodeartifactClientTypes.Tag]?
@@ -1263,7 +1263,7 @@ extension CreateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRepositoryOutput: Swift.Equatable {
+public struct CreateRepositoryOutput {
     /// Information about the created repository after processing the request.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -1275,7 +1275,7 @@ public struct CreateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryOutputBody: Swift.Equatable {
+struct CreateRepositoryOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -1333,7 +1333,7 @@ extension DeleteDomainInput {
     }
 }
 
-public struct DeleteDomainInput: Swift.Equatable {
+public struct DeleteDomainInput {
     /// The name of the domain to delete.
     /// This member is required.
     public var domain: Swift.String?
@@ -1350,7 +1350,7 @@ public struct DeleteDomainInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainInputBody: Swift.Equatable {
+struct DeleteDomainInputBody {
 }
 
 extension DeleteDomainInputBody: Swift.Decodable {
@@ -1371,7 +1371,7 @@ extension DeleteDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainOutput: Swift.Equatable {
+public struct DeleteDomainOutput {
     /// Contains information about the deleted domain after processing the request.
     public var domain: CodeartifactClientTypes.DomainDescription?
 
@@ -1383,7 +1383,7 @@ public struct DeleteDomainOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainOutputBody: Swift.Equatable {
+struct DeleteDomainOutputBody {
     let domain: CodeartifactClientTypes.DomainDescription?
 }
 
@@ -1443,7 +1443,7 @@ extension DeleteDomainPermissionsPolicyInput {
     }
 }
 
-public struct DeleteDomainPermissionsPolicyInput: Swift.Equatable {
+public struct DeleteDomainPermissionsPolicyInput {
     /// The name of the domain associated with the resource policy to be deleted.
     /// This member is required.
     public var domain: Swift.String?
@@ -1464,7 +1464,7 @@ public struct DeleteDomainPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainPermissionsPolicyInputBody: Swift.Equatable {
+struct DeleteDomainPermissionsPolicyInputBody {
 }
 
 extension DeleteDomainPermissionsPolicyInputBody: Swift.Decodable {
@@ -1485,7 +1485,7 @@ extension DeleteDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteDomainPermissionsPolicyOutput: Swift.Equatable {
+public struct DeleteDomainPermissionsPolicyOutput {
     /// Information about the deleted resource policy after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -1497,7 +1497,7 @@ public struct DeleteDomainPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainPermissionsPolicyOutputBody: Swift.Equatable {
+struct DeleteDomainPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -1560,7 +1560,7 @@ extension DeletePackageGroupInput {
     }
 }
 
-public struct DeletePackageGroupInput: Swift.Equatable {
+public struct DeletePackageGroupInput {
     /// The domain that contains the package group to be deleted.
     /// This member is required.
     public var domain: Swift.String?
@@ -1582,7 +1582,7 @@ public struct DeletePackageGroupInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageGroupInputBody: Swift.Equatable {
+struct DeletePackageGroupInputBody {
 }
 
 extension DeletePackageGroupInputBody: Swift.Decodable {
@@ -1603,7 +1603,7 @@ extension DeletePackageGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageGroupOutput: Swift.Equatable {
+public struct DeletePackageGroupOutput {
     /// Information about the deleted package group after processing the request.
     public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 
@@ -1615,7 +1615,7 @@ public struct DeletePackageGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeletePackageGroupOutputBody: Swift.Equatable {
+struct DeletePackageGroupOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 }
 
@@ -1695,7 +1695,7 @@ extension DeletePackageInput {
     }
 }
 
-public struct DeletePackageInput: Swift.Equatable {
+public struct DeletePackageInput {
     /// The name of the domain that contains the package to delete.
     /// This member is required.
     public var domain: Swift.String?
@@ -1748,7 +1748,7 @@ public struct DeletePackageInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageInputBody: Swift.Equatable {
+struct DeletePackageInputBody {
 }
 
 extension DeletePackageInputBody: Swift.Decodable {
@@ -1769,7 +1769,7 @@ extension DeletePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageOutput: Swift.Equatable {
+public struct DeletePackageOutput {
     /// Details about a package, including its format, namespace, and name.
     public var deletedPackage: CodeartifactClientTypes.PackageSummary?
 
@@ -1781,7 +1781,7 @@ public struct DeletePackageOutput: Swift.Equatable {
     }
 }
 
-struct DeletePackageOutputBody: Swift.Equatable {
+struct DeletePackageOutputBody {
     let deletedPackage: CodeartifactClientTypes.PackageSummary?
 }
 
@@ -1880,7 +1880,7 @@ extension DeletePackageVersionsInput {
     }
 }
 
-public struct DeletePackageVersionsInput: Swift.Equatable {
+public struct DeletePackageVersionsInput {
     /// The name of the domain that contains the package to delete.
     /// This member is required.
     public var domain: Swift.String?
@@ -1942,7 +1942,7 @@ public struct DeletePackageVersionsInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageVersionsInputBody: Swift.Equatable {
+struct DeletePackageVersionsInputBody {
     let versions: [Swift.String]?
     let expectedStatus: CodeartifactClientTypes.PackageVersionStatus?
 }
@@ -1985,7 +1985,7 @@ extension DeletePackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageVersionsOutput: Swift.Equatable {
+public struct DeletePackageVersionsOutput {
     /// A PackageVersionError object that contains a map of errors codes for the deleted package that failed. The possible error codes are:
     ///
     /// * ALREADY_EXISTS
@@ -2013,7 +2013,7 @@ public struct DeletePackageVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DeletePackageVersionsOutputBody: Swift.Equatable {
+struct DeletePackageVersionsOutputBody {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
@@ -2098,7 +2098,7 @@ extension DeleteRepositoryInput {
     }
 }
 
-public struct DeleteRepositoryInput: Swift.Equatable {
+public struct DeleteRepositoryInput {
     /// The name of the domain that contains the repository to delete.
     /// This member is required.
     public var domain: Swift.String?
@@ -2120,7 +2120,7 @@ public struct DeleteRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryInputBody: Swift.Equatable {
+struct DeleteRepositoryInputBody {
 }
 
 extension DeleteRepositoryInputBody: Swift.Decodable {
@@ -2141,7 +2141,7 @@ extension DeleteRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryOutput: Swift.Equatable {
+public struct DeleteRepositoryOutput {
     /// Information about the deleted repository after processing the request.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -2153,7 +2153,7 @@ public struct DeleteRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryOutputBody: Swift.Equatable {
+struct DeleteRepositoryOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -2220,7 +2220,7 @@ extension DeleteRepositoryPermissionsPolicyInput {
     }
 }
 
-public struct DeleteRepositoryPermissionsPolicyInput: Swift.Equatable {
+public struct DeleteRepositoryPermissionsPolicyInput {
     /// The name of the domain that contains the repository associated with the resource policy to be deleted.
     /// This member is required.
     public var domain: Swift.String?
@@ -2246,7 +2246,7 @@ public struct DeleteRepositoryPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryPermissionsPolicyInputBody: Swift.Equatable {
+struct DeleteRepositoryPermissionsPolicyInputBody {
 }
 
 extension DeleteRepositoryPermissionsPolicyInputBody: Swift.Decodable {
@@ -2267,7 +2267,7 @@ extension DeleteRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteRepositoryPermissionsPolicyOutput: Swift.Equatable {
+public struct DeleteRepositoryPermissionsPolicyOutput {
     /// Information about the deleted policy after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -2279,7 +2279,7 @@ public struct DeleteRepositoryPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
+struct DeleteRepositoryPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -2336,7 +2336,7 @@ extension DescribeDomainInput {
     }
 }
 
-public struct DescribeDomainInput: Swift.Equatable {
+public struct DescribeDomainInput {
     /// A string that specifies the name of the requested domain.
     /// This member is required.
     public var domain: Swift.String?
@@ -2353,7 +2353,7 @@ public struct DescribeDomainInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainInputBody: Swift.Equatable {
+struct DescribeDomainInputBody {
 }
 
 extension DescribeDomainInputBody: Swift.Decodable {
@@ -2374,7 +2374,7 @@ extension DescribeDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDomainOutput: Swift.Equatable {
+public struct DescribeDomainOutput {
     /// Information about a domain. A domain is a container for repositories. When you create a domain, it is empty until you add one or more repositories.
     public var domain: CodeartifactClientTypes.DomainDescription?
 
@@ -2386,7 +2386,7 @@ public struct DescribeDomainOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainOutputBody: Swift.Equatable {
+struct DescribeDomainOutputBody {
     let domain: CodeartifactClientTypes.DomainDescription?
 }
 
@@ -2448,7 +2448,7 @@ extension DescribePackageGroupInput {
     }
 }
 
-public struct DescribePackageGroupInput: Swift.Equatable {
+public struct DescribePackageGroupInput {
     /// The name of the domain that contains the package group.
     /// This member is required.
     public var domain: Swift.String?
@@ -2470,7 +2470,7 @@ public struct DescribePackageGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageGroupInputBody: Swift.Equatable {
+struct DescribePackageGroupInputBody {
 }
 
 extension DescribePackageGroupInputBody: Swift.Decodable {
@@ -2491,7 +2491,7 @@ extension DescribePackageGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageGroupOutput: Swift.Equatable {
+public struct DescribePackageGroupOutput {
     /// A [PackageGroupDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageGroupDescription.html) object that contains information about the requested package group.
     public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 
@@ -2503,7 +2503,7 @@ public struct DescribePackageGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageGroupOutputBody: Swift.Equatable {
+struct DescribePackageGroupOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 }
 
@@ -2581,7 +2581,7 @@ extension DescribePackageInput {
     }
 }
 
-public struct DescribePackageInput: Swift.Equatable {
+public struct DescribePackageInput {
     /// The name of the domain that contains the repository that contains the package.
     /// This member is required.
     public var domain: Swift.String?
@@ -2634,7 +2634,7 @@ public struct DescribePackageInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageInputBody: Swift.Equatable {
+struct DescribePackageInputBody {
 }
 
 extension DescribePackageInputBody: Swift.Decodable {
@@ -2655,7 +2655,7 @@ extension DescribePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageOutput: Swift.Equatable {
+public struct DescribePackageOutput {
     /// A [PackageDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDescription.html) object that contains information about the requested package.
     /// This member is required.
     public var package: CodeartifactClientTypes.PackageDescription?
@@ -2668,7 +2668,7 @@ public struct DescribePackageOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageOutputBody: Swift.Equatable {
+struct DescribePackageOutputBody {
     let package: CodeartifactClientTypes.PackageDescription?
 }
 
@@ -2752,7 +2752,7 @@ extension DescribePackageVersionInput {
     }
 }
 
-public struct DescribePackageVersionInput: Swift.Equatable {
+public struct DescribePackageVersionInput {
     /// The name of the domain that contains the repository that contains the package version.
     /// This member is required.
     public var domain: Swift.String?
@@ -2810,7 +2810,7 @@ public struct DescribePackageVersionInput: Swift.Equatable {
     }
 }
 
-struct DescribePackageVersionInputBody: Swift.Equatable {
+struct DescribePackageVersionInputBody {
 }
 
 extension DescribePackageVersionInputBody: Swift.Decodable {
@@ -2831,7 +2831,7 @@ extension DescribePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePackageVersionOutput: Swift.Equatable {
+public struct DescribePackageVersionOutput {
     /// A [PackageVersionDescription](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionDescription.html) object that contains information about the requested package version.
     /// This member is required.
     public var packageVersion: CodeartifactClientTypes.PackageVersionDescription?
@@ -2844,7 +2844,7 @@ public struct DescribePackageVersionOutput: Swift.Equatable {
     }
 }
 
-struct DescribePackageVersionOutputBody: Swift.Equatable {
+struct DescribePackageVersionOutputBody {
     let packageVersion: CodeartifactClientTypes.PackageVersionDescription?
 }
 
@@ -2907,7 +2907,7 @@ extension DescribeRepositoryInput {
     }
 }
 
-public struct DescribeRepositoryInput: Swift.Equatable {
+public struct DescribeRepositoryInput {
     /// The name of the domain that contains the repository to describe.
     /// This member is required.
     public var domain: Swift.String?
@@ -2929,7 +2929,7 @@ public struct DescribeRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoryInputBody: Swift.Equatable {
+struct DescribeRepositoryInputBody {
 }
 
 extension DescribeRepositoryInputBody: Swift.Decodable {
@@ -2950,7 +2950,7 @@ extension DescribeRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRepositoryOutput: Swift.Equatable {
+public struct DescribeRepositoryOutput {
     /// A RepositoryDescription object that contains the requested repository information.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -2962,7 +2962,7 @@ public struct DescribeRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRepositoryOutputBody: Swift.Equatable {
+struct DescribeRepositoryOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -3030,7 +3030,7 @@ extension DisassociateExternalConnectionInput {
     }
 }
 
-public struct DisassociateExternalConnectionInput: Swift.Equatable {
+public struct DisassociateExternalConnectionInput {
     /// The name of the domain that contains the repository from which to remove the external repository.
     /// This member is required.
     public var domain: Swift.String?
@@ -3057,7 +3057,7 @@ public struct DisassociateExternalConnectionInput: Swift.Equatable {
     }
 }
 
-struct DisassociateExternalConnectionInputBody: Swift.Equatable {
+struct DisassociateExternalConnectionInputBody {
 }
 
 extension DisassociateExternalConnectionInputBody: Swift.Decodable {
@@ -3078,7 +3078,7 @@ extension DisassociateExternalConnectionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DisassociateExternalConnectionOutput: Swift.Equatable {
+public struct DisassociateExternalConnectionOutput {
     /// The repository associated with the removed external connection.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -3090,7 +3090,7 @@ public struct DisassociateExternalConnectionOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateExternalConnectionOutputBody: Swift.Equatable {
+struct DisassociateExternalConnectionOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -3197,7 +3197,7 @@ extension DisposePackageVersionsInput {
     }
 }
 
-public struct DisposePackageVersionsInput: Swift.Equatable {
+public struct DisposePackageVersionsInput {
     /// The name of the domain that contains the repository you want to dispose.
     /// This member is required.
     public var domain: Swift.String?
@@ -3263,7 +3263,7 @@ public struct DisposePackageVersionsInput: Swift.Equatable {
     }
 }
 
-struct DisposePackageVersionsInputBody: Swift.Equatable {
+struct DisposePackageVersionsInputBody {
     let versions: [Swift.String]?
     let versionRevisions: [Swift.String:Swift.String]?
     let expectedStatus: CodeartifactClientTypes.PackageVersionStatus?
@@ -3319,7 +3319,7 @@ extension DisposePackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisposePackageVersionsOutput: Swift.Equatable {
+public struct DisposePackageVersionsOutput {
     /// A PackageVersionError object that contains a map of errors codes for the disposed package versions that failed. The possible error codes are:
     ///
     /// * ALREADY_EXISTS
@@ -3347,7 +3347,7 @@ public struct DisposePackageVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DisposePackageVersionsOutputBody: Swift.Equatable {
+struct DisposePackageVersionsOutputBody {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
@@ -3470,7 +3470,7 @@ extension CodeartifactClientTypes.DomainDescription: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about a domain. A domain is a container for repositories. When you create a domain, it is empty until you add one or more repositories.
-    public struct DomainDescription: Swift.Equatable {
+    public struct DomainDescription {
         /// The Amazon Resource Name (ARN) of the domain.
         public var arn: Swift.String?
         /// The total size of all assets in the domain.
@@ -3543,7 +3543,7 @@ extension CodeartifactClientTypes.DomainEntryPoint: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about how a package originally entered the CodeArtifact domain. For packages published directly to CodeArtifact, the entry point is the repository it was published to. For packages ingested from an external repository, the entry point is the external connection that it was ingested from. An external connection is a CodeArtifact repository that is connected to an external repository such as the npm registry or NuGet gallery. If a package version exists in a repository and is updated, for example if a package of the same version is added with additional assets, the package version's DomainEntryPoint will not change from the original package version's value.
-    public struct DomainEntryPoint: Swift.Equatable {
+    public struct DomainEntryPoint {
         /// The name of the external connection that a package was ingested from.
         public var externalConnectionName: Swift.String?
         /// The name of the repository that a package was originally published to.
@@ -3644,7 +3644,7 @@ extension CodeartifactClientTypes.DomainSummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about a domain, including its name, Amazon Resource Name (ARN), and status. The [ListDomains](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListDomains.html) operation returns a list of DomainSummary objects.
-    public struct DomainSummary: Swift.Equatable {
+    public struct DomainSummary {
         /// The ARN of the domain.
         public var arn: Swift.String?
         /// A timestamp that contains the date and time the domain was created.
@@ -3748,7 +3748,7 @@ extension GetAssociatedPackageGroupInput {
     }
 }
 
-public struct GetAssociatedPackageGroupInput: Swift.Equatable {
+public struct GetAssociatedPackageGroupInput {
     /// The name of the domain that contains the package from which to get the associated package group.
     /// This member is required.
     public var domain: Swift.String?
@@ -3796,7 +3796,7 @@ public struct GetAssociatedPackageGroupInput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedPackageGroupInputBody: Swift.Equatable {
+struct GetAssociatedPackageGroupInputBody {
 }
 
 extension GetAssociatedPackageGroupInputBody: Swift.Decodable {
@@ -3819,7 +3819,7 @@ extension GetAssociatedPackageGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAssociatedPackageGroupOutput: Swift.Equatable {
+public struct GetAssociatedPackageGroupOutput {
     /// Describes the strength of the association between the package and package group. A strong match is also known as an exact match, and a weak match is known as a relative match.
     public var associationType: CodeartifactClientTypes.PackageGroupAssociationType?
     /// The package group that is associated with the requested package.
@@ -3835,7 +3835,7 @@ public struct GetAssociatedPackageGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetAssociatedPackageGroupOutputBody: Swift.Equatable {
+struct GetAssociatedPackageGroupOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
     let associationType: CodeartifactClientTypes.PackageGroupAssociationType?
 }
@@ -3898,7 +3898,7 @@ extension GetAuthorizationTokenInput {
     }
 }
 
-public struct GetAuthorizationTokenInput: Swift.Equatable {
+public struct GetAuthorizationTokenInput {
     /// The name of the domain that is in scope for the generated authorization token.
     /// This member is required.
     public var domain: Swift.String?
@@ -3919,7 +3919,7 @@ public struct GetAuthorizationTokenInput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizationTokenInputBody: Swift.Equatable {
+struct GetAuthorizationTokenInputBody {
 }
 
 extension GetAuthorizationTokenInputBody: Swift.Decodable {
@@ -3948,7 +3948,7 @@ extension GetAuthorizationTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAuthorizationTokenOutput: Swift.Equatable {
+public struct GetAuthorizationTokenOutput {
     /// The returned authentication token.
     public var authorizationToken: Swift.String?
     /// A timestamp that specifies the date and time the authorization token expires.
@@ -3964,7 +3964,7 @@ public struct GetAuthorizationTokenOutput: Swift.Equatable {
     }
 }
 
-struct GetAuthorizationTokenOutputBody: Swift.Equatable {
+struct GetAuthorizationTokenOutputBody {
     let authorizationToken: Swift.String?
     let expiration: ClientRuntime.Date?
 }
@@ -4024,7 +4024,7 @@ extension GetDomainPermissionsPolicyInput {
     }
 }
 
-public struct GetDomainPermissionsPolicyInput: Swift.Equatable {
+public struct GetDomainPermissionsPolicyInput {
     /// The name of the domain to which the resource policy is attached.
     /// This member is required.
     public var domain: Swift.String?
@@ -4041,7 +4041,7 @@ public struct GetDomainPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetDomainPermissionsPolicyInputBody: Swift.Equatable {
+struct GetDomainPermissionsPolicyInputBody {
 }
 
 extension GetDomainPermissionsPolicyInputBody: Swift.Decodable {
@@ -4062,7 +4062,7 @@ extension GetDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDomainPermissionsPolicyOutput: Swift.Equatable {
+public struct GetDomainPermissionsPolicyOutput {
     /// The returned resource policy.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -4074,7 +4074,7 @@ public struct GetDomainPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainPermissionsPolicyOutputBody: Swift.Equatable {
+struct GetDomainPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -4168,7 +4168,7 @@ extension GetPackageVersionAssetInput {
     }
 }
 
-public struct GetPackageVersionAssetInput: Swift.Equatable {
+public struct GetPackageVersionAssetInput {
     /// The name of the requested asset.
     /// This member is required.
     public var asset: Swift.String?
@@ -4235,7 +4235,7 @@ public struct GetPackageVersionAssetInput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionAssetInputBody: Swift.Equatable {
+struct GetPackageVersionAssetInputBody {
 }
 
 extension GetPackageVersionAssetInputBody: Swift.Decodable {
@@ -4272,7 +4272,7 @@ extension GetPackageVersionAssetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPackageVersionAssetOutput: Swift.Equatable {
+public struct GetPackageVersionAssetOutput {
     /// The binary file, or asset, that is downloaded.
     public var asset: ClientRuntime.ByteStream?
     /// The name of the asset that is downloaded.
@@ -4296,7 +4296,7 @@ public struct GetPackageVersionAssetOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionAssetOutputBody: Swift.Equatable {
+struct GetPackageVersionAssetOutputBody {
     let asset: ClientRuntime.ByteStream?
 }
 
@@ -4381,7 +4381,7 @@ extension GetPackageVersionReadmeInput {
     }
 }
 
-public struct GetPackageVersionReadmeInput: Swift.Equatable {
+public struct GetPackageVersionReadmeInput {
     /// The name of the domain that contains the repository that contains the package version with the requested readme file.
     /// This member is required.
     public var domain: Swift.String?
@@ -4439,7 +4439,7 @@ public struct GetPackageVersionReadmeInput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionReadmeInputBody: Swift.Equatable {
+struct GetPackageVersionReadmeInputBody {
 }
 
 extension GetPackageVersionReadmeInputBody: Swift.Decodable {
@@ -4470,7 +4470,7 @@ extension GetPackageVersionReadmeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPackageVersionReadmeOutput: Swift.Equatable {
+public struct GetPackageVersionReadmeOutput {
     /// The format of the package with the requested readme file.
     public var format: CodeartifactClientTypes.PackageFormat?
     /// The namespace of the package version with the requested readme file. The package component that specifies its namespace depends on its type. For example:
@@ -4510,7 +4510,7 @@ public struct GetPackageVersionReadmeOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionReadmeOutputBody: Swift.Equatable {
+struct GetPackageVersionReadmeOutputBody {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -4598,7 +4598,7 @@ extension GetRepositoryEndpointInput {
     }
 }
 
-public struct GetRepositoryEndpointInput: Swift.Equatable {
+public struct GetRepositoryEndpointInput {
     /// The name of the domain that contains the repository.
     /// This member is required.
     public var domain: Swift.String?
@@ -4625,7 +4625,7 @@ public struct GetRepositoryEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryEndpointInputBody: Swift.Equatable {
+struct GetRepositoryEndpointInputBody {
 }
 
 extension GetRepositoryEndpointInputBody: Swift.Decodable {
@@ -4646,7 +4646,7 @@ extension GetRepositoryEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositoryEndpointOutput: Swift.Equatable {
+public struct GetRepositoryEndpointOutput {
     /// A string that specifies the URL of the returned endpoint.
     public var repositoryEndpoint: Swift.String?
 
@@ -4658,7 +4658,7 @@ public struct GetRepositoryEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryEndpointOutputBody: Swift.Equatable {
+struct GetRepositoryEndpointOutputBody {
     let repositoryEndpoint: Swift.String?
 }
 
@@ -4720,7 +4720,7 @@ extension GetRepositoryPermissionsPolicyInput {
     }
 }
 
-public struct GetRepositoryPermissionsPolicyInput: Swift.Equatable {
+public struct GetRepositoryPermissionsPolicyInput {
     /// The name of the domain containing the repository whose associated resource policy is to be retrieved.
     /// This member is required.
     public var domain: Swift.String?
@@ -4742,7 +4742,7 @@ public struct GetRepositoryPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryPermissionsPolicyInputBody: Swift.Equatable {
+struct GetRepositoryPermissionsPolicyInputBody {
 }
 
 extension GetRepositoryPermissionsPolicyInputBody: Swift.Decodable {
@@ -4763,7 +4763,7 @@ extension GetRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct GetRepositoryPermissionsPolicyOutput: Swift.Equatable {
+public struct GetRepositoryPermissionsPolicyOutput {
     /// The returned resource policy.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -4775,7 +4775,7 @@ public struct GetRepositoryPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
+struct GetRepositoryPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -4884,7 +4884,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4927,7 +4927,7 @@ extension CodeartifactClientTypes.LicenseInfo: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details of the license data.
-    public struct LicenseInfo: Swift.Equatable {
+    public struct LicenseInfo {
         /// Name of the license.
         public var name: Swift.String?
         /// The URL for license data.
@@ -4990,7 +4990,7 @@ extension ListAllowedRepositoriesForGroupInput {
     }
 }
 
-public struct ListAllowedRepositoriesForGroupInput: Swift.Equatable {
+public struct ListAllowedRepositoriesForGroupInput {
     /// The name of the domain that contains the package group from which to list allowed repositories.
     /// This member is required.
     public var domain: Swift.String?
@@ -5025,7 +5025,7 @@ public struct ListAllowedRepositoriesForGroupInput: Swift.Equatable {
     }
 }
 
-struct ListAllowedRepositoriesForGroupInputBody: Swift.Equatable {
+struct ListAllowedRepositoriesForGroupInputBody {
 }
 
 extension ListAllowedRepositoriesForGroupInputBody: Swift.Decodable {
@@ -5048,7 +5048,7 @@ extension ListAllowedRepositoriesForGroupOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListAllowedRepositoriesForGroupOutput: Swift.Equatable {
+public struct ListAllowedRepositoriesForGroupOutput {
     /// The list of allowed repositories for the package group and origin configuration restriction type.
     public var allowedRepositories: [Swift.String]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5064,7 +5064,7 @@ public struct ListAllowedRepositoriesForGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListAllowedRepositoriesForGroupOutputBody: Swift.Equatable {
+struct ListAllowedRepositoriesForGroupOutputBody {
     let allowedRepositories: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -5152,7 +5152,7 @@ extension ListAssociatedPackagesInput {
     }
 }
 
-public struct ListAssociatedPackagesInput: Swift.Equatable {
+public struct ListAssociatedPackagesInput {
     /// The name of the domain that contains the package group from which to list associated packages.
     /// This member is required.
     public var domain: Swift.String?
@@ -5186,7 +5186,7 @@ public struct ListAssociatedPackagesInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedPackagesInputBody: Swift.Equatable {
+struct ListAssociatedPackagesInputBody {
 }
 
 extension ListAssociatedPackagesInputBody: Swift.Decodable {
@@ -5209,7 +5209,7 @@ extension ListAssociatedPackagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedPackagesOutput: Swift.Equatable {
+public struct ListAssociatedPackagesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of packages associated with the requested package group.
@@ -5225,7 +5225,7 @@ public struct ListAssociatedPackagesOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedPackagesOutputBody: Swift.Equatable {
+struct ListAssociatedPackagesOutputBody {
     let packages: [CodeartifactClientTypes.AssociatedPackage]?
     let nextToken: Swift.String?
 }
@@ -5292,7 +5292,7 @@ extension ListDomainsInput {
     }
 }
 
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5308,7 +5308,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -5342,7 +5342,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// The returned list of [DomainSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainSummary.html) objects.
     public var domains: [CodeartifactClientTypes.DomainSummary]?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -5358,7 +5358,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domains: [CodeartifactClientTypes.DomainSummary]?
     let nextToken: Swift.String?
 }
@@ -5438,7 +5438,7 @@ extension ListPackageGroupsInput {
     }
 }
 
-public struct ListPackageGroupsInput: Swift.Equatable {
+public struct ListPackageGroupsInput {
     /// The domain for which you want to list package groups.
     /// This member is required.
     public var domain: Swift.String?
@@ -5467,7 +5467,7 @@ public struct ListPackageGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListPackageGroupsInputBody: Swift.Equatable {
+struct ListPackageGroupsInputBody {
 }
 
 extension ListPackageGroupsInputBody: Swift.Decodable {
@@ -5490,7 +5490,7 @@ extension ListPackageGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageGroupsOutput: Swift.Equatable {
+public struct ListPackageGroupsOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of package groups in the requested domain.
@@ -5506,7 +5506,7 @@ public struct ListPackageGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageGroupsOutputBody: Swift.Equatable {
+struct ListPackageGroupsOutputBody {
     let packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -5611,7 +5611,7 @@ extension ListPackageVersionAssetsInput {
     }
 }
 
-public struct ListPackageVersionAssetsInput: Swift.Equatable {
+public struct ListPackageVersionAssetsInput {
     /// The name of the domain that contains the repository associated with the package version assets.
     /// This member is required.
     public var domain: Swift.String?
@@ -5677,7 +5677,7 @@ public struct ListPackageVersionAssetsInput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionAssetsInputBody: Swift.Equatable {
+struct ListPackageVersionAssetsInputBody {
 }
 
 extension ListPackageVersionAssetsInputBody: Swift.Decodable {
@@ -5710,7 +5710,7 @@ extension ListPackageVersionAssetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageVersionAssetsOutput: Swift.Equatable {
+public struct ListPackageVersionAssetsOutput {
     /// The returned list of [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) objects.
     public var assets: [CodeartifactClientTypes.AssetSummary]?
     /// The format of the package that contains the requested package version assets.
@@ -5754,7 +5754,7 @@ public struct ListPackageVersionAssetsOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionAssetsOutputBody: Swift.Equatable {
+struct ListPackageVersionAssetsOutputBody {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -5875,7 +5875,7 @@ extension ListPackageVersionDependenciesInput {
     }
 }
 
-public struct ListPackageVersionDependenciesInput: Swift.Equatable {
+public struct ListPackageVersionDependenciesInput {
     /// The name of the domain that contains the repository that contains the requested package version dependencies.
     /// This member is required.
     public var domain: Swift.String?
@@ -5937,7 +5937,7 @@ public struct ListPackageVersionDependenciesInput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionDependenciesInputBody: Swift.Equatable {
+struct ListPackageVersionDependenciesInputBody {
 }
 
 extension ListPackageVersionDependenciesInputBody: Swift.Decodable {
@@ -5970,7 +5970,7 @@ extension ListPackageVersionDependenciesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListPackageVersionDependenciesOutput: Swift.Equatable {
+public struct ListPackageVersionDependenciesOutput {
     /// The returned list of [PackageDependency](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageDependency.html) objects.
     public var dependencies: [CodeartifactClientTypes.PackageDependency]?
     /// A format that specifies the type of the package that contains the returned dependencies.
@@ -6014,7 +6014,7 @@ public struct ListPackageVersionDependenciesOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionDependenciesOutputBody: Swift.Equatable {
+struct ListPackageVersionDependenciesOutputBody {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -6145,7 +6145,7 @@ extension ListPackageVersionsInput {
     }
 }
 
-public struct ListPackageVersionsInput: Swift.Equatable {
+public struct ListPackageVersionsInput {
     /// The name of the domain that contains the repository that contains the requested package versions.
     /// This member is required.
     public var domain: Swift.String?
@@ -6218,7 +6218,7 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionsInputBody: Swift.Equatable {
+struct ListPackageVersionsInputBody {
 }
 
 extension ListPackageVersionsInputBody: Swift.Decodable {
@@ -6249,7 +6249,7 @@ extension ListPackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageVersionsOutput: Swift.Equatable {
+public struct ListPackageVersionsOutput {
     /// The default package version to display. This depends on the package format:
     ///
     /// * For Maven and PyPI packages, it's the most recently published package version.
@@ -6293,7 +6293,7 @@ public struct ListPackageVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionsOutputBody: Swift.Equatable {
+struct ListPackageVersionsOutputBody {
     let defaultDisplayVersion: Swift.String?
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
@@ -6412,7 +6412,7 @@ extension ListPackagesInput {
     }
 }
 
-public struct ListPackagesInput: Swift.Equatable {
+public struct ListPackagesInput {
     /// The name of the domain that contains the repository that contains the requested packages.
     /// This member is required.
     public var domain: Swift.String?
@@ -6470,7 +6470,7 @@ public struct ListPackagesInput: Swift.Equatable {
     }
 }
 
-struct ListPackagesInputBody: Swift.Equatable {
+struct ListPackagesInputBody {
 }
 
 extension ListPackagesInputBody: Swift.Decodable {
@@ -6493,7 +6493,7 @@ extension ListPackagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackagesOutput: Swift.Equatable {
+public struct ListPackagesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The list of returned [PackageSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageSummary.html) objects.
@@ -6509,7 +6509,7 @@ public struct ListPackagesOutput: Swift.Equatable {
     }
 }
 
-struct ListPackagesOutputBody: Swift.Equatable {
+struct ListPackagesOutputBody {
     let packages: [CodeartifactClientTypes.PackageSummary]?
     let nextToken: Swift.String?
 }
@@ -6594,7 +6594,7 @@ extension ListRepositoriesInDomainInput {
     }
 }
 
-public struct ListRepositoriesInDomainInput: Swift.Equatable {
+public struct ListRepositoriesInDomainInput {
     /// Filter the list of repositories to only include those that are managed by the Amazon Web Services account ID.
     public var administratorAccount: Swift.String?
     /// The name of the domain that contains the returned list of repositories.
@@ -6627,7 +6627,7 @@ public struct ListRepositoriesInDomainInput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesInDomainInputBody: Swift.Equatable {
+struct ListRepositoriesInDomainInputBody {
 }
 
 extension ListRepositoriesInDomainInputBody: Swift.Decodable {
@@ -6650,7 +6650,7 @@ extension ListRepositoriesInDomainOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoriesInDomainOutput: Swift.Equatable {
+public struct ListRepositoriesInDomainOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The returned list of repositories.
@@ -6666,7 +6666,7 @@ public struct ListRepositoriesInDomainOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesInDomainOutputBody: Swift.Equatable {
+struct ListRepositoriesInDomainOutputBody {
     let repositories: [CodeartifactClientTypes.RepositorySummary]?
     let nextToken: Swift.String?
 }
@@ -6737,7 +6737,7 @@ extension ListRepositoriesInput {
     }
 }
 
-public struct ListRepositoriesInput: Swift.Equatable {
+public struct ListRepositoriesInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -6757,7 +6757,7 @@ public struct ListRepositoriesInput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesInputBody: Swift.Equatable {
+struct ListRepositoriesInputBody {
 }
 
 extension ListRepositoriesInputBody: Swift.Decodable {
@@ -6780,7 +6780,7 @@ extension ListRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoriesOutput: Swift.Equatable {
+public struct ListRepositoriesOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// The returned list of [RepositorySummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_RepositorySummary.html) objects.
@@ -6796,7 +6796,7 @@ public struct ListRepositoriesOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositoriesOutputBody: Swift.Equatable {
+struct ListRepositoriesOutputBody {
     let repositories: [CodeartifactClientTypes.RepositorySummary]?
     let nextToken: Swift.String?
 }
@@ -6878,7 +6878,7 @@ extension ListSubPackageGroupsInput {
     }
 }
 
-public struct ListSubPackageGroupsInput: Swift.Equatable {
+public struct ListSubPackageGroupsInput {
     /// The name of the domain which contains the package group from which to list sub package groups.
     /// This member is required.
     public var domain: Swift.String?
@@ -6908,7 +6908,7 @@ public struct ListSubPackageGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListSubPackageGroupsInputBody: Swift.Equatable {
+struct ListSubPackageGroupsInputBody {
 }
 
 extension ListSubPackageGroupsInputBody: Swift.Decodable {
@@ -6931,7 +6931,7 @@ extension ListSubPackageGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSubPackageGroupsOutput: Swift.Equatable {
+public struct ListSubPackageGroupsOutput {
     /// If there are additional results, this is the token for the next set of results.
     public var nextToken: Swift.String?
     /// A list of sub package groups for the requested package group.
@@ -6947,7 +6947,7 @@ public struct ListSubPackageGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListSubPackageGroupsOutputBody: Swift.Equatable {
+struct ListSubPackageGroupsOutputBody {
     let packageGroups: [CodeartifactClientTypes.PackageGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -7012,7 +7012,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to get tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7025,7 +7025,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -7046,7 +7046,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tag key and value pairs associated with the specified resource.
     public var tags: [CodeartifactClientTypes.Tag]?
 
@@ -7058,7 +7058,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CodeartifactClientTypes.Tag]?
 }
 
@@ -7136,7 +7136,7 @@ extension CodeartifactClientTypes.PackageDependency: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package dependency.
-    public struct PackageDependency: Swift.Equatable {
+    public struct PackageDependency {
         /// The type of a package dependency. The possible values depend on the package type.
         ///
         /// * npm: regular, dev, peer, optional
@@ -7217,7 +7217,7 @@ extension CodeartifactClientTypes.PackageDescription: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package.
-    public struct PackageDescription: Swift.Equatable {
+    public struct PackageDescription {
         /// A format that specifies the type of the package.
         public var format: CodeartifactClientTypes.PackageFormat?
         /// The name of the package.
@@ -7322,7 +7322,7 @@ extension CodeartifactClientTypes.PackageGroupAllowedRepository: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about an allowed repository for a package group, including its name and origin configuration.
-    public struct PackageGroupAllowedRepository: Swift.Equatable {
+    public struct PackageGroupAllowedRepository {
         /// The origin configuration restriction type of the allowed repository.
         public var originRestrictionType: CodeartifactClientTypes.PackageGroupOriginRestrictionType?
         /// The name of the allowed repository.
@@ -7473,7 +7473,7 @@ extension CodeartifactClientTypes.PackageGroupDescription: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// The description of the package group.
-    public struct PackageGroupDescription: Swift.Equatable {
+    public struct PackageGroupDescription {
         /// The ARN of the package group.
         public var arn: Swift.String?
         /// The contact information of the package group.
@@ -7552,7 +7552,7 @@ extension CodeartifactClientTypes.PackageGroupOriginConfiguration: Swift.Codable
 
 extension CodeartifactClientTypes {
     /// The package group origin configuration that determines how package versions can enter repositories.
-    public struct PackageGroupOriginConfiguration: Swift.Equatable {
+    public struct PackageGroupOriginConfiguration {
         /// The origin configuration settings that determine how package versions can enter repositories.
         public var restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestriction]?
 
@@ -7605,7 +7605,7 @@ extension CodeartifactClientTypes.PackageGroupOriginRestriction: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Contains information about the configured restrictions of the origin controls of a package group.
-    public struct PackageGroupOriginRestriction: Swift.Equatable {
+    public struct PackageGroupOriginRestriction {
         /// The effective package group origin restriction setting. If the value of mode is ALLOW, ALLOW_SPECIFIC_REPOSITORIES, or BLOCK, then the value of effectiveMode is the same. Otherwise, when the value of mode is INHERIT, then the value of effectiveMode is the value of mode of the first parent group which does not have a value of INHERIT.
         public var effectiveMode: CodeartifactClientTypes.PackageGroupOriginRestrictionMode?
         /// The parent package group that the package group origin restrictions are inherited from.
@@ -7731,7 +7731,7 @@ extension CodeartifactClientTypes.PackageGroupReference: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about the identifiers of a package group.
-    public struct PackageGroupReference: Swift.Equatable {
+    public struct PackageGroupReference {
         /// The ARN of the package group.
         public var arn: Swift.String?
         /// The pattern of the package group. The pattern determines which packages are associated with the package group, and is also the identifier of the package group.
@@ -7818,7 +7818,7 @@ extension CodeartifactClientTypes.PackageGroupSummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package group.
-    public struct PackageGroupSummary: Swift.Equatable {
+    public struct PackageGroupSummary {
         /// The ARN of the package group.
         public var arn: Swift.String?
         /// The contact information of the package group.
@@ -7885,7 +7885,7 @@ extension CodeartifactClientTypes.PackageOriginConfiguration: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about the package origin configuration of a package.
-    public struct PackageOriginConfiguration: Swift.Equatable {
+    public struct PackageOriginConfiguration {
         /// A PackageOriginRestrictions object that contains information about the upstream and publish package origin configuration for the package.
         public var restrictions: CodeartifactClientTypes.PackageOriginRestrictions?
 
@@ -7926,7 +7926,7 @@ extension CodeartifactClientTypes.PackageOriginRestrictions: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about the origin restrictions set on the package. The package origin restrictions determine how new versions of a package can be added to a specific repository.
-    public struct PackageOriginRestrictions: Swift.Equatable {
+    public struct PackageOriginRestrictions {
         /// The package origin configuration that determines if new versions of the package can be published directly to the repository.
         /// This member is required.
         public var publish: CodeartifactClientTypes.AllowPublish?
@@ -7985,7 +7985,7 @@ extension CodeartifactClientTypes.PackageSummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package, including its format, namespace, and name.
-    public struct PackageSummary: Swift.Equatable {
+    public struct PackageSummary {
         /// The format of the package.
         public var format: CodeartifactClientTypes.PackageFormat?
         /// The namespace of the package. The package component that specifies its namespace depends on its type. For example:
@@ -8124,7 +8124,7 @@ extension CodeartifactClientTypes.PackageVersionDescription: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package version.
-    public struct PackageVersionDescription: Swift.Equatable {
+    public struct PackageVersionDescription {
         /// The name of the package that is displayed. The displayName varies depending on the package version's format. For example, if an npm package is named ui, is in the namespace vue, and has the format npm, then the displayName is @vue/ui.
         public var displayName: Swift.String?
         /// The format of the package version.
@@ -8221,7 +8221,7 @@ extension CodeartifactClientTypes.PackageVersionError: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// l An error associated with package.
-    public struct PackageVersionError: Swift.Equatable {
+    public struct PackageVersionError {
         /// The error code associated with the error. Valid error codes are:
         ///
         /// * ALREADY_EXISTS
@@ -8322,7 +8322,7 @@ extension CodeartifactClientTypes.PackageVersionOrigin: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about how a package version was added to a repository.
-    public struct PackageVersionOrigin: Swift.Equatable {
+    public struct PackageVersionOrigin {
         /// A [DomainEntryPoint](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_DomainEntryPoint.html) object that contains information about from which repository or external connection the package version was added to the domain.
         public var domainEntryPoint: CodeartifactClientTypes.DomainEntryPoint?
         /// Describes how the package version was originally added to the domain. An INTERNAL origin type means the package version was published directly to a repository in the domain. An EXTERNAL origin type means the package version was ingested from an external connection.
@@ -8487,7 +8487,7 @@ extension CodeartifactClientTypes.PackageVersionSummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a package version, including its status, version, and revision. The [ListPackageVersions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListPackageVersions.html) operation returns a list of PackageVersionSummary objects.
-    public struct PackageVersionSummary: Swift.Equatable {
+    public struct PackageVersionSummary {
         /// A [PackageVersionOrigin](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageVersionOrigin.html) object that contains information about how the package version was added to the repository.
         public var origin: CodeartifactClientTypes.PackageVersionOrigin?
         /// The revision associated with a package version.
@@ -8602,7 +8602,7 @@ extension PublishPackageVersionInput {
     }
 }
 
-public struct PublishPackageVersionInput: Swift.Equatable {
+public struct PublishPackageVersionInput {
     /// The content of the asset to publish.
     /// This member is required.
     public var assetContent: ClientRuntime.ByteStream?
@@ -8662,7 +8662,7 @@ public struct PublishPackageVersionInput: Swift.Equatable {
     }
 }
 
-struct PublishPackageVersionInputBody: Swift.Equatable {
+struct PublishPackageVersionInputBody {
     let assetContent: ClientRuntime.ByteStream?
 }
 
@@ -8702,7 +8702,7 @@ extension PublishPackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishPackageVersionOutput: Swift.Equatable {
+public struct PublishPackageVersionOutput {
     /// An [AssetSummary](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_AssetSummary.html) for the published asset.
     public var asset: CodeartifactClientTypes.AssetSummary?
     /// The format of the package version.
@@ -8738,7 +8738,7 @@ public struct PublishPackageVersionOutput: Swift.Equatable {
     }
 }
 
-struct PublishPackageVersionOutputBody: Swift.Equatable {
+struct PublishPackageVersionOutputBody {
     let format: CodeartifactClientTypes.PackageFormat?
     let namespace: Swift.String?
     let package: Swift.String?
@@ -8827,7 +8827,7 @@ extension PutDomainPermissionsPolicyInput {
     }
 }
 
-public struct PutDomainPermissionsPolicyInput: Swift.Equatable {
+public struct PutDomainPermissionsPolicyInput {
     /// The name of the domain on which to set the resource policy.
     /// This member is required.
     public var domain: Swift.String?
@@ -8853,7 +8853,7 @@ public struct PutDomainPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutDomainPermissionsPolicyInputBody: Swift.Equatable {
+struct PutDomainPermissionsPolicyInputBody {
     let domain: Swift.String?
     let domainOwner: Swift.String?
     let policyRevision: Swift.String?
@@ -8893,7 +8893,7 @@ extension PutDomainPermissionsPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutDomainPermissionsPolicyOutput: Swift.Equatable {
+public struct PutDomainPermissionsPolicyOutput {
     /// The resource policy that was set after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -8905,7 +8905,7 @@ public struct PutDomainPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutDomainPermissionsPolicyOutputBody: Swift.Equatable {
+struct PutDomainPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -8998,7 +8998,7 @@ extension PutPackageOriginConfigurationInput {
     }
 }
 
-public struct PutPackageOriginConfigurationInput: Swift.Equatable {
+public struct PutPackageOriginConfigurationInput {
     /// The name of the domain that contains the repository that contains the package.
     /// This member is required.
     public var domain: Swift.String?
@@ -9047,7 +9047,7 @@ public struct PutPackageOriginConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutPackageOriginConfigurationInputBody: Swift.Equatable {
+struct PutPackageOriginConfigurationInputBody {
     let restrictions: CodeartifactClientTypes.PackageOriginRestrictions?
 }
 
@@ -9075,7 +9075,7 @@ extension PutPackageOriginConfigurationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PutPackageOriginConfigurationOutput: Swift.Equatable {
+public struct PutPackageOriginConfigurationOutput {
     /// A [PackageOriginConfiguration](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginConfiguration.html) object that describes the origin configuration set for the package. It contains a [PackageOriginRestrictions](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_PackageOriginRestrictions.html) object that describes how new versions of the package can be introduced to the repository.
     public var originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
 
@@ -9087,7 +9087,7 @@ public struct PutPackageOriginConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutPackageOriginConfigurationOutputBody: Swift.Equatable {
+struct PutPackageOriginConfigurationOutputBody {
     let originConfiguration: CodeartifactClientTypes.PackageOriginConfiguration?
 }
 
@@ -9166,7 +9166,7 @@ extension PutRepositoryPermissionsPolicyInput {
     }
 }
 
-public struct PutRepositoryPermissionsPolicyInput: Swift.Equatable {
+public struct PutRepositoryPermissionsPolicyInput {
     /// The name of the domain containing the repository to set the resource policy on.
     /// This member is required.
     public var domain: Swift.String?
@@ -9197,7 +9197,7 @@ public struct PutRepositoryPermissionsPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutRepositoryPermissionsPolicyInputBody: Swift.Equatable {
+struct PutRepositoryPermissionsPolicyInputBody {
     let policyRevision: Swift.String?
     let policyDocument: Swift.String?
 }
@@ -9229,7 +9229,7 @@ extension PutRepositoryPermissionsPolicyOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct PutRepositoryPermissionsPolicyOutput: Swift.Equatable {
+public struct PutRepositoryPermissionsPolicyOutput {
     /// The resource policy that was set after processing the request.
     public var policy: CodeartifactClientTypes.ResourcePolicy?
 
@@ -9241,7 +9241,7 @@ public struct PutRepositoryPermissionsPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutRepositoryPermissionsPolicyOutputBody: Swift.Equatable {
+struct PutRepositoryPermissionsPolicyOutputBody {
     let policy: CodeartifactClientTypes.ResourcePolicy?
 }
 
@@ -9367,7 +9367,7 @@ extension CodeartifactClientTypes.RepositoryDescription: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// The details of a repository stored in CodeArtifact. A CodeArtifact repository contains a set of package versions, each of which maps to a set of assets. Repositories are polyglot—a single repository can contain packages of any supported type. Each repository exposes endpoints for fetching and publishing packages using tools like the npm CLI, the Maven CLI (mvn), and pip. You can create up to 100 repositories per Amazon Web Services account.
-    public struct RepositoryDescription: Swift.Equatable {
+    public struct RepositoryDescription {
         /// The 12-digit account number of the Amazon Web Services account that manages the repository.
         public var administratorAccount: Swift.String?
         /// The Amazon Resource Name (ARN) of the repository.
@@ -9446,7 +9446,7 @@ extension CodeartifactClientTypes.RepositoryExternalConnectionInfo: Swift.Codabl
 
 extension CodeartifactClientTypes {
     /// Contains information about the external connection of a repository.
-    public struct RepositoryExternalConnectionInfo: Swift.Equatable {
+    public struct RepositoryExternalConnectionInfo {
         /// The name of the external connection associated with a repository.
         public var externalConnectionName: Swift.String?
         /// The package format associated with a repository's external connection. The valid package formats are:
@@ -9533,7 +9533,7 @@ extension CodeartifactClientTypes.RepositorySummary: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Details about a repository, including its Amazon Resource Name (ARN), description, and domain information. The [ListRepositories](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_ListRepositories.html) operation returns a list of RepositorySummary objects.
-    public struct RepositorySummary: Swift.Equatable {
+    public struct RepositorySummary {
         /// The Amazon Web Services account ID that manages the repository.
         public var administratorAccount: Swift.String?
         /// The ARN of the repository.
@@ -9623,7 +9623,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: CodeartifactClientTypes.ResourceType?
@@ -9680,7 +9680,7 @@ extension CodeartifactClientTypes.ResourcePolicy: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// An CodeArtifact resource policy that contains a resource ARN, document details, and a revision.
-    public struct ResourcePolicy: Swift.Equatable {
+    public struct ResourcePolicy {
         /// The resource policy formatted in JSON.
         public var document: Swift.String?
         /// The ARN of the resource associated with the resource policy
@@ -9795,7 +9795,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: CodeartifactClientTypes.ResourceType?
@@ -9846,7 +9846,7 @@ extension CodeartifactClientTypes.SuccessfulPackageVersionInfo: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Contains the revision and status of a package version.
-    public struct SuccessfulPackageVersionInfo: Swift.Equatable {
+    public struct SuccessfulPackageVersionInfo {
         /// The revision of a package version.
         public var revision: Swift.String?
         /// The status of a package version.
@@ -9891,7 +9891,7 @@ extension CodeartifactClientTypes.Tag: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// A tag is a key-value pair that can be used to manage, search for, or filter resources in CodeArtifact.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -9948,7 +9948,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to add or update tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9966,7 +9966,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [CodeartifactClientTypes.Tag]?
 }
 
@@ -9996,7 +9996,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -10065,7 +10065,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -10118,7 +10118,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10136,7 +10136,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -10166,7 +10166,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -10231,7 +10231,7 @@ extension UpdatePackageGroupInput {
     }
 }
 
-public struct UpdatePackageGroupInput: Swift.Equatable {
+public struct UpdatePackageGroupInput {
     /// Contact information which you want to update the requested package group with.
     public var contactInfo: Swift.String?
     /// The description you want to update the requested package group with.
@@ -10261,7 +10261,7 @@ public struct UpdatePackageGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageGroupInputBody: Swift.Equatable {
+struct UpdatePackageGroupInputBody {
     let packageGroup: Swift.String?
     let contactInfo: Swift.String?
     let description: Swift.String?
@@ -10346,7 +10346,7 @@ extension UpdatePackageGroupOriginConfigurationInput {
     }
 }
 
-public struct UpdatePackageGroupOriginConfigurationInput: Swift.Equatable {
+public struct UpdatePackageGroupOriginConfigurationInput {
     /// The repository name and restrictions to add to the allowed repository list of the specified package group.
     public var addAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
     /// The name of the domain which contains the package group for which to update the origin configuration.
@@ -10380,7 +10380,7 @@ public struct UpdatePackageGroupOriginConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageGroupOriginConfigurationInputBody: Swift.Equatable {
+struct UpdatePackageGroupOriginConfigurationInputBody {
     let restrictions: [Swift.String:CodeartifactClientTypes.PackageGroupOriginRestrictionMode]?
     let addAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
     let removeAllowedRepositories: [CodeartifactClientTypes.PackageGroupAllowedRepository]?
@@ -10445,7 +10445,7 @@ extension UpdatePackageGroupOriginConfigurationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct UpdatePackageGroupOriginConfigurationOutput: Swift.Equatable {
+public struct UpdatePackageGroupOriginConfigurationOutput {
     /// Information about the updated allowed repositories after processing the request.
     public var allowedRepositoryUpdates: [Swift.String:[Swift.String:[Swift.String]]]?
     /// The package group and information about it after processing the request.
@@ -10461,7 +10461,7 @@ public struct UpdatePackageGroupOriginConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageGroupOriginConfigurationOutputBody: Swift.Equatable {
+struct UpdatePackageGroupOriginConfigurationOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
     let allowedRepositoryUpdates: [Swift.String:[Swift.String:[Swift.String]]]?
 }
@@ -10532,7 +10532,7 @@ extension UpdatePackageGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePackageGroupOutput: Swift.Equatable {
+public struct UpdatePackageGroupOutput {
     /// The package group and information about it after the request has been processed.
     public var packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 
@@ -10544,7 +10544,7 @@ public struct UpdatePackageGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageGroupOutputBody: Swift.Equatable {
+struct UpdatePackageGroupOutputBody {
     let packageGroup: CodeartifactClientTypes.PackageGroupDescription?
 }
 
@@ -10654,7 +10654,7 @@ extension UpdatePackageVersionsStatusInput {
     }
 }
 
-public struct UpdatePackageVersionsStatusInput: Swift.Equatable {
+public struct UpdatePackageVersionsStatusInput {
     /// The name of the domain that contains the repository that contains the package versions with a status to be updated.
     /// This member is required.
     public var domain: Swift.String?
@@ -10716,7 +10716,7 @@ public struct UpdatePackageVersionsStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageVersionsStatusInputBody: Swift.Equatable {
+struct UpdatePackageVersionsStatusInputBody {
     let versions: [Swift.String]?
     let versionRevisions: [Swift.String:Swift.String]?
     let expectedStatus: CodeartifactClientTypes.PackageVersionStatus?
@@ -10776,7 +10776,7 @@ extension UpdatePackageVersionsStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePackageVersionsStatusOutput: Swift.Equatable {
+public struct UpdatePackageVersionsStatusOutput {
     /// A list of SuccessfulPackageVersionInfo objects, one for each package version with a status that successfully updated.
     public var failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
     /// A list of PackageVersionError objects, one for each package version with a status that failed to update.
@@ -10792,7 +10792,7 @@ public struct UpdatePackageVersionsStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageVersionsStatusOutputBody: Swift.Equatable {
+struct UpdatePackageVersionsStatusOutputBody {
     let successfulVersions: [Swift.String:CodeartifactClientTypes.SuccessfulPackageVersionInfo]?
     let failedVersions: [Swift.String:CodeartifactClientTypes.PackageVersionError]?
 }
@@ -10897,7 +10897,7 @@ extension UpdateRepositoryInput {
     }
 }
 
-public struct UpdateRepositoryInput: Swift.Equatable {
+public struct UpdateRepositoryInput {
     /// An updated repository description.
     public var description: Swift.String?
     /// The name of the domain associated with the repository to update.
@@ -10927,7 +10927,7 @@ public struct UpdateRepositoryInput: Swift.Equatable {
     }
 }
 
-struct UpdateRepositoryInputBody: Swift.Equatable {
+struct UpdateRepositoryInputBody {
     let description: Swift.String?
     let upstreams: [CodeartifactClientTypes.UpstreamRepository]?
 }
@@ -10968,7 +10968,7 @@ extension UpdateRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRepositoryOutput: Swift.Equatable {
+public struct UpdateRepositoryOutput {
     /// The updated repository.
     public var repository: CodeartifactClientTypes.RepositoryDescription?
 
@@ -10980,7 +10980,7 @@ public struct UpdateRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRepositoryOutputBody: Swift.Equatable {
+struct UpdateRepositoryOutputBody {
     let repository: CodeartifactClientTypes.RepositoryDescription?
 }
 
@@ -11034,7 +11034,7 @@ extension CodeartifactClientTypes.UpstreamRepository: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about an upstream repository. A list of UpstreamRepository objects is an input parameter to [CreateRepository](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_CreateRepository.html) and [UpdateRepository](https://docs.aws.amazon.com/codeartifact/latest/APIReference/API_UpdateRepository.html).
-    public struct UpstreamRepository: Swift.Equatable {
+    public struct UpstreamRepository {
         /// The name of an upstream repository.
         /// This member is required.
         public var repositoryName: Swift.String?
@@ -11070,7 +11070,7 @@ extension CodeartifactClientTypes.UpstreamRepositoryInfo: Swift.Codable {
 
 extension CodeartifactClientTypes {
     /// Information about an upstream repository.
-    public struct UpstreamRepositoryInfo: Swift.Equatable {
+    public struct UpstreamRepositoryInfo {
         /// The name of an upstream repository.
         public var repositoryName: Swift.String?
 
@@ -11130,7 +11130,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: CodeartifactClientTypes.ValidationExceptionReason?
 }

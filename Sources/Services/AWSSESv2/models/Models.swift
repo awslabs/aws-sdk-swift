@@ -70,7 +70,7 @@ extension SESv2ClientTypes.AccountDetails: Swift.CustomDebugStringConvertible {
 
 extension SESv2ClientTypes {
     /// An object that contains information about your account details.
-    public struct AccountDetails: Swift.Equatable {
+    public struct AccountDetails {
         /// Additional email addresses where updates are sent about your account review process.
         public var additionalContactEmailAddresses: [Swift.String]?
         /// The language you would prefer for the case. The contact language can be one of ENGLISH or JAPANESE.
@@ -147,7 +147,7 @@ public struct AccountSuspendedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct AccountSuspendedExceptionBody: Swift.Equatable {
+struct AccountSuspendedExceptionBody {
     let message: Swift.String?
 }
 
@@ -202,7 +202,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -257,7 +257,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -297,7 +297,7 @@ extension BatchGetMetricDataInput {
 }
 
 /// Represents a request to retrieve a batch of metric data.
-public struct BatchGetMetricDataInput: Swift.Equatable {
+public struct BatchGetMetricDataInput {
     /// A list of queries for metrics to be retrieved.
     /// This member is required.
     public var queries: [SESv2ClientTypes.BatchGetMetricDataQuery]?
@@ -310,7 +310,7 @@ public struct BatchGetMetricDataInput: Swift.Equatable {
     }
 }
 
-struct BatchGetMetricDataInputBody: Swift.Equatable {
+struct BatchGetMetricDataInputBody {
     let queries: [SESv2ClientTypes.BatchGetMetricDataQuery]?
 }
 
@@ -350,7 +350,7 @@ extension BatchGetMetricDataOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Represents the result of processing your metric data batch request
-public struct BatchGetMetricDataOutput: Swift.Equatable {
+public struct BatchGetMetricDataOutput {
     /// A list of MetricDataError encountered while processing your metric data batch request.
     public var errors: [SESv2ClientTypes.MetricDataError]?
     /// A list of successfully retrieved MetricDataResult.
@@ -366,7 +366,7 @@ public struct BatchGetMetricDataOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetMetricDataOutputBody: Swift.Equatable {
+struct BatchGetMetricDataOutputBody {
     let results: [SESv2ClientTypes.MetricDataResult]?
     let errors: [SESv2ClientTypes.MetricDataError]?
 }
@@ -481,7 +481,7 @@ extension SESv2ClientTypes.BatchGetMetricDataQuery: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Represents a single metric data query to include in a batch.
-    public struct BatchGetMetricDataQuery: Swift.Equatable {
+    public struct BatchGetMetricDataQuery {
         /// An object that contains mapping between MetricDimensionName and MetricDimensionValue to filter metrics by.
         public var dimensions: [Swift.String:Swift.String]?
         /// Represents the end date for the query interval.
@@ -606,7 +606,7 @@ extension SESv2ClientTypes.BlacklistEntry: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about a blacklisting event that impacts one of the dedicated IP addresses that is associated with your account.
-    public struct BlacklistEntry: Swift.Equatable {
+    public struct BlacklistEntry {
         /// Additional information about the blacklisting event, as provided by the blacklist maintainer.
         public var description: Swift.String?
         /// The time when the blacklisting event occurred.
@@ -655,7 +655,7 @@ extension SESv2ClientTypes.Body: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Represents the body of the email message.
-    public struct Body: Swift.Equatable {
+    public struct Body {
         /// An object that represents the version of the message that is displayed in email clients that support HTML. HTML messages can include formatted text, hyperlinks, images, and more.
         public var html: SESv2ClientTypes.Content?
         /// An object that represents the version of the message that is displayed in email clients that don't support HTML, or clients where the recipient has disabled HTML rendering.
@@ -706,7 +706,7 @@ extension SESv2ClientTypes.Bounce: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Information about a Bounce event.
-    public struct Bounce: Swift.Equatable {
+    public struct Bounce {
         /// The subtype of the bounce, as determined by SES.
         public var bounceSubType: Swift.String?
         /// The type of the bounce, as determined by SES. Can be one of UNDETERMINED, TRANSIENT, or PERMANENT
@@ -784,7 +784,7 @@ extension SESv2ClientTypes.BulkEmailContent: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains the body of the message. You can specify a template message.
-    public struct BulkEmailContent: Swift.Equatable {
+    public struct BulkEmailContent {
         /// The template to use for the bulk email message.
         public var template: SESv2ClientTypes.Template?
 
@@ -842,7 +842,7 @@ extension SESv2ClientTypes.BulkEmailEntry: Swift.Codable {
 }
 
 extension SESv2ClientTypes {
-    public struct BulkEmailEntry: Swift.Equatable {
+    public struct BulkEmailEntry {
         /// Represents the destination of the message, consisting of To:, CC:, and BCC: fields. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html).
         /// This member is required.
         public var destination: SESv2ClientTypes.Destination?
@@ -898,7 +898,7 @@ extension SESv2ClientTypes.BulkEmailEntryResult: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The result of the SendBulkEmail operation of each specified BulkEmailEntry.
-    public struct BulkEmailEntryResult: Swift.Equatable {
+    public struct BulkEmailEntryResult {
         /// A description of an error that prevented a message being sent using the SendBulkTemplatedEmail operation.
         public var error: Swift.String?
         /// The unique message identifier returned from the SendBulkTemplatedEmail operation.
@@ -1027,7 +1027,7 @@ extension CancelExportJobInput {
 }
 
 /// Represents a request to cancel an export job using the export job ID.
-public struct CancelExportJobInput: Swift.Equatable {
+public struct CancelExportJobInput {
     /// The export job ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1040,7 +1040,7 @@ public struct CancelExportJobInput: Swift.Equatable {
     }
 }
 
-struct CancelExportJobInputBody: Swift.Equatable {
+struct CancelExportJobInputBody {
 }
 
 extension CancelExportJobInputBody: Swift.Decodable {
@@ -1055,7 +1055,7 @@ extension CancelExportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CancelExportJobOutput: Swift.Equatable {
+public struct CancelExportJobOutput {
 
     public init() { }
 }
@@ -1106,7 +1106,7 @@ extension SESv2ClientTypes.CloudWatchDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
-    public struct CloudWatchDestination: Swift.Equatable {
+    public struct CloudWatchDestination {
         /// An array of objects that define the dimensions to use when you send email events to Amazon CloudWatch.
         /// This member is required.
         public var dimensionConfigurations: [SESv2ClientTypes.CloudWatchDimensionConfiguration]?
@@ -1154,7 +1154,7 @@ extension SESv2ClientTypes.CloudWatchDimensionConfiguration: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the dimension configuration to use when you send email events to Amazon CloudWatch.
-    public struct CloudWatchDimensionConfiguration: Swift.Equatable {
+    public struct CloudWatchDimensionConfiguration {
         /// The default value of the dimension that is published to Amazon CloudWatch if you don't provide the value of the dimension when you send an email. This value has to meet the following criteria:
         ///
         /// * Can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-), at signs (@), and periods (.).
@@ -1214,7 +1214,7 @@ extension SESv2ClientTypes.Complaint: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Information about a Complaint event.
-    public struct Complaint: Swift.Equatable {
+    public struct Complaint {
         /// The value of the Feedback-Type field from the feedback report received from the ISP.
         public var complaintFeedbackType: Swift.String?
         /// Can either be null or OnAccountSuppressionList. If the value is OnAccountSuppressionList, SES accepted the message, but didn't attempt to send it because it was on the account-level suppression list.
@@ -1271,7 +1271,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1326,7 +1326,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1411,7 +1411,7 @@ extension SESv2ClientTypes.Contact: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A contact is the end-user who is receiving the email.
-    public struct Contact: Swift.Equatable {
+    public struct Contact {
         /// The contact's email address.
         public var emailAddress: Swift.String?
         /// A timestamp noting the last time the contact's information was updated.
@@ -1500,7 +1500,7 @@ extension SESv2ClientTypes.ContactList: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A list that contains contacts that have subscribed to a particular topic or topics.
-    public struct ContactList: Swift.Equatable {
+    public struct ContactList {
         /// The name of the contact list.
         public var contactListName: Swift.String?
         /// A timestamp noting the last time the contact list was updated.
@@ -1545,7 +1545,7 @@ extension SESv2ClientTypes.ContactListDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the action of a contact list.
-    public struct ContactListDestination: Swift.Equatable {
+    public struct ContactListDestination {
         /// >The type of action to perform on the addresses. The following are the possible values:
         ///
         /// * PUT: add the addresses to the contact list. If the record already exists, it will override it with the new value.
@@ -1628,7 +1628,7 @@ extension SESv2ClientTypes.Content: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that represents the content of the email, and optionally a character set specification.
-    public struct Content: Swift.Equatable {
+    public struct Content {
         /// The character set for the content. Because of the constraints of the SMTP protocol, Amazon SES uses 7-bit ASCII by default. If the text includes characters outside of the ASCII range, you have to specify a character set. For example, you could specify UTF-8, ISO-8859-1, or Shift_JIS.
         public var charset: Swift.String?
         /// The content of the message itself.
@@ -1675,7 +1675,7 @@ extension CreateConfigurationSetEventDestinationInput {
 }
 
 /// A request to add an event destination to a configuration set.
-public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationInput {
     /// The name of the configuration set .
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1698,7 +1698,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct CreateConfigurationSetEventDestinationInputBody {
     let eventDestinationName: Swift.String?
     let eventDestination: SESv2ClientTypes.EventDestinationDefinition?
 }
@@ -1724,7 +1724,7 @@ extension CreateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -1796,7 +1796,7 @@ extension CreateConfigurationSetInput {
 }
 
 /// A request to create a configuration set.
-public struct CreateConfigurationSetInput: Swift.Equatable {
+public struct CreateConfigurationSetInput {
     /// The name of the configuration set. The name can contain up to 64 alphanumeric characters, including letters, numbers, hyphens (-) and underscores (_) only.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1837,7 +1837,7 @@ public struct CreateConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetInputBody: Swift.Equatable {
+struct CreateConfigurationSetInputBody {
     let configurationSetName: Swift.String?
     let trackingOptions: SESv2ClientTypes.TrackingOptions?
     let deliveryOptions: SESv2ClientTypes.DeliveryOptions?
@@ -1896,7 +1896,7 @@ extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateConfigurationSetOutput: Swift.Equatable {
+public struct CreateConfigurationSetOutput {
 
     public init() { }
 }
@@ -1955,7 +1955,7 @@ extension CreateContactInput {
     }
 }
 
-public struct CreateContactInput: Swift.Equatable {
+public struct CreateContactInput {
     /// The attribute data attached to a contact.
     public var attributesData: Swift.String?
     /// The name of the contact list to which the contact should be added.
@@ -1985,7 +1985,7 @@ public struct CreateContactInput: Swift.Equatable {
     }
 }
 
-struct CreateContactInputBody: Swift.Equatable {
+struct CreateContactInputBody {
     let emailAddress: Swift.String?
     let topicPreferences: [SESv2ClientTypes.TopicPreference]?
     let unsubscribeAll: Swift.Bool?
@@ -2060,7 +2060,7 @@ extension CreateContactListInput {
     }
 }
 
-public struct CreateContactListInput: Swift.Equatable {
+public struct CreateContactListInput {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -2085,7 +2085,7 @@ public struct CreateContactListInput: Swift.Equatable {
     }
 }
 
-struct CreateContactListInputBody: Swift.Equatable {
+struct CreateContactListInputBody {
     let contactListName: Swift.String?
     let topics: [SESv2ClientTypes.Topic]?
     let description: Swift.String?
@@ -2136,7 +2136,7 @@ extension CreateContactListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactListOutput: Swift.Equatable {
+public struct CreateContactListOutput {
 
     public init() { }
 }
@@ -2160,7 +2160,7 @@ extension CreateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateContactOutput: Swift.Equatable {
+public struct CreateContactOutput {
 
     public init() { }
 }
@@ -2220,7 +2220,7 @@ extension CreateCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to create a custom verification email template.
-public struct CreateCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct CreateCustomVerificationEmailTemplateInput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     /// This member is required.
     public var failureRedirectionURL: Swift.String?
@@ -2258,7 +2258,7 @@ public struct CreateCustomVerificationEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomVerificationEmailTemplateInputBody: Swift.Equatable {
+struct CreateCustomVerificationEmailTemplateInputBody {
     let templateName: Swift.String?
     let fromEmailAddress: Swift.String?
     let templateSubject: Swift.String?
@@ -2300,7 +2300,7 @@ extension CreateCustomVerificationEmailTemplateOutput: ClientRuntime.HttpRespons
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct CreateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct CreateCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -2352,7 +2352,7 @@ extension CreateDedicatedIpPoolInput {
 }
 
 /// A request to create a new dedicated IP pool.
-public struct CreateDedicatedIpPoolInput: Swift.Equatable {
+public struct CreateDedicatedIpPoolInput {
     /// The name of the dedicated IP pool.
     /// This member is required.
     public var poolName: Swift.String?
@@ -2373,7 +2373,7 @@ public struct CreateDedicatedIpPoolInput: Swift.Equatable {
     }
 }
 
-struct CreateDedicatedIpPoolInputBody: Swift.Equatable {
+struct CreateDedicatedIpPoolInputBody {
     let poolName: Swift.String?
     let tags: [SESv2ClientTypes.Tag]?
     let scalingMode: SESv2ClientTypes.ScalingMode?
@@ -2412,7 +2412,7 @@ extension CreateDedicatedIpPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateDedicatedIpPoolOutput: Swift.Equatable {
+public struct CreateDedicatedIpPoolOutput {
 
     public init() { }
 }
@@ -2468,7 +2468,7 @@ extension CreateDeliverabilityTestReportInput {
 }
 
 /// A request to perform a predictive inbox placement test. Predictive inbox placement tests can help you predict how your messages will be handled by various email providers around the world. When you perform a predictive inbox placement test, you provide a sample message that contains the content that you plan to send to your customers. We send that message to special email addresses spread across several major email providers around the world. The test takes about 24 hours to complete. When the test is complete, you can use the GetDeliverabilityTestReport operation to view the results of the test.
-public struct CreateDeliverabilityTestReportInput: Swift.Equatable {
+public struct CreateDeliverabilityTestReportInput {
     /// The HTML body of the message that you sent when you performed the predictive inbox placement test.
     /// This member is required.
     public var content: SESv2ClientTypes.EmailContent?
@@ -2494,7 +2494,7 @@ public struct CreateDeliverabilityTestReportInput: Swift.Equatable {
     }
 }
 
-struct CreateDeliverabilityTestReportInputBody: Swift.Equatable {
+struct CreateDeliverabilityTestReportInputBody {
     let reportName: Swift.String?
     let fromEmailAddress: Swift.String?
     let content: SESv2ClientTypes.EmailContent?
@@ -2546,7 +2546,7 @@ extension CreateDeliverabilityTestReportOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Information about the predictive inbox placement test that you created.
-public struct CreateDeliverabilityTestReportOutput: Swift.Equatable {
+public struct CreateDeliverabilityTestReportOutput {
     /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
     /// This member is required.
     public var deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus?
@@ -2564,7 +2564,7 @@ public struct CreateDeliverabilityTestReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeliverabilityTestReportOutputBody: Swift.Equatable {
+struct CreateDeliverabilityTestReportOutputBody {
     let reportId: Swift.String?
     let deliverabilityTestStatus: SESv2ClientTypes.DeliverabilityTestStatus?
 }
@@ -2639,7 +2639,7 @@ extension CreateEmailIdentityInput {
 }
 
 /// A request to begin the verification process for an email identity (an email address or domain).
-public struct CreateEmailIdentityInput: Swift.Equatable {
+public struct CreateEmailIdentityInput {
     /// The configuration set to use by default when sending from this identity. Note that any configuration set defined in the email sending request takes precedence.
     public var configurationSetName: Swift.String?
     /// If your request includes this object, Amazon SES configures the identity to use Bring Your Own DKIM (BYODKIM) for DKIM authentication purposes, or, configures the key length to be used for [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html). You can only specify this object if the email identity is a domain, as opposed to an address.
@@ -2664,7 +2664,7 @@ public struct CreateEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct CreateEmailIdentityInputBody: Swift.Equatable {
+struct CreateEmailIdentityInputBody {
     let emailIdentity: Swift.String?
     let tags: [SESv2ClientTypes.Tag]?
     let dkimSigningAttributes: SESv2ClientTypes.DkimSigningAttributes?
@@ -2718,7 +2718,7 @@ extension CreateEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the email identity is a domain, this object contains information about the DKIM verification status for the domain. If the email identity is an email address, this object is empty.
-public struct CreateEmailIdentityOutput: Swift.Equatable {
+public struct CreateEmailIdentityOutput {
     /// An object that contains information about the DKIM attributes for the identity.
     public var dkimAttributes: SESv2ClientTypes.DkimAttributes?
     /// The email identity type. Note: the MANAGED_DOMAIN identity type is not supported.
@@ -2738,7 +2738,7 @@ public struct CreateEmailIdentityOutput: Swift.Equatable {
     }
 }
 
-struct CreateEmailIdentityOutputBody: Swift.Equatable {
+struct CreateEmailIdentityOutputBody {
     let identityType: SESv2ClientTypes.IdentityType?
     let verifiedForSendingStatus: Swift.Bool
     let dkimAttributes: SESv2ClientTypes.DkimAttributes?
@@ -2805,7 +2805,7 @@ extension CreateEmailIdentityPolicyInput {
 }
 
 /// Represents a request to create a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
-public struct CreateEmailIdentityPolicyInput: Swift.Equatable {
+public struct CreateEmailIdentityPolicyInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -2828,7 +2828,7 @@ public struct CreateEmailIdentityPolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateEmailIdentityPolicyInputBody: Swift.Equatable {
+struct CreateEmailIdentityPolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -2850,7 +2850,7 @@ extension CreateEmailIdentityPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateEmailIdentityPolicyOutput: Swift.Equatable {
+public struct CreateEmailIdentityPolicyOutput {
 
     public init() { }
 }
@@ -2895,7 +2895,7 @@ extension CreateEmailTemplateInput {
 }
 
 /// Represents a request to create an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
-public struct CreateEmailTemplateInput: Swift.Equatable {
+public struct CreateEmailTemplateInput {
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -2913,7 +2913,7 @@ public struct CreateEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateEmailTemplateInputBody: Swift.Equatable {
+struct CreateEmailTemplateInputBody {
     let templateName: Swift.String?
     let templateContent: SESv2ClientTypes.EmailTemplateContent?
 }
@@ -2939,7 +2939,7 @@ extension CreateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct CreateEmailTemplateOutput: Swift.Equatable {
+public struct CreateEmailTemplateOutput {
 
     public init() { }
 }
@@ -2983,7 +2983,7 @@ extension CreateExportJobInput {
 }
 
 /// Represents a request to create an export job from a data source to a data destination.
-public struct CreateExportJobInput: Swift.Equatable {
+public struct CreateExportJobInput {
     /// The data source for the export job.
     /// This member is required.
     public var exportDataSource: SESv2ClientTypes.ExportDataSource?
@@ -3001,7 +3001,7 @@ public struct CreateExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateExportJobInputBody: Swift.Equatable {
+struct CreateExportJobInputBody {
     let exportDataSource: SESv2ClientTypes.ExportDataSource?
     let exportDestination: SESv2ClientTypes.ExportDestination?
 }
@@ -3034,7 +3034,7 @@ extension CreateExportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateExportJobOutput: Swift.Equatable {
+public struct CreateExportJobOutput {
     /// A string that represents the export job ID.
     public var jobId: Swift.String?
 
@@ -3046,7 +3046,7 @@ public struct CreateExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateExportJobOutputBody: Swift.Equatable {
+struct CreateExportJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -3101,7 +3101,7 @@ extension CreateImportJobInput {
 }
 
 /// Represents a request to create an import job from a data source for a data destination.
-public struct CreateImportJobInput: Swift.Equatable {
+public struct CreateImportJobInput {
     /// The data source for the import job.
     /// This member is required.
     public var importDataSource: SESv2ClientTypes.ImportDataSource?
@@ -3119,7 +3119,7 @@ public struct CreateImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateImportJobInputBody: Swift.Equatable {
+struct CreateImportJobInputBody {
     let importDestination: SESv2ClientTypes.ImportDestination?
     let importDataSource: SESv2ClientTypes.ImportDataSource?
 }
@@ -3152,7 +3152,7 @@ extension CreateImportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct CreateImportJobOutput: Swift.Equatable {
+public struct CreateImportJobOutput {
     /// A string that represents the import job ID.
     public var jobId: Swift.String?
 
@@ -3164,7 +3164,7 @@ public struct CreateImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateImportJobOutputBody: Swift.Equatable {
+struct CreateImportJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -3238,7 +3238,7 @@ extension SESv2ClientTypes.CustomVerificationEmailTemplateMetadata: Swift.Codabl
 
 extension SESv2ClientTypes {
     /// Contains information about a custom verification email template.
-    public struct CustomVerificationEmailTemplateMetadata: Swift.Equatable {
+    public struct CustomVerificationEmailTemplateMetadata {
         /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
         public var failureRedirectionURL: Swift.String?
         /// The email address that the custom verification email is sent from.
@@ -3313,7 +3313,7 @@ extension SESv2ClientTypes.DailyVolume: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the volume of email sent on each day of the analysis period.
-    public struct DailyVolume: Swift.Equatable {
+    public struct DailyVolume {
         /// An object that contains inbox placement metrics for a specified day in the analysis period, broken out by the recipient's email provider.
         public var domainIspPlacements: [SESv2ClientTypes.DomainIspPlacement]?
         /// The date that the DailyVolume metrics apply to, in Unix time.
@@ -3356,7 +3356,7 @@ extension SESv2ClientTypes.DashboardAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing additional settings for your VDM configuration as applicable to the Dashboard.
-    public struct DashboardAttributes: Swift.Equatable {
+    public struct DashboardAttributes {
         /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:
         ///
         /// * ENABLED – Amazon SES enables engagement metrics for your account.
@@ -3395,7 +3395,7 @@ extension SESv2ClientTypes.DashboardOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing additional settings for your VDM configuration as applicable to the Dashboard.
-    public struct DashboardOptions: Swift.Equatable {
+    public struct DashboardOptions {
         /// Specifies the status of your VDM engagement metrics collection. Can be one of the following:
         ///
         /// * ENABLED – Amazon SES enables engagement metrics for the configuration set.
@@ -3489,7 +3489,7 @@ extension SESv2ClientTypes.DedicatedIp: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains information about a dedicated IP address that is associated with your Amazon SES account. To learn more about requesting dedicated IP addresses, see [Requesting and Relinquishing Dedicated IP Addresses](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/dedicated-ip-case.html) in the Amazon SES Developer Guide.
-    public struct DedicatedIp: Swift.Equatable {
+    public struct DedicatedIp {
         /// An IPv4 address.
         /// This member is required.
         public var ip: Swift.String?
@@ -3549,7 +3549,7 @@ extension SESv2ClientTypes.DedicatedIpPool: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains information about a dedicated IP pool.
-    public struct DedicatedIpPool: Swift.Equatable {
+    public struct DedicatedIpPool {
         /// The name of the dedicated IP pool.
         /// This member is required.
         public var poolName: Swift.String?
@@ -3587,7 +3587,7 @@ extension DeleteConfigurationSetEventDestinationInput {
 }
 
 /// A request to delete an event destination from a configuration set.
-public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationInput {
     /// The name of the configuration set that contains the event destination to delete.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3605,7 +3605,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct DeleteConfigurationSetEventDestinationInputBody {
 }
 
 extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
@@ -3620,7 +3620,7 @@ extension DeleteConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -3649,7 +3649,7 @@ extension DeleteConfigurationSetInput {
 }
 
 /// A request to delete a configuration set.
-public struct DeleteConfigurationSetInput: Swift.Equatable {
+public struct DeleteConfigurationSetInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -3662,7 +3662,7 @@ public struct DeleteConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetInputBody: Swift.Equatable {
+struct DeleteConfigurationSetInputBody {
 }
 
 extension DeleteConfigurationSetInputBody: Swift.Decodable {
@@ -3677,7 +3677,7 @@ extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteConfigurationSetOutput: Swift.Equatable {
+public struct DeleteConfigurationSetOutput {
 
     public init() { }
 }
@@ -3709,7 +3709,7 @@ extension DeleteContactInput {
     }
 }
 
-public struct DeleteContactInput: Swift.Equatable {
+public struct DeleteContactInput {
     /// The name of the contact list from which the contact should be removed.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -3727,7 +3727,7 @@ public struct DeleteContactInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactInputBody: Swift.Equatable {
+struct DeleteContactInputBody {
 }
 
 extension DeleteContactInputBody: Swift.Decodable {
@@ -3746,7 +3746,7 @@ extension DeleteContactListInput {
     }
 }
 
-public struct DeleteContactListInput: Swift.Equatable {
+public struct DeleteContactListInput {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -3759,7 +3759,7 @@ public struct DeleteContactListInput: Swift.Equatable {
     }
 }
 
-struct DeleteContactListInputBody: Swift.Equatable {
+struct DeleteContactListInputBody {
 }
 
 extension DeleteContactListInputBody: Swift.Decodable {
@@ -3773,7 +3773,7 @@ extension DeleteContactListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactListOutput: Swift.Equatable {
+public struct DeleteContactListOutput {
 
     public init() { }
 }
@@ -3797,7 +3797,7 @@ extension DeleteContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteContactOutput: Swift.Equatable {
+public struct DeleteContactOutput {
 
     public init() { }
 }
@@ -3826,7 +3826,7 @@ extension DeleteCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to delete an existing custom verification email template.
-public struct DeleteCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct DeleteCustomVerificationEmailTemplateInput {
     /// The name of the custom verification email template that you want to delete.
     /// This member is required.
     public var templateName: Swift.String?
@@ -3839,7 +3839,7 @@ public struct DeleteCustomVerificationEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomVerificationEmailTemplateInputBody: Swift.Equatable {
+struct DeleteCustomVerificationEmailTemplateInputBody {
 }
 
 extension DeleteCustomVerificationEmailTemplateInputBody: Swift.Decodable {
@@ -3854,7 +3854,7 @@ extension DeleteCustomVerificationEmailTemplateOutput: ClientRuntime.HttpRespons
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct DeleteCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct DeleteCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -3883,7 +3883,7 @@ extension DeleteDedicatedIpPoolInput {
 }
 
 /// A request to delete a dedicated IP pool.
-public struct DeleteDedicatedIpPoolInput: Swift.Equatable {
+public struct DeleteDedicatedIpPoolInput {
     /// The name of the dedicated IP pool that you want to delete.
     /// This member is required.
     public var poolName: Swift.String?
@@ -3896,7 +3896,7 @@ public struct DeleteDedicatedIpPoolInput: Swift.Equatable {
     }
 }
 
-struct DeleteDedicatedIpPoolInputBody: Swift.Equatable {
+struct DeleteDedicatedIpPoolInputBody {
 }
 
 extension DeleteDedicatedIpPoolInputBody: Swift.Decodable {
@@ -3911,7 +3911,7 @@ extension DeleteDedicatedIpPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteDedicatedIpPoolOutput: Swift.Equatable {
+public struct DeleteDedicatedIpPoolOutput {
 
     public init() { }
 }
@@ -3941,7 +3941,7 @@ extension DeleteEmailIdentityInput {
 }
 
 /// A request to delete an existing email identity. When you delete an identity, you lose the ability to send email from that identity. You can restore your ability to send email by completing the verification process for the identity again.
-public struct DeleteEmailIdentityInput: Swift.Equatable {
+public struct DeleteEmailIdentityInput {
     /// The identity (that is, the email address or domain) to delete.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -3954,7 +3954,7 @@ public struct DeleteEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailIdentityInputBody: Swift.Equatable {
+struct DeleteEmailIdentityInputBody {
 }
 
 extension DeleteEmailIdentityInputBody: Swift.Decodable {
@@ -3969,7 +3969,7 @@ extension DeleteEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteEmailIdentityOutput: Swift.Equatable {
+public struct DeleteEmailIdentityOutput {
 
     public init() { }
 }
@@ -4002,7 +4002,7 @@ extension DeleteEmailIdentityPolicyInput {
 }
 
 /// Represents a request to delete a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
-public struct DeleteEmailIdentityPolicyInput: Swift.Equatable {
+public struct DeleteEmailIdentityPolicyInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -4020,7 +4020,7 @@ public struct DeleteEmailIdentityPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailIdentityPolicyInputBody: Swift.Equatable {
+struct DeleteEmailIdentityPolicyInputBody {
 }
 
 extension DeleteEmailIdentityPolicyInputBody: Swift.Decodable {
@@ -4035,7 +4035,7 @@ extension DeleteEmailIdentityPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteEmailIdentityPolicyOutput: Swift.Equatable {
+public struct DeleteEmailIdentityPolicyOutput {
 
     public init() { }
 }
@@ -4064,7 +4064,7 @@ extension DeleteEmailTemplateInput {
 }
 
 /// Represents a request to delete an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
-public struct DeleteEmailTemplateInput: Swift.Equatable {
+public struct DeleteEmailTemplateInput {
     /// The name of the template to be deleted.
     /// This member is required.
     public var templateName: Swift.String?
@@ -4077,7 +4077,7 @@ public struct DeleteEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailTemplateInputBody: Swift.Equatable {
+struct DeleteEmailTemplateInputBody {
 }
 
 extension DeleteEmailTemplateInputBody: Swift.Decodable {
@@ -4092,7 +4092,7 @@ extension DeleteEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct DeleteEmailTemplateOutput: Swift.Equatable {
+public struct DeleteEmailTemplateOutput {
 
     public init() { }
 }
@@ -4121,7 +4121,7 @@ extension DeleteSuppressedDestinationInput {
 }
 
 /// A request to remove an email address from the suppression list for your account.
-public struct DeleteSuppressedDestinationInput: Swift.Equatable {
+public struct DeleteSuppressedDestinationInput {
     /// The suppressed email destination to remove from the account suppression list.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -4134,7 +4134,7 @@ public struct DeleteSuppressedDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSuppressedDestinationInputBody: Swift.Equatable {
+struct DeleteSuppressedDestinationInputBody {
 }
 
 extension DeleteSuppressedDestinationInputBody: Swift.Decodable {
@@ -4149,7 +4149,7 @@ extension DeleteSuppressedDestinationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct DeleteSuppressedDestinationOutput: Swift.Equatable {
+public struct DeleteSuppressedDestinationOutput {
 
     public init() { }
 }
@@ -4254,7 +4254,7 @@ extension SESv2ClientTypes.DeliverabilityTestReport: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains metadata related to a predictive inbox placement test.
-    public struct DeliverabilityTestReport: Swift.Equatable {
+    public struct DeliverabilityTestReport {
         /// The date and time when the predictive inbox placement test was created.
         public var createDate: ClientRuntime.Date?
         /// The status of the predictive inbox placement test. If the status is IN_PROGRESS, then the predictive inbox placement test is currently running. Predictive inbox placement tests are usually complete within 24 hours of creating the test. If the status is COMPLETE, then the test is finished, and you can use the GetDeliverabilityTestReport to view the results of the test.
@@ -4405,7 +4405,7 @@ extension SESv2ClientTypes.DeliveryOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Used to associate a configuration set with a dedicated IP pool.
-    public struct DeliveryOptions: Swift.Equatable {
+    public struct DeliveryOptions {
         /// The name of the dedicated IP pool to associate with the configuration set.
         public var sendingPoolName: Swift.String?
         /// Specifies whether messages that use the configuration set are required to use Transport Layer Security (TLS). If the value is Require, messages are only delivered if a TLS connection can be established. If the value is Optional, messages can be delivered in plain text if a TLS connection can't be established.
@@ -4492,7 +4492,7 @@ extension SESv2ClientTypes.Destination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that describes the recipients for an email. Amazon SES does not support the SMTPUTF8 extension, as described in [RFC6531](https://tools.ietf.org/html/rfc6531). For this reason, the local part of a destination email address (the part of the email address that precedes the @ sign) may only contain [7-bit ASCII characters](https://en.wikipedia.org/wiki/Email_address#Local-part). If the domain part of an address (the part after the @ sign) contains non-ASCII characters, they must be encoded using Punycode, as described in [RFC3492](https://tools.ietf.org/html/rfc3492.html).
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// An array that contains the email addresses of the "BCC" (blind carbon copy) recipients for the email.
         public var bccAddresses: [Swift.String]?
         /// An array that contains the email addresses of the "CC" (carbon copy) recipients for the email.
@@ -4619,7 +4619,7 @@ extension SESv2ClientTypes.DkimAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the DKIM authentication status for an email identity. Amazon SES determines the authentication status by searching for specific records in the DNS configuration for the domain. If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to set up DKIM authentication, Amazon SES tries to find three unique CNAME records in the DNS configuration for your domain. If you provided a public key to perform DKIM authentication, Amazon SES tries to find a TXT record that uses the selector that you specified. The value of the TXT record must be a public key that's paired with the private key that you specified in the process of creating the identity
-    public struct DkimAttributes: Swift.Equatable {
+    public struct DkimAttributes {
         /// [Easy DKIM] The key length of the DKIM key pair in use.
         public var currentSigningKeyLength: SESv2ClientTypes.DkimSigningKeyLength?
         /// [Easy DKIM] The last time a key pair was generated for this identity.
@@ -4709,7 +4709,7 @@ extension SESv2ClientTypes.DkimSigningAttributes: Swift.CustomDebugStringConvert
 
 extension SESv2ClientTypes {
     /// An object that contains configuration for Bring Your Own DKIM (BYODKIM), or, for Easy DKIM
-    public struct DkimSigningAttributes: Swift.Equatable {
+    public struct DkimSigningAttributes {
         /// [Bring Your Own DKIM] A private key that's used to generate a DKIM signature. The private key must use 1024 or 2048-bit RSA encryption, and must be encoded using base64 encoding.
         public var domainSigningPrivateKey: Swift.String?
         /// [Bring Your Own DKIM] A string that's used to identify a public key in the DNS configuration for a domain.
@@ -4970,7 +4970,7 @@ extension SESv2ClientTypes.DomainDeliverabilityCampaign: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
-    public struct DomainDeliverabilityCampaign: Swift.Equatable {
+    public struct DomainDeliverabilityCampaign {
         /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
         public var campaignId: Swift.String?
         /// The percentage of email messages that were deleted by recipients, without being opened first. Due to technical limitations, this value only includes recipients who opened the message by using an email client that supports images.
@@ -5069,7 +5069,7 @@ extension SESv2ClientTypes.DomainDeliverabilityTrackingOption: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the Deliverability dashboard subscription for a verified domain that you use to send email and currently has an active Deliverability dashboard subscription. If a Deliverability dashboard subscription is active for a domain, you gain access to reputation, inbox placement, and other metrics for the domain.
-    public struct DomainDeliverabilityTrackingOption: Swift.Equatable {
+    public struct DomainDeliverabilityTrackingOption {
         /// A verified domain that’s associated with your Amazon Web Services account and currently has an active Deliverability dashboard subscription.
         public var domain: Swift.String?
         /// An object that contains information about the inbox placement data settings for the domain.
@@ -5136,7 +5136,7 @@ extension SESv2ClientTypes.DomainIspPlacement: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains inbox placement data for email sent from one of your email domains to a specific email provider.
-    public struct DomainIspPlacement: Swift.Equatable {
+    public struct DomainIspPlacement {
         /// The percentage of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
         public var inboxPercentage: Swift.Double?
         /// The total number of messages that were sent from the selected domain to the specified email provider that arrived in recipients' inboxes.
@@ -5199,7 +5199,7 @@ extension SESv2ClientTypes.EmailContent: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the entire content of the email, including the message headers and the body content. You can create a simple email message, in which you specify the subject and the text and HTML versions of the message body. You can also create raw messages, in which you specify a complete MIME-formatted message. Raw messages can include attachments and custom headers.
-    public struct EmailContent: Swift.Equatable {
+    public struct EmailContent {
         /// The raw email message. The message has to meet the following criteria:
         ///
         /// * The message has to contain a header and a body, separated by one blank line.
@@ -5285,7 +5285,7 @@ extension SESv2ClientTypes.EmailInsights: Swift.CustomDebugStringConvertible {
 
 extension SESv2ClientTypes {
     /// An email's insights contain metadata and delivery information about a specific email.
-    public struct EmailInsights: Swift.Equatable {
+    public struct EmailInsights {
         /// The recipient of the email.
         public var destination: Swift.String?
         /// A list of events associated with the sent email.
@@ -5340,7 +5340,7 @@ extension SESv2ClientTypes.EmailTemplateContent: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The content of the email, composed of a subject line, an HTML part, and a text-only part.
-    public struct EmailTemplateContent: Swift.Equatable {
+    public struct EmailTemplateContent {
         /// The HTML body of the email.
         public var html: Swift.String?
         /// The subject line of the email.
@@ -5389,7 +5389,7 @@ extension SESv2ClientTypes.EmailTemplateMetadata: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains information about an email template.
-    public struct EmailTemplateMetadata: Swift.Equatable {
+    public struct EmailTemplateMetadata {
         /// The time and date the template was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The name of the template.
@@ -5513,7 +5513,7 @@ extension SESv2ClientTypes.EventDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// In the Amazon SES API v2, events include message sends, deliveries, opens, clicks, bounces, complaints and delivery delays. Event destinations are places that you can send information about these events to. For example, you can send event data to Amazon SNS to receive notifications when you receive bounces or complaints, or you can use Amazon Kinesis Data Firehose to stream data to Amazon S3 for long-term storage.
-    public struct EventDestination: Swift.Equatable {
+    public struct EventDestination {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public var cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -5636,7 +5636,7 @@ extension SESv2ClientTypes.EventDestinationDefinition: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the event destination. Specifically, it defines which services receive events from emails sent using the configuration set that the event destination is associated with. Also defines the types of events that are sent to the event destination.
-    public struct EventDestinationDefinition: Swift.Equatable {
+    public struct EventDestinationDefinition {
         /// An object that defines an Amazon CloudWatch destination for email events. You can use Amazon CloudWatch to monitor and gain insights on your email sending metrics.
         public var cloudWatchDestination: SESv2ClientTypes.CloudWatchDestination?
         /// If true, the event destination is enabled. When the event destination is enabled, the specified event types are sent to the destinations in this EventDestinationDefinition. If false, the event destination is disabled. When the event destination is disabled, events aren't sent to the specified destinations.
@@ -5697,7 +5697,7 @@ extension SESv2ClientTypes.EventDetails: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains a Bounce object if the event type is BOUNCE. Contains a Complaint object if the event type is COMPLAINT.
-    public struct EventDetails: Swift.Equatable {
+    public struct EventDetails {
         /// Information about a Bounce event.
         public var bounce: SESv2ClientTypes.Bounce?
         /// Information about a Complaint event.
@@ -5799,7 +5799,7 @@ extension SESv2ClientTypes.ExportDataSource: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the data source of the export job. It can only contain one of MetricsDataSource or MessageInsightsDataSource object.
-    public struct ExportDataSource: Swift.Equatable {
+    public struct ExportDataSource {
         /// An object that contains filters applied when performing the Message Insights export.
         public var messageInsightsDataSource: SESv2ClientTypes.MessageInsightsDataSource?
         /// An object that contains details about the data source for the metrics export.
@@ -5844,7 +5844,7 @@ extension SESv2ClientTypes.ExportDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the destination of the export job.
-    public struct ExportDestination: Swift.Equatable {
+    public struct ExportDestination {
         /// The data format of the final export job file, can be one of the following:
         ///
         /// * CSV - A comma-separated values file.
@@ -5912,7 +5912,7 @@ extension SESv2ClientTypes.ExportJobSummary: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A summary of the export job.
-    public struct ExportJobSummary: Swift.Equatable {
+    public struct ExportJobSummary {
         /// The timestamp of when the export job was completed.
         public var completedTimestamp: ClientRuntime.Date?
         /// The timestamp of when the export job was created.
@@ -5969,7 +5969,7 @@ extension SESv2ClientTypes.ExportMetric: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains a mapping between a Metric and MetricAggregation.
-    public struct ExportMetric: Swift.Equatable {
+    public struct ExportMetric {
         /// The aggregation to apply to a metric, can be one of the following:
         ///
         /// * VOLUME - The volume of events for this metric.
@@ -6075,7 +6075,7 @@ extension SESv2ClientTypes.ExportStatistics: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Statistics about the execution of an export job.
-    public struct ExportStatistics: Swift.Equatable {
+    public struct ExportStatistics {
         /// The number of records that were exported to the final export file. This value might not be available for all export source types
         public var exportedRecordsCount: Swift.Int?
         /// The number of records that were processed to generate the final export file.
@@ -6120,7 +6120,7 @@ extension SESv2ClientTypes.FailureInfo: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains the failure details about a job.
-    public struct FailureInfo: Swift.Equatable {
+    public struct FailureInfo {
         /// A message about why the job failed.
         public var errorMessage: Swift.String?
         /// An Amazon S3 pre-signed URL that contains all the failed records and related information.
@@ -6178,12 +6178,12 @@ extension GetAccountInput {
 }
 
 /// A request to obtain information about the email-sending capabilities of your Amazon SES account.
-public struct GetAccountInput: Swift.Equatable {
+public struct GetAccountInput {
 
     public init() { }
 }
 
-struct GetAccountInputBody: Swift.Equatable {
+struct GetAccountInputBody {
 }
 
 extension GetAccountInputBody: Swift.Decodable {
@@ -6219,7 +6219,7 @@ extension GetAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of details about the email-sending capabilities of your Amazon SES account in the current Amazon Web Services Region.
-public struct GetAccountOutput: Swift.Equatable {
+public struct GetAccountOutput {
     /// Indicates whether or not the automatic warm-up feature is enabled for dedicated IP addresses that are associated with your account.
     public var dedicatedIpAutoWarmupEnabled: Swift.Bool
     /// An object that defines your account details.
@@ -6265,7 +6265,7 @@ public struct GetAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountOutputBody: Swift.Equatable {
+struct GetAccountOutputBody {
     let dedicatedIpAutoWarmupEnabled: Swift.Bool
     let enforcementStatus: Swift.String?
     let productionAccessEnabled: Swift.Bool
@@ -6345,7 +6345,7 @@ extension GetBlacklistReportsInput {
 }
 
 /// A request to retrieve a list of the blacklists that your dedicated IP addresses appear on.
-public struct GetBlacklistReportsInput: Swift.Equatable {
+public struct GetBlacklistReportsInput {
     /// A list of IP addresses that you want to retrieve blacklist information about. You can only specify the dedicated IP addresses that you use to send email using Amazon SES or Amazon Pinpoint.
     /// This member is required.
     public var blacklistItemNames: [Swift.String]?
@@ -6358,7 +6358,7 @@ public struct GetBlacklistReportsInput: Swift.Equatable {
     }
 }
 
-struct GetBlacklistReportsInputBody: Swift.Equatable {
+struct GetBlacklistReportsInputBody {
 }
 
 extension GetBlacklistReportsInputBody: Swift.Decodable {
@@ -6380,7 +6380,7 @@ extension GetBlacklistReportsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that contains information about blacklist events.
-public struct GetBlacklistReportsOutput: Swift.Equatable {
+public struct GetBlacklistReportsOutput {
     /// An object that contains information about a blacklist that one of your dedicated IP addresses appears on.
     /// This member is required.
     public var blacklistReport: [Swift.String:[SESv2ClientTypes.BlacklistEntry]]?
@@ -6393,7 +6393,7 @@ public struct GetBlacklistReportsOutput: Swift.Equatable {
     }
 }
 
-struct GetBlacklistReportsOutputBody: Swift.Equatable {
+struct GetBlacklistReportsOutputBody {
     let blacklistReport: [Swift.String:[SESv2ClientTypes.BlacklistEntry]]?
 }
 
@@ -6449,7 +6449,7 @@ extension GetConfigurationSetEventDestinationsInput {
 }
 
 /// A request to obtain information about the event destinations for a configuration set.
-public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsInput {
     /// The name of the configuration set that contains the event destination.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -6462,7 +6462,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsInputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsInputBody {
 }
 
 extension GetConfigurationSetEventDestinationsInputBody: Swift.Decodable {
@@ -6484,7 +6484,7 @@ extension GetConfigurationSetEventDestinationsOutput: ClientRuntime.HttpResponse
 }
 
 /// Information about an event destination for a configuration set.
-public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsOutput {
     /// An array that includes all of the events destinations that have been configured for the configuration set.
     public var eventDestinations: [SESv2ClientTypes.EventDestination]?
 
@@ -6496,7 +6496,7 @@ public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsOutputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsOutputBody {
     let eventDestinations: [SESv2ClientTypes.EventDestination]?
 }
 
@@ -6545,7 +6545,7 @@ extension GetConfigurationSetInput {
 }
 
 /// A request to obtain information about a configuration set.
-public struct GetConfigurationSetInput: Swift.Equatable {
+public struct GetConfigurationSetInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -6558,7 +6558,7 @@ public struct GetConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetInputBody: Swift.Equatable {
+struct GetConfigurationSetInputBody {
 }
 
 extension GetConfigurationSetInputBody: Swift.Decodable {
@@ -6594,7 +6594,7 @@ extension GetConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a configuration set.
-public struct GetConfigurationSetOutput: Swift.Equatable {
+public struct GetConfigurationSetOutput {
     /// The name of the configuration set.
     public var configurationSetName: Swift.String?
     /// An object that defines the dedicated IP pool that is used to send emails that you send using the configuration set.
@@ -6634,7 +6634,7 @@ public struct GetConfigurationSetOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetOutputBody: Swift.Equatable {
+struct GetConfigurationSetOutputBody {
     let configurationSetName: Swift.String?
     let trackingOptions: SESv2ClientTypes.TrackingOptions?
     let deliveryOptions: SESv2ClientTypes.DeliveryOptions?
@@ -6713,7 +6713,7 @@ extension GetContactInput {
     }
 }
 
-public struct GetContactInput: Swift.Equatable {
+public struct GetContactInput {
     /// The name of the contact list to which the contact belongs.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -6731,7 +6731,7 @@ public struct GetContactInput: Swift.Equatable {
     }
 }
 
-struct GetContactInputBody: Swift.Equatable {
+struct GetContactInputBody {
 }
 
 extension GetContactInputBody: Swift.Decodable {
@@ -6750,7 +6750,7 @@ extension GetContactListInput {
     }
 }
 
-public struct GetContactListInput: Swift.Equatable {
+public struct GetContactListInput {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -6763,7 +6763,7 @@ public struct GetContactListInput: Swift.Equatable {
     }
 }
 
-struct GetContactListInputBody: Swift.Equatable {
+struct GetContactListInputBody {
 }
 
 extension GetContactListInputBody: Swift.Decodable {
@@ -6794,7 +6794,7 @@ extension GetContactListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactListOutput: Swift.Equatable {
+public struct GetContactListOutput {
     /// The name of the contact list.
     public var contactListName: Swift.String?
     /// A timestamp noting when the contact list was created.
@@ -6826,7 +6826,7 @@ public struct GetContactListOutput: Swift.Equatable {
     }
 }
 
-struct GetContactListOutputBody: Swift.Equatable {
+struct GetContactListOutputBody {
     let contactListName: Swift.String?
     let topics: [SESv2ClientTypes.Topic]?
     let description: Swift.String?
@@ -6919,7 +6919,7 @@ extension GetContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetContactOutput: Swift.Equatable {
+public struct GetContactOutput {
     /// The attribute data attached to a contact.
     public var attributesData: Swift.String?
     /// The name of the contact list to which the contact belongs.
@@ -6959,7 +6959,7 @@ public struct GetContactOutput: Swift.Equatable {
     }
 }
 
-struct GetContactOutputBody: Swift.Equatable {
+struct GetContactOutputBody {
     let contactListName: Swift.String?
     let emailAddress: Swift.String?
     let topicPreferences: [SESv2ClientTypes.TopicPreference]?
@@ -7045,7 +7045,7 @@ extension GetCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to retrieve an existing custom verification email template.
-public struct GetCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct GetCustomVerificationEmailTemplateInput {
     /// The name of the custom verification email template that you want to retrieve.
     /// This member is required.
     public var templateName: Swift.String?
@@ -7058,7 +7058,7 @@ public struct GetCustomVerificationEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetCustomVerificationEmailTemplateInputBody: Swift.Equatable {
+struct GetCustomVerificationEmailTemplateInputBody {
 }
 
 extension GetCustomVerificationEmailTemplateInputBody: Swift.Decodable {
@@ -7090,7 +7090,7 @@ extension GetCustomVerificationEmailTemplateOutput: ClientRuntime.HttpResponseBi
 }
 
 /// The following elements are returned by the service.
-public struct GetCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct GetCustomVerificationEmailTemplateOutput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     public var failureRedirectionURL: Swift.String?
     /// The email address that the custom verification email is sent from.
@@ -7122,7 +7122,7 @@ public struct GetCustomVerificationEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomVerificationEmailTemplateOutputBody: Swift.Equatable {
+struct GetCustomVerificationEmailTemplateOutputBody {
     let templateName: Swift.String?
     let fromEmailAddress: Swift.String?
     let templateSubject: Swift.String?
@@ -7182,7 +7182,7 @@ extension GetDedicatedIpInput {
 }
 
 /// A request to obtain more information about a dedicated IP address.
-public struct GetDedicatedIpInput: Swift.Equatable {
+public struct GetDedicatedIpInput {
     /// The IP address that you want to obtain more information about. The value you specify has to be a dedicated IP address that's assocaited with your Amazon Web Services account.
     /// This member is required.
     public var ip: Swift.String?
@@ -7195,7 +7195,7 @@ public struct GetDedicatedIpInput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpInputBody: Swift.Equatable {
+struct GetDedicatedIpInputBody {
 }
 
 extension GetDedicatedIpInputBody: Swift.Decodable {
@@ -7217,7 +7217,7 @@ extension GetDedicatedIpOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a dedicated IP address.
-public struct GetDedicatedIpOutput: Swift.Equatable {
+public struct GetDedicatedIpOutput {
     /// An object that contains information about a dedicated IP address.
     public var dedicatedIp: SESv2ClientTypes.DedicatedIp?
 
@@ -7229,7 +7229,7 @@ public struct GetDedicatedIpOutput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpOutputBody: Swift.Equatable {
+struct GetDedicatedIpOutputBody {
     let dedicatedIp: SESv2ClientTypes.DedicatedIp?
 }
 
@@ -7269,7 +7269,7 @@ extension GetDedicatedIpPoolInput {
 }
 
 /// A request to obtain more information about a dedicated IP pool.
-public struct GetDedicatedIpPoolInput: Swift.Equatable {
+public struct GetDedicatedIpPoolInput {
     /// The name of the dedicated IP pool to retrieve.
     /// This member is required.
     public var poolName: Swift.String?
@@ -7282,7 +7282,7 @@ public struct GetDedicatedIpPoolInput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpPoolInputBody: Swift.Equatable {
+struct GetDedicatedIpPoolInputBody {
 }
 
 extension GetDedicatedIpPoolInputBody: Swift.Decodable {
@@ -7304,7 +7304,7 @@ extension GetDedicatedIpPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following element is returned by the service.
-public struct GetDedicatedIpPoolOutput: Swift.Equatable {
+public struct GetDedicatedIpPoolOutput {
     /// An object that contains information about a dedicated IP pool.
     public var dedicatedIpPool: SESv2ClientTypes.DedicatedIpPool?
 
@@ -7316,7 +7316,7 @@ public struct GetDedicatedIpPoolOutput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpPoolOutputBody: Swift.Equatable {
+struct GetDedicatedIpPoolOutputBody {
     let dedicatedIpPool: SESv2ClientTypes.DedicatedIpPool?
 }
 
@@ -7373,7 +7373,7 @@ extension GetDedicatedIpsInput {
 }
 
 /// A request to obtain more information about dedicated IP pools.
-public struct GetDedicatedIpsInput: Swift.Equatable {
+public struct GetDedicatedIpsInput {
     /// A token returned from a previous call to GetDedicatedIps to indicate the position of the dedicated IP pool in the list of IP pools.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to GetDedicatedIpsRequest. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -7393,7 +7393,7 @@ public struct GetDedicatedIpsInput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpsInputBody: Swift.Equatable {
+struct GetDedicatedIpsInputBody {
 }
 
 extension GetDedicatedIpsInputBody: Swift.Decodable {
@@ -7417,7 +7417,7 @@ extension GetDedicatedIpsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about the dedicated IP addresses that are associated with your Amazon Web Services account.
-public struct GetDedicatedIpsOutput: Swift.Equatable {
+public struct GetDedicatedIpsOutput {
     /// A list of dedicated IP addresses that are associated with your Amazon Web Services account.
     public var dedicatedIps: [SESv2ClientTypes.DedicatedIp]?
     /// A token that indicates that there are additional dedicated IP addresses to list. To view additional addresses, issue another request to GetDedicatedIps, passing this token in the NextToken parameter.
@@ -7433,7 +7433,7 @@ public struct GetDedicatedIpsOutput: Swift.Equatable {
     }
 }
 
-struct GetDedicatedIpsOutputBody: Swift.Equatable {
+struct GetDedicatedIpsOutputBody {
     let dedicatedIps: [SESv2ClientTypes.DedicatedIp]?
     let nextToken: Swift.String?
 }
@@ -7483,12 +7483,12 @@ extension GetDeliverabilityDashboardOptionsInput {
 }
 
 /// Retrieve information about the status of the Deliverability dashboard for your Amazon Web Services account. When the Deliverability dashboard is enabled, you gain access to reputation, deliverability, and other metrics for your domains. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
-public struct GetDeliverabilityDashboardOptionsInput: Swift.Equatable {
+public struct GetDeliverabilityDashboardOptionsInput {
 
     public init() { }
 }
 
-struct GetDeliverabilityDashboardOptionsInputBody: Swift.Equatable {
+struct GetDeliverabilityDashboardOptionsInputBody {
 }
 
 extension GetDeliverabilityDashboardOptionsInputBody: Swift.Decodable {
@@ -7518,7 +7518,7 @@ extension GetDeliverabilityDashboardOptionsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An object that shows the status of the Deliverability dashboard.
-public struct GetDeliverabilityDashboardOptionsOutput: Swift.Equatable {
+public struct GetDeliverabilityDashboardOptionsOutput {
     /// The current status of your Deliverability dashboard subscription. If this value is PENDING_EXPIRATION, your subscription is scheduled to expire at the end of the current calendar month.
     public var accountStatus: SESv2ClientTypes.DeliverabilityDashboardAccountStatus?
     /// An array of objects, one for each verified domain that you use to send email and currently has an active Deliverability dashboard subscription that isn’t scheduled to expire at the end of the current calendar month.
@@ -7547,7 +7547,7 @@ public struct GetDeliverabilityDashboardOptionsOutput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityDashboardOptionsOutputBody: Swift.Equatable {
+struct GetDeliverabilityDashboardOptionsOutputBody {
     let dashboardEnabled: Swift.Bool
     let subscriptionExpiryDate: ClientRuntime.Date?
     let accountStatus: SESv2ClientTypes.DeliverabilityDashboardAccountStatus?
@@ -7621,7 +7621,7 @@ extension GetDeliverabilityTestReportInput {
 }
 
 /// A request to retrieve the results of a predictive inbox placement test.
-public struct GetDeliverabilityTestReportInput: Swift.Equatable {
+public struct GetDeliverabilityTestReportInput {
     /// A unique string that identifies the predictive inbox placement test.
     /// This member is required.
     public var reportId: Swift.String?
@@ -7634,7 +7634,7 @@ public struct GetDeliverabilityTestReportInput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityTestReportInputBody: Swift.Equatable {
+struct GetDeliverabilityTestReportInputBody {
 }
 
 extension GetDeliverabilityTestReportInputBody: Swift.Decodable {
@@ -7664,7 +7664,7 @@ extension GetDeliverabilityTestReportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The results of the predictive inbox placement test.
-public struct GetDeliverabilityTestReportOutput: Swift.Equatable {
+public struct GetDeliverabilityTestReportOutput {
     /// An object that contains the results of the predictive inbox placement test.
     /// This member is required.
     public var deliverabilityTestReport: SESv2ClientTypes.DeliverabilityTestReport?
@@ -7695,7 +7695,7 @@ public struct GetDeliverabilityTestReportOutput: Swift.Equatable {
     }
 }
 
-struct GetDeliverabilityTestReportOutputBody: Swift.Equatable {
+struct GetDeliverabilityTestReportOutputBody {
     let deliverabilityTestReport: SESv2ClientTypes.DeliverabilityTestReport?
     let overallPlacement: SESv2ClientTypes.PlacementStatistics?
     let ispPlacements: [SESv2ClientTypes.IspPlacement]?
@@ -7769,7 +7769,7 @@ extension GetDomainDeliverabilityCampaignInput {
 }
 
 /// Retrieve all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for (PutDeliverabilityDashboardOption operation).
-public struct GetDomainDeliverabilityCampaignInput: Swift.Equatable {
+public struct GetDomainDeliverabilityCampaignInput {
     /// The unique identifier for the campaign. The Deliverability dashboard automatically generates and assigns this identifier to a campaign.
     /// This member is required.
     public var campaignId: Swift.String?
@@ -7782,7 +7782,7 @@ public struct GetDomainDeliverabilityCampaignInput: Swift.Equatable {
     }
 }
 
-struct GetDomainDeliverabilityCampaignInputBody: Swift.Equatable {
+struct GetDomainDeliverabilityCampaignInputBody {
 }
 
 extension GetDomainDeliverabilityCampaignInputBody: Swift.Decodable {
@@ -7804,7 +7804,7 @@ extension GetDomainDeliverabilityCampaignOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// An object that contains all the deliverability data for a specific campaign. This data is available for a campaign only if the campaign sent email by using a domain that the Deliverability dashboard is enabled for.
-public struct GetDomainDeliverabilityCampaignOutput: Swift.Equatable {
+public struct GetDomainDeliverabilityCampaignOutput {
     /// An object that contains the deliverability data for the campaign.
     /// This member is required.
     public var domainDeliverabilityCampaign: SESv2ClientTypes.DomainDeliverabilityCampaign?
@@ -7817,7 +7817,7 @@ public struct GetDomainDeliverabilityCampaignOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainDeliverabilityCampaignOutputBody: Swift.Equatable {
+struct GetDomainDeliverabilityCampaignOutputBody {
     let domainDeliverabilityCampaign: SESv2ClientTypes.DomainDeliverabilityCampaign?
 }
 
@@ -7877,7 +7877,7 @@ extension GetDomainStatisticsReportInput {
 }
 
 /// A request to obtain deliverability metrics for a domain.
-public struct GetDomainStatisticsReportInput: Swift.Equatable {
+public struct GetDomainStatisticsReportInput {
     /// The domain that you want to obtain deliverability metrics for.
     /// This member is required.
     public var domain: Swift.String?
@@ -7900,7 +7900,7 @@ public struct GetDomainStatisticsReportInput: Swift.Equatable {
     }
 }
 
-struct GetDomainStatisticsReportInputBody: Swift.Equatable {
+struct GetDomainStatisticsReportInputBody {
 }
 
 extension GetDomainStatisticsReportInputBody: Swift.Decodable {
@@ -7924,7 +7924,7 @@ extension GetDomainStatisticsReportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that includes statistics that are related to the domain that you specified.
-public struct GetDomainStatisticsReportOutput: Swift.Equatable {
+public struct GetDomainStatisticsReportOutput {
     /// An object that contains deliverability metrics for the domain that you specified. This object contains data for each day, starting on the StartDate and ending on the EndDate.
     /// This member is required.
     public var dailyVolumes: [SESv2ClientTypes.DailyVolume]?
@@ -7942,7 +7942,7 @@ public struct GetDomainStatisticsReportOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainStatisticsReportOutputBody: Swift.Equatable {
+struct GetDomainStatisticsReportOutputBody {
     let overallVolume: SESv2ClientTypes.OverallVolume?
     let dailyVolumes: [SESv2ClientTypes.DailyVolume]?
 }
@@ -7995,7 +7995,7 @@ extension GetEmailIdentityInput {
 }
 
 /// A request to return details about an email identity.
-public struct GetEmailIdentityInput: Swift.Equatable {
+public struct GetEmailIdentityInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -8008,7 +8008,7 @@ public struct GetEmailIdentityInput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityInputBody: Swift.Equatable {
+struct GetEmailIdentityInputBody {
 }
 
 extension GetEmailIdentityInputBody: Swift.Decodable {
@@ -8048,7 +8048,7 @@ extension GetEmailIdentityOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about an email identity.
-public struct GetEmailIdentityOutput: Swift.Equatable {
+public struct GetEmailIdentityOutput {
     /// The configuration set used by default when sending from this identity.
     public var configurationSetName: Swift.String?
     /// An object that contains information about the DKIM attributes for the identity.
@@ -8106,7 +8106,7 @@ public struct GetEmailIdentityOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityOutputBody: Swift.Equatable {
+struct GetEmailIdentityOutputBody {
     let identityType: SESv2ClientTypes.IdentityType?
     let feedbackForwardingStatus: Swift.Bool
     let verifiedForSendingStatus: Swift.Bool
@@ -8200,7 +8200,7 @@ extension GetEmailIdentityPoliciesInput {
 }
 
 /// A request to return the policies of an email identity.
-public struct GetEmailIdentityPoliciesInput: Swift.Equatable {
+public struct GetEmailIdentityPoliciesInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -8213,7 +8213,7 @@ public struct GetEmailIdentityPoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityPoliciesInputBody: Swift.Equatable {
+struct GetEmailIdentityPoliciesInputBody {
 }
 
 extension GetEmailIdentityPoliciesInputBody: Swift.Decodable {
@@ -8235,7 +8235,7 @@ extension GetEmailIdentityPoliciesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Identity policies associated with email identity.
-public struct GetEmailIdentityPoliciesOutput: Swift.Equatable {
+public struct GetEmailIdentityPoliciesOutput {
     /// A map of policy names to policies.
     public var policies: [Swift.String:Swift.String]?
 
@@ -8247,7 +8247,7 @@ public struct GetEmailIdentityPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailIdentityPoliciesOutputBody: Swift.Equatable {
+struct GetEmailIdentityPoliciesOutputBody {
     let policies: [Swift.String:Swift.String]?
 }
 
@@ -8296,7 +8296,7 @@ extension GetEmailTemplateInput {
 }
 
 /// Represents a request to display the template object (which includes the subject line, HTML part and text part) for the template you specify.
-public struct GetEmailTemplateInput: Swift.Equatable {
+public struct GetEmailTemplateInput {
     /// The name of the template.
     /// This member is required.
     public var templateName: Swift.String?
@@ -8309,7 +8309,7 @@ public struct GetEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetEmailTemplateInputBody: Swift.Equatable {
+struct GetEmailTemplateInputBody {
 }
 
 extension GetEmailTemplateInputBody: Swift.Decodable {
@@ -8333,7 +8333,7 @@ extension GetEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following element is returned by the service.
-public struct GetEmailTemplateOutput: Swift.Equatable {
+public struct GetEmailTemplateOutput {
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -8351,7 +8351,7 @@ public struct GetEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailTemplateOutputBody: Swift.Equatable {
+struct GetEmailTemplateOutputBody {
     let templateName: Swift.String?
     let templateContent: SESv2ClientTypes.EmailTemplateContent?
 }
@@ -8395,7 +8395,7 @@ extension GetExportJobInput {
 }
 
 /// Represents a request to retrieve information about an export job using the export job ID.
-public struct GetExportJobInput: Swift.Equatable {
+public struct GetExportJobInput {
     /// The export job ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -8408,7 +8408,7 @@ public struct GetExportJobInput: Swift.Equatable {
     }
 }
 
-struct GetExportJobInputBody: Swift.Equatable {
+struct GetExportJobInputBody {
 }
 
 extension GetExportJobInputBody: Swift.Decodable {
@@ -8446,7 +8446,7 @@ extension GetExportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct GetExportJobOutput: Swift.Equatable {
+public struct GetExportJobOutput {
     /// The timestamp of when the export job was completed.
     public var completedTimestamp: ClientRuntime.Date?
     /// The timestamp of when the export job was created.
@@ -8490,7 +8490,7 @@ public struct GetExportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetExportJobOutputBody: Swift.Equatable {
+struct GetExportJobOutputBody {
     let jobId: Swift.String?
     let exportSourceType: SESv2ClientTypes.ExportSourceType?
     let jobStatus: SESv2ClientTypes.JobStatus?
@@ -8562,7 +8562,7 @@ extension GetImportJobInput {
 }
 
 /// Represents a request for information about an import job using the import job ID.
-public struct GetImportJobInput: Swift.Equatable {
+public struct GetImportJobInput {
     /// The ID of the import job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -8575,7 +8575,7 @@ public struct GetImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetImportJobInputBody: Swift.Equatable {
+struct GetImportJobInputBody {
 }
 
 extension GetImportJobInputBody: Swift.Decodable {
@@ -8613,7 +8613,7 @@ extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct GetImportJobOutput: Swift.Equatable {
+public struct GetImportJobOutput {
     /// The time stamp of when the import job was completed.
     public var completedTimestamp: ClientRuntime.Date?
     /// The time stamp of when the import job was created.
@@ -8657,7 +8657,7 @@ public struct GetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetImportJobOutputBody: Swift.Equatable {
+struct GetImportJobOutputBody {
     let jobId: Swift.String?
     let importDestination: SESv2ClientTypes.ImportDestination?
     let importDataSource: SESv2ClientTypes.ImportDataSource?
@@ -8729,7 +8729,7 @@ extension GetMessageInsightsInput {
 }
 
 /// A request to return information about a message.
-public struct GetMessageInsightsInput: Swift.Equatable {
+public struct GetMessageInsightsInput {
     /// A MessageId is a unique identifier for a message, and is returned when sending emails through Amazon SES.
     /// This member is required.
     public var messageId: Swift.String?
@@ -8742,7 +8742,7 @@ public struct GetMessageInsightsInput: Swift.Equatable {
     }
 }
 
-struct GetMessageInsightsInputBody: Swift.Equatable {
+struct GetMessageInsightsInputBody {
 }
 
 extension GetMessageInsightsInputBody: Swift.Decodable {
@@ -8777,7 +8777,7 @@ extension GetMessageInsightsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about a message.
-public struct GetMessageInsightsOutput: Swift.Equatable {
+public struct GetMessageInsightsOutput {
     /// A list of tags, in the form of name/value pairs, that were applied to the email you sent, along with Amazon SES [Auto-Tags](https://docs.aws.amazon.com/ses/latest/dg/monitor-using-event-publishing.html).
     public var emailTags: [SESv2ClientTypes.MessageTag]?
     /// The from address used to send the message.
@@ -8805,7 +8805,7 @@ public struct GetMessageInsightsOutput: Swift.Equatable {
     }
 }
 
-struct GetMessageInsightsOutputBody: Swift.Equatable {
+struct GetMessageInsightsOutputBody {
     let messageId: Swift.String?
     let fromEmailAddress: Swift.String?
     let subject: Swift.String?
@@ -8879,7 +8879,7 @@ extension GetSuppressedDestinationInput {
 }
 
 /// A request to retrieve information about an email address that's on the suppression list for your account.
-public struct GetSuppressedDestinationInput: Swift.Equatable {
+public struct GetSuppressedDestinationInput {
     /// The email address that's on the account suppression list.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -8892,7 +8892,7 @@ public struct GetSuppressedDestinationInput: Swift.Equatable {
     }
 }
 
-struct GetSuppressedDestinationInputBody: Swift.Equatable {
+struct GetSuppressedDestinationInputBody {
 }
 
 extension GetSuppressedDestinationInputBody: Swift.Decodable {
@@ -8914,7 +8914,7 @@ extension GetSuppressedDestinationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Information about the suppressed email address.
-public struct GetSuppressedDestinationOutput: Swift.Equatable {
+public struct GetSuppressedDestinationOutput {
     /// An object containing information about the suppressed email address.
     /// This member is required.
     public var suppressedDestination: SESv2ClientTypes.SuppressedDestination?
@@ -8927,7 +8927,7 @@ public struct GetSuppressedDestinationOutput: Swift.Equatable {
     }
 }
 
-struct GetSuppressedDestinationOutputBody: Swift.Equatable {
+struct GetSuppressedDestinationOutputBody {
     let suppressedDestination: SESv2ClientTypes.SuppressedDestination?
 }
 
@@ -8977,7 +8977,7 @@ extension SESv2ClientTypes.GuardianAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing additional settings for your VDM configuration as applicable to the Guardian.
-    public struct GuardianAttributes: Swift.Equatable {
+    public struct GuardianAttributes {
         /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:
         ///
         /// * ENABLED – Amazon SES enables optimized shared delivery for your account.
@@ -9016,7 +9016,7 @@ extension SESv2ClientTypes.GuardianOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing additional settings for your VDM configuration as applicable to the Guardian.
-    public struct GuardianOptions: Swift.Equatable {
+    public struct GuardianOptions {
         /// Specifies the status of your VDM optimized shared delivery. Can be one of the following:
         ///
         /// * ENABLED – Amazon SES enables optimized shared delivery for the configuration set.
@@ -9073,7 +9073,7 @@ extension SESv2ClientTypes.IdentityInfo: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Information about an email identity.
-    public struct IdentityInfo: Swift.Equatable {
+    public struct IdentityInfo {
         /// The address or domain of the identity.
         public var identityName: Swift.String?
         /// The email identity type. Note: the MANAGED_DOMAIN type is not supported for email identity types.
@@ -9171,7 +9171,7 @@ extension SESv2ClientTypes.ImportDataSource: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the data source of the import job.
-    public struct ImportDataSource: Swift.Equatable {
+    public struct ImportDataSource {
         /// The data format of the import job's data source.
         /// This member is required.
         public var dataFormat: SESv2ClientTypes.DataFormat?
@@ -9218,7 +9218,7 @@ extension SESv2ClientTypes.ImportDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the resource destination the import job is going to target.
-    public struct ImportDestination: Swift.Equatable {
+    public struct ImportDestination {
         /// An object that contains the action of the import job towards a contact list.
         public var contactListDestination: SESv2ClientTypes.ContactListDestination?
         /// An object that contains the action of the import job towards suppression list.
@@ -9320,7 +9320,7 @@ extension SESv2ClientTypes.ImportJobSummary: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A summary of the import job.
-    public struct ImportJobSummary: Swift.Equatable {
+    public struct ImportJobSummary {
         /// The date and time when the import job was created.
         public var createdTimestamp: ClientRuntime.Date?
         /// The number of records that failed processing because of invalid input or other reasons.
@@ -9401,7 +9401,7 @@ extension SESv2ClientTypes.InboxPlacementTrackingOption: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the inbox placement data settings for a verified domain that’s associated with your Amazon Web Services account. This data is available only if you enabled the Deliverability dashboard for the domain.
-    public struct InboxPlacementTrackingOption: Swift.Equatable {
+    public struct InboxPlacementTrackingOption {
         /// Specifies whether inbox placement data is being tracked for the domain.
         public var global: Swift.Bool
         /// An array of strings, one for each major email provider that the inbox placement data applies to.
@@ -9452,7 +9452,7 @@ extension SESv2ClientTypes.InsightsEvent: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing details about a specific event.
-    public struct InsightsEvent: Swift.Equatable {
+    public struct InsightsEvent {
         /// Details about bounce or complaint events.
         public var details: SESv2ClientTypes.EventDetails?
         /// The timestamp of the event.
@@ -9525,7 +9525,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -9580,7 +9580,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -9623,7 +9623,7 @@ extension SESv2ClientTypes.IspPlacement: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that describes how email sent during the predictive inbox placement test was handled by a certain email provider.
-    public struct IspPlacement: Swift.Equatable {
+    public struct IspPlacement {
         /// The name of the email provider that the inbox placement data applies to.
         public var ispName: Swift.String?
         /// An object that contains inbox placement metrics for a specific email provider.
@@ -9718,7 +9718,7 @@ extension SESv2ClientTypes.KinesisFirehoseDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines an Amazon Kinesis Data Firehose destination for email events. You can use Amazon Kinesis Data Firehose to stream data to other services, such as Amazon S3 and Amazon Redshift.
-    public struct KinesisFirehoseDestination: Swift.Equatable {
+    public struct KinesisFirehoseDestination {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose stream that the Amazon SES API v2 sends email events to.
         /// This member is required.
         public var deliveryStreamArn: Swift.String?
@@ -9777,7 +9777,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9817,7 +9817,7 @@ extension ListConfigurationSetsInput {
 }
 
 /// A request to obtain a list of configuration sets for your Amazon SES account in the current Amazon Web Services Region.
-public struct ListConfigurationSetsInput: Swift.Equatable {
+public struct ListConfigurationSetsInput {
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListConfigurationSets. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -9833,7 +9833,7 @@ public struct ListConfigurationSetsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsInputBody: Swift.Equatable {
+struct ListConfigurationSetsInputBody {
 }
 
 extension ListConfigurationSetsInputBody: Swift.Decodable {
@@ -9857,7 +9857,7 @@ extension ListConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of configuration sets in your Amazon SES account in the current Amazon Web Services Region.
-public struct ListConfigurationSetsOutput: Swift.Equatable {
+public struct ListConfigurationSetsOutput {
     /// An array that contains all of the configuration sets in your Amazon SES account in the current Amazon Web Services Region.
     public var configurationSets: [Swift.String]?
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListConfigurationSets, and pass this token in the NextToken parameter.
@@ -9873,7 +9873,7 @@ public struct ListConfigurationSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsOutputBody: Swift.Equatable {
+struct ListConfigurationSetsOutputBody {
     let configurationSets: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -9937,7 +9937,7 @@ extension ListContactListsInput {
     }
 }
 
-public struct ListContactListsInput: Swift.Equatable {
+public struct ListContactListsInput {
     /// A string token indicating that there might be additional contact lists available to be listed. Use the token provided in the Response to use in the subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
     public var nextToken: Swift.String?
     /// Maximum number of contact lists to return at once. Use this parameter to paginate results. If additional contact lists exist beyond the specified limit, the NextToken element is sent in the response. Use the NextToken value in subsequent requests to retrieve additional lists.
@@ -9953,7 +9953,7 @@ public struct ListContactListsInput: Swift.Equatable {
     }
 }
 
-struct ListContactListsInputBody: Swift.Equatable {
+struct ListContactListsInputBody {
 }
 
 extension ListContactListsInputBody: Swift.Decodable {
@@ -9976,7 +9976,7 @@ extension ListContactListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactListsOutput: Swift.Equatable {
+public struct ListContactListsOutput {
     /// The available contact lists.
     public var contactLists: [SESv2ClientTypes.ContactList]?
     /// A string token indicating that there might be additional contact lists available to be listed. Copy this token to a subsequent call to ListContactLists with the same parameters to retrieve the next page of contact lists.
@@ -9992,7 +9992,7 @@ public struct ListContactListsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactListsOutputBody: Swift.Equatable {
+struct ListContactListsOutputBody {
     let contactLists: [SESv2ClientTypes.ContactList]?
     let nextToken: Swift.String?
 }
@@ -10060,7 +10060,7 @@ extension SESv2ClientTypes.ListContactsFilter: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A filter that can be applied to a list of contacts.
-    public struct ListContactsFilter: Swift.Equatable {
+    public struct ListContactsFilter {
         /// The status by which you are filtering: OPT_IN or OPT_OUT.
         public var filteredStatus: SESv2ClientTypes.SubscriptionStatus?
         /// Used for filtering by a specific topic preference.
@@ -10117,7 +10117,7 @@ extension ListContactsInput {
     }
 }
 
-public struct ListContactsInput: Swift.Equatable {
+public struct ListContactsInput {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -10142,7 +10142,7 @@ public struct ListContactsInput: Swift.Equatable {
     }
 }
 
-struct ListContactsInputBody: Swift.Equatable {
+struct ListContactsInputBody {
     let filter: SESv2ClientTypes.ListContactsFilter?
 }
 
@@ -10172,7 +10172,7 @@ extension ListContactsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListContactsOutput: Swift.Equatable {
+public struct ListContactsOutput {
     /// The contacts present in a specific contact list.
     public var contacts: [SESv2ClientTypes.Contact]?
     /// A string token indicating that there might be additional contacts available to be listed. Copy this token to a subsequent call to ListContacts with the same parameters to retrieve the next page of contacts.
@@ -10188,7 +10188,7 @@ public struct ListContactsOutput: Swift.Equatable {
     }
 }
 
-struct ListContactsOutputBody: Swift.Equatable {
+struct ListContactsOutputBody {
     let contacts: [SESv2ClientTypes.Contact]?
     let nextToken: Swift.String?
 }
@@ -10254,7 +10254,7 @@ extension ListCustomVerificationEmailTemplatesInput {
 }
 
 /// Represents a request to list the existing custom verification email templates for your account.
-public struct ListCustomVerificationEmailTemplatesInput: Swift.Equatable {
+public struct ListCustomVerificationEmailTemplatesInput {
     /// A token returned from a previous call to ListCustomVerificationEmailTemplates to indicate the position in the list of custom verification email templates.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListCustomVerificationEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 50.
@@ -10270,7 +10270,7 @@ public struct ListCustomVerificationEmailTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListCustomVerificationEmailTemplatesInputBody: Swift.Equatable {
+struct ListCustomVerificationEmailTemplatesInputBody {
 }
 
 extension ListCustomVerificationEmailTemplatesInputBody: Swift.Decodable {
@@ -10294,7 +10294,7 @@ extension ListCustomVerificationEmailTemplatesOutput: ClientRuntime.HttpResponse
 }
 
 /// The following elements are returned by the service.
-public struct ListCustomVerificationEmailTemplatesOutput: Swift.Equatable {
+public struct ListCustomVerificationEmailTemplatesOutput {
     /// A list of the custom verification email templates that exist in your account.
     public var customVerificationEmailTemplates: [SESv2ClientTypes.CustomVerificationEmailTemplateMetadata]?
     /// A token indicating that there are additional custom verification email templates available to be listed. Pass this token to a subsequent call to ListCustomVerificationEmailTemplates to retrieve the next 50 custom verification email templates.
@@ -10310,7 +10310,7 @@ public struct ListCustomVerificationEmailTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomVerificationEmailTemplatesOutputBody: Swift.Equatable {
+struct ListCustomVerificationEmailTemplatesOutputBody {
     let customVerificationEmailTemplates: [SESv2ClientTypes.CustomVerificationEmailTemplateMetadata]?
     let nextToken: Swift.String?
 }
@@ -10375,7 +10375,7 @@ extension ListDedicatedIpPoolsInput {
 }
 
 /// A request to obtain a list of dedicated IP pools.
-public struct ListDedicatedIpPoolsInput: Swift.Equatable {
+public struct ListDedicatedIpPoolsInput {
     /// A token returned from a previous call to ListDedicatedIpPools to indicate the position in the list of dedicated IP pools.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListDedicatedIpPools. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results.
@@ -10391,7 +10391,7 @@ public struct ListDedicatedIpPoolsInput: Swift.Equatable {
     }
 }
 
-struct ListDedicatedIpPoolsInputBody: Swift.Equatable {
+struct ListDedicatedIpPoolsInputBody {
 }
 
 extension ListDedicatedIpPoolsInputBody: Swift.Decodable {
@@ -10415,7 +10415,7 @@ extension ListDedicatedIpPoolsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of dedicated IP pools.
-public struct ListDedicatedIpPoolsOutput: Swift.Equatable {
+public struct ListDedicatedIpPoolsOutput {
     /// A list of all of the dedicated IP pools that are associated with your Amazon Web Services account in the current Region.
     public var dedicatedIpPools: [Swift.String]?
     /// A token that indicates that there are additional IP pools to list. To view additional IP pools, issue another request to ListDedicatedIpPools, passing this token in the NextToken parameter.
@@ -10431,7 +10431,7 @@ public struct ListDedicatedIpPoolsOutput: Swift.Equatable {
     }
 }
 
-struct ListDedicatedIpPoolsOutputBody: Swift.Equatable {
+struct ListDedicatedIpPoolsOutputBody {
     let dedicatedIpPools: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10496,7 +10496,7 @@ extension ListDeliverabilityTestReportsInput {
 }
 
 /// A request to list all of the predictive inbox placement tests that you've performed.
-public struct ListDeliverabilityTestReportsInput: Swift.Equatable {
+public struct ListDeliverabilityTestReportsInput {
     /// A token returned from a previous call to ListDeliverabilityTestReports to indicate the position in the list of predictive inbox placement tests.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListDeliverabilityTestReports. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -10512,7 +10512,7 @@ public struct ListDeliverabilityTestReportsInput: Swift.Equatable {
     }
 }
 
-struct ListDeliverabilityTestReportsInputBody: Swift.Equatable {
+struct ListDeliverabilityTestReportsInputBody {
 }
 
 extension ListDeliverabilityTestReportsInputBody: Swift.Decodable {
@@ -10536,7 +10536,7 @@ extension ListDeliverabilityTestReportsOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// A list of the predictive inbox placement test reports that are available for your account, regardless of whether or not those tests are complete.
-public struct ListDeliverabilityTestReportsOutput: Swift.Equatable {
+public struct ListDeliverabilityTestReportsOutput {
     /// An object that contains a lists of predictive inbox placement tests that you've performed.
     /// This member is required.
     public var deliverabilityTestReports: [SESv2ClientTypes.DeliverabilityTestReport]?
@@ -10553,7 +10553,7 @@ public struct ListDeliverabilityTestReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListDeliverabilityTestReportsOutputBody: Swift.Equatable {
+struct ListDeliverabilityTestReportsOutputBody {
     let deliverabilityTestReports: [SESv2ClientTypes.DeliverabilityTestReport]?
     let nextToken: Swift.String?
 }
@@ -10634,7 +10634,7 @@ extension ListDomainDeliverabilityCampaignsInput {
 }
 
 /// Retrieve deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard.
-public struct ListDomainDeliverabilityCampaignsInput: Swift.Equatable {
+public struct ListDomainDeliverabilityCampaignsInput {
     /// The last day that you want to obtain deliverability data for. This value has to be less than or equal to 30 days after the value of the StartDate parameter.
     /// This member is required.
     public var endDate: ClientRuntime.Date?
@@ -10665,7 +10665,7 @@ public struct ListDomainDeliverabilityCampaignsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainDeliverabilityCampaignsInputBody: Swift.Equatable {
+struct ListDomainDeliverabilityCampaignsInputBody {
 }
 
 extension ListDomainDeliverabilityCampaignsInputBody: Swift.Decodable {
@@ -10689,7 +10689,7 @@ extension ListDomainDeliverabilityCampaignsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An array of objects that provide deliverability data for all the campaigns that used a specific domain to send email during a specified time range. This data is available for a domain only if you enabled the Deliverability dashboard for the domain.
-public struct ListDomainDeliverabilityCampaignsOutput: Swift.Equatable {
+public struct ListDomainDeliverabilityCampaignsOutput {
     /// An array of responses, one for each campaign that used the domain to send email during the specified time range.
     /// This member is required.
     public var domainDeliverabilityCampaigns: [SESv2ClientTypes.DomainDeliverabilityCampaign]?
@@ -10706,7 +10706,7 @@ public struct ListDomainDeliverabilityCampaignsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainDeliverabilityCampaignsOutputBody: Swift.Equatable {
+struct ListDomainDeliverabilityCampaignsOutputBody {
     let domainDeliverabilityCampaigns: [SESv2ClientTypes.DomainDeliverabilityCampaign]?
     let nextToken: Swift.String?
 }
@@ -10772,7 +10772,7 @@ extension ListEmailIdentitiesInput {
 }
 
 /// A request to list all of the email identities associated with your Amazon Web Services account. This list includes identities that you've already verified, identities that are unverified, and identities that were verified in the past, but are no longer verified.
-public struct ListEmailIdentitiesInput: Swift.Equatable {
+public struct ListEmailIdentitiesInput {
     /// A token returned from a previous call to ListEmailIdentities to indicate the position in the list of identities.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListEmailIdentities. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 0, and can be no more than 1000.
@@ -10788,7 +10788,7 @@ public struct ListEmailIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct ListEmailIdentitiesInputBody: Swift.Equatable {
+struct ListEmailIdentitiesInputBody {
 }
 
 extension ListEmailIdentitiesInputBody: Swift.Decodable {
@@ -10812,7 +10812,7 @@ extension ListEmailIdentitiesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of all of the identities that you've attempted to verify, regardless of whether or not those identities were successfully verified.
-public struct ListEmailIdentitiesOutput: Swift.Equatable {
+public struct ListEmailIdentitiesOutput {
     /// An array that includes all of the email identities associated with your Amazon Web Services account.
     public var emailIdentities: [SESv2ClientTypes.IdentityInfo]?
     /// A token that indicates that there are additional configuration sets to list. To view additional configuration sets, issue another request to ListEmailIdentities, and pass this token in the NextToken parameter.
@@ -10828,7 +10828,7 @@ public struct ListEmailIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListEmailIdentitiesOutputBody: Swift.Equatable {
+struct ListEmailIdentitiesOutputBody {
     let emailIdentities: [SESv2ClientTypes.IdentityInfo]?
     let nextToken: Swift.String?
 }
@@ -10893,7 +10893,7 @@ extension ListEmailTemplatesInput {
 }
 
 /// Represents a request to list the email templates present in your Amazon SES account in the current Amazon Web Services Region. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
-public struct ListEmailTemplatesInput: Swift.Equatable {
+public struct ListEmailTemplatesInput {
     /// A token returned from a previous call to ListEmailTemplates to indicate the position in the list of email templates.
     public var nextToken: Swift.String?
     /// The number of results to show in a single call to ListEmailTemplates. If the number of results is larger than the number you specified in this parameter, then the response includes a NextToken element, which you can use to obtain additional results. The value you specify has to be at least 1, and can be no more than 100.
@@ -10909,7 +10909,7 @@ public struct ListEmailTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListEmailTemplatesInputBody: Swift.Equatable {
+struct ListEmailTemplatesInputBody {
 }
 
 extension ListEmailTemplatesInputBody: Swift.Decodable {
@@ -10933,7 +10933,7 @@ extension ListEmailTemplatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following elements are returned by the service.
-public struct ListEmailTemplatesOutput: Swift.Equatable {
+public struct ListEmailTemplatesOutput {
     /// A token indicating that there are additional email templates available to be listed. Pass this token to a subsequent ListEmailTemplates call to retrieve the next 10 email templates.
     public var nextToken: Swift.String?
     /// An array the contains the name and creation time stamp for each template in your Amazon SES account.
@@ -10949,7 +10949,7 @@ public struct ListEmailTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListEmailTemplatesOutputBody: Swift.Equatable {
+struct ListEmailTemplatesOutputBody {
     let templatesMetadata: [SESv2ClientTypes.EmailTemplateMetadata]?
     let nextToken: Swift.String?
 }
@@ -11023,7 +11023,7 @@ extension ListExportJobsInput {
 }
 
 /// Represents a request to list all export jobs with filters.
-public struct ListExportJobsInput: Swift.Equatable {
+public struct ListExportJobsInput {
     /// A value used to list export jobs that have a certain ExportSourceType.
     public var exportSourceType: SESv2ClientTypes.ExportSourceType?
     /// A value used to list export jobs that have a certain JobStatus.
@@ -11047,7 +11047,7 @@ public struct ListExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListExportJobsInputBody: Swift.Equatable {
+struct ListExportJobsInputBody {
     let nextToken: Swift.String?
     let pageSize: Swift.Int?
     let exportSourceType: SESv2ClientTypes.ExportSourceType?
@@ -11090,7 +11090,7 @@ extension ListExportJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct ListExportJobsOutput: Swift.Equatable {
+public struct ListExportJobsOutput {
     /// A list of the export job summaries.
     public var exportJobs: [SESv2ClientTypes.ExportJobSummary]?
     /// A string token indicating that there might be additional export jobs available to be listed. Use this token to a subsequent call to ListExportJobs with the same parameters to retrieve the next page of export jobs.
@@ -11106,7 +11106,7 @@ public struct ListExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListExportJobsOutputBody: Swift.Equatable {
+struct ListExportJobsOutputBody {
     let exportJobs: [SESv2ClientTypes.ExportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -11184,7 +11184,7 @@ extension ListImportJobsInput {
 }
 
 /// Represents a request to list all of the import jobs for a data destination within the specified maximum number of import jobs.
-public struct ListImportJobsInput: Swift.Equatable {
+public struct ListImportJobsInput {
     /// The destination of the import job, which can be used to list import jobs that have a certain ImportDestinationType.
     public var importDestinationType: SESv2ClientTypes.ImportDestinationType?
     /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
@@ -11204,7 +11204,7 @@ public struct ListImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsInputBody: Swift.Equatable {
+struct ListImportJobsInputBody {
     let importDestinationType: SESv2ClientTypes.ImportDestinationType?
 }
 
@@ -11235,7 +11235,7 @@ extension ListImportJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct ListImportJobsOutput: Swift.Equatable {
+public struct ListImportJobsOutput {
     /// A list of the import job summaries.
     public var importJobs: [SESv2ClientTypes.ImportJobSummary]?
     /// A string token indicating that there might be additional import jobs available to be listed. Copy this token to a subsequent call to ListImportJobs with the same parameters to retrieve the next page of import jobs.
@@ -11251,7 +11251,7 @@ public struct ListImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportJobsOutputBody: Swift.Equatable {
+struct ListImportJobsOutputBody {
     let importJobs: [SESv2ClientTypes.ImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -11319,7 +11319,7 @@ extension SESv2ClientTypes.ListManagementOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object used to specify a list or topic to which an email belongs, which will be used when a contact chooses to unsubscribe.
-    public struct ListManagementOptions: Swift.Equatable {
+    public struct ListManagementOptions {
         /// The name of the contact list.
         /// This member is required.
         public var contactListName: Swift.String?
@@ -11417,7 +11417,7 @@ extension ListRecommendationsInput {
 }
 
 /// Represents a request to list the existing recommendations for your account.
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// Filters applied when retrieving recommendations. Can eiter be an individual filter, or combinations of STATUS and IMPACT or STATUS and TYPE
     public var filter: [Swift.String:Swift.String]?
     /// A token returned from a previous call to ListRecommendations to indicate the position in the list of recommendations.
@@ -11437,7 +11437,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsInputBody: Swift.Equatable {
+struct ListRecommendationsInputBody {
     let filter: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
     let pageSize: Swift.Int?
@@ -11485,7 +11485,7 @@ extension ListRecommendationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to your request to retrieve the list of recommendations for your account.
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// A string token indicating that there might be additional recommendations available to be listed. Use the token provided in the ListRecommendationsResponse to use in the subsequent call to ListRecommendations with the same parameters to retrieve the next page of recommendations.
     public var nextToken: Swift.String?
     /// The recommendations applicable to your account.
@@ -11501,7 +11501,7 @@ public struct ListRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsOutputBody: Swift.Equatable {
+struct ListRecommendationsOutputBody {
     let recommendations: [SESv2ClientTypes.Recommendation]?
     let nextToken: Swift.String?
 }
@@ -11581,7 +11581,7 @@ extension ListSuppressedDestinationsInput {
 }
 
 /// A request to obtain a list of email destinations that are on the suppression list for your account.
-public struct ListSuppressedDestinationsInput: Swift.Equatable {
+public struct ListSuppressedDestinationsInput {
     /// Used to filter the list of suppressed email destinations so that it only includes addresses that were added to the list before a specific date.
     public var endDate: ClientRuntime.Date?
     /// A token returned from a previous call to ListSuppressedDestinations to indicate the position in the list of suppressed email addresses.
@@ -11609,7 +11609,7 @@ public struct ListSuppressedDestinationsInput: Swift.Equatable {
     }
 }
 
-struct ListSuppressedDestinationsInputBody: Swift.Equatable {
+struct ListSuppressedDestinationsInputBody {
 }
 
 extension ListSuppressedDestinationsInputBody: Swift.Decodable {
@@ -11633,7 +11633,7 @@ extension ListSuppressedDestinationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of suppressed email addresses.
-public struct ListSuppressedDestinationsOutput: Swift.Equatable {
+public struct ListSuppressedDestinationsOutput {
     /// A token that indicates that there are additional email addresses on the suppression list for your account. To view additional suppressed addresses, issue another request to ListSuppressedDestinations, and pass this token in the NextToken parameter.
     public var nextToken: Swift.String?
     /// A list of summaries, each containing a summary for a suppressed email destination.
@@ -11649,7 +11649,7 @@ public struct ListSuppressedDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSuppressedDestinationsOutputBody: Swift.Equatable {
+struct ListSuppressedDestinationsOutputBody {
     let suppressedDestinationSummaries: [SESv2ClientTypes.SuppressedDestinationSummary]?
     let nextToken: Swift.String?
 }
@@ -11712,7 +11712,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to retrieve tag information for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11725,7 +11725,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -11746,7 +11746,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array that lists all the tags that are associated with the resource. Each tag consists of a required tag key (Key) and an associated tag value (Value)
     /// This member is required.
     public var tags: [SESv2ClientTypes.Tag]?
@@ -11759,7 +11759,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [SESv2ClientTypes.Tag]?
 }
 
@@ -11830,7 +11830,7 @@ extension SESv2ClientTypes.MailFromAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A list of attributes that are associated with a MAIL FROM domain.
-    public struct MailFromAttributes: Swift.Equatable {
+    public struct MailFromAttributes {
         /// The action to take if the required MX record can't be found when you send an email. When you set this value to USE_DEFAULT_VALUE, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to REJECT_MESSAGE, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
         /// This member is required.
         public var behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure?
@@ -11902,7 +11902,7 @@ public struct MailFromDomainNotVerifiedException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct MailFromDomainNotVerifiedExceptionBody: Swift.Equatable {
+struct MailFromDomainNotVerifiedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12042,7 +12042,7 @@ extension SESv2ClientTypes.Message: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Represents the email message that you're sending. The Message object consists of a subject line and a message body.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The body of the message. You can specify an HTML version of the message, a text-only version of the message, or both.
         /// This member is required.
         public var body: SESv2ClientTypes.Body?
@@ -12093,7 +12093,7 @@ extension SESv2ClientTypes.MessageHeader: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains the name and value of a message header that you add to an email.
-    public struct MessageHeader: Swift.Equatable {
+    public struct MessageHeader {
         /// The name of the message header. The message header name has to meet the following criteria:
         ///
         /// * Can contain any printable ASCII character (33 - 126) except for colon (:).
@@ -12166,7 +12166,7 @@ extension SESv2ClientTypes.MessageInsightsDataSource: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains filters applied when performing the Message Insights export.
-    public struct MessageInsightsDataSource: Swift.Equatable {
+    public struct MessageInsightsDataSource {
         /// Represents the end date for the export interval as a timestamp. The end date is inclusive.
         /// This member is required.
         public var endDate: ClientRuntime.Date?
@@ -12321,7 +12321,7 @@ extension SESv2ClientTypes.MessageInsightsFilters: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object containing Message Insights filters. If you specify multiple filters, the filters are joined by AND. If you specify multiple values for a filter, the values are joined by OR. Filter values are case-sensitive. FromEmailAddress, Destination, and Subject filters support partial match. A partial match is performed by using the * wildcard character placed at the beginning (suffix match), the end (prefix match) or both ends of the string (contains match). In order to match the literal characters * or \, they must be escaped using the \ character. If no wildcard character is present, an exact match is performed.
-    public struct MessageInsightsFilters: Swift.Equatable {
+    public struct MessageInsightsFilters {
         /// The recipient's email address.
         public var destination: [Swift.String]?
         /// The from address used to send the message.
@@ -12394,7 +12394,7 @@ public struct MessageRejected: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct MessageRejectedBody: Swift.Equatable {
+struct MessageRejectedBody {
     let message: Swift.String?
 }
 
@@ -12437,7 +12437,7 @@ extension SESv2ClientTypes.MessageTag: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Contains the name and value of a tag that you apply to an email. You can use message tags when you publish email sending events.
-    public struct MessageTag: Swift.Equatable {
+    public struct MessageTag {
         /// The name of the message tag. The message tag name has to meet the following criteria:
         ///
         /// * It can only contain ASCII letters (a–z, A–Z), numbers (0–9), underscores (_), or dashes (-).
@@ -12612,7 +12612,7 @@ extension SESv2ClientTypes.MetricDataError: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An error corresponding to the unsuccessful processing of a single metric data query.
-    public struct MetricDataError: Swift.Equatable {
+    public struct MetricDataError {
         /// The query error code. Can be one of:
         ///
         /// * INTERNAL_FAILURE – Amazon SES has failed to process one of the queries.
@@ -12695,7 +12695,7 @@ extension SESv2ClientTypes.MetricDataResult: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The result of a single metric data query.
-    public struct MetricDataResult: Swift.Equatable {
+    public struct MetricDataResult {
         /// The query identifier.
         public var id: Swift.String?
         /// A list of timestamps for the metric data results.
@@ -12867,7 +12867,7 @@ extension SESv2ClientTypes.MetricsDataSource: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the data source for the metrics export.
-    public struct MetricsDataSource: Swift.Equatable {
+    public struct MetricsDataSource {
         /// An object that contains a mapping between a MetricDimensionName and MetricDimensionValue to filter metrics by. Must contain a least 1 dimension but no more than 3 unique ones.
         /// This member is required.
         public var dimensions: [Swift.String:[Swift.String]]?
@@ -12941,7 +12941,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -13002,7 +13002,7 @@ extension SESv2ClientTypes.OverallVolume: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about email that was sent from the selected domain.
-    public struct OverallVolume: Swift.Equatable {
+    public struct OverallVolume {
         /// An object that contains inbox and junk mail placement metrics for individual email providers.
         public var domainIspPlacements: [SESv2ClientTypes.DomainIspPlacement]?
         /// The percentage of emails that were sent from the domain that were read by their recipients.
@@ -13045,7 +13045,7 @@ extension SESv2ClientTypes.PinpointDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines an Amazon Pinpoint project destination for email events. You can send email event data to a Amazon Pinpoint project to view metrics using the Transactional Messaging dashboards that are built in to Amazon Pinpoint. For more information, see [Transactional Messaging Charts](https://docs.aws.amazon.com/pinpoint/latest/userguide/analytics-transactional-messages.html) in the Amazon Pinpoint User Guide.
-    public struct PinpointDestination: Swift.Equatable {
+    public struct PinpointDestination {
         /// The Amazon Resource Name (ARN) of the Amazon Pinpoint project to send email events to.
         public var applicationArn: Swift.String?
 
@@ -13104,7 +13104,7 @@ extension SESv2ClientTypes.PlacementStatistics: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains inbox placement data for an email provider.
-    public struct PlacementStatistics: Swift.Equatable {
+    public struct PlacementStatistics {
         /// The percentage of emails that were authenticated by using DomainKeys Identified Mail (DKIM) during the predictive inbox placement test.
         public var dkimPercentage: Swift.Double?
         /// The percentage of emails that arrived in recipients' inboxes during the predictive inbox placement test.
@@ -13155,7 +13155,7 @@ extension PutAccountDedicatedIpWarmupAttributesInput {
 }
 
 /// A request to enable or disable the automatic IP address warm-up feature.
-public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
+public struct PutAccountDedicatedIpWarmupAttributesInput {
     /// Enables or disables the automatic warm-up feature for dedicated IP addresses that are associated with your Amazon SES account in the current Amazon Web Services Region. Set to true to enable the automatic warm-up feature, or set to false to disable it.
     public var autoWarmupEnabled: Swift.Bool?
 
@@ -13167,7 +13167,7 @@ public struct PutAccountDedicatedIpWarmupAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountDedicatedIpWarmupAttributesInputBody: Swift.Equatable {
+struct PutAccountDedicatedIpWarmupAttributesInputBody {
     let autoWarmupEnabled: Swift.Bool?
 }
 
@@ -13189,7 +13189,7 @@ extension PutAccountDedicatedIpWarmupAttributesOutput: ClientRuntime.HttpRespons
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountDedicatedIpWarmupAttributesOutput: Swift.Equatable {
+public struct PutAccountDedicatedIpWarmupAttributesOutput {
 
     public init() { }
 }
@@ -13255,7 +13255,7 @@ extension PutAccountDetailsInput {
 }
 
 /// A request to submit new account details.
-public struct PutAccountDetailsInput: Swift.Equatable {
+public struct PutAccountDetailsInput {
     /// Additional email addresses that you would like to be notified regarding Amazon SES matters.
     public var additionalContactEmailAddresses: [Swift.String]?
     /// The language you would prefer to be contacted with.
@@ -13290,7 +13290,7 @@ public struct PutAccountDetailsInput: Swift.Equatable {
     }
 }
 
-struct PutAccountDetailsInputBody: Swift.Equatable {
+struct PutAccountDetailsInputBody {
     let mailType: SESv2ClientTypes.MailType?
     let websiteURL: Swift.String?
     let contactLanguage: SESv2ClientTypes.ContactLanguage?
@@ -13341,7 +13341,7 @@ extension PutAccountDetailsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountDetailsOutput: Swift.Equatable {
+public struct PutAccountDetailsOutput {
 
     public init() { }
 }
@@ -13380,7 +13380,7 @@ extension PutAccountSendingAttributesInput {
 }
 
 /// A request to change the ability of your account to send email.
-public struct PutAccountSendingAttributesInput: Swift.Equatable {
+public struct PutAccountSendingAttributesInput {
     /// Enables or disables your account's ability to send email. Set to true to enable email sending, or set to false to disable email sending. If Amazon Web Services paused your account's ability to send email, you can't use this operation to resume your account's ability to send email.
     public var sendingEnabled: Swift.Bool?
 
@@ -13392,7 +13392,7 @@ public struct PutAccountSendingAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountSendingAttributesInputBody: Swift.Equatable {
+struct PutAccountSendingAttributesInputBody {
     let sendingEnabled: Swift.Bool?
 }
 
@@ -13414,7 +13414,7 @@ extension PutAccountSendingAttributesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountSendingAttributesOutput: Swift.Equatable {
+public struct PutAccountSendingAttributesOutput {
 
     public init() { }
 }
@@ -13455,7 +13455,7 @@ extension PutAccountSuppressionAttributesInput {
 }
 
 /// A request to change your account's suppression preferences.
-public struct PutAccountSuppressionAttributesInput: Swift.Equatable {
+public struct PutAccountSuppressionAttributesInput {
     /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:
     ///
     /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.
@@ -13471,7 +13471,7 @@ public struct PutAccountSuppressionAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountSuppressionAttributesInputBody: Swift.Equatable {
+struct PutAccountSuppressionAttributesInputBody {
     let suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 }
 
@@ -13502,7 +13502,7 @@ extension PutAccountSuppressionAttributesOutput: ClientRuntime.HttpResponseBindi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutAccountSuppressionAttributesOutput: Swift.Equatable {
+public struct PutAccountSuppressionAttributesOutput {
 
     public init() { }
 }
@@ -13540,7 +13540,7 @@ extension PutAccountVdmAttributesInput {
 }
 
 /// A request to submit new account VDM attributes.
-public struct PutAccountVdmAttributesInput: Swift.Equatable {
+public struct PutAccountVdmAttributesInput {
     /// The VDM attributes that you wish to apply to your Amazon SES account.
     /// This member is required.
     public var vdmAttributes: SESv2ClientTypes.VdmAttributes?
@@ -13553,7 +13553,7 @@ public struct PutAccountVdmAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountVdmAttributesInputBody: Swift.Equatable {
+struct PutAccountVdmAttributesInputBody {
     let vdmAttributes: SESv2ClientTypes.VdmAttributes?
 }
 
@@ -13574,7 +13574,7 @@ extension PutAccountVdmAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAccountVdmAttributesOutput: Swift.Equatable {
+public struct PutAccountVdmAttributesOutput {
 
     public init() { }
 }
@@ -13619,7 +13619,7 @@ extension PutConfigurationSetDeliveryOptionsInput {
 }
 
 /// A request to associate a configuration set with a dedicated IP pool.
-public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsInput {
     /// The name of the configuration set to associate with a dedicated IP pool.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -13640,7 +13640,7 @@ public struct PutConfigurationSetDeliveryOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetDeliveryOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetDeliveryOptionsInputBody {
     let tlsPolicy: SESv2ClientTypes.TlsPolicy?
     let sendingPoolName: Swift.String?
 }
@@ -13666,7 +13666,7 @@ extension PutConfigurationSetDeliveryOptionsOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetDeliveryOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetDeliveryOptionsOutput {
 
     public init() { }
 }
@@ -13708,7 +13708,7 @@ extension PutConfigurationSetReputationOptionsInput {
 }
 
 /// A request to enable or disable tracking of reputation metrics for a configuration set.
-public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetReputationOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -13725,7 +13725,7 @@ public struct PutConfigurationSetReputationOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetReputationOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetReputationOptionsInputBody {
     let reputationMetricsEnabled: Swift.Bool?
 }
 
@@ -13747,7 +13747,7 @@ extension PutConfigurationSetReputationOptionsOutput: ClientRuntime.HttpResponse
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetReputationOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetReputationOptionsOutput {
 
     public init() { }
 }
@@ -13789,7 +13789,7 @@ extension PutConfigurationSetSendingOptionsInput {
 }
 
 /// A request to enable or disable the ability of Amazon SES to send emails that use a specific configuration set.
-public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetSendingOptionsInput {
     /// The name of the configuration set to enable or disable email sending for.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -13806,7 +13806,7 @@ public struct PutConfigurationSetSendingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetSendingOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetSendingOptionsInputBody {
     let sendingEnabled: Swift.Bool?
 }
 
@@ -13828,7 +13828,7 @@ extension PutConfigurationSetSendingOptionsOutput: ClientRuntime.HttpResponseBin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetSendingOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetSendingOptionsOutput {
 
     public init() { }
 }
@@ -13873,7 +13873,7 @@ extension PutConfigurationSetSuppressionOptionsInput {
 }
 
 /// A request to change the account suppression list preferences for a specific configuration set.
-public struct PutConfigurationSetSuppressionOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetSuppressionOptionsInput {
     /// The name of the configuration set to change the suppression list preferences for.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -13894,7 +13894,7 @@ public struct PutConfigurationSetSuppressionOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetSuppressionOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetSuppressionOptionsInputBody {
     let suppressedReasons: [SESv2ClientTypes.SuppressionListReason]?
 }
 
@@ -13925,7 +13925,7 @@ extension PutConfigurationSetSuppressionOptionsOutput: ClientRuntime.HttpRespons
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetSuppressionOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetSuppressionOptionsOutput {
 
     public init() { }
 }
@@ -13967,7 +13967,7 @@ extension PutConfigurationSetTrackingOptionsInput {
 }
 
 /// A request to add a custom domain for tracking open and click events to a configuration set.
-public struct PutConfigurationSetTrackingOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetTrackingOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -13984,7 +13984,7 @@ public struct PutConfigurationSetTrackingOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetTrackingOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetTrackingOptionsInputBody {
     let customRedirectDomain: Swift.String?
 }
 
@@ -14006,7 +14006,7 @@ extension PutConfigurationSetTrackingOptionsOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetTrackingOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetTrackingOptionsOutput {
 
     public init() { }
 }
@@ -14048,7 +14048,7 @@ extension PutConfigurationSetVdmOptionsInput {
 }
 
 /// A request to add specific VDM settings to a configuration set.
-public struct PutConfigurationSetVdmOptionsInput: Swift.Equatable {
+public struct PutConfigurationSetVdmOptionsInput {
     /// The name of the configuration set.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -14065,7 +14065,7 @@ public struct PutConfigurationSetVdmOptionsInput: Swift.Equatable {
     }
 }
 
-struct PutConfigurationSetVdmOptionsInputBody: Swift.Equatable {
+struct PutConfigurationSetVdmOptionsInputBody {
     let vdmOptions: SESv2ClientTypes.VdmOptions?
 }
 
@@ -14087,7 +14087,7 @@ extension PutConfigurationSetVdmOptionsOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutConfigurationSetVdmOptionsOutput: Swift.Equatable {
+public struct PutConfigurationSetVdmOptionsOutput {
 
     public init() { }
 }
@@ -14129,7 +14129,7 @@ extension PutDedicatedIpInPoolInput {
 }
 
 /// A request to move a dedicated IP address to a dedicated IP pool.
-public struct PutDedicatedIpInPoolInput: Swift.Equatable {
+public struct PutDedicatedIpInPoolInput {
     /// The name of the IP pool that you want to add the dedicated IP address to. You have to specify an IP pool that already exists.
     /// This member is required.
     public var destinationPoolName: Swift.String?
@@ -14147,7 +14147,7 @@ public struct PutDedicatedIpInPoolInput: Swift.Equatable {
     }
 }
 
-struct PutDedicatedIpInPoolInputBody: Swift.Equatable {
+struct PutDedicatedIpInPoolInputBody {
     let destinationPoolName: Swift.String?
 }
 
@@ -14169,7 +14169,7 @@ extension PutDedicatedIpInPoolOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutDedicatedIpInPoolOutput: Swift.Equatable {
+public struct PutDedicatedIpInPoolOutput {
 
     public init() { }
 }
@@ -14211,7 +14211,7 @@ extension PutDedicatedIpPoolScalingAttributesInput {
 }
 
 /// A request to convert a dedicated IP pool to a different scaling mode.
-public struct PutDedicatedIpPoolScalingAttributesInput: Swift.Equatable {
+public struct PutDedicatedIpPoolScalingAttributesInput {
     /// The name of the dedicated IP pool.
     /// This member is required.
     public var poolName: Swift.String?
@@ -14229,7 +14229,7 @@ public struct PutDedicatedIpPoolScalingAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutDedicatedIpPoolScalingAttributesInputBody: Swift.Equatable {
+struct PutDedicatedIpPoolScalingAttributesInputBody {
     let scalingMode: SESv2ClientTypes.ScalingMode?
 }
 
@@ -14251,7 +14251,7 @@ extension PutDedicatedIpPoolScalingAttributesOutput: ClientRuntime.HttpResponseB
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutDedicatedIpPoolScalingAttributesOutput: Swift.Equatable {
+public struct PutDedicatedIpPoolScalingAttributesOutput {
 
     public init() { }
 }
@@ -14294,7 +14294,7 @@ extension PutDedicatedIpWarmupAttributesInput {
 }
 
 /// A request to change the warm-up attributes for a dedicated IP address. This operation is useful when you want to resume the warm-up process for an existing IP address.
-public struct PutDedicatedIpWarmupAttributesInput: Swift.Equatable {
+public struct PutDedicatedIpWarmupAttributesInput {
     /// The dedicated IP address that you want to update the warm-up attributes for.
     /// This member is required.
     public var ip: Swift.String?
@@ -14312,7 +14312,7 @@ public struct PutDedicatedIpWarmupAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutDedicatedIpWarmupAttributesInputBody: Swift.Equatable {
+struct PutDedicatedIpWarmupAttributesInputBody {
     let warmupPercentage: Swift.Int?
 }
 
@@ -14334,7 +14334,7 @@ extension PutDedicatedIpWarmupAttributesOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutDedicatedIpWarmupAttributesOutput: Swift.Equatable {
+public struct PutDedicatedIpWarmupAttributesOutput {
 
     public init() { }
 }
@@ -14380,7 +14380,7 @@ extension PutDeliverabilityDashboardOptionInput {
 }
 
 /// Enable or disable the Deliverability dashboard. When you enable the Deliverability dashboard, you gain access to reputation, deliverability, and other metrics for the domains that you use to send email using Amazon SES API v2. You also gain the ability to perform predictive inbox placement tests. When you use the Deliverability dashboard, you pay a monthly subscription charge, in addition to any other fees that you accrue by using Amazon SES and other Amazon Web Services services. For more information about the features and cost of a Deliverability dashboard subscription, see [Amazon Pinpoint Pricing](http://aws.amazon.com/pinpoint/pricing/).
-public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
+public struct PutDeliverabilityDashboardOptionInput {
     /// Specifies whether to enable the Deliverability dashboard. To enable the dashboard, set this value to true.
     /// This member is required.
     public var dashboardEnabled: Swift.Bool?
@@ -14397,7 +14397,7 @@ public struct PutDeliverabilityDashboardOptionInput: Swift.Equatable {
     }
 }
 
-struct PutDeliverabilityDashboardOptionInputBody: Swift.Equatable {
+struct PutDeliverabilityDashboardOptionInputBody {
     let dashboardEnabled: Swift.Bool?
     let subscribedDomains: [SESv2ClientTypes.DomainDeliverabilityTrackingOption]?
 }
@@ -14432,7 +14432,7 @@ extension PutDeliverabilityDashboardOptionOutput: ClientRuntime.HttpResponseBind
 }
 
 /// A response that indicates whether the Deliverability dashboard is enabled.
-public struct PutDeliverabilityDashboardOptionOutput: Swift.Equatable {
+public struct PutDeliverabilityDashboardOptionOutput {
 
     public init() { }
 }
@@ -14476,7 +14476,7 @@ extension PutEmailIdentityConfigurationSetAttributesInput {
 }
 
 /// A request to associate a configuration set with an email identity.
-public struct PutEmailIdentityConfigurationSetAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityConfigurationSetAttributesInput {
     /// The configuration set to associate with an email identity.
     public var configurationSetName: Swift.String?
     /// The email address or domain to associate with a configuration set.
@@ -14493,7 +14493,7 @@ public struct PutEmailIdentityConfigurationSetAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityConfigurationSetAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityConfigurationSetAttributesInputBody {
     let configurationSetName: Swift.String?
 }
 
@@ -14515,7 +14515,7 @@ extension PutEmailIdentityConfigurationSetAttributesOutput: ClientRuntime.HttpRe
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct PutEmailIdentityConfigurationSetAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityConfigurationSetAttributesOutput {
 
     public init() { }
 }
@@ -14557,7 +14557,7 @@ extension PutEmailIdentityDkimAttributesInput {
 }
 
 /// A request to enable or disable DKIM signing of email that you send from an email identity.
-public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityDkimAttributesInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -14574,7 +14574,7 @@ public struct PutEmailIdentityDkimAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityDkimAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityDkimAttributesInputBody {
     let signingEnabled: Swift.Bool?
 }
 
@@ -14596,7 +14596,7 @@ extension PutEmailIdentityDkimAttributesOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityDkimAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityDkimAttributesOutput {
 
     public init() { }
 }
@@ -14642,7 +14642,7 @@ extension PutEmailIdentityDkimSigningAttributesInput {
 }
 
 /// A request to change the DKIM attributes for an email identity.
-public struct PutEmailIdentityDkimSigningAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityDkimSigningAttributesInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -14668,7 +14668,7 @@ public struct PutEmailIdentityDkimSigningAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityDkimSigningAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityDkimSigningAttributesInputBody {
     let signingAttributesOrigin: SESv2ClientTypes.DkimSigningAttributesOrigin?
     let signingAttributes: SESv2ClientTypes.DkimSigningAttributes?
 }
@@ -14703,7 +14703,7 @@ extension PutEmailIdentityDkimSigningAttributesOutput: ClientRuntime.HttpRespons
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response. The following data is returned in JSON format by the service.
-public struct PutEmailIdentityDkimSigningAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityDkimSigningAttributesOutput {
     /// The DKIM authentication status of the identity. Amazon SES determines the authentication status by searching for specific records in the DNS configuration for your domain. If you used [Easy DKIM](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/easy-dkim.html) to set up DKIM authentication, Amazon SES tries to find three unique CNAME records in the DNS configuration for your domain. If you provided a public key to perform DKIM authentication, Amazon SES tries to find a TXT record that uses the selector that you specified. The value of the TXT record must be a public key that's paired with the private key that you specified in the process of creating the identity. The status can be one of the following:
     ///
     /// * PENDING – The verification process was initiated, but Amazon SES hasn't yet detected the DKIM records in the DNS configuration for the domain.
@@ -14729,7 +14729,7 @@ public struct PutEmailIdentityDkimSigningAttributesOutput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityDkimSigningAttributesOutputBody: Swift.Equatable {
+struct PutEmailIdentityDkimSigningAttributesOutputBody {
     let dkimStatus: SESv2ClientTypes.DkimStatus?
     let dkimTokens: [Swift.String]?
 }
@@ -14795,7 +14795,7 @@ extension PutEmailIdentityFeedbackAttributesInput {
 }
 
 /// A request to set the attributes that control how bounce and complaint events are processed.
-public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityFeedbackAttributesInput {
     /// Sets the feedback forwarding configuration for the identity. If the value is true, you receive email notifications when bounce or complaint events occur. These notifications are sent to the address that you specified in the Return-Path header of the original email. You're required to have a method of tracking bounces and complaints. If you haven't set up another mechanism for receiving bounce or complaint notifications (for example, by setting up an event destination), you receive an email notification when these events occur (even if this setting is disabled).
     public var emailForwardingEnabled: Swift.Bool?
     /// The email identity.
@@ -14812,7 +14812,7 @@ public struct PutEmailIdentityFeedbackAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityFeedbackAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityFeedbackAttributesInputBody {
     let emailForwardingEnabled: Swift.Bool?
 }
 
@@ -14834,7 +14834,7 @@ extension PutEmailIdentityFeedbackAttributesOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityFeedbackAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityFeedbackAttributesOutput {
 
     public init() { }
 }
@@ -14880,7 +14880,7 @@ extension PutEmailIdentityMailFromAttributesInput {
 }
 
 /// A request to configure the custom MAIL FROM domain for a verified identity.
-public struct PutEmailIdentityMailFromAttributesInput: Swift.Equatable {
+public struct PutEmailIdentityMailFromAttributesInput {
     /// The action to take if the required MX record isn't found when you send an email. When you set this value to UseDefaultValue, the mail is sent using amazonses.com as the MAIL FROM domain. When you set this value to RejectMessage, the Amazon SES API v2 returns a MailFromDomainNotVerified error, and doesn't attempt to deliver the email. These behaviors are taken when the custom MAIL FROM domain configuration is in the Pending, Failed, and TemporaryFailure states.
     public var behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure?
     /// The verified email identity.
@@ -14907,7 +14907,7 @@ public struct PutEmailIdentityMailFromAttributesInput: Swift.Equatable {
     }
 }
 
-struct PutEmailIdentityMailFromAttributesInputBody: Swift.Equatable {
+struct PutEmailIdentityMailFromAttributesInputBody {
     let mailFromDomain: Swift.String?
     let behaviorOnMxFailure: SESv2ClientTypes.BehaviorOnMxFailure?
 }
@@ -14933,7 +14933,7 @@ extension PutEmailIdentityMailFromAttributesOutput: ClientRuntime.HttpResponseBi
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutEmailIdentityMailFromAttributesOutput: Swift.Equatable {
+public struct PutEmailIdentityMailFromAttributesOutput {
 
     public init() { }
 }
@@ -14976,7 +14976,7 @@ extension PutSuppressedDestinationInput {
 }
 
 /// A request to add an email destination to the suppression list for your account.
-public struct PutSuppressedDestinationInput: Swift.Equatable {
+public struct PutSuppressedDestinationInput {
     /// The email address that should be added to the suppression list for your account.
     /// This member is required.
     public var emailAddress: Swift.String?
@@ -14994,7 +14994,7 @@ public struct PutSuppressedDestinationInput: Swift.Equatable {
     }
 }
 
-struct PutSuppressedDestinationInputBody: Swift.Equatable {
+struct PutSuppressedDestinationInputBody {
     let emailAddress: Swift.String?
     let reason: SESv2ClientTypes.SuppressionListReason?
 }
@@ -15020,7 +15020,7 @@ extension PutSuppressedDestinationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct PutSuppressedDestinationOutput: Swift.Equatable {
+public struct PutSuppressedDestinationOutput {
 
     public init() { }
 }
@@ -15090,7 +15090,7 @@ extension SESv2ClientTypes.RawMessage: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Represents the raw content of an email message.
-    public struct RawMessage: Swift.Equatable {
+    public struct RawMessage {
         /// The raw email message. The message has to meet the following criteria:
         ///
         /// * The message has to contain a header and a body, separated by one blank line.
@@ -15176,7 +15176,7 @@ extension SESv2ClientTypes.Recommendation: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A recommendation generated for your account.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The first time this issue was encountered and the recommendation was generated.
         public var createdTimestamp: ClientRuntime.Date?
         /// The recommendation description / disambiguator - e.g. DKIM1 and DKIM2 are different recommendations about your DKIM setup.
@@ -15337,7 +15337,7 @@ extension SESv2ClientTypes.ReplacementEmailContent: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The ReplaceEmailContent object to be used for a specific BulkEmailEntry. The ReplacementTemplate can be specified within this object.
-    public struct ReplacementEmailContent: Swift.Equatable {
+    public struct ReplacementEmailContent {
         /// The ReplacementTemplate associated with ReplacementEmailContent.
         public var replacementTemplate: SESv2ClientTypes.ReplacementTemplate?
 
@@ -15372,7 +15372,7 @@ extension SESv2ClientTypes.ReplacementTemplate: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object which contains ReplacementTemplateData to be used for a specific BulkEmailEntry.
-    public struct ReplacementTemplate: Swift.Equatable {
+    public struct ReplacementTemplate {
         /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
         public var replacementTemplateData: Swift.String?
 
@@ -15413,7 +15413,7 @@ extension SESv2ClientTypes.ReputationOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Enable or disable collection of reputation metrics for emails that you send using this configuration set in the current Amazon Web Services Region.
-    public struct ReputationOptions: Swift.Equatable {
+    public struct ReputationOptions {
         /// The date and time (in Unix time) when the reputation metrics were last given a fresh start. When your account is given a fresh start, your reputation metrics are calculated starting from the date of the fresh start.
         public var lastFreshStart: ClientRuntime.Date?
         /// If true, tracking of reputation metrics is enabled for the configuration set. If false, tracking of reputation metrics is disabled for the configuration set.
@@ -15458,7 +15458,7 @@ extension SESv2ClientTypes.ReviewDetails: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about your account details review.
-    public struct ReviewDetails: Swift.Equatable {
+    public struct ReviewDetails {
         /// The associated support center case ID (if any).
         public var caseId: Swift.String?
         /// The status of the latest review of your account. The status can be one of the following:
@@ -15557,7 +15557,7 @@ extension SESv2ClientTypes.SOARecord: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the start of authority (SOA) record associated with the identity.
-    public struct SOARecord: Swift.Equatable {
+    public struct SOARecord {
         /// Administrative contact email from the SOA record.
         public var adminEmail: Swift.String?
         /// Primary name server specified in the SOA record.
@@ -15673,7 +15673,7 @@ extension SendBulkEmailInput {
 }
 
 /// Represents a request to send email messages to multiple destinations using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
-public struct SendBulkEmailInput: Swift.Equatable {
+public struct SendBulkEmailInput {
     /// The list of bulk email entry objects.
     /// This member is required.
     public var bulkEmailEntries: [SESv2ClientTypes.BulkEmailEntry]?
@@ -15719,7 +15719,7 @@ public struct SendBulkEmailInput: Swift.Equatable {
     }
 }
 
-struct SendBulkEmailInputBody: Swift.Equatable {
+struct SendBulkEmailInputBody {
     let fromEmailAddress: Swift.String?
     let fromEmailAddressIdentityArn: Swift.String?
     let replyToAddresses: [Swift.String]?
@@ -15807,7 +15807,7 @@ extension SendBulkEmailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following data is returned in JSON format by the service.
-public struct SendBulkEmailOutput: Swift.Equatable {
+public struct SendBulkEmailOutput {
     /// One object per intended recipient. Check each response object and retry any messages with a failure status.
     /// This member is required.
     public var bulkEmailEntryResults: [SESv2ClientTypes.BulkEmailEntryResult]?
@@ -15820,7 +15820,7 @@ public struct SendBulkEmailOutput: Swift.Equatable {
     }
 }
 
-struct SendBulkEmailOutputBody: Swift.Equatable {
+struct SendBulkEmailOutputBody {
     let bulkEmailEntryResults: [SESv2ClientTypes.BulkEmailEntryResult]?
 }
 
@@ -15892,7 +15892,7 @@ extension SendCustomVerificationEmailInput {
 }
 
 /// Represents a request to send a custom verification email to a specified recipient.
-public struct SendCustomVerificationEmailInput: Swift.Equatable {
+public struct SendCustomVerificationEmailInput {
     /// Name of a configuration set to use when sending the verification email.
     public var configurationSetName: Swift.String?
     /// The email address to verify.
@@ -15914,7 +15914,7 @@ public struct SendCustomVerificationEmailInput: Swift.Equatable {
     }
 }
 
-struct SendCustomVerificationEmailInputBody: Swift.Equatable {
+struct SendCustomVerificationEmailInputBody {
     let emailAddress: Swift.String?
     let templateName: Swift.String?
     let configurationSetName: Swift.String?
@@ -15951,7 +15951,7 @@ extension SendCustomVerificationEmailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following element is returned by the service.
-public struct SendCustomVerificationEmailOutput: Swift.Equatable {
+public struct SendCustomVerificationEmailOutput {
     /// The unique message identifier returned from the SendCustomVerificationEmail operation.
     public var messageId: Swift.String?
 
@@ -15963,7 +15963,7 @@ public struct SendCustomVerificationEmailOutput: Swift.Equatable {
     }
 }
 
-struct SendCustomVerificationEmailOutputBody: Swift.Equatable {
+struct SendCustomVerificationEmailOutputBody {
     let messageId: Swift.String?
 }
 
@@ -16059,7 +16059,7 @@ extension SendEmailInput {
 }
 
 /// Represents a request to send a single formatted email using Amazon SES. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-formatted.html).
-public struct SendEmailInput: Swift.Equatable {
+public struct SendEmailInput {
     /// The name of the configuration set to use when sending the email.
     public var configurationSetName: Swift.String?
     /// An object that contains the body of the message. You can send either a Simple message, Raw message, or a Templated message.
@@ -16108,7 +16108,7 @@ public struct SendEmailInput: Swift.Equatable {
     }
 }
 
-struct SendEmailInputBody: Swift.Equatable {
+struct SendEmailInputBody {
     let fromEmailAddress: Swift.String?
     let fromEmailAddressIdentityArn: Swift.String?
     let destination: SESv2ClientTypes.Destination?
@@ -16191,7 +16191,7 @@ extension SendEmailOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A unique message ID that you receive when an email is accepted for sending.
-public struct SendEmailOutput: Swift.Equatable {
+public struct SendEmailOutput {
     /// A unique identifier for the message that is generated when the message is accepted. It's possible for Amazon SES to accept a message without sending it. For example, this can happen when the message that you're trying to send has an attachment that contains a virus, or when you send a templated email that contains invalid personalization content.
     public var messageId: Swift.String?
 
@@ -16203,7 +16203,7 @@ public struct SendEmailOutput: Swift.Equatable {
     }
 }
 
-struct SendEmailOutputBody: Swift.Equatable {
+struct SendEmailOutputBody {
     let messageId: Swift.String?
 }
 
@@ -16270,7 +16270,7 @@ extension SESv2ClientTypes.SendQuota: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the per-day and per-second sending limits for your Amazon SES account in the current Amazon Web Services Region.
-    public struct SendQuota: Swift.Equatable {
+    public struct SendQuota {
         /// The maximum number of emails that you can send in the current Amazon Web Services Region over a 24-hour period. A value of -1 signifies an unlimited quota. (This value is also referred to as your sending quota.)
         public var max24HourSend: Swift.Double
         /// The maximum number of emails that you can send per second in the current Amazon Web Services Region. This value is also called your maximum sending rate or your maximum TPS (transactions per second) rate.
@@ -16313,7 +16313,7 @@ extension SESv2ClientTypes.SendingOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Used to enable or disable email sending for messages that use this configuration set in the current Amazon Web Services Region.
-    public struct SendingOptions: Swift.Equatable {
+    public struct SendingOptions {
         /// If true, email sending is enabled for the configuration set. If false, email sending is disabled for the configuration set.
         public var sendingEnabled: Swift.Bool
 
@@ -16366,7 +16366,7 @@ public struct SendingPausedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct SendingPausedExceptionBody: Swift.Equatable {
+struct SendingPausedExceptionBody {
     let message: Swift.String?
 }
 
@@ -16403,7 +16403,7 @@ extension SESv2ClientTypes.SnsDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines an Amazon SNS destination for email events. You can use Amazon SNS to send notification when certain email events occur.
-    public struct SnsDestination: Swift.Equatable {
+    public struct SnsDestination {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic to publish email events to. For more information about Amazon SNS topics, see the [Amazon SNS Developer Guide](https://docs.aws.amazon.com/sns/latest/dg/CreateTopic.html).
         /// This member is required.
         public var topicArn: Swift.String?
@@ -16489,7 +16489,7 @@ extension SESv2ClientTypes.SuppressedDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about an email address that is on the suppression list for your account.
-    public struct SuppressedDestination: Swift.Equatable {
+    public struct SuppressedDestination {
         /// An optional value that can contain additional information about the reasons that the address was added to the suppression list for your account.
         public var attributes: SESv2ClientTypes.SuppressedDestinationAttributes?
         /// The email address that is on the suppression list for your account.
@@ -16545,7 +16545,7 @@ extension SESv2ClientTypes.SuppressedDestinationAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains additional attributes that are related an email address that is on the suppression list for your account.
-    public struct SuppressedDestinationAttributes: Swift.Equatable {
+    public struct SuppressedDestinationAttributes {
         /// A unique identifier that's generated when an email address is added to the suppression list for your account.
         public var feedbackId: Swift.String?
         /// The unique identifier of the email message that caused the email address to be added to the suppression list for your account.
@@ -16596,7 +16596,7 @@ extension SESv2ClientTypes.SuppressedDestinationSummary: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// A summary that describes the suppressed email address.
-    public struct SuppressedDestinationSummary: Swift.Equatable {
+    public struct SuppressedDestinationSummary {
         /// The email address that's on the suppression list for your account.
         /// This member is required.
         public var emailAddress: Swift.String?
@@ -16654,7 +16654,7 @@ extension SESv2ClientTypes.SuppressionAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the email address suppression preferences for your account in the current Amazon Web Services Region.
-    public struct SuppressionAttributes: Swift.Equatable {
+    public struct SuppressionAttributes {
         /// A list that contains the reasons that email addresses will be automatically added to the suppression list for your account. This list can contain any or all of the following:
         ///
         /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.
@@ -16693,7 +16693,7 @@ extension SESv2ClientTypes.SuppressionListDestination: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains details about the action of suppression list.
-    public struct SuppressionListDestination: Swift.Equatable {
+    public struct SuppressionListDestination {
         /// The type of action to perform on the address. The following are possible values:
         ///
         /// * PUT: add the addresses to the suppression list. If the record already exists, it will override it with the new value.
@@ -16819,7 +16819,7 @@ extension SESv2ClientTypes.SuppressionOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the suppression list preferences for your account.
-    public struct SuppressionOptions: Swift.Equatable {
+    public struct SuppressionOptions {
         /// A list that contains the reasons that email addresses are automatically added to the suppression list for your account. This list can contain any or all of the following:
         ///
         /// * COMPLAINT – Amazon SES adds an email address to the suppression list for your account when a message sent to that address results in a complaint.
@@ -16872,7 +16872,7 @@ extension SESv2ClientTypes {
     /// * The aws: prefix is reserved for use by Amazon Web Services; you can’t use it in any tag keys or values that you define. In addition, you can't edit or remove tag keys or values that use this prefix. Tags that use this prefix don’t count against the limit of 50 tags per resource.
     ///
     /// * You can associate tags with public or shared resources, but the tags are available only for your Amazon Web Services account, not any other accounts that share the resource. In addition, the tags are available only for resources that are located in the specified Amazon Web Services Region for your Amazon Web Services account.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that defines a tag. The maximum length of a tag key is 128 characters. The minimum length is 1 character.
         /// This member is required.
         public var key: Swift.String?
@@ -16919,7 +16919,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to add one or more tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16937,7 +16937,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [SESv2ClientTypes.Tag]?
 }
@@ -16971,7 +16971,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -17041,7 +17041,7 @@ extension SESv2ClientTypes.Template: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the email template to use for an email message, and the values to use for any message variables in that template. An email template is a type of message template that contains content that you want to define, save, and reuse in email messages that you send.
-    public struct Template: Swift.Equatable {
+    public struct Template {
         /// The list of message headers that will be added to the email message.
         public var headers: [SESv2ClientTypes.MessageHeader]?
         /// The Amazon Resource Name (ARN) of the template.
@@ -17091,7 +17091,7 @@ extension TestRenderEmailTemplateInput {
 }
 
 /// >Represents a request to create a preview of the MIME content of an email when provided with a template and a set of replacement data.
-public struct TestRenderEmailTemplateInput: Swift.Equatable {
+public struct TestRenderEmailTemplateInput {
     /// A list of replacement values to apply to the template. This parameter is a JSON object, typically consisting of key-value pairs in which the keys correspond to replacement tags in the email template.
     /// This member is required.
     public var templateData: Swift.String?
@@ -17109,7 +17109,7 @@ public struct TestRenderEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct TestRenderEmailTemplateInputBody: Swift.Equatable {
+struct TestRenderEmailTemplateInputBody {
     let templateData: Swift.String?
 }
 
@@ -17138,7 +17138,7 @@ extension TestRenderEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The following element is returned by the service.
-public struct TestRenderEmailTemplateOutput: Swift.Equatable {
+public struct TestRenderEmailTemplateOutput {
     /// The complete MIME message rendered by applying the data in the TemplateData parameter to the template specified in the TemplateName parameter.
     /// This member is required.
     public var renderedTemplate: Swift.String?
@@ -17151,7 +17151,7 @@ public struct TestRenderEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct TestRenderEmailTemplateOutputBody: Swift.Equatable {
+struct TestRenderEmailTemplateOutputBody {
     let renderedTemplate: Swift.String?
 }
 
@@ -17252,7 +17252,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -17307,7 +17307,7 @@ extension SESv2ClientTypes.Topic: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An interest group, theme, or label within a list. Lists can have multiple topics.
-    public struct Topic: Swift.Equatable {
+    public struct Topic {
         /// The default subscription status to be applied to a contact if the contact has not noted their preference for subscribing to a topic.
         /// This member is required.
         public var defaultSubscriptionStatus: SESv2ClientTypes.SubscriptionStatus?
@@ -17363,7 +17363,7 @@ extension SESv2ClientTypes.TopicFilter: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// Used for filtering by a specific topic preference.
-    public struct TopicFilter: Swift.Equatable {
+    public struct TopicFilter {
         /// The name of a topic on which you wish to apply the filter.
         public var topicName: Swift.String?
         /// Notes that the default subscription status should be applied to a contact because the contact has not noted their preference for subscribing to a topic.
@@ -17408,7 +17408,7 @@ extension SESv2ClientTypes.TopicPreference: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The contact's preference for being opted-in to or opted-out of a topic.
-    public struct TopicPreference: Swift.Equatable {
+    public struct TopicPreference {
         /// The contact's subscription status to a topic which is either OPT_IN or OPT_OUT.
         /// This member is required.
         public var subscriptionStatus: SESv2ClientTypes.SubscriptionStatus?
@@ -17449,7 +17449,7 @@ extension SESv2ClientTypes.TrackingOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the tracking options for a configuration set. When you use the Amazon SES API v2 to send an email, it contains an invisible image that's used to track when recipients open your email. If your email contains links, those links are changed slightly in order to track when recipients click them. These images and links include references to a domain operated by Amazon Web Services. You can optionally configure the Amazon SES to use a domain that you operate for these images and links.
-    public struct TrackingOptions: Swift.Equatable {
+    public struct TrackingOptions {
         /// The domain to use for tracking open and click events.
         /// This member is required.
         public var customRedirectDomain: Swift.String?
@@ -17493,7 +17493,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove one or more tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -17511,7 +17511,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -17525,7 +17525,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -17571,7 +17571,7 @@ extension UpdateConfigurationSetEventDestinationInput {
 }
 
 /// A request to change the settings for an event destination for a configuration set.
-public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationInput {
     /// The name of the configuration set that contains the event destination to modify.
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -17594,7 +17594,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct UpdateConfigurationSetEventDestinationInputBody {
     let eventDestination: SESv2ClientTypes.EventDestinationDefinition?
 }
 
@@ -17616,7 +17616,7 @@ extension UpdateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -17671,7 +17671,7 @@ extension UpdateContactInput {
     }
 }
 
-public struct UpdateContactInput: Swift.Equatable {
+public struct UpdateContactInput {
     /// The attribute data attached to a contact.
     public var attributesData: Swift.String?
     /// The name of the contact list.
@@ -17701,7 +17701,7 @@ public struct UpdateContactInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactInputBody: Swift.Equatable {
+struct UpdateContactInputBody {
     let topicPreferences: [SESv2ClientTypes.TopicPreference]?
     let unsubscribeAll: Swift.Bool?
     let attributesData: Swift.String?
@@ -17764,7 +17764,7 @@ extension UpdateContactListInput {
     }
 }
 
-public struct UpdateContactListInput: Swift.Equatable {
+public struct UpdateContactListInput {
     /// The name of the contact list.
     /// This member is required.
     public var contactListName: Swift.String?
@@ -17785,7 +17785,7 @@ public struct UpdateContactListInput: Swift.Equatable {
     }
 }
 
-struct UpdateContactListInputBody: Swift.Equatable {
+struct UpdateContactListInputBody {
     let topics: [SESv2ClientTypes.Topic]?
     let description: Swift.String?
 }
@@ -17819,7 +17819,7 @@ extension UpdateContactListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactListOutput: Swift.Equatable {
+public struct UpdateContactListOutput {
 
     public init() { }
 }
@@ -17843,7 +17843,7 @@ extension UpdateContactOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateContactOutput: Swift.Equatable {
+public struct UpdateContactOutput {
 
     public init() { }
 }
@@ -17902,7 +17902,7 @@ extension UpdateCustomVerificationEmailTemplateInput {
 }
 
 /// Represents a request to update an existing custom verification email template.
-public struct UpdateCustomVerificationEmailTemplateInput: Swift.Equatable {
+public struct UpdateCustomVerificationEmailTemplateInput {
     /// The URL that the recipient of the verification email is sent to if his or her address is not successfully verified.
     /// This member is required.
     public var failureRedirectionURL: Swift.String?
@@ -17940,7 +17940,7 @@ public struct UpdateCustomVerificationEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomVerificationEmailTemplateInputBody: Swift.Equatable {
+struct UpdateCustomVerificationEmailTemplateInputBody {
     let fromEmailAddress: Swift.String?
     let templateSubject: Swift.String?
     let templateContent: Swift.String?
@@ -17978,7 +17978,7 @@ extension UpdateCustomVerificationEmailTemplateOutput: ClientRuntime.HttpRespons
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct UpdateCustomVerificationEmailTemplateOutput: Swift.Equatable {
+public struct UpdateCustomVerificationEmailTemplateOutput {
 
     public init() { }
 }
@@ -18023,7 +18023,7 @@ extension UpdateEmailIdentityPolicyInput {
 }
 
 /// Represents a request to update a sending authorization policy for an identity. Sending authorization is an Amazon SES feature that enables you to authorize other senders to use your identities. For information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/sending-authorization-identity-owner-tasks-management.html).
-public struct UpdateEmailIdentityPolicyInput: Swift.Equatable {
+public struct UpdateEmailIdentityPolicyInput {
     /// The email identity.
     /// This member is required.
     public var emailIdentity: Swift.String?
@@ -18046,7 +18046,7 @@ public struct UpdateEmailIdentityPolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailIdentityPolicyInputBody: Swift.Equatable {
+struct UpdateEmailIdentityPolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -18068,7 +18068,7 @@ extension UpdateEmailIdentityPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An HTTP 200 response if the request succeeds, or an error message if the request fails.
-public struct UpdateEmailIdentityPolicyOutput: Swift.Equatable {
+public struct UpdateEmailIdentityPolicyOutput {
 
     public init() { }
 }
@@ -18110,7 +18110,7 @@ extension UpdateEmailTemplateInput {
 }
 
 /// Represents a request to update an email template. For more information, see the [Amazon SES Developer Guide](https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-personalized-email-api.html).
-public struct UpdateEmailTemplateInput: Swift.Equatable {
+public struct UpdateEmailTemplateInput {
     /// The content of the email template, composed of a subject line, an HTML part, and a text-only part.
     /// This member is required.
     public var templateContent: SESv2ClientTypes.EmailTemplateContent?
@@ -18128,7 +18128,7 @@ public struct UpdateEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailTemplateInputBody: Swift.Equatable {
+struct UpdateEmailTemplateInputBody {
     let templateContent: SESv2ClientTypes.EmailTemplateContent?
 }
 
@@ -18150,7 +18150,7 @@ extension UpdateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct UpdateEmailTemplateOutput: Swift.Equatable {
+public struct UpdateEmailTemplateOutput {
 
     public init() { }
 }
@@ -18201,7 +18201,7 @@ extension SESv2ClientTypes.VdmAttributes: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// The VDM attributes that apply to your Amazon SES account.
-    public struct VdmAttributes: Swift.Equatable {
+    public struct VdmAttributes {
         /// Specifies additional settings for your VDM configuration as applicable to the Dashboard.
         public var dashboardAttributes: SESv2ClientTypes.DashboardAttributes?
         /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
@@ -18255,7 +18255,7 @@ extension SESv2ClientTypes.VdmOptions: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that defines the VDM settings that apply to emails that you send using the configuration set.
-    public struct VdmOptions: Swift.Equatable {
+    public struct VdmOptions {
         /// Specifies additional settings for your VDM configuration as applicable to the Dashboard.
         public var dashboardOptions: SESv2ClientTypes.DashboardOptions?
         /// Specifies additional settings for your VDM configuration as applicable to the Guardian.
@@ -18353,7 +18353,7 @@ extension SESv2ClientTypes.VerificationInfo: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains additional information about the verification status for the identity.
-    public struct VerificationInfo: Swift.Equatable {
+    public struct VerificationInfo {
         /// Provides the reason for the failure describing why Amazon SES was not able to successfully verify the identity. Below are the possible values:
         ///
         /// * INVALID_VALUE – Amazon SES was able to find the record, but the value contained within the record was invalid. Ensure you have published the correct values for the record.
@@ -18469,7 +18469,7 @@ extension SESv2ClientTypes.VolumeStatistics: Swift.Codable {
 
 extension SESv2ClientTypes {
     /// An object that contains information about the amount of email that was delivered to recipients.
-    public struct VolumeStatistics: Swift.Equatable {
+    public struct VolumeStatistics {
         /// The total number of emails that arrived in recipients' inboxes.
         public var inboxRawCount: Swift.Int?
         /// An estimate of the percentage of emails sent from the current domain that will arrive in recipients' inboxes.

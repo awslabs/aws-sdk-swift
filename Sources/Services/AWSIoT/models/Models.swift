@@ -64,7 +64,7 @@ extension IoTClientTypes.AbortConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria that determine when and how a job abort takes place.
-    public struct AbortConfig: Swift.Equatable {
+    public struct AbortConfig {
         /// The list of criteria that determine when and how to abort the job.
         /// This member is required.
         public var criteriaList: [IoTClientTypes.AbortCriteria]?
@@ -118,7 +118,7 @@ extension IoTClientTypes.AbortCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria that determine when and how a job abort takes place.
-    public struct AbortCriteria: Swift.Equatable {
+    public struct AbortCriteria {
         /// The type of job action to take to initiate the job abort.
         /// This member is required.
         public var action: IoTClientTypes.AbortAction?
@@ -171,7 +171,7 @@ extension AcceptCertificateTransferInput {
 }
 
 /// The input for the AcceptCertificateTransfer operation.
-public struct AcceptCertificateTransferInput: Swift.Equatable {
+public struct AcceptCertificateTransferInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -188,7 +188,7 @@ public struct AcceptCertificateTransferInput: Swift.Equatable {
     }
 }
 
-struct AcceptCertificateTransferInputBody: Swift.Equatable {
+struct AcceptCertificateTransferInputBody {
 }
 
 extension AcceptCertificateTransferInputBody: Swift.Decodable {
@@ -202,7 +202,7 @@ extension AcceptCertificateTransferOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptCertificateTransferOutput: Swift.Equatable {
+public struct AcceptCertificateTransferOutput {
 
     public init() { }
 }
@@ -377,7 +377,7 @@ extension IoTClientTypes.Action: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the actions associated with a rule.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// Change the state of a CloudWatch alarm.
         public var cloudwatchAlarm: IoTClientTypes.CloudwatchAlarmAction?
         /// Send data to CloudWatch Logs.
@@ -592,7 +592,7 @@ extension IoTClientTypes.ActiveViolation: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about an active Device Defender security profile behavior violation.
-    public struct ActiveViolation: Swift.Equatable {
+    public struct ActiveViolation {
         /// The behavior that is being violated.
         public var behavior: IoTClientTypes.Behavior?
         /// The time the most recent violation occurred.
@@ -674,7 +674,7 @@ extension AddThingToBillingGroupInput {
     }
 }
 
-public struct AddThingToBillingGroupInput: Swift.Equatable {
+public struct AddThingToBillingGroupInput {
     /// The ARN of the billing group.
     public var billingGroupArn: Swift.String?
     /// The name of the billing group. This call is asynchronous. It might take several seconds for the detachment to propagate.
@@ -698,7 +698,7 @@ public struct AddThingToBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct AddThingToBillingGroupInputBody: Swift.Equatable {
+struct AddThingToBillingGroupInputBody {
     let billingGroupName: Swift.String?
     let billingGroupArn: Swift.String?
     let thingName: Swift.String?
@@ -731,7 +731,7 @@ extension AddThingToBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddThingToBillingGroupOutput: Swift.Equatable {
+public struct AddThingToBillingGroupOutput {
 
     public init() { }
 }
@@ -786,7 +786,7 @@ extension AddThingToThingGroupInput {
     }
 }
 
-public struct AddThingToThingGroupInput: Swift.Equatable {
+public struct AddThingToThingGroupInput {
     /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
     public var overrideDynamicGroups: Swift.Bool?
     /// The ARN of the thing to add to a group.
@@ -814,7 +814,7 @@ public struct AddThingToThingGroupInput: Swift.Equatable {
     }
 }
 
-struct AddThingToThingGroupInputBody: Swift.Equatable {
+struct AddThingToThingGroupInputBody {
     let thingGroupName: Swift.String?
     let thingGroupArn: Swift.String?
     let thingName: Swift.String?
@@ -851,7 +851,7 @@ extension AddThingToThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddThingToThingGroupOutput: Swift.Equatable {
+public struct AddThingToThingGroupOutput {
 
     public init() { }
 }
@@ -909,7 +909,7 @@ extension IoTClientTypes.AddThingsToThingGroupParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters used when defining a mitigation action that move a set of things to a thing group.
-    public struct AddThingsToThingGroupParams: Swift.Equatable {
+    public struct AddThingsToThingGroupParams {
         /// Specifies if this mitigation action can move the things that triggered the mitigation action even if they are part of one or more dynamic thing groups.
         public var overrideDynamicGroups: Swift.Bool?
         /// The list of groups to which you want to add the things that triggered the mitigation action. You can add a thing to a maximum of 10 groups, but you can't add a thing to more than one group in the same hierarchy.
@@ -967,7 +967,7 @@ extension IoTClientTypes.AggregationType: Swift.Codable {
 
 extension IoTClientTypes {
     /// The type of aggregation queries.
-    public struct AggregationType: Swift.Equatable {
+    public struct AggregationType {
         /// The name of the aggregation type.
         /// This member is required.
         public var name: IoTClientTypes.AggregationTypeName?
@@ -1048,7 +1048,7 @@ extension IoTClientTypes.AlertTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// A structure containing the alert target ARN and the role ARN.
-    public struct AlertTarget: Swift.Equatable {
+    public struct AlertTarget {
         /// The Amazon Resource Name (ARN) of the notification target to which alerts are sent.
         /// This member is required.
         public var alertTargetArn: Swift.String?
@@ -1131,7 +1131,7 @@ extension IoTClientTypes.Allowed: Swift.Codable {
 
 extension IoTClientTypes {
     /// Contains information that allowed the authorization.
-    public struct Allowed: Swift.Equatable {
+    public struct Allowed {
         /// A list of policies that allowed the authentication.
         public var policies: [IoTClientTypes.Policy]?
 
@@ -1172,7 +1172,7 @@ extension IoTClientTypes.AssetPropertyTimestamp: Swift.Codable {
 
 extension IoTClientTypes {
     /// An asset property timestamp entry containing the following information.
-    public struct AssetPropertyTimestamp: Swift.Equatable {
+    public struct AssetPropertyTimestamp {
         /// Optional. A string that contains the nanosecond time offset. Accepts substitution templates.
         public var offsetInNanos: Swift.String?
         /// A string that contains the time in seconds since epoch. Accepts substitution templates.
@@ -1224,7 +1224,7 @@ extension IoTClientTypes.AssetPropertyValue: Swift.Codable {
 
 extension IoTClientTypes {
     /// An asset property value entry containing the following information.
-    public struct AssetPropertyValue: Swift.Equatable {
+    public struct AssetPropertyValue {
         /// Optional. A string that describes the quality of the value. Accepts substitution templates. Must be GOOD, BAD, or UNCERTAIN.
         public var quality: Swift.String?
         /// The asset property value timestamp.
@@ -1301,7 +1301,7 @@ extension IoTClientTypes.AssetPropertyVariant: Swift.Codable {
 
 extension IoTClientTypes {
     /// Contains an asset property value (of a single type).
-    public enum AssetPropertyVariant: Swift.Equatable {
+    public enum AssetPropertyVariant {
         /// Optional. The string value of the value entry. Accepts substitution templates.
         case stringvalue(Swift.String)
         /// Optional. A string that contains the integer value of the value entry. Accepts substitution templates.
@@ -1357,7 +1357,7 @@ extension AssociateTargetsWithJobInput {
     }
 }
 
-public struct AssociateTargetsWithJobInput: Swift.Equatable {
+public struct AssociateTargetsWithJobInput {
     /// An optional comment string describing why the job was associated with the targets.
     public var comment: Swift.String?
     /// The unique identifier you assigned to this job when it was created.
@@ -1383,7 +1383,7 @@ public struct AssociateTargetsWithJobInput: Swift.Equatable {
     }
 }
 
-struct AssociateTargetsWithJobInputBody: Swift.Equatable {
+struct AssociateTargetsWithJobInputBody {
     let targets: [Swift.String]?
     let comment: Swift.String?
 }
@@ -1428,7 +1428,7 @@ extension AssociateTargetsWithJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateTargetsWithJobOutput: Swift.Equatable {
+public struct AssociateTargetsWithJobOutput {
     /// A short text description of the job.
     public var description: Swift.String?
     /// An ARN identifying the job.
@@ -1448,7 +1448,7 @@ public struct AssociateTargetsWithJobOutput: Swift.Equatable {
     }
 }
 
-struct AssociateTargetsWithJobOutputBody: Swift.Equatable {
+struct AssociateTargetsWithJobOutputBody {
     let jobArn: Swift.String?
     let jobId: Swift.String?
     let description: Swift.String?
@@ -1510,7 +1510,7 @@ extension AttachPolicyInput {
     }
 }
 
-public struct AttachPolicyInput: Swift.Equatable {
+public struct AttachPolicyInput {
     /// The name of the policy to attach.
     /// This member is required.
     public var policyName: Swift.String?
@@ -1528,7 +1528,7 @@ public struct AttachPolicyInput: Swift.Equatable {
     }
 }
 
-struct AttachPolicyInputBody: Swift.Equatable {
+struct AttachPolicyInputBody {
     let target: Swift.String?
 }
 
@@ -1549,7 +1549,7 @@ extension AttachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachPolicyOutput: Swift.Equatable {
+public struct AttachPolicyOutput {
 
     public init() { }
 }
@@ -1593,7 +1593,7 @@ extension AttachPrincipalPolicyInput {
 }
 
 /// The input for the AttachPrincipalPolicy operation.
-public struct AttachPrincipalPolicyInput: Swift.Equatable {
+public struct AttachPrincipalPolicyInput {
     /// The policy name.
     /// This member is required.
     public var policyName: Swift.String?
@@ -1611,7 +1611,7 @@ public struct AttachPrincipalPolicyInput: Swift.Equatable {
     }
 }
 
-struct AttachPrincipalPolicyInputBody: Swift.Equatable {
+struct AttachPrincipalPolicyInputBody {
 }
 
 extension AttachPrincipalPolicyInputBody: Swift.Decodable {
@@ -1625,7 +1625,7 @@ extension AttachPrincipalPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachPrincipalPolicyOutput: Swift.Equatable {
+public struct AttachPrincipalPolicyOutput {
 
     public init() { }
 }
@@ -1671,7 +1671,7 @@ extension AttachSecurityProfileInput {
     }
 }
 
-public struct AttachSecurityProfileInput: Swift.Equatable {
+public struct AttachSecurityProfileInput {
     /// The security profile that is attached.
     /// This member is required.
     public var securityProfileName: Swift.String?
@@ -1689,7 +1689,7 @@ public struct AttachSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct AttachSecurityProfileInputBody: Swift.Equatable {
+struct AttachSecurityProfileInputBody {
 }
 
 extension AttachSecurityProfileInputBody: Swift.Decodable {
@@ -1703,7 +1703,7 @@ extension AttachSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachSecurityProfileOutput: Swift.Equatable {
+public struct AttachSecurityProfileOutput {
 
     public init() { }
 }
@@ -1746,7 +1746,7 @@ extension AttachThingPrincipalInput {
 }
 
 /// The input for the AttachThingPrincipal operation.
-public struct AttachThingPrincipalInput: Swift.Equatable {
+public struct AttachThingPrincipalInput {
     /// The principal, which can be a certificate ARN (as returned from the CreateCertificate operation) or an Amazon Cognito ID.
     /// This member is required.
     public var principal: Swift.String?
@@ -1764,7 +1764,7 @@ public struct AttachThingPrincipalInput: Swift.Equatable {
     }
 }
 
-struct AttachThingPrincipalInputBody: Swift.Equatable {
+struct AttachThingPrincipalInputBody {
 }
 
 extension AttachThingPrincipalInputBody: Swift.Decodable {
@@ -1779,7 +1779,7 @@ extension AttachThingPrincipalOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the AttachThingPrincipal operation.
-public struct AttachThingPrincipalOutput: Swift.Equatable {
+public struct AttachThingPrincipalOutput {
 
     public init() { }
 }
@@ -1839,7 +1839,7 @@ extension IoTClientTypes.AttributePayload: Swift.Codable {
 
 extension IoTClientTypes {
     /// The attribute payload.
-    public struct AttributePayload: Swift.Equatable {
+    public struct AttributePayload {
         /// A JSON string containing up to three key-value pair in JSON format. For example: {\"attributes\":{\"string1\":\"string2\"}}
         public var attributes: [Swift.String:Swift.String]?
         /// Specifies whether the list of attributes provided in the AttributePayload is merged with the attributes stored in the registry, instead of overwriting them. To remove an attribute, call UpdateThing with an empty attribute value. The merge attribute is only valid when calling UpdateThing or UpdateThingGroup.
@@ -1878,7 +1878,7 @@ extension IoTClientTypes.AuditCheckConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// Which audit checks are enabled and disabled for this account.
-    public struct AuditCheckConfiguration: Swift.Equatable {
+    public struct AuditCheckConfiguration {
         /// True if this audit check is enabled for this account.
         public var enabled: Swift.Bool
 
@@ -1949,7 +1949,7 @@ extension IoTClientTypes.AuditCheckDetails: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the audit check.
-    public struct AuditCheckDetails: Swift.Equatable {
+    public struct AuditCheckDetails {
         /// True if the check is complete and found all resources compliant.
         public var checkCompliant: Swift.Bool?
         /// The completion status of this check. One of "IN_PROGRESS", "WAITING_FOR_DATA_COLLECTION", "CANCELED", "COMPLETED_COMPLIANT", "COMPLETED_NON_COMPLIANT", or "FAILED".
@@ -2124,7 +2124,7 @@ extension IoTClientTypes.AuditFinding: Swift.Codable {
 
 extension IoTClientTypes {
     /// The findings (results) of the audit.
-    public struct AuditFinding: Swift.Equatable {
+    public struct AuditFinding {
         /// The audit check that generated this result.
         public var checkName: Swift.String?
         /// A unique identifier for this set of audit findings. This identifier is used to apply mitigation tasks to one or more sets of findings.
@@ -2323,7 +2323,7 @@ extension IoTClientTypes.AuditMitigationActionExecutionMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// Returned by ListAuditMitigationActionsTask, this object contains information that describes a mitigation action that has been started.
-    public struct AuditMitigationActionExecutionMetadata: Swift.Equatable {
+    public struct AuditMitigationActionExecutionMetadata {
         /// The unique identifier for the mitigation action being applied by the task.
         public var actionId: Swift.String?
         /// The friendly name of the mitigation action being applied by the task.
@@ -2446,7 +2446,7 @@ extension IoTClientTypes.AuditMitigationActionsTaskMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about an audit mitigation actions task that is returned by ListAuditMitigationActionsTasks.
-    public struct AuditMitigationActionsTaskMetadata: Swift.Equatable {
+    public struct AuditMitigationActionsTaskMetadata {
         /// The time at which the audit mitigation actions task was started.
         public var startTime: ClientRuntime.Date?
         /// The unique identifier for the task.
@@ -2573,7 +2573,7 @@ extension IoTClientTypes.AuditMitigationActionsTaskTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// Used in MitigationActionParams, this information identifies the target findings to which the mitigation actions are applied. Only one entry appears.
-    public struct AuditMitigationActionsTaskTarget: Swift.Equatable {
+    public struct AuditMitigationActionsTaskTarget {
         /// Specifies a filter in the form of an audit check and set of reason codes that identify the findings from the audit to which the audit mitigation actions task apply.
         public var auditCheckToReasonCodeFilter: [Swift.String:[Swift.String]]?
         /// If the task will apply a mitigation action to findings from a specific audit, this value uniquely identifies the audit.
@@ -2628,7 +2628,7 @@ extension IoTClientTypes.AuditNotificationTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the targets to which audit notifications are sent.
-    public struct AuditNotificationTarget: Swift.Equatable {
+    public struct AuditNotificationTarget {
         /// True if notifications to the target are enabled.
         public var enabled: Swift.Bool
         /// The ARN of the role that grants permission to send notifications to the target.
@@ -2724,7 +2724,7 @@ extension IoTClientTypes.AuditSuppression: Swift.Codable {
 
 extension IoTClientTypes {
     /// Filters out specific findings of a Device Defender audit.
-    public struct AuditSuppression: Swift.Equatable {
+    public struct AuditSuppression {
         /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
         /// This member is required.
         public var checkName: Swift.String?
@@ -2789,7 +2789,7 @@ extension IoTClientTypes.AuditTaskMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// The audits that were performed.
-    public struct AuditTaskMetadata: Swift.Equatable {
+    public struct AuditTaskMetadata {
         /// The ID of this audit.
         public var taskId: Swift.String?
         /// The status of this audit. One of "IN_PROGRESS", "COMPLETED", "FAILED", or "CANCELED".
@@ -2955,7 +2955,7 @@ extension IoTClientTypes.AuthInfo: Swift.Codable {
 
 extension IoTClientTypes {
     /// A collection of authorization information.
-    public struct AuthInfo: Swift.Equatable {
+    public struct AuthInfo {
         /// The type of action for which the principal is being authorized.
         public var actionType: IoTClientTypes.ActionType?
         /// The resources for which the principal is being authorized to perform the specified action.
@@ -3031,7 +3031,7 @@ extension IoTClientTypes.AuthResult: Swift.Codable {
 
 extension IoTClientTypes {
     /// The authorizer result.
-    public struct AuthResult: Swift.Equatable {
+    public struct AuthResult {
         /// The policies and statements that allowed the specified action.
         public var allowed: IoTClientTypes.Allowed?
         /// The final authorization decision of this scenario. Multiple statements are taken into account when determining the authorization decision. An explicit deny statement can override multiple allow statements.
@@ -3088,7 +3088,7 @@ extension IoTClientTypes.AuthorizerConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// An object that specifies the authorization service for a domain.
-    public struct AuthorizerConfig: Swift.Equatable {
+    public struct AuthorizerConfig {
         /// A Boolean that specifies whether the domain configuration's authorization service can be overridden.
         public var allowAuthorizerOverride: Swift.Bool?
         /// The name of the authorization service for a domain configuration.
@@ -3193,7 +3193,7 @@ extension IoTClientTypes.AuthorizerDescription: Swift.Codable {
 
 extension IoTClientTypes {
     /// The authorizer description.
-    public struct AuthorizerDescription: Swift.Equatable {
+    public struct AuthorizerDescription {
         /// The authorizer ARN.
         public var authorizerArn: Swift.String?
         /// The authorizer's Lambda function ARN.
@@ -3302,7 +3302,7 @@ extension IoTClientTypes.AuthorizerSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The authorizer summary.
-    public struct AuthorizerSummary: Swift.Equatable {
+    public struct AuthorizerSummary {
         /// The authorizer ARN.
         public var authorizerArn: Swift.String?
         /// The authorizer name.
@@ -3385,7 +3385,7 @@ extension IoTClientTypes.AwsJobAbortConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria that determine when and how a job abort takes place.
-    public struct AwsJobAbortConfig: Swift.Equatable {
+    public struct AwsJobAbortConfig {
         /// The list of criteria that determine when and how to abort the job.
         /// This member is required.
         public var abortCriteriaList: [IoTClientTypes.AwsJobAbortCriteria]?
@@ -3439,7 +3439,7 @@ extension IoTClientTypes.AwsJobAbortCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria that determine when and how a job abort takes place.
-    public struct AwsJobAbortCriteria: Swift.Equatable {
+    public struct AwsJobAbortCriteria {
         /// The type of job action to take to initiate the job abort.
         /// This member is required.
         public var action: IoTClientTypes.AwsJobAbortCriteriaAbortAction?
@@ -3563,7 +3563,7 @@ extension IoTClientTypes.AwsJobExecutionsRolloutConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration for the rollout of OTA updates.
-    public struct AwsJobExecutionsRolloutConfig: Swift.Equatable {
+    public struct AwsJobExecutionsRolloutConfig {
         /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate increase for a job rollout.
         public var exponentialRate: IoTClientTypes.AwsJobExponentialRolloutRate?
         /// The maximum number of OTA update job executions started per minute.
@@ -3614,7 +3614,7 @@ extension IoTClientTypes.AwsJobExponentialRolloutRate: Swift.Codable {
 
 extension IoTClientTypes {
     /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate increase for a job rollout.
-    public struct AwsJobExponentialRolloutRate: Swift.Equatable {
+    public struct AwsJobExponentialRolloutRate {
         /// The minimum number of things that will be notified of a pending job, per minute, at the start of the job rollout. This is the initial rate of the rollout.
         /// This member is required.
         public var baseRatePerMinute: Swift.Int?
@@ -3660,7 +3660,7 @@ extension IoTClientTypes.AwsJobPresignedUrlConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration information for pre-signed URLs. Valid when protocols contains HTTP.
-    public struct AwsJobPresignedUrlConfig: Swift.Equatable {
+    public struct AwsJobPresignedUrlConfig {
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 1800 seconds. Pre-signed URLs are generated when a request for the job document is received.
         public var expiresInSec: Swift.Int?
 
@@ -3701,7 +3701,7 @@ extension IoTClientTypes.AwsJobRateIncreaseCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria to initiate the increase in rate of rollout for a job.
-    public struct AwsJobRateIncreaseCriteria: Swift.Equatable {
+    public struct AwsJobRateIncreaseCriteria {
         /// When this number of things have been notified, it will initiate an increase in the rollout rate.
         public var numberOfNotifiedThings: Swift.Int?
         /// When this number of things have succeeded in their job execution, it will initiate an increase in the rollout rate.
@@ -3740,7 +3740,7 @@ extension IoTClientTypes.AwsJobTimeoutConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
-    public struct AwsJobTimeoutConfig: Swift.Equatable {
+    public struct AwsJobTimeoutConfig {
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
         public var inProgressTimeoutInMinutes: Swift.Int?
 
@@ -3805,7 +3805,7 @@ extension IoTClientTypes.Behavior: Swift.Codable {
 
 extension IoTClientTypes {
     /// A Device Defender security profile behavior.
-    public struct Behavior: Swift.Equatable {
+    public struct Behavior {
         /// The criteria that determine if a device is behaving normally in regard to the metric. In the IoT console, you can choose to be sent an alert through Amazon SNS when IoT Device Defender detects that a device is behaving anomalously.
         public var criteria: IoTClientTypes.BehaviorCriteria?
         /// Value indicates exporting metrics related to the behavior when it is true.
@@ -3897,7 +3897,7 @@ extension IoTClientTypes.BehaviorCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria by which the behavior is determined to be normal.
-    public struct BehaviorCriteria: Swift.Equatable {
+    public struct BehaviorCriteria {
         /// The operator that relates the thing measured (metric) to the criteria (containing a value or statisticalThreshold). Valid operators include:
         ///
         /// * string-list: in-set and not-in-set
@@ -4029,7 +4029,7 @@ extension IoTClientTypes.BehaviorModelTrainingSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The summary of an ML Detect behavior model.
-    public struct BehaviorModelTrainingSummary: Swift.Equatable {
+    public struct BehaviorModelTrainingSummary {
         /// The name of the behavior.
         public var behaviorName: Swift.String?
         /// The percentage of datapoints collected.
@@ -4084,7 +4084,7 @@ extension IoTClientTypes.BillingGroupMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// Additional information about the billing group.
-    public struct BillingGroupMetadata: Swift.Equatable {
+    public struct BillingGroupMetadata {
         /// The date the billing group was created.
         public var creationDate: ClientRuntime.Date?
 
@@ -4119,7 +4119,7 @@ extension IoTClientTypes.BillingGroupProperties: Swift.Codable {
 
 extension IoTClientTypes {
     /// The properties of a billing group.
-    public struct BillingGroupProperties: Swift.Equatable {
+    public struct BillingGroupProperties {
         /// The description of the billing group.
         public var billingGroupDescription: Swift.String?
 
@@ -4160,7 +4160,7 @@ extension IoTClientTypes.Bucket: Swift.Codable {
 
 extension IoTClientTypes {
     /// A count of documents that meets a specific aggregation criteria.
-    public struct Bucket: Swift.Equatable {
+    public struct Bucket {
         /// The number of documents that have the value counted for the particular bucket.
         public var count: Swift.Int
         /// The value counted for the particular bucket.
@@ -4199,7 +4199,7 @@ extension IoTClientTypes.BucketsAggregationType: Swift.Codable {
 
 extension IoTClientTypes {
     /// The type of bucketed aggregation performed.
-    public struct BucketsAggregationType: Swift.Equatable {
+    public struct BucketsAggregationType {
         /// Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value.
         public var termsAggregation: IoTClientTypes.TermsAggregation?
 
@@ -4252,7 +4252,7 @@ extension IoTClientTypes.CACertificate: Swift.Codable {
 
 extension IoTClientTypes {
     /// A CA certificate.
-    public struct CACertificate: Swift.Equatable {
+    public struct CACertificate {
         /// The ARN of the CA certificate.
         public var certificateArn: Swift.String?
         /// The ID of the CA certificate.
@@ -4365,7 +4365,7 @@ extension IoTClientTypes.CACertificateDescription: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a CA certificate.
-    public struct CACertificateDescription: Swift.Equatable {
+    public struct CACertificateDescription {
         /// Whether the CA certificate configured for auto registration of device certificates. Valid values are "ENABLE" and "DISABLE"
         public var autoRegistrationStatus: IoTClientTypes.AutoRegistrationStatus?
         /// The CA certificate ARN.
@@ -4494,7 +4494,7 @@ extension CancelAuditMitigationActionsTaskInput {
     }
 }
 
-public struct CancelAuditMitigationActionsTaskInput: Swift.Equatable {
+public struct CancelAuditMitigationActionsTaskInput {
     /// The unique identifier for the task that you want to cancel.
     /// This member is required.
     public var taskId: Swift.String?
@@ -4507,7 +4507,7 @@ public struct CancelAuditMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelAuditMitigationActionsTaskInputBody: Swift.Equatable {
+struct CancelAuditMitigationActionsTaskInputBody {
 }
 
 extension CancelAuditMitigationActionsTaskInputBody: Swift.Decodable {
@@ -4521,7 +4521,7 @@ extension CancelAuditMitigationActionsTaskOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct CancelAuditMitigationActionsTaskOutput: Swift.Equatable {
+public struct CancelAuditMitigationActionsTaskOutput {
 
     public init() { }
 }
@@ -4550,7 +4550,7 @@ extension CancelAuditTaskInput {
     }
 }
 
-public struct CancelAuditTaskInput: Swift.Equatable {
+public struct CancelAuditTaskInput {
     /// The ID of the audit you want to cancel. You can only cancel an audit that is "IN_PROGRESS".
     /// This member is required.
     public var taskId: Swift.String?
@@ -4563,7 +4563,7 @@ public struct CancelAuditTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelAuditTaskInputBody: Swift.Equatable {
+struct CancelAuditTaskInputBody {
 }
 
 extension CancelAuditTaskInputBody: Swift.Decodable {
@@ -4577,7 +4577,7 @@ extension CancelAuditTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelAuditTaskOutput: Swift.Equatable {
+public struct CancelAuditTaskOutput {
 
     public init() { }
 }
@@ -4607,7 +4607,7 @@ extension CancelCertificateTransferInput {
 }
 
 /// The input for the CancelCertificateTransfer operation.
-public struct CancelCertificateTransferInput: Swift.Equatable {
+public struct CancelCertificateTransferInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -4620,7 +4620,7 @@ public struct CancelCertificateTransferInput: Swift.Equatable {
     }
 }
 
-struct CancelCertificateTransferInputBody: Swift.Equatable {
+struct CancelCertificateTransferInputBody {
 }
 
 extension CancelCertificateTransferInputBody: Swift.Decodable {
@@ -4634,7 +4634,7 @@ extension CancelCertificateTransferOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelCertificateTransferOutput: Swift.Equatable {
+public struct CancelCertificateTransferOutput {
 
     public init() { }
 }
@@ -4666,7 +4666,7 @@ extension CancelDetectMitigationActionsTaskInput {
     }
 }
 
-public struct CancelDetectMitigationActionsTaskInput: Swift.Equatable {
+public struct CancelDetectMitigationActionsTaskInput {
     /// The unique identifier of the task.
     /// This member is required.
     public var taskId: Swift.String?
@@ -4679,7 +4679,7 @@ public struct CancelDetectMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelDetectMitigationActionsTaskInputBody: Swift.Equatable {
+struct CancelDetectMitigationActionsTaskInputBody {
 }
 
 extension CancelDetectMitigationActionsTaskInputBody: Swift.Decodable {
@@ -4693,7 +4693,7 @@ extension CancelDetectMitigationActionsTaskOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CancelDetectMitigationActionsTaskOutput: Swift.Equatable {
+public struct CancelDetectMitigationActionsTaskOutput {
 
     public init() { }
 }
@@ -4757,7 +4757,7 @@ extension CancelJobExecutionInput {
     }
 }
 
-public struct CancelJobExecutionInput: Swift.Equatable {
+public struct CancelJobExecutionInput {
     /// (Optional) The expected current version of the job execution. Each time you update the job execution, its version is incremented. If the version of the job execution stored in Jobs does not match, the update is rejected with a VersionMismatch error, and an ErrorResponse that contains the current job execution status data is returned. (This makes it unnecessary to perform a separate DescribeJobExecution request in order to obtain the job execution status data.)
     public var expectedVersion: Swift.Int?
     /// (Optional) If true the job execution will be canceled if it has status IN_PROGRESS or QUEUED, otherwise the job execution will be canceled only if it has status QUEUED. If you attempt to cancel a job execution that is IN_PROGRESS, and you do not set force to true, then an InvalidStateTransitionException will be thrown. The default is false. Canceling a job execution which is "IN_PROGRESS", will cause the device to be unable to update the job execution status. Use caution and ensure that the device is able to recover to a valid state.
@@ -4787,7 +4787,7 @@ public struct CancelJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct CancelJobExecutionInputBody: Swift.Equatable {
+struct CancelJobExecutionInputBody {
     let expectedVersion: Swift.Int?
     let statusDetails: [Swift.String:Swift.String]?
 }
@@ -4821,7 +4821,7 @@ extension CancelJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobExecutionOutput: Swift.Equatable {
+public struct CancelJobExecutionOutput {
 
     public init() { }
 }
@@ -4881,7 +4881,7 @@ extension CancelJobInput {
     }
 }
 
-public struct CancelJobInput: Swift.Equatable {
+public struct CancelJobInput {
     /// An optional comment string describing why the job was canceled.
     public var comment: Swift.String?
     /// (Optional) If true job executions with status "IN_PROGRESS" and "QUEUED" are canceled, otherwise only job executions with status "QUEUED" are canceled. The default is false. Canceling a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to update the job execution status. Use caution and ensure that each device executing a job which is canceled is able to recover to a valid state.
@@ -4906,7 +4906,7 @@ public struct CancelJobInput: Swift.Equatable {
     }
 }
 
-struct CancelJobInputBody: Swift.Equatable {
+struct CancelJobInputBody {
     let reasonCode: Swift.String?
     let comment: Swift.String?
 }
@@ -4942,7 +4942,7 @@ extension CancelJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobOutput: Swift.Equatable {
+public struct CancelJobOutput {
     /// A short text description of the job.
     public var description: Swift.String?
     /// The job ARN.
@@ -4962,7 +4962,7 @@ public struct CancelJobOutput: Swift.Equatable {
     }
 }
 
-struct CancelJobOutputBody: Swift.Equatable {
+struct CancelJobOutputBody {
     let jobArn: Swift.String?
     let jobId: Swift.String?
     let description: Swift.String?
@@ -5096,7 +5096,7 @@ extension IoTClientTypes.Certificate: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about a certificate.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The ARN of the certificate.
         public var certificateArn: Swift.String?
         /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
@@ -5166,7 +5166,7 @@ public struct CertificateConflictException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct CertificateConflictExceptionBody: Swift.Equatable {
+struct CertificateConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -5281,7 +5281,7 @@ extension IoTClientTypes.CertificateDescription: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a certificate.
-    public struct CertificateDescription: Swift.Equatable {
+    public struct CertificateDescription {
         /// The certificate ID of the CA certificate used to sign this certificate.
         public var caCertificateId: Swift.String?
         /// The ARN of the certificate.
@@ -5435,7 +5435,7 @@ extension IoTClientTypes.CertificateProviderSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The certificate provider summary.
-    public struct CertificateProviderSummary: Swift.Equatable {
+    public struct CertificateProviderSummary {
         /// The ARN of the certificate provider.
         public var certificateProviderArn: Swift.String?
         /// The name of the certificate provider.
@@ -5493,7 +5493,7 @@ public struct CertificateStateException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct CertificateStateExceptionBody: Swift.Equatable {
+struct CertificateStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -5593,7 +5593,7 @@ public struct CertificateValidationException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct CertificateValidationExceptionBody: Swift.Equatable {
+struct CertificateValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5636,7 +5636,7 @@ extension IoTClientTypes.CertificateValidity: Swift.Codable {
 
 extension IoTClientTypes {
     /// When the certificate is valid.
-    public struct CertificateValidity: Swift.Equatable {
+    public struct CertificateValidity {
         /// The certificate is not valid after this date.
         public var notAfter: ClientRuntime.Date?
         /// The certificate is not valid before this date.
@@ -5661,12 +5661,12 @@ extension ClearDefaultAuthorizerInput {
     }
 }
 
-public struct ClearDefaultAuthorizerInput: Swift.Equatable {
+public struct ClearDefaultAuthorizerInput {
 
     public init() { }
 }
 
-struct ClearDefaultAuthorizerInputBody: Swift.Equatable {
+struct ClearDefaultAuthorizerInputBody {
 }
 
 extension ClearDefaultAuthorizerInputBody: Swift.Decodable {
@@ -5680,7 +5680,7 @@ extension ClearDefaultAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ClearDefaultAuthorizerOutput: Swift.Equatable {
+public struct ClearDefaultAuthorizerOutput {
 
     public init() { }
 }
@@ -5740,7 +5740,7 @@ extension IoTClientTypes.CloudwatchAlarmAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that updates a CloudWatch alarm.
-    public struct CloudwatchAlarmAction: Swift.Equatable {
+    public struct CloudwatchAlarmAction {
         /// The CloudWatch alarm name.
         /// This member is required.
         public var alarmName: Swift.String?
@@ -5803,7 +5803,7 @@ extension IoTClientTypes.CloudwatchLogsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that sends data to CloudWatch Logs.
-    public struct CloudwatchLogsAction: Swift.Equatable {
+    public struct CloudwatchLogsAction {
         /// Indicates whether batches of log records will be extracted and uploaded into CloudWatch. Values include true or false (default).
         public var batchMode: Swift.Bool?
         /// The CloudWatch log group to which the action sends data.
@@ -5878,7 +5878,7 @@ extension IoTClientTypes.CloudwatchMetricAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that captures a CloudWatch metric.
-    public struct CloudwatchMetricAction: Swift.Equatable {
+    public struct CloudwatchMetricAction {
         /// The CloudWatch metric name.
         /// This member is required.
         public var metricName: Swift.String?
@@ -5950,7 +5950,7 @@ extension IoTClientTypes.CodeSigning: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the method to use when code signing a file.
-    public struct CodeSigning: Swift.Equatable {
+    public struct CodeSigning {
         /// The ID of the AWSSignerJob which was created to sign the file.
         public var awsSignerJobId: Swift.String?
         /// A custom method for code signing a file.
@@ -5999,7 +5999,7 @@ extension IoTClientTypes.CodeSigningCertificateChain: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the certificate chain being used when code signing a file.
-    public struct CodeSigningCertificateChain: Swift.Equatable {
+    public struct CodeSigningCertificateChain {
         /// The name of the certificate.
         public var certificateName: Swift.String?
         /// A base64 encoded binary representation of the code signing certificate chain.
@@ -6038,7 +6038,7 @@ extension IoTClientTypes.CodeSigningSignature: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the signature for a file.
-    public struct CodeSigningSignature: Swift.Equatable {
+    public struct CodeSigningSignature {
         /// A base64 encoded binary representation of the code signing signature.
         public var inlineDocument: ClientRuntime.Data?
 
@@ -6164,7 +6164,7 @@ extension IoTClientTypes.Configuration: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration.
-    public struct Configuration: Swift.Equatable {
+    public struct Configuration {
         /// True to enable the configuration.
         public var enabled: Swift.Bool
 
@@ -6188,7 +6188,7 @@ extension ConfirmTopicRuleDestinationInput {
     }
 }
 
-public struct ConfirmTopicRuleDestinationInput: Swift.Equatable {
+public struct ConfirmTopicRuleDestinationInput {
     /// The token used to confirm ownership or access to the topic rule confirmation URL.
     /// This member is required.
     public var confirmationToken: Swift.String?
@@ -6201,7 +6201,7 @@ public struct ConfirmTopicRuleDestinationInput: Swift.Equatable {
     }
 }
 
-struct ConfirmTopicRuleDestinationInputBody: Swift.Equatable {
+struct ConfirmTopicRuleDestinationInputBody {
 }
 
 extension ConfirmTopicRuleDestinationInputBody: Swift.Decodable {
@@ -6215,7 +6215,7 @@ extension ConfirmTopicRuleDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ConfirmTopicRuleDestinationOutput: Swift.Equatable {
+public struct ConfirmTopicRuleDestinationOutput {
 
     public init() { }
 }
@@ -6280,7 +6280,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -6340,7 +6340,7 @@ public struct ConflictingResourceUpdateException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct ConflictingResourceUpdateExceptionBody: Swift.Equatable {
+struct ConflictingResourceUpdateExceptionBody {
     let message: Swift.String?
 }
 
@@ -6396,7 +6396,7 @@ extension CreateAuditSuppressionInput {
     }
 }
 
-public struct CreateAuditSuppressionInput: Swift.Equatable {
+public struct CreateAuditSuppressionInput {
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     /// This member is required.
     public var checkName: Swift.String?
@@ -6431,7 +6431,7 @@ public struct CreateAuditSuppressionInput: Swift.Equatable {
     }
 }
 
-struct CreateAuditSuppressionInputBody: Swift.Equatable {
+struct CreateAuditSuppressionInputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
     let expirationDate: ClientRuntime.Date?
@@ -6472,7 +6472,7 @@ extension CreateAuditSuppressionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAuditSuppressionOutput: Swift.Equatable {
+public struct CreateAuditSuppressionOutput {
 
     public init() { }
 }
@@ -6545,7 +6545,7 @@ extension CreateAuthorizerInput {
     }
 }
 
-public struct CreateAuthorizerInput: Swift.Equatable {
+public struct CreateAuthorizerInput {
     /// The ARN of the authorizer's Lambda function.
     /// This member is required.
     public var authorizerFunctionArn: Swift.String?
@@ -6587,7 +6587,7 @@ public struct CreateAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct CreateAuthorizerInputBody: Swift.Equatable {
+struct CreateAuthorizerInputBody {
     let authorizerFunctionArn: Swift.String?
     let tokenKeyName: Swift.String?
     let tokenSigningPublicKeys: [Swift.String:Swift.String]?
@@ -6659,7 +6659,7 @@ extension CreateAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAuthorizerOutput: Swift.Equatable {
+public struct CreateAuthorizerOutput {
     /// The authorizer ARN.
     public var authorizerArn: Swift.String?
     /// The authorizer's name.
@@ -6675,7 +6675,7 @@ public struct CreateAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct CreateAuthorizerOutputBody: Swift.Equatable {
+struct CreateAuthorizerOutputBody {
     let authorizerName: Swift.String?
     let authorizerArn: Swift.String?
 }
@@ -6742,7 +6742,7 @@ extension CreateBillingGroupInput {
     }
 }
 
-public struct CreateBillingGroupInput: Swift.Equatable {
+public struct CreateBillingGroupInput {
     /// The name you wish to give to the billing group.
     /// This member is required.
     public var billingGroupName: Swift.String?
@@ -6763,7 +6763,7 @@ public struct CreateBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateBillingGroupInputBody: Swift.Equatable {
+struct CreateBillingGroupInputBody {
     let billingGroupProperties: IoTClientTypes.BillingGroupProperties?
     let tags: [IoTClientTypes.Tag]?
 }
@@ -6808,7 +6808,7 @@ extension CreateBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBillingGroupOutput: Swift.Equatable {
+public struct CreateBillingGroupOutput {
     /// The ARN of the billing group.
     public var billingGroupArn: Swift.String?
     /// The ID of the billing group.
@@ -6828,7 +6828,7 @@ public struct CreateBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateBillingGroupOutputBody: Swift.Equatable {
+struct CreateBillingGroupOutputBody {
     let billingGroupName: Swift.String?
     let billingGroupArn: Swift.String?
     let billingGroupId: Swift.String?
@@ -6899,7 +6899,7 @@ extension CreateCertificateFromCsrInput {
 }
 
 /// The input for the CreateCertificateFromCsr operation.
-public struct CreateCertificateFromCsrInput: Swift.Equatable {
+public struct CreateCertificateFromCsrInput {
     /// The certificate signing request (CSR).
     /// This member is required.
     public var certificateSigningRequest: Swift.String?
@@ -6916,7 +6916,7 @@ public struct CreateCertificateFromCsrInput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateFromCsrInputBody: Swift.Equatable {
+struct CreateCertificateFromCsrInputBody {
     let certificateSigningRequest: Swift.String?
 }
 
@@ -6949,7 +6949,7 @@ extension CreateCertificateFromCsrOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the CreateCertificateFromCsr operation.
-public struct CreateCertificateFromCsrOutput: Swift.Equatable {
+public struct CreateCertificateFromCsrOutput {
     /// The Amazon Resource Name (ARN) of the certificate. You can use the ARN as a principal for policy operations.
     public var certificateArn: Swift.String?
     /// The ID of the certificate. Certificate management operations only take a certificateId.
@@ -6969,7 +6969,7 @@ public struct CreateCertificateFromCsrOutput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateFromCsrOutputBody: Swift.Equatable {
+struct CreateCertificateFromCsrOutputBody {
     let certificateArn: Swift.String?
     let certificateId: Swift.String?
     let certificatePem: Swift.String?
@@ -7049,7 +7049,7 @@ extension CreateCertificateProviderInput {
     }
 }
 
-public struct CreateCertificateProviderInput: Swift.Equatable {
+public struct CreateCertificateProviderInput {
     /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
     /// This member is required.
     public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
@@ -7080,7 +7080,7 @@ public struct CreateCertificateProviderInput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateProviderInputBody: Swift.Equatable {
+struct CreateCertificateProviderInputBody {
     let lambdaFunctionArn: Swift.String?
     let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
     let clientToken: Swift.String?
@@ -7140,7 +7140,7 @@ extension CreateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCertificateProviderOutput: Swift.Equatable {
+public struct CreateCertificateProviderOutput {
     /// The ARN of the certificate provider.
     public var certificateProviderArn: Swift.String?
     /// The name of the certificate provider.
@@ -7156,7 +7156,7 @@ public struct CreateCertificateProviderOutput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateProviderOutputBody: Swift.Equatable {
+struct CreateCertificateProviderOutputBody {
     let certificateProviderName: Swift.String?
     let certificateProviderArn: Swift.String?
 }
@@ -7231,7 +7231,7 @@ extension CreateCustomMetricInput {
     }
 }
 
-public struct CreateCustomMetricInput: Swift.Equatable {
+public struct CreateCustomMetricInput {
     /// Each custom metric must have a unique client request token. If you try to create a new custom metric that already exists with a different token, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -7262,7 +7262,7 @@ public struct CreateCustomMetricInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomMetricInputBody: Swift.Equatable {
+struct CreateCustomMetricInputBody {
     let displayName: Swift.String?
     let metricType: IoTClientTypes.CustomMetricType?
     let tags: [IoTClientTypes.Tag]?
@@ -7313,7 +7313,7 @@ extension CreateCustomMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomMetricOutput: Swift.Equatable {
+public struct CreateCustomMetricOutput {
     /// The Amazon Resource Number (ARN) of the custom metric. For example, arn:aws-partition:iot:region:accountId:custommetric/metricName
     public var metricArn: Swift.String?
     /// The name of the custom metric to be used in the metric report.
@@ -7329,7 +7329,7 @@ public struct CreateCustomMetricOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomMetricOutputBody: Swift.Equatable {
+struct CreateCustomMetricOutputBody {
     let metricName: Swift.String?
     let metricArn: Swift.String?
 }
@@ -7405,7 +7405,7 @@ extension CreateDimensionInput {
     }
 }
 
-public struct CreateDimensionInput: Swift.Equatable {
+public struct CreateDimensionInput {
     /// Each dimension must have a unique client request token. If you try to create a new dimension with the same token as a dimension that already exists, an exception occurs. If you omit this value, Amazon Web Services SDKs will automatically generate a unique client request.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -7437,7 +7437,7 @@ public struct CreateDimensionInput: Swift.Equatable {
     }
 }
 
-struct CreateDimensionInputBody: Swift.Equatable {
+struct CreateDimensionInputBody {
     let type: IoTClientTypes.DimensionType?
     let stringValues: [Swift.String]?
     let tags: [IoTClientTypes.Tag]?
@@ -7497,7 +7497,7 @@ extension CreateDimensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDimensionOutput: Swift.Equatable {
+public struct CreateDimensionOutput {
     /// The Amazon Resource Name (ARN) of the created dimension.
     public var arn: Swift.String?
     /// A unique identifier for the dimension.
@@ -7513,7 +7513,7 @@ public struct CreateDimensionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDimensionOutputBody: Swift.Equatable {
+struct CreateDimensionOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
 }
@@ -7605,7 +7605,7 @@ extension CreateDomainConfigurationInput {
     }
 }
 
-public struct CreateDomainConfigurationInput: Swift.Equatable {
+public struct CreateDomainConfigurationInput {
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
     /// The name of the domain configuration. This value must be unique to a region.
@@ -7650,7 +7650,7 @@ public struct CreateDomainConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainConfigurationInputBody: Swift.Equatable {
+struct CreateDomainConfigurationInputBody {
     let domainName: Swift.String?
     let serverCertificateArns: [Swift.String]?
     let validationCertificateArn: Swift.String?
@@ -7726,7 +7726,7 @@ extension CreateDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDomainConfigurationOutput: Swift.Equatable {
+public struct CreateDomainConfigurationOutput {
     /// The ARN of the domain configuration.
     public var domainConfigurationArn: Swift.String?
     /// The name of the domain configuration.
@@ -7742,7 +7742,7 @@ public struct CreateDomainConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainConfigurationOutputBody: Swift.Equatable {
+struct CreateDomainConfigurationOutputBody {
     let domainConfigurationName: Swift.String?
     let domainConfigurationArn: Swift.String?
 }
@@ -7822,7 +7822,7 @@ extension CreateDynamicThingGroupInput {
     }
 }
 
-public struct CreateDynamicThingGroupInput: Swift.Equatable {
+public struct CreateDynamicThingGroupInput {
     /// The dynamic thing group index name. Currently one index is supported: AWS_Things.
     public var indexName: Swift.String?
     /// The dynamic thing group search query string. See [Query Syntax](https://docs.aws.amazon.com/iot/latest/developerguide/query-syntax.html) for information about query string syntax.
@@ -7856,7 +7856,7 @@ public struct CreateDynamicThingGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateDynamicThingGroupInputBody: Swift.Equatable {
+struct CreateDynamicThingGroupInputBody {
     let thingGroupProperties: IoTClientTypes.ThingGroupProperties?
     let indexName: Swift.String?
     let queryString: Swift.String?
@@ -7919,7 +7919,7 @@ extension CreateDynamicThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDynamicThingGroupOutput: Swift.Equatable {
+public struct CreateDynamicThingGroupOutput {
     /// The dynamic thing group index name.
     public var indexName: Swift.String?
     /// The dynamic thing group search query string.
@@ -7951,7 +7951,7 @@ public struct CreateDynamicThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateDynamicThingGroupOutputBody: Swift.Equatable {
+struct CreateDynamicThingGroupOutputBody {
     let thingGroupName: Swift.String?
     let thingGroupArn: Swift.String?
     let thingGroupId: Swift.String?
@@ -8062,7 +8062,7 @@ extension CreateFleetMetricInput {
     }
 }
 
-public struct CreateFleetMetricInput: Swift.Equatable {
+public struct CreateFleetMetricInput {
     /// The field to aggregate.
     /// This member is required.
     public var aggregationField: Swift.String?
@@ -8115,7 +8115,7 @@ public struct CreateFleetMetricInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetMetricInputBody: Swift.Equatable {
+struct CreateFleetMetricInputBody {
     let queryString: Swift.String?
     let aggregationType: IoTClientTypes.AggregationType?
     let period: Swift.Int?
@@ -8186,7 +8186,7 @@ extension CreateFleetMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetMetricOutput: Swift.Equatable {
+public struct CreateFleetMetricOutput {
     /// The Amazon Resource Name (ARN) of the new fleet metric.
     public var metricArn: Swift.String?
     /// The name of the fleet metric to create.
@@ -8202,7 +8202,7 @@ public struct CreateFleetMetricOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetMetricOutputBody: Swift.Equatable {
+struct CreateFleetMetricOutputBody {
     let metricName: Swift.String?
     let metricArn: Swift.String?
 }
@@ -8338,7 +8338,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// Allows you to create the criteria to abort a job.
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
@@ -8416,7 +8416,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let targets: [Swift.String]?
     let documentSource: Swift.String?
     let document: Swift.String?
@@ -8544,7 +8544,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The job description.
     public var description: Swift.String?
     /// The job ARN.
@@ -8564,7 +8564,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let jobArn: Swift.String?
     let jobId: Swift.String?
     let description: Swift.String?
@@ -8680,7 +8680,7 @@ extension CreateJobTemplateInput {
     }
 }
 
-public struct CreateJobTemplateInput: Swift.Equatable {
+public struct CreateJobTemplateInput {
     /// The criteria that determine when and how a job abort takes place.
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A description of the job document.
@@ -8742,7 +8742,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateInputBody: Swift.Equatable {
+struct CreateJobTemplateInputBody {
     let jobArn: Swift.String?
     let documentSource: Swift.String?
     let document: Swift.String?
@@ -8843,7 +8843,7 @@ extension CreateJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobTemplateOutput: Swift.Equatable {
+public struct CreateJobTemplateOutput {
     /// The ARN of the job template.
     public var jobTemplateArn: Swift.String?
     /// The unique identifier of the job template.
@@ -8859,7 +8859,7 @@ public struct CreateJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateOutputBody: Swift.Equatable {
+struct CreateJobTemplateOutputBody {
     let jobTemplateArn: Swift.String?
     let jobTemplateId: Swift.String?
 }
@@ -8915,7 +8915,7 @@ extension CreateKeysAndCertificateInput {
 }
 
 /// The input for the CreateKeysAndCertificate operation. Requires permission to access the [CreateKeysAndCertificateRequest](https://docs.aws.amazon.com/service-authorization/latest/reference/list_awsiot.html#awsiot-actions-as-permissions) action.
-public struct CreateKeysAndCertificateInput: Swift.Equatable {
+public struct CreateKeysAndCertificateInput {
     /// Specifies whether the certificate is active.
     public var setAsActive: Swift.Bool?
 
@@ -8927,7 +8927,7 @@ public struct CreateKeysAndCertificateInput: Swift.Equatable {
     }
 }
 
-struct CreateKeysAndCertificateInputBody: Swift.Equatable {
+struct CreateKeysAndCertificateInputBody {
 }
 
 extension CreateKeysAndCertificateInputBody: Swift.Decodable {
@@ -8955,7 +8955,7 @@ extension CreateKeysAndCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the CreateKeysAndCertificate operation.
-public struct CreateKeysAndCertificateOutput: Swift.Equatable {
+public struct CreateKeysAndCertificateOutput {
     /// The ARN of the certificate.
     public var certificateArn: Swift.String?
     /// The ID of the certificate. IoT issues a default subject name for the certificate (for example, IoT Certificate).
@@ -8979,7 +8979,7 @@ public struct CreateKeysAndCertificateOutput: Swift.Equatable {
     }
 }
 
-struct CreateKeysAndCertificateOutputBody: Swift.Equatable {
+struct CreateKeysAndCertificateOutputBody {
     let certificateArn: Swift.String?
     let certificateId: Swift.String?
     let certificatePem: Swift.String?
@@ -9056,7 +9056,7 @@ extension CreateMitigationActionInput {
     }
 }
 
-public struct CreateMitigationActionInput: Swift.Equatable {
+public struct CreateMitigationActionInput {
     /// A friendly name for the action. Choose a friendly name that accurately describes the action (for example, EnableLoggingAction).
     /// This member is required.
     public var actionName: Swift.String?
@@ -9083,7 +9083,7 @@ public struct CreateMitigationActionInput: Swift.Equatable {
     }
 }
 
-struct CreateMitigationActionInputBody: Swift.Equatable {
+struct CreateMitigationActionInputBody {
     let roleArn: Swift.String?
     let actionParams: IoTClientTypes.MitigationActionParams?
     let tags: [IoTClientTypes.Tag]?
@@ -9130,7 +9130,7 @@ extension CreateMitigationActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMitigationActionOutput: Swift.Equatable {
+public struct CreateMitigationActionOutput {
     /// The ARN for the new mitigation action.
     public var actionArn: Swift.String?
     /// A unique identifier for the new mitigation action.
@@ -9146,7 +9146,7 @@ public struct CreateMitigationActionOutput: Swift.Equatable {
     }
 }
 
-struct CreateMitigationActionOutputBody: Swift.Equatable {
+struct CreateMitigationActionOutputBody {
     let actionArn: Swift.String?
     let actionId: Swift.String?
 }
@@ -9263,7 +9263,7 @@ extension CreateOTAUpdateInput {
     }
 }
 
-public struct CreateOTAUpdateInput: Swift.Equatable {
+public struct CreateOTAUpdateInput {
     /// A list of additional OTA update parameters, which are name-value pairs. They won't be sent to devices as a part of the Job document.
     public var additionalParameters: [Swift.String:Swift.String]?
     /// The criteria that determine when and how a job abort takes place.
@@ -9327,7 +9327,7 @@ public struct CreateOTAUpdateInput: Swift.Equatable {
     }
 }
 
-struct CreateOTAUpdateInputBody: Swift.Equatable {
+struct CreateOTAUpdateInputBody {
     let description: Swift.String?
     let targets: [Swift.String]?
     let protocols: [IoTClientTypes.ModelProtocol]?
@@ -9452,7 +9452,7 @@ extension CreateOTAUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateOTAUpdateOutput: Swift.Equatable {
+public struct CreateOTAUpdateOutput {
     /// The IoT job ARN associated with the OTA update.
     public var awsIotJobArn: Swift.String?
     /// The IoT job ID associated with the OTA update.
@@ -9480,7 +9480,7 @@ public struct CreateOTAUpdateOutput: Swift.Equatable {
     }
 }
 
-struct CreateOTAUpdateOutputBody: Swift.Equatable {
+struct CreateOTAUpdateOutputBody {
     let otaUpdateId: Swift.String?
     let awsIotJobId: Swift.String?
     let otaUpdateArn: Swift.String?
@@ -9577,7 +9577,7 @@ extension CreatePackageInput {
     }
 }
 
-public struct CreatePackageInput: Swift.Equatable {
+public struct CreatePackageInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// A summary of the package being created. This can be used to outline the package's contents or purpose.
@@ -9602,7 +9602,7 @@ public struct CreatePackageInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageInputBody: Swift.Equatable {
+struct CreatePackageInputBody {
     let description: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -9652,7 +9652,7 @@ extension CreatePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePackageOutput: Swift.Equatable {
+public struct CreatePackageOutput {
     /// The package description.
     public var description: Swift.String?
     /// The Amazon Resource Name (ARN) for the package.
@@ -9672,7 +9672,7 @@ public struct CreatePackageOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageOutputBody: Swift.Equatable {
+struct CreatePackageOutputBody {
     let packageName: Swift.String?
     let packageArn: Swift.String?
     let description: Swift.String?
@@ -9768,7 +9768,7 @@ extension CreatePackageVersionInput {
     }
 }
 
-public struct CreatePackageVersionInput: Swift.Equatable {
+public struct CreatePackageVersionInput {
     /// Metadata that can be used to define a package version’s configuration. For example, the S3 file location, configuration options that are being sent to the device or fleet. The combined size of all the attributes on a package version is limited to 3KB.
     public var attributes: [Swift.String:Swift.String]?
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
@@ -9802,7 +9802,7 @@ public struct CreatePackageVersionInput: Swift.Equatable {
     }
 }
 
-struct CreatePackageVersionInputBody: Swift.Equatable {
+struct CreatePackageVersionInputBody {
     let description: Swift.String?
     let attributes: [Swift.String:Swift.String]?
     let tags: [Swift.String:Swift.String]?
@@ -9873,7 +9873,7 @@ extension CreatePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePackageVersionOutput: Swift.Equatable {
+public struct CreatePackageVersionOutput {
     /// Metadata that were added to the package version that can be used to define a package version’s configuration.
     public var attributes: [Swift.String:Swift.String]?
     /// The package version description.
@@ -9909,7 +9909,7 @@ public struct CreatePackageVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreatePackageVersionOutputBody: Swift.Equatable {
+struct CreatePackageVersionOutputBody {
     let packageVersionArn: Swift.String?
     let packageName: Swift.String?
     let versionName: Swift.String?
@@ -10004,7 +10004,7 @@ extension CreatePolicyInput {
 }
 
 /// The input for the CreatePolicy operation.
-public struct CreatePolicyInput: Swift.Equatable {
+public struct CreatePolicyInput {
     /// The JSON document that describes the policy. policyDocument must have a minimum length of 1, with a maximum length of 2048, excluding whitespace.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -10026,7 +10026,7 @@ public struct CreatePolicyInput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyInputBody: Swift.Equatable {
+struct CreatePolicyInputBody {
     let policyDocument: Swift.String?
     let tags: [IoTClientTypes.Tag]?
 }
@@ -10074,7 +10074,7 @@ extension CreatePolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the CreatePolicy operation.
-public struct CreatePolicyOutput: Swift.Equatable {
+public struct CreatePolicyOutput {
     /// The policy ARN.
     public var policyArn: Swift.String?
     /// The JSON document that describes the policy.
@@ -10098,7 +10098,7 @@ public struct CreatePolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyOutputBody: Swift.Equatable {
+struct CreatePolicyOutputBody {
     let policyName: Swift.String?
     let policyArn: Swift.String?
     let policyDocument: Swift.String?
@@ -10179,7 +10179,7 @@ extension CreatePolicyVersionInput {
 }
 
 /// The input for the CreatePolicyVersion operation.
-public struct CreatePolicyVersionInput: Swift.Equatable {
+public struct CreatePolicyVersionInput {
     /// The JSON document that describes the policy. Minimum length of 1. Maximum length of 2048, excluding whitespace.
     /// This member is required.
     public var policyDocument: Swift.String?
@@ -10201,7 +10201,7 @@ public struct CreatePolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyVersionInputBody: Swift.Equatable {
+struct CreatePolicyVersionInputBody {
     let policyDocument: Swift.String?
 }
 
@@ -10236,7 +10236,7 @@ extension CreatePolicyVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the CreatePolicyVersion operation.
-public struct CreatePolicyVersionOutput: Swift.Equatable {
+public struct CreatePolicyVersionOutput {
     /// Specifies whether the policy version is the default.
     public var isDefaultVersion: Swift.Bool
     /// The policy ARN.
@@ -10260,7 +10260,7 @@ public struct CreatePolicyVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreatePolicyVersionOutputBody: Swift.Equatable {
+struct CreatePolicyVersionOutputBody {
     let policyArn: Swift.String?
     let policyDocument: Swift.String?
     let policyVersionId: Swift.String?
@@ -10316,7 +10316,7 @@ extension CreateProvisioningClaimInput {
     }
 }
 
-public struct CreateProvisioningClaimInput: Swift.Equatable {
+public struct CreateProvisioningClaimInput {
     /// The name of the provisioning template to use.
     /// This member is required.
     public var templateName: Swift.String?
@@ -10329,7 +10329,7 @@ public struct CreateProvisioningClaimInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningClaimInputBody: Swift.Equatable {
+struct CreateProvisioningClaimInputBody {
 }
 
 extension CreateProvisioningClaimInputBody: Swift.Decodable {
@@ -10356,7 +10356,7 @@ extension CreateProvisioningClaimOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProvisioningClaimOutput: Swift.Equatable {
+public struct CreateProvisioningClaimOutput {
     /// The ID of the certificate.
     public var certificateId: Swift.String?
     /// The provisioning claim certificate.
@@ -10380,7 +10380,7 @@ public struct CreateProvisioningClaimOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningClaimOutputBody: Swift.Equatable {
+struct CreateProvisioningClaimOutputBody {
     let certificateId: Swift.String?
     let certificatePem: Swift.String?
     let keyPair: IoTClientTypes.KeyPair?
@@ -10475,7 +10475,7 @@ extension CreateProvisioningTemplateInput {
     }
 }
 
-public struct CreateProvisioningTemplateInput: Swift.Equatable {
+public struct CreateProvisioningTemplateInput {
     /// The description of the provisioning template.
     public var description: Swift.String?
     /// True to enable the provisioning template, otherwise false.
@@ -10518,7 +10518,7 @@ public struct CreateProvisioningTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningTemplateInputBody: Swift.Equatable {
+struct CreateProvisioningTemplateInputBody {
     let templateName: Swift.String?
     let description: Swift.String?
     let templateBody: Swift.String?
@@ -10587,7 +10587,7 @@ extension CreateProvisioningTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProvisioningTemplateOutput: Swift.Equatable {
+public struct CreateProvisioningTemplateOutput {
     /// The default version of the provisioning template.
     public var defaultVersionId: Swift.Int?
     /// The ARN that identifies the provisioning template.
@@ -10607,7 +10607,7 @@ public struct CreateProvisioningTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningTemplateOutputBody: Swift.Equatable {
+struct CreateProvisioningTemplateOutputBody {
     let templateArn: Swift.String?
     let templateName: Swift.String?
     let defaultVersionId: Swift.Int?
@@ -10682,7 +10682,7 @@ extension CreateProvisioningTemplateVersionInput {
     }
 }
 
-public struct CreateProvisioningTemplateVersionInput: Swift.Equatable {
+public struct CreateProvisioningTemplateVersionInput {
     /// Sets a fleet provision template version as the default version.
     public var setAsDefault: Swift.Bool?
     /// The JSON formatted contents of the provisioning template.
@@ -10704,7 +10704,7 @@ public struct CreateProvisioningTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningTemplateVersionInputBody: Swift.Equatable {
+struct CreateProvisioningTemplateVersionInputBody {
     let templateBody: Swift.String?
 }
 
@@ -10738,7 +10738,7 @@ extension CreateProvisioningTemplateVersionOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateProvisioningTemplateVersionOutput: Swift.Equatable {
+public struct CreateProvisioningTemplateVersionOutput {
     /// True if the provisioning template version is the default version, otherwise false.
     public var isDefaultVersion: Swift.Bool
     /// The ARN that identifies the provisioning template.
@@ -10762,7 +10762,7 @@ public struct CreateProvisioningTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateProvisioningTemplateVersionOutputBody: Swift.Equatable {
+struct CreateProvisioningTemplateVersionOutputBody {
     let templateArn: Swift.String?
     let templateName: Swift.String?
     let versionId: Swift.Int?
@@ -10841,7 +10841,7 @@ extension CreateRoleAliasInput {
     }
 }
 
-public struct CreateRoleAliasInput: Swift.Equatable {
+public struct CreateRoleAliasInput {
     /// How long (in seconds) the credentials will be valid. The default value is 3,600 seconds. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
     public var credentialDurationSeconds: Swift.Int?
     /// The role alias that points to a role ARN. This allows you to change the role without having to update the device.
@@ -10867,7 +10867,7 @@ public struct CreateRoleAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateRoleAliasInputBody: Swift.Equatable {
+struct CreateRoleAliasInputBody {
     let roleArn: Swift.String?
     let credentialDurationSeconds: Swift.Int?
     let tags: [IoTClientTypes.Tag]?
@@ -10914,7 +10914,7 @@ extension CreateRoleAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRoleAliasOutput: Swift.Equatable {
+public struct CreateRoleAliasOutput {
     /// The role alias.
     public var roleAlias: Swift.String?
     /// The role alias ARN.
@@ -10930,7 +10930,7 @@ public struct CreateRoleAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateRoleAliasOutputBody: Swift.Equatable {
+struct CreateRoleAliasOutputBody {
     let roleAlias: Swift.String?
     let roleAliasArn: Swift.String?
 }
@@ -11012,7 +11012,7 @@ extension CreateScheduledAuditInput {
     }
 }
 
-public struct CreateScheduledAuditInput: Swift.Equatable {
+public struct CreateScheduledAuditInput {
     /// The day of the month on which the scheduled audit takes place. This can be "1" through "31" or "LAST". This field is required if the "frequency" parameter is set to MONTHLY. If days 29 to 31 are specified, and the month doesn't have that many days, the audit takes place on the LAST day of the month.
     public var dayOfMonth: Swift.String?
     /// The day of the week on which the scheduled audit takes place, either SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the frequency parameter is set to WEEKLY or BIWEEKLY.
@@ -11047,7 +11047,7 @@ public struct CreateScheduledAuditInput: Swift.Equatable {
     }
 }
 
-struct CreateScheduledAuditInputBody: Swift.Equatable {
+struct CreateScheduledAuditInputBody {
     let frequency: IoTClientTypes.AuditFrequency?
     let dayOfMonth: Swift.String?
     let dayOfWeek: IoTClientTypes.DayOfWeek?
@@ -11109,7 +11109,7 @@ extension CreateScheduledAuditOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScheduledAuditOutput: Swift.Equatable {
+public struct CreateScheduledAuditOutput {
     /// The ARN of the scheduled audit.
     public var scheduledAuditArn: Swift.String?
 
@@ -11121,7 +11121,7 @@ public struct CreateScheduledAuditOutput: Swift.Equatable {
     }
 }
 
-struct CreateScheduledAuditOutputBody: Swift.Equatable {
+struct CreateScheduledAuditOutputBody {
     let scheduledAuditArn: Swift.String?
 }
 
@@ -11214,7 +11214,7 @@ extension CreateSecurityProfileInput {
     }
 }
 
-public struct CreateSecurityProfileInput: Swift.Equatable {
+public struct CreateSecurityProfileInput {
     /// Please use [CreateSecurityProfileRequest$additionalMetricsToRetainV2] instead. A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
     @available(*, deprecated, message: "Use additionalMetricsToRetainV2.")
     public var additionalMetricsToRetain: [Swift.String]?
@@ -11256,7 +11256,7 @@ public struct CreateSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityProfileInputBody: Swift.Equatable {
+struct CreateSecurityProfileInputBody {
     let securityProfileDescription: Swift.String?
     let behaviors: [IoTClientTypes.Behavior]?
     let alertTargets: [Swift.String:IoTClientTypes.AlertTarget]?
@@ -11355,7 +11355,7 @@ extension CreateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSecurityProfileOutput: Swift.Equatable {
+public struct CreateSecurityProfileOutput {
     /// The ARN of the security profile.
     public var securityProfileArn: Swift.String?
     /// The name you gave to the security profile.
@@ -11371,7 +11371,7 @@ public struct CreateSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateSecurityProfileOutputBody: Swift.Equatable {
+struct CreateSecurityProfileOutputBody {
     let securityProfileName: Swift.String?
     let securityProfileArn: Swift.String?
 }
@@ -11446,7 +11446,7 @@ extension CreateStreamInput {
     }
 }
 
-public struct CreateStreamInput: Swift.Equatable {
+public struct CreateStreamInput {
     /// A description of the stream.
     public var description: Swift.String?
     /// The files to stream.
@@ -11477,7 +11477,7 @@ public struct CreateStreamInput: Swift.Equatable {
     }
 }
 
-struct CreateStreamInputBody: Swift.Equatable {
+struct CreateStreamInputBody {
     let description: Swift.String?
     let files: [IoTClientTypes.StreamFile]?
     let roleArn: Swift.String?
@@ -11541,7 +11541,7 @@ extension CreateStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStreamOutput: Swift.Equatable {
+public struct CreateStreamOutput {
     /// A description of the stream.
     public var description: Swift.String?
     /// The stream ARN.
@@ -11565,7 +11565,7 @@ public struct CreateStreamOutput: Swift.Equatable {
     }
 }
 
-struct CreateStreamOutputBody: Swift.Equatable {
+struct CreateStreamOutputBody {
     let streamId: Swift.String?
     let streamArn: Swift.String?
     let description: Swift.String?
@@ -11645,7 +11645,7 @@ extension CreateThingGroupInput {
     }
 }
 
-public struct CreateThingGroupInput: Swift.Equatable {
+public struct CreateThingGroupInput {
     /// The name of the parent thing group.
     public var parentGroupName: Swift.String?
     /// Metadata which can be used to manage the thing group.
@@ -11670,7 +11670,7 @@ public struct CreateThingGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateThingGroupInputBody: Swift.Equatable {
+struct CreateThingGroupInputBody {
     let parentGroupName: Swift.String?
     let thingGroupProperties: IoTClientTypes.ThingGroupProperties?
     let tags: [IoTClientTypes.Tag]?
@@ -11719,7 +11719,7 @@ extension CreateThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThingGroupOutput: Swift.Equatable {
+public struct CreateThingGroupOutput {
     /// The thing group ARN.
     public var thingGroupArn: Swift.String?
     /// The thing group ID.
@@ -11739,7 +11739,7 @@ public struct CreateThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateThingGroupOutputBody: Swift.Equatable {
+struct CreateThingGroupOutputBody {
     let thingGroupName: Swift.String?
     let thingGroupArn: Swift.String?
     let thingGroupId: Swift.String?
@@ -11809,7 +11809,7 @@ extension CreateThingInput {
 }
 
 /// The input for the CreateThing operation.
-public struct CreateThingInput: Swift.Equatable {
+public struct CreateThingInput {
     /// The attribute payload, which consists of up to three name/value pairs in a JSON document. For example: {\"attributes\":{\"string1\":\"string2\"}}
     public var attributePayload: IoTClientTypes.AttributePayload?
     /// The name of the billing group the thing will be added to.
@@ -11834,7 +11834,7 @@ public struct CreateThingInput: Swift.Equatable {
     }
 }
 
-struct CreateThingInputBody: Swift.Equatable {
+struct CreateThingInputBody {
     let thingTypeName: Swift.String?
     let attributePayload: IoTClientTypes.AttributePayload?
     let billingGroupName: Swift.String?
@@ -11875,7 +11875,7 @@ extension CreateThingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the CreateThing operation.
-public struct CreateThingOutput: Swift.Equatable {
+public struct CreateThingOutput {
     /// The ARN of the new thing.
     public var thingArn: Swift.String?
     /// The thing ID.
@@ -11895,7 +11895,7 @@ public struct CreateThingOutput: Swift.Equatable {
     }
 }
 
-struct CreateThingOutputBody: Swift.Equatable {
+struct CreateThingOutputBody {
     let thingName: Swift.String?
     let thingArn: Swift.String?
     let thingId: Swift.String?
@@ -11967,7 +11967,7 @@ extension CreateThingTypeInput {
 }
 
 /// The input for the CreateThingType operation.
-public struct CreateThingTypeInput: Swift.Equatable {
+public struct CreateThingTypeInput {
     /// Metadata which can be used to manage the thing type.
     public var tags: [IoTClientTypes.Tag]?
     /// The name of the thing type.
@@ -11988,7 +11988,7 @@ public struct CreateThingTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateThingTypeInputBody: Swift.Equatable {
+struct CreateThingTypeInputBody {
     let thingTypeProperties: IoTClientTypes.ThingTypeProperties?
     let tags: [IoTClientTypes.Tag]?
 }
@@ -12034,7 +12034,7 @@ extension CreateThingTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the CreateThingType operation.
-public struct CreateThingTypeOutput: Swift.Equatable {
+public struct CreateThingTypeOutput {
     /// The Amazon Resource Name (ARN) of the thing type.
     public var thingTypeArn: Swift.String?
     /// The thing type ID.
@@ -12054,7 +12054,7 @@ public struct CreateThingTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateThingTypeOutputBody: Swift.Equatable {
+struct CreateThingTypeOutputBody {
     let thingTypeName: Swift.String?
     let thingTypeArn: Swift.String?
     let thingTypeId: Swift.String?
@@ -12114,7 +12114,7 @@ extension CreateTopicRuleDestinationInput {
     }
 }
 
-public struct CreateTopicRuleDestinationInput: Swift.Equatable {
+public struct CreateTopicRuleDestinationInput {
     /// The topic rule destination configuration.
     /// This member is required.
     public var destinationConfiguration: IoTClientTypes.TopicRuleDestinationConfiguration?
@@ -12127,7 +12127,7 @@ public struct CreateTopicRuleDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateTopicRuleDestinationInputBody: Swift.Equatable {
+struct CreateTopicRuleDestinationInputBody {
     let destinationConfiguration: IoTClientTypes.TopicRuleDestinationConfiguration?
 }
 
@@ -12155,7 +12155,7 @@ extension CreateTopicRuleDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTopicRuleDestinationOutput: Swift.Equatable {
+public struct CreateTopicRuleDestinationOutput {
     /// The topic rule destination.
     public var topicRuleDestination: IoTClientTypes.TopicRuleDestination?
 
@@ -12167,7 +12167,7 @@ public struct CreateTopicRuleDestinationOutput: Swift.Equatable {
     }
 }
 
-struct CreateTopicRuleDestinationOutputBody: Swift.Equatable {
+struct CreateTopicRuleDestinationOutputBody {
     let topicRuleDestination: IoTClientTypes.TopicRuleDestination?
 }
 
@@ -12233,7 +12233,7 @@ extension CreateTopicRuleInput {
 }
 
 /// The input for the CreateTopicRule operation.
-public struct CreateTopicRuleInput: Swift.Equatable {
+public struct CreateTopicRuleInput {
     /// The name of the rule.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -12255,7 +12255,7 @@ public struct CreateTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateTopicRuleInputBody: Swift.Equatable {
+struct CreateTopicRuleInputBody {
     let topicRulePayload: IoTClientTypes.TopicRulePayload?
 }
 
@@ -12276,7 +12276,7 @@ extension CreateTopicRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTopicRuleOutput: Swift.Equatable {
+public struct CreateTopicRuleOutput {
 
     public init() { }
 }
@@ -12336,7 +12336,7 @@ extension IoTClientTypes.CustomCodeSigning: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a custom method used to code sign a file.
-    public struct CustomCodeSigning: Swift.Equatable {
+    public struct CustomCodeSigning {
         /// The certificate chain.
         public var certificateChain: IoTClientTypes.CodeSigningCertificateChain?
         /// The hash algorithm used to code sign the file. You can use a string as the algorithm name if the target over-the-air (OTA) update devices are able to verify the signature that was generated using the same signature algorithm. For example, FreeRTOS uses SHA256 or SHA1, so you can pass either of them based on which was used for generating the signature.
@@ -12466,7 +12466,7 @@ extension DeleteAccountAuditConfigurationInput {
     }
 }
 
-public struct DeleteAccountAuditConfigurationInput: Swift.Equatable {
+public struct DeleteAccountAuditConfigurationInput {
     /// If true, all scheduled audits are deleted.
     public var deleteScheduledAudits: Swift.Bool?
 
@@ -12478,7 +12478,7 @@ public struct DeleteAccountAuditConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountAuditConfigurationInputBody: Swift.Equatable {
+struct DeleteAccountAuditConfigurationInputBody {
 }
 
 extension DeleteAccountAuditConfigurationInputBody: Swift.Decodable {
@@ -12492,7 +12492,7 @@ extension DeleteAccountAuditConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteAccountAuditConfigurationOutput: Swift.Equatable {
+public struct DeleteAccountAuditConfigurationOutput {
 
     public init() { }
 }
@@ -12535,7 +12535,7 @@ extension DeleteAuditSuppressionInput {
     }
 }
 
-public struct DeleteAuditSuppressionInput: Swift.Equatable {
+public struct DeleteAuditSuppressionInput {
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     /// This member is required.
     public var checkName: Swift.String?
@@ -12553,7 +12553,7 @@ public struct DeleteAuditSuppressionInput: Swift.Equatable {
     }
 }
 
-struct DeleteAuditSuppressionInputBody: Swift.Equatable {
+struct DeleteAuditSuppressionInputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
 }
@@ -12578,7 +12578,7 @@ extension DeleteAuditSuppressionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAuditSuppressionOutput: Swift.Equatable {
+public struct DeleteAuditSuppressionOutput {
 
     public init() { }
 }
@@ -12606,7 +12606,7 @@ extension DeleteAuthorizerInput {
     }
 }
 
-public struct DeleteAuthorizerInput: Swift.Equatable {
+public struct DeleteAuthorizerInput {
     /// The name of the authorizer to delete.
     /// This member is required.
     public var authorizerName: Swift.String?
@@ -12619,7 +12619,7 @@ public struct DeleteAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct DeleteAuthorizerInputBody: Swift.Equatable {
+struct DeleteAuthorizerInputBody {
 }
 
 extension DeleteAuthorizerInputBody: Swift.Decodable {
@@ -12633,7 +12633,7 @@ extension DeleteAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAuthorizerOutput: Swift.Equatable {
+public struct DeleteAuthorizerOutput {
 
     public init() { }
 }
@@ -12677,7 +12677,7 @@ extension DeleteBillingGroupInput {
     }
 }
 
-public struct DeleteBillingGroupInput: Swift.Equatable {
+public struct DeleteBillingGroupInput {
     /// The name of the billing group.
     /// This member is required.
     public var billingGroupName: Swift.String?
@@ -12694,7 +12694,7 @@ public struct DeleteBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteBillingGroupInputBody: Swift.Equatable {
+struct DeleteBillingGroupInputBody {
 }
 
 extension DeleteBillingGroupInputBody: Swift.Decodable {
@@ -12708,7 +12708,7 @@ extension DeleteBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBillingGroupOutput: Swift.Equatable {
+public struct DeleteBillingGroupOutput {
 
     public init() { }
 }
@@ -12738,7 +12738,7 @@ extension DeleteCACertificateInput {
 }
 
 /// Input for the DeleteCACertificate operation.
-public struct DeleteCACertificateInput: Swift.Equatable {
+public struct DeleteCACertificateInput {
     /// The ID of the certificate to delete. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -12751,7 +12751,7 @@ public struct DeleteCACertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCACertificateInputBody: Swift.Equatable {
+struct DeleteCACertificateInputBody {
 }
 
 extension DeleteCACertificateInputBody: Swift.Decodable {
@@ -12766,7 +12766,7 @@ extension DeleteCACertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the DeleteCACertificate operation.
-public struct DeleteCACertificateOutput: Swift.Equatable {
+public struct DeleteCACertificateOutput {
 
     public init() { }
 }
@@ -12811,7 +12811,7 @@ extension DeleteCertificateInput {
 }
 
 /// The input for the DeleteCertificate operation.
-public struct DeleteCertificateInput: Swift.Equatable {
+public struct DeleteCertificateInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -12828,7 +12828,7 @@ public struct DeleteCertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateInputBody: Swift.Equatable {
+struct DeleteCertificateInputBody {
 }
 
 extension DeleteCertificateInputBody: Swift.Decodable {
@@ -12842,7 +12842,7 @@ extension DeleteCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCertificateOutput: Swift.Equatable {
+public struct DeleteCertificateOutput {
 
     public init() { }
 }
@@ -12875,7 +12875,7 @@ extension DeleteCertificateProviderInput {
     }
 }
 
-public struct DeleteCertificateProviderInput: Swift.Equatable {
+public struct DeleteCertificateProviderInput {
     /// The name of the certificate provider.
     /// This member is required.
     public var certificateProviderName: Swift.String?
@@ -12888,7 +12888,7 @@ public struct DeleteCertificateProviderInput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateProviderInputBody: Swift.Equatable {
+struct DeleteCertificateProviderInputBody {
 }
 
 extension DeleteCertificateProviderInputBody: Swift.Decodable {
@@ -12902,7 +12902,7 @@ extension DeleteCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCertificateProviderOutput: Swift.Equatable {
+public struct DeleteCertificateProviderOutput {
 
     public init() { }
 }
@@ -12964,7 +12964,7 @@ public struct DeleteConflictException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct DeleteConflictExceptionBody: Swift.Equatable {
+struct DeleteConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -12990,7 +12990,7 @@ extension DeleteCustomMetricInput {
     }
 }
 
-public struct DeleteCustomMetricInput: Swift.Equatable {
+public struct DeleteCustomMetricInput {
     /// The name of the custom metric.
     /// This member is required.
     public var metricName: Swift.String?
@@ -13003,7 +13003,7 @@ public struct DeleteCustomMetricInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomMetricInputBody: Swift.Equatable {
+struct DeleteCustomMetricInputBody {
 }
 
 extension DeleteCustomMetricInputBody: Swift.Decodable {
@@ -13017,7 +13017,7 @@ extension DeleteCustomMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomMetricOutput: Swift.Equatable {
+public struct DeleteCustomMetricOutput {
 
     public init() { }
 }
@@ -13045,7 +13045,7 @@ extension DeleteDimensionInput {
     }
 }
 
-public struct DeleteDimensionInput: Swift.Equatable {
+public struct DeleteDimensionInput {
     /// The unique identifier for the dimension that you want to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -13058,7 +13058,7 @@ public struct DeleteDimensionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDimensionInputBody: Swift.Equatable {
+struct DeleteDimensionInputBody {
 }
 
 extension DeleteDimensionInputBody: Swift.Decodable {
@@ -13072,7 +13072,7 @@ extension DeleteDimensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDimensionOutput: Swift.Equatable {
+public struct DeleteDimensionOutput {
 
     public init() { }
 }
@@ -13100,7 +13100,7 @@ extension DeleteDomainConfigurationInput {
     }
 }
 
-public struct DeleteDomainConfigurationInput: Swift.Equatable {
+public struct DeleteDomainConfigurationInput {
     /// The name of the domain configuration to be deleted.
     /// This member is required.
     public var domainConfigurationName: Swift.String?
@@ -13113,7 +13113,7 @@ public struct DeleteDomainConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainConfigurationInputBody: Swift.Equatable {
+struct DeleteDomainConfigurationInputBody {
 }
 
 extension DeleteDomainConfigurationInputBody: Swift.Decodable {
@@ -13127,7 +13127,7 @@ extension DeleteDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainConfigurationOutput: Swift.Equatable {
+public struct DeleteDomainConfigurationOutput {
 
     public init() { }
 }
@@ -13170,7 +13170,7 @@ extension DeleteDynamicThingGroupInput {
     }
 }
 
-public struct DeleteDynamicThingGroupInput: Swift.Equatable {
+public struct DeleteDynamicThingGroupInput {
     /// The expected version of the dynamic thing group to delete.
     public var expectedVersion: Swift.Int?
     /// The name of the dynamic thing group to delete.
@@ -13187,7 +13187,7 @@ public struct DeleteDynamicThingGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteDynamicThingGroupInputBody: Swift.Equatable {
+struct DeleteDynamicThingGroupInputBody {
 }
 
 extension DeleteDynamicThingGroupInputBody: Swift.Decodable {
@@ -13201,7 +13201,7 @@ extension DeleteDynamicThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDynamicThingGroupOutput: Swift.Equatable {
+public struct DeleteDynamicThingGroupOutput {
 
     public init() { }
 }
@@ -13242,7 +13242,7 @@ extension DeleteFleetMetricInput {
     }
 }
 
-public struct DeleteFleetMetricInput: Swift.Equatable {
+public struct DeleteFleetMetricInput {
     /// The expected version of the fleet metric to delete.
     public var expectedVersion: Swift.Int?
     /// The name of the fleet metric to delete.
@@ -13259,7 +13259,7 @@ public struct DeleteFleetMetricInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetMetricInputBody: Swift.Equatable {
+struct DeleteFleetMetricInputBody {
 }
 
 extension DeleteFleetMetricInputBody: Swift.Decodable {
@@ -13273,7 +13273,7 @@ extension DeleteFleetMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetMetricOutput: Swift.Equatable {
+public struct DeleteFleetMetricOutput {
 
     public init() { }
 }
@@ -13326,7 +13326,7 @@ extension DeleteJobExecutionInput {
     }
 }
 
-public struct DeleteJobExecutionInput: Swift.Equatable {
+public struct DeleteJobExecutionInput {
     /// The ID of the job execution to be deleted. The executionNumber refers to the execution of a particular job on a particular device. Note that once a job execution is deleted, the executionNumber may be reused by IoT, so be sure you get and use the correct value here.
     /// This member is required.
     public var executionNumber: Swift.Int?
@@ -13357,7 +13357,7 @@ public struct DeleteJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobExecutionInputBody: Swift.Equatable {
+struct DeleteJobExecutionInputBody {
 }
 
 extension DeleteJobExecutionInputBody: Swift.Decodable {
@@ -13371,7 +13371,7 @@ extension DeleteJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobExecutionOutput: Swift.Equatable {
+public struct DeleteJobExecutionOutput {
 
     public init() { }
 }
@@ -13417,7 +13417,7 @@ extension DeleteJobInput {
     }
 }
 
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// (Optional) When true, you can delete a job which is "IN_PROGRESS". Otherwise, you can only delete a job which is in a terminal state ("COMPLETED" or "CANCELED") or an exception will occur. The default is false. Deleting a job which is "IN_PROGRESS", will cause a device which is executing the job to be unable to access job information or update the job execution status. Use caution and ensure that each device executing a job which is deleted is able to recover to a valid state.
     public var force: Swift.Bool?
     /// The ID of the job to be deleted. After a job deletion is completed, you may reuse this jobId when you create a new job. However, this is not recommended, and you must ensure that your devices are not using the jobId to refer to the deleted job.
@@ -13438,7 +13438,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
 }
 
 extension DeleteJobInputBody: Swift.Decodable {
@@ -13452,7 +13452,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
 
     public init() { }
 }
@@ -13483,7 +13483,7 @@ extension DeleteJobTemplateInput {
     }
 }
 
-public struct DeleteJobTemplateInput: Swift.Equatable {
+public struct DeleteJobTemplateInput {
     /// The unique identifier of the job template to delete.
     /// This member is required.
     public var jobTemplateId: Swift.String?
@@ -13496,7 +13496,7 @@ public struct DeleteJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobTemplateInputBody: Swift.Equatable {
+struct DeleteJobTemplateInputBody {
 }
 
 extension DeleteJobTemplateInputBody: Swift.Decodable {
@@ -13510,7 +13510,7 @@ extension DeleteJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobTemplateOutput: Swift.Equatable {
+public struct DeleteJobTemplateOutput {
 
     public init() { }
 }
@@ -13539,7 +13539,7 @@ extension DeleteMitigationActionInput {
     }
 }
 
-public struct DeleteMitigationActionInput: Swift.Equatable {
+public struct DeleteMitigationActionInput {
     /// The name of the mitigation action that you want to delete.
     /// This member is required.
     public var actionName: Swift.String?
@@ -13552,7 +13552,7 @@ public struct DeleteMitigationActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteMitigationActionInputBody: Swift.Equatable {
+struct DeleteMitigationActionInputBody {
 }
 
 extension DeleteMitigationActionInputBody: Swift.Decodable {
@@ -13566,7 +13566,7 @@ extension DeleteMitigationActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMitigationActionOutput: Swift.Equatable {
+public struct DeleteMitigationActionOutput {
 
     public init() { }
 }
@@ -13610,7 +13610,7 @@ extension DeleteOTAUpdateInput {
     }
 }
 
-public struct DeleteOTAUpdateInput: Swift.Equatable {
+public struct DeleteOTAUpdateInput {
     /// When true, the stream created by the OTAUpdate process is deleted when the OTA update is deleted. Ignored if the stream specified in the OTAUpdate is supplied by the user.
     public var deleteStream: Swift.Bool?
     /// When true, deletes the IoT job created by the OTAUpdate process even if it is "IN_PROGRESS". Otherwise, if the job is not in a terminal state ("COMPLETED" or "CANCELED") an exception will occur. The default is false.
@@ -13631,7 +13631,7 @@ public struct DeleteOTAUpdateInput: Swift.Equatable {
     }
 }
 
-struct DeleteOTAUpdateInputBody: Swift.Equatable {
+struct DeleteOTAUpdateInputBody {
 }
 
 extension DeleteOTAUpdateInputBody: Swift.Decodable {
@@ -13645,7 +13645,7 @@ extension DeleteOTAUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOTAUpdateOutput: Swift.Equatable {
+public struct DeleteOTAUpdateOutput {
 
     public init() { }
 }
@@ -13689,7 +13689,7 @@ extension DeletePackageInput {
     }
 }
 
-public struct DeletePackageInput: Swift.Equatable {
+public struct DeletePackageInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The name of the target software package.
@@ -13706,7 +13706,7 @@ public struct DeletePackageInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageInputBody: Swift.Equatable {
+struct DeletePackageInputBody {
 }
 
 extension DeletePackageInputBody: Swift.Decodable {
@@ -13720,7 +13720,7 @@ extension DeletePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageOutput: Swift.Equatable {
+public struct DeletePackageOutput {
 
     public init() { }
 }
@@ -13763,7 +13763,7 @@ extension DeletePackageVersionInput {
     }
 }
 
-public struct DeletePackageVersionInput: Swift.Equatable {
+public struct DeletePackageVersionInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The name of the associated software package.
@@ -13785,7 +13785,7 @@ public struct DeletePackageVersionInput: Swift.Equatable {
     }
 }
 
-struct DeletePackageVersionInputBody: Swift.Equatable {
+struct DeletePackageVersionInputBody {
 }
 
 extension DeletePackageVersionInputBody: Swift.Decodable {
@@ -13799,7 +13799,7 @@ extension DeletePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePackageVersionOutput: Swift.Equatable {
+public struct DeletePackageVersionOutput {
 
     public init() { }
 }
@@ -13828,7 +13828,7 @@ extension DeletePolicyInput {
 }
 
 /// The input for the DeletePolicy operation.
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// The name of the policy to delete.
     /// This member is required.
     public var policyName: Swift.String?
@@ -13841,7 +13841,7 @@ public struct DeletePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyInputBody: Swift.Equatable {
+struct DeletePolicyInputBody {
 }
 
 extension DeletePolicyInputBody: Swift.Decodable {
@@ -13855,7 +13855,7 @@ extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -13891,7 +13891,7 @@ extension DeletePolicyVersionInput {
 }
 
 /// The input for the DeletePolicyVersion operation.
-public struct DeletePolicyVersionInput: Swift.Equatable {
+public struct DeletePolicyVersionInput {
     /// The name of the policy.
     /// This member is required.
     public var policyName: Swift.String?
@@ -13909,7 +13909,7 @@ public struct DeletePolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyVersionInputBody: Swift.Equatable {
+struct DeletePolicyVersionInputBody {
 }
 
 extension DeletePolicyVersionInputBody: Swift.Decodable {
@@ -13923,7 +13923,7 @@ extension DeletePolicyVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyVersionOutput: Swift.Equatable {
+public struct DeletePolicyVersionOutput {
 
     public init() { }
 }
@@ -13955,7 +13955,7 @@ extension DeleteProvisioningTemplateInput {
     }
 }
 
-public struct DeleteProvisioningTemplateInput: Swift.Equatable {
+public struct DeleteProvisioningTemplateInput {
     /// The name of the fleet provision template to delete.
     /// This member is required.
     public var templateName: Swift.String?
@@ -13968,7 +13968,7 @@ public struct DeleteProvisioningTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisioningTemplateInputBody: Swift.Equatable {
+struct DeleteProvisioningTemplateInputBody {
 }
 
 extension DeleteProvisioningTemplateInputBody: Swift.Decodable {
@@ -13982,7 +13982,7 @@ extension DeleteProvisioningTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProvisioningTemplateOutput: Swift.Equatable {
+public struct DeleteProvisioningTemplateOutput {
 
     public init() { }
 }
@@ -14017,7 +14017,7 @@ extension DeleteProvisioningTemplateVersionInput {
     }
 }
 
-public struct DeleteProvisioningTemplateVersionInput: Swift.Equatable {
+public struct DeleteProvisioningTemplateVersionInput {
     /// The name of the provisioning template version to delete.
     /// This member is required.
     public var templateName: Swift.String?
@@ -14035,7 +14035,7 @@ public struct DeleteProvisioningTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisioningTemplateVersionInputBody: Swift.Equatable {
+struct DeleteProvisioningTemplateVersionInputBody {
 }
 
 extension DeleteProvisioningTemplateVersionInputBody: Swift.Decodable {
@@ -14049,7 +14049,7 @@ extension DeleteProvisioningTemplateVersionOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteProvisioningTemplateVersionOutput: Swift.Equatable {
+public struct DeleteProvisioningTemplateVersionOutput {
 
     public init() { }
 }
@@ -14079,12 +14079,12 @@ extension DeleteRegistrationCodeInput {
 }
 
 /// The input for the DeleteRegistrationCode operation.
-public struct DeleteRegistrationCodeInput: Swift.Equatable {
+public struct DeleteRegistrationCodeInput {
 
     public init() { }
 }
 
-struct DeleteRegistrationCodeInputBody: Swift.Equatable {
+struct DeleteRegistrationCodeInputBody {
 }
 
 extension DeleteRegistrationCodeInputBody: Swift.Decodable {
@@ -14099,7 +14099,7 @@ extension DeleteRegistrationCodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the DeleteRegistrationCode operation.
-public struct DeleteRegistrationCodeOutput: Swift.Equatable {
+public struct DeleteRegistrationCodeOutput {
 
     public init() { }
 }
@@ -14129,7 +14129,7 @@ extension DeleteRoleAliasInput {
     }
 }
 
-public struct DeleteRoleAliasInput: Swift.Equatable {
+public struct DeleteRoleAliasInput {
     /// The role alias to delete.
     /// This member is required.
     public var roleAlias: Swift.String?
@@ -14142,7 +14142,7 @@ public struct DeleteRoleAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteRoleAliasInputBody: Swift.Equatable {
+struct DeleteRoleAliasInputBody {
 }
 
 extension DeleteRoleAliasInputBody: Swift.Decodable {
@@ -14156,7 +14156,7 @@ extension DeleteRoleAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRoleAliasOutput: Swift.Equatable {
+public struct DeleteRoleAliasOutput {
 
     public init() { }
 }
@@ -14188,7 +14188,7 @@ extension DeleteScheduledAuditInput {
     }
 }
 
-public struct DeleteScheduledAuditInput: Swift.Equatable {
+public struct DeleteScheduledAuditInput {
     /// The name of the scheduled audit you want to delete.
     /// This member is required.
     public var scheduledAuditName: Swift.String?
@@ -14201,7 +14201,7 @@ public struct DeleteScheduledAuditInput: Swift.Equatable {
     }
 }
 
-struct DeleteScheduledAuditInputBody: Swift.Equatable {
+struct DeleteScheduledAuditInputBody {
 }
 
 extension DeleteScheduledAuditInputBody: Swift.Decodable {
@@ -14215,7 +14215,7 @@ extension DeleteScheduledAuditOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteScheduledAuditOutput: Swift.Equatable {
+public struct DeleteScheduledAuditOutput {
 
     public init() { }
 }
@@ -14256,7 +14256,7 @@ extension DeleteSecurityProfileInput {
     }
 }
 
-public struct DeleteSecurityProfileInput: Swift.Equatable {
+public struct DeleteSecurityProfileInput {
     /// The expected version of the security profile. A new version is generated whenever the security profile is updated. If you specify a value that is different from the actual version, a VersionConflictException is thrown.
     public var expectedVersion: Swift.Int?
     /// The name of the security profile to be deleted.
@@ -14273,7 +14273,7 @@ public struct DeleteSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteSecurityProfileInputBody: Swift.Equatable {
+struct DeleteSecurityProfileInputBody {
 }
 
 extension DeleteSecurityProfileInputBody: Swift.Decodable {
@@ -14287,7 +14287,7 @@ extension DeleteSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSecurityProfileOutput: Swift.Equatable {
+public struct DeleteSecurityProfileOutput {
 
     public init() { }
 }
@@ -14316,7 +14316,7 @@ extension DeleteStreamInput {
     }
 }
 
-public struct DeleteStreamInput: Swift.Equatable {
+public struct DeleteStreamInput {
     /// The stream ID.
     /// This member is required.
     public var streamId: Swift.String?
@@ -14329,7 +14329,7 @@ public struct DeleteStreamInput: Swift.Equatable {
     }
 }
 
-struct DeleteStreamInputBody: Swift.Equatable {
+struct DeleteStreamInputBody {
 }
 
 extension DeleteStreamInputBody: Swift.Decodable {
@@ -14343,7 +14343,7 @@ extension DeleteStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStreamOutput: Swift.Equatable {
+public struct DeleteStreamOutput {
 
     public init() { }
 }
@@ -14387,7 +14387,7 @@ extension DeleteThingGroupInput {
     }
 }
 
-public struct DeleteThingGroupInput: Swift.Equatable {
+public struct DeleteThingGroupInput {
     /// The expected version of the thing group to delete.
     public var expectedVersion: Swift.Int?
     /// The name of the thing group to delete.
@@ -14404,7 +14404,7 @@ public struct DeleteThingGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteThingGroupInputBody: Swift.Equatable {
+struct DeleteThingGroupInputBody {
 }
 
 extension DeleteThingGroupInputBody: Swift.Decodable {
@@ -14418,7 +14418,7 @@ extension DeleteThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThingGroupOutput: Swift.Equatable {
+public struct DeleteThingGroupOutput {
 
     public init() { }
 }
@@ -14460,7 +14460,7 @@ extension DeleteThingInput {
 }
 
 /// The input for the DeleteThing operation.
-public struct DeleteThingInput: Swift.Equatable {
+public struct DeleteThingInput {
     /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the DeleteThing request is rejected with a VersionConflictException.
     public var expectedVersion: Swift.Int?
     /// The name of the thing to delete.
@@ -14477,7 +14477,7 @@ public struct DeleteThingInput: Swift.Equatable {
     }
 }
 
-struct DeleteThingInputBody: Swift.Equatable {
+struct DeleteThingInputBody {
 }
 
 extension DeleteThingInputBody: Swift.Decodable {
@@ -14492,7 +14492,7 @@ extension DeleteThingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the DeleteThing operation.
-public struct DeleteThingOutput: Swift.Equatable {
+public struct DeleteThingOutput {
 
     public init() { }
 }
@@ -14525,7 +14525,7 @@ extension DeleteThingTypeInput {
 }
 
 /// The input for the DeleteThingType operation.
-public struct DeleteThingTypeInput: Swift.Equatable {
+public struct DeleteThingTypeInput {
     /// The name of the thing type.
     /// This member is required.
     public var thingTypeName: Swift.String?
@@ -14538,7 +14538,7 @@ public struct DeleteThingTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteThingTypeInputBody: Swift.Equatable {
+struct DeleteThingTypeInputBody {
 }
 
 extension DeleteThingTypeInputBody: Swift.Decodable {
@@ -14553,7 +14553,7 @@ extension DeleteThingTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the DeleteThingType operation.
-public struct DeleteThingTypeOutput: Swift.Equatable {
+public struct DeleteThingTypeOutput {
 
     public init() { }
 }
@@ -14584,7 +14584,7 @@ extension DeleteTopicRuleDestinationInput {
     }
 }
 
-public struct DeleteTopicRuleDestinationInput: Swift.Equatable {
+public struct DeleteTopicRuleDestinationInput {
     /// The ARN of the topic rule destination to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -14597,7 +14597,7 @@ public struct DeleteTopicRuleDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicRuleDestinationInputBody: Swift.Equatable {
+struct DeleteTopicRuleDestinationInputBody {
 }
 
 extension DeleteTopicRuleDestinationInputBody: Swift.Decodable {
@@ -14611,7 +14611,7 @@ extension DeleteTopicRuleDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTopicRuleDestinationOutput: Swift.Equatable {
+public struct DeleteTopicRuleDestinationOutput {
 
     public init() { }
 }
@@ -14642,7 +14642,7 @@ extension DeleteTopicRuleInput {
 }
 
 /// The input for the DeleteTopicRule operation.
-public struct DeleteTopicRuleInput: Swift.Equatable {
+public struct DeleteTopicRuleInput {
     /// The name of the rule.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -14655,7 +14655,7 @@ public struct DeleteTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteTopicRuleInputBody: Swift.Equatable {
+struct DeleteTopicRuleInputBody {
 }
 
 extension DeleteTopicRuleInputBody: Swift.Decodable {
@@ -14669,7 +14669,7 @@ extension DeleteTopicRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTopicRuleOutput: Swift.Equatable {
+public struct DeleteTopicRuleOutput {
 
     public init() { }
 }
@@ -14716,7 +14716,7 @@ extension DeleteV2LoggingLevelInput {
     }
 }
 
-public struct DeleteV2LoggingLevelInput: Swift.Equatable {
+public struct DeleteV2LoggingLevelInput {
     /// The name of the resource for which you are configuring logging.
     /// This member is required.
     public var targetName: Swift.String?
@@ -14734,7 +14734,7 @@ public struct DeleteV2LoggingLevelInput: Swift.Equatable {
     }
 }
 
-struct DeleteV2LoggingLevelInputBody: Swift.Equatable {
+struct DeleteV2LoggingLevelInputBody {
 }
 
 extension DeleteV2LoggingLevelInputBody: Swift.Decodable {
@@ -14748,7 +14748,7 @@ extension DeleteV2LoggingLevelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteV2LoggingLevelOutput: Swift.Equatable {
+public struct DeleteV2LoggingLevelOutput {
 
     public init() { }
 }
@@ -14793,7 +14793,7 @@ extension IoTClientTypes.Denied: Swift.Codable {
 
 extension IoTClientTypes {
     /// Contains information that denied the authorization.
-    public struct Denied: Swift.Equatable {
+    public struct Denied {
         /// Information that explicitly denies the authorization.
         public var explicitDeny: IoTClientTypes.ExplicitDeny?
         /// Information that implicitly denies the authorization. When a policy doesn't explicitly deny or allow an action on a resource it is considered an implicit deny.
@@ -14835,7 +14835,7 @@ extension DeprecateThingTypeInput {
 }
 
 /// The input for the DeprecateThingType operation.
-public struct DeprecateThingTypeInput: Swift.Equatable {
+public struct DeprecateThingTypeInput {
     /// The name of the thing type to deprecate.
     /// This member is required.
     public var thingTypeName: Swift.String?
@@ -14852,7 +14852,7 @@ public struct DeprecateThingTypeInput: Swift.Equatable {
     }
 }
 
-struct DeprecateThingTypeInputBody: Swift.Equatable {
+struct DeprecateThingTypeInputBody {
     let undoDeprecate: Swift.Bool?
 }
 
@@ -14874,7 +14874,7 @@ extension DeprecateThingTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the DeprecateThingType operation.
-public struct DeprecateThingTypeOutput: Swift.Equatable {
+public struct DeprecateThingTypeOutput {
 
     public init() { }
 }
@@ -14902,12 +14902,12 @@ extension DescribeAccountAuditConfigurationInput {
     }
 }
 
-public struct DescribeAccountAuditConfigurationInput: Swift.Equatable {
+public struct DescribeAccountAuditConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeAccountAuditConfigurationInputBody: Swift.Equatable {
+struct DescribeAccountAuditConfigurationInputBody {
 }
 
 extension DescribeAccountAuditConfigurationInputBody: Swift.Decodable {
@@ -14932,7 +14932,7 @@ extension DescribeAccountAuditConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeAccountAuditConfigurationOutput: Swift.Equatable {
+public struct DescribeAccountAuditConfigurationOutput {
     /// Which audit checks are enabled and disabled for this account.
     public var auditCheckConfigurations: [Swift.String:IoTClientTypes.AuditCheckConfiguration]?
     /// Information about the targets to which audit notifications are sent for this account.
@@ -14952,7 +14952,7 @@ public struct DescribeAccountAuditConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountAuditConfigurationOutputBody: Swift.Equatable {
+struct DescribeAccountAuditConfigurationOutputBody {
     let roleArn: Swift.String?
     let auditNotificationTargetConfigurations: [Swift.String:IoTClientTypes.AuditNotificationTarget]?
     let auditCheckConfigurations: [Swift.String:IoTClientTypes.AuditCheckConfiguration]?
@@ -15016,7 +15016,7 @@ extension DescribeAuditFindingInput {
     }
 }
 
-public struct DescribeAuditFindingInput: Swift.Equatable {
+public struct DescribeAuditFindingInput {
     /// A unique identifier for a single audit finding. You can use this identifier to apply mitigation actions to the finding.
     /// This member is required.
     public var findingId: Swift.String?
@@ -15029,7 +15029,7 @@ public struct DescribeAuditFindingInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditFindingInputBody: Swift.Equatable {
+struct DescribeAuditFindingInputBody {
 }
 
 extension DescribeAuditFindingInputBody: Swift.Decodable {
@@ -15050,7 +15050,7 @@ extension DescribeAuditFindingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAuditFindingOutput: Swift.Equatable {
+public struct DescribeAuditFindingOutput {
     /// The findings (results) of the audit.
     public var finding: IoTClientTypes.AuditFinding?
 
@@ -15062,7 +15062,7 @@ public struct DescribeAuditFindingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditFindingOutputBody: Swift.Equatable {
+struct DescribeAuditFindingOutputBody {
     let finding: IoTClientTypes.AuditFinding?
 }
 
@@ -15102,7 +15102,7 @@ extension DescribeAuditMitigationActionsTaskInput {
     }
 }
 
-public struct DescribeAuditMitigationActionsTaskInput: Swift.Equatable {
+public struct DescribeAuditMitigationActionsTaskInput {
     /// The unique identifier for the audit mitigation task.
     /// This member is required.
     public var taskId: Swift.String?
@@ -15115,7 +15115,7 @@ public struct DescribeAuditMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditMitigationActionsTaskInputBody: Swift.Equatable {
+struct DescribeAuditMitigationActionsTaskInputBody {
 }
 
 extension DescribeAuditMitigationActionsTaskInputBody: Swift.Decodable {
@@ -15148,7 +15148,7 @@ extension DescribeAuditMitigationActionsTaskOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeAuditMitigationActionsTaskOutput: Swift.Equatable {
+public struct DescribeAuditMitigationActionsTaskOutput {
     /// Specifies the mitigation actions and their parameters that are applied as part of this task.
     public var actionsDefinition: [IoTClientTypes.MitigationAction]?
     /// Specifies the mitigation actions that should be applied to specific audit checks.
@@ -15184,7 +15184,7 @@ public struct DescribeAuditMitigationActionsTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditMitigationActionsTaskOutputBody: Swift.Equatable {
+struct DescribeAuditMitigationActionsTaskOutputBody {
     let taskStatus: IoTClientTypes.AuditMitigationActionsTaskStatus?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -15296,7 +15296,7 @@ extension DescribeAuditSuppressionInput {
     }
 }
 
-public struct DescribeAuditSuppressionInput: Swift.Equatable {
+public struct DescribeAuditSuppressionInput {
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     /// This member is required.
     public var checkName: Swift.String?
@@ -15314,7 +15314,7 @@ public struct DescribeAuditSuppressionInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditSuppressionInputBody: Swift.Equatable {
+struct DescribeAuditSuppressionInputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
 }
@@ -15354,7 +15354,7 @@ extension DescribeAuditSuppressionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAuditSuppressionOutput: Swift.Equatable {
+public struct DescribeAuditSuppressionOutput {
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     public var checkName: Swift.String?
     /// The description of the audit suppression.
@@ -15382,7 +15382,7 @@ public struct DescribeAuditSuppressionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditSuppressionOutputBody: Swift.Equatable {
+struct DescribeAuditSuppressionOutputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
     let expirationDate: ClientRuntime.Date?
@@ -15438,7 +15438,7 @@ extension DescribeAuditTaskInput {
     }
 }
 
-public struct DescribeAuditTaskInput: Swift.Equatable {
+public struct DescribeAuditTaskInput {
     /// The ID of the audit whose information you want to get.
     /// This member is required.
     public var taskId: Swift.String?
@@ -15451,7 +15451,7 @@ public struct DescribeAuditTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditTaskInputBody: Swift.Equatable {
+struct DescribeAuditTaskInputBody {
 }
 
 extension DescribeAuditTaskInputBody: Swift.Decodable {
@@ -15482,7 +15482,7 @@ extension DescribeAuditTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAuditTaskOutput: Swift.Equatable {
+public struct DescribeAuditTaskOutput {
     /// Detailed information about each check performed during this audit.
     public var auditDetails: [Swift.String:IoTClientTypes.AuditCheckDetails]?
     /// The name of the scheduled audit (only if the audit was a scheduled audit).
@@ -15514,7 +15514,7 @@ public struct DescribeAuditTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuditTaskOutputBody: Swift.Equatable {
+struct DescribeAuditTaskOutputBody {
     let taskStatus: IoTClientTypes.AuditTaskStatus?
     let taskType: IoTClientTypes.AuditTaskType?
     let taskStartTime: ClientRuntime.Date?
@@ -15583,7 +15583,7 @@ extension DescribeAuthorizerInput {
     }
 }
 
-public struct DescribeAuthorizerInput: Swift.Equatable {
+public struct DescribeAuthorizerInput {
     /// The name of the authorizer to describe.
     /// This member is required.
     public var authorizerName: Swift.String?
@@ -15596,7 +15596,7 @@ public struct DescribeAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct DescribeAuthorizerInputBody: Swift.Equatable {
+struct DescribeAuthorizerInputBody {
 }
 
 extension DescribeAuthorizerInputBody: Swift.Decodable {
@@ -15617,7 +15617,7 @@ extension DescribeAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAuthorizerOutput: Swift.Equatable {
+public struct DescribeAuthorizerOutput {
     /// The authorizer description.
     public var authorizerDescription: IoTClientTypes.AuthorizerDescription?
 
@@ -15629,7 +15629,7 @@ public struct DescribeAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAuthorizerOutputBody: Swift.Equatable {
+struct DescribeAuthorizerOutputBody {
     let authorizerDescription: IoTClientTypes.AuthorizerDescription?
 }
 
@@ -15671,7 +15671,7 @@ extension DescribeBillingGroupInput {
     }
 }
 
-public struct DescribeBillingGroupInput: Swift.Equatable {
+public struct DescribeBillingGroupInput {
     /// The name of the billing group.
     /// This member is required.
     public var billingGroupName: Swift.String?
@@ -15684,7 +15684,7 @@ public struct DescribeBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeBillingGroupInputBody: Swift.Equatable {
+struct DescribeBillingGroupInputBody {
 }
 
 extension DescribeBillingGroupInputBody: Swift.Decodable {
@@ -15715,7 +15715,7 @@ extension DescribeBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBillingGroupOutput: Swift.Equatable {
+public struct DescribeBillingGroupOutput {
     /// The ARN of the billing group.
     public var billingGroupArn: Swift.String?
     /// The ID of the billing group.
@@ -15747,7 +15747,7 @@ public struct DescribeBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBillingGroupOutputBody: Swift.Equatable {
+struct DescribeBillingGroupOutputBody {
     let billingGroupName: Swift.String?
     let billingGroupId: Swift.String?
     let billingGroupArn: Swift.String?
@@ -15808,7 +15808,7 @@ extension DescribeCACertificateInput {
 }
 
 /// The input for the DescribeCACertificate operation.
-public struct DescribeCACertificateInput: Swift.Equatable {
+public struct DescribeCACertificateInput {
     /// The CA certificate identifier.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -15821,7 +15821,7 @@ public struct DescribeCACertificateInput: Swift.Equatable {
     }
 }
 
-struct DescribeCACertificateInputBody: Swift.Equatable {
+struct DescribeCACertificateInputBody {
 }
 
 extension DescribeCACertificateInputBody: Swift.Decodable {
@@ -15845,7 +15845,7 @@ extension DescribeCACertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the DescribeCACertificate operation.
-public struct DescribeCACertificateOutput: Swift.Equatable {
+public struct DescribeCACertificateOutput {
     /// The CA certificate description.
     public var certificateDescription: IoTClientTypes.CACertificateDescription?
     /// Information about the registration configuration.
@@ -15861,7 +15861,7 @@ public struct DescribeCACertificateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCACertificateOutputBody: Swift.Equatable {
+struct DescribeCACertificateOutputBody {
     let certificateDescription: IoTClientTypes.CACertificateDescription?
     let registrationConfig: IoTClientTypes.RegistrationConfig?
 }
@@ -15908,7 +15908,7 @@ extension DescribeCertificateInput {
 }
 
 /// The input for the DescribeCertificate operation.
-public struct DescribeCertificateInput: Swift.Equatable {
+public struct DescribeCertificateInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -15921,7 +15921,7 @@ public struct DescribeCertificateInput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateInputBody: Swift.Equatable {
+struct DescribeCertificateInputBody {
 }
 
 extension DescribeCertificateInputBody: Swift.Decodable {
@@ -15943,7 +15943,7 @@ extension DescribeCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the DescribeCertificate operation.
-public struct DescribeCertificateOutput: Swift.Equatable {
+public struct DescribeCertificateOutput {
     /// The description of the certificate.
     public var certificateDescription: IoTClientTypes.CertificateDescription?
 
@@ -15955,7 +15955,7 @@ public struct DescribeCertificateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateOutputBody: Swift.Equatable {
+struct DescribeCertificateOutputBody {
     let certificateDescription: IoTClientTypes.CertificateDescription?
 }
 
@@ -15997,7 +15997,7 @@ extension DescribeCertificateProviderInput {
     }
 }
 
-public struct DescribeCertificateProviderInput: Swift.Equatable {
+public struct DescribeCertificateProviderInput {
     /// The name of the certificate provider.
     /// This member is required.
     public var certificateProviderName: Swift.String?
@@ -16010,7 +16010,7 @@ public struct DescribeCertificateProviderInput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateProviderInputBody: Swift.Equatable {
+struct DescribeCertificateProviderInputBody {
 }
 
 extension DescribeCertificateProviderInputBody: Swift.Decodable {
@@ -16041,7 +16041,7 @@ extension DescribeCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCertificateProviderOutput: Swift.Equatable {
+public struct DescribeCertificateProviderOutput {
     /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
     public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
     /// The ARN of the certificate provider.
@@ -16073,7 +16073,7 @@ public struct DescribeCertificateProviderOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateProviderOutputBody: Swift.Equatable {
+struct DescribeCertificateProviderOutputBody {
     let certificateProviderName: Swift.String?
     let certificateProviderArn: Swift.String?
     let lambdaFunctionArn: Swift.String?
@@ -16144,7 +16144,7 @@ extension DescribeCustomMetricInput {
     }
 }
 
-public struct DescribeCustomMetricInput: Swift.Equatable {
+public struct DescribeCustomMetricInput {
     /// The name of the custom metric.
     /// This member is required.
     public var metricName: Swift.String?
@@ -16157,7 +16157,7 @@ public struct DescribeCustomMetricInput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomMetricInputBody: Swift.Equatable {
+struct DescribeCustomMetricInputBody {
 }
 
 extension DescribeCustomMetricInputBody: Swift.Decodable {
@@ -16188,7 +16188,7 @@ extension DescribeCustomMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCustomMetricOutput: Swift.Equatable {
+public struct DescribeCustomMetricOutput {
     /// The creation date of the custom metric in milliseconds since epoch.
     public var creationDate: ClientRuntime.Date?
     /// Field represents a friendly name in the console for the custom metric; doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
@@ -16220,7 +16220,7 @@ public struct DescribeCustomMetricOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomMetricOutputBody: Swift.Equatable {
+struct DescribeCustomMetricOutputBody {
     let metricName: Swift.String?
     let metricArn: Swift.String?
     let metricType: IoTClientTypes.CustomMetricType?
@@ -16277,12 +16277,12 @@ extension DescribeDefaultAuthorizerInput {
     }
 }
 
-public struct DescribeDefaultAuthorizerInput: Swift.Equatable {
+public struct DescribeDefaultAuthorizerInput {
 
     public init() { }
 }
 
-struct DescribeDefaultAuthorizerInputBody: Swift.Equatable {
+struct DescribeDefaultAuthorizerInputBody {
 }
 
 extension DescribeDefaultAuthorizerInputBody: Swift.Decodable {
@@ -16303,7 +16303,7 @@ extension DescribeDefaultAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDefaultAuthorizerOutput: Swift.Equatable {
+public struct DescribeDefaultAuthorizerOutput {
     /// The default authorizer's description.
     public var authorizerDescription: IoTClientTypes.AuthorizerDescription?
 
@@ -16315,7 +16315,7 @@ public struct DescribeDefaultAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDefaultAuthorizerOutputBody: Swift.Equatable {
+struct DescribeDefaultAuthorizerOutputBody {
     let authorizerDescription: IoTClientTypes.AuthorizerDescription?
 }
 
@@ -16357,7 +16357,7 @@ extension DescribeDetectMitigationActionsTaskInput {
     }
 }
 
-public struct DescribeDetectMitigationActionsTaskInput: Swift.Equatable {
+public struct DescribeDetectMitigationActionsTaskInput {
     /// The unique identifier of the task.
     /// This member is required.
     public var taskId: Swift.String?
@@ -16370,7 +16370,7 @@ public struct DescribeDetectMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeDetectMitigationActionsTaskInputBody: Swift.Equatable {
+struct DescribeDetectMitigationActionsTaskInputBody {
 }
 
 extension DescribeDetectMitigationActionsTaskInputBody: Swift.Decodable {
@@ -16391,7 +16391,7 @@ extension DescribeDetectMitigationActionsTaskOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeDetectMitigationActionsTaskOutput: Swift.Equatable {
+public struct DescribeDetectMitigationActionsTaskOutput {
     /// The description of a task.
     public var taskSummary: IoTClientTypes.DetectMitigationActionsTaskSummary?
 
@@ -16403,7 +16403,7 @@ public struct DescribeDetectMitigationActionsTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDetectMitigationActionsTaskOutputBody: Swift.Equatable {
+struct DescribeDetectMitigationActionsTaskOutputBody {
     let taskSummary: IoTClientTypes.DetectMitigationActionsTaskSummary?
 }
 
@@ -16443,7 +16443,7 @@ extension DescribeDimensionInput {
     }
 }
 
-public struct DescribeDimensionInput: Swift.Equatable {
+public struct DescribeDimensionInput {
     /// The unique identifier for the dimension.
     /// This member is required.
     public var name: Swift.String?
@@ -16456,7 +16456,7 @@ public struct DescribeDimensionInput: Swift.Equatable {
     }
 }
 
-struct DescribeDimensionInputBody: Swift.Equatable {
+struct DescribeDimensionInputBody {
 }
 
 extension DescribeDimensionInputBody: Swift.Decodable {
@@ -16487,7 +16487,7 @@ extension DescribeDimensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDimensionOutput: Swift.Equatable {
+public struct DescribeDimensionOutput {
     /// The Amazon Resource Name (ARN) for the dimension.
     public var arn: Swift.String?
     /// The date the dimension was created.
@@ -16519,7 +16519,7 @@ public struct DescribeDimensionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDimensionOutputBody: Swift.Equatable {
+struct DescribeDimensionOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let type: IoTClientTypes.DimensionType?
@@ -16588,7 +16588,7 @@ extension DescribeDomainConfigurationInput {
     }
 }
 
-public struct DescribeDomainConfigurationInput: Swift.Equatable {
+public struct DescribeDomainConfigurationInput {
     /// The name of the domain configuration.
     /// This member is required.
     public var domainConfigurationName: Swift.String?
@@ -16601,7 +16601,7 @@ public struct DescribeDomainConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainConfigurationInputBody: Swift.Equatable {
+struct DescribeDomainConfigurationInputBody {
 }
 
 extension DescribeDomainConfigurationInputBody: Swift.Decodable {
@@ -16642,7 +16642,7 @@ extension DescribeDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDomainConfigurationOutput: Swift.Equatable {
+public struct DescribeDomainConfigurationOutput {
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
     /// The ARN of the domain configuration.
@@ -16694,7 +16694,7 @@ public struct DescribeDomainConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDomainConfigurationOutputBody: Swift.Equatable {
+struct DescribeDomainConfigurationOutputBody {
     let domainConfigurationName: Swift.String?
     let domainConfigurationArn: Swift.String?
     let domainName: Swift.String?
@@ -16795,7 +16795,7 @@ extension DescribeEndpointInput {
 }
 
 /// The input for the DescribeEndpoint operation.
-public struct DescribeEndpointInput: Swift.Equatable {
+public struct DescribeEndpointInput {
     /// The endpoint type. Valid endpoint types include:
     ///
     /// * iot:Data - Returns a VeriSign signed data endpoint.
@@ -16827,7 +16827,7 @@ public struct DescribeEndpointInput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointInputBody: Swift.Equatable {
+struct DescribeEndpointInputBody {
 }
 
 extension DescribeEndpointInputBody: Swift.Decodable {
@@ -16849,7 +16849,7 @@ extension DescribeEndpointOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the DescribeEndpoint operation.
-public struct DescribeEndpointOutput: Swift.Equatable {
+public struct DescribeEndpointOutput {
     /// The endpoint. The format of the endpoint is as follows: identifier.iot.region.amazonaws.com.
     public var endpointAddress: Swift.String?
 
@@ -16861,7 +16861,7 @@ public struct DescribeEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEndpointOutputBody: Swift.Equatable {
+struct DescribeEndpointOutputBody {
     let endpointAddress: Swift.String?
 }
 
@@ -16898,12 +16898,12 @@ extension DescribeEventConfigurationsInput {
     }
 }
 
-public struct DescribeEventConfigurationsInput: Swift.Equatable {
+public struct DescribeEventConfigurationsInput {
 
     public init() { }
 }
 
-struct DescribeEventConfigurationsInputBody: Swift.Equatable {
+struct DescribeEventConfigurationsInputBody {
 }
 
 extension DescribeEventConfigurationsInputBody: Swift.Decodable {
@@ -16928,7 +16928,7 @@ extension DescribeEventConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventConfigurationsOutput: Swift.Equatable {
+public struct DescribeEventConfigurationsOutput {
     /// The creation date of the event configuration.
     public var creationDate: ClientRuntime.Date?
     /// The event configurations.
@@ -16948,7 +16948,7 @@ public struct DescribeEventConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventConfigurationsOutputBody: Swift.Equatable {
+struct DescribeEventConfigurationsOutputBody {
     let eventConfigurations: [Swift.String:IoTClientTypes.Configuration]?
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
@@ -17003,7 +17003,7 @@ extension DescribeFleetMetricInput {
     }
 }
 
-public struct DescribeFleetMetricInput: Swift.Equatable {
+public struct DescribeFleetMetricInput {
     /// The name of the fleet metric to describe.
     /// This member is required.
     public var metricName: Swift.String?
@@ -17016,7 +17016,7 @@ public struct DescribeFleetMetricInput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetMetricInputBody: Swift.Equatable {
+struct DescribeFleetMetricInputBody {
 }
 
 extension DescribeFleetMetricInputBody: Swift.Decodable {
@@ -17061,7 +17061,7 @@ extension DescribeFleetMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFleetMetricOutput: Swift.Equatable {
+public struct DescribeFleetMetricOutput {
     /// The field to aggregate.
     public var aggregationField: Swift.String?
     /// The type of the aggregation query.
@@ -17121,7 +17121,7 @@ public struct DescribeFleetMetricOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetMetricOutputBody: Swift.Equatable {
+struct DescribeFleetMetricOutputBody {
     let metricName: Swift.String?
     let queryString: Swift.String?
     let aggregationType: IoTClientTypes.AggregationType?
@@ -17211,7 +17211,7 @@ extension DescribeIndexInput {
     }
 }
 
-public struct DescribeIndexInput: Swift.Equatable {
+public struct DescribeIndexInput {
     /// The index name.
     /// This member is required.
     public var indexName: Swift.String?
@@ -17224,7 +17224,7 @@ public struct DescribeIndexInput: Swift.Equatable {
     }
 }
 
-struct DescribeIndexInputBody: Swift.Equatable {
+struct DescribeIndexInputBody {
 }
 
 extension DescribeIndexInputBody: Swift.Decodable {
@@ -17249,7 +17249,7 @@ extension DescribeIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIndexOutput: Swift.Equatable {
+public struct DescribeIndexOutput {
     /// The index name.
     public var indexName: Swift.String?
     /// The index status.
@@ -17279,7 +17279,7 @@ public struct DescribeIndexOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIndexOutputBody: Swift.Equatable {
+struct DescribeIndexOutputBody {
     let indexName: Swift.String?
     let indexStatus: IoTClientTypes.IndexStatus?
     let schema: Swift.String?
@@ -17344,7 +17344,7 @@ extension DescribeJobExecutionInput {
     }
 }
 
-public struct DescribeJobExecutionInput: Swift.Equatable {
+public struct DescribeJobExecutionInput {
     /// A string (consisting of the digits "0" through "9" which is used to specify a particular job execution on a particular device.
     public var executionNumber: Swift.Int?
     /// The unique identifier you assigned to this job when it was created.
@@ -17366,7 +17366,7 @@ public struct DescribeJobExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobExecutionInputBody: Swift.Equatable {
+struct DescribeJobExecutionInputBody {
 }
 
 extension DescribeJobExecutionInputBody: Swift.Decodable {
@@ -17387,7 +17387,7 @@ extension DescribeJobExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobExecutionOutput: Swift.Equatable {
+public struct DescribeJobExecutionOutput {
     /// Information about the job execution.
     public var execution: IoTClientTypes.JobExecution?
 
@@ -17399,7 +17399,7 @@ public struct DescribeJobExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobExecutionOutputBody: Swift.Equatable {
+struct DescribeJobExecutionOutputBody {
     let execution: IoTClientTypes.JobExecution?
 }
 
@@ -17439,7 +17439,7 @@ extension DescribeJobInput {
     }
 }
 
-public struct DescribeJobInput: Swift.Equatable {
+public struct DescribeJobInput {
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
@@ -17452,7 +17452,7 @@ public struct DescribeJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobInputBody: Swift.Equatable {
+struct DescribeJobInputBody {
 }
 
 extension DescribeJobInputBody: Swift.Decodable {
@@ -17475,7 +17475,7 @@ extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobOutput: Swift.Equatable {
+public struct DescribeJobOutput {
     /// An S3 link to the job document.
     public var documentSource: Swift.String?
     /// Information about the job.
@@ -17491,7 +17491,7 @@ public struct DescribeJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobOutputBody: Swift.Equatable {
+struct DescribeJobOutputBody {
     let documentSource: Swift.String?
     let job: IoTClientTypes.Job?
 }
@@ -17535,7 +17535,7 @@ extension DescribeJobTemplateInput {
     }
 }
 
-public struct DescribeJobTemplateInput: Swift.Equatable {
+public struct DescribeJobTemplateInput {
     /// The unique identifier of the job template.
     /// This member is required.
     public var jobTemplateId: Swift.String?
@@ -17548,7 +17548,7 @@ public struct DescribeJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobTemplateInputBody: Swift.Equatable {
+struct DescribeJobTemplateInputBody {
 }
 
 extension DescribeJobTemplateInputBody: Swift.Decodable {
@@ -17593,7 +17593,7 @@ extension DescribeJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobTemplateOutput: Swift.Equatable {
+public struct DescribeJobTemplateOutput {
     /// The criteria that determine when and how a job abort takes place.
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// The time, in seconds since the epoch, when the job template was created.
@@ -17653,7 +17653,7 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobTemplateOutputBody: Swift.Equatable {
+struct DescribeJobTemplateOutputBody {
     let jobTemplateArn: Swift.String?
     let jobTemplateId: Swift.String?
     let description: Swift.String?
@@ -17771,7 +17771,7 @@ extension DescribeManagedJobTemplateInput {
     }
 }
 
-public struct DescribeManagedJobTemplateInput: Swift.Equatable {
+public struct DescribeManagedJobTemplateInput {
     /// The unique name of a managed job template, which is required.
     /// This member is required.
     public var templateName: Swift.String?
@@ -17788,7 +17788,7 @@ public struct DescribeManagedJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedJobTemplateInputBody: Swift.Equatable {
+struct DescribeManagedJobTemplateInputBody {
 }
 
 extension DescribeManagedJobTemplateInputBody: Swift.Decodable {
@@ -17821,7 +17821,7 @@ extension DescribeManagedJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeManagedJobTemplateOutput: Swift.Equatable {
+public struct DescribeManagedJobTemplateOutput {
     /// The unique description of a managed template.
     public var description: Swift.String?
     /// The document schema for a managed job template.
@@ -17857,7 +17857,7 @@ public struct DescribeManagedJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedJobTemplateOutputBody: Swift.Equatable {
+struct DescribeManagedJobTemplateOutputBody {
     let templateName: Swift.String?
     let templateArn: Swift.String?
     let description: Swift.String?
@@ -17939,7 +17939,7 @@ extension DescribeMitigationActionInput {
     }
 }
 
-public struct DescribeMitigationActionInput: Swift.Equatable {
+public struct DescribeMitigationActionInput {
     /// The friendly name that uniquely identifies the mitigation action.
     /// This member is required.
     public var actionName: Swift.String?
@@ -17952,7 +17952,7 @@ public struct DescribeMitigationActionInput: Swift.Equatable {
     }
 }
 
-struct DescribeMitigationActionInputBody: Swift.Equatable {
+struct DescribeMitigationActionInputBody {
 }
 
 extension DescribeMitigationActionInputBody: Swift.Decodable {
@@ -17987,7 +17987,7 @@ extension DescribeMitigationActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMitigationActionOutput: Swift.Equatable {
+public struct DescribeMitigationActionOutput {
     /// The ARN that identifies this migration action.
     public var actionArn: Swift.String?
     /// A unique identifier for this action.
@@ -18027,7 +18027,7 @@ public struct DescribeMitigationActionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMitigationActionOutputBody: Swift.Equatable {
+struct DescribeMitigationActionOutputBody {
     let actionName: Swift.String?
     let actionType: IoTClientTypes.MitigationActionType?
     let actionArn: Swift.String?
@@ -18095,7 +18095,7 @@ extension DescribeProvisioningTemplateInput {
     }
 }
 
-public struct DescribeProvisioningTemplateInput: Swift.Equatable {
+public struct DescribeProvisioningTemplateInput {
     /// The name of the provisioning template.
     /// This member is required.
     public var templateName: Swift.String?
@@ -18108,7 +18108,7 @@ public struct DescribeProvisioningTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningTemplateInputBody: Swift.Equatable {
+struct DescribeProvisioningTemplateInputBody {
 }
 
 extension DescribeProvisioningTemplateInputBody: Swift.Decodable {
@@ -18149,7 +18149,7 @@ extension DescribeProvisioningTemplateOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeProvisioningTemplateOutput: Swift.Equatable {
+public struct DescribeProvisioningTemplateOutput {
     /// The date when the provisioning template was created.
     public var creationDate: ClientRuntime.Date?
     /// The default fleet template version ID.
@@ -18201,7 +18201,7 @@ public struct DescribeProvisioningTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningTemplateOutputBody: Swift.Equatable {
+struct DescribeProvisioningTemplateOutputBody {
     let templateArn: Swift.String?
     let templateName: Swift.String?
     let description: Swift.String?
@@ -18285,7 +18285,7 @@ extension DescribeProvisioningTemplateVersionInput {
     }
 }
 
-public struct DescribeProvisioningTemplateVersionInput: Swift.Equatable {
+public struct DescribeProvisioningTemplateVersionInput {
     /// The template name.
     /// This member is required.
     public var templateName: Swift.String?
@@ -18303,7 +18303,7 @@ public struct DescribeProvisioningTemplateVersionInput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningTemplateVersionInputBody: Swift.Equatable {
+struct DescribeProvisioningTemplateVersionInputBody {
 }
 
 extension DescribeProvisioningTemplateVersionInputBody: Swift.Decodable {
@@ -18330,7 +18330,7 @@ extension DescribeProvisioningTemplateVersionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DescribeProvisioningTemplateVersionOutput: Swift.Equatable {
+public struct DescribeProvisioningTemplateVersionOutput {
     /// The date when the provisioning template version was created.
     public var creationDate: ClientRuntime.Date?
     /// True if the provisioning template version is the default version.
@@ -18354,7 +18354,7 @@ public struct DescribeProvisioningTemplateVersionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProvisioningTemplateVersionOutputBody: Swift.Equatable {
+struct DescribeProvisioningTemplateVersionOutputBody {
     let versionId: Swift.Int?
     let creationDate: ClientRuntime.Date?
     let templateBody: Swift.String?
@@ -18407,7 +18407,7 @@ extension DescribeRoleAliasInput {
     }
 }
 
-public struct DescribeRoleAliasInput: Swift.Equatable {
+public struct DescribeRoleAliasInput {
     /// The role alias to describe.
     /// This member is required.
     public var roleAlias: Swift.String?
@@ -18420,7 +18420,7 @@ public struct DescribeRoleAliasInput: Swift.Equatable {
     }
 }
 
-struct DescribeRoleAliasInputBody: Swift.Equatable {
+struct DescribeRoleAliasInputBody {
 }
 
 extension DescribeRoleAliasInputBody: Swift.Decodable {
@@ -18441,7 +18441,7 @@ extension DescribeRoleAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRoleAliasOutput: Swift.Equatable {
+public struct DescribeRoleAliasOutput {
     /// The role alias description.
     public var roleAliasDescription: IoTClientTypes.RoleAliasDescription?
 
@@ -18453,7 +18453,7 @@ public struct DescribeRoleAliasOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRoleAliasOutputBody: Swift.Equatable {
+struct DescribeRoleAliasOutputBody {
     let roleAliasDescription: IoTClientTypes.RoleAliasDescription?
 }
 
@@ -18495,7 +18495,7 @@ extension DescribeScheduledAuditInput {
     }
 }
 
-public struct DescribeScheduledAuditInput: Swift.Equatable {
+public struct DescribeScheduledAuditInput {
     /// The name of the scheduled audit whose information you want to get.
     /// This member is required.
     public var scheduledAuditName: Swift.String?
@@ -18508,7 +18508,7 @@ public struct DescribeScheduledAuditInput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduledAuditInputBody: Swift.Equatable {
+struct DescribeScheduledAuditInputBody {
 }
 
 extension DescribeScheduledAuditInputBody: Swift.Decodable {
@@ -18539,7 +18539,7 @@ extension DescribeScheduledAuditOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeScheduledAuditOutput: Swift.Equatable {
+public struct DescribeScheduledAuditOutput {
     /// The day of the month on which the scheduled audit takes place. This is will be 1 through 31 or LAST. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the LAST day of the month.
     public var dayOfMonth: Swift.String?
     /// The day of the week on which the scheduled audit takes place, either one of SUN, MON, TUE, WED, THU, FRI, or SAT.
@@ -18571,7 +18571,7 @@ public struct DescribeScheduledAuditOutput: Swift.Equatable {
     }
 }
 
-struct DescribeScheduledAuditOutputBody: Swift.Equatable {
+struct DescribeScheduledAuditOutputBody {
     let frequency: IoTClientTypes.AuditFrequency?
     let dayOfMonth: Swift.String?
     let dayOfWeek: IoTClientTypes.DayOfWeek?
@@ -18640,7 +18640,7 @@ extension DescribeSecurityProfileInput {
     }
 }
 
-public struct DescribeSecurityProfileInput: Swift.Equatable {
+public struct DescribeSecurityProfileInput {
     /// The name of the security profile whose information you want to get.
     /// This member is required.
     public var securityProfileName: Swift.String?
@@ -18653,7 +18653,7 @@ public struct DescribeSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityProfileInputBody: Swift.Equatable {
+struct DescribeSecurityProfileInputBody {
 }
 
 extension DescribeSecurityProfileInputBody: Swift.Decodable {
@@ -18694,7 +18694,7 @@ extension DescribeSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSecurityProfileOutput: Swift.Equatable {
+public struct DescribeSecurityProfileOutput {
     /// Please use [DescribeSecurityProfileResponse$additionalMetricsToRetainV2] instead. A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here.
     @available(*, deprecated, message: "Use additionalMetricsToRetainV2.")
     public var additionalMetricsToRetain: [Swift.String]?
@@ -18747,7 +18747,7 @@ public struct DescribeSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityProfileOutputBody: Swift.Equatable {
+struct DescribeSecurityProfileOutputBody {
     let securityProfileName: Swift.String?
     let securityProfileArn: Swift.String?
     let securityProfileDescription: Swift.String?
@@ -18863,7 +18863,7 @@ extension DescribeStreamInput {
     }
 }
 
-public struct DescribeStreamInput: Swift.Equatable {
+public struct DescribeStreamInput {
     /// The stream ID.
     /// This member is required.
     public var streamId: Swift.String?
@@ -18876,7 +18876,7 @@ public struct DescribeStreamInput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamInputBody: Swift.Equatable {
+struct DescribeStreamInputBody {
 }
 
 extension DescribeStreamInputBody: Swift.Decodable {
@@ -18897,7 +18897,7 @@ extension DescribeStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStreamOutput: Swift.Equatable {
+public struct DescribeStreamOutput {
     /// Information about the stream.
     public var streamInfo: IoTClientTypes.StreamInfo?
 
@@ -18909,7 +18909,7 @@ public struct DescribeStreamOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStreamOutputBody: Swift.Equatable {
+struct DescribeStreamOutputBody {
     let streamInfo: IoTClientTypes.StreamInfo?
 }
 
@@ -18951,7 +18951,7 @@ extension DescribeThingGroupInput {
     }
 }
 
-public struct DescribeThingGroupInput: Swift.Equatable {
+public struct DescribeThingGroupInput {
     /// The name of the thing group.
     /// This member is required.
     public var thingGroupName: Swift.String?
@@ -18964,7 +18964,7 @@ public struct DescribeThingGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeThingGroupInputBody: Swift.Equatable {
+struct DescribeThingGroupInputBody {
 }
 
 extension DescribeThingGroupInputBody: Swift.Decodable {
@@ -19003,7 +19003,7 @@ extension DescribeThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeThingGroupOutput: Swift.Equatable {
+public struct DescribeThingGroupOutput {
     /// The dynamic thing group index name.
     public var indexName: Swift.String?
     /// The dynamic thing group search query string.
@@ -19051,7 +19051,7 @@ public struct DescribeThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThingGroupOutputBody: Swift.Equatable {
+struct DescribeThingGroupOutputBody {
     let thingGroupName: Swift.String?
     let thingGroupId: Swift.String?
     let thingGroupArn: Swift.String?
@@ -19128,7 +19128,7 @@ extension DescribeThingInput {
 }
 
 /// The input for the DescribeThing operation.
-public struct DescribeThingInput: Swift.Equatable {
+public struct DescribeThingInput {
     /// The name of the thing.
     /// This member is required.
     public var thingName: Swift.String?
@@ -19141,7 +19141,7 @@ public struct DescribeThingInput: Swift.Equatable {
     }
 }
 
-struct DescribeThingInputBody: Swift.Equatable {
+struct DescribeThingInputBody {
 }
 
 extension DescribeThingInputBody: Swift.Decodable {
@@ -19177,7 +19177,7 @@ extension DescribeThingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the DescribeThing operation.
-public struct DescribeThingOutput: Swift.Equatable {
+public struct DescribeThingOutput {
     /// The thing attributes.
     public var attributes: [Swift.String:Swift.String]?
     /// The name of the billing group the thing belongs to.
@@ -19217,7 +19217,7 @@ public struct DescribeThingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThingOutputBody: Swift.Equatable {
+struct DescribeThingOutputBody {
     let defaultClientId: Swift.String?
     let thingName: Swift.String?
     let thingId: Swift.String?
@@ -19296,7 +19296,7 @@ extension DescribeThingRegistrationTaskInput {
     }
 }
 
-public struct DescribeThingRegistrationTaskInput: Swift.Equatable {
+public struct DescribeThingRegistrationTaskInput {
     /// The task ID.
     /// This member is required.
     public var taskId: Swift.String?
@@ -19309,7 +19309,7 @@ public struct DescribeThingRegistrationTaskInput: Swift.Equatable {
     }
 }
 
-struct DescribeThingRegistrationTaskInputBody: Swift.Equatable {
+struct DescribeThingRegistrationTaskInputBody {
 }
 
 extension DescribeThingRegistrationTaskInputBody: Swift.Decodable {
@@ -19352,7 +19352,7 @@ extension DescribeThingRegistrationTaskOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeThingRegistrationTaskOutput: Swift.Equatable {
+public struct DescribeThingRegistrationTaskOutput {
     /// The task creation date.
     public var creationDate: ClientRuntime.Date?
     /// The number of things that failed to be provisioned.
@@ -19408,7 +19408,7 @@ public struct DescribeThingRegistrationTaskOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThingRegistrationTaskOutputBody: Swift.Equatable {
+struct DescribeThingRegistrationTaskOutputBody {
     let taskId: Swift.String?
     let creationDate: ClientRuntime.Date?
     let lastModifiedDate: ClientRuntime.Date?
@@ -19494,7 +19494,7 @@ extension DescribeThingTypeInput {
 }
 
 /// The input for the DescribeThingType operation.
-public struct DescribeThingTypeInput: Swift.Equatable {
+public struct DescribeThingTypeInput {
     /// The name of the thing type.
     /// This member is required.
     public var thingTypeName: Swift.String?
@@ -19507,7 +19507,7 @@ public struct DescribeThingTypeInput: Swift.Equatable {
     }
 }
 
-struct DescribeThingTypeInputBody: Swift.Equatable {
+struct DescribeThingTypeInputBody {
 }
 
 extension DescribeThingTypeInputBody: Swift.Decodable {
@@ -19537,7 +19537,7 @@ extension DescribeThingTypeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the DescribeThingType operation.
-public struct DescribeThingTypeOutput: Swift.Equatable {
+public struct DescribeThingTypeOutput {
     /// The thing type ARN.
     public var thingTypeArn: Swift.String?
     /// The thing type ID.
@@ -19565,7 +19565,7 @@ public struct DescribeThingTypeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeThingTypeOutputBody: Swift.Equatable {
+struct DescribeThingTypeOutputBody {
     let thingTypeName: Swift.String?
     let thingTypeId: Swift.String?
     let thingTypeArn: Swift.String?
@@ -19634,7 +19634,7 @@ extension IoTClientTypes.Destination: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the location of the updated firmware.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// Describes the location in S3 of the updated firmware.
         public var s3Destination: IoTClientTypes.S3Destination?
 
@@ -19671,7 +19671,7 @@ extension DetachPolicyInput {
     }
 }
 
-public struct DetachPolicyInput: Swift.Equatable {
+public struct DetachPolicyInput {
     /// The policy to detach.
     /// This member is required.
     public var policyName: Swift.String?
@@ -19689,7 +19689,7 @@ public struct DetachPolicyInput: Swift.Equatable {
     }
 }
 
-struct DetachPolicyInputBody: Swift.Equatable {
+struct DetachPolicyInputBody {
     let target: Swift.String?
 }
 
@@ -19710,7 +19710,7 @@ extension DetachPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachPolicyOutput: Swift.Equatable {
+public struct DetachPolicyOutput {
 
     public init() { }
 }
@@ -19753,7 +19753,7 @@ extension DetachPrincipalPolicyInput {
 }
 
 /// The input for the DetachPrincipalPolicy operation.
-public struct DetachPrincipalPolicyInput: Swift.Equatable {
+public struct DetachPrincipalPolicyInput {
     /// The name of the policy to detach.
     /// This member is required.
     public var policyName: Swift.String?
@@ -19771,7 +19771,7 @@ public struct DetachPrincipalPolicyInput: Swift.Equatable {
     }
 }
 
-struct DetachPrincipalPolicyInputBody: Swift.Equatable {
+struct DetachPrincipalPolicyInputBody {
 }
 
 extension DetachPrincipalPolicyInputBody: Swift.Decodable {
@@ -19785,7 +19785,7 @@ extension DetachPrincipalPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachPrincipalPolicyOutput: Swift.Equatable {
+public struct DetachPrincipalPolicyOutput {
 
     public init() { }
 }
@@ -19830,7 +19830,7 @@ extension DetachSecurityProfileInput {
     }
 }
 
-public struct DetachSecurityProfileInput: Swift.Equatable {
+public struct DetachSecurityProfileInput {
     /// The security profile that is detached.
     /// This member is required.
     public var securityProfileName: Swift.String?
@@ -19848,7 +19848,7 @@ public struct DetachSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct DetachSecurityProfileInputBody: Swift.Equatable {
+struct DetachSecurityProfileInputBody {
 }
 
 extension DetachSecurityProfileInputBody: Swift.Decodable {
@@ -19862,7 +19862,7 @@ extension DetachSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachSecurityProfileOutput: Swift.Equatable {
+public struct DetachSecurityProfileOutput {
 
     public init() { }
 }
@@ -19903,7 +19903,7 @@ extension DetachThingPrincipalInput {
 }
 
 /// The input for the DetachThingPrincipal operation.
-public struct DetachThingPrincipalInput: Swift.Equatable {
+public struct DetachThingPrincipalInput {
     /// If the principal is a certificate, this value must be ARN of the certificate. If the principal is an Amazon Cognito identity, this value must be the ID of the Amazon Cognito identity.
     /// This member is required.
     public var principal: Swift.String?
@@ -19921,7 +19921,7 @@ public struct DetachThingPrincipalInput: Swift.Equatable {
     }
 }
 
-struct DetachThingPrincipalInputBody: Swift.Equatable {
+struct DetachThingPrincipalInputBody {
 }
 
 extension DetachThingPrincipalInputBody: Swift.Decodable {
@@ -19936,7 +19936,7 @@ extension DetachThingPrincipalOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the DetachThingPrincipal operation.
-public struct DetachThingPrincipalOutput: Swift.Equatable {
+public struct DetachThingPrincipalOutput {
 
     public init() { }
 }
@@ -20026,7 +20026,7 @@ extension IoTClientTypes.DetectMitigationActionExecution: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes which mitigation actions should be executed.
-    public struct DetectMitigationActionExecution: Swift.Equatable {
+    public struct DetectMitigationActionExecution {
         /// The friendly name that uniquely identifies the mitigation action.
         public var actionName: Swift.String?
         /// The error code of a mitigation action.
@@ -20143,7 +20143,7 @@ extension IoTClientTypes.DetectMitigationActionsTaskStatistics: Swift.Codable {
 
 extension IoTClientTypes {
     /// The statistics of a mitigation action task.
-    public struct DetectMitigationActionsTaskStatistics: Swift.Equatable {
+    public struct DetectMitigationActionsTaskStatistics {
         /// The actions that were performed.
         public var actionsExecuted: Swift.Int?
         /// The actions that failed.
@@ -20290,7 +20290,7 @@ extension IoTClientTypes.DetectMitigationActionsTaskSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The summary of the mitigation action tasks.
-    public struct DetectMitigationActionsTaskSummary: Swift.Equatable {
+    public struct DetectMitigationActionsTaskSummary {
         /// The definition of the actions.
         public var actionsDefinition: [IoTClientTypes.MitigationAction]?
         /// Includes only active violations.
@@ -20385,7 +20385,7 @@ extension IoTClientTypes.DetectMitigationActionsTaskTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// The target of a mitigation action task.
-    public struct DetectMitigationActionsTaskTarget: Swift.Equatable {
+    public struct DetectMitigationActionsTaskTarget {
         /// The name of the behavior.
         public var behaviorName: Swift.String?
         /// The name of the security profile.
@@ -20540,7 +20540,7 @@ extension DisableTopicRuleInput {
 }
 
 /// The input for the DisableTopicRuleRequest operation.
-public struct DisableTopicRuleInput: Swift.Equatable {
+public struct DisableTopicRuleInput {
     /// The name of the rule to disable.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -20553,7 +20553,7 @@ public struct DisableTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct DisableTopicRuleInputBody: Swift.Equatable {
+struct DisableTopicRuleInputBody {
 }
 
 extension DisableTopicRuleInputBody: Swift.Decodable {
@@ -20567,7 +20567,7 @@ extension DisableTopicRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableTopicRuleOutput: Swift.Equatable {
+public struct DisableTopicRuleOutput {
 
     public init() { }
 }
@@ -20632,7 +20632,7 @@ extension IoTClientTypes.DocumentParameter: Swift.Codable {
 
 extension IoTClientTypes {
     /// A map of key-value pairs containing the patterns that need to be replaced in a managed template job document schema. You can use the description of each key as a guidance to specify the inputs during runtime when creating a job. documentParameters can only be used when creating jobs from Amazon Web Services managed templates. This parameter can't be used with custom job templates or to create jobs from them.
-    public struct DocumentParameter: Swift.Equatable {
+    public struct DocumentParameter {
         /// Description of the map field containing the patterns that need to be replaced in a managed template job document schema.
         public var description: Swift.String?
         /// An example illustrating a pattern that need to be replaced in a managed template job document schema.
@@ -20733,7 +20733,7 @@ extension IoTClientTypes {
     /// * Jobs
     ///
     /// * CredentialProvider
-    public struct DomainConfigurationSummary: Swift.Equatable {
+    public struct DomainConfigurationSummary {
         /// The ARN of the domain configuration.
         public var domainConfigurationArn: Swift.String?
         /// The name of the domain configuration. This value must be unique to a region.
@@ -20900,7 +20900,7 @@ extension IoTClientTypes.DynamoDBAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to write to a DynamoDB table. The tableName, hashKeyField, and rangeKeyField values must match the values used when you created the table. The hashKeyValue and rangeKeyvalue fields use a substitution template syntax. These templates provide data at runtime. The syntax is as follows: ${sql-expression}. You can specify any valid expression in a WHERE or SELECT clause, including JSON properties, comparisons, calculations, and functions. For example, the following field uses the third level of the topic: "hashKeyValue": "${topic(3)}" The following field uses the timestamp: "rangeKeyValue": "${timestamp()}"
-    public struct DynamoDBAction: Swift.Equatable {
+    public struct DynamoDBAction {
         /// The hash key name.
         /// This member is required.
         public var hashKeyField: Swift.String?
@@ -20981,7 +20981,7 @@ extension IoTClientTypes.DynamoDBv2Action: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to write to a DynamoDB table. This DynamoDB action writes each attribute in the message payload into it's own column in the DynamoDB table.
-    public struct DynamoDBv2Action: Swift.Equatable {
+    public struct DynamoDBv2Action {
         /// Specifies the DynamoDB table to which the message data will be written. For example: { "dynamoDBv2": { "roleArn": "aws:iam:12341251:my-role" "putItem": { "tableName": "my-table" } } } Each attribute in the message payload will be written to a separate column in the DynamoDB database.
         /// This member is required.
         public var putItem: IoTClientTypes.PutItemInput?
@@ -21066,7 +21066,7 @@ extension IoTClientTypes.EffectivePolicy: Swift.Codable {
 
 extension IoTClientTypes {
     /// The policy that has the effect on the authorization results.
-    public struct EffectivePolicy: Swift.Equatable {
+    public struct EffectivePolicy {
         /// The policy ARN.
         public var policyArn: Swift.String?
         /// The IAM policy document.
@@ -21133,7 +21133,7 @@ extension IoTClientTypes.ElasticsearchAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that writes data to an Amazon OpenSearch Service domain. The Elasticsearch action can only be used by existing rule actions. To create a new rule action or to update an existing rule action, use the OpenSearch rule action instead. For more information, see [OpenSearchAction](https://docs.aws.amazon.com/iot/latest/apireference/API_OpenSearchAction.html).
-    public struct ElasticsearchAction: Swift.Equatable {
+    public struct ElasticsearchAction {
         /// The endpoint of your OpenSearch domain.
         /// This member is required.
         public var endpoint: Swift.String?
@@ -21195,7 +21195,7 @@ extension IoTClientTypes.EnableIoTLoggingParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters used when defining a mitigation action that enable Amazon Web Services IoT Core logging.
-    public struct EnableIoTLoggingParams: Swift.Equatable {
+    public struct EnableIoTLoggingParams {
         /// Specifies the type of information to be logged.
         /// This member is required.
         public var logLevel: IoTClientTypes.LogLevel?
@@ -21226,7 +21226,7 @@ extension EnableTopicRuleInput {
 }
 
 /// The input for the EnableTopicRuleRequest operation.
-public struct EnableTopicRuleInput: Swift.Equatable {
+public struct EnableTopicRuleInput {
     /// The name of the topic rule to enable.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -21239,7 +21239,7 @@ public struct EnableTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct EnableTopicRuleInputBody: Swift.Equatable {
+struct EnableTopicRuleInputBody {
 }
 
 extension EnableTopicRuleInputBody: Swift.Decodable {
@@ -21253,7 +21253,7 @@ extension EnableTopicRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableTopicRuleOutput: Swift.Equatable {
+public struct EnableTopicRuleOutput {
 
     public init() { }
 }
@@ -21300,7 +21300,7 @@ extension IoTClientTypes.ErrorInfo: Swift.Codable {
 
 extension IoTClientTypes {
     /// Error information.
-    public struct ErrorInfo: Swift.Equatable {
+    public struct ErrorInfo {
         /// The error code.
         public var code: Swift.String?
         /// The error message.
@@ -21410,7 +21410,7 @@ extension IoTClientTypes.ExplicitDeny: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information that explicitly denies authorization.
-    public struct ExplicitDeny: Swift.Equatable {
+    public struct ExplicitDeny {
         /// The policies that denied the authorization.
         public var policies: [IoTClientTypes.Policy]?
 
@@ -21457,7 +21457,7 @@ extension IoTClientTypes.ExponentialRolloutRate: Swift.Codable {
 
 extension IoTClientTypes {
     /// Allows you to create an exponential rate of rollout for a job.
-    public struct ExponentialRolloutRate: Swift.Equatable {
+    public struct ExponentialRolloutRate {
         /// The minimum number of things that will be notified of a pending job, per minute at the start of job rollout. This parameter allows you to define the initial rate of rollout.
         /// This member is required.
         public var baseRatePerMinute: Swift.Int?
@@ -21509,7 +21509,7 @@ extension IoTClientTypes.Field: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the name and data type at a field.
-    public struct Field: Swift.Equatable {
+    public struct Field {
         /// The name of the field.
         public var name: Swift.String?
         /// The data type of the field.
@@ -21589,7 +21589,7 @@ extension IoTClientTypes.FileLocation: Swift.Codable {
 
 extension IoTClientTypes {
     /// The location of the OTA update.
-    public struct FileLocation: Swift.Equatable {
+    public struct FileLocation {
         /// The location of the updated firmware in S3.
         public var s3Location: IoTClientTypes.S3Location?
         /// The stream that contains the OTA update.
@@ -21646,7 +21646,7 @@ extension IoTClientTypes.FirehoseAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that writes data to an Amazon Kinesis Firehose stream.
-    public struct FirehoseAction: Swift.Equatable {
+    public struct FirehoseAction {
         /// Whether to deliver the Kinesis Data Firehose stream as a batch by using [PutRecordBatch](https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html). The default value is false. When batchMode is true and the rule's SQL statement evaluates to an Array, each Array element forms one record in the [PutRecordBatch](https://docs.aws.amazon.com/firehose/latest/APIReference/API_PutRecordBatch.html) request. The resulting array can't have more than 500 records.
         public var batchMode: Swift.Bool?
         /// The delivery stream name.
@@ -21701,7 +21701,7 @@ extension IoTClientTypes.FleetMetricNameAndArn: Swift.Codable {
 
 extension IoTClientTypes {
     /// The name and ARN of a fleet metric.
-    public struct FleetMetricNameAndArn: Swift.Equatable {
+    public struct FleetMetricNameAndArn {
         /// The fleet metric ARN.
         public var metricArn: Swift.String?
         /// The fleet metric name.
@@ -21853,7 +21853,7 @@ extension IoTClientTypes.GeoLocationTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// A geolocation target that you select to index. Each geolocation target contains a name and order key-value pair that specifies the geolocation target fields.
-    public struct GeoLocationTarget: Swift.Equatable {
+    public struct GeoLocationTarget {
         /// The name of the geolocation target field. If the target field is part of a named shadow, you must select the named shadow using the namedShadow filter.
         public var name: Swift.String?
         /// The order of the geolocation target field. This field is optional. The default value is LatLon.
@@ -21898,7 +21898,7 @@ extension GetBehaviorModelTrainingSummariesInput {
     }
 }
 
-public struct GetBehaviorModelTrainingSummariesInput: Swift.Equatable {
+public struct GetBehaviorModelTrainingSummariesInput {
     /// The maximum number of results to return at one time. The default is 10.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -21918,7 +21918,7 @@ public struct GetBehaviorModelTrainingSummariesInput: Swift.Equatable {
     }
 }
 
-struct GetBehaviorModelTrainingSummariesInputBody: Swift.Equatable {
+struct GetBehaviorModelTrainingSummariesInputBody {
 }
 
 extension GetBehaviorModelTrainingSummariesInputBody: Swift.Decodable {
@@ -21941,7 +21941,7 @@ extension GetBehaviorModelTrainingSummariesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct GetBehaviorModelTrainingSummariesOutput: Swift.Equatable {
+public struct GetBehaviorModelTrainingSummariesOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list of all ML Detect behaviors and their model status for a given Security Profile.
@@ -21957,7 +21957,7 @@ public struct GetBehaviorModelTrainingSummariesOutput: Swift.Equatable {
     }
 }
 
-struct GetBehaviorModelTrainingSummariesOutputBody: Swift.Equatable {
+struct GetBehaviorModelTrainingSummariesOutputBody {
     let summaries: [IoTClientTypes.BehaviorModelTrainingSummary]?
     let nextToken: Swift.String?
 }
@@ -22036,7 +22036,7 @@ extension GetBucketsAggregationInput {
     }
 }
 
-public struct GetBucketsAggregationInput: Swift.Equatable {
+public struct GetBucketsAggregationInput {
     /// The aggregation field.
     /// This member is required.
     public var aggregationField: Swift.String?
@@ -22067,7 +22067,7 @@ public struct GetBucketsAggregationInput: Swift.Equatable {
     }
 }
 
-struct GetBucketsAggregationInputBody: Swift.Equatable {
+struct GetBucketsAggregationInputBody {
     let indexName: Swift.String?
     let queryString: Swift.String?
     let aggregationField: Swift.String?
@@ -22113,7 +22113,7 @@ extension GetBucketsAggregationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketsAggregationOutput: Swift.Equatable {
+public struct GetBucketsAggregationOutput {
     /// The main part of the response with a list of buckets. Each bucket contains a keyValue and a count. keyValue: The aggregation field value counted for the particular bucket. count: The number of documents that have that value.
     public var buckets: [IoTClientTypes.Bucket]?
     /// The total number of things that fit the query string criteria.
@@ -22129,7 +22129,7 @@ public struct GetBucketsAggregationOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketsAggregationOutputBody: Swift.Equatable {
+struct GetBucketsAggregationOutputBody {
     let totalCount: Swift.Int
     let buckets: [IoTClientTypes.Bucket]?
 }
@@ -22209,7 +22209,7 @@ extension GetCardinalityInput {
     }
 }
 
-public struct GetCardinalityInput: Swift.Equatable {
+public struct GetCardinalityInput {
     /// The field to aggregate.
     public var aggregationField: Swift.String?
     /// The name of the index to search.
@@ -22234,7 +22234,7 @@ public struct GetCardinalityInput: Swift.Equatable {
     }
 }
 
-struct GetCardinalityInputBody: Swift.Equatable {
+struct GetCardinalityInputBody {
     let indexName: Swift.String?
     let queryString: Swift.String?
     let aggregationField: Swift.String?
@@ -22274,7 +22274,7 @@ extension GetCardinalityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCardinalityOutput: Swift.Equatable {
+public struct GetCardinalityOutput {
     /// The approximate count of unique values that match the query.
     public var cardinality: Swift.Int
 
@@ -22286,7 +22286,7 @@ public struct GetCardinalityOutput: Swift.Equatable {
     }
 }
 
-struct GetCardinalityOutputBody: Swift.Equatable {
+struct GetCardinalityOutputBody {
     let cardinality: Swift.Int
 }
 
@@ -22357,7 +22357,7 @@ extension GetEffectivePoliciesInput {
     }
 }
 
-public struct GetEffectivePoliciesInput: Swift.Equatable {
+public struct GetEffectivePoliciesInput {
     /// The Cognito identity pool ID.
     public var cognitoIdentityPoolId: Swift.String?
     /// The principal. Valid principals are CertificateArn (arn:aws:iot:region:accountId:cert/certificateId), thingGroupArn (arn:aws:iot:region:accountId:thinggroup/groupName) and CognitoId (region:id).
@@ -22377,7 +22377,7 @@ public struct GetEffectivePoliciesInput: Swift.Equatable {
     }
 }
 
-struct GetEffectivePoliciesInputBody: Swift.Equatable {
+struct GetEffectivePoliciesInputBody {
     let principal: Swift.String?
     let cognitoIdentityPoolId: Swift.String?
 }
@@ -22409,7 +22409,7 @@ extension GetEffectivePoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEffectivePoliciesOutput: Swift.Equatable {
+public struct GetEffectivePoliciesOutput {
     /// The effective policies.
     public var effectivePolicies: [IoTClientTypes.EffectivePolicy]?
 
@@ -22421,7 +22421,7 @@ public struct GetEffectivePoliciesOutput: Swift.Equatable {
     }
 }
 
-struct GetEffectivePoliciesOutputBody: Swift.Equatable {
+struct GetEffectivePoliciesOutputBody {
     let effectivePolicies: [IoTClientTypes.EffectivePolicy]?
 }
 
@@ -22470,12 +22470,12 @@ extension GetIndexingConfigurationInput {
     }
 }
 
-public struct GetIndexingConfigurationInput: Swift.Equatable {
+public struct GetIndexingConfigurationInput {
 
     public init() { }
 }
 
-struct GetIndexingConfigurationInputBody: Swift.Equatable {
+struct GetIndexingConfigurationInputBody {
 }
 
 extension GetIndexingConfigurationInputBody: Swift.Decodable {
@@ -22498,7 +22498,7 @@ extension GetIndexingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIndexingConfigurationOutput: Swift.Equatable {
+public struct GetIndexingConfigurationOutput {
     /// The index configuration.
     public var thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration?
     /// Thing indexing configuration.
@@ -22514,7 +22514,7 @@ public struct GetIndexingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetIndexingConfigurationOutputBody: Swift.Equatable {
+struct GetIndexingConfigurationOutputBody {
     let thingIndexingConfiguration: IoTClientTypes.ThingIndexingConfiguration?
     let thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration?
 }
@@ -22559,7 +22559,7 @@ extension GetJobDocumentInput {
     }
 }
 
-public struct GetJobDocumentInput: Swift.Equatable {
+public struct GetJobDocumentInput {
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
@@ -22572,7 +22572,7 @@ public struct GetJobDocumentInput: Swift.Equatable {
     }
 }
 
-struct GetJobDocumentInputBody: Swift.Equatable {
+struct GetJobDocumentInputBody {
 }
 
 extension GetJobDocumentInputBody: Swift.Decodable {
@@ -22593,7 +22593,7 @@ extension GetJobDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobDocumentOutput: Swift.Equatable {
+public struct GetJobDocumentOutput {
     /// The job document content.
     public var document: Swift.String?
 
@@ -22605,7 +22605,7 @@ public struct GetJobDocumentOutput: Swift.Equatable {
     }
 }
 
-struct GetJobDocumentOutputBody: Swift.Equatable {
+struct GetJobDocumentOutputBody {
     let document: Swift.String?
 }
 
@@ -22643,12 +22643,12 @@ extension GetLoggingOptionsInput {
 }
 
 /// The input for the GetLoggingOptions operation.
-public struct GetLoggingOptionsInput: Swift.Equatable {
+public struct GetLoggingOptionsInput {
 
     public init() { }
 }
 
-struct GetLoggingOptionsInputBody: Swift.Equatable {
+struct GetLoggingOptionsInputBody {
 }
 
 extension GetLoggingOptionsInputBody: Swift.Decodable {
@@ -22672,7 +22672,7 @@ extension GetLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetLoggingOptions operation.
-public struct GetLoggingOptionsOutput: Swift.Equatable {
+public struct GetLoggingOptionsOutput {
     /// The logging level.
     public var logLevel: IoTClientTypes.LogLevel?
     /// The ARN of the IAM role that grants access.
@@ -22688,7 +22688,7 @@ public struct GetLoggingOptionsOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggingOptionsOutputBody: Swift.Equatable {
+struct GetLoggingOptionsOutputBody {
     let roleArn: Swift.String?
     let logLevel: IoTClientTypes.LogLevel?
 }
@@ -22731,7 +22731,7 @@ extension GetOTAUpdateInput {
     }
 }
 
-public struct GetOTAUpdateInput: Swift.Equatable {
+public struct GetOTAUpdateInput {
     /// The OTA update ID.
     /// This member is required.
     public var otaUpdateId: Swift.String?
@@ -22744,7 +22744,7 @@ public struct GetOTAUpdateInput: Swift.Equatable {
     }
 }
 
-struct GetOTAUpdateInputBody: Swift.Equatable {
+struct GetOTAUpdateInputBody {
 }
 
 extension GetOTAUpdateInputBody: Swift.Decodable {
@@ -22765,7 +22765,7 @@ extension GetOTAUpdateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOTAUpdateOutput: Swift.Equatable {
+public struct GetOTAUpdateOutput {
     /// The OTA update info.
     public var otaUpdateInfo: IoTClientTypes.OTAUpdateInfo?
 
@@ -22777,7 +22777,7 @@ public struct GetOTAUpdateOutput: Swift.Equatable {
     }
 }
 
-struct GetOTAUpdateOutputBody: Swift.Equatable {
+struct GetOTAUpdateOutputBody {
     let otaUpdateInfo: IoTClientTypes.OTAUpdateInfo?
 }
 
@@ -22816,12 +22816,12 @@ extension GetPackageConfigurationInput {
     }
 }
 
-public struct GetPackageConfigurationInput: Swift.Equatable {
+public struct GetPackageConfigurationInput {
 
     public init() { }
 }
 
-struct GetPackageConfigurationInputBody: Swift.Equatable {
+struct GetPackageConfigurationInputBody {
 }
 
 extension GetPackageConfigurationInputBody: Swift.Decodable {
@@ -22842,7 +22842,7 @@ extension GetPackageConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPackageConfigurationOutput: Swift.Equatable {
+public struct GetPackageConfigurationOutput {
     /// The version that is associated to a specific job.
     public var versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
 
@@ -22854,7 +22854,7 @@ public struct GetPackageConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageConfigurationOutputBody: Swift.Equatable {
+struct GetPackageConfigurationOutputBody {
     let versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
 }
 
@@ -22892,7 +22892,7 @@ extension GetPackageInput {
     }
 }
 
-public struct GetPackageInput: Swift.Equatable {
+public struct GetPackageInput {
     /// The name of the target software package.
     /// This member is required.
     public var packageName: Swift.String?
@@ -22905,7 +22905,7 @@ public struct GetPackageInput: Swift.Equatable {
     }
 }
 
-struct GetPackageInputBody: Swift.Equatable {
+struct GetPackageInputBody {
 }
 
 extension GetPackageInputBody: Swift.Decodable {
@@ -22941,7 +22941,7 @@ extension GetPackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPackageOutput: Swift.Equatable {
+public struct GetPackageOutput {
     /// The date the package was created.
     public var creationDate: ClientRuntime.Date?
     /// The name of the default package version.
@@ -22973,7 +22973,7 @@ public struct GetPackageOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageOutputBody: Swift.Equatable {
+struct GetPackageOutputBody {
     let packageName: Swift.String?
     let packageArn: Swift.String?
     let description: Swift.String?
@@ -23036,7 +23036,7 @@ extension GetPackageVersionInput {
     }
 }
 
-public struct GetPackageVersionInput: Swift.Equatable {
+public struct GetPackageVersionInput {
     /// The name of the associated package.
     /// This member is required.
     public var packageName: Swift.String?
@@ -23054,7 +23054,7 @@ public struct GetPackageVersionInput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionInputBody: Swift.Equatable {
+struct GetPackageVersionInputBody {
 }
 
 extension GetPackageVersionInputBody: Swift.Decodable {
@@ -23096,7 +23096,7 @@ extension GetPackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPackageVersionOutput: Swift.Equatable {
+public struct GetPackageVersionOutput {
     /// Metadata that were added to the package version that can be used to define a package version’s configuration.
     public var attributes: [Swift.String:Swift.String]?
     /// The date when the package version was created.
@@ -23140,7 +23140,7 @@ public struct GetPackageVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetPackageVersionOutputBody: Swift.Equatable {
+struct GetPackageVersionOutputBody {
     let packageVersionArn: Swift.String?
     let packageName: Swift.String?
     let versionName: Swift.String?
@@ -23250,7 +23250,7 @@ extension GetPercentilesInput {
     }
 }
 
-public struct GetPercentilesInput: Swift.Equatable {
+public struct GetPercentilesInput {
     /// The field to aggregate.
     public var aggregationField: Swift.String?
     /// The name of the index to search.
@@ -23279,7 +23279,7 @@ public struct GetPercentilesInput: Swift.Equatable {
     }
 }
 
-struct GetPercentilesInputBody: Swift.Equatable {
+struct GetPercentilesInputBody {
     let indexName: Swift.String?
     let queryString: Swift.String?
     let aggregationField: Swift.String?
@@ -23332,7 +23332,7 @@ extension GetPercentilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPercentilesOutput: Swift.Equatable {
+public struct GetPercentilesOutput {
     /// The percentile values of the aggregated fields.
     public var percentiles: [IoTClientTypes.PercentPair]?
 
@@ -23344,7 +23344,7 @@ public struct GetPercentilesOutput: Swift.Equatable {
     }
 }
 
-struct GetPercentilesOutputBody: Swift.Equatable {
+struct GetPercentilesOutputBody {
     let percentiles: [IoTClientTypes.PercentPair]?
 }
 
@@ -23399,7 +23399,7 @@ extension GetPolicyInput {
 }
 
 /// The input for the GetPolicy operation.
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The name of the policy.
     /// This member is required.
     public var policyName: Swift.String?
@@ -23412,7 +23412,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
 }
 
 extension GetPolicyInputBody: Swift.Decodable {
@@ -23446,7 +23446,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetPolicy operation.
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// The date the policy was created.
     public var creationDate: ClientRuntime.Date?
     /// The default policy version ID.
@@ -23482,7 +23482,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policyName: Swift.String?
     let policyArn: Swift.String?
     let policyDocument: Swift.String?
@@ -23552,7 +23552,7 @@ extension GetPolicyVersionInput {
 }
 
 /// The input for the GetPolicyVersion operation.
-public struct GetPolicyVersionInput: Swift.Equatable {
+public struct GetPolicyVersionInput {
     /// The name of the policy.
     /// This member is required.
     public var policyName: Swift.String?
@@ -23570,7 +23570,7 @@ public struct GetPolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyVersionInputBody: Swift.Equatable {
+struct GetPolicyVersionInputBody {
 }
 
 extension GetPolicyVersionInputBody: Swift.Decodable {
@@ -23606,7 +23606,7 @@ extension GetPolicyVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetPolicyVersion operation.
-public struct GetPolicyVersionOutput: Swift.Equatable {
+public struct GetPolicyVersionOutput {
     /// The date the policy was created.
     public var creationDate: ClientRuntime.Date?
     /// The generation ID of the policy version.
@@ -23646,7 +23646,7 @@ public struct GetPolicyVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyVersionOutputBody: Swift.Equatable {
+struct GetPolicyVersionOutputBody {
     let policyArn: Swift.String?
     let policyName: Swift.String?
     let policyDocument: Swift.String?
@@ -23714,12 +23714,12 @@ extension GetRegistrationCodeInput {
 }
 
 /// The input to the GetRegistrationCode operation.
-public struct GetRegistrationCodeInput: Swift.Equatable {
+public struct GetRegistrationCodeInput {
 
     public init() { }
 }
 
-struct GetRegistrationCodeInputBody: Swift.Equatable {
+struct GetRegistrationCodeInputBody {
 }
 
 extension GetRegistrationCodeInputBody: Swift.Decodable {
@@ -23741,7 +23741,7 @@ extension GetRegistrationCodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetRegistrationCode operation.
-public struct GetRegistrationCodeOutput: Swift.Equatable {
+public struct GetRegistrationCodeOutput {
     /// The CA certificate registration code.
     public var registrationCode: Swift.String?
 
@@ -23753,7 +23753,7 @@ public struct GetRegistrationCodeOutput: Swift.Equatable {
     }
 }
 
-struct GetRegistrationCodeOutputBody: Swift.Equatable {
+struct GetRegistrationCodeOutputBody {
     let registrationCode: Swift.String?
 }
 
@@ -23816,7 +23816,7 @@ extension GetStatisticsInput {
     }
 }
 
-public struct GetStatisticsInput: Swift.Equatable {
+public struct GetStatisticsInput {
     /// The aggregation field name.
     public var aggregationField: Swift.String?
     /// The name of the index to search. The default value is AWS_Things.
@@ -23841,7 +23841,7 @@ public struct GetStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetStatisticsInputBody: Swift.Equatable {
+struct GetStatisticsInputBody {
     let indexName: Swift.String?
     let queryString: Swift.String?
     let aggregationField: Swift.String?
@@ -23881,7 +23881,7 @@ extension GetStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStatisticsOutput: Swift.Equatable {
+public struct GetStatisticsOutput {
     /// The statistics returned by the Fleet Indexing service based on the query and aggregation field.
     public var statistics: IoTClientTypes.Statistics?
 
@@ -23893,7 +23893,7 @@ public struct GetStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetStatisticsOutputBody: Swift.Equatable {
+struct GetStatisticsOutputBody {
     let statistics: IoTClientTypes.Statistics?
 }
 
@@ -23938,7 +23938,7 @@ extension GetTopicRuleDestinationInput {
     }
 }
 
-public struct GetTopicRuleDestinationInput: Swift.Equatable {
+public struct GetTopicRuleDestinationInput {
     /// The ARN of the topic rule destination.
     /// This member is required.
     public var arn: Swift.String?
@@ -23951,7 +23951,7 @@ public struct GetTopicRuleDestinationInput: Swift.Equatable {
     }
 }
 
-struct GetTopicRuleDestinationInputBody: Swift.Equatable {
+struct GetTopicRuleDestinationInputBody {
 }
 
 extension GetTopicRuleDestinationInputBody: Swift.Decodable {
@@ -23972,7 +23972,7 @@ extension GetTopicRuleDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTopicRuleDestinationOutput: Swift.Equatable {
+public struct GetTopicRuleDestinationOutput {
     /// The topic rule destination.
     public var topicRuleDestination: IoTClientTypes.TopicRuleDestination?
 
@@ -23984,7 +23984,7 @@ public struct GetTopicRuleDestinationOutput: Swift.Equatable {
     }
 }
 
-struct GetTopicRuleDestinationOutputBody: Swift.Equatable {
+struct GetTopicRuleDestinationOutputBody {
     let topicRuleDestination: IoTClientTypes.TopicRuleDestination?
 }
 
@@ -24025,7 +24025,7 @@ extension GetTopicRuleInput {
 }
 
 /// The input for the GetTopicRule operation.
-public struct GetTopicRuleInput: Swift.Equatable {
+public struct GetTopicRuleInput {
     /// The name of the rule.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -24038,7 +24038,7 @@ public struct GetTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct GetTopicRuleInputBody: Swift.Equatable {
+struct GetTopicRuleInputBody {
 }
 
 extension GetTopicRuleInputBody: Swift.Decodable {
@@ -24062,7 +24062,7 @@ extension GetTopicRuleOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetTopicRule operation.
-public struct GetTopicRuleOutput: Swift.Equatable {
+public struct GetTopicRuleOutput {
     /// The rule.
     public var rule: IoTClientTypes.TopicRule?
     /// The rule ARN.
@@ -24078,7 +24078,7 @@ public struct GetTopicRuleOutput: Swift.Equatable {
     }
 }
 
-struct GetTopicRuleOutputBody: Swift.Equatable {
+struct GetTopicRuleOutputBody {
     let ruleArn: Swift.String?
     let rule: IoTClientTypes.TopicRule?
 }
@@ -24119,12 +24119,12 @@ extension GetV2LoggingOptionsInput {
     }
 }
 
-public struct GetV2LoggingOptionsInput: Swift.Equatable {
+public struct GetV2LoggingOptionsInput {
 
     public init() { }
 }
 
-struct GetV2LoggingOptionsInputBody: Swift.Equatable {
+struct GetV2LoggingOptionsInputBody {
 }
 
 extension GetV2LoggingOptionsInputBody: Swift.Decodable {
@@ -24149,7 +24149,7 @@ extension GetV2LoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetV2LoggingOptionsOutput: Swift.Equatable {
+public struct GetV2LoggingOptionsOutput {
     /// The default log level.
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// Disables all logs.
@@ -24169,7 +24169,7 @@ public struct GetV2LoggingOptionsOutput: Swift.Equatable {
     }
 }
 
-struct GetV2LoggingOptionsOutputBody: Swift.Equatable {
+struct GetV2LoggingOptionsOutputBody {
     let roleArn: Swift.String?
     let defaultLogLevel: IoTClientTypes.LogLevel?
     let disableAllLogs: Swift.Bool
@@ -24233,7 +24233,7 @@ extension IoTClientTypes.GroupNameAndArn: Swift.Codable {
 
 extension IoTClientTypes {
     /// The name and ARN of a group.
-    public struct GroupNameAndArn: Swift.Equatable {
+    public struct GroupNameAndArn {
         /// The group ARN.
         public var groupArn: Swift.String?
         /// The group name.
@@ -24302,7 +24302,7 @@ extension IoTClientTypes.HttpAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Send data to an HTTPS endpoint.
-    public struct HttpAction: Swift.Equatable {
+    public struct HttpAction {
         /// The authentication method to use when sending data to an HTTPS endpoint.
         public var auth: IoTClientTypes.HttpAuthorization?
         /// The URL to which IoT sends a confirmation message. The value of the confirmation URL must be a prefix of the endpoint URL. If you do not specify a confirmation URL IoT uses the endpoint URL as the confirmation URL. If you use substitution templates in the confirmationUrl, you must create and enable topic rule destinations that match each possible value of the substitution template before traffic is allowed to your endpoint URL.
@@ -24356,7 +24356,7 @@ extension IoTClientTypes.HttpActionHeader: Swift.Codable {
 
 extension IoTClientTypes {
     /// The HTTP action header.
-    public struct HttpActionHeader: Swift.Equatable {
+    public struct HttpActionHeader {
         /// The HTTP header key.
         /// This member is required.
         public var key: Swift.String?
@@ -24397,7 +24397,7 @@ extension IoTClientTypes.HttpAuthorization: Swift.Codable {
 
 extension IoTClientTypes {
     /// The authorization method used to send messages.
-    public struct HttpAuthorization: Swift.Equatable {
+    public struct HttpAuthorization {
         /// Use Sig V4 authorization. For more information, see [Signature Version 4 Signing Process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
         public var sigv4: IoTClientTypes.SigV4Authorization?
 
@@ -24450,7 +24450,7 @@ extension IoTClientTypes.HttpContext: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the HTTP context to use for the test authorizer request.
-    public struct HttpContext: Swift.Equatable {
+    public struct HttpContext {
         /// The header keys and values in an HTTP authorization request.
         public var headers: [Swift.String:Swift.String]?
         /// The query string keys and values in an HTTP authorization request.
@@ -24489,7 +24489,7 @@ extension IoTClientTypes.HttpUrlDestinationConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// HTTP URL destination configuration used by the topic rule's HTTP action.
-    public struct HttpUrlDestinationConfiguration: Swift.Equatable {
+    public struct HttpUrlDestinationConfiguration {
         /// The URL IoT uses to confirm ownership of or access to the topic rule destination URL.
         /// This member is required.
         public var confirmationUrl: Swift.String?
@@ -24525,7 +24525,7 @@ extension IoTClientTypes.HttpUrlDestinationProperties: Swift.Codable {
 
 extension IoTClientTypes {
     /// HTTP URL destination properties.
-    public struct HttpUrlDestinationProperties: Swift.Equatable {
+    public struct HttpUrlDestinationProperties {
         /// The URL used to confirm the HTTP topic rule destination URL.
         public var confirmationUrl: Swift.String?
 
@@ -24560,7 +24560,7 @@ extension IoTClientTypes.HttpUrlDestinationSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about an HTTP URL destination.
-    public struct HttpUrlDestinationSummary: Swift.Equatable {
+    public struct HttpUrlDestinationSummary {
         /// The URL used to confirm ownership of or access to the HTTP topic rule destination URL.
         public var confirmationUrl: Swift.String?
 
@@ -24607,7 +24607,7 @@ extension IoTClientTypes.ImplicitDeny: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information that implicitly denies authorization. When policy doesn't explicitly deny or allow an action on a resource it is considered an implicit deny.
-    public struct ImplicitDeny: Swift.Equatable {
+    public struct ImplicitDeny {
         /// Policies that don't contain a matching allow or deny statement for the specified action on the specified resource.
         public var policies: [IoTClientTypes.Policy]?
 
@@ -24661,7 +24661,7 @@ public struct IndexNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct IndexNotReadyExceptionBody: Swift.Equatable {
+struct IndexNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -24767,7 +24767,7 @@ extension IoTClientTypes {
     /// * If you store geolocation data in a class/unnamed shadow, set thingIndexingMode to be REGISTRY_AND_SHADOW and specify your geolocation data in geoLocations filter.
     ///
     /// * If you store geolocation data in a named shadow, set namedShadowIndexingMode to be ON, add the shadow name in namedShadowNames filter, and specify your geolocation data in geoLocations filter. For more information, see [Managing fleet indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html).
-    public struct IndexingFilter: Swift.Equatable {
+    public struct IndexingFilter {
         /// The list of geolocation targets that you select to index. The default maximum number of geolocation targets for indexing is 1. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
         public var geoLocations: [IoTClientTypes.GeoLocationTarget]?
         /// The shadow names that you select to index. The default maximum number of shadow names for indexing is 10. To increase the limit, see [Amazon Web Services IoT Device Management Quotas](https://docs.aws.amazon.com/general/latest/gr/iot_device_management.html#fleet-indexing-limits) in the Amazon Web Services General Reference.
@@ -24825,7 +24825,7 @@ public struct InternalException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InternalExceptionBody: Swift.Equatable {
+struct InternalExceptionBody {
     let message: Swift.String?
 }
 
@@ -24881,7 +24881,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -24936,7 +24936,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -24991,7 +24991,7 @@ public struct InvalidAggregationException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidAggregationExceptionBody: Swift.Equatable {
+struct InvalidAggregationExceptionBody {
     let message: Swift.String?
 }
 
@@ -25047,7 +25047,7 @@ public struct InvalidQueryException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidQueryExceptionBody: Swift.Equatable {
+struct InvalidQueryExceptionBody {
     let message: Swift.String?
 }
 
@@ -25103,7 +25103,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -25159,7 +25159,7 @@ public struct InvalidResponseException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidResponseExceptionBody: Swift.Equatable {
+struct InvalidResponseExceptionBody {
     let message: Swift.String?
 }
 
@@ -25215,7 +25215,7 @@ public struct InvalidStateTransitionException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidStateTransitionExceptionBody: Swift.Equatable {
+struct InvalidStateTransitionExceptionBody {
     let message: Swift.String?
 }
 
@@ -25272,7 +25272,7 @@ extension IoTClientTypes.IotAnalyticsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Sends message data to an IoT Analytics channel.
-    public struct IotAnalyticsAction: Swift.Equatable {
+    public struct IotAnalyticsAction {
         /// Whether to process the action as a batch. The default value is false. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is delivered as a separate message when passed by [BatchPutMessage](https://docs.aws.amazon.com/iotanalytics/latest/APIReference/API_BatchPutMessage.html) to the IoT Analytics channel. The resulting array can't have more than 100 messages.
         public var batchMode: Swift.Bool?
         /// (deprecated) The ARN of the IoT Analytics channel to which message data will be sent.
@@ -25337,7 +25337,7 @@ extension IoTClientTypes.IotEventsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Sends an input to an IoT Events detector.
-    public struct IotEventsAction: Swift.Equatable {
+    public struct IotEventsAction {
         /// Whether to process the event actions as a batch. The default value is false. When batchMode is true, you can't specify a messageId. When batchMode is true and the rule SQL statement evaluates to an Array, each Array element is treated as a separate message when it's sent to IoT Events by calling [BatchPutMessage](https://docs.aws.amazon.com/iotevents/latest/apireference/API_iotevents-data_BatchPutMessage.html). The resulting array can't have more than 10 messages.
         public var batchMode: Swift.Bool?
         /// The name of the IoT Events input.
@@ -25404,7 +25404,7 @@ extension IoTClientTypes.IotSiteWiseAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to send data from an MQTT message that triggered the rule to IoT SiteWise asset properties.
-    public struct IotSiteWiseAction: Swift.Equatable {
+    public struct IotSiteWiseAction {
         /// A list of asset property value entries.
         /// This member is required.
         public var putAssetPropertyValueEntries: [IoTClientTypes.PutAssetPropertyValueEntry]?
@@ -25457,7 +25457,7 @@ extension IoTClientTypes.IssuerCertificateIdentifier: Swift.Codable {
 
 extension IoTClientTypes {
     /// The certificate issuer indentifier.
-    public struct IssuerCertificateIdentifier: Swift.Equatable {
+    public struct IssuerCertificateIdentifier {
         /// The issuer certificate serial number.
         public var issuerCertificateSerialNumber: Swift.String?
         /// The subject of the issuer certificate.
@@ -25692,7 +25692,7 @@ extension IoTClientTypes.Job: Swift.Codable {
 
 extension IoTClientTypes {
     /// The Job object contains details about a job.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// Configuration for criteria to abort the job.
         public var abortConfig: IoTClientTypes.AbortConfig?
         /// If the job was updated, describes the reason for the update.
@@ -25918,7 +25918,7 @@ extension IoTClientTypes.JobExecution: Swift.Codable {
 
 extension IoTClientTypes {
     /// The job execution object represents the execution of a job on a particular device.
-    public struct JobExecution: Swift.Equatable {
+    public struct JobExecution {
         /// The estimated number of seconds that remain before the job execution status will be changed to TIMED_OUT. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The actual job execution timeout can occur up to 60 seconds later than the estimated duration. This value will not be included if the job execution has reached a terminal status.
         public var approximateSecondsBeforeTimedOut: Swift.Int?
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used in commands which return or update job execution information.
@@ -26093,7 +26093,7 @@ extension IoTClientTypes.JobExecutionStatusDetails: Swift.Codable {
 
 extension IoTClientTypes {
     /// Details of the job execution status.
-    public struct JobExecutionStatusDetails: Swift.Equatable {
+    public struct JobExecutionStatusDetails {
         /// The job execution status.
         public var detailsMap: [Swift.String:Swift.String]?
 
@@ -26158,7 +26158,7 @@ extension IoTClientTypes.JobExecutionSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The job execution summary.
-    public struct JobExecutionSummary: Swift.Equatable {
+    public struct JobExecutionSummary {
         /// A string (consisting of the digits "0" through "9") which identifies this particular job execution on this particular device. It can be used later in commands which return or update job execution information.
         public var executionNumber: Swift.Int?
         /// The time, in seconds since the epoch, when the job execution was last updated.
@@ -26219,7 +26219,7 @@ extension IoTClientTypes.JobExecutionSummaryForJob: Swift.Codable {
 
 extension IoTClientTypes {
     /// Contains a summary of information about job executions for a specific job.
-    public struct JobExecutionSummaryForJob: Swift.Equatable {
+    public struct JobExecutionSummaryForJob {
         /// Contains a subset of information about a job execution.
         public var jobExecutionSummary: IoTClientTypes.JobExecutionSummary?
         /// The ARN of the thing on which the job execution is running.
@@ -26264,7 +26264,7 @@ extension IoTClientTypes.JobExecutionSummaryForThing: Swift.Codable {
 
 extension IoTClientTypes {
     /// The job execution summary for a thing.
-    public struct JobExecutionSummaryForThing: Swift.Equatable {
+    public struct JobExecutionSummaryForThing {
         /// Contains a subset of information about a job execution.
         public var jobExecutionSummary: IoTClientTypes.JobExecutionSummary?
         /// The unique identifier you assigned to this job when it was created.
@@ -26315,7 +26315,7 @@ extension IoTClientTypes.JobExecutionsRetryConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The configuration that determines how many retries are allowed for each failure type for a job.
-    public struct JobExecutionsRetryConfig: Swift.Equatable {
+    public struct JobExecutionsRetryConfig {
         /// The list of criteria that determines how many retries are allowed for each failure type for a job.
         /// This member is required.
         public var criteriaList: [IoTClientTypes.RetryCriteria]?
@@ -26357,7 +26357,7 @@ extension IoTClientTypes.JobExecutionsRolloutConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Allows you to create a staged rollout of a job.
-    public struct JobExecutionsRolloutConfig: Swift.Equatable {
+    public struct JobExecutionsRolloutConfig {
         /// The rate of increase for a job rollout. This parameter allows you to define an exponential rate for a job rollout.
         public var exponentialRate: IoTClientTypes.ExponentialRolloutRate?
         /// The maximum number of things that will be notified of a pending job, per minute. This parameter allows you to create a staged rollout.
@@ -26456,7 +26456,7 @@ extension IoTClientTypes.JobProcessDetails: Swift.Codable {
 
 extension IoTClientTypes {
     /// The job process details.
-    public struct JobProcessDetails: Swift.Equatable {
+    public struct JobProcessDetails {
         /// The number of things that cancelled the job.
         public var numberOfCanceledThings: Swift.Int?
         /// The number of things that failed executing the job.
@@ -26612,7 +26612,7 @@ extension IoTClientTypes.JobSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The job summary.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The time, in seconds since the epoch, when the job completed.
         public var completedAt: ClientRuntime.Date?
         /// The time, in seconds since the epoch, when the job was created.
@@ -26697,7 +26697,7 @@ extension IoTClientTypes.JobTemplateSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// An object that contains information about the job template.
-    public struct JobTemplateSummary: Swift.Equatable {
+    public struct JobTemplateSummary {
         /// The time, in seconds since the epoch, when the job template was created.
         public var createdAt: ClientRuntime.Date?
         /// A description of the job template.
@@ -26798,7 +26798,7 @@ extension IoTClientTypes.KafkaAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Send messages to an Amazon Managed Streaming for Apache Kafka (Amazon MSK) or self-managed Apache Kafka cluster.
-    public struct KafkaAction: Swift.Equatable {
+    public struct KafkaAction {
         /// Properties of the Apache Kafka producer client.
         /// This member is required.
         public var clientProperties: [Swift.String:Swift.String]?
@@ -26862,7 +26862,7 @@ extension IoTClientTypes.KafkaActionHeader: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies a Kafka header using key-value pairs when you create a Rule’s Kafka Action. You can use these headers to route data from IoT clients to downstream Kafka clusters without modifying your message payload. For more information about Rule's Kafka action, see [Apache Kafka](https://docs.aws.amazon.com/iot/latest/developerguide/apache-kafka-rule-action.html).
-    public struct KafkaActionHeader: Swift.Equatable {
+    public struct KafkaActionHeader {
         /// The key of the Kafka header.
         /// This member is required.
         public var key: Swift.String?
@@ -26914,7 +26914,7 @@ extension IoTClientTypes.KeyPair: Swift.CustomDebugStringConvertible {
 
 extension IoTClientTypes {
     /// Describes a key pair.
-    public struct KeyPair: Swift.Equatable {
+    public struct KeyPair {
         /// The private key.
         public var privateKey: Swift.String?
         /// The public key.
@@ -26965,7 +26965,7 @@ extension IoTClientTypes.KinesisAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to write data to an Amazon Kinesis stream.
-    public struct KinesisAction: Swift.Equatable {
+    public struct KinesisAction {
         /// The partition key.
         public var partitionKey: Swift.String?
         /// The ARN of the IAM role that grants access to the Amazon Kinesis stream.
@@ -27010,7 +27010,7 @@ extension IoTClientTypes.LambdaAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to invoke a Lambda function.
-    public struct LambdaAction: Swift.Equatable {
+    public struct LambdaAction {
         /// The ARN of the Lambda function.
         /// This member is required.
         public var functionArn: Swift.String?
@@ -27065,7 +27065,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -27124,7 +27124,7 @@ extension ListActiveViolationsInput {
     }
 }
 
-public struct ListActiveViolationsInput: Swift.Equatable {
+public struct ListActiveViolationsInput {
     /// The criteria for a behavior.
     public var behaviorCriteriaType: IoTClientTypes.BehaviorCriteriaType?
     /// A list of all suppressed alerts.
@@ -27160,7 +27160,7 @@ public struct ListActiveViolationsInput: Swift.Equatable {
     }
 }
 
-struct ListActiveViolationsInputBody: Swift.Equatable {
+struct ListActiveViolationsInputBody {
 }
 
 extension ListActiveViolationsInputBody: Swift.Decodable {
@@ -27183,7 +27183,7 @@ extension ListActiveViolationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListActiveViolationsOutput: Swift.Equatable {
+public struct ListActiveViolationsOutput {
     /// The list of active violations.
     public var activeViolations: [IoTClientTypes.ActiveViolation]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -27199,7 +27199,7 @@ public struct ListActiveViolationsOutput: Swift.Equatable {
     }
 }
 
-struct ListActiveViolationsOutputBody: Swift.Equatable {
+struct ListActiveViolationsOutputBody {
     let activeViolations: [IoTClientTypes.ActiveViolation]?
     let nextToken: Swift.String?
 }
@@ -27272,7 +27272,7 @@ extension ListAttachedPoliciesInput {
     }
 }
 
-public struct ListAttachedPoliciesInput: Swift.Equatable {
+public struct ListAttachedPoliciesInput {
     /// The token to retrieve the next set of results.
     public var marker: Swift.String?
     /// The maximum number of results to be returned per request.
@@ -27297,7 +27297,7 @@ public struct ListAttachedPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListAttachedPoliciesInputBody: Swift.Equatable {
+struct ListAttachedPoliciesInputBody {
 }
 
 extension ListAttachedPoliciesInputBody: Swift.Decodable {
@@ -27320,7 +27320,7 @@ extension ListAttachedPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttachedPoliciesOutput: Swift.Equatable {
+public struct ListAttachedPoliciesOutput {
     /// The token to retrieve the next set of results, or ``null`` if there are no more results.
     public var nextMarker: Swift.String?
     /// The policies.
@@ -27336,7 +27336,7 @@ public struct ListAttachedPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListAttachedPoliciesOutputBody: Swift.Equatable {
+struct ListAttachedPoliciesOutputBody {
     let policies: [IoTClientTypes.Policy]?
     let nextMarker: Swift.String?
 }
@@ -27430,7 +27430,7 @@ extension ListAuditFindingsInput {
     }
 }
 
-public struct ListAuditFindingsInput: Swift.Equatable {
+public struct ListAuditFindingsInput {
     /// A filter to limit results to the findings for the specified audit check.
     public var checkName: Swift.String?
     /// A filter to limit results to those found before the specified time. You must specify either the startTime and endTime or the taskId, but not both.
@@ -27470,7 +27470,7 @@ public struct ListAuditFindingsInput: Swift.Equatable {
     }
 }
 
-struct ListAuditFindingsInputBody: Swift.Equatable {
+struct ListAuditFindingsInputBody {
     let taskId: Swift.String?
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
@@ -27528,7 +27528,7 @@ extension ListAuditFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAuditFindingsOutput: Swift.Equatable {
+public struct ListAuditFindingsOutput {
     /// The findings (results) of the audit.
     public var findings: [IoTClientTypes.AuditFinding]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -27544,7 +27544,7 @@ public struct ListAuditFindingsOutput: Swift.Equatable {
     }
 }
 
-struct ListAuditFindingsOutputBody: Swift.Equatable {
+struct ListAuditFindingsOutputBody {
     let findings: [IoTClientTypes.AuditFinding]?
     let nextToken: Swift.String?
 }
@@ -27625,7 +27625,7 @@ extension ListAuditMitigationActionsExecutionsInput {
     }
 }
 
-public struct ListAuditMitigationActionsExecutionsInput: Swift.Equatable {
+public struct ListAuditMitigationActionsExecutionsInput {
     /// Specify this filter to limit results to those with a specific status.
     public var actionStatus: IoTClientTypes.AuditMitigationActionsExecutionStatus?
     /// Specify this filter to limit results to those that were applied to a specific audit finding.
@@ -27655,7 +27655,7 @@ public struct ListAuditMitigationActionsExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListAuditMitigationActionsExecutionsInputBody: Swift.Equatable {
+struct ListAuditMitigationActionsExecutionsInputBody {
 }
 
 extension ListAuditMitigationActionsExecutionsInputBody: Swift.Decodable {
@@ -27678,7 +27678,7 @@ extension ListAuditMitigationActionsExecutionsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ListAuditMitigationActionsExecutionsOutput: Swift.Equatable {
+public struct ListAuditMitigationActionsExecutionsOutput {
     /// A set of task execution results based on the input parameters. Details include the mitigation action applied, start time, and task status.
     public var actionsExecutions: [IoTClientTypes.AuditMitigationActionExecutionMetadata]?
     /// The token for the next set of results.
@@ -27694,7 +27694,7 @@ public struct ListAuditMitigationActionsExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAuditMitigationActionsExecutionsOutputBody: Swift.Equatable {
+struct ListAuditMitigationActionsExecutionsOutputBody {
     let actionsExecutions: [IoTClientTypes.AuditMitigationActionExecutionMetadata]?
     let nextToken: Swift.String?
 }
@@ -27783,7 +27783,7 @@ extension ListAuditMitigationActionsTasksInput {
     }
 }
 
-public struct ListAuditMitigationActionsTasksInput: Swift.Equatable {
+public struct ListAuditMitigationActionsTasksInput {
     /// Specify this filter to limit results to tasks that were applied to results for a specific audit.
     public var auditTaskId: Swift.String?
     /// Specify this filter to limit results to tasks that were completed or canceled on or before a specific date and time.
@@ -27821,7 +27821,7 @@ public struct ListAuditMitigationActionsTasksInput: Swift.Equatable {
     }
 }
 
-struct ListAuditMitigationActionsTasksInputBody: Swift.Equatable {
+struct ListAuditMitigationActionsTasksInputBody {
 }
 
 extension ListAuditMitigationActionsTasksInputBody: Swift.Decodable {
@@ -27844,7 +27844,7 @@ extension ListAuditMitigationActionsTasksOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListAuditMitigationActionsTasksOutput: Swift.Equatable {
+public struct ListAuditMitigationActionsTasksOutput {
     /// The token for the next set of results.
     public var nextToken: Swift.String?
     /// The collection of audit mitigation tasks that matched the filter criteria.
@@ -27860,7 +27860,7 @@ public struct ListAuditMitigationActionsTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListAuditMitigationActionsTasksOutputBody: Swift.Equatable {
+struct ListAuditMitigationActionsTasksOutputBody {
     let tasks: [IoTClientTypes.AuditMitigationActionsTaskMetadata]?
     let nextToken: Swift.String?
 }
@@ -27938,7 +27938,7 @@ extension ListAuditSuppressionsInput {
     }
 }
 
-public struct ListAuditSuppressionsInput: Swift.Equatable {
+public struct ListAuditSuppressionsInput {
     /// Determines whether suppressions are listed in ascending order by expiration date or not. If parameter isn't provided, ascendingOrder=true.
     public var ascendingOrder: Swift.Bool?
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
@@ -27966,7 +27966,7 @@ public struct ListAuditSuppressionsInput: Swift.Equatable {
     }
 }
 
-struct ListAuditSuppressionsInputBody: Swift.Equatable {
+struct ListAuditSuppressionsInputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
     let ascendingOrder: Swift.Bool?
@@ -28012,7 +28012,7 @@ extension ListAuditSuppressionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAuditSuppressionsOutput: Swift.Equatable {
+public struct ListAuditSuppressionsOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// List of audit suppressions.
@@ -28028,7 +28028,7 @@ public struct ListAuditSuppressionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAuditSuppressionsOutputBody: Swift.Equatable {
+struct ListAuditSuppressionsOutputBody {
     let suppressions: [IoTClientTypes.AuditSuppression]?
     let nextToken: Swift.String?
 }
@@ -28113,7 +28113,7 @@ extension ListAuditTasksInput {
     }
 }
 
-public struct ListAuditTasksInput: Swift.Equatable {
+public struct ListAuditTasksInput {
     /// The end of the time period.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -28147,7 +28147,7 @@ public struct ListAuditTasksInput: Swift.Equatable {
     }
 }
 
-struct ListAuditTasksInputBody: Swift.Equatable {
+struct ListAuditTasksInputBody {
 }
 
 extension ListAuditTasksInputBody: Swift.Decodable {
@@ -28170,7 +28170,7 @@ extension ListAuditTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAuditTasksOutput: Swift.Equatable {
+public struct ListAuditTasksOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The audits that were performed during the specified time period.
@@ -28186,7 +28186,7 @@ public struct ListAuditTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListAuditTasksOutputBody: Swift.Equatable {
+struct ListAuditTasksOutputBody {
     let tasks: [IoTClientTypes.AuditTaskMetadata]?
     let nextToken: Swift.String?
 }
@@ -28259,7 +28259,7 @@ extension ListAuthorizersInput {
     }
 }
 
-public struct ListAuthorizersInput: Swift.Equatable {
+public struct ListAuthorizersInput {
     /// Return the list of authorizers in ascending alphabetical order.
     public var ascendingOrder: Swift.Bool?
     /// A marker used to get the next set of results.
@@ -28283,7 +28283,7 @@ public struct ListAuthorizersInput: Swift.Equatable {
     }
 }
 
-struct ListAuthorizersInputBody: Swift.Equatable {
+struct ListAuthorizersInputBody {
 }
 
 extension ListAuthorizersInputBody: Swift.Decodable {
@@ -28306,7 +28306,7 @@ extension ListAuthorizersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAuthorizersOutput: Swift.Equatable {
+public struct ListAuthorizersOutput {
     /// The authorizers.
     public var authorizers: [IoTClientTypes.AuthorizerSummary]?
     /// A marker used to get the next set of results.
@@ -28322,7 +28322,7 @@ public struct ListAuthorizersOutput: Swift.Equatable {
     }
 }
 
-struct ListAuthorizersOutputBody: Swift.Equatable {
+struct ListAuthorizersOutputBody {
     let authorizers: [IoTClientTypes.AuthorizerSummary]?
     let nextMarker: Swift.String?
 }
@@ -28393,7 +28393,7 @@ extension ListBillingGroupsInput {
     }
 }
 
-public struct ListBillingGroupsInput: Swift.Equatable {
+public struct ListBillingGroupsInput {
     /// The maximum number of results to return per request.
     public var maxResults: Swift.Int?
     /// Limit the results to billing groups whose names have the given prefix.
@@ -28413,7 +28413,7 @@ public struct ListBillingGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupsInputBody: Swift.Equatable {
+struct ListBillingGroupsInputBody {
 }
 
 extension ListBillingGroupsInputBody: Swift.Decodable {
@@ -28436,7 +28436,7 @@ extension ListBillingGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBillingGroupsOutput: Swift.Equatable {
+public struct ListBillingGroupsOutput {
     /// The list of billing groups.
     public var billingGroups: [IoTClientTypes.GroupNameAndArn]?
     /// The token to use to get the next set of results, or null if there are no additional results.
@@ -28452,7 +28452,7 @@ public struct ListBillingGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListBillingGroupsOutputBody: Swift.Equatable {
+struct ListBillingGroupsOutputBody {
     let billingGroups: [IoTClientTypes.GroupNameAndArn]?
     let nextToken: Swift.String?
 }
@@ -28527,7 +28527,7 @@ extension ListCACertificatesInput {
 }
 
 /// Input for the ListCACertificates operation.
-public struct ListCACertificatesInput: Swift.Equatable {
+public struct ListCACertificatesInput {
     /// Determines the order of the results.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -28551,7 +28551,7 @@ public struct ListCACertificatesInput: Swift.Equatable {
     }
 }
 
-struct ListCACertificatesInputBody: Swift.Equatable {
+struct ListCACertificatesInputBody {
 }
 
 extension ListCACertificatesInputBody: Swift.Decodable {
@@ -28575,7 +28575,7 @@ extension ListCACertificatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListCACertificates operation.
-public struct ListCACertificatesOutput: Swift.Equatable {
+public struct ListCACertificatesOutput {
     /// The CA certificates registered in your Amazon Web Services account.
     public var certificates: [IoTClientTypes.CACertificate]?
     /// The current position within the list of CA certificates.
@@ -28591,7 +28591,7 @@ public struct ListCACertificatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCACertificatesOutputBody: Swift.Equatable {
+struct ListCACertificatesOutputBody {
     let certificates: [IoTClientTypes.CACertificate]?
     let nextMarker: Swift.String?
 }
@@ -28658,7 +28658,7 @@ extension ListCertificateProvidersInput {
     }
 }
 
-public struct ListCertificateProvidersInput: Swift.Equatable {
+public struct ListCertificateProvidersInput {
     /// Returns the list of certificate providers in ascending alphabetical order.
     public var ascendingOrder: Swift.Bool?
     /// The token for the next set of results, or null if there are no more results.
@@ -28674,7 +28674,7 @@ public struct ListCertificateProvidersInput: Swift.Equatable {
     }
 }
 
-struct ListCertificateProvidersInputBody: Swift.Equatable {
+struct ListCertificateProvidersInputBody {
 }
 
 extension ListCertificateProvidersInputBody: Swift.Decodable {
@@ -28697,7 +28697,7 @@ extension ListCertificateProvidersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCertificateProvidersOutput: Swift.Equatable {
+public struct ListCertificateProvidersOutput {
     /// The list of certificate providers in your Amazon Web Services account.
     public var certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
     /// The token for the next set of results, or null if there are no more results.
@@ -28713,7 +28713,7 @@ public struct ListCertificateProvidersOutput: Swift.Equatable {
     }
 }
 
-struct ListCertificateProvidersOutputBody: Swift.Equatable {
+struct ListCertificateProvidersOutputBody {
     let certificateProviders: [IoTClientTypes.CertificateProviderSummary]?
     let nextToken: Swift.String?
 }
@@ -28788,7 +28788,7 @@ extension ListCertificatesByCAInput {
 }
 
 /// The input to the ListCertificatesByCA operation.
-public struct ListCertificatesByCAInput: Swift.Equatable {
+public struct ListCertificatesByCAInput {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
     public var ascendingOrder: Swift.Bool?
     /// The ID of the CA certificate. This operation will list all registered device certificate that were signed by this CA certificate.
@@ -28813,7 +28813,7 @@ public struct ListCertificatesByCAInput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesByCAInputBody: Swift.Equatable {
+struct ListCertificatesByCAInputBody {
 }
 
 extension ListCertificatesByCAInputBody: Swift.Decodable {
@@ -28837,7 +28837,7 @@ extension ListCertificatesByCAOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the ListCertificatesByCA operation.
-public struct ListCertificatesByCAOutput: Swift.Equatable {
+public struct ListCertificatesByCAOutput {
     /// The device certificates signed by the specified CA certificate.
     public var certificates: [IoTClientTypes.Certificate]?
     /// The marker for the next set of results, or null if there are no additional results.
@@ -28853,7 +28853,7 @@ public struct ListCertificatesByCAOutput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesByCAOutputBody: Swift.Equatable {
+struct ListCertificatesByCAOutputBody {
     let certificates: [IoTClientTypes.Certificate]?
     let nextMarker: Swift.String?
 }
@@ -28925,7 +28925,7 @@ extension ListCertificatesInput {
 }
 
 /// The input for the ListCertificates operation.
-public struct ListCertificatesInput: Swift.Equatable {
+public struct ListCertificatesInput {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -28945,7 +28945,7 @@ public struct ListCertificatesInput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesInputBody: Swift.Equatable {
+struct ListCertificatesInputBody {
 }
 
 extension ListCertificatesInputBody: Swift.Decodable {
@@ -28969,7 +28969,7 @@ extension ListCertificatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output of the ListCertificates operation.
-public struct ListCertificatesOutput: Swift.Equatable {
+public struct ListCertificatesOutput {
     /// The descriptions of the certificates.
     public var certificates: [IoTClientTypes.Certificate]?
     /// The marker for the next set of results, or null if there are no additional results.
@@ -28985,7 +28985,7 @@ public struct ListCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesOutputBody: Swift.Equatable {
+struct ListCertificatesOutputBody {
     let certificates: [IoTClientTypes.Certificate]?
     let nextMarker: Swift.String?
 }
@@ -29052,7 +29052,7 @@ extension ListCustomMetricsInput {
     }
 }
 
-public struct ListCustomMetricsInput: Swift.Equatable {
+public struct ListCustomMetricsInput {
     /// The maximum number of results to return at one time. The default is 25.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -29068,7 +29068,7 @@ public struct ListCustomMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomMetricsInputBody: Swift.Equatable {
+struct ListCustomMetricsInputBody {
 }
 
 extension ListCustomMetricsInputBody: Swift.Decodable {
@@ -29091,7 +29091,7 @@ extension ListCustomMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomMetricsOutput: Swift.Equatable {
+public struct ListCustomMetricsOutput {
     /// The name of the custom metric.
     public var metricNames: [Swift.String]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -29107,7 +29107,7 @@ public struct ListCustomMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomMetricsOutputBody: Swift.Equatable {
+struct ListCustomMetricsOutputBody {
     let metricNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -29192,7 +29192,7 @@ extension ListDetectMitigationActionsExecutionsInput {
     }
 }
 
-public struct ListDetectMitigationActionsExecutionsInput: Swift.Equatable {
+public struct ListDetectMitigationActionsExecutionsInput {
     /// The end of the time period for which ML Detect mitigation actions executions are returned.
     public var endTime: ClientRuntime.Date?
     /// The maximum number of results to return at one time. The default is 25.
@@ -29228,7 +29228,7 @@ public struct ListDetectMitigationActionsExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListDetectMitigationActionsExecutionsInputBody: Swift.Equatable {
+struct ListDetectMitigationActionsExecutionsInputBody {
 }
 
 extension ListDetectMitigationActionsExecutionsInputBody: Swift.Decodable {
@@ -29251,7 +29251,7 @@ extension ListDetectMitigationActionsExecutionsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListDetectMitigationActionsExecutionsOutput: Swift.Equatable {
+public struct ListDetectMitigationActionsExecutionsOutput {
     /// List of actions executions.
     public var actionsExecutions: [IoTClientTypes.DetectMitigationActionExecution]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -29267,7 +29267,7 @@ public struct ListDetectMitigationActionsExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDetectMitigationActionsExecutionsOutputBody: Swift.Equatable {
+struct ListDetectMitigationActionsExecutionsOutputBody {
     let actionsExecutions: [IoTClientTypes.DetectMitigationActionExecution]?
     let nextToken: Swift.String?
 }
@@ -29344,7 +29344,7 @@ extension ListDetectMitigationActionsTasksInput {
     }
 }
 
-public struct ListDetectMitigationActionsTasksInput: Swift.Equatable {
+public struct ListDetectMitigationActionsTasksInput {
     /// The end of the time period for which ML Detect mitigation actions tasks are returned.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -29370,7 +29370,7 @@ public struct ListDetectMitigationActionsTasksInput: Swift.Equatable {
     }
 }
 
-struct ListDetectMitigationActionsTasksInputBody: Swift.Equatable {
+struct ListDetectMitigationActionsTasksInputBody {
 }
 
 extension ListDetectMitigationActionsTasksInputBody: Swift.Decodable {
@@ -29393,7 +29393,7 @@ extension ListDetectMitigationActionsTasksOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListDetectMitigationActionsTasksOutput: Swift.Equatable {
+public struct ListDetectMitigationActionsTasksOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The collection of ML Detect mitigation tasks that matched the filter criteria.
@@ -29409,7 +29409,7 @@ public struct ListDetectMitigationActionsTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListDetectMitigationActionsTasksOutputBody: Swift.Equatable {
+struct ListDetectMitigationActionsTasksOutputBody {
     let tasks: [IoTClientTypes.DetectMitigationActionsTaskSummary]?
     let nextToken: Swift.String?
 }
@@ -29474,7 +29474,7 @@ extension ListDimensionsInput {
     }
 }
 
-public struct ListDimensionsInput: Swift.Equatable {
+public struct ListDimensionsInput {
     /// The maximum number of results to retrieve at one time.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -29490,7 +29490,7 @@ public struct ListDimensionsInput: Swift.Equatable {
     }
 }
 
-struct ListDimensionsInputBody: Swift.Equatable {
+struct ListDimensionsInputBody {
 }
 
 extension ListDimensionsInputBody: Swift.Decodable {
@@ -29513,7 +29513,7 @@ extension ListDimensionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDimensionsOutput: Swift.Equatable {
+public struct ListDimensionsOutput {
     /// A list of the names of the defined dimensions. Use DescribeDimension to get details for a dimension.
     public var dimensionNames: [Swift.String]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -29529,7 +29529,7 @@ public struct ListDimensionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDimensionsOutputBody: Swift.Equatable {
+struct ListDimensionsOutputBody {
     let dimensionNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -29598,7 +29598,7 @@ extension ListDomainConfigurationsInput {
     }
 }
 
-public struct ListDomainConfigurationsInput: Swift.Equatable {
+public struct ListDomainConfigurationsInput {
     /// The marker for the next set of results.
     public var marker: Swift.String?
     /// The result page size.
@@ -29618,7 +29618,7 @@ public struct ListDomainConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainConfigurationsInputBody: Swift.Equatable {
+struct ListDomainConfigurationsInputBody {
 }
 
 extension ListDomainConfigurationsInputBody: Swift.Decodable {
@@ -29641,7 +29641,7 @@ extension ListDomainConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainConfigurationsOutput: Swift.Equatable {
+public struct ListDomainConfigurationsOutput {
     /// A list of objects that contain summary information about the user's domain configurations.
     public var domainConfigurations: [IoTClientTypes.DomainConfigurationSummary]?
     /// The marker for the next set of results.
@@ -29657,7 +29657,7 @@ public struct ListDomainConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainConfigurationsOutputBody: Swift.Equatable {
+struct ListDomainConfigurationsOutputBody {
     let domainConfigurations: [IoTClientTypes.DomainConfigurationSummary]?
     let nextMarker: Swift.String?
 }
@@ -29724,7 +29724,7 @@ extension ListFleetMetricsInput {
     }
 }
 
-public struct ListFleetMetricsInput: Swift.Equatable {
+public struct ListFleetMetricsInput {
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -29740,7 +29740,7 @@ public struct ListFleetMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetMetricsInputBody: Swift.Equatable {
+struct ListFleetMetricsInputBody {
 }
 
 extension ListFleetMetricsInputBody: Swift.Decodable {
@@ -29763,7 +29763,7 @@ extension ListFleetMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetMetricsOutput: Swift.Equatable {
+public struct ListFleetMetricsOutput {
     /// The list of fleet metrics objects.
     public var fleetMetrics: [IoTClientTypes.FleetMetricNameAndArn]?
     /// The token for the next set of results. Will not be returned if the operation has returned all results.
@@ -29779,7 +29779,7 @@ public struct ListFleetMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetMetricsOutputBody: Swift.Equatable {
+struct ListFleetMetricsOutputBody {
     let fleetMetrics: [IoTClientTypes.FleetMetricNameAndArn]?
     let nextToken: Swift.String?
 }
@@ -29846,7 +29846,7 @@ extension ListIndicesInput {
     }
 }
 
-public struct ListIndicesInput: Swift.Equatable {
+public struct ListIndicesInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// The token used to get the next set of results, or null if there are no additional results.
@@ -29862,7 +29862,7 @@ public struct ListIndicesInput: Swift.Equatable {
     }
 }
 
-struct ListIndicesInputBody: Swift.Equatable {
+struct ListIndicesInputBody {
 }
 
 extension ListIndicesInputBody: Swift.Decodable {
@@ -29885,7 +29885,7 @@ extension ListIndicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIndicesOutput: Swift.Equatable {
+public struct ListIndicesOutput {
     /// The index names.
     public var indexNames: [Swift.String]?
     /// The token used to get the next set of results, or null if there are no additional results.
@@ -29901,7 +29901,7 @@ public struct ListIndicesOutput: Swift.Equatable {
     }
 }
 
-struct ListIndicesOutputBody: Swift.Equatable {
+struct ListIndicesOutputBody {
     let indexNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -29975,7 +29975,7 @@ extension ListJobExecutionsForJobInput {
     }
 }
 
-public struct ListJobExecutionsForJobInput: Swift.Equatable {
+public struct ListJobExecutionsForJobInput {
     /// The unique identifier you assigned to this job when it was created.
     /// This member is required.
     public var jobId: Swift.String?
@@ -30000,7 +30000,7 @@ public struct ListJobExecutionsForJobInput: Swift.Equatable {
     }
 }
 
-struct ListJobExecutionsForJobInputBody: Swift.Equatable {
+struct ListJobExecutionsForJobInputBody {
 }
 
 extension ListJobExecutionsForJobInputBody: Swift.Decodable {
@@ -30023,7 +30023,7 @@ extension ListJobExecutionsForJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobExecutionsForJobOutput: Swift.Equatable {
+public struct ListJobExecutionsForJobOutput {
     /// A list of job execution summaries.
     public var executionSummaries: [IoTClientTypes.JobExecutionSummaryForJob]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -30039,7 +30039,7 @@ public struct ListJobExecutionsForJobOutput: Swift.Equatable {
     }
 }
 
-struct ListJobExecutionsForJobOutputBody: Swift.Equatable {
+struct ListJobExecutionsForJobOutputBody {
     let executionSummaries: [IoTClientTypes.JobExecutionSummaryForJob]?
     let nextToken: Swift.String?
 }
@@ -30120,7 +30120,7 @@ extension ListJobExecutionsForThingInput {
     }
 }
 
-public struct ListJobExecutionsForThingInput: Swift.Equatable {
+public struct ListJobExecutionsForThingInput {
     /// The unique identifier you assigned to this job when it was created.
     public var jobId: Swift.String?
     /// The maximum number of results to be returned per request.
@@ -30153,7 +30153,7 @@ public struct ListJobExecutionsForThingInput: Swift.Equatable {
     }
 }
 
-struct ListJobExecutionsForThingInputBody: Swift.Equatable {
+struct ListJobExecutionsForThingInputBody {
 }
 
 extension ListJobExecutionsForThingInputBody: Swift.Decodable {
@@ -30176,7 +30176,7 @@ extension ListJobExecutionsForThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobExecutionsForThingOutput: Swift.Equatable {
+public struct ListJobExecutionsForThingOutput {
     /// A list of job execution summaries.
     public var executionSummaries: [IoTClientTypes.JobExecutionSummaryForThing]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -30192,7 +30192,7 @@ public struct ListJobExecutionsForThingOutput: Swift.Equatable {
     }
 }
 
-struct ListJobExecutionsForThingOutputBody: Swift.Equatable {
+struct ListJobExecutionsForThingOutputBody {
     let executionSummaries: [IoTClientTypes.JobExecutionSummaryForThing]?
     let nextToken: Swift.String?
 }
@@ -30258,7 +30258,7 @@ extension ListJobTemplatesInput {
     }
 }
 
-public struct ListJobTemplatesInput: Swift.Equatable {
+public struct ListJobTemplatesInput {
     /// The maximum number of results to return in the list.
     public var maxResults: Swift.Int?
     /// The token to use to return the next set of results in the list.
@@ -30274,7 +30274,7 @@ public struct ListJobTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesInputBody: Swift.Equatable {
+struct ListJobTemplatesInputBody {
 }
 
 extension ListJobTemplatesInputBody: Swift.Decodable {
@@ -30297,7 +30297,7 @@ extension ListJobTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobTemplatesOutput: Swift.Equatable {
+public struct ListJobTemplatesOutput {
     /// A list of objects that contain information about the job templates.
     public var jobTemplates: [IoTClientTypes.JobTemplateSummary]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -30313,7 +30313,7 @@ public struct ListJobTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesOutputBody: Swift.Equatable {
+struct ListJobTemplatesOutputBody {
     let jobTemplates: [IoTClientTypes.JobTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -30398,7 +30398,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The maximum number of results to return per request.
     public var maxResults: Swift.Int?
     /// The namespace used to indicate that a job is a customer-managed job. When you specify a value for this parameter, Amazon Web Services IoT Core sends jobs notifications to MQTT topics that contain the value in the following format. $aws/things/THING_NAME/jobs/JOB_ID/notify-namespace-NAMESPACE_ID/ The namespaceId feature is only supported by IoT Greengrass at this time. For more information, see [Setting up IoT Greengrass core devices.](https://docs.aws.amazon.com/greengrass/v2/developerguide/setting-up.html)
@@ -30434,7 +30434,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -30457,7 +30457,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// A list of jobs.
     public var jobs: [IoTClientTypes.JobSummary]?
     /// The token for the next set of results, or null if there are no additional results.
@@ -30473,7 +30473,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [IoTClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -30543,7 +30543,7 @@ extension ListManagedJobTemplatesInput {
     }
 }
 
-public struct ListManagedJobTemplatesInput: Swift.Equatable {
+public struct ListManagedJobTemplatesInput {
     /// Maximum number of entries that can be returned.
     public var maxResults: Swift.Int?
     /// The token to retrieve the next set of results.
@@ -30563,7 +30563,7 @@ public struct ListManagedJobTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListManagedJobTemplatesInputBody: Swift.Equatable {
+struct ListManagedJobTemplatesInputBody {
 }
 
 extension ListManagedJobTemplatesInputBody: Swift.Decodable {
@@ -30586,7 +30586,7 @@ extension ListManagedJobTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListManagedJobTemplatesOutput: Swift.Equatable {
+public struct ListManagedJobTemplatesOutput {
     /// A list of managed job templates that are returned.
     public var managedJobTemplates: [IoTClientTypes.ManagedJobTemplateSummary]?
     /// The token to retrieve the next set of results.
@@ -30602,7 +30602,7 @@ public struct ListManagedJobTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedJobTemplatesOutputBody: Swift.Equatable {
+struct ListManagedJobTemplatesOutputBody {
     let managedJobTemplates: [IoTClientTypes.ManagedJobTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -30700,7 +30700,7 @@ extension ListMetricValuesInput {
     }
 }
 
-public struct ListMetricValuesInput: Swift.Equatable {
+public struct ListMetricValuesInput {
     /// The dimension name.
     public var dimensionName: Swift.String?
     /// The dimension value operator.
@@ -30744,7 +30744,7 @@ public struct ListMetricValuesInput: Swift.Equatable {
     }
 }
 
-struct ListMetricValuesInputBody: Swift.Equatable {
+struct ListMetricValuesInputBody {
 }
 
 extension ListMetricValuesInputBody: Swift.Decodable {
@@ -30767,7 +30767,7 @@ extension ListMetricValuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMetricValuesOutput: Swift.Equatable {
+public struct ListMetricValuesOutput {
     /// The data the thing reports for the metric during the specified time period.
     public var metricDatumList: [IoTClientTypes.MetricDatum]?
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
@@ -30783,7 +30783,7 @@ public struct ListMetricValuesOutput: Swift.Equatable {
     }
 }
 
-struct ListMetricValuesOutputBody: Swift.Equatable {
+struct ListMetricValuesOutputBody {
     let metricDatumList: [IoTClientTypes.MetricDatum]?
     let nextToken: Swift.String?
 }
@@ -30853,7 +30853,7 @@ extension ListMitigationActionsInput {
     }
 }
 
-public struct ListMitigationActionsInput: Swift.Equatable {
+public struct ListMitigationActionsInput {
     /// Specify a value to limit the result to mitigation actions with a specific action type.
     public var actionType: IoTClientTypes.MitigationActionType?
     /// The maximum number of results to return at one time. The default is 25.
@@ -30873,7 +30873,7 @@ public struct ListMitigationActionsInput: Swift.Equatable {
     }
 }
 
-struct ListMitigationActionsInputBody: Swift.Equatable {
+struct ListMitigationActionsInputBody {
 }
 
 extension ListMitigationActionsInputBody: Swift.Decodable {
@@ -30896,7 +30896,7 @@ extension ListMitigationActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMitigationActionsOutput: Swift.Equatable {
+public struct ListMitigationActionsOutput {
     /// A set of actions that matched the specified filter criteria.
     public var actionIdentifiers: [IoTClientTypes.MitigationActionIdentifier]?
     /// The token for the next set of results.
@@ -30912,7 +30912,7 @@ public struct ListMitigationActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListMitigationActionsOutputBody: Swift.Equatable {
+struct ListMitigationActionsOutputBody {
     let actionIdentifiers: [IoTClientTypes.MitigationActionIdentifier]?
     let nextToken: Swift.String?
 }
@@ -30981,7 +30981,7 @@ extension ListOTAUpdatesInput {
     }
 }
 
-public struct ListOTAUpdatesInput: Swift.Equatable {
+public struct ListOTAUpdatesInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// A token used to retrieve the next set of results.
@@ -31001,7 +31001,7 @@ public struct ListOTAUpdatesInput: Swift.Equatable {
     }
 }
 
-struct ListOTAUpdatesInputBody: Swift.Equatable {
+struct ListOTAUpdatesInputBody {
 }
 
 extension ListOTAUpdatesInputBody: Swift.Decodable {
@@ -31024,7 +31024,7 @@ extension ListOTAUpdatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOTAUpdatesOutput: Swift.Equatable {
+public struct ListOTAUpdatesOutput {
     /// A token to use to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of OTA update jobs.
@@ -31040,7 +31040,7 @@ public struct ListOTAUpdatesOutput: Swift.Equatable {
     }
 }
 
-struct ListOTAUpdatesOutputBody: Swift.Equatable {
+struct ListOTAUpdatesOutputBody {
     let otaUpdates: [IoTClientTypes.OTAUpdateSummary]?
     let nextToken: Swift.String?
 }
@@ -31112,7 +31112,7 @@ extension ListOutgoingCertificatesInput {
 }
 
 /// The input to the ListOutgoingCertificates operation.
-public struct ListOutgoingCertificatesInput: Swift.Equatable {
+public struct ListOutgoingCertificatesInput {
     /// Specifies the order for results. If True, the results are returned in ascending order, based on the creation date.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -31132,7 +31132,7 @@ public struct ListOutgoingCertificatesInput: Swift.Equatable {
     }
 }
 
-struct ListOutgoingCertificatesInputBody: Swift.Equatable {
+struct ListOutgoingCertificatesInputBody {
 }
 
 extension ListOutgoingCertificatesInputBody: Swift.Decodable {
@@ -31156,7 +31156,7 @@ extension ListOutgoingCertificatesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListOutgoingCertificates operation.
-public struct ListOutgoingCertificatesOutput: Swift.Equatable {
+public struct ListOutgoingCertificatesOutput {
     /// The marker for the next set of results.
     public var nextMarker: Swift.String?
     /// The certificates that are being transferred but not yet accepted.
@@ -31172,7 +31172,7 @@ public struct ListOutgoingCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct ListOutgoingCertificatesOutputBody: Swift.Equatable {
+struct ListOutgoingCertificatesOutputBody {
     let outgoingCertificates: [IoTClientTypes.OutgoingCertificate]?
     let nextMarker: Swift.String?
 }
@@ -31246,7 +31246,7 @@ extension ListPackageVersionsInput {
     }
 }
 
-public struct ListPackageVersionsInput: Swift.Equatable {
+public struct ListPackageVersionsInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -31271,7 +31271,7 @@ public struct ListPackageVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionsInputBody: Swift.Equatable {
+struct ListPackageVersionsInputBody {
 }
 
 extension ListPackageVersionsInputBody: Swift.Decodable {
@@ -31294,7 +31294,7 @@ extension ListPackageVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackageVersionsOutput: Swift.Equatable {
+public struct ListPackageVersionsOutput {
     /// The token for the next set of results.
     public var nextToken: Swift.String?
     /// Lists the package versions associated to the package.
@@ -31310,7 +31310,7 @@ public struct ListPackageVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPackageVersionsOutputBody: Swift.Equatable {
+struct ListPackageVersionsOutputBody {
     let packageVersionSummaries: [IoTClientTypes.PackageVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -31375,7 +31375,7 @@ extension ListPackagesInput {
     }
 }
 
-public struct ListPackagesInput: Swift.Equatable {
+public struct ListPackagesInput {
     /// The maximum number of results returned at one time.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -31391,7 +31391,7 @@ public struct ListPackagesInput: Swift.Equatable {
     }
 }
 
-struct ListPackagesInputBody: Swift.Equatable {
+struct ListPackagesInputBody {
 }
 
 extension ListPackagesInputBody: Swift.Decodable {
@@ -31414,7 +31414,7 @@ extension ListPackagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPackagesOutput: Swift.Equatable {
+public struct ListPackagesOutput {
     /// The token for the next set of results.
     public var nextToken: Swift.String?
     /// The software package summary.
@@ -31430,7 +31430,7 @@ public struct ListPackagesOutput: Swift.Equatable {
     }
 }
 
-struct ListPackagesOutputBody: Swift.Equatable {
+struct ListPackagesOutputBody {
     let packageSummaries: [IoTClientTypes.PackageSummary]?
     let nextToken: Swift.String?
 }
@@ -31500,7 +31500,7 @@ extension ListPoliciesInput {
 }
 
 /// The input for the ListPolicies operation.
-public struct ListPoliciesInput: Swift.Equatable {
+public struct ListPoliciesInput {
     /// Specifies the order for results. If true, the results are returned in ascending creation order.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -31520,7 +31520,7 @@ public struct ListPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesInputBody: Swift.Equatable {
+struct ListPoliciesInputBody {
 }
 
 extension ListPoliciesInputBody: Swift.Decodable {
@@ -31544,7 +31544,7 @@ extension ListPoliciesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListPolicies operation.
-public struct ListPoliciesOutput: Swift.Equatable {
+public struct ListPoliciesOutput {
     /// The marker for the next set of results, or null if there are no additional results.
     public var nextMarker: Swift.String?
     /// The descriptions of the policies.
@@ -31560,7 +31560,7 @@ public struct ListPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListPoliciesOutputBody: Swift.Equatable {
+struct ListPoliciesOutputBody {
     let policies: [IoTClientTypes.Policy]?
     let nextMarker: Swift.String?
 }
@@ -31643,7 +31643,7 @@ extension ListPolicyPrincipalsInput {
 }
 
 /// The input for the ListPolicyPrincipals operation.
-public struct ListPolicyPrincipalsInput: Swift.Equatable {
+public struct ListPolicyPrincipalsInput {
     /// Specifies the order for results. If true, the results are returned in ascending creation order.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -31668,7 +31668,7 @@ public struct ListPolicyPrincipalsInput: Swift.Equatable {
     }
 }
 
-struct ListPolicyPrincipalsInputBody: Swift.Equatable {
+struct ListPolicyPrincipalsInputBody {
 }
 
 extension ListPolicyPrincipalsInputBody: Swift.Decodable {
@@ -31692,7 +31692,7 @@ extension ListPolicyPrincipalsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListPolicyPrincipals operation.
-public struct ListPolicyPrincipalsOutput: Swift.Equatable {
+public struct ListPolicyPrincipalsOutput {
     /// The marker for the next set of results, or null if there are no additional results.
     public var nextMarker: Swift.String?
     /// The descriptions of the principals.
@@ -31708,7 +31708,7 @@ public struct ListPolicyPrincipalsOutput: Swift.Equatable {
     }
 }
 
-struct ListPolicyPrincipalsOutputBody: Swift.Equatable {
+struct ListPolicyPrincipalsOutputBody {
     let principals: [Swift.String]?
     let nextMarker: Swift.String?
 }
@@ -31764,7 +31764,7 @@ extension ListPolicyVersionsInput {
 }
 
 /// The input for the ListPolicyVersions operation.
-public struct ListPolicyVersionsInput: Swift.Equatable {
+public struct ListPolicyVersionsInput {
     /// The policy name.
     /// This member is required.
     public var policyName: Swift.String?
@@ -31777,7 +31777,7 @@ public struct ListPolicyVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListPolicyVersionsInputBody: Swift.Equatable {
+struct ListPolicyVersionsInputBody {
 }
 
 extension ListPolicyVersionsInputBody: Swift.Decodable {
@@ -31799,7 +31799,7 @@ extension ListPolicyVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListPolicyVersions operation.
-public struct ListPolicyVersionsOutput: Swift.Equatable {
+public struct ListPolicyVersionsOutput {
     /// The policy versions.
     public var policyVersions: [IoTClientTypes.PolicyVersion]?
 
@@ -31811,7 +31811,7 @@ public struct ListPolicyVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPolicyVersionsOutputBody: Swift.Equatable {
+struct ListPolicyVersionsOutputBody {
     let policyVersions: [IoTClientTypes.PolicyVersion]?
 }
 
@@ -31891,7 +31891,7 @@ extension ListPrincipalPoliciesInput {
 }
 
 /// The input for the ListPrincipalPolicies operation.
-public struct ListPrincipalPoliciesInput: Swift.Equatable {
+public struct ListPrincipalPoliciesInput {
     /// Specifies the order for results. If true, results are returned in ascending creation order.
     public var ascendingOrder: Swift.Bool?
     /// The marker for the next set of results.
@@ -31916,7 +31916,7 @@ public struct ListPrincipalPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalPoliciesInputBody: Swift.Equatable {
+struct ListPrincipalPoliciesInputBody {
 }
 
 extension ListPrincipalPoliciesInputBody: Swift.Decodable {
@@ -31940,7 +31940,7 @@ extension ListPrincipalPoliciesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListPrincipalPolicies operation.
-public struct ListPrincipalPoliciesOutput: Swift.Equatable {
+public struct ListPrincipalPoliciesOutput {
     /// The marker for the next set of results, or null if there are no additional results.
     public var nextMarker: Swift.String?
     /// The policies.
@@ -31956,7 +31956,7 @@ public struct ListPrincipalPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalPoliciesOutputBody: Swift.Equatable {
+struct ListPrincipalPoliciesOutputBody {
     let policies: [IoTClientTypes.Policy]?
     let nextMarker: Swift.String?
 }
@@ -32036,7 +32036,7 @@ extension ListPrincipalThingsInput {
 }
 
 /// The input for the ListPrincipalThings operation.
-public struct ListPrincipalThingsInput: Swift.Equatable {
+public struct ListPrincipalThingsInput {
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -32057,7 +32057,7 @@ public struct ListPrincipalThingsInput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalThingsInputBody: Swift.Equatable {
+struct ListPrincipalThingsInputBody {
 }
 
 extension ListPrincipalThingsInputBody: Swift.Decodable {
@@ -32081,7 +32081,7 @@ extension ListPrincipalThingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListPrincipalThings operation.
-public struct ListPrincipalThingsOutput: Swift.Equatable {
+public struct ListPrincipalThingsOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The things.
@@ -32097,7 +32097,7 @@ public struct ListPrincipalThingsOutput: Swift.Equatable {
     }
 }
 
-struct ListPrincipalThingsOutputBody: Swift.Equatable {
+struct ListPrincipalThingsOutputBody {
     let things: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -32168,7 +32168,7 @@ extension ListProvisioningTemplateVersionsInput {
     }
 }
 
-public struct ListProvisioningTemplateVersionsInput: Swift.Equatable {
+public struct ListProvisioningTemplateVersionsInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// A token to retrieve the next set of results.
@@ -32189,7 +32189,7 @@ public struct ListProvisioningTemplateVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningTemplateVersionsInputBody: Swift.Equatable {
+struct ListProvisioningTemplateVersionsInputBody {
 }
 
 extension ListProvisioningTemplateVersionsInputBody: Swift.Decodable {
@@ -32212,7 +32212,7 @@ extension ListProvisioningTemplateVersionsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListProvisioningTemplateVersionsOutput: Swift.Equatable {
+public struct ListProvisioningTemplateVersionsOutput {
     /// A token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of provisioning template versions.
@@ -32228,7 +32228,7 @@ public struct ListProvisioningTemplateVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningTemplateVersionsOutputBody: Swift.Equatable {
+struct ListProvisioningTemplateVersionsOutputBody {
     let versions: [IoTClientTypes.ProvisioningTemplateVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -32295,7 +32295,7 @@ extension ListProvisioningTemplatesInput {
     }
 }
 
-public struct ListProvisioningTemplatesInput: Swift.Equatable {
+public struct ListProvisioningTemplatesInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// A token to retrieve the next set of results.
@@ -32311,7 +32311,7 @@ public struct ListProvisioningTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningTemplatesInputBody: Swift.Equatable {
+struct ListProvisioningTemplatesInputBody {
 }
 
 extension ListProvisioningTemplatesInputBody: Swift.Decodable {
@@ -32334,7 +32334,7 @@ extension ListProvisioningTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProvisioningTemplatesOutput: Swift.Equatable {
+public struct ListProvisioningTemplatesOutput {
     /// A token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of provisioning templates
@@ -32350,7 +32350,7 @@ public struct ListProvisioningTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisioningTemplatesOutputBody: Swift.Equatable {
+struct ListProvisioningTemplatesOutputBody {
     let templates: [IoTClientTypes.ProvisioningTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -32422,7 +32422,7 @@ extension ListRelatedResourcesForAuditFindingInput {
     }
 }
 
-public struct ListRelatedResourcesForAuditFindingInput: Swift.Equatable {
+public struct ListRelatedResourcesForAuditFindingInput {
     /// The finding Id.
     /// This member is required.
     public var findingId: Swift.String?
@@ -32443,7 +32443,7 @@ public struct ListRelatedResourcesForAuditFindingInput: Swift.Equatable {
     }
 }
 
-struct ListRelatedResourcesForAuditFindingInputBody: Swift.Equatable {
+struct ListRelatedResourcesForAuditFindingInputBody {
 }
 
 extension ListRelatedResourcesForAuditFindingInputBody: Swift.Decodable {
@@ -32466,7 +32466,7 @@ extension ListRelatedResourcesForAuditFindingOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct ListRelatedResourcesForAuditFindingOutput: Swift.Equatable {
+public struct ListRelatedResourcesForAuditFindingOutput {
     /// A token that can be used to retrieve the next set of results, or null for the first API call.
     public var nextToken: Swift.String?
     /// The related resources.
@@ -32482,7 +32482,7 @@ public struct ListRelatedResourcesForAuditFindingOutput: Swift.Equatable {
     }
 }
 
-struct ListRelatedResourcesForAuditFindingOutputBody: Swift.Equatable {
+struct ListRelatedResourcesForAuditFindingOutputBody {
     let relatedResources: [IoTClientTypes.RelatedResource]?
     let nextToken: Swift.String?
 }
@@ -32552,7 +32552,7 @@ extension ListRoleAliasesInput {
     }
 }
 
-public struct ListRoleAliasesInput: Swift.Equatable {
+public struct ListRoleAliasesInput {
     /// Return the list of role aliases in ascending alphabetical order.
     public var ascendingOrder: Swift.Bool?
     /// A marker used to get the next set of results.
@@ -32572,7 +32572,7 @@ public struct ListRoleAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListRoleAliasesInputBody: Swift.Equatable {
+struct ListRoleAliasesInputBody {
 }
 
 extension ListRoleAliasesInputBody: Swift.Decodable {
@@ -32595,7 +32595,7 @@ extension ListRoleAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoleAliasesOutput: Swift.Equatable {
+public struct ListRoleAliasesOutput {
     /// A marker used to get the next set of results.
     public var nextMarker: Swift.String?
     /// The role aliases.
@@ -32611,7 +32611,7 @@ public struct ListRoleAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListRoleAliasesOutputBody: Swift.Equatable {
+struct ListRoleAliasesOutputBody {
     let roleAliases: [Swift.String]?
     let nextMarker: Swift.String?
 }
@@ -32678,7 +32678,7 @@ extension ListScheduledAuditsInput {
     }
 }
 
-public struct ListScheduledAuditsInput: Swift.Equatable {
+public struct ListScheduledAuditsInput {
     /// The maximum number of results to return at one time. The default is 25.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -32694,7 +32694,7 @@ public struct ListScheduledAuditsInput: Swift.Equatable {
     }
 }
 
-struct ListScheduledAuditsInputBody: Swift.Equatable {
+struct ListScheduledAuditsInputBody {
 }
 
 extension ListScheduledAuditsInputBody: Swift.Decodable {
@@ -32717,7 +32717,7 @@ extension ListScheduledAuditsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScheduledAuditsOutput: Swift.Equatable {
+public struct ListScheduledAuditsOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The list of scheduled audits.
@@ -32733,7 +32733,7 @@ public struct ListScheduledAuditsOutput: Swift.Equatable {
     }
 }
 
-struct ListScheduledAuditsOutputBody: Swift.Equatable {
+struct ListScheduledAuditsOutputBody {
     let scheduledAudits: [IoTClientTypes.ScheduledAuditMetadata]?
     let nextToken: Swift.String?
 }
@@ -32808,7 +32808,7 @@ extension ListSecurityProfilesForTargetInput {
     }
 }
 
-public struct ListSecurityProfilesForTargetInput: Swift.Equatable {
+public struct ListSecurityProfilesForTargetInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -32833,7 +32833,7 @@ public struct ListSecurityProfilesForTargetInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesForTargetInputBody: Swift.Equatable {
+struct ListSecurityProfilesForTargetInputBody {
 }
 
 extension ListSecurityProfilesForTargetInputBody: Swift.Decodable {
@@ -32856,7 +32856,7 @@ extension ListSecurityProfilesForTargetOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListSecurityProfilesForTargetOutput: Swift.Equatable {
+public struct ListSecurityProfilesForTargetOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list of security profiles and their associated targets.
@@ -32872,7 +32872,7 @@ public struct ListSecurityProfilesForTargetOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesForTargetOutputBody: Swift.Equatable {
+struct ListSecurityProfilesForTargetOutputBody {
     let securityProfileTargetMappings: [IoTClientTypes.SecurityProfileTargetMapping]?
     let nextToken: Swift.String?
 }
@@ -32946,7 +32946,7 @@ extension ListSecurityProfilesInput {
     }
 }
 
-public struct ListSecurityProfilesInput: Swift.Equatable {
+public struct ListSecurityProfilesInput {
     /// A filter to limit results to the security profiles that use the defined dimension. Cannot be used with metricName
     public var dimensionName: Swift.String?
     /// The maximum number of results to return at one time.
@@ -32970,7 +32970,7 @@ public struct ListSecurityProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesInputBody: Swift.Equatable {
+struct ListSecurityProfilesInputBody {
 }
 
 extension ListSecurityProfilesInputBody: Swift.Decodable {
@@ -32993,7 +32993,7 @@ extension ListSecurityProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityProfilesOutput: Swift.Equatable {
+public struct ListSecurityProfilesOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list of security profile identifiers (names and ARNs).
@@ -33009,7 +33009,7 @@ public struct ListSecurityProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityProfilesOutputBody: Swift.Equatable {
+struct ListSecurityProfilesOutputBody {
     let securityProfileIdentifiers: [IoTClientTypes.SecurityProfileIdentifier]?
     let nextToken: Swift.String?
 }
@@ -33079,7 +33079,7 @@ extension ListStreamsInput {
     }
 }
 
-public struct ListStreamsInput: Swift.Equatable {
+public struct ListStreamsInput {
     /// Set to true to return the list of streams in ascending order.
     public var ascendingOrder: Swift.Bool?
     /// The maximum number of results to return at a time.
@@ -33099,7 +33099,7 @@ public struct ListStreamsInput: Swift.Equatable {
     }
 }
 
-struct ListStreamsInputBody: Swift.Equatable {
+struct ListStreamsInputBody {
 }
 
 extension ListStreamsInputBody: Swift.Decodable {
@@ -33122,7 +33122,7 @@ extension ListStreamsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStreamsOutput: Swift.Equatable {
+public struct ListStreamsOutput {
     /// A token used to get the next set of results.
     public var nextToken: Swift.String?
     /// A list of streams.
@@ -33138,7 +33138,7 @@ public struct ListStreamsOutput: Swift.Equatable {
     }
 }
 
-struct ListStreamsOutputBody: Swift.Equatable {
+struct ListStreamsOutputBody {
     let streams: [IoTClientTypes.StreamSummary]?
     let nextToken: Swift.String?
 }
@@ -33207,7 +33207,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
     public var nextToken: Swift.String?
     /// The ARN of the resource.
@@ -33224,7 +33224,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -33247,7 +33247,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The list of tags assigned to the resource.
@@ -33263,7 +33263,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [IoTClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -33332,7 +33332,7 @@ extension ListTargetsForPolicyInput {
     }
 }
 
-public struct ListTargetsForPolicyInput: Swift.Equatable {
+public struct ListTargetsForPolicyInput {
     /// A marker used to get the next set of results.
     public var marker: Swift.String?
     /// The maximum number of results to return at one time.
@@ -33353,7 +33353,7 @@ public struct ListTargetsForPolicyInput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForPolicyInputBody: Swift.Equatable {
+struct ListTargetsForPolicyInputBody {
 }
 
 extension ListTargetsForPolicyInputBody: Swift.Decodable {
@@ -33376,7 +33376,7 @@ extension ListTargetsForPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTargetsForPolicyOutput: Swift.Equatable {
+public struct ListTargetsForPolicyOutput {
     /// A marker used to get the next set of results.
     public var nextMarker: Swift.String?
     /// The policy targets.
@@ -33392,7 +33392,7 @@ public struct ListTargetsForPolicyOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForPolicyOutputBody: Swift.Equatable {
+struct ListTargetsForPolicyOutputBody {
     let targets: [Swift.String]?
     let nextMarker: Swift.String?
 }
@@ -33464,7 +33464,7 @@ extension ListTargetsForSecurityProfileInput {
     }
 }
 
-public struct ListTargetsForSecurityProfileInput: Swift.Equatable {
+public struct ListTargetsForSecurityProfileInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// The token for the next set of results.
@@ -33485,7 +33485,7 @@ public struct ListTargetsForSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForSecurityProfileInputBody: Swift.Equatable {
+struct ListTargetsForSecurityProfileInputBody {
 }
 
 extension ListTargetsForSecurityProfileInputBody: Swift.Decodable {
@@ -33508,7 +33508,7 @@ extension ListTargetsForSecurityProfileOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListTargetsForSecurityProfileOutput: Swift.Equatable {
+public struct ListTargetsForSecurityProfileOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The thing groups to which the security profile is attached.
@@ -33524,7 +33524,7 @@ public struct ListTargetsForSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct ListTargetsForSecurityProfileOutputBody: Swift.Equatable {
+struct ListTargetsForSecurityProfileOutputBody {
     let securityProfileTargets: [IoTClientTypes.SecurityProfileTarget]?
     let nextToken: Swift.String?
 }
@@ -33593,7 +33593,7 @@ extension ListThingGroupsForThingInput {
     }
 }
 
-public struct ListThingGroupsForThingInput: Swift.Equatable {
+public struct ListThingGroupsForThingInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -33614,7 +33614,7 @@ public struct ListThingGroupsForThingInput: Swift.Equatable {
     }
 }
 
-struct ListThingGroupsForThingInputBody: Swift.Equatable {
+struct ListThingGroupsForThingInputBody {
 }
 
 extension ListThingGroupsForThingInputBody: Swift.Decodable {
@@ -33637,7 +33637,7 @@ extension ListThingGroupsForThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThingGroupsForThingOutput: Swift.Equatable {
+public struct ListThingGroupsForThingOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The thing groups.
@@ -33653,7 +33653,7 @@ public struct ListThingGroupsForThingOutput: Swift.Equatable {
     }
 }
 
-struct ListThingGroupsForThingOutputBody: Swift.Equatable {
+struct ListThingGroupsForThingOutputBody {
     let thingGroups: [IoTClientTypes.GroupNameAndArn]?
     let nextToken: Swift.String?
 }
@@ -33731,7 +33731,7 @@ extension ListThingGroupsInput {
     }
 }
 
-public struct ListThingGroupsInput: Swift.Equatable {
+public struct ListThingGroupsInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// A filter that limits the results to those with the specified name prefix.
@@ -33759,7 +33759,7 @@ public struct ListThingGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListThingGroupsInputBody: Swift.Equatable {
+struct ListThingGroupsInputBody {
 }
 
 extension ListThingGroupsInputBody: Swift.Decodable {
@@ -33782,7 +33782,7 @@ extension ListThingGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThingGroupsOutput: Swift.Equatable {
+public struct ListThingGroupsOutput {
     /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
     public var nextToken: Swift.String?
     /// The thing groups.
@@ -33798,7 +33798,7 @@ public struct ListThingGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListThingGroupsOutputBody: Swift.Equatable {
+struct ListThingGroupsOutputBody {
     let thingGroups: [IoTClientTypes.GroupNameAndArn]?
     let nextToken: Swift.String?
 }
@@ -33868,7 +33868,7 @@ extension ListThingPrincipalsInput {
 }
 
 /// The input for the ListThingPrincipal operation.
-public struct ListThingPrincipalsInput: Swift.Equatable {
+public struct ListThingPrincipalsInput {
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -33889,7 +33889,7 @@ public struct ListThingPrincipalsInput: Swift.Equatable {
     }
 }
 
-struct ListThingPrincipalsInputBody: Swift.Equatable {
+struct ListThingPrincipalsInputBody {
 }
 
 extension ListThingPrincipalsInputBody: Swift.Decodable {
@@ -33913,7 +33913,7 @@ extension ListThingPrincipalsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListThingPrincipals operation.
-public struct ListThingPrincipalsOutput: Swift.Equatable {
+public struct ListThingPrincipalsOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The principals associated with the thing.
@@ -33929,7 +33929,7 @@ public struct ListThingPrincipalsOutput: Swift.Equatable {
     }
 }
 
-struct ListThingPrincipalsOutputBody: Swift.Equatable {
+struct ListThingPrincipalsOutputBody {
     let principals: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -34006,7 +34006,7 @@ extension ListThingRegistrationTaskReportsInput {
     }
 }
 
-public struct ListThingRegistrationTaskReportsInput: Swift.Equatable {
+public struct ListThingRegistrationTaskReportsInput {
     /// The maximum number of results to return per request.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34032,7 +34032,7 @@ public struct ListThingRegistrationTaskReportsInput: Swift.Equatable {
     }
 }
 
-struct ListThingRegistrationTaskReportsInputBody: Swift.Equatable {
+struct ListThingRegistrationTaskReportsInputBody {
 }
 
 extension ListThingRegistrationTaskReportsInputBody: Swift.Decodable {
@@ -34057,7 +34057,7 @@ extension ListThingRegistrationTaskReportsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListThingRegistrationTaskReportsOutput: Swift.Equatable {
+public struct ListThingRegistrationTaskReportsOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The type of task report.
@@ -34077,7 +34077,7 @@ public struct ListThingRegistrationTaskReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListThingRegistrationTaskReportsOutputBody: Swift.Equatable {
+struct ListThingRegistrationTaskReportsOutputBody {
     let resourceLinks: [Swift.String]?
     let reportType: IoTClientTypes.ReportType?
     let nextToken: Swift.String?
@@ -34151,7 +34151,7 @@ extension ListThingRegistrationTasksInput {
     }
 }
 
-public struct ListThingRegistrationTasksInput: Swift.Equatable {
+public struct ListThingRegistrationTasksInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34171,7 +34171,7 @@ public struct ListThingRegistrationTasksInput: Swift.Equatable {
     }
 }
 
-struct ListThingRegistrationTasksInputBody: Swift.Equatable {
+struct ListThingRegistrationTasksInputBody {
 }
 
 extension ListThingRegistrationTasksInputBody: Swift.Decodable {
@@ -34194,7 +34194,7 @@ extension ListThingRegistrationTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThingRegistrationTasksOutput: Swift.Equatable {
+public struct ListThingRegistrationTasksOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A list of bulk thing provisioning task IDs.
@@ -34210,7 +34210,7 @@ public struct ListThingRegistrationTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListThingRegistrationTasksOutputBody: Swift.Equatable {
+struct ListThingRegistrationTasksOutputBody {
     let taskIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -34281,7 +34281,7 @@ extension ListThingTypesInput {
 }
 
 /// The input for the ListThingTypes operation.
-public struct ListThingTypesInput: Swift.Equatable {
+public struct ListThingTypesInput {
     /// The maximum number of results to return in this operation.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34301,7 +34301,7 @@ public struct ListThingTypesInput: Swift.Equatable {
     }
 }
 
-struct ListThingTypesInputBody: Swift.Equatable {
+struct ListThingTypesInputBody {
 }
 
 extension ListThingTypesInputBody: Swift.Decodable {
@@ -34325,7 +34325,7 @@ extension ListThingTypesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output for the ListThingTypes operation.
-public struct ListThingTypesOutput: Swift.Equatable {
+public struct ListThingTypesOutput {
     /// The token for the next set of results. Will not be returned if operation has returned all results.
     public var nextToken: Swift.String?
     /// The thing types.
@@ -34341,7 +34341,7 @@ public struct ListThingTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListThingTypesOutputBody: Swift.Equatable {
+struct ListThingTypesOutputBody {
     let thingTypes: [IoTClientTypes.ThingTypeDefinition]?
     let nextToken: Swift.String?
 }
@@ -34411,7 +34411,7 @@ extension ListThingsInBillingGroupInput {
     }
 }
 
-public struct ListThingsInBillingGroupInput: Swift.Equatable {
+public struct ListThingsInBillingGroupInput {
     /// The name of the billing group.
     /// This member is required.
     public var billingGroupName: Swift.String?
@@ -34432,7 +34432,7 @@ public struct ListThingsInBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct ListThingsInBillingGroupInputBody: Swift.Equatable {
+struct ListThingsInBillingGroupInputBody {
 }
 
 extension ListThingsInBillingGroupInputBody: Swift.Decodable {
@@ -34455,7 +34455,7 @@ extension ListThingsInBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThingsInBillingGroupOutput: Swift.Equatable {
+public struct ListThingsInBillingGroupOutput {
     /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
     public var nextToken: Swift.String?
     /// A list of things in the billing group.
@@ -34471,7 +34471,7 @@ public struct ListThingsInBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListThingsInBillingGroupOutputBody: Swift.Equatable {
+struct ListThingsInBillingGroupOutputBody {
     let things: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -34544,7 +34544,7 @@ extension ListThingsInThingGroupInput {
     }
 }
 
-public struct ListThingsInThingGroupInput: Swift.Equatable {
+public struct ListThingsInThingGroupInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34569,7 +34569,7 @@ public struct ListThingsInThingGroupInput: Swift.Equatable {
     }
 }
 
-struct ListThingsInThingGroupInputBody: Swift.Equatable {
+struct ListThingsInThingGroupInputBody {
 }
 
 extension ListThingsInThingGroupInputBody: Swift.Decodable {
@@ -34592,7 +34592,7 @@ extension ListThingsInThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThingsInThingGroupOutput: Swift.Equatable {
+public struct ListThingsInThingGroupOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The things in the specified thing group.
@@ -34608,7 +34608,7 @@ public struct ListThingsInThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListThingsInThingGroupOutputBody: Swift.Equatable {
+struct ListThingsInThingGroupOutputBody {
     let things: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -34691,7 +34691,7 @@ extension ListThingsInput {
 }
 
 /// The input for the ListThings operation.
-public struct ListThingsInput: Swift.Equatable {
+public struct ListThingsInput {
     /// The attribute name used to search for things.
     public var attributeName: Swift.String?
     /// The attribute value used to search for things.
@@ -34723,7 +34723,7 @@ public struct ListThingsInput: Swift.Equatable {
     }
 }
 
-struct ListThingsInputBody: Swift.Equatable {
+struct ListThingsInputBody {
 }
 
 extension ListThingsInputBody: Swift.Decodable {
@@ -34747,7 +34747,7 @@ extension ListThingsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListThings operation.
-public struct ListThingsOutput: Swift.Equatable {
+public struct ListThingsOutput {
     /// The token to use to get the next set of results. Will not be returned if operation has returned all results.
     public var nextToken: Swift.String?
     /// The things.
@@ -34763,7 +34763,7 @@ public struct ListThingsOutput: Swift.Equatable {
     }
 }
 
-struct ListThingsOutputBody: Swift.Equatable {
+struct ListThingsOutputBody {
     let things: [IoTClientTypes.ThingAttribute]?
     let nextToken: Swift.String?
 }
@@ -34830,7 +34830,7 @@ extension ListTopicRuleDestinationsInput {
     }
 }
 
-public struct ListTopicRuleDestinationsInput: Swift.Equatable {
+public struct ListTopicRuleDestinationsInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34846,7 +34846,7 @@ public struct ListTopicRuleDestinationsInput: Swift.Equatable {
     }
 }
 
-struct ListTopicRuleDestinationsInputBody: Swift.Equatable {
+struct ListTopicRuleDestinationsInputBody {
 }
 
 extension ListTopicRuleDestinationsInputBody: Swift.Decodable {
@@ -34869,7 +34869,7 @@ extension ListTopicRuleDestinationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTopicRuleDestinationsOutput: Swift.Equatable {
+public struct ListTopicRuleDestinationsOutput {
     /// Information about a topic rule destination.
     public var destinationSummaries: [IoTClientTypes.TopicRuleDestinationSummary]?
     /// The token to use to get the next set of results, or null if there are no additional results.
@@ -34885,7 +34885,7 @@ public struct ListTopicRuleDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct ListTopicRuleDestinationsOutputBody: Swift.Equatable {
+struct ListTopicRuleDestinationsOutputBody {
     let destinationSummaries: [IoTClientTypes.TopicRuleDestinationSummary]?
     let nextToken: Swift.String?
 }
@@ -34960,7 +34960,7 @@ extension ListTopicRulesInput {
 }
 
 /// The input for the ListTopicRules operation.
-public struct ListTopicRulesInput: Swift.Equatable {
+public struct ListTopicRulesInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -34984,7 +34984,7 @@ public struct ListTopicRulesInput: Swift.Equatable {
     }
 }
 
-struct ListTopicRulesInputBody: Swift.Equatable {
+struct ListTopicRulesInputBody {
 }
 
 extension ListTopicRulesInputBody: Swift.Decodable {
@@ -35008,7 +35008,7 @@ extension ListTopicRulesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the ListTopicRules operation.
-public struct ListTopicRulesOutput: Swift.Equatable {
+public struct ListTopicRulesOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The rules.
@@ -35024,7 +35024,7 @@ public struct ListTopicRulesOutput: Swift.Equatable {
     }
 }
 
-struct ListTopicRulesOutputBody: Swift.Equatable {
+struct ListTopicRulesOutputBody {
     let rules: [IoTClientTypes.TopicRuleListItem]?
     let nextToken: Swift.String?
 }
@@ -35093,7 +35093,7 @@ extension ListV2LoggingLevelsInput {
     }
 }
 
-public struct ListV2LoggingLevelsInput: Swift.Equatable {
+public struct ListV2LoggingLevelsInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -35113,7 +35113,7 @@ public struct ListV2LoggingLevelsInput: Swift.Equatable {
     }
 }
 
-struct ListV2LoggingLevelsInputBody: Swift.Equatable {
+struct ListV2LoggingLevelsInputBody {
 }
 
 extension ListV2LoggingLevelsInputBody: Swift.Decodable {
@@ -35136,7 +35136,7 @@ extension ListV2LoggingLevelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListV2LoggingLevelsOutput: Swift.Equatable {
+public struct ListV2LoggingLevelsOutput {
     /// The logging configuration for a target.
     public var logTargetConfigurations: [IoTClientTypes.LogTargetConfiguration]?
     /// The token to use to get the next set of results, or null if there are no additional results.
@@ -35152,7 +35152,7 @@ public struct ListV2LoggingLevelsOutput: Swift.Equatable {
     }
 }
 
-struct ListV2LoggingLevelsOutputBody: Swift.Equatable {
+struct ListV2LoggingLevelsOutputBody {
     let logTargetConfigurations: [IoTClientTypes.LogTargetConfiguration]?
     let nextToken: Swift.String?
 }
@@ -35250,7 +35250,7 @@ extension ListViolationEventsInput {
     }
 }
 
-public struct ListViolationEventsInput: Swift.Equatable {
+public struct ListViolationEventsInput {
     /// The criteria for a behavior.
     public var behaviorCriteriaType: IoTClientTypes.BehaviorCriteriaType?
     /// The end time for the alerts to be listed.
@@ -35296,7 +35296,7 @@ public struct ListViolationEventsInput: Swift.Equatable {
     }
 }
 
-struct ListViolationEventsInputBody: Swift.Equatable {
+struct ListViolationEventsInputBody {
 }
 
 extension ListViolationEventsInputBody: Swift.Decodable {
@@ -35319,7 +35319,7 @@ extension ListViolationEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListViolationEventsOutput: Swift.Equatable {
+public struct ListViolationEventsOutput {
     /// A token that can be used to retrieve the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The security profile violation alerts issued for this account during the given time period, potentially filtered by security profile, behavior violated, or thing (device) violating.
@@ -35335,7 +35335,7 @@ public struct ListViolationEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListViolationEventsOutputBody: Swift.Equatable {
+struct ListViolationEventsOutputBody {
     let violationEvents: [IoTClientTypes.ViolationEvent]?
     let nextToken: Swift.String?
 }
@@ -35428,7 +35428,7 @@ extension IoTClientTypes.LocationAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// The Amazon Location rule action sends device location updates from an MQTT message to an Amazon Location tracker resource.
-    public struct LocationAction: Swift.Equatable {
+    public struct LocationAction {
         /// The unique ID of the device providing the location data.
         /// This member is required.
         public var deviceId: Swift.String?
@@ -35494,7 +35494,7 @@ extension IoTClientTypes.LocationTimestamp: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes how to interpret an application-defined timestamp value from an MQTT message payload and the precision of that value.
-    public struct LocationTimestamp: Swift.Equatable {
+    public struct LocationTimestamp {
         /// The precision of the timestamp value that results from the expression described in value. Valid values: SECONDS | MILLISECONDS | MICROSECONDS | NANOSECONDS. The default is MILLISECONDS.
         public var unit: Swift.String?
         /// An expression that returns a long epoch time value.
@@ -35581,7 +35581,7 @@ extension IoTClientTypes.LogTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// A log target.
-    public struct LogTarget: Swift.Equatable {
+    public struct LogTarget {
         /// The target name.
         public var targetName: Swift.String?
         /// The target type.
@@ -35627,7 +35627,7 @@ extension IoTClientTypes.LogTargetConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// The target configuration.
-    public struct LogTargetConfiguration: Swift.Equatable {
+    public struct LogTargetConfiguration {
         /// The logging level.
         public var logLevel: IoTClientTypes.LogLevel?
         /// A log target
@@ -35713,7 +35713,7 @@ extension IoTClientTypes.LoggingOptionsPayload: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the logging options payload.
-    public struct LoggingOptionsPayload: Swift.Equatable {
+    public struct LoggingOptionsPayload {
         /// The log level.
         public var logLevel: IoTClientTypes.LogLevel?
         /// The ARN of the IAM role that grants access.
@@ -35753,7 +35753,7 @@ extension IoTClientTypes.MachineLearningDetectionConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The configuration of an ML Detect Security Profile.
-    public struct MachineLearningDetectionConfig: Swift.Equatable {
+    public struct MachineLearningDetectionConfig {
         /// The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
         /// This member is required.
         public var confidenceLevel: IoTClientTypes.ConfidenceLevel?
@@ -35795,7 +35795,7 @@ extension IoTClientTypes.MaintenanceWindow: Swift.Codable {
 
 extension IoTClientTypes {
     /// An optional configuration within the SchedulingConfig to setup a recurring maintenance window with a predetermined start time and duration for the rollout of a job document to all devices in a target group for a job.
-    public struct MaintenanceWindow: Swift.Equatable {
+    public struct MaintenanceWindow {
         /// Displays the duration of the next maintenance window.
         /// This member is required.
         public var durationInMinutes: Swift.Int?
@@ -35855,7 +35855,7 @@ public struct MalformedPolicyException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct MalformedPolicyExceptionBody: Swift.Equatable {
+struct MalformedPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -35928,7 +35928,7 @@ extension IoTClientTypes.ManagedJobTemplateSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// An object that contains information about the managed template.
-    public struct ManagedJobTemplateSummary: Swift.Equatable {
+    public struct ManagedJobTemplateSummary {
         /// The description for a managed template.
         public var description: Swift.String?
         /// A list of environments that are supported with the managed job template.
@@ -36017,7 +36017,7 @@ extension IoTClientTypes.MetricDatum: Swift.Codable {
 
 extension IoTClientTypes {
     /// A metric.
-    public struct MetricDatum: Swift.Equatable {
+    public struct MetricDatum {
         /// The time the metric value was reported.
         public var timestamp: ClientRuntime.Date?
         /// The value reported for the metric.
@@ -36062,7 +36062,7 @@ extension IoTClientTypes.MetricDimension: Swift.Codable {
 
 extension IoTClientTypes {
     /// The dimension of a metric.
-    public struct MetricDimension: Swift.Equatable {
+    public struct MetricDimension {
         /// A unique identifier for the dimension.
         /// This member is required.
         public var dimensionName: Swift.String?
@@ -36114,7 +36114,7 @@ extension IoTClientTypes.MetricToRetain: Swift.Codable {
 
 extension IoTClientTypes {
     /// The metric you want to retain. Dimensions are optional.
-    public struct MetricToRetain: Swift.Equatable {
+    public struct MetricToRetain {
         /// The value indicates exporting metrics related to the MetricToRetain  when it's true.
         public var exportMetric: Swift.Bool?
         /// What is measured by the behavior.
@@ -36236,7 +36236,7 @@ extension IoTClientTypes.MetricValue: Swift.Codable {
 
 extension IoTClientTypes {
     /// The value to be compared with the metric.
-    public struct MetricValue: Swift.Equatable {
+    public struct MetricValue {
         /// If the comparisonOperator calls for a set of CIDRs, use this to specify that set to be compared with the metric.
         public var cidrs: [Swift.String]?
         /// If the comparisonOperator calls for a numeric value, use this to specify that numeric value to be compared with the metric.
@@ -36297,7 +36297,7 @@ extension IoTClientTypes.MetricsExportConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Set configurations for metrics export.
-    public struct MetricsExportConfig: Swift.Equatable {
+    public struct MetricsExportConfig {
         /// The MQTT topic that Device Defender Detect should publish messages to for metrics export.
         /// This member is required.
         public var mqttTopic: Swift.String?
@@ -36356,7 +36356,7 @@ extension IoTClientTypes.MitigationAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes which changes should be applied as part of a mitigation action.
-    public struct MitigationAction: Swift.Equatable {
+    public struct MitigationAction {
         /// The set of parameters for this mitigation action. The parameters vary, depending on the kind of action you apply.
         public var actionParams: IoTClientTypes.MitigationActionParams?
         /// A unique identifier for the mitigation action.
@@ -36415,7 +36415,7 @@ extension IoTClientTypes.MitigationActionIdentifier: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information that identifies a mitigation action. This information is returned by ListMitigationActions.
-    public struct MitigationActionIdentifier: Swift.Equatable {
+    public struct MitigationActionIdentifier {
         /// The IAM role ARN used to apply this mitigation action.
         public var actionArn: Swift.String?
         /// The friendly name of the mitigation action.
@@ -36488,7 +36488,7 @@ extension IoTClientTypes.MitigationActionParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// The set of parameters for this mitigation action. You can specify only one type of parameter (in other words, you can apply only one action for each defined mitigation action).
-    public struct MitigationActionParams: Swift.Equatable {
+    public struct MitigationActionParams {
         /// Parameters to define a mitigation action that moves devices associated with a certificate to one or more specified thing groups, typically for quarantine.
         public var addThingsToThingGroupParams: IoTClientTypes.AddThingsToThingGroupParams?
         /// Parameters to define a mitigation action that enables Amazon Web Services IoT Core logging at a specified level of detail.
@@ -36634,7 +36634,7 @@ extension IoTClientTypes.MqttContext: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the MQTT context to use for the test authorizer request
-    public struct MqttContext: Swift.Equatable {
+    public struct MqttContext {
         /// The value of the clientId key in an MQTT authorization request.
         public var clientId: Swift.String?
         /// The value of the password key in an MQTT authorization request.
@@ -36719,7 +36719,7 @@ extension IoTClientTypes.MqttHeaders: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies MQTT Version 5.0 headers information. For more information, see [ MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) from Amazon Web Services IoT Core Developer Guide.
-    public struct MqttHeaders: Swift.Equatable {
+    public struct MqttHeaders {
         /// A UTF-8 encoded string that describes the content of the publishing message. For more information, see [ Content Type](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901118) from the MQTT Version 5.0 specification. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
         public var contentType: Swift.String?
         /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. For more information, see [ Correlation Data](https://docs.oasis-open.org/mqtt/mqtt/v5.0/os/mqtt-v5.0-os.html#_Toc3901115) from the MQTT Version 5.0 specification. This binary data must be based64-encoded. Supports [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
@@ -36830,7 +36830,7 @@ extension IoTClientTypes.NonCompliantResource: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the resource that was noncompliant with the audit check.
-    public struct NonCompliantResource: Swift.Equatable {
+    public struct NonCompliantResource {
         /// Other information about the noncompliant resource.
         public var additionalInfo: [Swift.String:Swift.String]?
         /// Information that identifies the noncompliant resource.
@@ -36892,7 +36892,7 @@ public struct NotConfiguredException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct NotConfiguredExceptionBody: Swift.Equatable {
+struct NotConfiguredExceptionBody {
     let message: Swift.String?
 }
 
@@ -36971,7 +36971,7 @@ extension IoTClientTypes.OTAUpdateFile: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a file to be associated with an OTA update.
-    public struct OTAUpdateFile: Swift.Equatable {
+    public struct OTAUpdateFile {
         /// A list of name-attribute pairs. They won't be sent to devices as a part of the Job document.
         public var attributes: [Swift.String:Swift.String]?
         /// The code signing method of the file.
@@ -37164,7 +37164,7 @@ extension IoTClientTypes.OTAUpdateInfo: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about an OTA update.
-    public struct OTAUpdateInfo: Swift.Equatable {
+    public struct OTAUpdateInfo {
         /// A collection of name/value pairs
         public var additionalParameters: [Swift.String:Swift.String]?
         /// The IoT job ARN associated with the OTA update.
@@ -37315,7 +37315,7 @@ extension IoTClientTypes.OTAUpdateSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// An OTA update summary.
-    public struct OTAUpdateSummary: Swift.Equatable {
+    public struct OTAUpdateSummary {
         /// The date when the OTA update was created.
         public var creationDate: ClientRuntime.Date?
         /// The OTA update ARN.
@@ -37382,7 +37382,7 @@ extension IoTClientTypes.OpenSearchAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action that writes data to an Amazon OpenSearch Service domain.
-    public struct OpenSearchAction: Swift.Equatable {
+    public struct OpenSearchAction {
         /// The endpoint of your OpenSearch domain.
         /// This member is required.
         public var endpoint: Swift.String?
@@ -37468,7 +37468,7 @@ extension IoTClientTypes.OutgoingCertificate: Swift.Codable {
 
 extension IoTClientTypes {
     /// A certificate that has been transferred but not yet accepted.
-    public struct OutgoingCertificate: Swift.Equatable {
+    public struct OutgoingCertificate {
         /// The certificate ARN.
         public var certificateArn: Swift.String?
         /// The certificate ID.
@@ -37541,7 +37541,7 @@ extension IoTClientTypes.PackageSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// A summary of information about a software package.
-    public struct PackageSummary: Swift.Equatable {
+    public struct PackageSummary {
         /// The date that the package was created.
         public var creationDate: ClientRuntime.Date?
         /// The name of the default package version.
@@ -37679,7 +37679,7 @@ extension IoTClientTypes.PackageVersionSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// A summary of information about a package version.
-    public struct PackageVersionSummary: Swift.Equatable {
+    public struct PackageVersionSummary {
         /// The date that the package version was created.
         public var creationDate: ClientRuntime.Date?
         /// The date that the package version was last updated.
@@ -37736,7 +37736,7 @@ extension IoTClientTypes.PercentPair: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the percentile and percentile value.
-    public struct PercentPair: Swift.Equatable {
+    public struct PercentPair {
         /// The percentile.
         public var percent: Swift.Double
         /// The value of the percentile.
@@ -37781,7 +37781,7 @@ extension IoTClientTypes.Policy: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an IoT policy.
-    public struct Policy: Swift.Equatable {
+    public struct Policy {
         /// The policy ARN.
         public var policyArn: Swift.String?
         /// The policy name.
@@ -37861,7 +37861,7 @@ extension IoTClientTypes.PolicyVersion: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a policy version.
-    public struct PolicyVersion: Swift.Equatable {
+    public struct PolicyVersion {
         /// The date and time the policy was created.
         public var createDate: ClientRuntime.Date?
         /// Specifies whether the policy version is the default.
@@ -37910,7 +37910,7 @@ extension IoTClientTypes.PolicyVersionIdentifier: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the version of the policy associated with the resource.
-    public struct PolicyVersionIdentifier: Swift.Equatable {
+    public struct PolicyVersionIdentifier {
         /// The name of the policy.
         public var policyName: Swift.String?
         /// The ID of the version of the policy associated with the resource.
@@ -37955,7 +37955,7 @@ extension IoTClientTypes.PresignedUrlConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration for pre-signed S3 URLs.
-    public struct PresignedUrlConfig: Swift.Equatable {
+    public struct PresignedUrlConfig {
         /// How long (in seconds) pre-signed URLs are valid. Valid values are 60 - 3600, the default value is 3600 seconds. Pre-signed URLs are generated when Jobs receives an MQTT request for the job document.
         public var expiresInSec: Swift.Int?
         /// The ARN of an IAM role that grants permission to download files from the S3 bucket where the job data/updates are stored. The role must also grant permission for IoT to download the files. For information about addressing the confused deputy problem, see [cross-service confused deputy prevention](https://docs.aws.amazon.com/iot/latest/developerguide/cross-service-confused-deputy-prevention.html) in the Amazon Web Services IoT Core developer guide.
@@ -38032,7 +38032,7 @@ extension IoTClientTypes.ProvisioningHook: Swift.Codable {
 
 extension IoTClientTypes {
     /// Structure that contains payloadVersion and targetArn.
-    public struct ProvisioningHook: Swift.Equatable {
+    public struct ProvisioningHook {
         /// The payload that was sent to the target function. Note: Only Lambda functions are currently supported.
         public var payloadVersion: Swift.String?
         /// The ARN of the target function. Note: Only Lambda functions are currently supported.
@@ -38108,7 +38108,7 @@ extension IoTClientTypes.ProvisioningTemplateSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// A summary of information about a provisioning template.
-    public struct ProvisioningTemplateSummary: Swift.Equatable {
+    public struct ProvisioningTemplateSummary {
         /// The date when the provisioning template summary was created.
         public var creationDate: ClientRuntime.Date?
         /// The description of the provisioning template.
@@ -38179,7 +38179,7 @@ extension IoTClientTypes.ProvisioningTemplateVersionSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// A summary of information about a fleet provision template version.
-    public struct ProvisioningTemplateVersionSummary: Swift.Equatable {
+    public struct ProvisioningTemplateVersionSummary {
         /// The date when the provisioning template version was created
         public var creationDate: ClientRuntime.Date?
         /// True if the provisioning template version is the default version, otherwise false.
@@ -38222,7 +38222,7 @@ extension IoTClientTypes.PublishFindingToSnsParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters to define a mitigation action that publishes findings to Amazon SNS. You can implement your own custom actions in response to the Amazon SNS messages.
-    public struct PublishFindingToSnsParams: Swift.Equatable {
+    public struct PublishFindingToSnsParams {
         /// The ARN of the topic to which you want to publish the findings.
         /// This member is required.
         public var topicArn: Swift.String?
@@ -38294,7 +38294,7 @@ extension IoTClientTypes.PutAssetPropertyValueEntry: Swift.Codable {
 
 extension IoTClientTypes {
     /// An asset property value entry containing the following information.
-    public struct PutAssetPropertyValueEntry: Swift.Equatable {
+    public struct PutAssetPropertyValueEntry {
         /// The ID of the IoT SiteWise asset. You must specify either a propertyAlias or both an aliasId and a propertyId. Accepts substitution templates.
         public var assetId: Swift.String?
         /// Optional. A unique identifier for this entry that you can define to better track which message caused an error in case of failure. Accepts substitution templates. Defaults to a new UUID.
@@ -38346,7 +38346,7 @@ extension IoTClientTypes.PutItemInput: Swift.Codable {
 
 extension IoTClientTypes {
     /// The input for the DynamoActionVS action that specifies the DynamoDB table to which the message data will be written.
-    public struct PutItemInput: Swift.Equatable {
+    public struct PutItemInput {
         /// The table where the message data will be written.
         /// This member is required.
         public var tableName: Swift.String?
@@ -38388,7 +38388,7 @@ extension PutVerificationStateOnViolationInput {
     }
 }
 
-public struct PutVerificationStateOnViolationInput: Swift.Equatable {
+public struct PutVerificationStateOnViolationInput {
     /// The verification state of the violation.
     /// This member is required.
     public var verificationState: IoTClientTypes.VerificationState?
@@ -38410,7 +38410,7 @@ public struct PutVerificationStateOnViolationInput: Swift.Equatable {
     }
 }
 
-struct PutVerificationStateOnViolationInputBody: Swift.Equatable {
+struct PutVerificationStateOnViolationInputBody {
     let verificationState: IoTClientTypes.VerificationState?
     let verificationStateDescription: Swift.String?
 }
@@ -38435,7 +38435,7 @@ extension PutVerificationStateOnViolationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutVerificationStateOnViolationOutput: Swift.Equatable {
+public struct PutVerificationStateOnViolationOutput {
 
     public init() { }
 }
@@ -38480,7 +38480,7 @@ extension IoTClientTypes.RateIncreaseCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// Allows you to define a criteria to initiate the increase in rate of rollout for a job.
-    public struct RateIncreaseCriteria: Swift.Equatable {
+    public struct RateIncreaseCriteria {
         /// The threshold for number of notified things that will initiate the increase in rate of rollout.
         public var numberOfNotifiedThings: Swift.Int?
         /// The threshold for number of succeeded things that will initiate the increase in rate of rollout.
@@ -38554,7 +38554,7 @@ extension RegisterCACertificateInput {
 }
 
 /// The input to the RegisterCACertificate operation.
-public struct RegisterCACertificateInput: Swift.Equatable {
+public struct RegisterCACertificateInput {
     /// Allows this CA certificate to be used for auto registration of device certificates.
     public var allowAutoRegistration: Swift.Bool?
     /// The CA certificate.
@@ -38591,7 +38591,7 @@ public struct RegisterCACertificateInput: Swift.Equatable {
     }
 }
 
-struct RegisterCACertificateInputBody: Swift.Equatable {
+struct RegisterCACertificateInputBody {
     let caCertificate: Swift.String?
     let verificationCertificate: Swift.String?
     let registrationConfig: IoTClientTypes.RegistrationConfig?
@@ -38647,7 +38647,7 @@ extension RegisterCACertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the RegisterCACertificateResponse operation.
-public struct RegisterCACertificateOutput: Swift.Equatable {
+public struct RegisterCACertificateOutput {
     /// The CA certificate ARN.
     public var certificateArn: Swift.String?
     /// The CA certificate identifier.
@@ -38663,7 +38663,7 @@ public struct RegisterCACertificateOutput: Swift.Equatable {
     }
 }
 
-struct RegisterCACertificateOutputBody: Swift.Equatable {
+struct RegisterCACertificateOutputBody {
     let certificateArn: Swift.String?
     let certificateId: Swift.String?
 }
@@ -38744,7 +38744,7 @@ extension RegisterCertificateInput {
 }
 
 /// The input to the RegisterCertificate operation.
-public struct RegisterCertificateInput: Swift.Equatable {
+public struct RegisterCertificateInput {
     /// The CA certificate used to sign the device certificate being registered.
     public var caCertificatePem: Swift.String?
     /// The certificate data, in PEM format.
@@ -38770,7 +38770,7 @@ public struct RegisterCertificateInput: Swift.Equatable {
     }
 }
 
-struct RegisterCertificateInputBody: Swift.Equatable {
+struct RegisterCertificateInputBody {
     let certificatePem: Swift.String?
     let caCertificatePem: Swift.String?
     let status: IoTClientTypes.CertificateStatus?
@@ -38809,7 +38809,7 @@ extension RegisterCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the RegisterCertificate operation.
-public struct RegisterCertificateOutput: Swift.Equatable {
+public struct RegisterCertificateOutput {
     /// The certificate ARN.
     public var certificateArn: Swift.String?
     /// The certificate identifier.
@@ -38825,7 +38825,7 @@ public struct RegisterCertificateOutput: Swift.Equatable {
     }
 }
 
-struct RegisterCertificateOutputBody: Swift.Equatable {
+struct RegisterCertificateOutputBody {
     let certificateArn: Swift.String?
     let certificateId: Swift.String?
 }
@@ -38888,7 +38888,7 @@ extension RegisterCertificateWithoutCAInput {
     }
 }
 
-public struct RegisterCertificateWithoutCAInput: Swift.Equatable {
+public struct RegisterCertificateWithoutCAInput {
     /// The certificate data, in PEM format.
     /// This member is required.
     public var certificatePem: Swift.String?
@@ -38905,7 +38905,7 @@ public struct RegisterCertificateWithoutCAInput: Swift.Equatable {
     }
 }
 
-struct RegisterCertificateWithoutCAInputBody: Swift.Equatable {
+struct RegisterCertificateWithoutCAInputBody {
     let certificatePem: Swift.String?
     let status: IoTClientTypes.CertificateStatus?
 }
@@ -38939,7 +38939,7 @@ extension RegisterCertificateWithoutCAOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RegisterCertificateWithoutCAOutput: Swift.Equatable {
+public struct RegisterCertificateWithoutCAOutput {
     /// The Amazon Resource Name (ARN) of the registered certificate.
     public var certificateArn: Swift.String?
     /// The ID of the registered certificate. (The last part of the certificate ARN contains the certificate ID.
@@ -38955,7 +38955,7 @@ public struct RegisterCertificateWithoutCAOutput: Swift.Equatable {
     }
 }
 
-struct RegisterCertificateWithoutCAOutputBody: Swift.Equatable {
+struct RegisterCertificateWithoutCAOutputBody {
     let certificateArn: Swift.String?
     let certificateId: Swift.String?
 }
@@ -39020,7 +39020,7 @@ extension RegisterThingInput {
     }
 }
 
-public struct RegisterThingInput: Swift.Equatable {
+public struct RegisterThingInput {
     /// The parameters for provisioning a thing. See [Provisioning Templates](https://docs.aws.amazon.com/iot/latest/developerguide/provision-template.html) for more information.
     public var parameters: [Swift.String:Swift.String]?
     /// The provisioning template. See [Provisioning Devices That Have Device Certificates](https://docs.aws.amazon.com/iot/latest/developerguide/provision-w-cert.html) for more information.
@@ -39037,7 +39037,7 @@ public struct RegisterThingInput: Swift.Equatable {
     }
 }
 
-struct RegisterThingInputBody: Swift.Equatable {
+struct RegisterThingInputBody {
     let templateBody: Swift.String?
     let parameters: [Swift.String:Swift.String]?
 }
@@ -39080,7 +39080,7 @@ extension RegisterThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterThingOutput: Swift.Equatable {
+public struct RegisterThingOutput {
     /// The certificate data, in PEM format.
     public var certificatePem: Swift.String?
     /// ARNs for the generated resources.
@@ -39096,7 +39096,7 @@ public struct RegisterThingOutput: Swift.Equatable {
     }
 }
 
-struct RegisterThingOutputBody: Swift.Equatable {
+struct RegisterThingOutputBody {
     let certificatePem: Swift.String?
     let resourceArns: [Swift.String:Swift.String]?
 }
@@ -39182,7 +39182,7 @@ public struct RegistrationCodeValidationException: ClientRuntime.ModeledError, A
     }
 }
 
-struct RegistrationCodeValidationExceptionBody: Swift.Equatable {
+struct RegistrationCodeValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -39231,7 +39231,7 @@ extension IoTClientTypes.RegistrationConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The registration configuration.
-    public struct RegistrationConfig: Swift.Equatable {
+    public struct RegistrationConfig {
         /// The ARN of the role.
         public var roleArn: Swift.String?
         /// The template body.
@@ -39277,7 +39277,7 @@ extension RejectCertificateTransferInput {
 }
 
 /// The input for the RejectCertificateTransfer operation.
-public struct RejectCertificateTransferInput: Swift.Equatable {
+public struct RejectCertificateTransferInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -39294,7 +39294,7 @@ public struct RejectCertificateTransferInput: Swift.Equatable {
     }
 }
 
-struct RejectCertificateTransferInputBody: Swift.Equatable {
+struct RejectCertificateTransferInputBody {
     let rejectReason: Swift.String?
 }
 
@@ -39315,7 +39315,7 @@ extension RejectCertificateTransferOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectCertificateTransferOutput: Swift.Equatable {
+public struct RejectCertificateTransferOutput {
 
     public init() { }
 }
@@ -39382,7 +39382,7 @@ extension IoTClientTypes.RelatedResource: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about a related resource.
-    public struct RelatedResource: Swift.Equatable {
+    public struct RelatedResource {
         /// Other information about the resource.
         public var additionalInfo: [Swift.String:Swift.String]?
         /// Information that identifies the resource.
@@ -39436,7 +39436,7 @@ extension RemoveThingFromBillingGroupInput {
     }
 }
 
-public struct RemoveThingFromBillingGroupInput: Swift.Equatable {
+public struct RemoveThingFromBillingGroupInput {
     /// The ARN of the billing group.
     public var billingGroupArn: Swift.String?
     /// The name of the billing group.
@@ -39460,7 +39460,7 @@ public struct RemoveThingFromBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct RemoveThingFromBillingGroupInputBody: Swift.Equatable {
+struct RemoveThingFromBillingGroupInputBody {
     let billingGroupName: Swift.String?
     let billingGroupArn: Swift.String?
     let thingName: Swift.String?
@@ -39493,7 +39493,7 @@ extension RemoveThingFromBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveThingFromBillingGroupOutput: Swift.Equatable {
+public struct RemoveThingFromBillingGroupOutput {
 
     public init() { }
 }
@@ -39544,7 +39544,7 @@ extension RemoveThingFromThingGroupInput {
     }
 }
 
-public struct RemoveThingFromThingGroupInput: Swift.Equatable {
+public struct RemoveThingFromThingGroupInput {
     /// The ARN of the thing to remove from the group.
     public var thingArn: Swift.String?
     /// The group ARN.
@@ -39568,7 +39568,7 @@ public struct RemoveThingFromThingGroupInput: Swift.Equatable {
     }
 }
 
-struct RemoveThingFromThingGroupInputBody: Swift.Equatable {
+struct RemoveThingFromThingGroupInputBody {
     let thingGroupName: Swift.String?
     let thingGroupArn: Swift.String?
     let thingName: Swift.String?
@@ -39601,7 +39601,7 @@ extension RemoveThingFromThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveThingFromThingGroupOutput: Swift.Equatable {
+public struct RemoveThingFromThingGroupOutput {
 
     public init() { }
 }
@@ -39641,7 +39641,7 @@ extension IoTClientTypes.ReplaceDefaultPolicyVersionParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters to define a mitigation action that adds a blank policy to restrict permissions.
-    public struct ReplaceDefaultPolicyVersionParams: Swift.Equatable {
+    public struct ReplaceDefaultPolicyVersionParams {
         /// The name of the template to be applied. The only supported value is BLANK_POLICY.
         /// This member is required.
         public var templateName: IoTClientTypes.PolicyTemplateName?
@@ -39680,7 +39680,7 @@ extension ReplaceTopicRuleInput {
 }
 
 /// The input for the ReplaceTopicRule operation.
-public struct ReplaceTopicRuleInput: Swift.Equatable {
+public struct ReplaceTopicRuleInput {
     /// The name of the rule.
     /// This member is required.
     public var ruleName: Swift.String?
@@ -39698,7 +39698,7 @@ public struct ReplaceTopicRuleInput: Swift.Equatable {
     }
 }
 
-struct ReplaceTopicRuleInputBody: Swift.Equatable {
+struct ReplaceTopicRuleInputBody {
     let topicRulePayload: IoTClientTypes.TopicRulePayload?
 }
 
@@ -39719,7 +39719,7 @@ extension ReplaceTopicRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReplaceTopicRuleOutput: Swift.Equatable {
+public struct ReplaceTopicRuleOutput {
 
     public init() { }
 }
@@ -39811,7 +39811,7 @@ extension IoTClientTypes.RepublishAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to republish to another topic.
-    public struct RepublishAction: Swift.Equatable {
+    public struct RepublishAction {
         /// MQTT Version 5.0 headers information. For more information, see [ MQTT](https://docs.aws.amazon.com/iot/latest/developerguide/mqtt.html) from the Amazon Web Services IoT Core Developer Guide.
         public var headers: IoTClientTypes.MqttHeaders?
         /// The Quality of Service (QoS) level to use when republishing messages. The default value is 0.
@@ -39891,7 +39891,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceArn: Swift.String?
@@ -39990,7 +39990,7 @@ extension IoTClientTypes.ResourceIdentifier: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information that identifies the noncompliant resource.
-    public struct ResourceIdentifier: Swift.Equatable {
+    public struct ResourceIdentifier {
         /// The account with which the resource is associated.
         public var account: Swift.String?
         /// The ID of the CA certificate used to authorize the certificate.
@@ -40080,7 +40080,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -40136,7 +40136,7 @@ public struct ResourceRegistrationFailureException: ClientRuntime.ModeledError, 
     }
 }
 
-struct ResourceRegistrationFailureExceptionBody: Swift.Equatable {
+struct ResourceRegistrationFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -40232,7 +40232,7 @@ extension IoTClientTypes.RetryCriteria: Swift.Codable {
 
 extension IoTClientTypes {
     /// The criteria that determines how many retries are allowed for each failure type for a job.
-    public struct RetryCriteria: Swift.Equatable {
+    public struct RetryCriteria {
         /// The type of job execution failures that can initiate a job retry.
         /// This member is required.
         public var failureType: IoTClientTypes.RetryableFailureType?
@@ -40344,7 +40344,7 @@ extension IoTClientTypes.RoleAliasDescription: Swift.Codable {
 
 extension IoTClientTypes {
     /// Role alias description.
-    public struct RoleAliasDescription: Swift.Equatable {
+    public struct RoleAliasDescription {
         /// The UNIX timestamp of when the role alias was created.
         public var creationDate: ClientRuntime.Date?
         /// The number of seconds for which the credential is valid.
@@ -40421,7 +40421,7 @@ extension IoTClientTypes.S3Action: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to write data to an Amazon S3 bucket.
-    public struct S3Action: Swift.Equatable {
+    public struct S3Action {
         /// The Amazon S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -40477,7 +40477,7 @@ extension IoTClientTypes.S3Destination: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the location of updated firmware in S3.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The S3 bucket that contains the updated firmware.
         public var bucket: Swift.String?
         /// The S3 prefix.
@@ -40528,7 +40528,7 @@ extension IoTClientTypes.S3Location: Swift.Codable {
 
 extension IoTClientTypes {
     /// The S3 location.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The S3 bucket.
         public var bucket: Swift.String?
         /// The S3 key.
@@ -40577,7 +40577,7 @@ extension IoTClientTypes.SalesforceAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to write a message to a Salesforce IoT Cloud Input Stream.
-    public struct SalesforceAction: Swift.Equatable {
+    public struct SalesforceAction {
         /// The token used to authenticate access to the Salesforce IoT Cloud Input Stream. The token is available from the Salesforce IoT Cloud platform after creation of the Input Stream.
         /// This member is required.
         public var token: Swift.String?
@@ -40642,7 +40642,7 @@ extension IoTClientTypes.ScheduledAuditMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the scheduled audit.
-    public struct ScheduledAuditMetadata: Swift.Equatable {
+    public struct ScheduledAuditMetadata {
         /// The day of the month on which the scheduled audit is run (if the frequency is "MONTHLY"). If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
         public var dayOfMonth: Swift.String?
         /// The day of the week on which the scheduled audit is run (if the frequency is "WEEKLY" or "BIWEEKLY").
@@ -40693,7 +40693,7 @@ extension IoTClientTypes.ScheduledJobRollout: Swift.Codable {
 
 extension IoTClientTypes {
     /// Displays the next seven maintenance window occurrences and their start times.
-    public struct ScheduledJobRollout: Swift.Equatable {
+    public struct ScheduledJobRollout {
         /// Displays the start times of the next seven maintenance window occurrences.
         public var startTime: Swift.String?
 
@@ -40758,7 +40758,7 @@ extension IoTClientTypes.SchedulingConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the date and time that a job will begin the rollout of the job document to all devices in the target group. Additionally, you can specify the end behavior for each job execution when it reaches the scheduled end time.
-    public struct SchedulingConfig: Swift.Equatable {
+    public struct SchedulingConfig {
         /// Specifies the end behavior for all job executions after a job reaches the selected endTime. If endTime is not selected when creating the job, then endBehavior does not apply.
         public var endBehavior: IoTClientTypes.JobEndBehavior?
         /// The time a job will stop rollout of the job document to all devices in the target group for a job. The endTime must take place no later than two years from the current time and be scheduled a minimum of thirty minutes from the current time. The minimum duration between startTime and endTime is thirty minutes. The maximum duration between startTime and endTime is two years. The date and time format for the endTime is YYYY-MM-DD for the date and HH:MM for the time. For more information on the syntax for endTime when using an API command or the Command Line Interface, see [Timestamp](https://docs.aws.amazon.com/cli/latest/userguide/cli-usage-parameters-types.html#parameter-type-timestamp).
@@ -40820,7 +40820,7 @@ extension SearchIndexInput {
     }
 }
 
-public struct SearchIndexInput: Swift.Equatable {
+public struct SearchIndexInput {
     /// The search index name.
     public var indexName: Swift.String?
     /// The maximum number of results to return per page at one time. This maximum number cannot exceed 100. The response might contain fewer results but will never contain more. You can use [nextToken](https://docs.aws.amazon.com/iot/latest/apireference/API_SearchIndex.html#iot-SearchIndex-request-nextToken) to retrieve the next set of results until nextToken returns NULL.
@@ -40849,7 +40849,7 @@ public struct SearchIndexInput: Swift.Equatable {
     }
 }
 
-struct SearchIndexInputBody: Swift.Equatable {
+struct SearchIndexInputBody {
     let indexName: Swift.String?
     let queryString: Swift.String?
     let nextToken: Swift.String?
@@ -40897,7 +40897,7 @@ extension SearchIndexOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchIndexOutput: Swift.Equatable {
+public struct SearchIndexOutput {
     /// The token used to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The thing groups that match the search query.
@@ -40917,7 +40917,7 @@ public struct SearchIndexOutput: Swift.Equatable {
     }
 }
 
-struct SearchIndexOutputBody: Swift.Equatable {
+struct SearchIndexOutputBody {
     let nextToken: Swift.String?
     let things: [IoTClientTypes.ThingDocument]?
     let thingGroups: [IoTClientTypes.ThingGroupDocument]?
@@ -41004,7 +41004,7 @@ extension IoTClientTypes.SecurityProfileIdentifier: Swift.Codable {
 
 extension IoTClientTypes {
     /// Identifying information for a Device Defender security profile.
-    public struct SecurityProfileIdentifier: Swift.Equatable {
+    public struct SecurityProfileIdentifier {
         /// The ARN of the security profile.
         /// This member is required.
         public var arn: Swift.String?
@@ -41045,7 +41045,7 @@ extension IoTClientTypes.SecurityProfileTarget: Swift.Codable {
 
 extension IoTClientTypes {
     /// A target to which an alert is sent when a security profile behavior is violated.
-    public struct SecurityProfileTarget: Swift.Equatable {
+    public struct SecurityProfileTarget {
         /// The ARN of the security profile.
         /// This member is required.
         public var arn: Swift.String?
@@ -41087,7 +41087,7 @@ extension IoTClientTypes.SecurityProfileTargetMapping: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about a security profile and the target associated with it.
-    public struct SecurityProfileTargetMapping: Swift.Equatable {
+    public struct SecurityProfileTargetMapping {
         /// Information that identifies the security profile.
         public var securityProfileIdentifier: IoTClientTypes.SecurityProfileIdentifier?
         /// Information about the target (thing group) associated with the security profile.
@@ -41126,7 +41126,7 @@ extension IoTClientTypes.ServerCertificateConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// The server certificate configuration.
-    public struct ServerCertificateConfig: Swift.Equatable {
+    public struct ServerCertificateConfig {
         /// A Boolean value that indicates whether Online Certificate Status Protocol (OCSP) server certificate check is enabled or not. For more information, see [Configuring OCSP server-certificate stapling in domain configuration](https://docs.aws.amazon.com/iot/latest/developerguide/iot-custom-domain-ocsp-config.html) from Amazon Web Services IoT Core Developer Guide.
         public var enableOCSPCheck: Swift.Bool?
 
@@ -41205,7 +41205,7 @@ extension IoTClientTypes.ServerCertificateSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// An object that contains information about a server certificate.
-    public struct ServerCertificateSummary: Swift.Equatable {
+    public struct ServerCertificateSummary {
         /// The ARN of the server certificate.
         public var serverCertificateArn: Swift.String?
         /// The status of the server certificate.
@@ -41266,7 +41266,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -41357,7 +41357,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -41393,7 +41393,7 @@ extension SetDefaultAuthorizerInput {
     }
 }
 
-public struct SetDefaultAuthorizerInput: Swift.Equatable {
+public struct SetDefaultAuthorizerInput {
     /// The authorizer name.
     /// This member is required.
     public var authorizerName: Swift.String?
@@ -41406,7 +41406,7 @@ public struct SetDefaultAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct SetDefaultAuthorizerInputBody: Swift.Equatable {
+struct SetDefaultAuthorizerInputBody {
     let authorizerName: Swift.String?
 }
 
@@ -41436,7 +41436,7 @@ extension SetDefaultAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultAuthorizerOutput: Swift.Equatable {
+public struct SetDefaultAuthorizerOutput {
     /// The authorizer ARN.
     public var authorizerArn: Swift.String?
     /// The authorizer name.
@@ -41452,7 +41452,7 @@ public struct SetDefaultAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct SetDefaultAuthorizerOutputBody: Swift.Equatable {
+struct SetDefaultAuthorizerOutputBody {
     let authorizerName: Swift.String?
     let authorizerArn: Swift.String?
 }
@@ -41503,7 +41503,7 @@ extension SetDefaultPolicyVersionInput {
 }
 
 /// The input for the SetDefaultPolicyVersion operation.
-public struct SetDefaultPolicyVersionInput: Swift.Equatable {
+public struct SetDefaultPolicyVersionInput {
     /// The policy name.
     /// This member is required.
     public var policyName: Swift.String?
@@ -41521,7 +41521,7 @@ public struct SetDefaultPolicyVersionInput: Swift.Equatable {
     }
 }
 
-struct SetDefaultPolicyVersionInputBody: Swift.Equatable {
+struct SetDefaultPolicyVersionInputBody {
 }
 
 extension SetDefaultPolicyVersionInputBody: Swift.Decodable {
@@ -41535,7 +41535,7 @@ extension SetDefaultPolicyVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetDefaultPolicyVersionOutput: Swift.Equatable {
+public struct SetDefaultPolicyVersionOutput {
 
     public init() { }
 }
@@ -41577,7 +41577,7 @@ extension SetLoggingOptionsInput {
 }
 
 /// The input for the SetLoggingOptions operation.
-public struct SetLoggingOptionsInput: Swift.Equatable {
+public struct SetLoggingOptionsInput {
     /// The logging options payload.
     /// This member is required.
     public var loggingOptionsPayload: IoTClientTypes.LoggingOptionsPayload?
@@ -41590,7 +41590,7 @@ public struct SetLoggingOptionsInput: Swift.Equatable {
     }
 }
 
-struct SetLoggingOptionsInputBody: Swift.Equatable {
+struct SetLoggingOptionsInputBody {
     let loggingOptionsPayload: IoTClientTypes.LoggingOptionsPayload?
 }
 
@@ -41611,7 +41611,7 @@ extension SetLoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetLoggingOptionsOutput: Swift.Equatable {
+public struct SetLoggingOptionsOutput {
 
     public init() { }
 }
@@ -41653,7 +41653,7 @@ extension SetV2LoggingLevelInput {
     }
 }
 
-public struct SetV2LoggingLevelInput: Swift.Equatable {
+public struct SetV2LoggingLevelInput {
     /// The log level.
     /// This member is required.
     public var logLevel: IoTClientTypes.LogLevel?
@@ -41671,7 +41671,7 @@ public struct SetV2LoggingLevelInput: Swift.Equatable {
     }
 }
 
-struct SetV2LoggingLevelInputBody: Swift.Equatable {
+struct SetV2LoggingLevelInputBody {
     let logTarget: IoTClientTypes.LogTarget?
     let logLevel: IoTClientTypes.LogLevel?
 }
@@ -41696,7 +41696,7 @@ extension SetV2LoggingLevelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetV2LoggingLevelOutput: Swift.Equatable {
+public struct SetV2LoggingLevelOutput {
 
     public init() { }
 }
@@ -41744,7 +41744,7 @@ extension SetV2LoggingOptionsInput {
     }
 }
 
-public struct SetV2LoggingOptionsInput: Swift.Equatable {
+public struct SetV2LoggingOptionsInput {
     /// The default logging level.
     public var defaultLogLevel: IoTClientTypes.LogLevel?
     /// If true all logs are disabled. The default is false.
@@ -41764,7 +41764,7 @@ public struct SetV2LoggingOptionsInput: Swift.Equatable {
     }
 }
 
-struct SetV2LoggingOptionsInputBody: Swift.Equatable {
+struct SetV2LoggingOptionsInputBody {
     let roleArn: Swift.String?
     let defaultLogLevel: IoTClientTypes.LogLevel?
     let disableAllLogs: Swift.Bool?
@@ -41793,7 +41793,7 @@ extension SetV2LoggingOptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetV2LoggingOptionsOutput: Swift.Equatable {
+public struct SetV2LoggingOptionsOutput {
 
     public init() { }
 }
@@ -41844,7 +41844,7 @@ extension IoTClientTypes.SigV4Authorization: Swift.Codable {
 
 extension IoTClientTypes {
     /// For more information, see [Signature Version 4 signing process](https://docs.aws.amazon.com/general/latest/gr/signature-version-4.html).
-    public struct SigV4Authorization: Swift.Equatable {
+    public struct SigV4Authorization {
         /// The ARN of the signing role.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -41902,7 +41902,7 @@ extension IoTClientTypes.SigningProfileParameter: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes the code-signing profile.
-    public struct SigningProfileParameter: Swift.Equatable {
+    public struct SigningProfileParameter {
         /// Certificate ARN.
         public var certificateArn: Swift.String?
         /// The location of the code-signing certificate on your device.
@@ -41957,7 +41957,7 @@ extension IoTClientTypes.SnsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to publish to an Amazon SNS topic.
-    public struct SnsAction: Swift.Equatable {
+    public struct SnsAction {
         /// (Optional) The message format of the message to publish. Accepted values are "JSON" and "RAW". The default value of the attribute is "RAW". SNS uses this setting to determine if the payload should be parsed and relevant platform-specific bits of the payload should be extracted. To read more about SNS message formats, see [https://docs.aws.amazon.com/sns/latest/dg/json-formats.html](https://docs.aws.amazon.com/sns/latest/dg/json-formats.html) refer to their official documentation.
         public var messageFormat: IoTClientTypes.MessageFormat?
         /// The ARN of the IAM role that grants access.
@@ -42021,7 +42021,7 @@ public struct SqlParseException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct SqlParseExceptionBody: Swift.Equatable {
+struct SqlParseExceptionBody {
     let message: Swift.String?
 }
 
@@ -42070,7 +42070,7 @@ extension IoTClientTypes.SqsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes an action to publish data to an Amazon SQS queue.
-    public struct SqsAction: Swift.Equatable {
+    public struct SqsAction {
         /// The URL of the Amazon SQS queue.
         /// This member is required.
         public var queueUrl: Swift.String?
@@ -42131,7 +42131,7 @@ extension StartAuditMitigationActionsTaskInput {
     }
 }
 
-public struct StartAuditMitigationActionsTaskInput: Swift.Equatable {
+public struct StartAuditMitigationActionsTaskInput {
     /// For an audit check, specifies which mitigation actions to apply. Those actions must be defined in your Amazon Web Services accounts.
     /// This member is required.
     public var auditCheckToActionsMapping: [Swift.String:[Swift.String]]?
@@ -42159,7 +42159,7 @@ public struct StartAuditMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct StartAuditMitigationActionsTaskInputBody: Swift.Equatable {
+struct StartAuditMitigationActionsTaskInputBody {
     let target: IoTClientTypes.AuditMitigationActionsTaskTarget?
     let auditCheckToActionsMapping: [Swift.String:[Swift.String]]?
     let clientRequestToken: Swift.String?
@@ -42211,7 +42211,7 @@ extension StartAuditMitigationActionsTaskOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartAuditMitigationActionsTaskOutput: Swift.Equatable {
+public struct StartAuditMitigationActionsTaskOutput {
     /// The unique identifier for the audit mitigation task. This matches the taskId that you specified in the request.
     public var taskId: Swift.String?
 
@@ -42223,7 +42223,7 @@ public struct StartAuditMitigationActionsTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartAuditMitigationActionsTaskOutputBody: Swift.Equatable {
+struct StartAuditMitigationActionsTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -42300,7 +42300,7 @@ extension StartDetectMitigationActionsTaskInput {
     }
 }
 
-public struct StartDetectMitigationActionsTaskInput: Swift.Equatable {
+public struct StartDetectMitigationActionsTaskInput {
     /// The actions to be performed when a device has unexpected behavior.
     /// This member is required.
     public var actions: [Swift.String]?
@@ -42340,7 +42340,7 @@ public struct StartDetectMitigationActionsTaskInput: Swift.Equatable {
     }
 }
 
-struct StartDetectMitigationActionsTaskInputBody: Swift.Equatable {
+struct StartDetectMitigationActionsTaskInputBody {
     let target: IoTClientTypes.DetectMitigationActionsTaskTarget?
     let actions: [Swift.String]?
     let violationEventOccurrenceRange: IoTClientTypes.ViolationEventOccurrenceRange?
@@ -42397,7 +42397,7 @@ extension StartDetectMitigationActionsTaskOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct StartDetectMitigationActionsTaskOutput: Swift.Equatable {
+public struct StartDetectMitigationActionsTaskOutput {
     /// The unique identifier of the task.
     public var taskId: Swift.String?
 
@@ -42409,7 +42409,7 @@ public struct StartDetectMitigationActionsTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartDetectMitigationActionsTaskOutputBody: Swift.Equatable {
+struct StartDetectMitigationActionsTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -42463,7 +42463,7 @@ extension StartOnDemandAuditTaskInput {
     }
 }
 
-public struct StartOnDemandAuditTaskInput: Swift.Equatable {
+public struct StartOnDemandAuditTaskInput {
     /// Which checks are performed during the audit. The checks you specify must be enabled for your account or an exception occurs. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or UpdateAccountAuditConfiguration to select which checks are enabled.
     /// This member is required.
     public var targetCheckNames: [Swift.String]?
@@ -42476,7 +42476,7 @@ public struct StartOnDemandAuditTaskInput: Swift.Equatable {
     }
 }
 
-struct StartOnDemandAuditTaskInputBody: Swift.Equatable {
+struct StartOnDemandAuditTaskInputBody {
     let targetCheckNames: [Swift.String]?
 }
 
@@ -42513,7 +42513,7 @@ extension StartOnDemandAuditTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartOnDemandAuditTaskOutput: Swift.Equatable {
+public struct StartOnDemandAuditTaskOutput {
     /// The ID of the on-demand audit you started.
     public var taskId: Swift.String?
 
@@ -42525,7 +42525,7 @@ public struct StartOnDemandAuditTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartOnDemandAuditTaskOutputBody: Swift.Equatable {
+struct StartOnDemandAuditTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -42588,7 +42588,7 @@ extension IoTClientTypes.StartSigningJobParameter: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information required to start a signing job.
-    public struct StartSigningJobParameter: Swift.Equatable {
+    public struct StartSigningJobParameter {
         /// The location to write the code-signed file.
         public var destination: IoTClientTypes.Destination?
         /// The code-signing profile name.
@@ -42642,7 +42642,7 @@ extension StartThingRegistrationTaskInput {
     }
 }
 
-public struct StartThingRegistrationTaskInput: Swift.Equatable {
+public struct StartThingRegistrationTaskInput {
     /// The S3 bucket that contains the input file.
     /// This member is required.
     public var inputFileBucket: Swift.String?
@@ -42670,7 +42670,7 @@ public struct StartThingRegistrationTaskInput: Swift.Equatable {
     }
 }
 
-struct StartThingRegistrationTaskInputBody: Swift.Equatable {
+struct StartThingRegistrationTaskInputBody {
     let templateBody: Swift.String?
     let inputFileBucket: Swift.String?
     let inputFileKey: Swift.String?
@@ -42710,7 +42710,7 @@ extension StartThingRegistrationTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartThingRegistrationTaskOutput: Swift.Equatable {
+public struct StartThingRegistrationTaskOutput {
     /// The bulk thing provisioning task ID.
     public var taskId: Swift.String?
 
@@ -42722,7 +42722,7 @@ public struct StartThingRegistrationTaskOutput: Swift.Equatable {
     }
 }
 
-struct StartThingRegistrationTaskOutputBody: Swift.Equatable {
+struct StartThingRegistrationTaskOutputBody {
     let taskId: Swift.String?
 }
 
@@ -42773,7 +42773,7 @@ extension IoTClientTypes.StatisticalThreshold: Swift.Codable {
 
 extension IoTClientTypes {
     /// A statistical ranking (percentile) that indicates a threshold value by which a behavior is determined to be in compliance or in violation of the behavior.
-    public struct StatisticalThreshold: Swift.Equatable {
+    public struct StatisticalThreshold {
         /// The percentile that resolves to a threshold value by which compliance with a behavior is determined. Metrics are collected over the specified period (durationSeconds) from all reporting devices in your account and statistical ranks are calculated. Then, the measurements from a device are collected over the same period. If the accumulated measurements from the device fall above or below (comparisonOperator) the value associated with the percentile specified, then the device is considered to be in compliance with the behavior, otherwise a violation occurs.
         public var statistic: Swift.String?
 
@@ -42850,7 +42850,7 @@ extension IoTClientTypes.Statistics: Swift.Codable {
 
 extension IoTClientTypes {
     /// A map of key-value pairs for all supported statistics. For issues with missing or unexpected values for this API, consult [ Fleet indexing troubleshooting guide](https://docs.aws.amazon.com/iot/latest/developerguide/fleet-indexing-troubleshooting.html).
-    public struct Statistics: Swift.Equatable {
+    public struct Statistics {
         /// The average of the aggregated field values.
         public var average: Swift.Double?
         /// The count of things that match the query string criteria and contain a valid aggregation field value.
@@ -42966,7 +42966,7 @@ extension IoTClientTypes.StepFunctionsAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// Starts execution of a Step Functions state machine.
-    public struct StepFunctionsAction: Swift.Equatable {
+    public struct StepFunctionsAction {
         /// (Optional) A name will be given to the state machine execution consisting of this prefix followed by a UUID. Step Functions automatically creates a unique name for each state machine execution if one is not provided.
         public var executionNamePrefix: Swift.String?
         /// The ARN of the role that grants IoT permission to start execution of a state machine ("Action":"states:StartExecution").
@@ -43000,7 +43000,7 @@ extension StopThingRegistrationTaskInput {
     }
 }
 
-public struct StopThingRegistrationTaskInput: Swift.Equatable {
+public struct StopThingRegistrationTaskInput {
     /// The bulk thing provisioning task ID.
     /// This member is required.
     public var taskId: Swift.String?
@@ -43013,7 +43013,7 @@ public struct StopThingRegistrationTaskInput: Swift.Equatable {
     }
 }
 
-struct StopThingRegistrationTaskInputBody: Swift.Equatable {
+struct StopThingRegistrationTaskInputBody {
 }
 
 extension StopThingRegistrationTaskInputBody: Swift.Decodable {
@@ -43027,7 +43027,7 @@ extension StopThingRegistrationTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopThingRegistrationTaskOutput: Swift.Equatable {
+public struct StopThingRegistrationTaskOutput {
 
     public init() { }
 }
@@ -43074,7 +43074,7 @@ extension IoTClientTypes.Stream: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a group of files that can be streamed.
-    public struct Stream: Swift.Equatable {
+    public struct Stream {
         /// The ID of a file associated with a stream.
         public var fileId: Swift.Int?
         /// The stream ID.
@@ -43119,7 +43119,7 @@ extension IoTClientTypes.StreamFile: Swift.Codable {
 
 extension IoTClientTypes {
     /// Represents a file to stream.
-    public struct StreamFile: Swift.Equatable {
+    public struct StreamFile {
         /// The file ID.
         public var fileId: Swift.Int?
         /// The location of the file in S3.
@@ -43212,7 +43212,7 @@ extension IoTClientTypes.StreamInfo: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about a stream.
-    public struct StreamInfo: Swift.Equatable {
+    public struct StreamInfo {
         /// The date when the stream was created.
         public var createdAt: ClientRuntime.Date?
         /// The description of the stream.
@@ -43293,7 +43293,7 @@ extension IoTClientTypes.StreamSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// A summary of a stream.
-    public struct StreamSummary: Swift.Equatable {
+    public struct StreamSummary {
         /// A description of the stream.
         public var description: Swift.String?
         /// The stream ARN.
@@ -43346,7 +43346,7 @@ extension IoTClientTypes.Tag: Swift.Codable {
 
 extension IoTClientTypes {
     /// A set of key/value pairs that are used to manage the resource.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -43392,7 +43392,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -43410,7 +43410,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [IoTClientTypes.Tag]?
 }
@@ -43444,7 +43444,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -43567,7 +43567,7 @@ public struct TaskAlreadyExistsException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct TaskAlreadyExistsExceptionBody: Swift.Equatable {
+struct TaskAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -43640,7 +43640,7 @@ extension IoTClientTypes.TaskStatistics: Swift.Codable {
 
 extension IoTClientTypes {
     /// Statistics for the checks performed during the audit.
-    public struct TaskStatistics: Swift.Equatable {
+    public struct TaskStatistics {
         /// The number of checks that did not run because the audit was canceled.
         public var canceledChecks: Swift.Int?
         /// The number of checks that found compliant resources.
@@ -43723,7 +43723,7 @@ extension IoTClientTypes.TaskStatisticsForAuditCheck: Swift.Codable {
 
 extension IoTClientTypes {
     /// Provides summary counts of how many tasks for findings are in a particular state. This information is included in the response from DescribeAuditMitigationActionsTask.
-    public struct TaskStatisticsForAuditCheck: Swift.Equatable {
+    public struct TaskStatisticsForAuditCheck {
         /// The number of findings to which the mitigation action task was canceled when applied.
         public var canceledFindingsCount: Swift.Int?
         /// The number of findings for which at least one of the actions failed when applied.
@@ -43806,7 +43806,7 @@ extension IoTClientTypes.TermsAggregation: Swift.Codable {
 
 extension IoTClientTypes {
     /// Performs an aggregation that will return a list of buckets. The list of buckets is a ranked list of the number of occurrences of an aggregation field value.
-    public struct TermsAggregation: Swift.Equatable {
+    public struct TermsAggregation {
         /// The number of buckets to return in the response. Default to 10.
         public var maxBuckets: Swift.Int?
 
@@ -43877,7 +43877,7 @@ extension TestAuthorizationInput {
     }
 }
 
-public struct TestAuthorizationInput: Swift.Equatable {
+public struct TestAuthorizationInput {
     /// A list of authorization info objects. Simulating authorization will create a response for each authInfo object in the list.
     /// This member is required.
     public var authInfos: [IoTClientTypes.AuthInfo]?
@@ -43910,7 +43910,7 @@ public struct TestAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct TestAuthorizationInputBody: Swift.Equatable {
+struct TestAuthorizationInputBody {
     let principal: Swift.String?
     let cognitoIdentityPoolId: Swift.String?
     let authInfos: [IoTClientTypes.AuthInfo]?
@@ -43981,7 +43981,7 @@ extension TestAuthorizationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestAuthorizationOutput: Swift.Equatable {
+public struct TestAuthorizationOutput {
     /// The authentication results.
     public var authResults: [IoTClientTypes.AuthResult]?
 
@@ -43993,7 +43993,7 @@ public struct TestAuthorizationOutput: Swift.Equatable {
     }
 }
 
-struct TestAuthorizationOutputBody: Swift.Equatable {
+struct TestAuthorizationOutputBody {
     let authResults: [IoTClientTypes.AuthResult]?
 }
 
@@ -44074,7 +44074,7 @@ extension TestInvokeAuthorizerInput {
     }
 }
 
-public struct TestInvokeAuthorizerInput: Swift.Equatable {
+public struct TestInvokeAuthorizerInput {
     /// The custom authorizer name.
     /// This member is required.
     public var authorizerName: Swift.String?
@@ -44107,7 +44107,7 @@ public struct TestInvokeAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct TestInvokeAuthorizerInputBody: Swift.Equatable {
+struct TestInvokeAuthorizerInputBody {
     let token: Swift.String?
     let tokenSignature: Swift.String?
     let httpContext: IoTClientTypes.HttpContext?
@@ -44159,7 +44159,7 @@ extension TestInvokeAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestInvokeAuthorizerOutput: Swift.Equatable {
+public struct TestInvokeAuthorizerOutput {
     /// The number of seconds after which the connection is terminated.
     public var disconnectAfterInSeconds: Swift.Int?
     /// True if the token is authenticated, otherwise false.
@@ -44187,7 +44187,7 @@ public struct TestInvokeAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct TestInvokeAuthorizerOutputBody: Swift.Equatable {
+struct TestInvokeAuthorizerOutputBody {
     let isAuthenticated: Swift.Bool?
     let principalId: Swift.String?
     let policyDocuments: [Swift.String]?
@@ -44302,7 +44302,7 @@ extension IoTClientTypes.ThingAttribute: Swift.Codable {
 
 extension IoTClientTypes {
     /// The properties of the thing, including thing name, thing type name, and a list of thing attributes.
-    public struct ThingAttribute: Swift.Equatable {
+    public struct ThingAttribute {
         /// A list of thing attributes which are name-value pairs.
         public var attributes: [Swift.String:Swift.String]?
         /// The thing ARN.
@@ -44365,7 +44365,7 @@ extension IoTClientTypes.ThingConnectivity: Swift.Codable {
 
 extension IoTClientTypes {
     /// The connectivity status of the thing.
-    public struct ThingConnectivity: Swift.Equatable {
+    public struct ThingConnectivity {
         /// True if the thing is connected to the Amazon Web Services IoT Core service; false if it is not connected.
         public var connected: Swift.Bool?
         /// The reason why the client is disconnected. If the thing has been disconnected for approximately an hour, the disconnectReason value might be missing.
@@ -44506,7 +44506,7 @@ extension IoTClientTypes.ThingDocument: Swift.Codable {
 
 extension IoTClientTypes {
     /// The thing search index document.
-    public struct ThingDocument: Swift.Equatable {
+    public struct ThingDocument {
         /// The attributes.
         public var attributes: [Swift.String:Swift.String]?
         /// Indicates whether the thing is connected to the Amazon Web Services IoT Core service.
@@ -44617,7 +44617,7 @@ extension IoTClientTypes.ThingGroupDocument: Swift.Codable {
 
 extension IoTClientTypes {
     /// The thing group search index document.
-    public struct ThingGroupDocument: Swift.Equatable {
+    public struct ThingGroupDocument {
         /// The thing group attributes.
         public var attributes: [Swift.String:Swift.String]?
         /// Parent group names.
@@ -44704,7 +44704,7 @@ extension IoTClientTypes.ThingGroupIndexingConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// Thing group indexing configuration.
-    public struct ThingGroupIndexingConfiguration: Swift.Equatable {
+    public struct ThingGroupIndexingConfiguration {
         /// A list of thing group fields to index. This list cannot contain any managed fields. Use the GetIndexingConfiguration API to get a list of managed fields. Contains custom field names and their data type.
         public var customFields: [IoTClientTypes.Field]?
         /// Contains fields that are indexed and whose types are already known by the Fleet Indexing service. This is an optional field. For more information, see [Managed fields](https://docs.aws.amazon.com/iot/latest/developerguide/managing-fleet-index.html#managed-field) in the Amazon Web Services IoT Core Developer Guide. You can't modify managed fields by updating fleet indexing configuration.
@@ -44804,7 +44804,7 @@ extension IoTClientTypes.ThingGroupMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// Thing group metadata.
-    public struct ThingGroupMetadata: Swift.Equatable {
+    public struct ThingGroupMetadata {
         /// The UNIX timestamp of when the thing group was created.
         public var creationDate: ClientRuntime.Date?
         /// The parent thing group name.
@@ -44853,7 +44853,7 @@ extension IoTClientTypes.ThingGroupProperties: Swift.Codable {
 
 extension IoTClientTypes {
     /// Thing group properties.
-    public struct ThingGroupProperties: Swift.Equatable {
+    public struct ThingGroupProperties {
         /// The thing group attributes in JSON format.
         public var attributePayload: IoTClientTypes.AttributePayload?
         /// The thing group description.
@@ -44952,7 +44952,7 @@ extension IoTClientTypes.ThingIndexingConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// The thing indexing configuration. For more information, see [Managing Thing Indexing](https://docs.aws.amazon.com/iot/latest/developerguide/managing-index.html).
-    public struct ThingIndexingConfiguration: Swift.Equatable {
+    public struct ThingIndexingConfiguration {
         /// Contains custom field names and their data type.
         public var customFields: [IoTClientTypes.Field]?
         /// Device Defender indexing mode. Valid values are:
@@ -45093,7 +45093,7 @@ extension IoTClientTypes.ThingTypeDefinition: Swift.Codable {
 
 extension IoTClientTypes {
     /// The definition of the thing type, including thing type name and description.
-    public struct ThingTypeDefinition: Swift.Equatable {
+    public struct ThingTypeDefinition {
         /// The thing type ARN.
         public var thingTypeArn: Swift.String?
         /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when it was deprecated.
@@ -45152,7 +45152,7 @@ extension IoTClientTypes.ThingTypeMetadata: Swift.Codable {
 
 extension IoTClientTypes {
     /// The ThingTypeMetadata contains additional information about the thing type including: creation date and time, a value indicating whether the thing type is deprecated, and a date and time when time was deprecated.
-    public struct ThingTypeMetadata: Swift.Equatable {
+    public struct ThingTypeMetadata {
         /// The date and time when the thing type was created.
         public var creationDate: ClientRuntime.Date?
         /// Whether the thing type is deprecated. If true, no new things could be associated with this type.
@@ -45213,7 +45213,7 @@ extension IoTClientTypes.ThingTypeProperties: Swift.Codable {
 
 extension IoTClientTypes {
     /// The ThingTypeProperties contains information about the thing type including: a thing type description, and a list of searchable thing attribute names.
-    public struct ThingTypeProperties: Swift.Equatable {
+    public struct ThingTypeProperties {
         /// A list of searchable thing attribute names.
         public var searchableAttributes: [Swift.String]?
         /// The description of the thing type.
@@ -45271,7 +45271,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -45308,7 +45308,7 @@ extension IoTClientTypes.TimeoutConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the amount of time each device has to finish its execution of the job. A timer is started when the job execution status is set to IN_PROGRESS. If the job execution status is not set to another terminal state before the timer expires, it will be automatically set to TIMED_OUT.
-    public struct TimeoutConfig: Swift.Equatable {
+    public struct TimeoutConfig {
         /// Specifies the amount of time, in minutes, this device has to finish execution of this job. The timeout interval can be anywhere between 1 minute and 7 days (1 to 10080 minutes). The in progress timer can't be updated and will apply to all job executions for the job. Whenever a job execution remains in the IN_PROGRESS status for longer than this interval, the job execution will fail and switch to the terminal TIMED_OUT status.
         public var inProgressTimeoutInMinutes: Swift.Int?
 
@@ -45379,7 +45379,7 @@ extension IoTClientTypes.TimestreamAction: Swift.Codable {
 
 extension IoTClientTypes {
     /// The Timestream rule action writes attributes (measures) from an MQTT message into an Amazon Timestream table. For more information, see the [Timestream](https://docs.aws.amazon.com/iot/latest/developerguide/timestream-rule-action.html) topic rule action documentation.
-    public struct TimestreamAction: Swift.Equatable {
+    public struct TimestreamAction {
         /// The name of an Amazon Timestream database.
         /// This member is required.
         public var databaseName: Swift.String?
@@ -45440,7 +45440,7 @@ extension IoTClientTypes.TimestreamDimension: Swift.Codable {
 
 extension IoTClientTypes {
     /// Metadata attributes of the time series that are written in each measure record.
-    public struct TimestreamDimension: Swift.Equatable {
+    public struct TimestreamDimension {
         /// The metadata dimension name. This is the name of the column in the Amazon Timestream database table record. Dimensions cannot be named: measure_name, measure_value, or time. These names are reserved. Dimension names cannot start with ts_ or measure_value and they cannot contain the colon (:) character.
         /// This member is required.
         public var name: Swift.String?
@@ -45487,7 +45487,7 @@ extension IoTClientTypes.TimestreamTimestamp: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes how to interpret an application-defined timestamp value from an MQTT message payload and the precision of that value.
-    public struct TimestreamTimestamp: Swift.Equatable {
+    public struct TimestreamTimestamp {
         /// The precision of the timestamp value that results from the expression described in value. Valid values: SECONDS | MILLISECONDS | MICROSECONDS | NANOSECONDS. The default is MILLISECONDS.
         /// This member is required.
         public var unit: Swift.String?
@@ -45528,7 +45528,7 @@ extension IoTClientTypes.TlsConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// An object that specifies the TLS configuration for a domain.
-    public struct TlsConfig: Swift.Equatable {
+    public struct TlsConfig {
         /// The security policy for a domain configuration. For more information, see [Security policies ](https://docs.aws.amazon.com/iot/latest/developerguide/transport-security.html#tls-policy-table) in the Amazon Web Services IoT Core developer guide.
         public var securityPolicy: Swift.String?
 
@@ -45563,7 +45563,7 @@ extension IoTClientTypes.TlsContext: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the TLS context to use for the test authorizer request.
-    public struct TlsContext: Swift.Equatable {
+    public struct TlsContext {
         /// The value of the serverName key in a TLS authorization request.
         public var serverName: Swift.String?
 
@@ -45652,7 +45652,7 @@ extension IoTClientTypes.TopicRule: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a rule.
-    public struct TopicRule: Swift.Equatable {
+    public struct TopicRule {
         /// The actions associated with the rule.
         public var actions: [IoTClientTypes.Action]?
         /// The version of the SQL rules engine to use when evaluating the rule.
@@ -45751,7 +45751,7 @@ extension IoTClientTypes.TopicRuleDestination: Swift.Codable {
 
 extension IoTClientTypes {
     /// A topic rule destination.
-    public struct TopicRuleDestination: Swift.Equatable {
+    public struct TopicRuleDestination {
         /// The topic rule destination URL.
         public var arn: Swift.String?
         /// The date and time when the topic rule destination was created.
@@ -45816,7 +45816,7 @@ extension IoTClientTypes.TopicRuleDestinationConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration of the topic rule destination.
-    public struct TopicRuleDestinationConfiguration: Swift.Equatable {
+    public struct TopicRuleDestinationConfiguration {
         /// Configuration of the HTTP URL.
         public var httpUrlConfiguration: IoTClientTypes.HttpUrlDestinationConfiguration?
         /// Configuration of the virtual private cloud (VPC) connection.
@@ -45932,7 +45932,7 @@ extension IoTClientTypes.TopicRuleDestinationSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about the topic rule destination.
-    public struct TopicRuleDestinationSummary: Swift.Equatable {
+    public struct TopicRuleDestinationSummary {
         /// The topic rule destination ARN.
         public var arn: Swift.String?
         /// The date and time when the topic rule destination was created.
@@ -46015,7 +46015,7 @@ extension IoTClientTypes.TopicRuleListItem: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a rule.
-    public struct TopicRuleListItem: Swift.Equatable {
+    public struct TopicRuleListItem {
         /// The date and time the rule was created.
         public var createdAt: ClientRuntime.Date?
         /// The rule ARN.
@@ -46108,7 +46108,7 @@ extension IoTClientTypes.TopicRulePayload: Swift.Codable {
 
 extension IoTClientTypes {
     /// Describes a rule.
-    public struct TopicRulePayload: Swift.Equatable {
+    public struct TopicRulePayload {
         /// The actions associated with the rule.
         /// This member is required.
         public var actions: [IoTClientTypes.Action]?
@@ -46184,7 +46184,7 @@ public struct TransferAlreadyCompletedException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct TransferAlreadyCompletedExceptionBody: Swift.Equatable {
+struct TransferAlreadyCompletedExceptionBody {
     let message: Swift.String?
 }
 
@@ -46238,7 +46238,7 @@ extension TransferCertificateInput {
 }
 
 /// The input for the TransferCertificate operation.
-public struct TransferCertificateInput: Swift.Equatable {
+public struct TransferCertificateInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -46260,7 +46260,7 @@ public struct TransferCertificateInput: Swift.Equatable {
     }
 }
 
-struct TransferCertificateInputBody: Swift.Equatable {
+struct TransferCertificateInputBody {
     let transferMessage: Swift.String?
 }
 
@@ -46289,7 +46289,7 @@ extension TransferCertificateOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the TransferCertificate operation.
-public struct TransferCertificateOutput: Swift.Equatable {
+public struct TransferCertificateOutput {
     /// The ARN of the certificate.
     public var transferredCertificateArn: Swift.String?
 
@@ -46301,7 +46301,7 @@ public struct TransferCertificateOutput: Swift.Equatable {
     }
 }
 
-struct TransferCertificateOutputBody: Swift.Equatable {
+struct TransferCertificateOutputBody {
     let transferredCertificateArn: Swift.String?
 }
 
@@ -46375,7 +46375,7 @@ public struct TransferConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct TransferConflictExceptionBody: Swift.Equatable {
+struct TransferConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -46436,7 +46436,7 @@ extension IoTClientTypes.TransferData: Swift.Codable {
 
 extension IoTClientTypes {
     /// Data used to transfer a certificate to an Amazon Web Services account.
-    public struct TransferData: Swift.Equatable {
+    public struct TransferData {
         /// The date the transfer was accepted.
         public var acceptDate: ClientRuntime.Date?
         /// The date the transfer was rejected.
@@ -46506,7 +46506,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -46549,7 +46549,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -46567,7 +46567,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -46601,7 +46601,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -46654,7 +46654,7 @@ extension UpdateAccountAuditConfigurationInput {
     }
 }
 
-public struct UpdateAccountAuditConfigurationInput: Swift.Equatable {
+public struct UpdateAccountAuditConfigurationInput {
     /// Specifies which audit checks are enabled and disabled for this account. Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are currently enabled. Some data collection might start immediately when certain checks are enabled. When a check is disabled, any data collected so far in relation to the check is deleted. You cannot disable a check if it's used by any scheduled audit. You must first delete the check from the scheduled audit or delete the scheduled audit itself. On the first call to UpdateAccountAuditConfiguration, this parameter is required and must specify at least one enabled check.
     public var auditCheckConfigurations: [Swift.String:IoTClientTypes.AuditCheckConfiguration]?
     /// Information about the targets to which audit notifications are sent.
@@ -46674,7 +46674,7 @@ public struct UpdateAccountAuditConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountAuditConfigurationInputBody: Swift.Equatable {
+struct UpdateAccountAuditConfigurationInputBody {
     let roleArn: Swift.String?
     let auditNotificationTargetConfigurations: [Swift.String:IoTClientTypes.AuditNotificationTarget]?
     let auditCheckConfigurations: [Swift.String:IoTClientTypes.AuditCheckConfiguration]?
@@ -46721,7 +46721,7 @@ extension UpdateAccountAuditConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateAccountAuditConfigurationOutput: Swift.Equatable {
+public struct UpdateAccountAuditConfigurationOutput {
 
     public init() { }
 }
@@ -46775,7 +46775,7 @@ extension UpdateAuditSuppressionInput {
     }
 }
 
-public struct UpdateAuditSuppressionInput: Swift.Equatable {
+public struct UpdateAuditSuppressionInput {
     /// An audit check name. Checks must be enabled for your account. (Use DescribeAccountAuditConfiguration to see the list of all checks, including those that are enabled or use UpdateAccountAuditConfiguration to select which checks are enabled.)
     /// This member is required.
     public var checkName: Swift.String?
@@ -46805,7 +46805,7 @@ public struct UpdateAuditSuppressionInput: Swift.Equatable {
     }
 }
 
-struct UpdateAuditSuppressionInputBody: Swift.Equatable {
+struct UpdateAuditSuppressionInputBody {
     let checkName: Swift.String?
     let resourceIdentifier: IoTClientTypes.ResourceIdentifier?
     let expirationDate: ClientRuntime.Date?
@@ -46842,7 +46842,7 @@ extension UpdateAuditSuppressionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAuditSuppressionOutput: Swift.Equatable {
+public struct UpdateAuditSuppressionOutput {
 
     public init() { }
 }
@@ -46903,7 +46903,7 @@ extension UpdateAuthorizerInput {
     }
 }
 
-public struct UpdateAuthorizerInput: Swift.Equatable {
+public struct UpdateAuthorizerInput {
     /// The ARN of the authorizer's Lambda function.
     public var authorizerFunctionArn: Swift.String?
     /// The authorizer name.
@@ -46936,7 +46936,7 @@ public struct UpdateAuthorizerInput: Swift.Equatable {
     }
 }
 
-struct UpdateAuthorizerInputBody: Swift.Equatable {
+struct UpdateAuthorizerInputBody {
     let authorizerFunctionArn: Swift.String?
     let tokenKeyName: Swift.String?
     let tokenSigningPublicKeys: [Swift.String:Swift.String]?
@@ -46991,7 +46991,7 @@ extension UpdateAuthorizerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAuthorizerOutput: Swift.Equatable {
+public struct UpdateAuthorizerOutput {
     /// The authorizer ARN.
     public var authorizerArn: Swift.String?
     /// The authorizer name.
@@ -47007,7 +47007,7 @@ public struct UpdateAuthorizerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAuthorizerOutputBody: Swift.Equatable {
+struct UpdateAuthorizerOutputBody {
     let authorizerName: Swift.String?
     let authorizerArn: Swift.String?
 }
@@ -47071,7 +47071,7 @@ extension UpdateBillingGroupInput {
     }
 }
 
-public struct UpdateBillingGroupInput: Swift.Equatable {
+public struct UpdateBillingGroupInput {
     /// The name of the billing group.
     /// This member is required.
     public var billingGroupName: Swift.String?
@@ -47093,7 +47093,7 @@ public struct UpdateBillingGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateBillingGroupInputBody: Swift.Equatable {
+struct UpdateBillingGroupInputBody {
     let billingGroupProperties: IoTClientTypes.BillingGroupProperties?
     let expectedVersion: Swift.Int?
 }
@@ -47125,7 +47125,7 @@ extension UpdateBillingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBillingGroupOutput: Swift.Equatable {
+public struct UpdateBillingGroupOutput {
     /// The latest version of the billing group.
     public var version: Swift.Int
 
@@ -47137,7 +47137,7 @@ public struct UpdateBillingGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBillingGroupOutputBody: Swift.Equatable {
+struct UpdateBillingGroupOutputBody {
     let version: Swift.Int
 }
 
@@ -47212,7 +47212,7 @@ extension UpdateCACertificateInput {
 }
 
 /// The input to the UpdateCACertificate operation.
-public struct UpdateCACertificateInput: Swift.Equatable {
+public struct UpdateCACertificateInput {
     /// The CA certificate identifier.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -47241,7 +47241,7 @@ public struct UpdateCACertificateInput: Swift.Equatable {
     }
 }
 
-struct UpdateCACertificateInputBody: Swift.Equatable {
+struct UpdateCACertificateInputBody {
     let registrationConfig: IoTClientTypes.RegistrationConfig?
     let removeAutoRegistration: Swift.Bool?
 }
@@ -47266,7 +47266,7 @@ extension UpdateCACertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCACertificateOutput: Swift.Equatable {
+public struct UpdateCACertificateOutput {
 
     public init() { }
 }
@@ -47308,7 +47308,7 @@ extension IoTClientTypes.UpdateCACertificateParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters to define a mitigation action that changes the state of the CA certificate to inactive.
-    public struct UpdateCACertificateParams: Swift.Equatable {
+    public struct UpdateCACertificateParams {
         /// The action that you want to apply to the CA certificate. The only supported value is DEACTIVATE.
         /// This member is required.
         public var action: IoTClientTypes.CACertificateUpdateAction?
@@ -47348,7 +47348,7 @@ extension UpdateCertificateInput {
 }
 
 /// The input for the UpdateCertificate operation.
-public struct UpdateCertificateInput: Swift.Equatable {
+public struct UpdateCertificateInput {
     /// The ID of the certificate. (The last part of the certificate ARN contains the certificate ID.)
     /// This member is required.
     public var certificateId: Swift.String?
@@ -47366,7 +47366,7 @@ public struct UpdateCertificateInput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateInputBody: Swift.Equatable {
+struct UpdateCertificateInputBody {
 }
 
 extension UpdateCertificateInputBody: Swift.Decodable {
@@ -47380,7 +47380,7 @@ extension UpdateCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCertificateOutput: Swift.Equatable {
+public struct UpdateCertificateOutput {
 
     public init() { }
 }
@@ -47432,7 +47432,7 @@ extension UpdateCertificateProviderInput {
     }
 }
 
-public struct UpdateCertificateProviderInput: Swift.Equatable {
+public struct UpdateCertificateProviderInput {
     /// A list of the operations that the certificate provider will use to generate certificates. Valid value: CreateCertificateFromCsr.
     public var accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
     /// The name of the certificate provider.
@@ -47453,7 +47453,7 @@ public struct UpdateCertificateProviderInput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateProviderInputBody: Swift.Equatable {
+struct UpdateCertificateProviderInputBody {
     let lambdaFunctionArn: Swift.String?
     let accountDefaultForOperations: [IoTClientTypes.CertificateProviderOperation]?
 }
@@ -47496,7 +47496,7 @@ extension UpdateCertificateProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCertificateProviderOutput: Swift.Equatable {
+public struct UpdateCertificateProviderOutput {
     /// The ARN of the certificate provider.
     public var certificateProviderArn: Swift.String?
     /// The name of the certificate provider.
@@ -47512,7 +47512,7 @@ public struct UpdateCertificateProviderOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateProviderOutputBody: Swift.Equatable {
+struct UpdateCertificateProviderOutputBody {
     let certificateProviderName: Swift.String?
     let certificateProviderArn: Swift.String?
 }
@@ -47571,7 +47571,7 @@ extension UpdateCustomMetricInput {
     }
 }
 
-public struct UpdateCustomMetricInput: Swift.Equatable {
+public struct UpdateCustomMetricInput {
     /// Field represents a friendly name in the console for the custom metric, it doesn't have to be unique. Don't use this name as the metric identifier in the device metric report. Can be updated.
     /// This member is required.
     public var displayName: Swift.String?
@@ -47589,7 +47589,7 @@ public struct UpdateCustomMetricInput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomMetricInputBody: Swift.Equatable {
+struct UpdateCustomMetricInputBody {
     let displayName: Swift.String?
 }
 
@@ -47627,7 +47627,7 @@ extension UpdateCustomMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCustomMetricOutput: Swift.Equatable {
+public struct UpdateCustomMetricOutput {
     /// The creation date of the custom metric in milliseconds since epoch.
     public var creationDate: ClientRuntime.Date?
     /// A friendly name in the console for the custom metric
@@ -47659,7 +47659,7 @@ public struct UpdateCustomMetricOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCustomMetricOutputBody: Swift.Equatable {
+struct UpdateCustomMetricOutputBody {
     let metricName: Swift.String?
     let metricArn: Swift.String?
     let metricType: IoTClientTypes.CustomMetricType?
@@ -47730,7 +47730,7 @@ extension IoTClientTypes.UpdateDeviceCertificateParams: Swift.Codable {
 
 extension IoTClientTypes {
     /// Parameters to define a mitigation action that changes the state of the device certificate to inactive.
-    public struct UpdateDeviceCertificateParams: Swift.Equatable {
+    public struct UpdateDeviceCertificateParams {
         /// The action that you want to apply to the device certificate. The only supported value is DEACTIVATE.
         /// This member is required.
         public var action: IoTClientTypes.DeviceCertificateUpdateAction?
@@ -47771,7 +47771,7 @@ extension UpdateDimensionInput {
     }
 }
 
-public struct UpdateDimensionInput: Swift.Equatable {
+public struct UpdateDimensionInput {
     /// A unique identifier for the dimension. Choose something that describes the type and value to make it easy to remember what it does.
     /// This member is required.
     public var name: Swift.String?
@@ -47789,7 +47789,7 @@ public struct UpdateDimensionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDimensionInputBody: Swift.Equatable {
+struct UpdateDimensionInputBody {
     let stringValues: [Swift.String]?
 }
 
@@ -47836,7 +47836,7 @@ extension UpdateDimensionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDimensionOutput: Swift.Equatable {
+public struct UpdateDimensionOutput {
     /// The Amazon Resource Name (ARN)of the created dimension.
     public var arn: Swift.String?
     /// The date and time, in milliseconds since epoch, when the dimension was initially created.
@@ -47868,7 +47868,7 @@ public struct UpdateDimensionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDimensionOutputBody: Swift.Equatable {
+struct UpdateDimensionOutputBody {
     let name: Swift.String?
     let arn: Swift.String?
     let type: IoTClientTypes.DimensionType?
@@ -47966,7 +47966,7 @@ extension UpdateDomainConfigurationInput {
     }
 }
 
-public struct UpdateDomainConfigurationInput: Swift.Equatable {
+public struct UpdateDomainConfigurationInput {
     /// An object that specifies the authorization service for a domain.
     public var authorizerConfig: IoTClientTypes.AuthorizerConfig?
     /// The name of the domain configuration to be updated.
@@ -47999,7 +47999,7 @@ public struct UpdateDomainConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainConfigurationInputBody: Swift.Equatable {
+struct UpdateDomainConfigurationInputBody {
     let authorizerConfig: IoTClientTypes.AuthorizerConfig?
     let domainConfigurationStatus: IoTClientTypes.DomainConfigurationStatus?
     let removeAuthorizerConfig: Swift.Bool?
@@ -48045,7 +48045,7 @@ extension UpdateDomainConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDomainConfigurationOutput: Swift.Equatable {
+public struct UpdateDomainConfigurationOutput {
     /// The ARN of the domain configuration that was updated.
     public var domainConfigurationArn: Swift.String?
     /// The name of the domain configuration that was updated.
@@ -48061,7 +48061,7 @@ public struct UpdateDomainConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainConfigurationOutputBody: Swift.Equatable {
+struct UpdateDomainConfigurationOutputBody {
     let domainConfigurationName: Swift.String?
     let domainConfigurationArn: Swift.String?
 }
@@ -48137,7 +48137,7 @@ extension UpdateDynamicThingGroupInput {
     }
 }
 
-public struct UpdateDynamicThingGroupInput: Swift.Equatable {
+public struct UpdateDynamicThingGroupInput {
     /// The expected version of the dynamic thing group to update.
     public var expectedVersion: Swift.Int?
     /// The dynamic thing group index to update. Currently one index is supported: AWS_Things.
@@ -48171,7 +48171,7 @@ public struct UpdateDynamicThingGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateDynamicThingGroupInputBody: Swift.Equatable {
+struct UpdateDynamicThingGroupInputBody {
     let thingGroupProperties: IoTClientTypes.ThingGroupProperties?
     let expectedVersion: Swift.Int?
     let indexName: Swift.String?
@@ -48215,7 +48215,7 @@ extension UpdateDynamicThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDynamicThingGroupOutput: Swift.Equatable {
+public struct UpdateDynamicThingGroupOutput {
     /// The dynamic thing group version.
     public var version: Swift.Int
 
@@ -48227,7 +48227,7 @@ public struct UpdateDynamicThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDynamicThingGroupOutputBody: Swift.Equatable {
+struct UpdateDynamicThingGroupOutputBody {
     let version: Swift.Int
 }
 
@@ -48282,7 +48282,7 @@ extension UpdateEventConfigurationsInput {
     }
 }
 
-public struct UpdateEventConfigurationsInput: Swift.Equatable {
+public struct UpdateEventConfigurationsInput {
     /// The new event configuration values.
     public var eventConfigurations: [Swift.String:IoTClientTypes.Configuration]?
 
@@ -48294,7 +48294,7 @@ public struct UpdateEventConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventConfigurationsInputBody: Swift.Equatable {
+struct UpdateEventConfigurationsInputBody {
     let eventConfigurations: [Swift.String:IoTClientTypes.Configuration]?
 }
 
@@ -48324,7 +48324,7 @@ extension UpdateEventConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventConfigurationsOutput: Swift.Equatable {
+public struct UpdateEventConfigurationsOutput {
 
     public init() { }
 }
@@ -48397,7 +48397,7 @@ extension UpdateFleetMetricInput {
     }
 }
 
-public struct UpdateFleetMetricInput: Swift.Equatable {
+public struct UpdateFleetMetricInput {
     /// The field to aggregate.
     public var aggregationField: Swift.String?
     /// The type of the aggregation query.
@@ -48447,7 +48447,7 @@ public struct UpdateFleetMetricInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetMetricInputBody: Swift.Equatable {
+struct UpdateFleetMetricInputBody {
     let queryString: Swift.String?
     let aggregationType: IoTClientTypes.AggregationType?
     let period: Swift.Int?
@@ -48500,7 +48500,7 @@ extension UpdateFleetMetricOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetMetricOutput: Swift.Equatable {
+public struct UpdateFleetMetricOutput {
 
     public init() { }
 }
@@ -48549,7 +48549,7 @@ extension UpdateIndexingConfigurationInput {
     }
 }
 
-public struct UpdateIndexingConfigurationInput: Swift.Equatable {
+public struct UpdateIndexingConfigurationInput {
     /// Thing group indexing configuration.
     public var thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration?
     /// Thing indexing configuration.
@@ -48565,7 +48565,7 @@ public struct UpdateIndexingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateIndexingConfigurationInputBody: Swift.Equatable {
+struct UpdateIndexingConfigurationInputBody {
     let thingIndexingConfiguration: IoTClientTypes.ThingIndexingConfiguration?
     let thingGroupIndexingConfiguration: IoTClientTypes.ThingGroupIndexingConfiguration?
 }
@@ -48590,7 +48590,7 @@ extension UpdateIndexingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIndexingConfigurationOutput: Swift.Equatable {
+public struct UpdateIndexingConfigurationOutput {
 
     public init() { }
 }
@@ -48665,7 +48665,7 @@ extension UpdateJobInput {
     }
 }
 
-public struct UpdateJobInput: Swift.Equatable {
+public struct UpdateJobInput {
     /// Allows you to create criteria to abort a job.
     public var abortConfig: IoTClientTypes.AbortConfig?
     /// A short text description of the job.
@@ -48706,7 +48706,7 @@ public struct UpdateJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobInputBody: Swift.Equatable {
+struct UpdateJobInputBody {
     let description: Swift.String?
     let presignedUrlConfig: IoTClientTypes.PresignedUrlConfig?
     let jobExecutionsRolloutConfig: IoTClientTypes.JobExecutionsRolloutConfig?
@@ -48747,7 +48747,7 @@ extension UpdateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobOutput: Swift.Equatable {
+public struct UpdateJobOutput {
 
     public init() { }
 }
@@ -48793,7 +48793,7 @@ extension UpdateMitigationActionInput {
     }
 }
 
-public struct UpdateMitigationActionInput: Swift.Equatable {
+public struct UpdateMitigationActionInput {
     /// The friendly name for the mitigation action. You cannot change the name by using UpdateMitigationAction. Instead, you must delete and recreate the mitigation action with the new name.
     /// This member is required.
     public var actionName: Swift.String?
@@ -48814,7 +48814,7 @@ public struct UpdateMitigationActionInput: Swift.Equatable {
     }
 }
 
-struct UpdateMitigationActionInputBody: Swift.Equatable {
+struct UpdateMitigationActionInputBody {
     let roleArn: Swift.String?
     let actionParams: IoTClientTypes.MitigationActionParams?
 }
@@ -48848,7 +48848,7 @@ extension UpdateMitigationActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMitigationActionOutput: Swift.Equatable {
+public struct UpdateMitigationActionOutput {
     /// The ARN for the new mitigation action.
     public var actionArn: Swift.String?
     /// A unique identifier for the mitigation action.
@@ -48864,7 +48864,7 @@ public struct UpdateMitigationActionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMitigationActionOutputBody: Swift.Equatable {
+struct UpdateMitigationActionOutputBody {
     let actionArn: Swift.String?
     let actionId: Swift.String?
 }
@@ -48930,7 +48930,7 @@ extension UpdatePackageConfigurationInput {
     }
 }
 
-public struct UpdatePackageConfigurationInput: Swift.Equatable {
+public struct UpdatePackageConfigurationInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// Configuration to manage job's package version reporting. This updates the thing's reserved named shadow that the job targets.
@@ -48946,7 +48946,7 @@ public struct UpdatePackageConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageConfigurationInputBody: Swift.Equatable {
+struct UpdatePackageConfigurationInputBody {
     let versionUpdateByJobsConfig: IoTClientTypes.VersionUpdateByJobsConfig?
 }
 
@@ -48967,7 +48967,7 @@ extension UpdatePackageConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePackageConfigurationOutput: Swift.Equatable {
+public struct UpdatePackageConfigurationOutput {
 
     public init() { }
 }
@@ -49034,7 +49034,7 @@ extension UpdatePackageInput {
     }
 }
 
-public struct UpdatePackageInput: Swift.Equatable {
+public struct UpdatePackageInput {
     /// A unique case-sensitive identifier that you can provide to ensure the idempotency of the request. Don't reuse this client token if a new idempotent request is required.
     public var clientToken: Swift.String?
     /// The name of the default package version. Note: You cannot name a defaultVersion and set unsetDefaultVersion equal to true at the same time.
@@ -49063,7 +49063,7 @@ public struct UpdatePackageInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageInputBody: Swift.Equatable {
+struct UpdatePackageInputBody {
     let description: Swift.String?
     let defaultVersionName: Swift.String?
     let unsetDefaultVersion: Swift.Bool?
@@ -49092,7 +49092,7 @@ extension UpdatePackageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePackageOutput: Swift.Equatable {
+public struct UpdatePackageOutput {
 
     public init() { }
 }
@@ -49166,7 +49166,7 @@ extension UpdatePackageVersionInput {
     }
 }
 
-public struct UpdatePackageVersionInput: Swift.Equatable {
+public struct UpdatePackageVersionInput {
     /// The status that the package version should be assigned. For more information, see [Package version lifecycle](https://docs.aws.amazon.com/iot/latest/developerguide/preparing-to-use-software-package-catalog.html#package-version-lifecycle).
     public var action: IoTClientTypes.PackageVersionAction?
     /// Metadata that can be used to define a package version’s configuration. For example, the Amazon S3 file location, configuration options that are being sent to the device or fleet. Note: Attributes can be updated only when the package version is in a draft state. The combined size of all the attributes on a package version is limited to 3KB.
@@ -49200,7 +49200,7 @@ public struct UpdatePackageVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdatePackageVersionInputBody: Swift.Equatable {
+struct UpdatePackageVersionInputBody {
     let description: Swift.String?
     let attributes: [Swift.String:Swift.String]?
     let action: IoTClientTypes.PackageVersionAction?
@@ -49238,7 +49238,7 @@ extension UpdatePackageVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePackageVersionOutput: Swift.Equatable {
+public struct UpdatePackageVersionOutput {
 
     public init() { }
 }
@@ -49301,7 +49301,7 @@ extension UpdateProvisioningTemplateInput {
     }
 }
 
-public struct UpdateProvisioningTemplateInput: Swift.Equatable {
+public struct UpdateProvisioningTemplateInput {
     /// The ID of the default provisioning template version.
     public var defaultVersionId: Swift.Int?
     /// The description of the provisioning template.
@@ -49338,7 +49338,7 @@ public struct UpdateProvisioningTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateProvisioningTemplateInputBody: Swift.Equatable {
+struct UpdateProvisioningTemplateInputBody {
     let description: Swift.String?
     let enabled: Swift.Bool?
     let defaultVersionId: Swift.Int?
@@ -49379,7 +49379,7 @@ extension UpdateProvisioningTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProvisioningTemplateOutput: Swift.Equatable {
+public struct UpdateProvisioningTemplateOutput {
 
     public init() { }
 }
@@ -49426,7 +49426,7 @@ extension UpdateRoleAliasInput {
     }
 }
 
-public struct UpdateRoleAliasInput: Swift.Equatable {
+public struct UpdateRoleAliasInput {
     /// The number of seconds the credential will be valid. This value must be less than or equal to the maximum session duration of the IAM role that the role alias references.
     public var credentialDurationSeconds: Swift.Int?
     /// The role alias to update.
@@ -49447,7 +49447,7 @@ public struct UpdateRoleAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoleAliasInputBody: Swift.Equatable {
+struct UpdateRoleAliasInputBody {
     let roleArn: Swift.String?
     let credentialDurationSeconds: Swift.Int?
 }
@@ -49481,7 +49481,7 @@ extension UpdateRoleAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoleAliasOutput: Swift.Equatable {
+public struct UpdateRoleAliasOutput {
     /// The role alias.
     public var roleAlias: Swift.String?
     /// The role alias ARN.
@@ -49497,7 +49497,7 @@ public struct UpdateRoleAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRoleAliasOutputBody: Swift.Equatable {
+struct UpdateRoleAliasOutputBody {
     let roleAlias: Swift.String?
     let roleAliasArn: Swift.String?
 }
@@ -49571,7 +49571,7 @@ extension UpdateScheduledAuditInput {
     }
 }
 
-public struct UpdateScheduledAuditInput: Swift.Equatable {
+public struct UpdateScheduledAuditInput {
     /// The day of the month on which the scheduled audit takes place. This can be 1 through 31 or LAST. This field is required if the frequency parameter is set to MONTHLY. If days 29-31 are specified, and the month does not have that many days, the audit takes place on the "LAST" day of the month.
     public var dayOfMonth: Swift.String?
     /// The day of the week on which the scheduled audit takes place. This can be one of SUN, MON, TUE, WED, THU, FRI, or SAT. This field is required if the "frequency" parameter is set to WEEKLY or BIWEEKLY.
@@ -49600,7 +49600,7 @@ public struct UpdateScheduledAuditInput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledAuditInputBody: Swift.Equatable {
+struct UpdateScheduledAuditInputBody {
     let frequency: IoTClientTypes.AuditFrequency?
     let dayOfMonth: Swift.String?
     let dayOfWeek: IoTClientTypes.DayOfWeek?
@@ -49649,7 +49649,7 @@ extension UpdateScheduledAuditOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateScheduledAuditOutput: Swift.Equatable {
+public struct UpdateScheduledAuditOutput {
     /// The ARN of the scheduled audit.
     public var scheduledAuditArn: Swift.String?
 
@@ -49661,7 +49661,7 @@ public struct UpdateScheduledAuditOutput: Swift.Equatable {
     }
 }
 
-struct UpdateScheduledAuditOutputBody: Swift.Equatable {
+struct UpdateScheduledAuditOutputBody {
     let scheduledAuditArn: Swift.String?
 }
 
@@ -49774,7 +49774,7 @@ extension UpdateSecurityProfileInput {
     }
 }
 
-public struct UpdateSecurityProfileInput: Swift.Equatable {
+public struct UpdateSecurityProfileInput {
     /// Please use [UpdateSecurityProfileRequest$additionalMetricsToRetainV2] instead. A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the profile's behaviors, but it is also retained for any metric specified here. Can be used with custom metrics; cannot be used with dimensions.
     @available(*, deprecated, message: "Use additionalMetricsToRetainV2.")
     public var additionalMetricsToRetain: [Swift.String]?
@@ -49832,7 +49832,7 @@ public struct UpdateSecurityProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityProfileInputBody: Swift.Equatable {
+struct UpdateSecurityProfileInputBody {
     let securityProfileDescription: Swift.String?
     let behaviors: [IoTClientTypes.Behavior]?
     let alertTargets: [Swift.String:IoTClientTypes.AlertTarget]?
@@ -49952,7 +49952,7 @@ extension UpdateSecurityProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSecurityProfileOutput: Swift.Equatable {
+public struct UpdateSecurityProfileOutput {
     /// Please use [UpdateSecurityProfileResponse$additionalMetricsToRetainV2] instead. A list of metrics whose data is retained (stored). By default, data is retained for any metric used in the security profile's behaviors, but it is also retained for any metric specified here.
     @available(*, deprecated, message: "Use additionalMetricsToRetainV2.")
     public var additionalMetricsToRetain: [Swift.String]?
@@ -50005,7 +50005,7 @@ public struct UpdateSecurityProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSecurityProfileOutputBody: Swift.Equatable {
+struct UpdateSecurityProfileOutputBody {
     let securityProfileName: Swift.String?
     let securityProfileArn: Swift.String?
     let securityProfileDescription: Swift.String?
@@ -50146,7 +50146,7 @@ extension UpdateStreamInput {
     }
 }
 
-public struct UpdateStreamInput: Swift.Equatable {
+public struct UpdateStreamInput {
     /// The description of the stream.
     public var description: Swift.String?
     /// The files associated with the stream.
@@ -50171,7 +50171,7 @@ public struct UpdateStreamInput: Swift.Equatable {
     }
 }
 
-struct UpdateStreamInputBody: Swift.Equatable {
+struct UpdateStreamInputBody {
     let description: Swift.String?
     let files: [IoTClientTypes.StreamFile]?
     let roleArn: Swift.String?
@@ -50222,7 +50222,7 @@ extension UpdateStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStreamOutput: Swift.Equatable {
+public struct UpdateStreamOutput {
     /// A description of the stream.
     public var description: Swift.String?
     /// The stream ARN.
@@ -50246,7 +50246,7 @@ public struct UpdateStreamOutput: Swift.Equatable {
     }
 }
 
-struct UpdateStreamOutputBody: Swift.Equatable {
+struct UpdateStreamOutputBody {
     let streamId: Swift.String?
     let streamArn: Swift.String?
     let description: Swift.String?
@@ -50317,7 +50317,7 @@ extension UpdateThingGroupInput {
     }
 }
 
-public struct UpdateThingGroupInput: Swift.Equatable {
+public struct UpdateThingGroupInput {
     /// The expected version of the thing group. If this does not match the version of the thing group being updated, the update will fail.
     public var expectedVersion: Swift.Int?
     /// The thing group to update.
@@ -50339,7 +50339,7 @@ public struct UpdateThingGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateThingGroupInputBody: Swift.Equatable {
+struct UpdateThingGroupInputBody {
     let thingGroupProperties: IoTClientTypes.ThingGroupProperties?
     let expectedVersion: Swift.Int?
 }
@@ -50371,7 +50371,7 @@ extension UpdateThingGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThingGroupOutput: Swift.Equatable {
+public struct UpdateThingGroupOutput {
     /// The version of the updated thing group.
     public var version: Swift.Int
 
@@ -50383,7 +50383,7 @@ public struct UpdateThingGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThingGroupOutputBody: Swift.Equatable {
+struct UpdateThingGroupOutputBody {
     let version: Swift.Int
 }
 
@@ -50452,7 +50452,7 @@ extension UpdateThingGroupsForThingInput {
     }
 }
 
-public struct UpdateThingGroupsForThingInput: Swift.Equatable {
+public struct UpdateThingGroupsForThingInput {
     /// Override dynamic thing groups with static thing groups when 10-group limit is reached. If a thing belongs to 10 thing groups, and one or more of those groups are dynamic thing groups, adding a thing to a static group removes the thing from the last dynamic group.
     public var overrideDynamicGroups: Swift.Bool?
     /// The groups to which the thing will be added.
@@ -50476,7 +50476,7 @@ public struct UpdateThingGroupsForThingInput: Swift.Equatable {
     }
 }
 
-struct UpdateThingGroupsForThingInputBody: Swift.Equatable {
+struct UpdateThingGroupsForThingInputBody {
     let thingName: Swift.String?
     let thingGroupsToAdd: [Swift.String]?
     let thingGroupsToRemove: [Swift.String]?
@@ -50527,7 +50527,7 @@ extension UpdateThingGroupsForThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThingGroupsForThingOutput: Swift.Equatable {
+public struct UpdateThingGroupsForThingOutput {
 
     public init() { }
 }
@@ -50582,7 +50582,7 @@ extension UpdateThingInput {
 }
 
 /// The input for the UpdateThing operation.
-public struct UpdateThingInput: Swift.Equatable {
+public struct UpdateThingInput {
     /// A list of thing attributes, a JSON string containing name-value pairs. For example: {\"attributes\":{\"name1\":\"value2\"}} This data is used to add new attributes or update existing attributes.
     public var attributePayload: IoTClientTypes.AttributePayload?
     /// The expected version of the thing record in the registry. If the version of the record in the registry does not match the expected version specified in the request, the UpdateThing request is rejected with a VersionConflictException.
@@ -50611,7 +50611,7 @@ public struct UpdateThingInput: Swift.Equatable {
     }
 }
 
-struct UpdateThingInputBody: Swift.Equatable {
+struct UpdateThingInputBody {
     let thingTypeName: Swift.String?
     let attributePayload: IoTClientTypes.AttributePayload?
     let expectedVersion: Swift.Int?
@@ -50645,7 +50645,7 @@ extension UpdateThingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the UpdateThing operation.
-public struct UpdateThingOutput: Swift.Equatable {
+public struct UpdateThingOutput {
 
     public init() { }
 }
@@ -50691,7 +50691,7 @@ extension UpdateTopicRuleDestinationInput {
     }
 }
 
-public struct UpdateTopicRuleDestinationInput: Swift.Equatable {
+public struct UpdateTopicRuleDestinationInput {
     /// The ARN of the topic rule destination.
     /// This member is required.
     public var arn: Swift.String?
@@ -50709,7 +50709,7 @@ public struct UpdateTopicRuleDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateTopicRuleDestinationInputBody: Swift.Equatable {
+struct UpdateTopicRuleDestinationInputBody {
     let arn: Swift.String?
     let status: IoTClientTypes.TopicRuleDestinationStatus?
 }
@@ -50734,7 +50734,7 @@ extension UpdateTopicRuleDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTopicRuleDestinationOutput: Swift.Equatable {
+public struct UpdateTopicRuleDestinationOutput {
 
     public init() { }
 }
@@ -50781,7 +50781,7 @@ extension IoTClientTypes.UserProperty: Swift.Codable {
 
 extension IoTClientTypes {
     /// A key-value pair that you define in the header. Both the key and the value are either literal strings or valid [substitution templates](https://docs.aws.amazon.com/iot/latest/developerguide/iot-substitution-templates.html).
-    public struct UserProperty: Swift.Equatable {
+    public struct UserProperty {
         /// A key to be specified in UserProperty.
         /// This member is required.
         public var key: Swift.String?
@@ -50824,7 +50824,7 @@ extension ValidateSecurityProfileBehaviorsInput {
     }
 }
 
-public struct ValidateSecurityProfileBehaviorsInput: Swift.Equatable {
+public struct ValidateSecurityProfileBehaviorsInput {
     /// Specifies the behaviors that, when violated by a device (thing), cause an alert.
     /// This member is required.
     public var behaviors: [IoTClientTypes.Behavior]?
@@ -50837,7 +50837,7 @@ public struct ValidateSecurityProfileBehaviorsInput: Swift.Equatable {
     }
 }
 
-struct ValidateSecurityProfileBehaviorsInputBody: Swift.Equatable {
+struct ValidateSecurityProfileBehaviorsInputBody {
     let behaviors: [IoTClientTypes.Behavior]?
 }
 
@@ -50876,7 +50876,7 @@ extension ValidateSecurityProfileBehaviorsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ValidateSecurityProfileBehaviorsOutput: Swift.Equatable {
+public struct ValidateSecurityProfileBehaviorsOutput {
     /// True if the behaviors were valid.
     public var valid: Swift.Bool
     /// The list of any errors found in the behaviors.
@@ -50892,7 +50892,7 @@ public struct ValidateSecurityProfileBehaviorsOutput: Swift.Equatable {
     }
 }
 
-struct ValidateSecurityProfileBehaviorsOutputBody: Swift.Equatable {
+struct ValidateSecurityProfileBehaviorsOutputBody {
     let valid: Swift.Bool
     let validationErrors: [IoTClientTypes.ValidationError]?
 }
@@ -50955,7 +50955,7 @@ extension IoTClientTypes.ValidationError: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about an error found in a behavior specification.
-    public struct ValidationError: Swift.Equatable {
+    public struct ValidationError {
         /// The description of an error found in the behaviors.
         public var errorMessage: Swift.String?
 
@@ -51008,7 +51008,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -51102,7 +51102,7 @@ public struct VersionConflictException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct VersionConflictExceptionBody: Swift.Equatable {
+struct VersionConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -51145,7 +51145,7 @@ extension IoTClientTypes.VersionUpdateByJobsConfig: Swift.Codable {
 
 extension IoTClientTypes {
     /// Configuration to manage IoT Job's package version reporting. If configured, Jobs updates the thing's reserved named shadow with the package version information up on successful job completion. Note: For each job, the destinationPackageVersions attribute has to be set with the correct data for Jobs to report to the thing shadow.
-    public struct VersionUpdateByJobsConfig: Swift.Equatable {
+    public struct VersionUpdateByJobsConfig {
         /// Indicates whether the Job is enabled or not.
         public var enabled: Swift.Bool?
         /// The Amazon Resource Name (ARN) of the role that grants permission to the IoT jobs service to update the reserved named shadow when the job successfully completes.
@@ -51203,7 +51203,7 @@ public struct VersionsLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct VersionsLimitExceededExceptionBody: Swift.Equatable {
+struct VersionsLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -51294,7 +51294,7 @@ extension IoTClientTypes.ViolationEvent: Swift.Codable {
 
 extension IoTClientTypes {
     /// Information about a Device Defender security profile behavior violation.
-    public struct ViolationEvent: Swift.Equatable {
+    public struct ViolationEvent {
         /// The behavior that was violated.
         public var behavior: IoTClientTypes.Behavior?
         /// The value of the metric (the measurement).
@@ -51365,7 +51365,7 @@ extension IoTClientTypes.ViolationEventAdditionalInfo: Swift.Codable {
 
 extension IoTClientTypes {
     /// The details of a violation event.
-    public struct ViolationEventAdditionalInfo: Swift.Equatable {
+    public struct ViolationEventAdditionalInfo {
         /// The sensitivity of anomalous behavior evaluation. Can be Low, Medium, or High.
         public var confidenceLevel: IoTClientTypes.ConfidenceLevel?
 
@@ -51406,7 +51406,7 @@ extension IoTClientTypes.ViolationEventOccurrenceRange: Swift.Codable {
 
 extension IoTClientTypes {
     /// Specifies the time period of which violation events occurred between.
-    public struct ViolationEventOccurrenceRange: Swift.Equatable {
+    public struct ViolationEventOccurrenceRange {
         /// The end date and time of a time period in which violation events occurred.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -51524,7 +51524,7 @@ extension IoTClientTypes.VpcDestinationConfiguration: Swift.Codable {
 
 extension IoTClientTypes {
     /// The configuration information for a virtual private cloud (VPC) destination.
-    public struct VpcDestinationConfiguration: Swift.Equatable {
+    public struct VpcDestinationConfiguration {
         /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
         /// This member is required.
         public var roleArn: Swift.String?
@@ -51616,7 +51616,7 @@ extension IoTClientTypes.VpcDestinationProperties: Swift.Codable {
 
 extension IoTClientTypes {
     /// The properties of a virtual private cloud (VPC) destination.
-    public struct VpcDestinationProperties: Swift.Equatable {
+    public struct VpcDestinationProperties {
         /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
         public var roleArn: Swift.String?
         /// The security groups of the VPC destination.
@@ -51705,7 +51705,7 @@ extension IoTClientTypes.VpcDestinationSummary: Swift.Codable {
 
 extension IoTClientTypes {
     /// The summary of a virtual private cloud (VPC) destination.
-    public struct VpcDestinationSummary: Swift.Equatable {
+    public struct VpcDestinationSummary {
         /// The ARN of a role that has permission to create and attach to elastic network interfaces (ENIs).
         public var roleArn: Swift.String?
         /// The security groups of the VPC destination.

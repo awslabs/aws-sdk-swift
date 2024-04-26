@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -90,7 +90,7 @@ extension MarketplaceCatalogClientTypes.AmiProductEntityIdFilter: Swift.Codable 
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on entity id of an AMI product.
-    public struct AmiProductEntityIdFilter: Swift.Equatable {
+    public struct AmiProductEntityIdFilter {
         /// A string array of unique entity id values to be filtered on.
         public var valueList: [Swift.String]?
 
@@ -143,7 +143,7 @@ extension MarketplaceCatalogClientTypes.AmiProductFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for AMI products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct AmiProductFilters: Swift.Equatable {
+    public struct AmiProductFilters {
         /// Unique identifier for the AMI product.
         public var entityId: MarketplaceCatalogClientTypes.AmiProductEntityIdFilter?
         /// The last date on which the AMI product was modified.
@@ -190,7 +190,7 @@ extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilter: Swift.
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering based on the last modified date of AMI products.
-    public struct AmiProductLastModifiedDateFilter: Swift.Equatable {
+    public struct AmiProductLastModifiedDateFilter {
         /// Dates between which the AMI product was last modified.
         public var dateRange: MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRange?
 
@@ -231,7 +231,7 @@ extension MarketplaceCatalogClientTypes.AmiProductLastModifiedDateFilterDateRang
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains date range of the last modified date to be filtered on. You can optionally provide a BeforeValue and/or AfterValue. Both are inclusive.
-    public struct AmiProductLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct AmiProductLastModifiedDateFilterDateRange {
         /// Date after which the AMI product was last modified.
         public var afterValue: Swift.String?
         /// Date before which the AMI product was last modified.
@@ -276,7 +276,7 @@ extension MarketplaceCatalogClientTypes.AmiProductSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Objects that allows sorting on AMI products based on certain fields and sorting order.
-    public struct AmiProductSort: Swift.Equatable {
+    public struct AmiProductSort {
         /// Field to sort the AMI products by.
         public var sortBy: MarketplaceCatalogClientTypes.AmiProductSortBy?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -359,7 +359,7 @@ extension MarketplaceCatalogClientTypes.AmiProductSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains summarized information about an AMI product.
-    public struct AmiProductSummary: Swift.Equatable {
+    public struct AmiProductSummary {
         /// The title of the AMI product.
         public var productTitle: Swift.String?
         /// The lifecycle of the AMI product.
@@ -416,7 +416,7 @@ extension MarketplaceCatalogClientTypes.AmiProductTitleFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on product title.
-    public struct AmiProductTitleFilter: Swift.Equatable {
+    public struct AmiProductTitleFilter {
         /// A string array of unique product title values to be filtered on.
         public var valueList: [Swift.String]?
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
@@ -467,7 +467,7 @@ extension MarketplaceCatalogClientTypes.AmiProductVisibilityFilter: Swift.Codabl
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on the visibility of the product in the AWS Marketplace.
-    public struct AmiProductVisibilityFilter: Swift.Equatable {
+    public struct AmiProductVisibilityFilter {
         /// A string array of unique visibility values to be filtered on.
         public var valueList: [MarketplaceCatalogClientTypes.AmiProductVisibilityString]?
 
@@ -542,7 +542,7 @@ extension BatchDescribeEntitiesInput {
     }
 }
 
-public struct BatchDescribeEntitiesInput: Swift.Equatable {
+public struct BatchDescribeEntitiesInput {
     /// List of entity IDs and the catalogs the entities are present in.
     /// This member is required.
     public var entityRequestList: [MarketplaceCatalogClientTypes.EntityRequest]?
@@ -555,7 +555,7 @@ public struct BatchDescribeEntitiesInput: Swift.Equatable {
     }
 }
 
-struct BatchDescribeEntitiesInputBody: Swift.Equatable {
+struct BatchDescribeEntitiesInputBody {
     let entityRequestList: [MarketplaceCatalogClientTypes.EntityRequest]?
 }
 
@@ -594,7 +594,7 @@ extension BatchDescribeEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDescribeEntitiesOutput: Swift.Equatable {
+public struct BatchDescribeEntitiesOutput {
     /// Details about each entity.
     public var entityDetails: [Swift.String:MarketplaceCatalogClientTypes.EntityDetail]?
     /// A map of errors returned, with EntityId as the key and errorDetail as the value.
@@ -610,7 +610,7 @@ public struct BatchDescribeEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct BatchDescribeEntitiesOutputBody: Swift.Equatable {
+struct BatchDescribeEntitiesOutputBody {
     let entityDetails: [Swift.String:MarketplaceCatalogClientTypes.EntityDetail]?
     let errors: [Swift.String:MarketplaceCatalogClientTypes.BatchDescribeErrorDetail]?
 }
@@ -689,7 +689,7 @@ extension MarketplaceCatalogClientTypes.BatchDescribeErrorDetail: Swift.Codable 
 
 extension MarketplaceCatalogClientTypes {
     /// An object that contains an error code and error message.
-    public struct BatchDescribeErrorDetail: Swift.Equatable {
+    public struct BatchDescribeErrorDetail {
         /// The error code returned.
         public var errorCode: Swift.String?
         /// The error message returned.
@@ -734,7 +734,7 @@ extension CancelChangeSetInput {
     }
 }
 
-public struct CancelChangeSetInput: Swift.Equatable {
+public struct CancelChangeSetInput {
     /// Required. The catalog related to the request. Fixed value: AWSMarketplace.
     /// This member is required.
     public var catalog: Swift.String?
@@ -752,7 +752,7 @@ public struct CancelChangeSetInput: Swift.Equatable {
     }
 }
 
-struct CancelChangeSetInputBody: Swift.Equatable {
+struct CancelChangeSetInputBody {
 }
 
 extension CancelChangeSetInputBody: Swift.Decodable {
@@ -775,7 +775,7 @@ extension CancelChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelChangeSetOutput: Swift.Equatable {
+public struct CancelChangeSetOutput {
     /// The ARN associated with the change set referenced in this request.
     public var changeSetArn: Swift.String?
     /// The unique identifier for the change set referenced in this request.
@@ -791,7 +791,7 @@ public struct CancelChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct CancelChangeSetOutputBody: Swift.Equatable {
+struct CancelChangeSetOutputBody {
     let changeSetId: Swift.String?
     let changeSetArn: Swift.String?
 }
@@ -890,7 +890,7 @@ extension MarketplaceCatalogClientTypes.Change: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// An object that contains the ChangeType, Details, and Entity.
-    public struct Change: Swift.Equatable {
+    public struct Change {
         /// Optional name for the change.
         public var changeName: Swift.String?
         /// Change types are single string values that describe your intention for the change. Each change type is unique for each EntityType provided in the change's scope. For more information about change types available for single-AMI products, see [Working with single-AMI products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/ami-products.html#working-with-single-AMI-products). Also, for more information about change types available for container-based products, see [Working with container products](https://docs.aws.amazon.com/marketplace-catalog/latest/api-reference/container-products.html#working-with-container-products).
@@ -1001,7 +1001,7 @@ extension MarketplaceCatalogClientTypes.ChangeSetSummaryListItem: Swift.Codable 
 
 extension MarketplaceCatalogClientTypes {
     /// A summary of a change set returned in a list of change sets when the ListChangeSets action is called.
-    public struct ChangeSetSummaryListItem: Swift.Equatable {
+    public struct ChangeSetSummaryListItem {
         /// The ARN associated with the unique identifier for the change set referenced in this request.
         public var changeSetArn: Swift.String?
         /// The unique identifier for a change set.
@@ -1147,7 +1147,7 @@ extension MarketplaceCatalogClientTypes.ChangeSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// This object is a container for common summary information about the change. The summary doesn't contain the whole change structure.
-    public struct ChangeSummary: Swift.Equatable {
+    public struct ChangeSummary {
         /// Optional name for the change.
         public var changeName: Swift.String?
         /// The type of the change.
@@ -1214,7 +1214,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter: Swift.Co
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on entity id of a container product.
-    public struct ContainerProductEntityIdFilter: Swift.Equatable {
+    public struct ContainerProductEntityIdFilter {
         /// A string array of unique entity id values to be filtered on.
         public var valueList: [Swift.String]?
 
@@ -1267,7 +1267,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for container products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct ContainerProductFilters: Swift.Equatable {
+    public struct ContainerProductFilters {
         /// Unique identifier for the container product.
         public var entityId: MarketplaceCatalogClientTypes.ContainerProductEntityIdFilter?
         /// The last date on which the container product was modified.
@@ -1314,7 +1314,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilter: 
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering based on the last modified date of container products.
-    public struct ContainerProductLastModifiedDateFilter: Swift.Equatable {
+    public struct ContainerProductLastModifiedDateFilter {
         /// Dates between which the container product was last modified.
         public var dateRange: MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDateRange?
 
@@ -1355,7 +1355,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductLastModifiedDateFilterDa
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains date range of the last modified date to be filtered on. You can optionally provide a BeforeValue and/or AfterValue. Both are inclusive.
-    public struct ContainerProductLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct ContainerProductLastModifiedDateFilterDateRange {
         /// Date after which the container product was last modified.
         public var afterValue: Swift.String?
         /// Date before which the container product was last modified.
@@ -1400,7 +1400,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Objects that allows sorting on container products based on certain fields and sorting order.
-    public struct ContainerProductSort: Swift.Equatable {
+    public struct ContainerProductSort {
         /// Field to sort the container products by.
         public var sortBy: MarketplaceCatalogClientTypes.ContainerProductSortBy?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -1483,7 +1483,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains summarized information about a container product.
-    public struct ContainerProductSummary: Swift.Equatable {
+    public struct ContainerProductSummary {
         /// The title of the container product.
         public var productTitle: Swift.String?
         /// The lifecycle of the product.
@@ -1540,7 +1540,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductTitleFilter: Swift.Codab
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on product title.
-    public struct ContainerProductTitleFilter: Swift.Equatable {
+    public struct ContainerProductTitleFilter {
         /// A string array of unique product title values to be filtered on.
         public var valueList: [Swift.String]?
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
@@ -1591,7 +1591,7 @@ extension MarketplaceCatalogClientTypes.ContainerProductVisibilityFilter: Swift.
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on the visibility of the product in the AWS Marketplace.
-    public struct ContainerProductVisibilityFilter: Swift.Equatable {
+    public struct ContainerProductVisibilityFilter {
         /// A string array of unique visibility values to be filtered on.
         public var valueList: [MarketplaceCatalogClientTypes.ContainerProductVisibilityString]?
 
@@ -1676,7 +1676,7 @@ extension MarketplaceCatalogClientTypes.DataProductEntityIdFilter: Swift.Codable
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on entity id of a data product.
-    public struct DataProductEntityIdFilter: Swift.Equatable {
+    public struct DataProductEntityIdFilter {
         /// A string array of unique entity id values to be filtered on.
         public var valueList: [Swift.String]?
 
@@ -1729,7 +1729,7 @@ extension MarketplaceCatalogClientTypes.DataProductFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for data products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct DataProductFilters: Swift.Equatable {
+    public struct DataProductFilters {
         /// Unique identifier for the data product.
         public var entityId: MarketplaceCatalogClientTypes.DataProductEntityIdFilter?
         /// The last date on which the data product was modified.
@@ -1776,7 +1776,7 @@ extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilter: Swift
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering based on the last modified date of data products.
-    public struct DataProductLastModifiedDateFilter: Swift.Equatable {
+    public struct DataProductLastModifiedDateFilter {
         /// Dates between which the data product was last modified.
         public var dateRange: MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRange?
 
@@ -1817,7 +1817,7 @@ extension MarketplaceCatalogClientTypes.DataProductLastModifiedDateFilterDateRan
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains date range of the last modified date to be filtered on. You can optionally provide a BeforeValue and/or AfterValue. Both are inclusive.
-    public struct DataProductLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct DataProductLastModifiedDateFilterDateRange {
         /// Date after which the data product was last modified.
         public var afterValue: Swift.String?
         /// Date before which the data product was last modified.
@@ -1862,7 +1862,7 @@ extension MarketplaceCatalogClientTypes.DataProductSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Objects that allows sorting on data products based on certain fields and sorting order.
-    public struct DataProductSort: Swift.Equatable {
+    public struct DataProductSort {
         /// Field to sort the data products by.
         public var sortBy: MarketplaceCatalogClientTypes.DataProductSortBy?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -1945,7 +1945,7 @@ extension MarketplaceCatalogClientTypes.DataProductSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains summarized information about a data product.
-    public struct DataProductSummary: Swift.Equatable {
+    public struct DataProductSummary {
         /// The title of the data product.
         public var productTitle: Swift.String?
         /// The lifecycle of the data product.
@@ -2002,7 +2002,7 @@ extension MarketplaceCatalogClientTypes.DataProductTitleFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on product title.
-    public struct DataProductTitleFilter: Swift.Equatable {
+    public struct DataProductTitleFilter {
         /// A string array of unique product title values to be filtered on.
         public var valueList: [Swift.String]?
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
@@ -2053,7 +2053,7 @@ extension MarketplaceCatalogClientTypes.DataProductVisibilityFilter: Swift.Codab
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on the visibility of the product in the AWS Marketplace.
-    public struct DataProductVisibilityFilter: Swift.Equatable {
+    public struct DataProductVisibilityFilter {
         /// A string array of unique visibility values to be filtered on.
         public var valueList: [MarketplaceCatalogClientTypes.DataProductVisibilityString]?
 
@@ -2129,7 +2129,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2142,7 +2142,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
 }
 
 extension DeleteResourcePolicyInputBody: Swift.Decodable {
@@ -2156,7 +2156,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -2203,7 +2203,7 @@ extension DescribeChangeSetInput {
     }
 }
 
-public struct DescribeChangeSetInput: Swift.Equatable {
+public struct DescribeChangeSetInput {
     /// Required. The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
@@ -2221,7 +2221,7 @@ public struct DescribeChangeSetInput: Swift.Equatable {
     }
 }
 
-struct DescribeChangeSetInputBody: Swift.Equatable {
+struct DescribeChangeSetInputBody {
 }
 
 extension DescribeChangeSetInputBody: Swift.Decodable {
@@ -2260,7 +2260,7 @@ extension DescribeChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeChangeSetOutput: Swift.Equatable {
+public struct DescribeChangeSetOutput {
     /// An array of ChangeSummary objects.
     public var changeSet: [MarketplaceCatalogClientTypes.ChangeSummary]?
     /// The ARN associated with the unique identifier for the change set referenced in this request.
@@ -2308,7 +2308,7 @@ public struct DescribeChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeChangeSetOutputBody: Swift.Equatable {
+struct DescribeChangeSetOutputBody {
     let changeSetId: Swift.String?
     let changeSetArn: Swift.String?
     let changeSetName: Swift.String?
@@ -2411,7 +2411,7 @@ extension DescribeEntityInput {
     }
 }
 
-public struct DescribeEntityInput: Swift.Equatable {
+public struct DescribeEntityInput {
     /// Required. The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
@@ -2429,7 +2429,7 @@ public struct DescribeEntityInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityInputBody: Swift.Equatable {
+struct DescribeEntityInputBody {
 }
 
 extension DescribeEntityInputBody: Swift.Decodable {
@@ -2460,7 +2460,7 @@ extension DescribeEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEntityOutput: Swift.Equatable {
+public struct DescribeEntityOutput {
     /// This stringified JSON object includes the details of the entity.
     public var details: Swift.String?
     /// The JSON value of the details specific to the entity.
@@ -2492,7 +2492,7 @@ public struct DescribeEntityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntityOutputBody: Swift.Equatable {
+struct DescribeEntityOutputBody {
     let entityType: Swift.String?
     let entityIdentifier: Swift.String?
     let entityArn: Swift.String?
@@ -2571,7 +2571,7 @@ extension MarketplaceCatalogClientTypes.Entity: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// An entity contains data that describes your product, its supported features, and how it can be used or launched by your customer.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The identifier for the entity.
         public var identifier: Swift.String?
         /// The type of entity.
@@ -2635,7 +2635,7 @@ extension MarketplaceCatalogClientTypes.EntityDetail: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// An object that contains metadata and details about the entity.
-    public struct EntityDetail: Swift.Equatable {
+    public struct EntityDetail {
         /// An object that contains all the details of the entity.
         public var detailsDocument: ClientRuntime.Document?
         /// The Amazon Resource Name (ARN) of the entity.
@@ -2692,7 +2692,7 @@ extension MarketplaceCatalogClientTypes.EntityRequest: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// An object that contains entity ID and the catalog in which the entity is present.
-    public struct EntityRequest: Swift.Equatable {
+    public struct EntityRequest {
         /// The name of the catalog the entity is present in. The only value at this time is AWSMarketplace.
         /// This member is required.
         public var catalog: Swift.String?
@@ -2799,7 +2799,7 @@ extension MarketplaceCatalogClientTypes.EntitySummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// This object is a container for common summary information about the entity. The summary doesn't contain the whole entity structure, but it does contain information common across all entities.
-    public struct EntitySummary: Swift.Equatable {
+    public struct EntitySummary {
         /// An object that contains summary information about the AMI product.
         public var amiProductSummary: MarketplaceCatalogClientTypes.AmiProductSummary?
         /// An object that contains summary information about the container product.
@@ -2926,7 +2926,7 @@ extension MarketplaceCatalogClientTypes.EntityTypeFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields per entity type.
-    public enum EntityTypeFilters: Swift.Equatable {
+    public enum EntityTypeFilters {
         /// A filter for data products.
         case dataproductfilters(MarketplaceCatalogClientTypes.DataProductFilters)
         /// A filter for SaaS products.
@@ -3013,7 +3013,7 @@ extension MarketplaceCatalogClientTypes.EntityTypeSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the sort fields per entity type.
-    public enum EntityTypeSort: Swift.Equatable {
+    public enum EntityTypeSort {
         /// A sort for data products.
         case dataproductsort(MarketplaceCatalogClientTypes.DataProductSort)
         /// A sort for SaaS products.
@@ -3058,7 +3058,7 @@ extension MarketplaceCatalogClientTypes.ErrorDetail: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Details about the error.
-    public struct ErrorDetail: Swift.Equatable {
+    public struct ErrorDetail {
         /// The error code that identifies the type of error.
         public var errorCode: Swift.String?
         /// The message for the error.
@@ -3147,7 +3147,7 @@ extension MarketplaceCatalogClientTypes.Filter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// A filter object, used to optionally filter results from calls to the ListEntities and ListChangeSets actions.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// For ListEntities, the supported value for this is an EntityId. For ListChangeSets, the supported values are as follows:
         public var name: Swift.String?
         /// ListEntities - This is a list of unique EntityIds. ListChangeSets - The supported filter names and associated ValueLists is as follows:
@@ -3200,7 +3200,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the entity resource that is associated with the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3213,7 +3213,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
 }
 
 extension GetResourcePolicyInputBody: Swift.Decodable {
@@ -3234,7 +3234,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The policy document to set; formatted in JSON.
     public var policy: Swift.String?
 
@@ -3246,7 +3246,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -3348,7 +3348,7 @@ public struct InternalServiceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalServiceExceptionBody: Swift.Equatable {
+struct InternalServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -3403,7 +3403,7 @@ extension ListChangeSetsInput {
     }
 }
 
-public struct ListChangeSetsInput: Swift.Equatable {
+public struct ListChangeSetsInput {
     /// The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
@@ -3432,7 +3432,7 @@ public struct ListChangeSetsInput: Swift.Equatable {
     }
 }
 
-struct ListChangeSetsInputBody: Swift.Equatable {
+struct ListChangeSetsInputBody {
     let catalog: Swift.String?
     let filterList: [MarketplaceCatalogClientTypes.Filter]?
     let sort: MarketplaceCatalogClientTypes.Sort?
@@ -3487,7 +3487,7 @@ extension ListChangeSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChangeSetsOutput: Swift.Equatable {
+public struct ListChangeSetsOutput {
     /// Array of ChangeSetSummaryListItem objects.
     public var changeSetSummaryList: [MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]?
     /// The value of the next token, if it exists. Null if there are no more results.
@@ -3503,7 +3503,7 @@ public struct ListChangeSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListChangeSetsOutputBody: Swift.Equatable {
+struct ListChangeSetsOutputBody {
     let changeSetSummaryList: [MarketplaceCatalogClientTypes.ChangeSetSummaryListItem]?
     let nextToken: Swift.String?
 }
@@ -3601,7 +3601,7 @@ extension ListEntitiesInput {
     }
 }
 
-public struct ListEntitiesInput: Swift.Equatable {
+public struct ListEntitiesInput {
     /// The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
@@ -3647,7 +3647,7 @@ public struct ListEntitiesInput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesInputBody: Swift.Equatable {
+struct ListEntitiesInputBody {
     let catalog: Swift.String?
     let entityType: Swift.String?
     let filterList: [MarketplaceCatalogClientTypes.Filter]?
@@ -3718,7 +3718,7 @@ extension ListEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntitiesOutput: Swift.Equatable {
+public struct ListEntitiesOutput {
     /// Array of EntitySummary objects.
     public var entitySummaryList: [MarketplaceCatalogClientTypes.EntitySummary]?
     /// The value of the next token if it exists. Null if there is no more result.
@@ -3734,7 +3734,7 @@ public struct ListEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesOutputBody: Swift.Equatable {
+struct ListEntitiesOutputBody {
     let entitySummaryList: [MarketplaceCatalogClientTypes.EntitySummary]?
     let nextToken: Swift.String?
 }
@@ -3798,7 +3798,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Required. The Amazon Resource Name (ARN) associated with the resource you want to list tags on.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3811,7 +3811,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3841,7 +3841,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Required. The ARN associated with the resource you want to list tags on.
     public var resourceArn: Swift.String?
     /// Required. A list of objects specifying each key name and value. Number of objects allowed: 1-50.
@@ -3857,7 +3857,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let resourceArn: Swift.String?
     let tags: [MarketplaceCatalogClientTypes.Tag]?
 }
@@ -3924,7 +3924,7 @@ extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter: Swift.Co
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the AvailabilityEndDate of an offer.
-    public struct OfferAvailabilityEndDateFilter: Swift.Equatable {
+    public struct OfferAvailabilityEndDateFilter {
         /// Allows filtering on the AvailabilityEndDate of an offer with date range as input.
         public var dateRange: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange?
 
@@ -3965,7 +3965,7 @@ extension MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilterDateRange:
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the AvailabilityEndDate of an offer with date range as input.
-    public struct OfferAvailabilityEndDateFilterDateRange: Swift.Equatable {
+    public struct OfferAvailabilityEndDateFilterDateRange {
         /// Allows filtering on the AvailabilityEndDate of an offer after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on the AvailabilityEndDate of an offer before a date.
@@ -4004,7 +4004,7 @@ extension MarketplaceCatalogClientTypes.OfferBuyerAccountsFilter: Swift.Codable 
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the BuyerAccounts of an offer.
-    public struct OfferBuyerAccountsFilter: Swift.Equatable {
+    public struct OfferBuyerAccountsFilter {
         /// Allows filtering on the BuyerAccounts of an offer with wild card input.
         public var wildCardValue: Swift.String?
 
@@ -4051,7 +4051,7 @@ extension MarketplaceCatalogClientTypes.OfferEntityIdFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the entity id of an offer.
-    public struct OfferEntityIdFilter: Swift.Equatable {
+    public struct OfferEntityIdFilter {
         /// Allows filtering on entity id of an offer with list input.
         public var valueList: [Swift.String]?
 
@@ -4140,7 +4140,7 @@ extension MarketplaceCatalogClientTypes.OfferFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for offers entity. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct OfferFilters: Swift.Equatable {
+    public struct OfferFilters {
         /// Allows filtering on the AvailabilityEndDate of an offer.
         public var availabilityEndDate: MarketplaceCatalogClientTypes.OfferAvailabilityEndDateFilter?
         /// Allows filtering on the BuyerAccounts of an offer.
@@ -4211,7 +4211,7 @@ extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilter: Swift.Codab
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the LastModifiedDate of an offer.
-    public struct OfferLastModifiedDateFilter: Swift.Equatable {
+    public struct OfferLastModifiedDateFilter {
         /// Allows filtering on the LastModifiedDate of an offer with date range as input.
         public var dateRange: MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange?
 
@@ -4252,7 +4252,7 @@ extension MarketplaceCatalogClientTypes.OfferLastModifiedDateFilterDateRange: Sw
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the LastModifiedDate of an offer with date range as input.
-    public struct OfferLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct OfferLastModifiedDateFilterDateRange {
         /// Allows filtering on the LastModifiedDate of an offer after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on the LastModifiedDate of an offer before a date.
@@ -4309,7 +4309,7 @@ extension MarketplaceCatalogClientTypes.OfferNameFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the Name of an offer.
-    public struct OfferNameFilter: Swift.Equatable {
+    public struct OfferNameFilter {
         /// Allows filtering on the Name of an offer with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the Name of an offer with wild card input.
@@ -4360,7 +4360,7 @@ extension MarketplaceCatalogClientTypes.OfferProductIdFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ProductId of an offer.
-    public struct OfferProductIdFilter: Swift.Equatable {
+    public struct OfferProductIdFilter {
         /// Allows filtering on the ProductId of an offer with list input.
         public var valueList: [Swift.String]?
 
@@ -4395,7 +4395,7 @@ extension MarketplaceCatalogClientTypes.OfferReleaseDateFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ReleaseDate of an offer.
-    public struct OfferReleaseDateFilter: Swift.Equatable {
+    public struct OfferReleaseDateFilter {
         /// Allows filtering on the ReleaseDate of an offer with date range as input.
         public var dateRange: MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange?
 
@@ -4436,7 +4436,7 @@ extension MarketplaceCatalogClientTypes.OfferReleaseDateFilterDateRange: Swift.C
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ReleaseDate of an offer with date range as input.
-    public struct OfferReleaseDateFilterDateRange: Swift.Equatable {
+    public struct OfferReleaseDateFilterDateRange {
         /// Allows filtering on the ReleaseDate of offers after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on the ReleaseDate of offers before a date.
@@ -4487,7 +4487,7 @@ extension MarketplaceCatalogClientTypes.OfferResaleAuthorizationIdFilter: Swift.
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ResaleAuthorizationId of an offer. Not all offers have a ResaleAuthorizationId. The response will only include offers for which you have permissions.
-    public struct OfferResaleAuthorizationIdFilter: Swift.Equatable {
+    public struct OfferResaleAuthorizationIdFilter {
         /// Allows filtering on the ResaleAuthorizationId of an offer with list input.
         public var valueList: [Swift.String]?
 
@@ -4528,7 +4528,7 @@ extension MarketplaceCatalogClientTypes.OfferSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows to sort offers.
-    public struct OfferSort: Swift.Equatable {
+    public struct OfferSort {
         /// Allows to sort offers.
         public var sortBy: MarketplaceCatalogClientTypes.OfferSortBy?
         /// Allows to sort offers.
@@ -4635,7 +4635,7 @@ extension MarketplaceCatalogClientTypes.OfferStateFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the State of an offer.
-    public struct OfferStateFilter: Swift.Equatable {
+    public struct OfferStateFilter {
         /// Allows filtering on the State of an offer with list input.
         public var valueList: [MarketplaceCatalogClientTypes.OfferStateString]?
 
@@ -4768,7 +4768,7 @@ extension MarketplaceCatalogClientTypes.OfferSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Summarized information about an offer.
-    public struct OfferSummary: Swift.Equatable {
+    public struct OfferSummary {
         /// The availability end date of the offer.
         public var availabilityEndDate: Swift.String?
         /// The buyer accounts in the offer.
@@ -4843,7 +4843,7 @@ extension MarketplaceCatalogClientTypes.OfferTargetingFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the Targeting of an offer.
-    public struct OfferTargetingFilter: Swift.Equatable {
+    public struct OfferTargetingFilter {
         /// Allows filtering on the Targeting of an offer with list input.
         public var valueList: [MarketplaceCatalogClientTypes.OfferTargetingString]?
 
@@ -4951,7 +4951,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// The policy document to set; formatted in JSON.
     /// This member is required.
     public var policy: Swift.String?
@@ -4969,7 +4969,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
 }
@@ -4994,7 +4994,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
 
     public init() { }
 }
@@ -5053,7 +5053,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFi
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization.
-    public struct ResaleAuthorizationAvailabilityEndDateFilter: Swift.Equatable {
+    public struct ResaleAuthorizationAvailabilityEndDateFilter {
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date range as input
         public var dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilterDateRange?
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date value as input.
@@ -5098,7 +5098,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFi
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization with date range as input.
-    public struct ResaleAuthorizationAvailabilityEndDateFilterDateRange: Swift.Equatable {
+    public struct ResaleAuthorizationAvailabilityEndDateFilterDateRange {
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on AvailabilityEndDate of a ResaleAuthorization before a date.
@@ -5155,7 +5155,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilter: Sw
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on CreatedDate of a ResaleAuthorization.
-    public struct ResaleAuthorizationCreatedDateFilter: Swift.Equatable {
+    public struct ResaleAuthorizationCreatedDateFilter {
         /// Allows filtering on CreatedDate of a ResaleAuthorization with date range as input.
         public var dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDateRange?
         /// Allows filtering on CreatedDate of a ResaleAuthorization with date value as input.
@@ -5200,7 +5200,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationCreatedDateFilterDate
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on CreatedDate of a ResaleAuthorization with date range as input.
-    public struct ResaleAuthorizationCreatedDateFilterDateRange: Swift.Equatable {
+    public struct ResaleAuthorizationCreatedDateFilterDateRange {
         /// Allows filtering on CreatedDate of a ResaleAuthorization after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on CreatedDate of a ResaleAuthorization before a date.
@@ -5251,7 +5251,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationEntityIdFilter: Swift
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on EntityId of a ResaleAuthorization.
-    public struct ResaleAuthorizationEntityIdFilter: Swift.Equatable {
+    public struct ResaleAuthorizationEntityIdFilter {
         /// Allows filtering on EntityId of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
 
@@ -5358,7 +5358,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationFilters: Swift.Codabl
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for resale authorization entity. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct ResaleAuthorizationFilters: Swift.Equatable {
+    public struct ResaleAuthorizationFilters {
         /// Allows filtering on the AvailabilityEndDate of a ResaleAuthorization.
         public var availabilityEndDate: MarketplaceCatalogClientTypes.ResaleAuthorizationAvailabilityEndDateFilter?
         /// Allows filtering on the CreatedDate of a ResaleAuthorization.
@@ -5441,7 +5441,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilte
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the LastModifiedDate of a ResaleAuthorization.
-    public struct ResaleAuthorizationLastModifiedDateFilter: Swift.Equatable {
+    public struct ResaleAuthorizationLastModifiedDateFilter {
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization with date range as input.
         public var dateRange: MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilterDateRange?
 
@@ -5482,7 +5482,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationLastModifiedDateFilte
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the LastModifiedDate of a ResaleAuthorization with date range as input.
-    public struct ResaleAuthorizationLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct ResaleAuthorizationLastModifiedDateFilterDateRange {
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization after a date.
         public var afterValue: Swift.String?
         /// Allows filtering on the LastModifiedDate of a ResaleAuthorization before a date.
@@ -5539,7 +5539,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerAccountId
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization.
-    public struct ResaleAuthorizationManufacturerAccountIdFilter: Swift.Equatable {
+    public struct ResaleAuthorizationManufacturerAccountIdFilter {
         /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ManufacturerAccountId of a ResaleAuthorization with wild card input.
@@ -5596,7 +5596,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationManufacturerLegalName
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization.
-    public struct ResaleAuthorizationManufacturerLegalNameFilter: Swift.Equatable {
+    public struct ResaleAuthorizationManufacturerLegalNameFilter {
         /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ManufacturerLegalName of a ResaleAuthorization with wild card input.
@@ -5653,7 +5653,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationNameFilter: Swift.Cod
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the Name of a ResaleAuthorization.
-    public struct ResaleAuthorizationNameFilter: Swift.Equatable {
+    public struct ResaleAuthorizationNameFilter {
         /// Allows filtering on the Name of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the Name of a ResaleAuthorization with wild card input.
@@ -5704,7 +5704,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationOfferExtendedStatusFi
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the OfferExtendedStatus of a ResaleAuthorization.
-    public struct ResaleAuthorizationOfferExtendedStatusFilter: Swift.Equatable {
+    public struct ResaleAuthorizationOfferExtendedStatusFilter {
         /// Allows filtering on the OfferExtendedStatus of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
 
@@ -5757,7 +5757,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductIdFilter: Swif
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ProductId of a ResaleAuthorization.
-    public struct ResaleAuthorizationProductIdFilter: Swift.Equatable {
+    public struct ResaleAuthorizationProductIdFilter {
         /// Allows filtering on the ProductId of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ProductId of a ResaleAuthorization with wild card input.
@@ -5814,7 +5814,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationProductNameFilter: Sw
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ProductName of a ResaleAuthorization.
-    public struct ResaleAuthorizationProductNameFilter: Swift.Equatable {
+    public struct ResaleAuthorizationProductNameFilter {
         /// Allows filtering on the ProductName of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ProductName of a ResaleAuthorization with wild card input.
@@ -5871,7 +5871,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerAccountIDFilt
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ResellerAccountID of a ResaleAuthorization.
-    public struct ResaleAuthorizationResellerAccountIDFilter: Swift.Equatable {
+    public struct ResaleAuthorizationResellerAccountIDFilter {
         /// Allows filtering on the ResellerAccountID of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ResellerAccountID of a ResaleAuthorization with wild card input.
@@ -5928,7 +5928,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationResellerLegalNameFilt
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the ResellerLegalName of a ResaleAuthorization.
-    public struct ResaleAuthorizationResellerLegalNameFilter: Swift.Equatable {
+    public struct ResaleAuthorizationResellerLegalNameFilter {
         /// Allows filtering on the ResellerLegalNameProductName of a ResaleAuthorization with list input.
         public var valueList: [Swift.String]?
         /// Allows filtering on the ResellerLegalName of a ResaleAuthorization with wild card input.
@@ -5973,7 +5973,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Allows to sort ResaleAuthorization.
-    public struct ResaleAuthorizationSort: Swift.Equatable {
+    public struct ResaleAuthorizationSort {
         /// Allows to sort ResaleAuthorization.
         public var sortBy: MarketplaceCatalogClientTypes.ResaleAuthorizationSortBy?
         /// Allows to sort ResaleAuthorization.
@@ -6089,7 +6089,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationStatusFilter: Swift.C
 
 extension MarketplaceCatalogClientTypes {
     /// Allows filtering on the Status of a ResaleAuthorization.
-    public struct ResaleAuthorizationStatusFilter: Swift.Equatable {
+    public struct ResaleAuthorizationStatusFilter {
         /// Allows filtering on the Status of a ResaleAuthorization with list input.
         public var valueList: [MarketplaceCatalogClientTypes.ResaleAuthorizationStatusString]?
 
@@ -6219,7 +6219,7 @@ extension MarketplaceCatalogClientTypes.ResaleAuthorizationSummary: Swift.Codabl
 
 extension MarketplaceCatalogClientTypes {
     /// Summarized information about a Resale Authorization.
-    public struct ResaleAuthorizationSummary: Swift.Equatable {
+    public struct ResaleAuthorizationSummary {
         /// The availability end date of the ResaleAuthorization.
         public var availabilityEndDate: Swift.String?
         /// The created date of the ResaleAuthorization.
@@ -6312,7 +6312,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -6367,7 +6367,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6422,7 +6422,7 @@ public struct ResourceNotSupportedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ResourceNotSupportedExceptionBody: Swift.Equatable {
+struct ResourceNotSupportedExceptionBody {
     let message: Swift.String?
 }
 
@@ -6471,7 +6471,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter: Swift.Codable
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on entity id of a SaaS product.
-    public struct SaaSProductEntityIdFilter: Swift.Equatable {
+    public struct SaaSProductEntityIdFilter {
         /// A string array of unique entity id values to be filtered on.
         public var valueList: [Swift.String]?
 
@@ -6524,7 +6524,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductFilters: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object containing all the filter fields for SaaS products. Client can add only one wildcard filter and a maximum of 8 filters in a single ListEntities request.
-    public struct SaaSProductFilters: Swift.Equatable {
+    public struct SaaSProductFilters {
         /// Unique identifier for the SaaS product.
         public var entityId: MarketplaceCatalogClientTypes.SaaSProductEntityIdFilter?
         /// The last date on which the SaaS product was modified.
@@ -6571,7 +6571,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilter: Swift
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering based on the last modified date of SaaS products
-    public struct SaaSProductLastModifiedDateFilter: Swift.Equatable {
+    public struct SaaSProductLastModifiedDateFilter {
         /// Dates between which the SaaS product was last modified.
         public var dateRange: MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRange?
 
@@ -6612,7 +6612,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductLastModifiedDateFilterDateRan
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains date range of the last modified date to be filtered on. You can optionally provide a BeforeValue and/or AfterValue. Both are inclusive.
-    public struct SaaSProductLastModifiedDateFilterDateRange: Swift.Equatable {
+    public struct SaaSProductLastModifiedDateFilterDateRange {
         /// Date after which the SaaS product was last modified.
         public var afterValue: Swift.String?
         /// Date before which the SaaS product was last modified.
@@ -6657,7 +6657,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductSort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Objects that allows sorting on SaaS products based on certain fields and sorting order.
-    public struct SaaSProductSort: Swift.Equatable {
+    public struct SaaSProductSort {
         /// Field to sort the SaaS products by.
         public var sortBy: MarketplaceCatalogClientTypes.SaaSProductSortBy?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -6740,7 +6740,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductSummary: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that contains summarized information about a SaaS product.
-    public struct SaaSProductSummary: Swift.Equatable {
+    public struct SaaSProductSummary {
         /// The title of the SaaS product.
         public var productTitle: Swift.String?
         /// The lifecycle of the SaaS product.
@@ -6797,7 +6797,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductTitleFilter: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on product title.
-    public struct SaaSProductTitleFilter: Swift.Equatable {
+    public struct SaaSProductTitleFilter {
         /// A string array of unique product title values to be filtered on.
         public var valueList: [Swift.String]?
         /// A string that will be the wildCard input for product tile filter. It matches the provided value as a substring in the actual value.
@@ -6848,7 +6848,7 @@ extension MarketplaceCatalogClientTypes.SaaSProductVisibilityFilter: Swift.Codab
 
 extension MarketplaceCatalogClientTypes {
     /// Object that allows filtering on the visibility of the product in the AWS Marketplace.
-    public struct SaaSProductVisibilityFilter: Swift.Equatable {
+    public struct SaaSProductVisibilityFilter {
         /// A string array of unique visibility values to be filtered on.
         public var valueList: [MarketplaceCatalogClientTypes.SaaSProductVisibilityString]?
 
@@ -6939,7 +6939,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6982,7 +6982,7 @@ extension MarketplaceCatalogClientTypes.Sort: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// An object that contains two attributes, SortBy and SortOrder.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// For ListEntities, supported attributes include LastModifiedDate (default) and EntityId. In addition to LastModifiedDate and EntityId, each EntityType might support additional fields. For ListChangeSets, supported attributes include StartTime and EndTime.
         public var sortBy: Swift.String?
         /// The sorting order. Can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -7078,7 +7078,7 @@ extension StartChangeSetInput {
     }
 }
 
-public struct StartChangeSetInput: Swift.Equatable {
+public struct StartChangeSetInput {
     /// The catalog related to the request. Fixed value: AWSMarketplace
     /// This member is required.
     public var catalog: Swift.String?
@@ -7112,7 +7112,7 @@ public struct StartChangeSetInput: Swift.Equatable {
     }
 }
 
-struct StartChangeSetInputBody: Swift.Equatable {
+struct StartChangeSetInputBody {
     let catalog: Swift.String?
     let changeSet: [MarketplaceCatalogClientTypes.Change]?
     let changeSetName: Swift.String?
@@ -7180,7 +7180,7 @@ extension StartChangeSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartChangeSetOutput: Swift.Equatable {
+public struct StartChangeSetOutput {
     /// The ARN associated to the unique identifier generated for the request.
     public var changeSetArn: Swift.String?
     /// Unique identifier generated for the request.
@@ -7196,7 +7196,7 @@ public struct StartChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct StartChangeSetOutputBody: Swift.Equatable {
+struct StartChangeSetOutputBody {
     let changeSetId: Swift.String?
     let changeSetArn: Swift.String?
 }
@@ -7260,7 +7260,7 @@ extension MarketplaceCatalogClientTypes.Tag: Swift.Codable {
 
 extension MarketplaceCatalogClientTypes {
     /// A list of objects specifying each key name and value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key associated with the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -7307,7 +7307,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Required. The Amazon Resource Name (ARN) associated with the resource you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7325,7 +7325,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [MarketplaceCatalogClientTypes.Tag]?
 }
@@ -7359,7 +7359,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7418,7 +7418,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -7461,7 +7461,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Required. The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7479,7 +7479,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -7513,7 +7513,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7572,7 +7572,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

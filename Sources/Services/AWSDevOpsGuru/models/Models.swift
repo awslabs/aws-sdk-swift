@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -85,7 +85,7 @@ extension DevOpsGuruClientTypes.AccountHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Returns the number of open reactive insights, the number of open proactive insights, and the number of metrics analyzed in your Amazon Web Services account. Use these numbers to gauge the health of operations in your Amazon Web Services account.
-    public struct AccountHealth: Swift.Equatable {
+    public struct AccountHealth {
         /// The ID of the Amazon Web Services account.
         public var accountId: Swift.String?
         /// Information about the health of the Amazon Web Services resources in your account, including the number of open proactive, open reactive insights, and the Mean Time to Recover (MTTR) of closed insights.
@@ -130,7 +130,7 @@ extension DevOpsGuruClientTypes.AccountInsightHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the number of open reactive and proactive insights that can be used to gauge the health of your system.
-    public struct AccountInsightHealth: Swift.Equatable {
+    public struct AccountInsightHealth {
         /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
         public var openProactiveInsights: Swift.Int
         /// An integer that specifies the number of open reactive insights in your Amazon Web Services account.
@@ -168,7 +168,7 @@ extension AddNotificationChannelInput {
     }
 }
 
-public struct AddNotificationChannelInput: Swift.Equatable {
+public struct AddNotificationChannelInput {
     /// A NotificationChannelConfig object that specifies what type of notification channel to add. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
     /// This member is required.
     public var config: DevOpsGuruClientTypes.NotificationChannelConfig?
@@ -181,7 +181,7 @@ public struct AddNotificationChannelInput: Swift.Equatable {
     }
 }
 
-struct AddNotificationChannelInputBody: Swift.Equatable {
+struct AddNotificationChannelInputBody {
     let config: DevOpsGuruClientTypes.NotificationChannelConfig?
 }
 
@@ -209,7 +209,7 @@ extension AddNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddNotificationChannelOutput: Swift.Equatable {
+public struct AddNotificationChannelOutput {
     /// The ID of the added notification channel.
     /// This member is required.
     public var id: Swift.String?
@@ -222,7 +222,7 @@ public struct AddNotificationChannelOutput: Swift.Equatable {
     }
 }
 
-struct AddNotificationChannelOutputBody: Swift.Equatable {
+struct AddNotificationChannelOutputBody {
     let id: Swift.String?
 }
 
@@ -276,7 +276,7 @@ extension DevOpsGuruClientTypes.AmazonCodeGuruProfilerIntegration: Swift.Codable
 
 extension DevOpsGuruClientTypes {
     /// Information about your account's integration with Amazon CodeGuru Profiler. This returns whether DevOps Guru is configured to consume recommendations generated from Amazon CodeGuru Profiler.
-    public struct AmazonCodeGuruProfilerIntegration: Swift.Equatable {
+    public struct AmazonCodeGuruProfilerIntegration {
         /// The status of the CodeGuru Profiler integration. Specifies if DevOps Guru is enabled to consume recommendations that are generated from Amazon CodeGuru Profiler.
         public var status: DevOpsGuruClientTypes.EventSourceOptInStatus?
 
@@ -347,7 +347,7 @@ extension DevOpsGuruClientTypes.AnomalousLogGroup: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// An Amazon CloudWatch log group that contains log anomalies and is used to generate an insight.
-    public struct AnomalousLogGroup: Swift.Equatable {
+    public struct AnomalousLogGroup {
         /// The time the anomalous log events stopped.
         public var impactEndTime: ClientRuntime.Date?
         /// The time the anomalous log events began. The impact start time indicates the time of the first log anomaly event that occurs.
@@ -404,7 +404,7 @@ extension DevOpsGuruClientTypes.AnomalyReportedTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A time range that specifies when DevOps Guru opens and then closes an anomaly. This is different from AnomalyTimeRange, which specifies the time range when DevOps Guru actually observes the anomalous behavior.
-    public struct AnomalyReportedTimeRange: Swift.Equatable {
+    public struct AnomalyReportedTimeRange {
         /// The time when an anomaly is closed.
         public var closeTime: ClientRuntime.Date?
         /// The time when an anomaly is opened.
@@ -450,7 +450,7 @@ extension DevOpsGuruClientTypes.AnomalyResource: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The Amazon Web Services resources in which DevOps Guru detected unusual behavior that resulted in the generation of an anomaly. When DevOps Guru detects multiple related anomalies, it creates and insight with details about the anomalous behavior and suggestions about how to correct the problem.
-    public struct AnomalyResource: Swift.Equatable {
+    public struct AnomalyResource {
         /// The name of the Amazon Web Services resource.
         public var name: Swift.String?
         /// The type of the Amazon Web Services resource.
@@ -554,7 +554,7 @@ extension DevOpsGuruClientTypes.AnomalySourceDetails: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about the source of the anomalous operational data that triggered the anomaly.
-    public struct AnomalySourceDetails: Swift.Equatable {
+    public struct AnomalySourceDetails {
         /// An array of CloudWatchMetricsDetail objects that contain information about analyzed CloudWatch metrics that show anomalous behavior.
         public var cloudWatchMetrics: [DevOpsGuruClientTypes.CloudWatchMetricsDetail]?
         /// An array of PerformanceInsightsMetricsDetail objects that contain information about analyzed Performance Insights metrics that show anomalous behavior.
@@ -605,7 +605,7 @@ extension DevOpsGuruClientTypes.AnomalySourceMetadata: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Metadata about the detection source that generates proactive anomalies. The anomaly is detected using analysis of the metric data  over a period of time
-    public struct AnomalySourceMetadata: Swift.Equatable {
+    public struct AnomalySourceMetadata {
         /// The source of the anomaly.
         public var source: Swift.String?
         /// The name of the anomaly's resource.
@@ -686,7 +686,7 @@ extension DevOpsGuruClientTypes.AnomalyTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A time range that specifies when the observed unusual behavior in an anomaly started and ended. This is different from AnomalyReportedTimeRange, which specifies the time range when DevOps Guru opens and then closes an anomaly.
-    public struct AnomalyTimeRange: Swift.Equatable {
+    public struct AnomalyTimeRange {
         /// The time when the anomalous behavior ended.
         public var endTime: ClientRuntime.Date?
         /// The time when the anomalous behavior started.
@@ -770,7 +770,7 @@ extension DevOpsGuruClientTypes.CloudFormationCollection: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about Amazon Web Services CloudFormation stacks. You can use up to 500 stacks to specify which Amazon Web Services resources in your account to analyze. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
-    public struct CloudFormationCollection: Swift.Equatable {
+    public struct CloudFormationCollection {
         /// An array of CloudFormation stack names.
         public var stackNames: [Swift.String]?
 
@@ -817,7 +817,7 @@ extension DevOpsGuruClientTypes.CloudFormationCollectionFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about Amazon Web Services CloudFormation stacks. You can use up to 500 stacks to specify which Amazon Web Services resources in your account to analyze. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
-    public struct CloudFormationCollectionFilter: Swift.Equatable {
+    public struct CloudFormationCollectionFilter {
         /// An array of CloudFormation stack names.
         public var stackNames: [Swift.String]?
 
@@ -864,7 +864,7 @@ extension DevOpsGuruClientTypes.CloudFormationCostEstimationResourceCollectionFi
 
 extension DevOpsGuruClientTypes {
     /// Information about an Amazon Web Services CloudFormation stack used to create a monthly cost estimate for DevOps Guru to analyze Amazon Web Services resources. The maximum number of stacks you can specify for a cost estimate is one. The estimate created is for the cost to analyze the Amazon Web Services resources defined by the stack. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
-    public struct CloudFormationCostEstimationResourceCollectionFilter: Swift.Equatable {
+    public struct CloudFormationCostEstimationResourceCollectionFilter {
         /// An array of CloudFormation stack names. Its size is fixed at 1 item.
         public var stackNames: [Swift.String]?
 
@@ -911,7 +911,7 @@ extension DevOpsGuruClientTypes.CloudFormationHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the health of Amazon Web Services resources in your account that are specified by an Amazon Web Services CloudFormation stack.
-    public struct CloudFormationHealth: Swift.Equatable {
+    public struct CloudFormationHealth {
         /// Number of resources that DevOps Guru is monitoring in your account that are specified by an Amazon Web Services CloudFormation stack.
         public var analyzedResourceCount: Swift.Int?
         /// Information about the health of the Amazon Web Services resources in your account that are specified by an Amazon Web Services CloudFormation stack, including the number of open proactive, open reactive insights, and the Mean Time to Recover (MTTR) of closed insights.
@@ -1007,7 +1007,7 @@ extension DevOpsGuruClientTypes.CloudWatchMetricsDataSummary: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Contains information about the analyzed metrics that displayed anomalous behavior.
-    public struct CloudWatchMetricsDataSummary: Swift.Equatable {
+    public struct CloudWatchMetricsDataSummary {
         /// This is an enum of the status showing whether the metric value pair list has partial or complete data, or if there was an error.
         public var statusCode: DevOpsGuruClientTypes.CloudWatchMetricDataStatusCode?
         /// This is a list of Amazon CloudWatch metric values at given timestamp.
@@ -1094,7 +1094,7 @@ extension DevOpsGuruClientTypes.CloudWatchMetricsDetail: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about an Amazon CloudWatch metric.
-    public struct CloudWatchMetricsDetail: Swift.Equatable {
+    public struct CloudWatchMetricsDetail {
         /// An array of CloudWatch dimensions associated with
         public var dimensions: [DevOpsGuruClientTypes.CloudWatchMetricsDimension]?
         /// This object returns anomaly metric data.
@@ -1159,7 +1159,7 @@ extension DevOpsGuruClientTypes.CloudWatchMetricsDimension: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The dimension of an Amazon CloudWatch metric that is used when DevOps Guru analyzes the resources in your account for operational problems and anomalous behavior. A dimension is a name/value pair that is part of the identity of a metric. A metric can have up to 10 dimensions. For more information, see [Dimensions](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cloudwatch_concepts.html#Dimension) in the Amazon CloudWatch User Guide.
-    public struct CloudWatchMetricsDimension: Swift.Equatable {
+    public struct CloudWatchMetricsDimension {
         /// The name of the CloudWatch dimension.
         public var name: Swift.String?
         /// The value of the CloudWatch dimension.
@@ -1281,7 +1281,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -1344,7 +1344,7 @@ extension DevOpsGuruClientTypes.CostEstimationResourceCollectionFilter: Swift.Co
 
 extension DevOpsGuruClientTypes {
     /// Information about a filter used to specify which Amazon Web Services resources are analyzed to create a monthly DevOps Guru cost estimate. For more information, see [Estimate your Amazon DevOps Guru costs](https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html) and [Amazon DevOps Guru pricing](http://aws.amazon.com/devops-guru/pricing/).
-    public struct CostEstimationResourceCollectionFilter: Swift.Equatable {
+    public struct CostEstimationResourceCollectionFilter {
         /// An object that specifies the CloudFormation stack that defines the Amazon Web Services resources used to create a monthly estimate for DevOps Guru.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCostEstimationResourceCollectionFilter?
         /// The Amazon Web Services tags used to filter the resource collection that is used for a cost estimate. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
@@ -1460,7 +1460,7 @@ extension DevOpsGuruClientTypes.CostEstimationTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The time range of a cost estimation.
-    public struct CostEstimationTimeRange: Swift.Equatable {
+    public struct CostEstimationTimeRange {
         /// The end time of the cost estimation.
         public var endTime: ClientRuntime.Date?
         /// The start time of the cost estimation.
@@ -1488,7 +1488,7 @@ extension DeleteInsightInput {
     }
 }
 
-public struct DeleteInsightInput: Swift.Equatable {
+public struct DeleteInsightInput {
     /// The ID of the insight.
     /// This member is required.
     public var id: Swift.String?
@@ -1501,7 +1501,7 @@ public struct DeleteInsightInput: Swift.Equatable {
     }
 }
 
-struct DeleteInsightInputBody: Swift.Equatable {
+struct DeleteInsightInputBody {
 }
 
 extension DeleteInsightInputBody: Swift.Decodable {
@@ -1515,7 +1515,7 @@ extension DeleteInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInsightOutput: Swift.Equatable {
+public struct DeleteInsightOutput {
 
     public init() { }
 }
@@ -1543,12 +1543,12 @@ extension DescribeAccountHealthInput {
     }
 }
 
-public struct DescribeAccountHealthInput: Swift.Equatable {
+public struct DescribeAccountHealthInput {
 
     public init() { }
 }
 
-struct DescribeAccountHealthInputBody: Swift.Equatable {
+struct DescribeAccountHealthInputBody {
 }
 
 extension DescribeAccountHealthInputBody: Swift.Decodable {
@@ -1577,7 +1577,7 @@ extension DescribeAccountHealthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountHealthOutput: Swift.Equatable {
+public struct DescribeAccountHealthOutput {
     /// Number of resources that DevOps Guru is monitoring in your Amazon Web Services account.
     public var analyzedResourceCount: Swift.Int?
     /// An integer that specifies the number of metrics that have been analyzed in your Amazon Web Services account.
@@ -1609,7 +1609,7 @@ public struct DescribeAccountHealthOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountHealthOutputBody: Swift.Equatable {
+struct DescribeAccountHealthOutputBody {
     let openReactiveInsights: Swift.Int
     let openProactiveInsights: Swift.Int
     let metricsAnalyzed: Swift.Int
@@ -1679,7 +1679,7 @@ extension DescribeAccountOverviewInput {
     }
 }
 
-public struct DescribeAccountOverviewInput: Swift.Equatable {
+public struct DescribeAccountOverviewInput {
     /// The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred after this day.
     /// This member is required.
     public var fromTime: ClientRuntime.Date?
@@ -1696,7 +1696,7 @@ public struct DescribeAccountOverviewInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountOverviewInputBody: Swift.Equatable {
+struct DescribeAccountOverviewInputBody {
     let fromTime: ClientRuntime.Date?
     let toTime: ClientRuntime.Date?
 }
@@ -1732,7 +1732,7 @@ extension DescribeAccountOverviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountOverviewOutput: Swift.Equatable {
+public struct DescribeAccountOverviewOutput {
     /// The Mean Time to Recover (MTTR) for all closed insights that were created during the time range passed in.
     /// This member is required.
     public var meanTimeToRecoverInMilliseconds: Swift.Int?
@@ -1755,7 +1755,7 @@ public struct DescribeAccountOverviewOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountOverviewOutputBody: Swift.Equatable {
+struct DescribeAccountOverviewOutputBody {
     let reactiveInsights: Swift.Int
     let proactiveInsights: Swift.Int
     let meanTimeToRecoverInMilliseconds: Swift.Int?
@@ -1815,7 +1815,7 @@ extension DescribeAnomalyInput {
     }
 }
 
-public struct DescribeAnomalyInput: Swift.Equatable {
+public struct DescribeAnomalyInput {
     /// The ID of the member account.
     public var accountId: Swift.String?
     /// The ID of the anomaly.
@@ -1832,7 +1832,7 @@ public struct DescribeAnomalyInput: Swift.Equatable {
     }
 }
 
-struct DescribeAnomalyInputBody: Swift.Equatable {
+struct DescribeAnomalyInputBody {
 }
 
 extension DescribeAnomalyInputBody: Swift.Decodable {
@@ -1855,7 +1855,7 @@ extension DescribeAnomalyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAnomalyOutput: Swift.Equatable {
+public struct DescribeAnomalyOutput {
     /// A ProactiveAnomaly object that represents the requested anomaly.
     public var proactiveAnomaly: DevOpsGuruClientTypes.ProactiveAnomaly?
     /// A ReactiveAnomaly object that represents the requested anomaly.
@@ -1871,7 +1871,7 @@ public struct DescribeAnomalyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAnomalyOutputBody: Swift.Equatable {
+struct DescribeAnomalyOutputBody {
     let proactiveAnomaly: DevOpsGuruClientTypes.ProactiveAnomaly?
     let reactiveAnomaly: DevOpsGuruClientTypes.ReactiveAnomaly?
 }
@@ -1913,12 +1913,12 @@ extension DescribeEventSourcesConfigInput {
     }
 }
 
-public struct DescribeEventSourcesConfigInput: Swift.Equatable {
+public struct DescribeEventSourcesConfigInput {
 
     public init() { }
 }
 
-struct DescribeEventSourcesConfigInputBody: Swift.Equatable {
+struct DescribeEventSourcesConfigInputBody {
 }
 
 extension DescribeEventSourcesConfigInputBody: Swift.Decodable {
@@ -1939,7 +1939,7 @@ extension DescribeEventSourcesConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventSourcesConfigOutput: Swift.Equatable {
+public struct DescribeEventSourcesConfigOutput {
     /// Lists the event sources in the configuration.
     public var eventSources: DevOpsGuruClientTypes.EventSourcesConfig?
 
@@ -1951,7 +1951,7 @@ public struct DescribeEventSourcesConfigOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventSourcesConfigOutputBody: Swift.Equatable {
+struct DescribeEventSourcesConfigOutputBody {
     let eventSources: DevOpsGuruClientTypes.EventSourcesConfig?
 }
 
@@ -2001,7 +2001,7 @@ extension DescribeFeedbackInput {
     }
 }
 
-public struct DescribeFeedbackInput: Swift.Equatable {
+public struct DescribeFeedbackInput {
     /// The ID of the insight for which the feedback was provided.
     public var insightId: Swift.String?
 
@@ -2013,7 +2013,7 @@ public struct DescribeFeedbackInput: Swift.Equatable {
     }
 }
 
-struct DescribeFeedbackInputBody: Swift.Equatable {
+struct DescribeFeedbackInputBody {
     let insightId: Swift.String?
 }
 
@@ -2041,7 +2041,7 @@ extension DescribeFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFeedbackOutput: Swift.Equatable {
+public struct DescribeFeedbackOutput {
     /// Information about insight feedback received from a customer.
     public var insightFeedback: DevOpsGuruClientTypes.InsightFeedback?
 
@@ -2053,7 +2053,7 @@ public struct DescribeFeedbackOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFeedbackOutputBody: Swift.Equatable {
+struct DescribeFeedbackOutputBody {
     let insightFeedback: DevOpsGuruClientTypes.InsightFeedback?
 }
 
@@ -2106,7 +2106,7 @@ extension DescribeInsightInput {
     }
 }
 
-public struct DescribeInsightInput: Swift.Equatable {
+public struct DescribeInsightInput {
     /// The ID of the member account in the organization.
     public var accountId: Swift.String?
     /// The ID of the insight.
@@ -2123,7 +2123,7 @@ public struct DescribeInsightInput: Swift.Equatable {
     }
 }
 
-struct DescribeInsightInputBody: Swift.Equatable {
+struct DescribeInsightInputBody {
 }
 
 extension DescribeInsightInputBody: Swift.Decodable {
@@ -2146,7 +2146,7 @@ extension DescribeInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeInsightOutput: Swift.Equatable {
+public struct DescribeInsightOutput {
     /// A ProactiveInsight object that represents the requested insight.
     public var proactiveInsight: DevOpsGuruClientTypes.ProactiveInsight?
     /// A ReactiveInsight object that represents the requested insight.
@@ -2162,7 +2162,7 @@ public struct DescribeInsightOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInsightOutputBody: Swift.Equatable {
+struct DescribeInsightOutputBody {
     let proactiveInsight: DevOpsGuruClientTypes.ProactiveInsight?
     let reactiveInsight: DevOpsGuruClientTypes.ReactiveInsight?
 }
@@ -2227,7 +2227,7 @@ extension DescribeOrganizationHealthInput {
     }
 }
 
-public struct DescribeOrganizationHealthInput: Swift.Equatable {
+public struct DescribeOrganizationHealthInput {
     /// The ID of the Amazon Web Services account.
     public var accountIds: [Swift.String]?
     /// The ID of the organizational unit.
@@ -2243,7 +2243,7 @@ public struct DescribeOrganizationHealthInput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationHealthInputBody: Swift.Equatable {
+struct DescribeOrganizationHealthInputBody {
     let accountIds: [Swift.String]?
     let organizationalUnitIds: [Swift.String]?
 }
@@ -2299,7 +2299,7 @@ extension DescribeOrganizationHealthOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeOrganizationHealthOutput: Swift.Equatable {
+public struct DescribeOrganizationHealthOutput {
     /// An integer that specifies the number of metrics that have been analyzed in your organization.
     /// This member is required.
     public var metricsAnalyzed: Swift.Int
@@ -2327,7 +2327,7 @@ public struct DescribeOrganizationHealthOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationHealthOutputBody: Swift.Equatable {
+struct DescribeOrganizationHealthOutputBody {
     let openReactiveInsights: Swift.Int
     let openProactiveInsights: Swift.Int
     let metricsAnalyzed: Swift.Int
@@ -2407,7 +2407,7 @@ extension DescribeOrganizationOverviewInput {
     }
 }
 
-public struct DescribeOrganizationOverviewInput: Swift.Equatable {
+public struct DescribeOrganizationOverviewInput {
     /// The ID of the Amazon Web Services account.
     public var accountIds: [Swift.String]?
     /// The start of the time range passed in. The start time granularity is at the day level. The floor of the start time is used. Returned information occurred after this day.
@@ -2432,7 +2432,7 @@ public struct DescribeOrganizationOverviewInput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationOverviewInputBody: Swift.Equatable {
+struct DescribeOrganizationOverviewInputBody {
     let fromTime: ClientRuntime.Date?
     let toTime: ClientRuntime.Date?
     let accountIds: [Swift.String]?
@@ -2492,7 +2492,7 @@ extension DescribeOrganizationOverviewOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeOrganizationOverviewOutput: Swift.Equatable {
+public struct DescribeOrganizationOverviewOutput {
     /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
     /// This member is required.
     public var proactiveInsights: Swift.Int
@@ -2510,7 +2510,7 @@ public struct DescribeOrganizationOverviewOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationOverviewOutputBody: Swift.Equatable {
+struct DescribeOrganizationOverviewOutputBody {
     let reactiveInsights: Swift.Int
     let proactiveInsights: Swift.Int
 }
@@ -2586,7 +2586,7 @@ extension DescribeOrganizationResourceCollectionHealthInput {
     }
 }
 
-public struct DescribeOrganizationResourceCollectionHealthInput: Swift.Equatable {
+public struct DescribeOrganizationResourceCollectionHealthInput {
     /// The ID of the Amazon Web Services account.
     public var accountIds: [Swift.String]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -2615,7 +2615,7 @@ public struct DescribeOrganizationResourceCollectionHealthInput: Swift.Equatable
     }
 }
 
-struct DescribeOrganizationResourceCollectionHealthInputBody: Swift.Equatable {
+struct DescribeOrganizationResourceCollectionHealthInputBody {
     let organizationResourceCollectionType: DevOpsGuruClientTypes.OrganizationResourceCollectionType?
     let accountIds: [Swift.String]?
     let organizationalUnitIds: [Swift.String]?
@@ -2685,7 +2685,7 @@ extension DescribeOrganizationResourceCollectionHealthOutput: ClientRuntime.Http
     }
 }
 
-public struct DescribeOrganizationResourceCollectionHealthOutput: Swift.Equatable {
+public struct DescribeOrganizationResourceCollectionHealthOutput {
     /// The name of the organization's account.
     public var account: [DevOpsGuruClientTypes.AccountHealth]?
     /// The returned CloudFormationHealthOverview object that contains an InsightHealthOverview object with the requested system health information.
@@ -2720,7 +2720,7 @@ public struct DescribeOrganizationResourceCollectionHealthOutput: Swift.Equatabl
     }
 }
 
-struct DescribeOrganizationResourceCollectionHealthOutputBody: Swift.Equatable {
+struct DescribeOrganizationResourceCollectionHealthOutputBody {
     let cloudFormation: [DevOpsGuruClientTypes.CloudFormationHealth]?
     let service: [DevOpsGuruClientTypes.ServiceHealth]?
     let account: [DevOpsGuruClientTypes.AccountHealth]?
@@ -2824,7 +2824,7 @@ extension DescribeResourceCollectionHealthInput {
     }
 }
 
-public struct DescribeResourceCollectionHealthInput: Swift.Equatable {
+public struct DescribeResourceCollectionHealthInput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
     /// An Amazon Web Services resource collection type. This type specifies how analyzed Amazon Web Services resources are defined. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
@@ -2841,7 +2841,7 @@ public struct DescribeResourceCollectionHealthInput: Swift.Equatable {
     }
 }
 
-struct DescribeResourceCollectionHealthInputBody: Swift.Equatable {
+struct DescribeResourceCollectionHealthInputBody {
 }
 
 extension DescribeResourceCollectionHealthInputBody: Swift.Decodable {
@@ -2868,7 +2868,7 @@ extension DescribeResourceCollectionHealthOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeResourceCollectionHealthOutput: Swift.Equatable {
+public struct DescribeResourceCollectionHealthOutput {
     /// The returned CloudFormationHealthOverview object that contains an InsightHealthOverview object with the requested system health information.
     public var cloudFormation: [DevOpsGuruClientTypes.CloudFormationHealth]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -2899,7 +2899,7 @@ public struct DescribeResourceCollectionHealthOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourceCollectionHealthOutputBody: Swift.Equatable {
+struct DescribeResourceCollectionHealthOutputBody {
     let cloudFormation: [DevOpsGuruClientTypes.CloudFormationHealth]?
     let service: [DevOpsGuruClientTypes.ServiceHealth]?
     let nextToken: Swift.String?
@@ -2975,12 +2975,12 @@ extension DescribeServiceIntegrationInput {
     }
 }
 
-public struct DescribeServiceIntegrationInput: Swift.Equatable {
+public struct DescribeServiceIntegrationInput {
 
     public init() { }
 }
 
-struct DescribeServiceIntegrationInputBody: Swift.Equatable {
+struct DescribeServiceIntegrationInputBody {
 }
 
 extension DescribeServiceIntegrationInputBody: Swift.Decodable {
@@ -3001,7 +3001,7 @@ extension DescribeServiceIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServiceIntegrationOutput: Swift.Equatable {
+public struct DescribeServiceIntegrationOutput {
     /// Information about the integration of DevOps Guru with another Amazon Web Services service, such as Amazon Web Services Systems Manager.
     public var serviceIntegration: DevOpsGuruClientTypes.ServiceIntegrationConfig?
 
@@ -3013,7 +3013,7 @@ public struct DescribeServiceIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceIntegrationOutputBody: Swift.Equatable {
+struct DescribeServiceIntegrationOutputBody {
     let serviceIntegration: DevOpsGuruClientTypes.ServiceIntegrationConfig?
 }
 
@@ -3073,7 +3073,7 @@ extension DevOpsGuruClientTypes.EndTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A range of time that specifies when anomalous behavior in an anomaly or insight ended.
-    public struct EndTimeRange: Swift.Equatable {
+    public struct EndTimeRange {
         /// The earliest end time in the time range.
         public var fromTime: ClientRuntime.Date?
         /// The latest end time in the time range.
@@ -3166,7 +3166,7 @@ extension DevOpsGuruClientTypes.Event: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// An Amazon Web Services resource event. Amazon Web Services resource events and metrics are analyzed by DevOps Guru to find anomalous behavior and provide recommendations to improve your operational solutions.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The source, AWS_CLOUD_TRAIL or AWS_CODE_DEPLOY, where DevOps Guru analysis found the event.
         public var dataSource: DevOpsGuruClientTypes.EventDataSource?
         /// The class of the event. The class specifies what the event is related to, such as an infrastructure change, a deployment, or a schema change.
@@ -3314,7 +3314,7 @@ extension DevOpsGuruClientTypes.EventResource: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The Amazon Web Services resource that emitted an event. Amazon Web Services resource events and metrics are analyzed by DevOps Guru to find anomalous behavior and provide recommendations to improve your operational solutions.
-    public struct EventResource: Swift.Equatable {
+    public struct EventResource {
         /// The Amazon Resource Name (ARN) of the resource that emitted an event.
         public var arn: Swift.String?
         /// The name of the resource that emitted an event.
@@ -3389,7 +3389,7 @@ extension DevOpsGuruClientTypes.EventSourcesConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the integration of DevOps Guru as consumer with another AWS service, such as AWS CodeGuru Profiler via EventBridge.
-    public struct EventSourcesConfig: Swift.Equatable {
+    public struct EventSourcesConfig {
         /// Information about whether DevOps Guru is configured to consume recommendations which are generated from AWS CodeGuru Profiler.
         public var amazonCodeGuruProfiler: DevOpsGuruClientTypes.AmazonCodeGuruProfilerIntegration?
 
@@ -3430,7 +3430,7 @@ extension DevOpsGuruClientTypes.EventTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The time range during which an Amazon Web Services event occurred. Amazon Web Services resource events and metrics are analyzed by DevOps Guru to find anomalous behavior and provide recommendations to improve your operational solutions.
-    public struct EventTimeRange: Swift.Equatable {
+    public struct EventTimeRange {
         /// The time when the event started.
         /// This member is required.
         public var fromTime: ClientRuntime.Date?
@@ -3469,7 +3469,7 @@ extension GetCostEstimationInput {
     }
 }
 
-public struct GetCostEstimationInput: Swift.Equatable {
+public struct GetCostEstimationInput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
 
@@ -3481,7 +3481,7 @@ public struct GetCostEstimationInput: Swift.Equatable {
     }
 }
 
-struct GetCostEstimationInputBody: Swift.Equatable {
+struct GetCostEstimationInputBody {
 }
 
 extension GetCostEstimationInputBody: Swift.Decodable {
@@ -3512,7 +3512,7 @@ extension GetCostEstimationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCostEstimationOutput: Swift.Equatable {
+public struct GetCostEstimationOutput {
     /// An array of ResourceCost objects that each contains details about the monthly cost estimate to analyze one of your Amazon Web Services resources.
     public var costs: [DevOpsGuruClientTypes.ServiceResourceCost]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -3544,7 +3544,7 @@ public struct GetCostEstimationOutput: Swift.Equatable {
     }
 }
 
-struct GetCostEstimationOutputBody: Swift.Equatable {
+struct GetCostEstimationOutputBody {
     let resourceCollection: DevOpsGuruClientTypes.CostEstimationResourceCollectionFilter?
     let status: DevOpsGuruClientTypes.CostEstimationStatus?
     let costs: [DevOpsGuruClientTypes.ServiceResourceCost]?
@@ -3626,7 +3626,7 @@ extension GetResourceCollectionInput {
     }
 }
 
-public struct GetResourceCollectionInput: Swift.Equatable {
+public struct GetResourceCollectionInput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
     /// The type of Amazon Web Services resource collections to return. The one valid value is CLOUD_FORMATION for Amazon Web Services CloudFormation stacks.
@@ -3643,7 +3643,7 @@ public struct GetResourceCollectionInput: Swift.Equatable {
     }
 }
 
-struct GetResourceCollectionInputBody: Swift.Equatable {
+struct GetResourceCollectionInputBody {
 }
 
 extension GetResourceCollectionInputBody: Swift.Decodable {
@@ -3666,7 +3666,7 @@ extension GetResourceCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceCollectionOutput: Swift.Equatable {
+public struct GetResourceCollectionOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// The requested list of Amazon Web Services resource collections. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
@@ -3682,7 +3682,7 @@ public struct GetResourceCollectionOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceCollectionOutputBody: Swift.Equatable {
+struct GetResourceCollectionOutputBody {
     let resourceCollection: DevOpsGuruClientTypes.ResourceCollectionFilter?
     let nextToken: Swift.String?
 }
@@ -3744,7 +3744,7 @@ extension DevOpsGuruClientTypes.InsightFeedback: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about insight feedback received from a customer.
-    public struct InsightFeedback: Swift.Equatable {
+    public struct InsightFeedback {
         /// The feedback provided by the customer.
         public var feedback: DevOpsGuruClientTypes.InsightFeedbackOption?
         /// The insight feedback ID.
@@ -3836,7 +3836,7 @@ extension DevOpsGuruClientTypes.InsightHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the number of open reactive and proactive insights that can be used to gauge the health of your system.
-    public struct InsightHealth: Swift.Equatable {
+    public struct InsightHealth {
         /// The Meant Time to Recover (MTTR) for the insight.
         public var meanTimeToRecoverInMilliseconds: Swift.Int?
         /// The number of open proactive insights.
@@ -3952,7 +3952,7 @@ extension DevOpsGuruClientTypes.InsightTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A time ranged that specifies when the observed behavior in an insight started and ended.
-    public struct InsightTimeRange: Swift.Equatable {
+    public struct InsightTimeRange {
         /// The time when the behavior described in an insight ended.
         public var endTime: ClientRuntime.Date?
         /// The time when the behavior described in an insight started.
@@ -4052,7 +4052,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4101,7 +4101,7 @@ extension DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration: Swift.Codabl
 
 extension DevOpsGuruClientTypes {
     /// Information about the KMS encryption used with DevOps Guru.
-    public struct KMSServerSideEncryptionIntegration: Swift.Equatable {
+    public struct KMSServerSideEncryptionIntegration {
         /// Describes the specified KMS key. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), Amazon Web Services KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
         public var kmsKeyId: Swift.String?
         /// Specifies if DevOps Guru is enabled for customer managed keys.
@@ -4156,7 +4156,7 @@ extension DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig: Swift.
 
 extension DevOpsGuruClientTypes {
     /// Information about whether DevOps Guru is configured to encrypt server-side data using KMS.
-    public struct KMSServerSideEncryptionIntegrationConfig: Swift.Equatable {
+    public struct KMSServerSideEncryptionIntegrationConfig {
         /// Describes the specified KMS key. To specify a KMS key, use its key ID, key ARN, alias name, or alias ARN. When using an alias name, prefix it with "alias/". If you specify a predefined Amazon Web Services alias (an Amazon Web Services alias with no key ID), Amazon Web Services KMS associates the alias with an Amazon Web Services managed key and returns its KeyId and Arn in the response. To specify a KMS key in a different Amazon Web Services account, you must use the key ARN or alias ARN. For example: Key ID: 1234abcd-12ab-34cd-56ef-1234567890ab Key ARN: arn:aws:kms:us-east-2:111122223333:key/1234abcd-12ab-34cd-56ef-1234567890ab Alias name: alias/ExampleAlias Alias ARN: arn:aws:kms:us-east-2:111122223333:alias/ExampleAlias
         public var kmsKeyId: Swift.String?
         /// Specifies if DevOps Guru is enabled for KMS integration.
@@ -4199,7 +4199,7 @@ extension DevOpsGuruClientTypes.ListAnomaliesForInsightFilters: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Specifies one or more service names that are used to list anomalies.
-    public struct ListAnomaliesForInsightFilters: Swift.Equatable {
+    public struct ListAnomaliesForInsightFilters {
         /// A collection of the names of Amazon Web Services services.
         public var serviceCollection: DevOpsGuruClientTypes.ServiceCollection?
 
@@ -4252,7 +4252,7 @@ extension ListAnomaliesForInsightInput {
     }
 }
 
-public struct ListAnomaliesForInsightInput: Swift.Equatable {
+public struct ListAnomaliesForInsightInput {
     /// The ID of the Amazon Web Services account.
     public var accountId: Swift.String?
     /// Specifies one or more service names that are used to list anomalies.
@@ -4285,7 +4285,7 @@ public struct ListAnomaliesForInsightInput: Swift.Equatable {
     }
 }
 
-struct ListAnomaliesForInsightInputBody: Swift.Equatable {
+struct ListAnomaliesForInsightInputBody {
     let startTimeRange: DevOpsGuruClientTypes.StartTimeRange?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4333,7 +4333,7 @@ extension ListAnomaliesForInsightOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAnomaliesForInsightOutput: Swift.Equatable {
+public struct ListAnomaliesForInsightOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// An array of ProactiveAnomalySummary objects that represent the requested anomalies
@@ -4353,7 +4353,7 @@ public struct ListAnomaliesForInsightOutput: Swift.Equatable {
     }
 }
 
-struct ListAnomaliesForInsightOutputBody: Swift.Equatable {
+struct ListAnomaliesForInsightOutputBody {
     let proactiveAnomalies: [DevOpsGuruClientTypes.ProactiveAnomalySummary]?
     let reactiveAnomalies: [DevOpsGuruClientTypes.ReactiveAnomalySummary]?
     let nextToken: Swift.String?
@@ -4438,7 +4438,7 @@ extension ListAnomalousLogGroupsInput {
     }
 }
 
-public struct ListAnomalousLogGroupsInput: Swift.Equatable {
+public struct ListAnomalousLogGroupsInput {
     /// The ID of the insight containing the log groups.
     /// This member is required.
     public var insightId: Swift.String?
@@ -4459,7 +4459,7 @@ public struct ListAnomalousLogGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAnomalousLogGroupsInputBody: Swift.Equatable {
+struct ListAnomalousLogGroupsInputBody {
     let insightId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4499,7 +4499,7 @@ extension ListAnomalousLogGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAnomalousLogGroupsOutput: Swift.Equatable {
+public struct ListAnomalousLogGroupsOutput {
     /// The list of Amazon CloudWatch log groups that are related to an insight.
     /// This member is required.
     public var anomalousLogGroups: [DevOpsGuruClientTypes.AnomalousLogGroup]?
@@ -4521,7 +4521,7 @@ public struct ListAnomalousLogGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAnomalousLogGroupsOutputBody: Swift.Equatable {
+struct ListAnomalousLogGroupsOutputBody {
     let insightId: Swift.String?
     let anomalousLogGroups: [DevOpsGuruClientTypes.AnomalousLogGroup]?
     let nextToken: Swift.String?
@@ -4620,7 +4620,7 @@ extension DevOpsGuruClientTypes.ListEventsFilters: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Filters you can use to specify which events are returned when ListEvents is called.
-    public struct ListEventsFilters: Swift.Equatable {
+    public struct ListEventsFilters {
         /// The source, AWS_CLOUD_TRAIL or AWS_CODE_DEPLOY, of the events you want returned.
         public var dataSource: DevOpsGuruClientTypes.EventDataSource?
         /// The class of the events you want to filter for, such as an infrastructure change, a deployment, or a schema change.
@@ -4686,7 +4686,7 @@ extension ListEventsInput {
     }
 }
 
-public struct ListEventsInput: Swift.Equatable {
+public struct ListEventsInput {
     /// The ID of the Amazon Web Services account.
     public var accountId: Swift.String?
     /// A ListEventsFilters object used to specify which events to return.
@@ -4711,7 +4711,7 @@ public struct ListEventsInput: Swift.Equatable {
     }
 }
 
-struct ListEventsInputBody: Swift.Equatable {
+struct ListEventsInputBody {
     let filters: DevOpsGuruClientTypes.ListEventsFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4753,7 +4753,7 @@ extension ListEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventsOutput: Swift.Equatable {
+public struct ListEventsOutput {
     /// A list of the requested events.
     /// This member is required.
     public var events: [DevOpsGuruClientTypes.Event]?
@@ -4770,7 +4770,7 @@ public struct ListEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventsOutputBody: Swift.Equatable {
+struct ListEventsOutputBody {
     let events: [DevOpsGuruClientTypes.Event]?
     let nextToken: Swift.String?
 }
@@ -4841,7 +4841,7 @@ extension DevOpsGuruClientTypes.ListInsightsAnyStatusFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Used to filter for insights that have any status.
-    public struct ListInsightsAnyStatusFilter: Swift.Equatable {
+    public struct ListInsightsAnyStatusFilter {
         /// A time range used to specify when the behavior of the filtered insights started.
         /// This member is required.
         public var startTimeRange: DevOpsGuruClientTypes.StartTimeRange?
@@ -4888,7 +4888,7 @@ extension DevOpsGuruClientTypes.ListInsightsClosedStatusFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Used to filter for insights that have the status CLOSED.
-    public struct ListInsightsClosedStatusFilter: Swift.Equatable {
+    public struct ListInsightsClosedStatusFilter {
         /// A time range used to specify when the behavior of the filtered insights ended.
         /// This member is required.
         public var endTimeRange: DevOpsGuruClientTypes.EndTimeRange?
@@ -4936,7 +4936,7 @@ extension ListInsightsInput {
     }
 }
 
-public struct ListInsightsInput: Swift.Equatable {
+public struct ListInsightsInput {
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -4957,7 +4957,7 @@ public struct ListInsightsInput: Swift.Equatable {
     }
 }
 
-struct ListInsightsInputBody: Swift.Equatable {
+struct ListInsightsInputBody {
     let statusFilter: DevOpsGuruClientTypes.ListInsightsStatusFilter?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5002,7 +5002,7 @@ extension DevOpsGuruClientTypes.ListInsightsOngoingStatusFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Used to filter for insights that have the status ONGOING.
-    public struct ListInsightsOngoingStatusFilter: Swift.Equatable {
+    public struct ListInsightsOngoingStatusFilter {
         /// Use to filter for either REACTIVE or PROACTIVE insights.
         /// This member is required.
         public var type: DevOpsGuruClientTypes.InsightType?
@@ -5033,7 +5033,7 @@ extension ListInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInsightsOutput: Swift.Equatable {
+public struct ListInsightsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// The returned list of proactive insights.
@@ -5053,7 +5053,7 @@ public struct ListInsightsOutput: Swift.Equatable {
     }
 }
 
-struct ListInsightsOutputBody: Swift.Equatable {
+struct ListInsightsOutputBody {
     let proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]?
     let reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]?
     let nextToken: Swift.String?
@@ -5142,7 +5142,7 @@ extension DevOpsGuruClientTypes.ListInsightsStatusFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A filter used by ListInsights to specify which insights to return.
-    public struct ListInsightsStatusFilter: Swift.Equatable {
+    public struct ListInsightsStatusFilter {
         /// A ListInsightsAnyStatusFilter that specifies insights of any status that are either REACTIVE or PROACTIVE.
         public var any: DevOpsGuruClientTypes.ListInsightsAnyStatusFilter?
         /// A ListInsightsClosedStatusFilter that specifies closed insights that are either REACTIVE or PROACTIVE.
@@ -5203,7 +5203,7 @@ extension DevOpsGuruClientTypes.ListMonitoredResourcesFilters: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Filters to determine which monitored resources you want to retrieve. You can filter by resource type or resource permission status.
-    public struct ListMonitoredResourcesFilters: Swift.Equatable {
+    public struct ListMonitoredResourcesFilters {
         /// The permission status of a resource.
         /// This member is required.
         public var resourcePermission: DevOpsGuruClientTypes.ResourcePermission?
@@ -5251,7 +5251,7 @@ extension ListMonitoredResourcesInput {
     }
 }
 
-public struct ListMonitoredResourcesInput: Swift.Equatable {
+public struct ListMonitoredResourcesInput {
     /// Filters to determine which monitored resources you want to retrieve. You can filter by resource type or resource permission status.
     public var filters: DevOpsGuruClientTypes.ListMonitoredResourcesFilters?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -5271,7 +5271,7 @@ public struct ListMonitoredResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListMonitoredResourcesInputBody: Swift.Equatable {
+struct ListMonitoredResourcesInputBody {
     let filters: DevOpsGuruClientTypes.ListMonitoredResourcesFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5309,7 +5309,7 @@ extension ListMonitoredResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitoredResourcesOutput: Swift.Equatable {
+public struct ListMonitoredResourcesOutput {
     /// Information about the resource that is being monitored, including the name of the resource, the type of resource, and whether or not permission is given to DevOps Guru to access that resource.
     /// This member is required.
     public var monitoredResourceIdentifiers: [DevOpsGuruClientTypes.MonitoredResourceIdentifier]?
@@ -5326,7 +5326,7 @@ public struct ListMonitoredResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitoredResourcesOutputBody: Swift.Equatable {
+struct ListMonitoredResourcesOutputBody {
     let monitoredResourceIdentifiers: [DevOpsGuruClientTypes.MonitoredResourceIdentifier]?
     let nextToken: Swift.String?
 }
@@ -5389,7 +5389,7 @@ extension ListNotificationChannelsInput {
     }
 }
 
-public struct ListNotificationChannelsInput: Swift.Equatable {
+public struct ListNotificationChannelsInput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
 
@@ -5401,7 +5401,7 @@ public struct ListNotificationChannelsInput: Swift.Equatable {
     }
 }
 
-struct ListNotificationChannelsInputBody: Swift.Equatable {
+struct ListNotificationChannelsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5431,7 +5431,7 @@ extension ListNotificationChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotificationChannelsOutput: Swift.Equatable {
+public struct ListNotificationChannelsOutput {
     /// An array that contains the requested notification channels.
     public var channels: [DevOpsGuruClientTypes.NotificationChannel]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -5447,7 +5447,7 @@ public struct ListNotificationChannelsOutput: Swift.Equatable {
     }
 }
 
-struct ListNotificationChannelsOutputBody: Swift.Equatable {
+struct ListNotificationChannelsOutputBody {
     let channels: [DevOpsGuruClientTypes.NotificationChannel]?
     let nextToken: Swift.String?
 }
@@ -5532,7 +5532,7 @@ extension ListOrganizationInsightsInput {
     }
 }
 
-public struct ListOrganizationInsightsInput: Swift.Equatable {
+public struct ListOrganizationInsightsInput {
     /// The ID of the Amazon Web Services account.
     public var accountIds: [Swift.String]?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -5561,7 +5561,7 @@ public struct ListOrganizationInsightsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationInsightsInputBody: Swift.Equatable {
+struct ListOrganizationInsightsInputBody {
     let statusFilter: DevOpsGuruClientTypes.ListInsightsStatusFilter?
     let maxResults: Swift.Int?
     let accountIds: [Swift.String]?
@@ -5627,7 +5627,7 @@ extension ListOrganizationInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOrganizationInsightsOutput: Swift.Equatable {
+public struct ListOrganizationInsightsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
@@ -5647,7 +5647,7 @@ public struct ListOrganizationInsightsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationInsightsOutputBody: Swift.Equatable {
+struct ListOrganizationInsightsOutputBody {
     let proactiveInsights: [DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary]?
     let reactiveInsights: [DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary]?
     let nextToken: Swift.String?
@@ -5735,7 +5735,7 @@ extension ListRecommendationsInput {
     }
 }
 
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// The ID of the Amazon Web Services account.
     public var accountId: Swift.String?
     /// The ID of the requested insight.
@@ -5760,7 +5760,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsInputBody: Swift.Equatable {
+struct ListRecommendationsInputBody {
     let insightId: Swift.String?
     let nextToken: Swift.String?
     let locale: DevOpsGuruClientTypes.Locale?
@@ -5802,7 +5802,7 @@ extension ListRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// An array of the requested recommendations.
@@ -5818,7 +5818,7 @@ public struct ListRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsOutputBody: Swift.Equatable {
+struct ListRecommendationsOutputBody {
     let recommendations: [DevOpsGuruClientTypes.Recommendation]?
     let nextToken: Swift.String?
 }
@@ -5978,7 +5978,7 @@ extension DevOpsGuruClientTypes.LogAnomalyClass: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about an anomalous log event found within a log group.
-    public struct LogAnomalyClass: Swift.Equatable {
+    public struct LogAnomalyClass {
         /// The explanation for why the log event is considered an anomaly.
         public var explanation: Swift.String?
         /// The token where the anomaly was detected. This may refer to an exception or another location, or it may be blank for log anomalies such as format anomalies.
@@ -6049,7 +6049,7 @@ extension DevOpsGuruClientTypes.LogAnomalyShowcase: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A cluster of similar anomalous log events found within a log group.
-    public struct LogAnomalyShowcase: Swift.Equatable {
+    public struct LogAnomalyShowcase {
         /// A list of anomalous log events that may be related.
         public var logAnomalyClasses: [DevOpsGuruClientTypes.LogAnomalyClass]?
 
@@ -6134,7 +6134,7 @@ extension DevOpsGuruClientTypes.LogsAnomalyDetectionIntegration: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the integration of DevOps Guru with CloudWatch log groups for log anomaly detection.
-    public struct LogsAnomalyDetectionIntegration: Swift.Equatable {
+    public struct LogsAnomalyDetectionIntegration {
         /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
         public var optInStatus: DevOpsGuruClientTypes.OptInStatus?
 
@@ -6169,7 +6169,7 @@ extension DevOpsGuruClientTypes.LogsAnomalyDetectionIntegrationConfig: Swift.Cod
 
 extension DevOpsGuruClientTypes {
     /// Information about the integration of DevOps Guru with CloudWatch log groups for log anomaly detection. You can use this to update the configuration.
-    public struct LogsAnomalyDetectionIntegrationConfig: Swift.Equatable {
+    public struct LogsAnomalyDetectionIntegrationConfig {
         /// Specifies if DevOps Guru is configured to perform log anomaly detection on CloudWatch log groups.
         public var optInStatus: DevOpsGuruClientTypes.OptInStatus?
 
@@ -6228,7 +6228,7 @@ extension DevOpsGuruClientTypes.MonitoredResourceIdentifier: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the resource that is being monitored, including the name of the resource, the type of resource, and whether or not permission is given to DevOps Guru to access that resource.
-    public struct MonitoredResourceIdentifier: Swift.Equatable {
+    public struct MonitoredResourceIdentifier {
         /// The time at which DevOps Guru last updated this resource.
         public var lastUpdated: ClientRuntime.Date?
         /// The name of the resource being monitored.
@@ -6285,7 +6285,7 @@ extension DevOpsGuruClientTypes.NotificationChannel: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about a notification channel. A notification channel is used to notify you when DevOps Guru creates an insight. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS). If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
-    public struct NotificationChannel: Swift.Equatable {
+    public struct NotificationChannel {
         /// A NotificationChannelConfig object that contains information about configured notification channels.
         public var config: DevOpsGuruClientTypes.NotificationChannelConfig?
         /// The ID of a notification channel.
@@ -6330,7 +6330,7 @@ extension DevOpsGuruClientTypes.NotificationChannelConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about notification channels you have configured with DevOps Guru. The one supported notification channel is Amazon Simple Notification Service (Amazon SNS).
-    public struct NotificationChannelConfig: Swift.Equatable {
+    public struct NotificationChannelConfig {
         /// The filter configurations for the Amazon SNS notification topic you use with DevOps Guru. If you do not provide filter configurations, the default configurations are to receive notifications for all message types of High or Medium severity.
         public var filters: DevOpsGuruClientTypes.NotificationFilterConfig?
         /// Information about a notification channel configured in DevOps Guru to send notifications when insights are created. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
@@ -6400,7 +6400,7 @@ extension DevOpsGuruClientTypes.NotificationFilterConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The filter configurations for the Amazon SNS notification topic you use with DevOps Guru. You can choose to specify which events or message types to receive notifications for. You can also choose to specify which severity levels to receive notifications for.
-    public struct NotificationFilterConfig: Swift.Equatable {
+    public struct NotificationFilterConfig {
         /// The events that you want to receive notifications for. For example, you can choose to receive notifications only when the severity level is upgraded or a new insight is created.
         public var messageTypes: [DevOpsGuruClientTypes.NotificationMessageType]?
         /// The severity levels that you want to receive notifications for. For example, you can choose to receive notifications only for insights with HIGH and MEDIUM severity levels. For more information, see [Understanding insight severities](https://docs.aws.amazon.com/devops-guru/latest/userguide/working-with-insights.html#understanding-insights-severities).
@@ -6480,7 +6480,7 @@ extension DevOpsGuruClientTypes.OpsCenterIntegration: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager OpsCenter for each created insight.
-    public struct OpsCenterIntegration: Swift.Equatable {
+    public struct OpsCenterIntegration {
         /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight.
         public var optInStatus: DevOpsGuruClientTypes.OptInStatus?
 
@@ -6515,7 +6515,7 @@ extension DevOpsGuruClientTypes.OpsCenterIntegrationConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about whether DevOps Guru is configured to create an OpsItem in Amazon Web Services Systems Manager OpsCenter for each created insight. You can use this to update the configuration.
-    public struct OpsCenterIntegrationConfig: Swift.Equatable {
+    public struct OpsCenterIntegrationConfig {
         /// Specifies if DevOps Guru is enabled to create an Amazon Web Services Systems Manager OpsItem for each created insight.
         public var optInStatus: DevOpsGuruClientTypes.OptInStatus?
 
@@ -6649,7 +6649,7 @@ extension DevOpsGuruClientTypes {
     /// * To learn more about Performance Insights and Amazon Aurora DB instances, go to the [ Amazon Aurora User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html).
     ///
     /// * To learn more about Performance Insights and Amazon RDS DB instances, go to the [ Amazon RDS User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html).
-    public struct PerformanceInsightsMetricDimensionGroup: Swift.Equatable {
+    public struct PerformanceInsightsMetricDimensionGroup {
         /// A list of specific dimensions from a dimension group. If this parameter is not present, then it signifies that all of the dimensions in the group were requested or are present in the response. Valid values for elements in the Dimensions array are:
         ///
         /// * db.application.name - The name of the application that is connected to the database (only Aurora PostgreSQL and RDS PostgreSQL)
@@ -6772,7 +6772,7 @@ extension DevOpsGuruClientTypes {
     /// * To learn more about Performance Insights and Amazon Aurora DB instances, go to the [ Amazon Aurora User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html).
     ///
     /// * To learn more about Performance Insights and Amazon RDS DB instances, go to the [ Amazon RDS User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html).
-    public struct PerformanceInsightsMetricQuery: Swift.Equatable {
+    public struct PerformanceInsightsMetricQuery {
         /// One or more filters to apply to a Performance Insights GetResourceMetrics API query. Restrictions:
         ///
         /// * Any number of filters by the same dimension, as specified in the GroupBy parameter.
@@ -6896,7 +6896,7 @@ extension DevOpsGuruClientTypes {
     /// * To learn more about Performance Insights and Amazon Aurora DB instances, go to the [ Amazon Aurora User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/AuroraUserGuide/USER_PerfInsights.html).
     ///
     /// * To learn more about Performance Insights and Amazon RDS DB instances, go to the [ Amazon RDS User Guide](https://docs.aws.amazon.com/AmazonRDS/latest/UserGuide/USER_PerfInsights.html).
-    public struct PerformanceInsightsMetricsDetail: Swift.Equatable {
+    public struct PerformanceInsightsMetricsDetail {
         /// The name used for a specific Performance Insights metric.
         public var metricDisplayName: Swift.String?
         /// A single query to be processed for the metric. For more information, see [PerformanceInsightsMetricQuery](https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsMetricQuery.html).
@@ -6957,7 +6957,7 @@ extension DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues: Sw
 
 extension DevOpsGuruClientTypes {
     /// Reference scalar values and other metrics that DevOps Guru displays on a graph in its console along with the actual metrics it analyzed. Compare these reference values to your actual metrics to help you understand anomalous behavior that DevOps Guru detected.
-    public struct PerformanceInsightsReferenceComparisonValues: Swift.Equatable {
+    public struct PerformanceInsightsReferenceComparisonValues {
         /// A metric that DevOps Guru compares to actual metric values. This reference metric is used to determine if an actual metric should be considered anomalous.
         public var referenceMetric: DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric?
         /// A scalar value DevOps Guru for a metric that DevOps Guru compares to actual metric values. This reference value is used to determine if an actual metric value should be considered anomalous.
@@ -7002,7 +7002,7 @@ extension DevOpsGuruClientTypes.PerformanceInsightsReferenceData: Swift.Codable 
 
 extension DevOpsGuruClientTypes {
     /// Reference data used to evaluate Performance Insights to determine if its performance is anomalous or not.
-    public struct PerformanceInsightsReferenceData: Swift.Equatable {
+    public struct PerformanceInsightsReferenceData {
         /// The specific reference values used to evaluate the Performance Insights. For more information, see [PerformanceInsightsReferenceComparisonValues](https://docs.aws.amazon.com/devops-guru/latest/APIReference/API_PerformanceInsightsReferenceComparisonValues.html).
         public var comparisonValues: DevOpsGuruClientTypes.PerformanceInsightsReferenceComparisonValues?
         /// The name of the reference data.
@@ -7041,7 +7041,7 @@ extension DevOpsGuruClientTypes.PerformanceInsightsReferenceMetric: Swift.Codabl
 
 extension DevOpsGuruClientTypes {
     /// Information about a reference metric used to evaluate Performance Insights.
-    public struct PerformanceInsightsReferenceMetric: Swift.Equatable {
+    public struct PerformanceInsightsReferenceMetric {
         /// A query to be processed on the metric.
         public var metricQuery: DevOpsGuruClientTypes.PerformanceInsightsMetricQuery?
 
@@ -7076,7 +7076,7 @@ extension DevOpsGuruClientTypes.PerformanceInsightsReferenceScalar: Swift.Codabl
 
 extension DevOpsGuruClientTypes {
     /// A reference value to compare Performance Insights metrics against to determine if the metrics demonstrate anomalous behavior.
-    public struct PerformanceInsightsReferenceScalar: Swift.Equatable {
+    public struct PerformanceInsightsReferenceScalar {
         /// The reference value.
         public var value: Swift.Double?
 
@@ -7117,7 +7117,7 @@ extension DevOpsGuruClientTypes.PerformanceInsightsStat: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A statistic in a Performance Insights collection.
-    public struct PerformanceInsightsStat: Swift.Equatable {
+    public struct PerformanceInsightsStat {
         /// The statistic type.
         public var type: Swift.String?
         /// The value of the statistic.
@@ -7162,7 +7162,7 @@ extension DevOpsGuruClientTypes.PredictionTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The time range during which anomalous behavior in a proactive anomaly or an insight is expected to occur.
-    public struct PredictionTimeRange: Swift.Equatable {
+    public struct PredictionTimeRange {
         /// The time when the behavior in a proactive insight is expected to end.
         public var endTime: ClientRuntime.Date?
         /// The time range during which a metric limit is expected to be exceeded. This applies to proactive insights only.
@@ -7292,7 +7292,7 @@ extension DevOpsGuruClientTypes.ProactiveAnomaly: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about an anomaly. This object is returned by ListAnomalies.
-    public struct ProactiveAnomaly: Swift.Equatable {
+    public struct ProactiveAnomaly {
         /// An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public var anomalyReportedTimeRange: DevOpsGuruClientTypes.AnomalyReportedTimeRange?
         /// Information about a resource in which DevOps Guru detected anomalous behavior.
@@ -7469,7 +7469,7 @@ extension DevOpsGuruClientTypes.ProactiveAnomalySummary: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about a proactive anomaly. This object is returned by DescribeAnomaly.
-    public struct ProactiveAnomalySummary: Swift.Equatable {
+    public struct ProactiveAnomalySummary {
         /// An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public var anomalyReportedTimeRange: DevOpsGuruClientTypes.AnomalyReportedTimeRange?
         /// Information about a resource in which DevOps Guru detected anomalous behavior.
@@ -7604,7 +7604,7 @@ extension DevOpsGuruClientTypes.ProactiveInsight: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about a proactive insight. This object is returned by ListInsights.
-    public struct ProactiveInsight: Swift.Equatable {
+    public struct ProactiveInsight {
         /// Describes the proactive insight.
         public var description: Swift.String?
         /// The ID of the proactive insight.
@@ -7731,7 +7731,7 @@ extension DevOpsGuruClientTypes.ProactiveInsightSummary: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about a proactive insight. This object is returned by DescribeInsight.
-    public struct ProactiveInsightSummary: Swift.Equatable {
+    public struct ProactiveInsightSummary {
         /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that generated this insight.
         public var associatedResourceArns: [Swift.String]?
         /// The ID of the proactive insight.
@@ -7852,7 +7852,7 @@ extension DevOpsGuruClientTypes.ProactiveOrganizationInsightSummary: Swift.Codab
 
 extension DevOpsGuruClientTypes {
     /// Details about a proactive insight. This object is returned by DescribeInsight.
-    public struct ProactiveOrganizationInsightSummary: Swift.Equatable {
+    public struct ProactiveOrganizationInsightSummary {
         /// The ID of the Amazon Web Services account.
         public var accountId: Swift.String?
         /// The ID of the insight summary.
@@ -7922,7 +7922,7 @@ extension PutFeedbackInput {
     }
 }
 
-public struct PutFeedbackInput: Swift.Equatable {
+public struct PutFeedbackInput {
     /// The feedback from customers is about the recommendations in this insight.
     public var insightFeedback: DevOpsGuruClientTypes.InsightFeedback?
 
@@ -7934,7 +7934,7 @@ public struct PutFeedbackInput: Swift.Equatable {
     }
 }
 
-struct PutFeedbackInputBody: Swift.Equatable {
+struct PutFeedbackInputBody {
     let insightFeedback: DevOpsGuruClientTypes.InsightFeedback?
 }
 
@@ -7955,7 +7955,7 @@ extension PutFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFeedbackOutput: Swift.Equatable {
+public struct PutFeedbackOutput {
 
     public init() { }
 }
@@ -8081,7 +8081,7 @@ extension DevOpsGuruClientTypes.ReactiveAnomaly: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about a reactive anomaly. This object is returned by ListAnomalies.
-    public struct ReactiveAnomaly: Swift.Equatable {
+    public struct ReactiveAnomaly {
         /// An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public var anomalyReportedTimeRange: DevOpsGuruClientTypes.AnomalyReportedTimeRange?
         /// The Amazon Web Services resources in which anomalous behavior was detected by DevOps Guru.
@@ -8252,7 +8252,7 @@ extension DevOpsGuruClientTypes.ReactiveAnomalySummary: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Details about a reactive anomaly. This object is returned by DescribeAnomaly.
-    public struct ReactiveAnomalySummary: Swift.Equatable {
+    public struct ReactiveAnomalySummary {
         /// An AnomalyReportedTimeRange object that specifies the time range between when the anomaly is opened and the time when it is closed.
         public var anomalyReportedTimeRange: DevOpsGuruClientTypes.AnomalyReportedTimeRange?
         /// The Amazon Web Services resources in which anomalous behavior was detected by DevOps Guru.
@@ -8381,7 +8381,7 @@ extension DevOpsGuruClientTypes.ReactiveInsight: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about a reactive insight. This object is returned by ListInsights.
-    public struct ReactiveInsight: Swift.Equatable {
+    public struct ReactiveInsight {
         /// Describes the reactive insight.
         public var description: Swift.String?
         /// The ID of a reactive insight.
@@ -8498,7 +8498,7 @@ extension DevOpsGuruClientTypes.ReactiveInsightSummary: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about a reactive insight. This object is returned by DescribeInsight.
-    public struct ReactiveInsightSummary: Swift.Equatable {
+    public struct ReactiveInsightSummary {
         /// The Amazon Resource Names (ARNs) of the Amazon Web Services resources that generated this insight.
         public var associatedResourceArns: [Swift.String]?
         /// The ID of a reactive summary.
@@ -8609,7 +8609,7 @@ extension DevOpsGuruClientTypes.ReactiveOrganizationInsightSummary: Swift.Codabl
 
 extension DevOpsGuruClientTypes {
     /// Information about a reactive insight. This object is returned by DescribeInsight.
-    public struct ReactiveOrganizationInsightSummary: Swift.Equatable {
+    public struct ReactiveOrganizationInsightSummary {
         /// The ID of the Amazon Web Services account.
         public var accountId: Swift.String?
         /// The ID of the insight summary.
@@ -8736,7 +8736,7 @@ extension DevOpsGuruClientTypes.Recommendation: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Recommendation information to help you remediate detected anomalous behavior that generated an insight.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The category type of the recommendation.
         public var category: Swift.String?
         /// A description of the problem.
@@ -8831,7 +8831,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedAnomaly: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about an anomaly that is related to a recommendation.
-    public struct RecommendationRelatedAnomaly: Swift.Equatable {
+    public struct RecommendationRelatedAnomaly {
         /// The ID of an anomaly that generated the insight with this recommendation.
         public var anomalyId: Swift.String?
         /// An array of objects that represent resources in which DevOps Guru detected anomalous behavior. Each object contains the name and type of the resource.
@@ -8880,7 +8880,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedAnomalyResource: Swift.Coda
 
 extension DevOpsGuruClientTypes {
     /// Information about a resource in which DevOps Guru detected anomalous behavior.
-    public struct RecommendationRelatedAnomalyResource: Swift.Equatable {
+    public struct RecommendationRelatedAnomalyResource {
         /// The name of the resource.
         public var name: Swift.String?
         /// The type of the resource. Resource types take the same form that is used by Amazon Web Services CloudFormation resource type identifiers, service-provider::service-name::data-type-name. For example, AWS::RDS::DBCluster. For more information, see [Amazon Web Services resource and property types reference](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/aws-template-resource-type-ref.html) in the Amazon Web Services CloudFormation User Guide.
@@ -8931,7 +8931,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedAnomalySourceDetail: Swift.
 
 extension DevOpsGuruClientTypes {
     /// Contains an array of RecommendationRelatedCloudWatchMetricsSourceDetail objects that contain the name and namespace of an Amazon CloudWatch metric.
-    public struct RecommendationRelatedAnomalySourceDetail: Swift.Equatable {
+    public struct RecommendationRelatedAnomalySourceDetail {
         /// An array of CloudWatchMetricsDetail objects that contains information about the analyzed metrics that displayed anomalous behavior.
         public var cloudWatchMetrics: [DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDetail]?
 
@@ -8972,7 +8972,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedCloudWatchMetricsSourceDeta
 
 extension DevOpsGuruClientTypes {
     /// Information about an Amazon CloudWatch metric that is analyzed by DevOps Guru. It is one of many analyzed metrics that are used to generate insights.
-    public struct RecommendationRelatedCloudWatchMetricsSourceDetail: Swift.Equatable {
+    public struct RecommendationRelatedCloudWatchMetricsSourceDetail {
         /// The name of the CloudWatch metric.
         public var metricName: Swift.String?
         /// The namespace of the CloudWatch metric. A namespace is a container for CloudWatch metrics.
@@ -9029,7 +9029,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedEvent: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about an event that is related to a recommendation.
-    public struct RecommendationRelatedEvent: Swift.Equatable {
+    public struct RecommendationRelatedEvent {
         /// The name of the event. This corresponds to the Name field in an Event object.
         public var name: Swift.String?
         /// A ResourceCollection object that contains arrays of the names of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
@@ -9074,7 +9074,7 @@ extension DevOpsGuruClientTypes.RecommendationRelatedEventResource: Swift.Codabl
 
 extension DevOpsGuruClientTypes {
     /// Information about an Amazon Web Services resource that emitted and event that is related to a recommendation in an insight.
-    public struct RecommendationRelatedEventResource: Swift.Equatable {
+    public struct RecommendationRelatedEventResource {
         /// The name of the resource that emitted the event. This corresponds to the Name field in an EventResource object.
         public var name: Swift.String?
         /// The type of the resource that emitted the event. This corresponds to the Type field in an EventResource object.
@@ -9102,7 +9102,7 @@ extension RemoveNotificationChannelInput {
     }
 }
 
-public struct RemoveNotificationChannelInput: Swift.Equatable {
+public struct RemoveNotificationChannelInput {
     /// The ID of the notification channel to be removed.
     /// This member is required.
     public var id: Swift.String?
@@ -9115,7 +9115,7 @@ public struct RemoveNotificationChannelInput: Swift.Equatable {
     }
 }
 
-struct RemoveNotificationChannelInputBody: Swift.Equatable {
+struct RemoveNotificationChannelInputBody {
 }
 
 extension RemoveNotificationChannelInputBody: Swift.Decodable {
@@ -9129,7 +9129,7 @@ extension RemoveNotificationChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveNotificationChannelOutput: Swift.Equatable {
+public struct RemoveNotificationChannelOutput {
 
     public init() { }
 }
@@ -9189,7 +9189,7 @@ extension DevOpsGuruClientTypes.ResourceCollection: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A collection of Amazon Web Services resources supported by DevOps Guru. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    public struct ResourceCollection: Swift.Equatable {
+    public struct ResourceCollection {
         /// An array of the names of Amazon Web Services CloudFormation stacks. The stacks define Amazon Web Services resources that DevOps Guru analyzes. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCollection?
         /// The Amazon Web Services tags that are used by resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
@@ -9253,7 +9253,7 @@ extension DevOpsGuruClientTypes.ResourceCollectionFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about a filter used to specify which Amazon Web Services resources are analyzed for anomalous behavior by DevOps Guru.
-    public struct ResourceCollectionFilter: Swift.Equatable {
+    public struct ResourceCollectionFilter {
         /// Information about Amazon Web Services CloudFormation stacks. You can use up to 500 stacks to specify which Amazon Web Services resources in your account to analyze. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
         public var cloudFormation: DevOpsGuruClientTypes.CloudFormationCollectionFilter?
         /// The Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
@@ -9367,7 +9367,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -9593,7 +9593,7 @@ extension DevOpsGuruClientTypes.SearchInsightsFilters: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Specifies values used to filter responses when searching for insights. You can use a ResourceCollection, ServiceCollection, array of severities, and an array of status values. Each filter type contains one or more values to search for. If you specify multiple filter types, the filter types are joined with an AND, and the request returns only results that match all of the specified filters.
-    public struct SearchInsightsFilters: Swift.Equatable {
+    public struct SearchInsightsFilters {
         /// A collection of Amazon Web Services resources supported by DevOps Guru. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var resourceCollection: DevOpsGuruClientTypes.ResourceCollection?
         /// A collection of the names of Amazon Web Services services.
@@ -9655,7 +9655,7 @@ extension SearchInsightsInput {
     }
 }
 
-public struct SearchInsightsInput: Swift.Equatable {
+public struct SearchInsightsInput {
     /// A SearchInsightsFilters object that is used to set the severity and status filters on your insight search.
     public var filters: DevOpsGuruClientTypes.SearchInsightsFilters?
     /// The maximum number of results to return with a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -9685,7 +9685,7 @@ public struct SearchInsightsInput: Swift.Equatable {
     }
 }
 
-struct SearchInsightsInputBody: Swift.Equatable {
+struct SearchInsightsInputBody {
     let startTimeRange: DevOpsGuruClientTypes.StartTimeRange?
     let filters: DevOpsGuruClientTypes.SearchInsightsFilters?
     let maxResults: Swift.Int?
@@ -9733,7 +9733,7 @@ extension SearchInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchInsightsOutput: Swift.Equatable {
+public struct SearchInsightsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// The returned proactive insights.
@@ -9753,7 +9753,7 @@ public struct SearchInsightsOutput: Swift.Equatable {
     }
 }
 
-struct SearchInsightsOutputBody: Swift.Equatable {
+struct SearchInsightsOutputBody {
     let proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]?
     let reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]?
     let nextToken: Swift.String?
@@ -9872,7 +9872,7 @@ extension DevOpsGuruClientTypes.SearchOrganizationInsightsFilters: Swift.Codable
 
 extension DevOpsGuruClientTypes {
     /// Filters you can use to specify which events are returned when ListEvents is called.
-    public struct SearchOrganizationInsightsFilters: Swift.Equatable {
+    public struct SearchOrganizationInsightsFilters {
         /// A collection of Amazon Web Services resources supported by DevOps Guru. The two types of Amazon Web Services resource collections supported are Amazon Web Services CloudFormation stacks and Amazon Web Services resources that contain the same Amazon Web Services tag. DevOps Guru can be configured to analyze the Amazon Web Services resources that are defined in the stacks or that are tagged using the same tag key. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var resourceCollection: DevOpsGuruClientTypes.ResourceCollection?
         /// A collection of the names of Amazon Web Services services.
@@ -9941,7 +9941,7 @@ extension SearchOrganizationInsightsInput {
     }
 }
 
-public struct SearchOrganizationInsightsInput: Swift.Equatable {
+public struct SearchOrganizationInsightsInput {
     /// The ID of the Amazon Web Services account.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -9976,7 +9976,7 @@ public struct SearchOrganizationInsightsInput: Swift.Equatable {
     }
 }
 
-struct SearchOrganizationInsightsInputBody: Swift.Equatable {
+struct SearchOrganizationInsightsInputBody {
     let accountIds: [Swift.String]?
     let startTimeRange: DevOpsGuruClientTypes.StartTimeRange?
     let filters: DevOpsGuruClientTypes.SearchOrganizationInsightsFilters?
@@ -10037,7 +10037,7 @@ extension SearchOrganizationInsightsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchOrganizationInsightsOutput: Swift.Equatable {
+public struct SearchOrganizationInsightsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// An integer that specifies the number of open proactive insights in your Amazon Web Services account.
@@ -10057,7 +10057,7 @@ public struct SearchOrganizationInsightsOutput: Swift.Equatable {
     }
 }
 
-struct SearchOrganizationInsightsOutputBody: Swift.Equatable {
+struct SearchOrganizationInsightsOutputBody {
     let proactiveInsights: [DevOpsGuruClientTypes.ProactiveInsightSummary]?
     let reactiveInsights: [DevOpsGuruClientTypes.ReactiveInsightSummary]?
     let nextToken: Swift.String?
@@ -10178,7 +10178,7 @@ extension DevOpsGuruClientTypes.ServiceCollection: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A collection of the names of Amazon Web Services services.
-    public struct ServiceCollection: Swift.Equatable {
+    public struct ServiceCollection {
         /// An array of strings that each specifies the name of an Amazon Web Services service.
         public var serviceNames: [DevOpsGuruClientTypes.ServiceName]?
 
@@ -10225,7 +10225,7 @@ extension DevOpsGuruClientTypes.ServiceHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Represents the health of an Amazon Web Services service.
-    public struct ServiceHealth: Swift.Equatable {
+    public struct ServiceHealth {
         /// Number of resources that DevOps Guru is monitoring in an analyzed Amazon Web Services service.
         public var analyzedResourceCount: Swift.Int?
         /// Represents the health of an Amazon Web Services service. This is a ServiceInsightHealth that contains the number of open proactive and reactive insights for this service.
@@ -10274,7 +10274,7 @@ extension DevOpsGuruClientTypes.ServiceInsightHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Contains the number of open proactive and reactive insights in an analyzed Amazon Web Services service.
-    public struct ServiceInsightHealth: Swift.Equatable {
+    public struct ServiceInsightHealth {
         /// The number of open proactive insights in the Amazon Web Services service
         public var openProactiveInsights: Swift.Int
         /// The number of open reactive insights in the Amazon Web Services service
@@ -10325,7 +10325,7 @@ extension DevOpsGuruClientTypes.ServiceIntegrationConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the integration of DevOps Guru with another Amazon Web Services service, such as Amazon Web Services Systems Manager.
-    public struct ServiceIntegrationConfig: Swift.Equatable {
+    public struct ServiceIntegrationConfig {
         /// Information about whether DevOps Guru is configured to encrypt server-side data using KMS.
         public var kmsServerSideEncryption: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegration?
         /// Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
@@ -10487,7 +10487,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -10548,7 +10548,7 @@ extension DevOpsGuruClientTypes.ServiceResourceCost: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// An object that contains information about the estimated monthly cost to analyze an Amazon Web Services resource. For more information, see [Estimate your Amazon DevOps Guru costs](https://docs.aws.amazon.com/devops-guru/latest/userguide/cost-estimate.html) and [Amazon DevOps Guru pricing](http://aws.amazon.com/devops-guru/pricing/).
-    public struct ServiceResourceCost: Swift.Equatable {
+    public struct ServiceResourceCost {
         /// The total estimated monthly cost to analyze the active resources for this resource.
         public var cost: Swift.Double
         /// The number of active resources analyzed for this service to create a monthly cost estimate.
@@ -10599,7 +10599,7 @@ extension DevOpsGuruClientTypes.SnsChannelConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Contains the Amazon Resource Name (ARN) of an Amazon Simple Notification Service topic. If you use an Amazon SNS topic in another account, you must attach a policy to it that grants DevOps Guru permission to send it notifications. DevOps Guru adds the required policy on your behalf to send notifications using Amazon SNS in your account. DevOps Guru only supports standard SNS topics. For more information, see [Permissions for Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-required-permissions.html). If you use an Amazon SNS topic that is encrypted by an Amazon Web Services Key Management Service customer-managed key (CMK), then you must add permissions to the CMK. For more information, see [Permissions for Amazon Web Services KMS–encrypted Amazon SNS topics](https://docs.aws.amazon.com/devops-guru/latest/userguide/sns-kms-permissions.html).
-    public struct SnsChannelConfig: Swift.Equatable {
+    public struct SnsChannelConfig {
         /// The Amazon Resource Name (ARN) of an Amazon Simple Notification Service topic.
         public var topicArn: Swift.String?
 
@@ -10637,7 +10637,7 @@ extension StartCostEstimationInput {
     }
 }
 
-public struct StartCostEstimationInput: Swift.Equatable {
+public struct StartCostEstimationInput {
     /// The idempotency token used to identify each cost estimate request.
     public var clientToken: Swift.String?
     /// The collection of Amazon Web Services resources used to create a monthly DevOps Guru cost estimate.
@@ -10654,7 +10654,7 @@ public struct StartCostEstimationInput: Swift.Equatable {
     }
 }
 
-struct StartCostEstimationInputBody: Swift.Equatable {
+struct StartCostEstimationInputBody {
     let resourceCollection: DevOpsGuruClientTypes.CostEstimationResourceCollectionFilter?
     let clientToken: Swift.String?
 }
@@ -10679,7 +10679,7 @@ extension StartCostEstimationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCostEstimationOutput: Swift.Equatable {
+public struct StartCostEstimationOutput {
 
     public init() { }
 }
@@ -10727,7 +10727,7 @@ extension DevOpsGuruClientTypes.StartTimeRange: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A time range used to specify when the behavior of an insight or anomaly started.
-    public struct StartTimeRange: Swift.Equatable {
+    public struct StartTimeRange {
         /// The start time of the time range.
         public var fromTime: ClientRuntime.Date?
         /// The end time of the time range.
@@ -10791,7 +10791,7 @@ extension DevOpsGuruClientTypes {
     ///
     ///
     /// Together these are known as key-value pairs. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
-    public struct TagCollection: Swift.Equatable {
+    public struct TagCollection {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
         /// This member is required.
         public var appBoundaryKey: Swift.String?
@@ -10850,7 +10850,7 @@ extension DevOpsGuruClientTypes.TagCollectionFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A collection of Amazon Web Services tags used to filter insights. This is used to return insights generated from only resources that contain the tags in the tag collection.
-    public struct TagCollectionFilter: Swift.Equatable {
+    public struct TagCollectionFilter {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
         /// This member is required.
         public var appBoundaryKey: Swift.String?
@@ -10909,7 +10909,7 @@ extension DevOpsGuruClientTypes.TagCostEstimationResourceCollectionFilter: Swift
 
 extension DevOpsGuruClientTypes {
     /// Information about a collection of Amazon Web Services resources that are identified by an Amazon Web Services tag. This collection of resources is used to create a monthly cost estimate for DevOps Guru to analyze Amazon Web Services resources. The maximum number of tags you can specify for a cost estimate is one. The estimate created is for the cost to analyze the Amazon Web Services resources defined by the tag. For more information, see [Stacks](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/stacks.html) in the Amazon Web Services CloudFormation User Guide.
-    public struct TagCostEstimationResourceCollectionFilter: Swift.Equatable {
+    public struct TagCostEstimationResourceCollectionFilter {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
         /// This member is required.
         public var appBoundaryKey: Swift.String?
@@ -10968,7 +10968,7 @@ extension DevOpsGuruClientTypes.TagHealth: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about the health of Amazon Web Services resources in your account that are specified by an Amazon Web Services tag key.
-    public struct TagHealth: Swift.Equatable {
+    public struct TagHealth {
         /// Number of resources that DevOps Guru is monitoring in your account that are specified by an Amazon Web Services tag.
         public var analyzedResourceCount: Swift.Int?
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
@@ -11055,7 +11055,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -11106,7 +11106,7 @@ extension DevOpsGuruClientTypes.TimestampMetricValuePair: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A pair that contains metric values at the respective timestamp.
-    public struct TimestampMetricValuePair: Swift.Equatable {
+    public struct TimestampMetricValuePair {
         /// Value of the anomalous metric data point at respective Timestamp.
         public var metricValue: Swift.Double?
         /// A Timestamp that specifies the time the event occurred.
@@ -11157,7 +11157,7 @@ extension DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter: Swift.Coda
 
 extension DevOpsGuruClientTypes {
     /// Contains the names of Amazon Web Services CloudFormation stacks used to update a collection of stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
-    public struct UpdateCloudFormationCollectionFilter: Swift.Equatable {
+    public struct UpdateCloudFormationCollectionFilter {
         /// An array of the names of the Amazon Web Services CloudFormation stacks to update. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var stackNames: [Swift.String]?
 
@@ -11191,7 +11191,7 @@ extension UpdateEventSourcesConfigInput {
     }
 }
 
-public struct UpdateEventSourcesConfigInput: Swift.Equatable {
+public struct UpdateEventSourcesConfigInput {
     /// Configuration information about the integration of DevOps Guru as the Consumer via EventBridge with another AWS Service.
     public var eventSources: DevOpsGuruClientTypes.EventSourcesConfig?
 
@@ -11203,7 +11203,7 @@ public struct UpdateEventSourcesConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventSourcesConfigInputBody: Swift.Equatable {
+struct UpdateEventSourcesConfigInputBody {
     let eventSources: DevOpsGuruClientTypes.EventSourcesConfig?
 }
 
@@ -11224,7 +11224,7 @@ extension UpdateEventSourcesConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventSourcesConfigOutput: Swift.Equatable {
+public struct UpdateEventSourcesConfigOutput {
 
     public init() { }
 }
@@ -11314,7 +11314,7 @@ extension DevOpsGuruClientTypes.UpdateResourceCollectionFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Contains information used to update a collection of Amazon Web Services resources.
-    public struct UpdateResourceCollectionFilter: Swift.Equatable {
+    public struct UpdateResourceCollectionFilter {
         /// A collection of Amazon Web Services CloudFormation stacks. You can specify up to 500 Amazon Web Services CloudFormation stacks.
         public var cloudFormation: DevOpsGuruClientTypes.UpdateCloudFormationCollectionFilter?
         /// The updated Amazon Web Services tags used to filter the resources in the resource collection. Tags help you identify and organize your Amazon Web Services resources. Many Amazon Web Services services support tagging, so you can assign the same tag to resources from different services to indicate that the resources are related. For example, you can assign the same tag to an Amazon DynamoDB table resource that you assign to an Lambda function. For more information about using tags, see the [Tagging best practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html) whitepaper. Each Amazon Web Services tag has two parts.
@@ -11363,7 +11363,7 @@ extension UpdateResourceCollectionInput {
     }
 }
 
-public struct UpdateResourceCollectionInput: Swift.Equatable {
+public struct UpdateResourceCollectionInput {
     /// Specifies if the resource collection in the request is added or deleted to the resource collection.
     /// This member is required.
     public var action: DevOpsGuruClientTypes.UpdateResourceCollectionAction?
@@ -11381,7 +11381,7 @@ public struct UpdateResourceCollectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceCollectionInputBody: Swift.Equatable {
+struct UpdateResourceCollectionInputBody {
     let action: DevOpsGuruClientTypes.UpdateResourceCollectionAction?
     let resourceCollection: DevOpsGuruClientTypes.UpdateResourceCollectionFilter?
 }
@@ -11406,7 +11406,7 @@ extension UpdateResourceCollectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceCollectionOutput: Swift.Equatable {
+public struct UpdateResourceCollectionOutput {
 
     public init() { }
 }
@@ -11459,7 +11459,7 @@ extension DevOpsGuruClientTypes.UpdateServiceIntegrationConfig: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// Information about updating the integration status of an Amazon Web Services service, such as Amazon Web Services Systems Manager, with DevOps Guru.
-    public struct UpdateServiceIntegrationConfig: Swift.Equatable {
+    public struct UpdateServiceIntegrationConfig {
         /// Information about whether DevOps Guru is configured to encrypt server-side data using KMS.
         public var kmsServerSideEncryption: DevOpsGuruClientTypes.KMSServerSideEncryptionIntegrationConfig?
         /// Information about whether DevOps Guru is configured to perform log anomaly detection on Amazon CloudWatch log groups.
@@ -11501,7 +11501,7 @@ extension UpdateServiceIntegrationInput {
     }
 }
 
-public struct UpdateServiceIntegrationInput: Swift.Equatable {
+public struct UpdateServiceIntegrationInput {
     /// An IntegratedServiceConfig object used to specify the integrated service you want to update, and whether you want to update it to enabled or disabled.
     /// This member is required.
     public var serviceIntegration: DevOpsGuruClientTypes.UpdateServiceIntegrationConfig?
@@ -11514,7 +11514,7 @@ public struct UpdateServiceIntegrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateServiceIntegrationInputBody: Swift.Equatable {
+struct UpdateServiceIntegrationInputBody {
     let serviceIntegration: DevOpsGuruClientTypes.UpdateServiceIntegrationConfig?
 }
 
@@ -11535,7 +11535,7 @@ extension UpdateServiceIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServiceIntegrationOutput: Swift.Equatable {
+public struct UpdateServiceIntegrationOutput {
 
     public init() { }
 }
@@ -11594,7 +11594,7 @@ extension DevOpsGuruClientTypes.UpdateTagCollectionFilter: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// A new collection of Amazon Web Services resources that are defined by an Amazon Web Services tag or tag key/value pair.
-    public struct UpdateTagCollectionFilter: Swift.Equatable {
+    public struct UpdateTagCollectionFilter {
         /// An Amazon Web Services tag key that is used to identify the Amazon Web Services resources that DevOps Guru analyzes. All Amazon Web Services resources in your account and Region tagged with this key make up your DevOps Guru application and analysis boundary. The string used for a key in a tag that you use to define your resource coverage must begin with the prefix Devops-guru-. The tag key might be DevOps-Guru-deployment-application or devops-guru-rds-application. When you create a key, the case of characters in the key can be whatever you choose. After you create a key, it is case-sensitive. For example, DevOps Guru works with a key named devops-guru-rds and a key named DevOps-Guru-RDS, and these act as two different keys. Possible key/value pairs in your application might be Devops-Guru-production-application/RDS or Devops-Guru-production-application/containers.
         /// This member is required.
         public var appBoundaryKey: Swift.String?
@@ -11667,7 +11667,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: DevOpsGuruClientTypes.ValidationExceptionReason?
     let fields: [DevOpsGuruClientTypes.ValidationExceptionField]?
@@ -11727,7 +11727,7 @@ extension DevOpsGuruClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension DevOpsGuruClientTypes {
     /// The field associated with the validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The message associated with the validation exception with information to help determine its cause.
         /// This member is required.
         public var message: Swift.String?

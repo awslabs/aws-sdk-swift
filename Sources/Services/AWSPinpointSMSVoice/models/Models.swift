@@ -41,7 +41,7 @@ public struct AlreadyExistsException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct AlreadyExistsExceptionBody: Swift.Equatable {
+struct AlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -133,7 +133,7 @@ extension PinpointSMSVoiceClientTypes.CallInstructionsMessageType: Swift.Codable
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that defines a message that contains text formatted using Amazon Pinpoint Voice Instructions markup.
-    public struct CallInstructionsMessageType: Swift.Equatable {
+    public struct CallInstructionsMessageType {
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public var text: Swift.String?
 
@@ -174,7 +174,7 @@ extension PinpointSMSVoiceClientTypes.CloudWatchLogsDestination: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that contains information about an event destination that sends data to Amazon CloudWatch Logs.
-    public struct CloudWatchLogsDestination: Swift.Equatable {
+    public struct CloudWatchLogsDestination {
         /// The Amazon Resource Name (ARN) of an Amazon Identity and Access Management (IAM) role that is able to write event data to an Amazon CloudWatch destination.
         public var iamRoleArn: Swift.String?
         /// The name of the Amazon CloudWatch Log Group that you want to record events in.
@@ -220,7 +220,7 @@ extension CreateConfigurationSetEventDestinationInput {
 }
 
 /// Create a new event destination in a configuration set.
-public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationInput {
     /// ConfigurationSetName
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -241,7 +241,7 @@ public struct CreateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct CreateConfigurationSetEventDestinationInputBody {
     let eventDestination: PinpointSMSVoiceClientTypes.EventDestinationDefinition?
     let eventDestinationName: Swift.String?
 }
@@ -267,7 +267,7 @@ extension CreateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An empty object that indicates that the event destination was created successfully.
-public struct CreateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct CreateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -309,7 +309,7 @@ extension CreateConfigurationSetInput {
 }
 
 /// A request to create a new configuration set.
-public struct CreateConfigurationSetInput: Swift.Equatable {
+public struct CreateConfigurationSetInput {
     /// The name that you want to give the configuration set.
     public var configurationSetName: Swift.String?
 
@@ -321,7 +321,7 @@ public struct CreateConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct CreateConfigurationSetInputBody: Swift.Equatable {
+struct CreateConfigurationSetInputBody {
     let configurationSetName: Swift.String?
 }
 
@@ -343,7 +343,7 @@ extension CreateConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An empty object that indicates that the configuration set was successfully created.
-public struct CreateConfigurationSetOutput: Swift.Equatable {
+public struct CreateConfigurationSetOutput {
 
     public init() { }
 }
@@ -376,7 +376,7 @@ extension DeleteConfigurationSetEventDestinationInput {
     }
 }
 
-public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationInput {
     /// ConfigurationSetName
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -394,7 +394,7 @@ public struct DeleteConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct DeleteConfigurationSetEventDestinationInputBody {
 }
 
 extension DeleteConfigurationSetEventDestinationInputBody: Swift.Decodable {
@@ -409,7 +409,7 @@ extension DeleteConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An empty object that indicates that the event destination was deleted successfully.
-public struct DeleteConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct DeleteConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -438,7 +438,7 @@ extension DeleteConfigurationSetInput {
     }
 }
 
-public struct DeleteConfigurationSetInput: Swift.Equatable {
+public struct DeleteConfigurationSetInput {
     /// ConfigurationSetName
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -451,7 +451,7 @@ public struct DeleteConfigurationSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteConfigurationSetInputBody: Swift.Equatable {
+struct DeleteConfigurationSetInputBody {
 }
 
 extension DeleteConfigurationSetInputBody: Swift.Decodable {
@@ -466,7 +466,7 @@ extension DeleteConfigurationSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An empty object that indicates that the configuration set was deleted successfully.
-public struct DeleteConfigurationSetOutput: Swift.Equatable {
+public struct DeleteConfigurationSetOutput {
 
     public init() { }
 }
@@ -548,7 +548,7 @@ extension PinpointSMSVoiceClientTypes.EventDestination: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that defines an event destination.
-    public struct EventDestination: Swift.Equatable {
+    public struct EventDestination {
         /// An object that contains information about an event destination that sends data to Amazon CloudWatch Logs.
         public var cloudWatchLogsDestination: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -639,7 +639,7 @@ extension PinpointSMSVoiceClientTypes.EventDestinationDefinition: Swift.Codable 
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that defines a single event destination.
-    public struct EventDestinationDefinition: Swift.Equatable {
+    public struct EventDestinationDefinition {
         /// An object that contains information about an event destination that sends data to Amazon CloudWatch Logs.
         public var cloudWatchLogsDestination: PinpointSMSVoiceClientTypes.CloudWatchLogsDestination?
         /// Indicates whether or not the event destination is enabled. If the event destination is enabled, then Amazon Pinpoint sends response data to the specified event destination.
@@ -727,7 +727,7 @@ extension GetConfigurationSetEventDestinationsInput {
     }
 }
 
-public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsInput {
     /// ConfigurationSetName
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -740,7 +740,7 @@ public struct GetConfigurationSetEventDestinationsInput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsInputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsInputBody {
 }
 
 extension GetConfigurationSetEventDestinationsInputBody: Swift.Decodable {
@@ -762,7 +762,7 @@ extension GetConfigurationSetEventDestinationsOutput: ClientRuntime.HttpResponse
 }
 
 /// An object that contains information about an event destination.
-public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
+public struct GetConfigurationSetEventDestinationsOutput {
     /// An array of EventDestination objects. Each EventDestination object includes ARNs and other information that define an event destination.
     public var eventDestinations: [PinpointSMSVoiceClientTypes.EventDestination]?
 
@@ -774,7 +774,7 @@ public struct GetConfigurationSetEventDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct GetConfigurationSetEventDestinationsOutputBody: Swift.Equatable {
+struct GetConfigurationSetEventDestinationsOutputBody {
     let eventDestinations: [PinpointSMSVoiceClientTypes.EventDestination]?
 }
 
@@ -852,7 +852,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -895,7 +895,7 @@ extension PinpointSMSVoiceClientTypes.KinesisFirehoseDestination: Swift.Codable 
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that contains information about an event destination that sends data to Amazon Kinesis Data Firehose.
-    public struct KinesisFirehoseDestination: Swift.Equatable {
+    public struct KinesisFirehoseDestination {
         /// The Amazon Resource Name (ARN) of an IAM role that can write data to an Amazon Kinesis Data Firehose stream.
         public var deliveryStreamArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis Data Firehose destination that you want to use in the event destination.
@@ -952,7 +952,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -991,7 +991,7 @@ extension ListConfigurationSetsInput {
     }
 }
 
-public struct ListConfigurationSetsInput: Swift.Equatable {
+public struct ListConfigurationSetsInput {
     /// A token returned from a previous call to the API that indicates the position in the list of results.
     public var nextToken: Swift.String?
     /// Used to specify the number of items that should be returned in the response.
@@ -1007,7 +1007,7 @@ public struct ListConfigurationSetsInput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsInputBody: Swift.Equatable {
+struct ListConfigurationSetsInputBody {
 }
 
 extension ListConfigurationSetsInputBody: Swift.Decodable {
@@ -1031,7 +1031,7 @@ extension ListConfigurationSetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that contains information about the configuration sets for your account in the current region.
-public struct ListConfigurationSetsOutput: Swift.Equatable {
+public struct ListConfigurationSetsOutput {
     /// An object that contains a list of configuration sets for your account in the current region.
     public var configurationSets: [Swift.String]?
     /// A token returned from a previous call to ListConfigurationSets to indicate the position in the list of configuration sets.
@@ -1047,7 +1047,7 @@ public struct ListConfigurationSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListConfigurationSetsOutputBody: Swift.Equatable {
+struct ListConfigurationSetsOutputBody {
     let configurationSets: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -1128,7 +1128,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1179,7 +1179,7 @@ extension PinpointSMSVoiceClientTypes.PlainTextMessageType: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that defines a message that contains unformatted text.
-    public struct PlainTextMessageType: Swift.Equatable {
+    public struct PlainTextMessageType {
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public var languageCode: Swift.String?
         /// The plain (not SSML-formatted) text to deliver to the recipient.
@@ -1234,7 +1234,7 @@ extension PinpointSMSVoiceClientTypes.SSMLMessageType: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that defines a message that contains SSML-formatted text.
-    public struct SSMLMessageType: Swift.Equatable {
+    public struct SSMLMessageType {
         /// The language to use when delivering the message. For a complete list of supported languages, see the Amazon Polly Developer Guide.
         public var languageCode: Swift.String?
         /// The SSML-formatted text to deliver to the recipient.
@@ -1293,7 +1293,7 @@ extension SendVoiceMessageInput {
 }
 
 /// SendVoiceMessageRequest
-public struct SendVoiceMessageInput: Swift.Equatable {
+public struct SendVoiceMessageInput {
     /// The phone number that appears on recipients' devices when they receive the message.
     public var callerId: Swift.String?
     /// The name of the configuration set that you want to use to send the message.
@@ -1321,7 +1321,7 @@ public struct SendVoiceMessageInput: Swift.Equatable {
     }
 }
 
-struct SendVoiceMessageInputBody: Swift.Equatable {
+struct SendVoiceMessageInputBody {
     let callerId: Swift.String?
     let configurationSetName: Swift.String?
     let content: PinpointSMSVoiceClientTypes.VoiceMessageContent?
@@ -1366,7 +1366,7 @@ extension SendVoiceMessageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// An object that that contains the Message ID of a Voice message that was sent successfully.
-public struct SendVoiceMessageOutput: Swift.Equatable {
+public struct SendVoiceMessageOutput {
     /// A unique identifier for the voice message.
     public var messageId: Swift.String?
 
@@ -1378,7 +1378,7 @@ public struct SendVoiceMessageOutput: Swift.Equatable {
     }
 }
 
-struct SendVoiceMessageOutputBody: Swift.Equatable {
+struct SendVoiceMessageOutputBody {
     let messageId: Swift.String?
 }
 
@@ -1428,7 +1428,7 @@ extension PinpointSMSVoiceClientTypes.SnsDestination: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that contains information about an event destination that sends data to Amazon SNS.
-    public struct SnsDestination: Swift.Equatable {
+    public struct SnsDestination {
         /// The Amazon Resource Name (ARN) of the Amazon SNS topic that you want to publish events to.
         public var topicArn: Swift.String?
 
@@ -1481,7 +1481,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1524,7 +1524,7 @@ extension UpdateConfigurationSetEventDestinationInput {
 }
 
 /// UpdateConfigurationSetEventDestinationRequest
-public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationInput {
     /// ConfigurationSetName
     /// This member is required.
     public var configurationSetName: Swift.String?
@@ -1546,7 +1546,7 @@ public struct UpdateConfigurationSetEventDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdateConfigurationSetEventDestinationInputBody: Swift.Equatable {
+struct UpdateConfigurationSetEventDestinationInputBody {
     let eventDestination: PinpointSMSVoiceClientTypes.EventDestinationDefinition?
 }
 
@@ -1568,7 +1568,7 @@ extension UpdateConfigurationSetEventDestinationOutput: ClientRuntime.HttpRespon
 }
 
 /// An empty object that indicates that the event destination was updated successfully.
-public struct UpdateConfigurationSetEventDestinationOutput: Swift.Equatable {
+public struct UpdateConfigurationSetEventDestinationOutput {
 
     public init() { }
 }
@@ -1620,7 +1620,7 @@ extension PinpointSMSVoiceClientTypes.VoiceMessageContent: Swift.Codable {
 
 extension PinpointSMSVoiceClientTypes {
     /// An object that contains a voice message and information about the recipient that you want to send it to.
-    public struct VoiceMessageContent: Swift.Equatable {
+    public struct VoiceMessageContent {
         /// An object that defines a message that contains text formatted using Amazon Pinpoint Voice Instructions markup.
         public var callInstructionsMessage: PinpointSMSVoiceClientTypes.CallInstructionsMessageType?
         /// An object that defines a message that contains unformatted text.

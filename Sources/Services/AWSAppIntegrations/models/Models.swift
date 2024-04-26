@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -92,7 +92,7 @@ extension AppIntegrationsClientTypes.ApplicationAssociationSummary: Swift.Codabl
 
 extension AppIntegrationsClientTypes {
     /// Summary information about the Application Association.
-    public struct ApplicationAssociationSummary: Swift.Equatable {
+    public struct ApplicationAssociationSummary {
         /// The Amazon Resource Name (ARN) of the Application.
         public var applicationArn: Swift.String?
         /// The Amazon Resource Name (ARN) of the Application Association.
@@ -135,7 +135,7 @@ extension AppIntegrationsClientTypes.ApplicationSourceConfig: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The configuration for where the application should be loaded from.
-    public struct ApplicationSourceConfig: Swift.Equatable {
+    public struct ApplicationSourceConfig {
         /// The external URL source for the application.
         public var externalUrlConfig: AppIntegrationsClientTypes.ExternalUrlConfig?
 
@@ -200,7 +200,7 @@ extension AppIntegrationsClientTypes.ApplicationSummary: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// Summary information about the Application.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The Amazon Resource Name (ARN) of the Application.
         public var arn: Swift.String?
         /// The time when the application was created.
@@ -298,7 +298,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// The configuration for where the application should be loaded from.
     /// This member is required.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
@@ -347,7 +347,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let namespace: Swift.String?
     let description: Swift.String?
@@ -445,7 +445,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The Amazon Resource Name (ARN) of the Application.
     public var arn: Swift.String?
     /// A unique identifier for the Application.
@@ -461,7 +461,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
 }
@@ -562,7 +562,7 @@ extension CreateDataIntegrationInput {
     }
 }
 
-public struct CreateDataIntegrationInput: Swift.Equatable {
+public struct CreateDataIntegrationInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// A description of the DataIntegration.
@@ -609,7 +609,7 @@ public struct CreateDataIntegrationInput: Swift.Equatable {
     }
 }
 
-struct CreateDataIntegrationInputBody: Swift.Equatable {
+struct CreateDataIntegrationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let kmsKey: Swift.String?
@@ -721,7 +721,7 @@ extension CreateDataIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataIntegrationOutput: Swift.Equatable {
+public struct CreateDataIntegrationOutput {
     /// The Amazon Resource Name (ARN)
     public var arn: Swift.String?
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
@@ -773,7 +773,7 @@ public struct CreateDataIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataIntegrationOutputBody: Swift.Equatable {
+struct CreateDataIntegrationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -920,7 +920,7 @@ extension CreateEventIntegrationInput {
     }
 }
 
-public struct CreateEventIntegrationInput: Swift.Equatable {
+public struct CreateEventIntegrationInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. If not provided, the Amazon Web Services SDK populates this field. For more information about idempotency, see [Making retries safe with idempotent APIs](https://aws.amazon.com/builders-library/making-retries-safe-with-idempotent-APIs/).
     public var clientToken: Swift.String?
     /// The description of the event integration.
@@ -955,7 +955,7 @@ public struct CreateEventIntegrationInput: Swift.Equatable {
     }
 }
 
-struct CreateEventIntegrationInputBody: Swift.Equatable {
+struct CreateEventIntegrationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let eventFilter: AppIntegrationsClientTypes.EventFilter?
@@ -1012,7 +1012,7 @@ extension CreateEventIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventIntegrationOutput: Swift.Equatable {
+public struct CreateEventIntegrationOutput {
     /// The Amazon Resource Name (ARN) of the event integration.
     public var eventIntegrationArn: Swift.String?
 
@@ -1024,7 +1024,7 @@ public struct CreateEventIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventIntegrationOutputBody: Swift.Equatable {
+struct CreateEventIntegrationOutputBody {
     let eventIntegrationArn: Swift.String?
 }
 
@@ -1089,7 +1089,7 @@ extension AppIntegrationsClientTypes.DataIntegrationAssociationSummary: Swift.Co
 
 extension AppIntegrationsClientTypes {
     /// Summary information about the DataIntegration association.
-    public struct DataIntegrationAssociationSummary: Swift.Equatable {
+    public struct DataIntegrationAssociationSummary {
         /// The identifier for the client that is associated with the DataIntegration association.
         public var clientId: Swift.String?
         /// The Amazon Resource Name (ARN) of the DataIntegration.
@@ -1144,7 +1144,7 @@ extension AppIntegrationsClientTypes.DataIntegrationSummary: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// Summary information about the DataIntegration.
-    public struct DataIntegrationSummary: Swift.Equatable {
+    public struct DataIntegrationSummary {
         /// The Amazon Resource Name (ARN) of the DataIntegration.
         public var arn: Swift.String?
         /// The name of the DataIntegration.
@@ -1176,7 +1176,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The Amazon Resource Name (ARN) of the Application.
     /// This member is required.
     public var arn: Swift.String?
@@ -1189,7 +1189,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -1203,7 +1203,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -1233,7 +1233,7 @@ extension DeleteDataIntegrationInput {
     }
 }
 
-public struct DeleteDataIntegrationInput: Swift.Equatable {
+public struct DeleteDataIntegrationInput {
     /// A unique identifier for the DataIntegration.
     /// This member is required.
     public var dataIntegrationIdentifier: Swift.String?
@@ -1246,7 +1246,7 @@ public struct DeleteDataIntegrationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataIntegrationInputBody: Swift.Equatable {
+struct DeleteDataIntegrationInputBody {
 }
 
 extension DeleteDataIntegrationInputBody: Swift.Decodable {
@@ -1260,7 +1260,7 @@ extension DeleteDataIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataIntegrationOutput: Swift.Equatable {
+public struct DeleteDataIntegrationOutput {
 
     public init() { }
 }
@@ -1290,7 +1290,7 @@ extension DeleteEventIntegrationInput {
     }
 }
 
-public struct DeleteEventIntegrationInput: Swift.Equatable {
+public struct DeleteEventIntegrationInput {
     /// The name of the event integration.
     /// This member is required.
     public var name: Swift.String?
@@ -1303,7 +1303,7 @@ public struct DeleteEventIntegrationInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventIntegrationInputBody: Swift.Equatable {
+struct DeleteEventIntegrationInputBody {
 }
 
 extension DeleteEventIntegrationInputBody: Swift.Decodable {
@@ -1317,7 +1317,7 @@ extension DeleteEventIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventIntegrationOutput: Swift.Equatable {
+public struct DeleteEventIntegrationOutput {
 
     public init() { }
 }
@@ -1376,7 +1376,7 @@ public struct DuplicateResourceException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DuplicateResourceExceptionBody: Swift.Equatable {
+struct DuplicateResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -1413,7 +1413,7 @@ extension AppIntegrationsClientTypes.EventFilter: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The event filter.
-    public struct EventFilter: Swift.Equatable {
+    public struct EventFilter {
         /// The source of the events.
         /// This member is required.
         public var source: Swift.String?
@@ -1491,7 +1491,7 @@ extension AppIntegrationsClientTypes.EventIntegration: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The event integration.
-    public struct EventIntegration: Swift.Equatable {
+    public struct EventIntegration {
         /// The event integration description.
         public var description: Swift.String?
         /// The Amazon EventBridge bus for the event integration.
@@ -1588,7 +1588,7 @@ extension AppIntegrationsClientTypes.EventIntegrationAssociation: Swift.Codable 
 
 extension AppIntegrationsClientTypes {
     /// The event integration association.
-    public struct EventIntegrationAssociation: Swift.Equatable {
+    public struct EventIntegrationAssociation {
         /// The metadata associated with the client.
         public var clientAssociationMetadata: [Swift.String:Swift.String]?
         /// The identifier for the client that is associated with the event integration.
@@ -1661,7 +1661,7 @@ extension AppIntegrationsClientTypes.ExternalUrlConfig: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The external URL source for the application.
-    public struct ExternalUrlConfig: Swift.Equatable {
+    public struct ExternalUrlConfig {
         /// The URL to access the application.
         /// This member is required.
         public var accessUrl: Swift.String?
@@ -1741,7 +1741,7 @@ extension AppIntegrationsClientTypes.FileConfiguration: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The configuration for what files should be pulled from the source.
-    public struct FileConfiguration: Swift.Equatable {
+    public struct FileConfiguration {
         /// Restrictions for what files should be pulled from the source.
         public var filters: [Swift.String:[Swift.String]]?
         /// Identifiers for the source folders to pull all files from recursively.
@@ -1770,7 +1770,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The Amazon Resource Name (ARN) of the Application.
     /// This member is required.
     public var arn: Swift.String?
@@ -1783,7 +1783,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -1826,7 +1826,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     /// The Amazon Resource Name (ARN) of the Application.
@@ -1884,7 +1884,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -2005,7 +2005,7 @@ extension GetDataIntegrationInput {
     }
 }
 
-public struct GetDataIntegrationInput: Swift.Equatable {
+public struct GetDataIntegrationInput {
     /// A unique identifier.
     /// This member is required.
     public var identifier: Swift.String?
@@ -2018,7 +2018,7 @@ public struct GetDataIntegrationInput: Swift.Equatable {
     }
 }
 
-struct GetDataIntegrationInputBody: Swift.Equatable {
+struct GetDataIntegrationInputBody {
 }
 
 extension GetDataIntegrationInputBody: Swift.Decodable {
@@ -2057,7 +2057,7 @@ extension GetDataIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataIntegrationOutput: Swift.Equatable {
+public struct GetDataIntegrationOutput {
     /// The Amazon Resource Name (ARN) for the DataIntegration.
     public var arn: Swift.String?
     /// The KMS key for the DataIntegration.
@@ -2105,7 +2105,7 @@ public struct GetDataIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct GetDataIntegrationOutputBody: Swift.Equatable {
+struct GetDataIntegrationOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -2214,7 +2214,7 @@ extension GetEventIntegrationInput {
     }
 }
 
-public struct GetEventIntegrationInput: Swift.Equatable {
+public struct GetEventIntegrationInput {
     /// The name of the event integration.
     /// This member is required.
     public var name: Swift.String?
@@ -2227,7 +2227,7 @@ public struct GetEventIntegrationInput: Swift.Equatable {
     }
 }
 
-struct GetEventIntegrationInputBody: Swift.Equatable {
+struct GetEventIntegrationInputBody {
 }
 
 extension GetEventIntegrationInputBody: Swift.Decodable {
@@ -2258,7 +2258,7 @@ extension GetEventIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventIntegrationOutput: Swift.Equatable {
+public struct GetEventIntegrationOutput {
     /// The description of the event integration.
     public var description: Swift.String?
     /// The EventBridge bus.
@@ -2290,7 +2290,7 @@ public struct GetEventIntegrationOutput: Swift.Equatable {
     }
 }
 
-struct GetEventIntegrationOutputBody: Swift.Equatable {
+struct GetEventIntegrationOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let eventIntegrationArn: Swift.String?
@@ -2389,7 +2389,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InternalServiceErrorBody: Swift.Equatable {
+struct InternalServiceErrorBody {
     let message: Swift.String?
 }
 
@@ -2444,7 +2444,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -2486,7 +2486,7 @@ extension ListApplicationAssociationsInput {
     }
 }
 
-public struct ListApplicationAssociationsInput: Swift.Equatable {
+public struct ListApplicationAssociationsInput {
     /// A unique identifier for the Application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2507,7 +2507,7 @@ public struct ListApplicationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationAssociationsInputBody: Swift.Equatable {
+struct ListApplicationAssociationsInputBody {
 }
 
 extension ListApplicationAssociationsInputBody: Swift.Decodable {
@@ -2530,7 +2530,7 @@ extension ListApplicationAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationAssociationsOutput: Swift.Equatable {
+public struct ListApplicationAssociationsOutput {
     /// List of Application Associations for the Application.
     public var applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -2546,7 +2546,7 @@ public struct ListApplicationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationAssociationsOutputBody: Swift.Equatable {
+struct ListApplicationAssociationsOutputBody {
     let applicationAssociations: [AppIntegrationsClientTypes.ApplicationAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -2613,7 +2613,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2629,7 +2629,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -2652,7 +2652,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// The Applications associated with this account.
     public var applications: [AppIntegrationsClientTypes.ApplicationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -2668,7 +2668,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applications: [AppIntegrationsClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -2737,7 +2737,7 @@ extension ListDataIntegrationAssociationsInput {
     }
 }
 
-public struct ListDataIntegrationAssociationsInput: Swift.Equatable {
+public struct ListDataIntegrationAssociationsInput {
     /// A unique identifier for the DataIntegration.
     /// This member is required.
     public var dataIntegrationIdentifier: Swift.String?
@@ -2758,7 +2758,7 @@ public struct ListDataIntegrationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListDataIntegrationAssociationsInputBody: Swift.Equatable {
+struct ListDataIntegrationAssociationsInputBody {
 }
 
 extension ListDataIntegrationAssociationsInputBody: Swift.Decodable {
@@ -2781,7 +2781,7 @@ extension ListDataIntegrationAssociationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListDataIntegrationAssociationsOutput: Swift.Equatable {
+public struct ListDataIntegrationAssociationsOutput {
     /// The Amazon Resource Name (ARN) and unique ID of the DataIntegration association.
     public var dataIntegrationAssociations: [AppIntegrationsClientTypes.DataIntegrationAssociationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -2797,7 +2797,7 @@ public struct ListDataIntegrationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataIntegrationAssociationsOutputBody: Swift.Equatable {
+struct ListDataIntegrationAssociationsOutputBody {
     let dataIntegrationAssociations: [AppIntegrationsClientTypes.DataIntegrationAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -2864,7 +2864,7 @@ extension ListDataIntegrationsInput {
     }
 }
 
-public struct ListDataIntegrationsInput: Swift.Equatable {
+public struct ListDataIntegrationsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -2880,7 +2880,7 @@ public struct ListDataIntegrationsInput: Swift.Equatable {
     }
 }
 
-struct ListDataIntegrationsInputBody: Swift.Equatable {
+struct ListDataIntegrationsInputBody {
 }
 
 extension ListDataIntegrationsInputBody: Swift.Decodable {
@@ -2903,7 +2903,7 @@ extension ListDataIntegrationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataIntegrationsOutput: Swift.Equatable {
+public struct ListDataIntegrationsOutput {
     /// The DataIntegrations associated with this account.
     public var dataIntegrations: [AppIntegrationsClientTypes.DataIntegrationSummary]?
     /// If there are additional results, this is the token for the next set of results.
@@ -2919,7 +2919,7 @@ public struct ListDataIntegrationsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataIntegrationsOutputBody: Swift.Equatable {
+struct ListDataIntegrationsOutputBody {
     let dataIntegrations: [AppIntegrationsClientTypes.DataIntegrationSummary]?
     let nextToken: Swift.String?
 }
@@ -2988,7 +2988,7 @@ extension ListEventIntegrationAssociationsInput {
     }
 }
 
-public struct ListEventIntegrationAssociationsInput: Swift.Equatable {
+public struct ListEventIntegrationAssociationsInput {
     /// The name of the event integration.
     /// This member is required.
     public var eventIntegrationName: Swift.String?
@@ -3009,7 +3009,7 @@ public struct ListEventIntegrationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListEventIntegrationAssociationsInputBody: Swift.Equatable {
+struct ListEventIntegrationAssociationsInputBody {
 }
 
 extension ListEventIntegrationAssociationsInputBody: Swift.Decodable {
@@ -3032,7 +3032,7 @@ extension ListEventIntegrationAssociationsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListEventIntegrationAssociationsOutput: Swift.Equatable {
+public struct ListEventIntegrationAssociationsOutput {
     /// The event integration associations.
     public var eventIntegrationAssociations: [AppIntegrationsClientTypes.EventIntegrationAssociation]?
     /// If there are additional results, this is the token for the next set of results.
@@ -3048,7 +3048,7 @@ public struct ListEventIntegrationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventIntegrationAssociationsOutputBody: Swift.Equatable {
+struct ListEventIntegrationAssociationsOutputBody {
     let eventIntegrationAssociations: [AppIntegrationsClientTypes.EventIntegrationAssociation]?
     let nextToken: Swift.String?
 }
@@ -3115,7 +3115,7 @@ extension ListEventIntegrationsInput {
     }
 }
 
-public struct ListEventIntegrationsInput: Swift.Equatable {
+public struct ListEventIntegrationsInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -3131,7 +3131,7 @@ public struct ListEventIntegrationsInput: Swift.Equatable {
     }
 }
 
-struct ListEventIntegrationsInputBody: Swift.Equatable {
+struct ListEventIntegrationsInputBody {
 }
 
 extension ListEventIntegrationsInputBody: Swift.Decodable {
@@ -3154,7 +3154,7 @@ extension ListEventIntegrationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventIntegrationsOutput: Swift.Equatable {
+public struct ListEventIntegrationsOutput {
     /// The event integrations.
     public var eventIntegrations: [AppIntegrationsClientTypes.EventIntegration]?
     /// If there are additional results, this is the token for the next set of results.
@@ -3170,7 +3170,7 @@ public struct ListEventIntegrationsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventIntegrationsOutputBody: Swift.Equatable {
+struct ListEventIntegrationsOutputBody {
     let eventIntegrations: [AppIntegrationsClientTypes.EventIntegration]?
     let nextToken: Swift.String?
 }
@@ -3223,7 +3223,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3236,7 +3236,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3257,7 +3257,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3269,7 +3269,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3341,7 +3341,7 @@ extension AppIntegrationsClientTypes.Publication: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The configuration of an event that the application publishes.
-    public struct Publication: Swift.Equatable {
+    public struct Publication {
         /// The description of the publication.
         public var description: Swift.String?
         /// The name of the publication.
@@ -3404,7 +3404,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3459,7 +3459,7 @@ public struct ResourceQuotaExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceQuotaExceededExceptionBody: Swift.Equatable {
+struct ResourceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3508,7 +3508,7 @@ extension AppIntegrationsClientTypes.ScheduleConfiguration: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The name of the data and how often it should be pulled from the source.
-    public struct ScheduleConfiguration: Swift.Equatable {
+    public struct ScheduleConfiguration {
         /// The start date for objects to import in the first flow run as an Unix/epoch timestamp in milliseconds or in ISO-8601 format.
         public var firstExecutionFrom: Swift.String?
         /// The name of the object to pull from the data source.
@@ -3558,7 +3558,7 @@ extension AppIntegrationsClientTypes.Subscription: Swift.Codable {
 
 extension AppIntegrationsClientTypes {
     /// The configuration of an event that the application subscribes.
-    public struct Subscription: Swift.Equatable {
+    public struct Subscription {
         /// The description of the subscription.
         public var description: Swift.String?
         /// The name of the subscription.
@@ -3603,7 +3603,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3621,7 +3621,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3651,7 +3651,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3709,7 +3709,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3764,7 +3764,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3806,7 +3806,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3824,7 +3824,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3838,7 +3838,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3909,7 +3909,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The configuration for where the application should be loaded from.
     public var applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
     /// The Amazon Resource Name (ARN) of the Application.
@@ -3948,7 +3948,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let applicationSourceConfig: AppIntegrationsClientTypes.ApplicationSourceConfig?
@@ -4016,7 +4016,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
 
     public init() { }
 }
@@ -4064,7 +4064,7 @@ extension UpdateDataIntegrationInput {
     }
 }
 
-public struct UpdateDataIntegrationInput: Swift.Equatable {
+public struct UpdateDataIntegrationInput {
     /// A description of the DataIntegration.
     public var description: Swift.String?
     /// A unique identifier for the DataIntegration.
@@ -4085,7 +4085,7 @@ public struct UpdateDataIntegrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataIntegrationInputBody: Swift.Equatable {
+struct UpdateDataIntegrationInputBody {
     let name: Swift.String?
     let description: Swift.String?
 }
@@ -4110,7 +4110,7 @@ extension UpdateDataIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataIntegrationOutput: Swift.Equatable {
+public struct UpdateDataIntegrationOutput {
 
     public init() { }
 }
@@ -4153,7 +4153,7 @@ extension UpdateEventIntegrationInput {
     }
 }
 
-public struct UpdateEventIntegrationInput: Swift.Equatable {
+public struct UpdateEventIntegrationInput {
     /// The description of the event integration.
     public var description: Swift.String?
     /// The name of the event integration.
@@ -4170,7 +4170,7 @@ public struct UpdateEventIntegrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventIntegrationInputBody: Swift.Equatable {
+struct UpdateEventIntegrationInputBody {
     let description: Swift.String?
 }
 
@@ -4191,7 +4191,7 @@ extension UpdateEventIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventIntegrationOutput: Swift.Equatable {
+public struct UpdateEventIntegrationOutput {
 
     public init() { }
 }

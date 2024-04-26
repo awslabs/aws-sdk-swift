@@ -41,7 +41,7 @@ public struct AccountLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct AccountLimitExceededExceptionBody: Swift.Equatable {
+struct AccountLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -217,7 +217,7 @@ extension BatchDeleteBuildsInput {
     }
 }
 
-public struct BatchDeleteBuildsInput: Swift.Equatable {
+public struct BatchDeleteBuildsInput {
     /// The IDs of the builds to delete.
     /// This member is required.
     public var ids: [Swift.String]?
@@ -230,7 +230,7 @@ public struct BatchDeleteBuildsInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteBuildsInputBody: Swift.Equatable {
+struct BatchDeleteBuildsInputBody {
     let ids: [Swift.String]?
 }
 
@@ -269,7 +269,7 @@ extension BatchDeleteBuildsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteBuildsOutput: Swift.Equatable {
+public struct BatchDeleteBuildsOutput {
     /// The IDs of the builds that were successfully deleted.
     public var buildsDeleted: [Swift.String]?
     /// Information about any builds that could not be successfully deleted.
@@ -285,7 +285,7 @@ public struct BatchDeleteBuildsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteBuildsOutputBody: Swift.Equatable {
+struct BatchDeleteBuildsOutputBody {
     let buildsDeleted: [Swift.String]?
     let buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]?
 }
@@ -357,7 +357,7 @@ extension BatchGetBuildBatchesInput {
     }
 }
 
-public struct BatchGetBuildBatchesInput: Swift.Equatable {
+public struct BatchGetBuildBatchesInput {
     /// An array that contains the batch build identifiers to retrieve.
     /// This member is required.
     public var ids: [Swift.String]?
@@ -370,7 +370,7 @@ public struct BatchGetBuildBatchesInput: Swift.Equatable {
     }
 }
 
-struct BatchGetBuildBatchesInputBody: Swift.Equatable {
+struct BatchGetBuildBatchesInputBody {
     let ids: [Swift.String]?
 }
 
@@ -409,7 +409,7 @@ extension BatchGetBuildBatchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetBuildBatchesOutput: Swift.Equatable {
+public struct BatchGetBuildBatchesOutput {
     /// An array of BuildBatch objects that represent the retrieved batch builds.
     public var buildBatches: [CodeBuildClientTypes.BuildBatch]?
     /// An array that contains the identifiers of any batch builds that are not found.
@@ -425,7 +425,7 @@ public struct BatchGetBuildBatchesOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetBuildBatchesOutputBody: Swift.Equatable {
+struct BatchGetBuildBatchesOutputBody {
     let buildBatches: [CodeBuildClientTypes.BuildBatch]?
     let buildBatchesNotFound: [Swift.String]?
 }
@@ -497,7 +497,7 @@ extension BatchGetBuildsInput {
     }
 }
 
-public struct BatchGetBuildsInput: Swift.Equatable {
+public struct BatchGetBuildsInput {
     /// The IDs of the builds.
     /// This member is required.
     public var ids: [Swift.String]?
@@ -510,7 +510,7 @@ public struct BatchGetBuildsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetBuildsInputBody: Swift.Equatable {
+struct BatchGetBuildsInputBody {
     let ids: [Swift.String]?
 }
 
@@ -549,7 +549,7 @@ extension BatchGetBuildsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetBuildsOutput: Swift.Equatable {
+public struct BatchGetBuildsOutput {
     /// Information about the requested builds.
     public var builds: [CodeBuildClientTypes.Build]?
     /// The IDs of builds for which information could not be found.
@@ -565,7 +565,7 @@ public struct BatchGetBuildsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetBuildsOutputBody: Swift.Equatable {
+struct BatchGetBuildsOutputBody {
     let builds: [CodeBuildClientTypes.Build]?
     let buildsNotFound: [Swift.String]?
 }
@@ -637,7 +637,7 @@ extension BatchGetFleetsInput {
     }
 }
 
-public struct BatchGetFleetsInput: Swift.Equatable {
+public struct BatchGetFleetsInput {
     /// The names or ARNs of the compute fleets.
     /// This member is required.
     public var names: [Swift.String]?
@@ -650,7 +650,7 @@ public struct BatchGetFleetsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFleetsInputBody: Swift.Equatable {
+struct BatchGetFleetsInputBody {
     let names: [Swift.String]?
 }
 
@@ -689,7 +689,7 @@ extension BatchGetFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFleetsOutput: Swift.Equatable {
+public struct BatchGetFleetsOutput {
     /// Information about the requested compute fleets.
     public var fleets: [CodeBuildClientTypes.Fleet]?
     /// The names of compute fleets for which information could not be found.
@@ -705,7 +705,7 @@ public struct BatchGetFleetsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFleetsOutputBody: Swift.Equatable {
+struct BatchGetFleetsOutputBody {
     let fleets: [CodeBuildClientTypes.Fleet]?
     let fleetsNotFound: [Swift.String]?
 }
@@ -777,7 +777,7 @@ extension BatchGetProjectsInput {
     }
 }
 
-public struct BatchGetProjectsInput: Swift.Equatable {
+public struct BatchGetProjectsInput {
     /// The names or ARNs of the build projects. To get information about a project shared with your Amazon Web Services account, its ARN must be specified. You cannot specify a shared project using its name.
     /// This member is required.
     public var names: [Swift.String]?
@@ -790,7 +790,7 @@ public struct BatchGetProjectsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetProjectsInputBody: Swift.Equatable {
+struct BatchGetProjectsInputBody {
     let names: [Swift.String]?
 }
 
@@ -829,7 +829,7 @@ extension BatchGetProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetProjectsOutput: Swift.Equatable {
+public struct BatchGetProjectsOutput {
     /// Information about the requested build projects.
     public var projects: [CodeBuildClientTypes.Project]?
     /// The names of build projects for which information could not be found.
@@ -845,7 +845,7 @@ public struct BatchGetProjectsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetProjectsOutputBody: Swift.Equatable {
+struct BatchGetProjectsOutputBody {
     let projects: [CodeBuildClientTypes.Project]?
     let projectsNotFound: [Swift.String]?
 }
@@ -917,7 +917,7 @@ extension BatchGetReportGroupsInput {
     }
 }
 
-public struct BatchGetReportGroupsInput: Swift.Equatable {
+public struct BatchGetReportGroupsInput {
     /// An array of report group ARNs that identify the report groups to return.
     /// This member is required.
     public var reportGroupArns: [Swift.String]?
@@ -930,7 +930,7 @@ public struct BatchGetReportGroupsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetReportGroupsInputBody: Swift.Equatable {
+struct BatchGetReportGroupsInputBody {
     let reportGroupArns: [Swift.String]?
 }
 
@@ -969,7 +969,7 @@ extension BatchGetReportGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetReportGroupsOutput: Swift.Equatable {
+public struct BatchGetReportGroupsOutput {
     /// The array of report groups returned by BatchGetReportGroups.
     public var reportGroups: [CodeBuildClientTypes.ReportGroup]?
     /// An array of ARNs passed to BatchGetReportGroups that are not associated with a ReportGroup.
@@ -985,7 +985,7 @@ public struct BatchGetReportGroupsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetReportGroupsOutputBody: Swift.Equatable {
+struct BatchGetReportGroupsOutputBody {
     let reportGroups: [CodeBuildClientTypes.ReportGroup]?
     let reportGroupsNotFound: [Swift.String]?
 }
@@ -1057,7 +1057,7 @@ extension BatchGetReportsInput {
     }
 }
 
-public struct BatchGetReportsInput: Swift.Equatable {
+public struct BatchGetReportsInput {
     /// An array of ARNs that identify the Report objects to return.
     /// This member is required.
     public var reportArns: [Swift.String]?
@@ -1070,7 +1070,7 @@ public struct BatchGetReportsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetReportsInputBody: Swift.Equatable {
+struct BatchGetReportsInputBody {
     let reportArns: [Swift.String]?
 }
 
@@ -1109,7 +1109,7 @@ extension BatchGetReportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetReportsOutput: Swift.Equatable {
+public struct BatchGetReportsOutput {
     /// The array of Report objects returned by BatchGetReports.
     public var reports: [CodeBuildClientTypes.Report]?
     /// An array of ARNs passed to BatchGetReportGroups that are not associated with a Report.
@@ -1125,7 +1125,7 @@ public struct BatchGetReportsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetReportsOutputBody: Swift.Equatable {
+struct BatchGetReportsOutputBody {
     let reports: [CodeBuildClientTypes.Report]?
     let reportsNotFound: [Swift.String]?
 }
@@ -1245,7 +1245,7 @@ extension CodeBuildClientTypes.BatchRestrictions: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Specifies restrictions for the batch build.
-    public struct BatchRestrictions: Swift.Equatable {
+    public struct BatchRestrictions {
         /// An array of strings that specify the compute types that are allowed for the batch build. See [Build environment compute types](https://docs.aws.amazon.com/codebuild/latest/userguide/build-env-ref-compute-types.html) in the CodeBuild User Guide for these values.
         public var computeTypesAllowed: [Swift.String]?
         /// Specifies the maximum number of builds allowed.
@@ -1597,7 +1597,7 @@ extension CodeBuildClientTypes.Build: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a build.
-    public struct Build: Swift.Equatable {
+    public struct Build {
         /// The Amazon Resource Name (ARN) of the build.
         public var arn: Swift.String?
         /// Information about the output artifacts for the build.
@@ -1824,7 +1824,7 @@ extension CodeBuildClientTypes.BuildArtifacts: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about build output artifacts.
-    public struct BuildArtifacts: Swift.Equatable {
+    public struct BuildArtifacts {
         /// An identifier for this artifact definition.
         public var artifactIdentifier: Swift.String?
         /// Specifies the bucket owner's access for objects that another account uploads to their Amazon S3 bucket. By default, only the account that uploads the objects to the bucket has access to these objects. This property allows you to give the bucket owner access to these objects. To use this property, your CodeBuild service role must have the s3:PutBucketAcl permission. This permission allows CodeBuild to modify the access control list for the bucket. This property can be one of the following values: NONE The bucket owner does not have access to the objects. This is the default. READ_ONLY The bucket owner has read-only access to the objects. The uploading account retains ownership of the objects. FULL The bucket owner has full access to the objects. Object ownership is determined by the following criteria:
@@ -2136,7 +2136,7 @@ extension CodeBuildClientTypes.BuildBatch: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information about a batch build.
-    public struct BuildBatch: Swift.Equatable {
+    public struct BuildBatch {
         /// The ARN of the batch build.
         public var arn: Swift.String?
         /// A BuildArtifacts object the defines the build artifacts for this batch build.
@@ -2307,7 +2307,7 @@ extension CodeBuildClientTypes.BuildBatchFilter: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Specifies filters when retrieving batch builds.
-    public struct BuildBatchFilter: Swift.Equatable {
+    public struct BuildBatchFilter {
         /// The status of the batch builds to retrieve. Only batch builds that have this status will be retrieved.
         public var status: CodeBuildClientTypes.StatusType?
 
@@ -2384,7 +2384,7 @@ extension CodeBuildClientTypes.BuildBatchPhase: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information about a stage for a batch build.
-    public struct BuildBatchPhase: Swift.Equatable {
+    public struct BuildBatchPhase {
         /// Additional information about the batch build phase. Especially to help troubleshoot a failed batch build.
         public var contexts: [CodeBuildClientTypes.PhaseContext]?
         /// How long, in seconds, between the starting and ending times of the batch build's phase.
@@ -2534,7 +2534,7 @@ extension CodeBuildClientTypes.BuildGroup: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information about a batch build build group. Build groups are used to combine builds that can run in parallel, while still being able to set dependencies on other build groups.
-    public struct BuildGroup: Swift.Equatable {
+    public struct BuildGroup {
         /// A BuildSummary object that contains a summary of the current build group.
         public var currentBuildSummary: CodeBuildClientTypes.BuildSummary?
         /// An array of strings that contain the identifiers of the build groups that this build group depends on.
@@ -2591,7 +2591,7 @@ extension CodeBuildClientTypes.BuildNotDeleted: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a build that could not be successfully deleted.
-    public struct BuildNotDeleted: Swift.Equatable {
+    public struct BuildNotDeleted {
         /// The ID of the build that could not be successfully deleted.
         public var id: Swift.String?
         /// Additional information about the build that could not be successfully deleted.
@@ -2672,7 +2672,7 @@ extension CodeBuildClientTypes.BuildPhase: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a stage for a build.
-    public struct BuildPhase: Swift.Equatable {
+    public struct BuildPhase {
         /// Additional information about a build phase, especially to help troubleshoot a failed build.
         public var contexts: [CodeBuildClientTypes.PhaseContext]?
         /// How long, in seconds, between the starting and ending times of the build's phase.
@@ -2792,7 +2792,7 @@ extension CodeBuildClientTypes.BuildStatusConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information that defines how the CodeBuild build project reports the build status to the source provider.
-    public struct BuildStatusConfig: Swift.Equatable {
+    public struct BuildStatusConfig {
         /// Specifies the context of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider. Bitbucket This parameter is used for the name parameter in the Bitbucket commit status. For more information, see [build](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bnode%7D/statuses/build) in the Bitbucket API documentation. GitHub/GitHub Enterprise Server This parameter is used for the context parameter in the GitHub commit status. For more information, see [Create a commit status](https://developer.github.com/v3/repos/statuses/#create-a-commit-status) in the GitHub developer guide.
         public var context: Swift.String?
         /// Specifies the target url of the build status CodeBuild sends to the source provider. The usage of this parameter depends on the source provider. Bitbucket This parameter is used for the url parameter in the Bitbucket commit status. For more information, see [build](https://developer.atlassian.com/bitbucket/api/2/reference/resource/repositories/%7Bworkspace%7D/%7Brepo_slug%7D/commit/%7Bnode%7D/statuses/build) in the Bitbucket API documentation. GitHub/GitHub Enterprise Server This parameter is used for the target_url parameter in the GitHub commit status. For more information, see [Create a commit status](https://developer.github.com/v3/repos/statuses/#create-a-commit-status) in the GitHub developer guide.
@@ -2867,7 +2867,7 @@ extension CodeBuildClientTypes.BuildSummary: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains summary information about a batch build group.
-    public struct BuildSummary: Swift.Equatable {
+    public struct BuildSummary {
         /// The batch build ARN.
         public var arn: Swift.String?
         /// The status of the build group. FAILED The build group failed. FAULT The build group faulted. IN_PROGRESS The build group is still in progress. STOPPED The build group stopped. SUCCEEDED The build group succeeded. TIMED_OUT The build group timed out.
@@ -3000,7 +3000,7 @@ extension CodeBuildClientTypes.CloudWatchLogsConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about CloudWatch Logs for a build project.
-    public struct CloudWatchLogsConfig: Swift.Equatable {
+    public struct CloudWatchLogsConfig {
         /// The group name of the logs in CloudWatch Logs. For more information, see [Working with Log Groups and Log Streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html).
         public var groupName: Swift.String?
         /// The current status of the logs in CloudWatch Logs for a build project. Valid values are:
@@ -3104,7 +3104,7 @@ extension CodeBuildClientTypes.CodeCoverage: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains code coverage report information. Line coverage measures how many statements your tests cover. A statement is a single instruction, not including comments, conditionals, etc. Branch coverage determines if your tests cover every possible branch of a control structure, such as an if or case statement.
-    public struct CodeCoverage: Swift.Equatable {
+    public struct CodeCoverage {
         /// The percentage of branches that are covered by your tests.
         public var branchCoveragePercentage: Swift.Double?
         /// The number of conditional branches that are covered by your tests.
@@ -3205,7 +3205,7 @@ extension CodeBuildClientTypes.CodeCoverageReportSummary: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains a summary of a code coverage report. Line coverage measures how many statements your tests cover. A statement is a single instruction, not including comments, conditionals, etc. Branch coverage determines if your tests cover every possible branch of a control structure, such as an if or case statement.
-    public struct CodeCoverageReportSummary: Swift.Equatable {
+    public struct CodeCoverageReportSummary {
         /// The percentage of branches that are covered by your tests.
         public var branchCoveragePercentage: Swift.Double?
         /// The number of conditional branches that are covered by your tests.
@@ -3342,7 +3342,7 @@ extension CreateFleetInput {
     }
 }
 
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// The initial number of machines allocated to the ﬂeet, which deﬁnes the number of builds that can run in parallel.
     /// This member is required.
     public var baseCapacity: Swift.Int?
@@ -3430,7 +3430,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let name: Swift.String?
     let baseCapacity: Swift.Int?
     let environmentType: CodeBuildClientTypes.EnvironmentType?
@@ -3491,7 +3491,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// Information about the compute fleet
     public var fleet: CodeBuildClientTypes.Fleet?
 
@@ -3503,7 +3503,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let fleet: CodeBuildClientTypes.Fleet?
 }
 
@@ -3647,7 +3647,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// Information about the build output artifacts for the build project.
     /// This member is required.
     public var artifacts: CodeBuildClientTypes.ProjectArtifacts?
@@ -3755,7 +3755,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let source: CodeBuildClientTypes.ProjectSource?
@@ -3908,7 +3908,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// Information about the build project that was created.
     public var project: CodeBuildClientTypes.Project?
 
@@ -3920,7 +3920,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let project: CodeBuildClientTypes.Project?
 }
 
@@ -3984,7 +3984,7 @@ extension CreateReportGroupInput {
     }
 }
 
-public struct CreateReportGroupInput: Swift.Equatable {
+public struct CreateReportGroupInput {
     /// A ReportExportConfig object that contains information about where the report group test results are exported.
     /// This member is required.
     public var exportConfig: CodeBuildClientTypes.ReportExportConfig?
@@ -4011,7 +4011,7 @@ public struct CreateReportGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateReportGroupInputBody: Swift.Equatable {
+struct CreateReportGroupInputBody {
     let name: Swift.String?
     let type: CodeBuildClientTypes.ReportType?
     let exportConfig: CodeBuildClientTypes.ReportExportConfig?
@@ -4060,7 +4060,7 @@ extension CreateReportGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReportGroupOutput: Swift.Equatable {
+public struct CreateReportGroupOutput {
     /// Information about the report group that was created.
     public var reportGroup: CodeBuildClientTypes.ReportGroup?
 
@@ -4072,7 +4072,7 @@ public struct CreateReportGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateReportGroupOutputBody: Swift.Equatable {
+struct CreateReportGroupOutputBody {
     let reportGroup: CodeBuildClientTypes.ReportGroup?
 }
 
@@ -4139,7 +4139,7 @@ extension CreateWebhookInput {
     }
 }
 
-public struct CreateWebhookInput: Swift.Equatable {
+public struct CreateWebhookInput {
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
     public var branchFilter: Swift.String?
     /// Specifies the type of build this webhook will trigger.
@@ -4164,7 +4164,7 @@ public struct CreateWebhookInput: Swift.Equatable {
     }
 }
 
-struct CreateWebhookInputBody: Swift.Equatable {
+struct CreateWebhookInputBody {
     let projectName: Swift.String?
     let branchFilter: Swift.String?
     let filterGroups: [[CodeBuildClientTypes.WebhookFilter]]?
@@ -4222,7 +4222,7 @@ extension CreateWebhookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebhookOutput: Swift.Equatable {
+public struct CreateWebhookOutput {
     /// Information about a webhook that connects repository events to a build project in CodeBuild.
     public var webhook: CodeBuildClientTypes.Webhook?
 
@@ -4234,7 +4234,7 @@ public struct CreateWebhookOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebhookOutputBody: Swift.Equatable {
+struct CreateWebhookOutputBody {
     let webhook: CodeBuildClientTypes.Webhook?
 }
 
@@ -4320,7 +4320,7 @@ extension CodeBuildClientTypes.DebugSession: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information about the debug session for a build. For more information, see [Viewing a running build in Session Manager](https://docs.aws.amazon.com/codebuild/latest/userguide/session-manager.html).
-    public struct DebugSession: Swift.Equatable {
+    public struct DebugSession {
         /// Specifies if session debugging is enabled for this build.
         public var sessionEnabled: Swift.Bool?
         /// Contains the identifier of the Session Manager session used for the build. To work with the paused build, you open this session to examine, control, and resume the build.
@@ -4358,7 +4358,7 @@ extension DeleteBuildBatchInput {
     }
 }
 
-public struct DeleteBuildBatchInput: Swift.Equatable {
+public struct DeleteBuildBatchInput {
     /// The identifier of the batch build to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -4371,7 +4371,7 @@ public struct DeleteBuildBatchInput: Swift.Equatable {
     }
 }
 
-struct DeleteBuildBatchInputBody: Swift.Equatable {
+struct DeleteBuildBatchInputBody {
     let id: Swift.String?
 }
 
@@ -4403,7 +4403,7 @@ extension DeleteBuildBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBuildBatchOutput: Swift.Equatable {
+public struct DeleteBuildBatchOutput {
     /// An array of strings that contain the identifiers of the builds that were deleted.
     public var buildsDeleted: [Swift.String]?
     /// An array of BuildNotDeleted objects that specify the builds that could not be deleted.
@@ -4423,7 +4423,7 @@ public struct DeleteBuildBatchOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBuildBatchOutputBody: Swift.Equatable {
+struct DeleteBuildBatchOutputBody {
     let statusCode: Swift.String?
     let buildsDeleted: [Swift.String]?
     let buildsNotDeleted: [CodeBuildClientTypes.BuildNotDeleted]?
@@ -4496,7 +4496,7 @@ extension DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The ARN of the compute fleet.
     /// This member is required.
     public var arn: Swift.String?
@@ -4509,7 +4509,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
     let arn: Swift.String?
 }
 
@@ -4530,7 +4530,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
 
     public init() { }
 }
@@ -4566,7 +4566,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The name of the build project.
     /// This member is required.
     public var name: Swift.String?
@@ -4579,7 +4579,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
     let name: Swift.String?
 }
 
@@ -4600,7 +4600,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
 
     public init() { }
 }
@@ -4640,7 +4640,7 @@ extension DeleteReportGroupInput {
     }
 }
 
-public struct DeleteReportGroupInput: Swift.Equatable {
+public struct DeleteReportGroupInput {
     /// The ARN of the report group to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -4657,7 +4657,7 @@ public struct DeleteReportGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteReportGroupInputBody: Swift.Equatable {
+struct DeleteReportGroupInputBody {
     let arn: Swift.String?
     let deleteReports: Swift.Bool?
 }
@@ -4682,7 +4682,7 @@ extension DeleteReportGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReportGroupOutput: Swift.Equatable {
+public struct DeleteReportGroupOutput {
 
     public init() { }
 }
@@ -4718,7 +4718,7 @@ extension DeleteReportInput {
     }
 }
 
-public struct DeleteReportInput: Swift.Equatable {
+public struct DeleteReportInput {
     /// The ARN of the report to delete.
     /// This member is required.
     public var arn: Swift.String?
@@ -4731,7 +4731,7 @@ public struct DeleteReportInput: Swift.Equatable {
     }
 }
 
-struct DeleteReportInputBody: Swift.Equatable {
+struct DeleteReportInputBody {
     let arn: Swift.String?
 }
 
@@ -4752,7 +4752,7 @@ extension DeleteReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReportOutput: Swift.Equatable {
+public struct DeleteReportOutput {
 
     public init() { }
 }
@@ -4788,7 +4788,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The ARN of the resource that is associated with the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4801,7 +4801,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4822,7 +4822,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
 
     public init() { }
 }
@@ -4858,7 +4858,7 @@ extension DeleteSourceCredentialsInput {
     }
 }
 
-public struct DeleteSourceCredentialsInput: Swift.Equatable {
+public struct DeleteSourceCredentialsInput {
     /// The Amazon Resource Name (ARN) of the token.
     /// This member is required.
     public var arn: Swift.String?
@@ -4871,7 +4871,7 @@ public struct DeleteSourceCredentialsInput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceCredentialsInputBody: Swift.Equatable {
+struct DeleteSourceCredentialsInputBody {
     let arn: Swift.String?
 }
 
@@ -4899,7 +4899,7 @@ extension DeleteSourceCredentialsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSourceCredentialsOutput: Swift.Equatable {
+public struct DeleteSourceCredentialsOutput {
     /// The Amazon Resource Name (ARN) of the token.
     public var arn: Swift.String?
 
@@ -4911,7 +4911,7 @@ public struct DeleteSourceCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceCredentialsOutputBody: Swift.Equatable {
+struct DeleteSourceCredentialsOutputBody {
     let arn: Swift.String?
 }
 
@@ -4959,7 +4959,7 @@ extension DeleteWebhookInput {
     }
 }
 
-public struct DeleteWebhookInput: Swift.Equatable {
+public struct DeleteWebhookInput {
     /// The name of the CodeBuild project.
     /// This member is required.
     public var projectName: Swift.String?
@@ -4972,7 +4972,7 @@ public struct DeleteWebhookInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebhookInputBody: Swift.Equatable {
+struct DeleteWebhookInputBody {
     let projectName: Swift.String?
 }
 
@@ -4993,7 +4993,7 @@ extension DeleteWebhookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWebhookOutput: Swift.Equatable {
+public struct DeleteWebhookOutput {
 
     public init() { }
 }
@@ -5055,7 +5055,7 @@ extension DescribeCodeCoveragesInput {
     }
 }
 
-public struct DescribeCodeCoveragesInput: Swift.Equatable {
+public struct DescribeCodeCoveragesInput {
     /// The maximum line coverage percentage to report.
     public var maxLineCoveragePercentage: Swift.Double?
     /// The maximum number of results to return.
@@ -5092,7 +5092,7 @@ public struct DescribeCodeCoveragesInput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeCoveragesInputBody: Swift.Equatable {
+struct DescribeCodeCoveragesInputBody {
     let reportArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5146,7 +5146,7 @@ extension DescribeCodeCoveragesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCodeCoveragesOutput: Swift.Equatable {
+public struct DescribeCodeCoveragesOutput {
     /// An array of CodeCoverage objects that contain the results.
     public var codeCoverages: [CodeBuildClientTypes.CodeCoverage]?
     /// If there are more items to return, this contains a token that is passed to a subsequent call to DescribeCodeCoverages to retrieve the next set of items.
@@ -5162,7 +5162,7 @@ public struct DescribeCodeCoveragesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCodeCoveragesOutputBody: Swift.Equatable {
+struct DescribeCodeCoveragesOutputBody {
     let nextToken: Swift.String?
     let codeCoverages: [CodeBuildClientTypes.CodeCoverage]?
 }
@@ -5234,7 +5234,7 @@ extension DescribeTestCasesInput {
     }
 }
 
-public struct DescribeTestCasesInput: Swift.Equatable {
+public struct DescribeTestCasesInput {
     /// A TestCaseFilter object used to filter the returned reports.
     public var filter: CodeBuildClientTypes.TestCaseFilter?
     /// The maximum number of paginated test cases returned per response. Use nextToken to iterate pages in the list of returned TestCase objects. The default value is 100.
@@ -5259,7 +5259,7 @@ public struct DescribeTestCasesInput: Swift.Equatable {
     }
 }
 
-struct DescribeTestCasesInputBody: Swift.Equatable {
+struct DescribeTestCasesInputBody {
     let reportArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5301,7 +5301,7 @@ extension DescribeTestCasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTestCasesOutput: Swift.Equatable {
+public struct DescribeTestCasesOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The returned list of test cases.
@@ -5317,7 +5317,7 @@ public struct DescribeTestCasesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTestCasesOutputBody: Swift.Equatable {
+struct DescribeTestCasesOutputBody {
     let nextToken: Swift.String?
     let testCases: [CodeBuildClientTypes.TestCase]?
 }
@@ -5403,7 +5403,7 @@ extension CodeBuildClientTypes.EnvironmentImage: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a Docker image that is managed by CodeBuild.
-    public struct EnvironmentImage: Swift.Equatable {
+    public struct EnvironmentImage {
         /// The description of the Docker image.
         public var description: Swift.String?
         /// The name of the Docker image.
@@ -5464,7 +5464,7 @@ extension CodeBuildClientTypes.EnvironmentLanguage: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A set of Docker images that are related by programming language and are managed by CodeBuild.
-    public struct EnvironmentLanguage: Swift.Equatable {
+    public struct EnvironmentLanguage {
         /// The list of Docker images that are related by the specified programming language.
         public var images: [CodeBuildClientTypes.EnvironmentImage]?
         /// The programming language for the Docker images.
@@ -5521,7 +5521,7 @@ extension CodeBuildClientTypes.EnvironmentPlatform: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A set of Docker images that are related by platform and are managed by CodeBuild.
-    public struct EnvironmentPlatform: Swift.Equatable {
+    public struct EnvironmentPlatform {
         /// The list of programming languages that are available for the specified platform.
         public var languages: [CodeBuildClientTypes.EnvironmentLanguage]?
         /// The platform's name.
@@ -5619,7 +5619,7 @@ extension CodeBuildClientTypes.EnvironmentVariable: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about an environment variable for a build project or a build.
-    public struct EnvironmentVariable: Swift.Equatable {
+    public struct EnvironmentVariable {
         /// The name or key of the environment variable.
         /// This member is required.
         public var name: Swift.String?
@@ -5711,7 +5711,7 @@ extension CodeBuildClientTypes.ExportedEnvironmentVariable: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains information about an exported environment variable. Exported environment variables are used in conjunction with CodePipeline to export environment variables from the current build stage to subsequent stages in the pipeline. For more information, see [Working with variables](https://docs.aws.amazon.com/codepipeline/latest/userguide/actions-variables.html) in the CodePipeline User Guide. During a build, the value of a variable is available starting with the install phase. It can be updated between the start of the install phase and the end of the post_build phase. After the post_build phase ends, the value of exported variables cannot change.
-    public struct ExportedEnvironmentVariable: Swift.Equatable {
+    public struct ExportedEnvironmentVariable {
         /// The name of the exported environment variable.
         public var name: Swift.String?
         /// The value assigned to the exported environment variable.
@@ -5857,7 +5857,7 @@ extension CodeBuildClientTypes.Fleet: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A set of dedicated instances for your build environment.
-    public struct Fleet: Swift.Equatable {
+    public struct Fleet {
         /// The ARN of the compute fleet.
         public var arn: Swift.String?
         /// The initial number of machines allocated to the compute ﬂeet, which deﬁnes the number of builds that can run in parallel.
@@ -6153,7 +6153,7 @@ extension CodeBuildClientTypes.FleetStatus: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// The status of the compute fleet.
-    public struct FleetStatus: Swift.Equatable {
+    public struct FleetStatus {
         /// Additional information about a compute fleet. Valid values include:
         ///
         /// * CREATE_FAILED: The compute fleet has failed to create.
@@ -6273,7 +6273,7 @@ extension GetReportGroupTrendInput {
     }
 }
 
-public struct GetReportGroupTrendInput: Swift.Equatable {
+public struct GetReportGroupTrendInput {
     /// The number of reports to analyze. This operation always retrieves the most recent reports. If this parameter is omitted, the most recent 100 reports are analyzed.
     public var numOfReports: Swift.Int?
     /// The ARN of the report group that contains the reports to analyze.
@@ -6295,7 +6295,7 @@ public struct GetReportGroupTrendInput: Swift.Equatable {
     }
 }
 
-struct GetReportGroupTrendInputBody: Swift.Equatable {
+struct GetReportGroupTrendInputBody {
     let reportGroupArn: Swift.String?
     let numOfReports: Swift.Int?
     let trendField: CodeBuildClientTypes.ReportGroupTrendFieldType?
@@ -6333,7 +6333,7 @@ extension GetReportGroupTrendOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReportGroupTrendOutput: Swift.Equatable {
+public struct GetReportGroupTrendOutput {
     /// An array that contains the raw data for each report.
     public var rawData: [CodeBuildClientTypes.ReportWithRawData]?
     /// Contains the accumulated trend data.
@@ -6349,7 +6349,7 @@ public struct GetReportGroupTrendOutput: Swift.Equatable {
     }
 }
 
-struct GetReportGroupTrendOutputBody: Swift.Equatable {
+struct GetReportGroupTrendOutputBody {
     let stats: CodeBuildClientTypes.ReportGroupTrendStats?
     let rawData: [CodeBuildClientTypes.ReportWithRawData]?
 }
@@ -6410,7 +6410,7 @@ extension GetResourcePolicyInput {
     }
 }
 
-public struct GetResourcePolicyInput: Swift.Equatable {
+public struct GetResourcePolicyInput {
     /// The ARN of the resource that is associated with the resource policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6423,7 +6423,7 @@ public struct GetResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyInputBody: Swift.Equatable {
+struct GetResourcePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6451,7 +6451,7 @@ extension GetResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourcePolicyOutput: Swift.Equatable {
+public struct GetResourcePolicyOutput {
     /// The resource policy for the resource identified by the input ARN parameter.
     public var policy: Swift.String?
 
@@ -6463,7 +6463,7 @@ public struct GetResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetResourcePolicyOutputBody: Swift.Equatable {
+struct GetResourcePolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -6512,7 +6512,7 @@ extension CodeBuildClientTypes.GitSubmodulesConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the Git submodules configuration for an CodeBuild build project.
-    public struct GitSubmodulesConfig: Swift.Equatable {
+    public struct GitSubmodulesConfig {
         /// Set to true to fetch Git submodules for your CodeBuild build project.
         /// This member is required.
         public var fetchSubmodules: Swift.Bool?
@@ -6600,7 +6600,7 @@ extension ImportSourceCredentialsInput {
     }
 }
 
-public struct ImportSourceCredentialsInput: Swift.Equatable {
+public struct ImportSourceCredentialsInput {
     /// The type of authentication used to connect to a GitHub, GitHub Enterprise, or Bitbucket repository. An OAUTH connection is not supported by the API and must be created using the CodeBuild console.
     /// This member is required.
     public var authType: CodeBuildClientTypes.AuthType?
@@ -6631,7 +6631,7 @@ public struct ImportSourceCredentialsInput: Swift.Equatable {
     }
 }
 
-struct ImportSourceCredentialsInputBody: Swift.Equatable {
+struct ImportSourceCredentialsInputBody {
     let username: Swift.String?
     let token: Swift.String?
     let serverType: CodeBuildClientTypes.ServerType?
@@ -6675,7 +6675,7 @@ extension ImportSourceCredentialsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportSourceCredentialsOutput: Swift.Equatable {
+public struct ImportSourceCredentialsOutput {
     /// The Amazon Resource Name (ARN) of the token.
     public var arn: Swift.String?
 
@@ -6687,7 +6687,7 @@ public struct ImportSourceCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct ImportSourceCredentialsOutputBody: Swift.Equatable {
+struct ImportSourceCredentialsOutputBody {
     let arn: Swift.String?
 }
 
@@ -6755,7 +6755,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -6791,7 +6791,7 @@ extension InvalidateProjectCacheInput {
     }
 }
 
-public struct InvalidateProjectCacheInput: Swift.Equatable {
+public struct InvalidateProjectCacheInput {
     /// The name of the CodeBuild build project that the cache is reset for.
     /// This member is required.
     public var projectName: Swift.String?
@@ -6804,7 +6804,7 @@ public struct InvalidateProjectCacheInput: Swift.Equatable {
     }
 }
 
-struct InvalidateProjectCacheInputBody: Swift.Equatable {
+struct InvalidateProjectCacheInputBody {
     let projectName: Swift.String?
 }
 
@@ -6825,7 +6825,7 @@ extension InvalidateProjectCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvalidateProjectCacheOutput: Swift.Equatable {
+public struct InvalidateProjectCacheOutput {
 
     public init() { }
 }
@@ -6934,7 +6934,7 @@ extension ListBuildBatchesForProjectInput {
     }
 }
 
-public struct ListBuildBatchesForProjectInput: Swift.Equatable {
+public struct ListBuildBatchesForProjectInput {
     /// A BuildBatchFilter object that specifies the filters for the search.
     public var filter: CodeBuildClientTypes.BuildBatchFilter?
     /// The maximum number of results to return.
@@ -6966,7 +6966,7 @@ public struct ListBuildBatchesForProjectInput: Swift.Equatable {
     }
 }
 
-struct ListBuildBatchesForProjectInputBody: Swift.Equatable {
+struct ListBuildBatchesForProjectInputBody {
     let projectName: Swift.String?
     let filter: CodeBuildClientTypes.BuildBatchFilter?
     let maxResults: Swift.Int?
@@ -7012,7 +7012,7 @@ extension ListBuildBatchesForProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuildBatchesForProjectOutput: Swift.Equatable {
+public struct ListBuildBatchesForProjectOutput {
     /// An array of strings that contains the batch build identifiers.
     public var ids: [Swift.String]?
     /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatchesForProject to retrieve the next set of items.
@@ -7028,7 +7028,7 @@ public struct ListBuildBatchesForProjectOutput: Swift.Equatable {
     }
 }
 
-struct ListBuildBatchesForProjectOutputBody: Swift.Equatable {
+struct ListBuildBatchesForProjectOutputBody {
     let ids: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7101,7 +7101,7 @@ extension ListBuildBatchesInput {
     }
 }
 
-public struct ListBuildBatchesInput: Swift.Equatable {
+public struct ListBuildBatchesInput {
     /// A BuildBatchFilter object that specifies the filters for the search.
     public var filter: CodeBuildClientTypes.BuildBatchFilter?
     /// The maximum number of results to return.
@@ -7129,7 +7129,7 @@ public struct ListBuildBatchesInput: Swift.Equatable {
     }
 }
 
-struct ListBuildBatchesInputBody: Swift.Equatable {
+struct ListBuildBatchesInputBody {
     let filter: CodeBuildClientTypes.BuildBatchFilter?
     let maxResults: Swift.Int?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
@@ -7171,7 +7171,7 @@ extension ListBuildBatchesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuildBatchesOutput: Swift.Equatable {
+public struct ListBuildBatchesOutput {
     /// An array of strings that contains the batch build identifiers.
     public var ids: [Swift.String]?
     /// If there are more items to return, this contains a token that is passed to a subsequent call to ListBuildBatches to retrieve the next set of items.
@@ -7187,7 +7187,7 @@ public struct ListBuildBatchesOutput: Swift.Equatable {
     }
 }
 
-struct ListBuildBatchesOutputBody: Swift.Equatable {
+struct ListBuildBatchesOutputBody {
     let ids: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7255,7 +7255,7 @@ extension ListBuildsForProjectInput {
     }
 }
 
-public struct ListBuildsForProjectInput: Swift.Equatable {
+public struct ListBuildsForProjectInput {
     /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The name of the CodeBuild project.
@@ -7283,7 +7283,7 @@ public struct ListBuildsForProjectInput: Swift.Equatable {
     }
 }
 
-struct ListBuildsForProjectInputBody: Swift.Equatable {
+struct ListBuildsForProjectInputBody {
     let projectName: Swift.String?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let nextToken: Swift.String?
@@ -7321,7 +7321,7 @@ extension ListBuildsForProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuildsForProjectOutput: Swift.Equatable {
+public struct ListBuildsForProjectOutput {
     /// A list of build identifiers for the specified build project, with each build ID representing a single build.
     public var ids: [Swift.String]?
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -7337,7 +7337,7 @@ public struct ListBuildsForProjectOutput: Swift.Equatable {
     }
 }
 
-struct ListBuildsForProjectOutputBody: Swift.Equatable {
+struct ListBuildsForProjectOutputBody {
     let ids: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7402,7 +7402,7 @@ extension ListBuildsInput {
     }
 }
 
-public struct ListBuildsInput: Swift.Equatable {
+public struct ListBuildsInput {
     /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The order to list build IDs. Valid values include:
@@ -7422,7 +7422,7 @@ public struct ListBuildsInput: Swift.Equatable {
     }
 }
 
-struct ListBuildsInputBody: Swift.Equatable {
+struct ListBuildsInputBody {
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let nextToken: Swift.String?
 }
@@ -7456,7 +7456,7 @@ extension ListBuildsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuildsOutput: Swift.Equatable {
+public struct ListBuildsOutput {
     /// A list of build IDs, with each build ID representing a single build.
     public var ids: [Swift.String]?
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -7472,7 +7472,7 @@ public struct ListBuildsOutput: Swift.Equatable {
     }
 }
 
-struct ListBuildsOutputBody: Swift.Equatable {
+struct ListBuildsOutputBody {
     let ids: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7527,12 +7527,12 @@ extension ListCuratedEnvironmentImagesInput {
     }
 }
 
-public struct ListCuratedEnvironmentImagesInput: Swift.Equatable {
+public struct ListCuratedEnvironmentImagesInput {
 
     public init() { }
 }
 
-struct ListCuratedEnvironmentImagesInputBody: Swift.Equatable {
+struct ListCuratedEnvironmentImagesInputBody {
 }
 
 extension ListCuratedEnvironmentImagesInputBody: Swift.Decodable {
@@ -7553,7 +7553,7 @@ extension ListCuratedEnvironmentImagesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListCuratedEnvironmentImagesOutput: Swift.Equatable {
+public struct ListCuratedEnvironmentImagesOutput {
     /// Information about supported platforms for Docker images that are managed by CodeBuild.
     public var platforms: [CodeBuildClientTypes.EnvironmentPlatform]?
 
@@ -7565,7 +7565,7 @@ public struct ListCuratedEnvironmentImagesOutput: Swift.Equatable {
     }
 }
 
-struct ListCuratedEnvironmentImagesOutputBody: Swift.Equatable {
+struct ListCuratedEnvironmentImagesOutputBody {
     let platforms: [CodeBuildClientTypes.EnvironmentPlatform]?
 }
 
@@ -7637,7 +7637,7 @@ extension ListFleetsInput {
     }
 }
 
-public struct ListFleetsInput: Swift.Equatable {
+public struct ListFleetsInput {
     /// The maximum number of paginated compute fleets returned per response. Use nextToken to iterate pages in the list of returned compute fleets.
     public var maxResults: Swift.Int?
     /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -7677,7 +7677,7 @@ public struct ListFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsInputBody: Swift.Equatable {
+struct ListFleetsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
@@ -7719,7 +7719,7 @@ extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetsOutput: Swift.Equatable {
+public struct ListFleetsOutput {
     /// The list of compute fleet names.
     public var fleets: [Swift.String]?
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -7735,7 +7735,7 @@ public struct ListFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputBody: Swift.Equatable {
+struct ListFleetsOutputBody {
     let nextToken: Swift.String?
     let fleets: [Swift.String]?
 }
@@ -7803,7 +7803,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// During a previous call, if there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The criterion to be used to list build project names. Valid values include:
@@ -7839,7 +7839,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
     let sortBy: CodeBuildClientTypes.ProjectSortByType?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let nextToken: Swift.String?
@@ -7877,7 +7877,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// If there are more than 100 items in the list, only the first 100 items are returned, along with a unique string called a nextToken. To get the next batch of items in the list, call this operation again, adding the next token to the call.
     public var nextToken: Swift.String?
     /// The list of build project names, with each build project name representing a single build project.
@@ -7893,7 +7893,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let nextToken: Swift.String?
     let projects: [Swift.String]?
 }
@@ -7965,7 +7965,7 @@ extension ListReportGroupsInput {
     }
 }
 
-public struct ListReportGroupsInput: Swift.Equatable {
+public struct ListReportGroupsInput {
     /// The maximum number of paginated report groups returned per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100.
     public var maxResults: Swift.Int?
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -7995,7 +7995,7 @@ public struct ListReportGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListReportGroupsInputBody: Swift.Equatable {
+struct ListReportGroupsInputBody {
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let sortBy: CodeBuildClientTypes.ReportGroupSortByType?
     let nextToken: Swift.String?
@@ -8037,7 +8037,7 @@ extension ListReportGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportGroupsOutput: Swift.Equatable {
+public struct ListReportGroupsOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The list of ARNs for the report groups in the current Amazon Web Services account.
@@ -8053,7 +8053,7 @@ public struct ListReportGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListReportGroupsOutputBody: Swift.Equatable {
+struct ListReportGroupsOutputBody {
     let nextToken: Swift.String?
     let reportGroups: [Swift.String]?
 }
@@ -8129,7 +8129,7 @@ extension ListReportsForReportGroupInput {
     }
 }
 
-public struct ListReportsForReportGroupInput: Swift.Equatable {
+public struct ListReportsForReportGroupInput {
     /// A ReportFilter object used to filter the returned reports.
     public var filter: CodeBuildClientTypes.ReportFilter?
     /// The maximum number of paginated reports in this report group returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100.
@@ -8158,7 +8158,7 @@ public struct ListReportsForReportGroupInput: Swift.Equatable {
     }
 }
 
-struct ListReportsForReportGroupInputBody: Swift.Equatable {
+struct ListReportsForReportGroupInputBody {
     let reportGroupArn: Swift.String?
     let nextToken: Swift.String?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
@@ -8204,7 +8204,7 @@ extension ListReportsForReportGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportsForReportGroupOutput: Swift.Equatable {
+public struct ListReportsForReportGroupOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The list of report ARNs.
@@ -8220,7 +8220,7 @@ public struct ListReportsForReportGroupOutput: Swift.Equatable {
     }
 }
 
-struct ListReportsForReportGroupOutputBody: Swift.Equatable {
+struct ListReportsForReportGroupOutputBody {
     let nextToken: Swift.String?
     let reports: [Swift.String]?
 }
@@ -8293,7 +8293,7 @@ extension ListReportsInput {
     }
 }
 
-public struct ListReportsInput: Swift.Equatable {
+public struct ListReportsInput {
     /// A ReportFilter object used to filter the returned reports.
     public var filter: CodeBuildClientTypes.ReportFilter?
     /// The maximum number of paginated reports returned per response. Use nextToken to iterate pages in the list of returned Report objects. The default value is 100.
@@ -8321,7 +8321,7 @@ public struct ListReportsInput: Swift.Equatable {
     }
 }
 
-struct ListReportsInputBody: Swift.Equatable {
+struct ListReportsInputBody {
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8363,7 +8363,7 @@ extension ListReportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReportsOutput: Swift.Equatable {
+public struct ListReportsOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The list of returned ARNs for the reports in the current Amazon Web Services account.
@@ -8379,7 +8379,7 @@ public struct ListReportsOutput: Swift.Equatable {
     }
 }
 
-struct ListReportsOutputBody: Swift.Equatable {
+struct ListReportsOutputBody {
     let nextToken: Swift.String?
     let reports: [Swift.String]?
 }
@@ -8451,7 +8451,7 @@ extension ListSharedProjectsInput {
     }
 }
 
-public struct ListSharedProjectsInput: Swift.Equatable {
+public struct ListSharedProjectsInput {
     /// The maximum number of paginated shared build projects returned per response. Use nextToken to iterate pages in the list of returned Project objects. The default value is 100.
     public var maxResults: Swift.Int?
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -8483,7 +8483,7 @@ public struct ListSharedProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListSharedProjectsInputBody: Swift.Equatable {
+struct ListSharedProjectsInputBody {
     let sortBy: CodeBuildClientTypes.SharedResourceSortByType?
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let maxResults: Swift.Int?
@@ -8525,7 +8525,7 @@ extension ListSharedProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSharedProjectsOutput: Swift.Equatable {
+public struct ListSharedProjectsOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The list of ARNs for the build projects shared with the current Amazon Web Services account or user.
@@ -8541,7 +8541,7 @@ public struct ListSharedProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListSharedProjectsOutputBody: Swift.Equatable {
+struct ListSharedProjectsOutputBody {
     let nextToken: Swift.String?
     let projects: [Swift.String]?
 }
@@ -8613,7 +8613,7 @@ extension ListSharedReportGroupsInput {
     }
 }
 
-public struct ListSharedReportGroupsInput: Swift.Equatable {
+public struct ListSharedReportGroupsInput {
     /// The maximum number of paginated shared report groups per response. Use nextToken to iterate pages in the list of returned ReportGroup objects. The default value is 100.
     public var maxResults: Swift.Int?
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -8645,7 +8645,7 @@ public struct ListSharedReportGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListSharedReportGroupsInputBody: Swift.Equatable {
+struct ListSharedReportGroupsInputBody {
     let sortOrder: CodeBuildClientTypes.SortOrderType?
     let sortBy: CodeBuildClientTypes.SharedResourceSortByType?
     let nextToken: Swift.String?
@@ -8687,7 +8687,7 @@ extension ListSharedReportGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSharedReportGroupsOutput: Swift.Equatable {
+public struct ListSharedReportGroupsOutput {
     /// During a previous call, the maximum number of items that can be returned is the value specified in maxResults. If there more items in the list, then a unique string called a nextToken is returned. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
     public var nextToken: Swift.String?
     /// The list of ARNs for the report groups shared with the current Amazon Web Services account or user.
@@ -8703,7 +8703,7 @@ public struct ListSharedReportGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListSharedReportGroupsOutputBody: Swift.Equatable {
+struct ListSharedReportGroupsOutputBody {
     let nextToken: Swift.String?
     let reportGroups: [Swift.String]?
 }
@@ -8758,12 +8758,12 @@ extension ListSourceCredentialsInput {
     }
 }
 
-public struct ListSourceCredentialsInput: Swift.Equatable {
+public struct ListSourceCredentialsInput {
 
     public init() { }
 }
 
-struct ListSourceCredentialsInputBody: Swift.Equatable {
+struct ListSourceCredentialsInputBody {
 }
 
 extension ListSourceCredentialsInputBody: Swift.Decodable {
@@ -8784,7 +8784,7 @@ extension ListSourceCredentialsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSourceCredentialsOutput: Swift.Equatable {
+public struct ListSourceCredentialsOutput {
     /// A list of SourceCredentialsInfo objects. Each SourceCredentialsInfo object includes the authentication type, token ARN, and type of source provider for one set of credentials.
     public var sourceCredentialsInfos: [CodeBuildClientTypes.SourceCredentialsInfo]?
 
@@ -8796,7 +8796,7 @@ public struct ListSourceCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct ListSourceCredentialsOutputBody: Swift.Equatable {
+struct ListSourceCredentialsOutputBody {
     let sourceCredentialsInfos: [CodeBuildClientTypes.SourceCredentialsInfo]?
 }
 
@@ -8859,7 +8859,7 @@ extension CodeBuildClientTypes.LogsConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about logs for a build project. These can be logs in CloudWatch Logs, built in a specified S3 bucket, or both.
-    public struct LogsConfig: Swift.Equatable {
+    public struct LogsConfig {
         /// Information about CloudWatch Logs for a build project. CloudWatch Logs are enabled by default.
         public var cloudWatchLogs: CodeBuildClientTypes.CloudWatchLogsConfig?
         /// Information about logs built to an S3 bucket for a build project. S3 logs are not enabled by default.
@@ -8972,7 +8972,7 @@ extension CodeBuildClientTypes.LogsLocation: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about build logs in CloudWatch Logs.
-    public struct LogsLocation: Swift.Equatable {
+    public struct LogsLocation {
         /// Information about CloudWatch Logs for a build project.
         public var cloudWatchLogs: CodeBuildClientTypes.CloudWatchLogsConfig?
         /// The ARN of the CloudWatch Logs stream for a build execution. Its format is arn:${Partition}:logs:${Region}:${Account}:log-group:${LogGroupName}:log-stream:${LogStreamName}. The CloudWatch Logs stream is created during the PROVISIONING phase of a build and the ARN will not be valid until it is created. For more information, see [Resources Defined by CloudWatch Logs](https://docs.aws.amazon.com/IAM/latest/UserGuide/list_amazoncloudwatchlogs.html#amazoncloudwatchlogs-resources-for-iam-policies).
@@ -9041,7 +9041,7 @@ extension CodeBuildClientTypes.NetworkInterface: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Describes a network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The ID of the network interface.
         public var networkInterfaceId: Swift.String?
         /// The ID of the subnet.
@@ -9098,7 +9098,7 @@ public struct OAuthProviderException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct OAuthProviderExceptionBody: Swift.Equatable {
+struct OAuthProviderExceptionBody {
     let message: Swift.String?
 }
 
@@ -9141,7 +9141,7 @@ extension CodeBuildClientTypes.PhaseContext: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Additional information about a build phase that has an error. You can use this information for troubleshooting.
-    public struct PhaseContext: Swift.Equatable {
+    public struct PhaseContext {
         /// An explanation of the build phase's context. This might include a command ID and an exit code.
         public var message: Swift.String?
         /// The status code for the context of the build phase.
@@ -9440,7 +9440,7 @@ extension CodeBuildClientTypes.Project: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a build project.
-    public struct Project: Swift.Equatable {
+    public struct Project {
         /// The Amazon Resource Name (ARN) of the build project.
         public var arn: Swift.String?
         /// Information about the build output artifacts for the build project.
@@ -9648,7 +9648,7 @@ extension CodeBuildClientTypes.ProjectArtifacts: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the build output artifacts for the build project.
-    public struct ProjectArtifacts: Swift.Equatable {
+    public struct ProjectArtifacts {
         /// An identifier for this artifact definition.
         public var artifactIdentifier: Swift.String?
         /// Specifies the bucket owner's access for objects that another account uploads to their Amazon S3 bucket. By default, only the account that uploads the objects to the bucket has access to these objects. This property allows you to give the bucket owner access to these objects. To use this property, your CodeBuild service role must have the s3:PutBucketAcl permission. This permission allows CodeBuild to modify the access control list for the bucket. This property can be one of the following values: NONE The bucket owner does not have access to the objects. This is the default. READ_ONLY The bucket owner has read-only access to the objects. The uploading account retains ownership of the objects. FULL The bucket owner has full access to the objects. Object ownership is determined by the following criteria:
@@ -9795,7 +9795,7 @@ extension CodeBuildClientTypes.ProjectBadge: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the build badge for the build project.
-    public struct ProjectBadge: Swift.Equatable {
+    public struct ProjectBadge {
         /// Set this to true to generate a publicly accessible URL for your project's build badge.
         public var badgeEnabled: Swift.Bool
         /// The publicly-accessible URL through which you can access the build badge for your project.
@@ -9858,7 +9858,7 @@ extension CodeBuildClientTypes.ProjectBuildBatchConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains configuration information about a batch build project.
-    public struct ProjectBuildBatchConfig: Swift.Equatable {
+    public struct ProjectBuildBatchConfig {
         /// Specifies how build status reports are sent to the source provider for the batch build. This property is only used when the source provider for your project is Bitbucket, GitHub, or GitHub Enterprise, and your project is configured to report build statuses to the source provider. REPORT_AGGREGATED_BATCH (Default) Aggregate all of the build statuses into a single status report. REPORT_INDIVIDUAL_BUILDS Send a separate status report for each individual build.
         public var batchReportMode: CodeBuildClientTypes.BatchReportModeType?
         /// Specifies if the build artifacts for the batch build should be combined into a single artifact location.
@@ -9933,7 +9933,7 @@ extension CodeBuildClientTypes.ProjectCache: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the cache for the build project.
-    public struct ProjectCache: Swift.Equatable {
+    public struct ProjectCache {
         /// Information about the cache location:
         ///
         /// * NO_CACHE or LOCAL: This value is ignored.
@@ -10062,7 +10062,7 @@ extension CodeBuildClientTypes.ProjectEnvironment: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the build environment of the build project.
-    public struct ProjectEnvironment: Swift.Equatable {
+    public struct ProjectEnvironment {
         /// The ARN of the Amazon S3 bucket, path prefix, and object key that contains the PEM-encoded certificate for the build project. For more information, see [certificate](https://docs.aws.amazon.com/codebuild/latest/userguide/create-project-cli.html#cli.environment.certificate) in the CodeBuild User Guide.
         public var certificate: Swift.String?
         /// Information about the compute resources the build project uses. Available values include:
@@ -10231,7 +10231,7 @@ extension CodeBuildClientTypes.ProjectFileSystemLocation: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a file system created by Amazon Elastic File System (EFS). For more information, see [What Is Amazon Elastic File System?](https://docs.aws.amazon.com/efs/latest/ug/whatisefs.html)
-    public struct ProjectFileSystemLocation: Swift.Equatable {
+    public struct ProjectFileSystemLocation {
         /// The name used to access a file system created by Amazon EFS. CodeBuild creates an environment variable by appending the identifier in all capital letters to CODEBUILD_. For example, if you specify my_efs for identifier, a new environment variable is create named CODEBUILD_MY_EFS. The identifier is used to mount your file system.
         public var identifier: Swift.String?
         /// A string that specifies the location of the file system created by Amazon EFS. Its format is efs-dns-name:/directory-path. You can find the DNS name of file system when you view it in the Amazon EFS console. The directory path is a path to a directory in the file system that CodeBuild mounts. For example, if the DNS name of a file system is fs-abcd1234.efs.us-west-2.amazonaws.com, and its mount directory is my-efs-mount-directory, then the location is fs-abcd1234.efs.us-west-2.amazonaws.com:/my-efs-mount-directory. The directory path in the format efs-dns-name:/directory-path is optional. If you do not specify a directory path, the location is only the DNS name and CodeBuild mounts the entire file system.
@@ -10282,7 +10282,7 @@ extension CodeBuildClientTypes.ProjectFleet: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the compute fleet of the build project. For more information, see [Working with reserved capacity in CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/fleets.html).
-    public struct ProjectFleet: Swift.Equatable {
+    public struct ProjectFleet {
         /// Specifies the compute fleet ARN for the build project.
         public var fleetArn: Swift.String?
 
@@ -10406,7 +10406,7 @@ extension CodeBuildClientTypes.ProjectSource: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the build input source code for the build project.
-    public struct ProjectSource: Swift.Equatable {
+    public struct ProjectSource {
         /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
         public var auth: CodeBuildClientTypes.SourceAuth?
         /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
@@ -10524,7 +10524,7 @@ extension CodeBuildClientTypes.ProjectSourceVersion: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A source identifier and its corresponding version.
-    public struct ProjectSourceVersion: Swift.Equatable {
+    public struct ProjectSourceVersion {
         /// An identifier for a source in the build project. The identifier can only contain alphanumeric characters and underscores, and must be less than 128 characters in length.
         /// This member is required.
         public var sourceIdentifier: Swift.String?
@@ -10612,7 +10612,7 @@ extension PutResourcePolicyInput {
     }
 }
 
-public struct PutResourcePolicyInput: Swift.Equatable {
+public struct PutResourcePolicyInput {
     /// A JSON-formatted resource policy. For more information, see [Sharing a Project](https://docs.aws.amazon.com/codebuild/latest/userguide/project-sharing.html#project-sharing-share) and [Sharing a Report Group](https://docs.aws.amazon.com/codebuild/latest/userguide/report-groups-sharing.html#report-groups-sharing-share) in the CodeBuild User Guide.
     /// This member is required.
     public var policy: Swift.String?
@@ -10630,7 +10630,7 @@ public struct PutResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyInputBody: Swift.Equatable {
+struct PutResourcePolicyInputBody {
     let policy: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -10662,7 +10662,7 @@ extension PutResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutResourcePolicyOutput: Swift.Equatable {
+public struct PutResourcePolicyOutput {
     /// The ARN of the Project or ReportGroup resource that is associated with a resource policy.
     public var resourceArn: Swift.String?
 
@@ -10674,7 +10674,7 @@ public struct PutResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutResourcePolicyOutputBody: Swift.Equatable {
+struct PutResourcePolicyOutputBody {
     let resourceArn: Swift.String?
 }
 
@@ -10736,7 +10736,7 @@ extension CodeBuildClientTypes {
     ///
     ///
     /// For more information, see [Private Registry with Secrets Manager Sample for CodeBuild](https://docs.aws.amazon.com/codebuild/latest/userguide/sample-private-registry.html).
-    public struct RegistryCredential: Swift.Equatable {
+    public struct RegistryCredential {
         /// The Amazon Resource Name (ARN) or name of credentials created using Secrets Manager. The credential can use the name of the credentials only if they exist in your current Amazon Web Services Region.
         /// This member is required.
         public var credential: Swift.String?
@@ -10843,7 +10843,7 @@ extension CodeBuildClientTypes.Report: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the results from running a series of test cases during the run of a build project. The test cases are specified in the buildspec for the build project using one or more paths to the test case files. You can specify any type of tests you want, such as unit tests, integration tests, and functional tests.
-    public struct Report: Swift.Equatable {
+    public struct Report {
         /// The ARN of the report run.
         public var arn: Swift.String?
         /// A CodeCoverageReportSummary object that contains a code coverage summary for this report.
@@ -10960,7 +10960,7 @@ extension CodeBuildClientTypes.ReportExportConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the location where the run of a report is exported.
-    public struct ReportExportConfig: Swift.Equatable {
+    public struct ReportExportConfig {
         /// The export configuration type. Valid values are:
         ///
         /// * S3: The report results are exported to an S3 bucket.
@@ -11035,7 +11035,7 @@ extension CodeBuildClientTypes.ReportFilter: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A filter used to return reports with the status specified by the input status parameter.
-    public struct ReportFilter: Swift.Equatable {
+    public struct ReportFilter {
         /// The status used to filter reports. You can filter using one status only.
         public var status: CodeBuildClientTypes.ReportStatusType?
 
@@ -11124,7 +11124,7 @@ extension CodeBuildClientTypes.ReportGroup: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A series of reports. Each report contains information about the results from running a series of test cases. You specify the test cases for a report group in the buildspec for a build project using one or more paths to the test case files.
-    public struct ReportGroup: Swift.Equatable {
+    public struct ReportGroup {
         /// The ARN of the ReportGroup.
         public var arn: Swift.String?
         /// The date and time this ReportGroup was created.
@@ -11319,7 +11319,7 @@ extension CodeBuildClientTypes.ReportGroupTrendStats: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains trend statistics for a set of reports. The actual values depend on the type of trend being collected. For more information, see .
-    public struct ReportGroupTrendStats: Swift.Equatable {
+    public struct ReportGroupTrendStats {
         /// Contains the average of all values analyzed.
         public var average: Swift.String?
         /// Contains the maximum value analyzed.
@@ -11473,7 +11473,7 @@ extension CodeBuildClientTypes.ReportWithRawData: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Contains the unmodified data for the report. For more information, see .
-    public struct ReportWithRawData: Swift.Equatable {
+    public struct ReportWithRawData {
         /// The value of the requested data field from the report.
         public var data: Swift.String?
         /// The ARN of the report.
@@ -11524,7 +11524,7 @@ extension CodeBuildClientTypes.ResolvedArtifact: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Represents a resolved build artifact. A resolved artifact is an artifact that is built and deployed to the destination, such as Amazon S3.
-    public struct ResolvedArtifact: Swift.Equatable {
+    public struct ResolvedArtifact {
         /// The identifier of the artifact.
         public var identifier: Swift.String?
         /// The location of the artifact.
@@ -11585,7 +11585,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -11640,7 +11640,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11684,7 +11684,7 @@ extension RetryBuildBatchInput {
     }
 }
 
-public struct RetryBuildBatchInput: Swift.Equatable {
+public struct RetryBuildBatchInput {
     /// Specifies the identifier of the batch build to restart.
     public var id: Swift.String?
     /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuildBatch request. The token is included in the RetryBuildBatch request and is valid for five minutes. If you repeat the RetryBuildBatch request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
@@ -11704,7 +11704,7 @@ public struct RetryBuildBatchInput: Swift.Equatable {
     }
 }
 
-struct RetryBuildBatchInputBody: Swift.Equatable {
+struct RetryBuildBatchInputBody {
     let id: Swift.String?
     let idempotencyToken: Swift.String?
     let retryType: CodeBuildClientTypes.RetryBuildBatchType?
@@ -11740,7 +11740,7 @@ extension RetryBuildBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetryBuildBatchOutput: Swift.Equatable {
+public struct RetryBuildBatchOutput {
     /// Contains information about a batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
@@ -11752,7 +11752,7 @@ public struct RetryBuildBatchOutput: Swift.Equatable {
     }
 }
 
-struct RetryBuildBatchOutputBody: Swift.Equatable {
+struct RetryBuildBatchOutputBody {
     let buildBatch: CodeBuildClientTypes.BuildBatch?
 }
 
@@ -11836,7 +11836,7 @@ extension RetryBuildInput {
     }
 }
 
-public struct RetryBuildInput: Swift.Equatable {
+public struct RetryBuildInput {
     /// Specifies the identifier of the build to restart.
     public var id: Swift.String?
     /// A unique, case sensitive identifier you provide to ensure the idempotency of the RetryBuild request. The token is included in the RetryBuild request and is valid for five minutes. If you repeat the RetryBuild request with the same token, but change a parameter, CodeBuild returns a parameter mismatch error.
@@ -11852,7 +11852,7 @@ public struct RetryBuildInput: Swift.Equatable {
     }
 }
 
-struct RetryBuildInputBody: Swift.Equatable {
+struct RetryBuildInputBody {
     let id: Swift.String?
     let idempotencyToken: Swift.String?
 }
@@ -11884,7 +11884,7 @@ extension RetryBuildOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetryBuildOutput: Swift.Equatable {
+public struct RetryBuildOutput {
     /// Information about a build.
     public var build: CodeBuildClientTypes.Build?
 
@@ -11896,7 +11896,7 @@ public struct RetryBuildOutput: Swift.Equatable {
     }
 }
 
-struct RetryBuildOutputBody: Swift.Equatable {
+struct RetryBuildOutputBody {
     let build: CodeBuildClientTypes.Build?
 }
 
@@ -11964,7 +11964,7 @@ extension CodeBuildClientTypes.S3LogsConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about S3 logs for a build project.
-    public struct S3LogsConfig: Swift.Equatable {
+    public struct S3LogsConfig {
         /// Specifies the bucket owner's access for objects that another account uploads to their Amazon S3 bucket. By default, only the account that uploads the objects to the bucket has access to these objects. This property allows you to give the bucket owner access to these objects. To use this property, your CodeBuild service role must have the s3:PutBucketAcl permission. This permission allows CodeBuild to modify the access control list for the bucket. This property can be one of the following values: NONE The bucket owner does not have access to the objects. This is the default. READ_ONLY The bucket owner has read-only access to the objects. The uploading account retains ownership of the objects. FULL The bucket owner has full access to the objects. Object ownership is determined by the following criteria:
         ///
         /// * If the bucket is configured with the Bucket owner preferred setting, the bucket owner owns the objects. The uploading account will have object access as specified by the bucket's policy.
@@ -12053,7 +12053,7 @@ extension CodeBuildClientTypes.S3ReportExportConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the S3 bucket where the raw data of a report are exported.
-    public struct S3ReportExportConfig: Swift.Equatable {
+    public struct S3ReportExportConfig {
         /// The name of the S3 bucket where the raw data of a report are exported.
         public var bucket: Swift.String?
         /// The Amazon Web Services account identifier of the owner of the Amazon S3 bucket. This allows report data to be exported to an Amazon S3 bucket that is owned by an account other than the account running the build.
@@ -12136,7 +12136,7 @@ extension CodeBuildClientTypes.ScalingConfigurationInput: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// The scaling configuration input of a compute fleet.
-    public struct ScalingConfigurationInput: Swift.Equatable {
+    public struct ScalingConfigurationInput {
         /// The maximum number of instances in the ﬂeet when auto-scaling.
         public var maxCapacity: Swift.Int?
         /// The scaling type for a compute fleet.
@@ -12209,7 +12209,7 @@ extension CodeBuildClientTypes.ScalingConfigurationOutput: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// The scaling configuration output of a compute fleet.
-    public struct ScalingConfigurationOutput: Swift.Equatable {
+    public struct ScalingConfigurationOutput {
         /// The desired number of instances in the ﬂeet when auto-scaling.
         public var desiredCapacity: Swift.Int?
         /// The maximum number of instances in the ﬂeet when auto-scaling.
@@ -12367,7 +12367,7 @@ extension CodeBuildClientTypes.SourceAuth: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the authorization settings for CodeBuild to access the source code to be built. This information is for the CodeBuild console's use only. Your code should not get or set this information directly.
-    public struct SourceAuth: Swift.Equatable {
+    public struct SourceAuth {
         /// The resource value that applies to the specified authorization type.
         public var resource: Swift.String?
         /// The authorization type to use. Valid options are OAUTH or CODECONNECTIONS.
@@ -12457,7 +12457,7 @@ extension CodeBuildClientTypes.SourceCredentialsInfo: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the credentials for a GitHub, GitHub Enterprise, GitLab, GitLab Self Managed, or Bitbucket repository.
-    public struct SourceCredentialsInfo: Swift.Equatable {
+    public struct SourceCredentialsInfo {
         /// The Amazon Resource Name (ARN) of the token.
         public var arn: Swift.String?
         /// The type of authentication used by the credentials. Valid options are OAUTH, BASIC_AUTH, PERSONAL_ACCESS_TOKEN, or CODECONNECTIONS.
@@ -12688,7 +12688,7 @@ extension StartBuildBatchInput {
     }
 }
 
-public struct StartBuildBatchInput: Swift.Equatable {
+public struct StartBuildBatchInput {
     /// An array of ProjectArtifacts objects that contains information about the build output artifact overrides for the build project.
     public var artifactsOverride: CodeBuildClientTypes.ProjectArtifacts?
     /// A BuildBatchConfigOverride object that contains batch build configuration overrides.
@@ -12821,7 +12821,7 @@ public struct StartBuildBatchInput: Swift.Equatable {
     }
 }
 
-struct StartBuildBatchInputBody: Swift.Equatable {
+struct StartBuildBatchInputBody {
     let projectName: Swift.String?
     let secondarySourcesOverride: [CodeBuildClientTypes.ProjectSource]?
     let secondarySourcesVersionOverride: [CodeBuildClientTypes.ProjectSourceVersion]?
@@ -13005,7 +13005,7 @@ extension StartBuildBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBuildBatchOutput: Swift.Equatable {
+public struct StartBuildBatchOutput {
     /// A BuildBatch object that contains information about the batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
@@ -13017,7 +13017,7 @@ public struct StartBuildBatchOutput: Swift.Equatable {
     }
 }
 
-struct StartBuildBatchOutputBody: Swift.Equatable {
+struct StartBuildBatchOutputBody {
     let buildBatch: CodeBuildClientTypes.BuildBatch?
 }
 
@@ -13201,7 +13201,7 @@ extension StartBuildInput {
     }
 }
 
-public struct StartBuildInput: Swift.Equatable {
+public struct StartBuildInput {
     /// Build output artifact settings that override, for this build only, the latest ones already defined in the build project.
     public var artifactsOverride: CodeBuildClientTypes.ProjectArtifacts?
     /// Contains information that defines how the build project reports the build status to the source provider. This option is only used when the source provider is GITHUB, GITHUB_ENTERPRISE, or BITBUCKET.
@@ -13338,7 +13338,7 @@ public struct StartBuildInput: Swift.Equatable {
     }
 }
 
-struct StartBuildInputBody: Swift.Equatable {
+struct StartBuildInputBody {
     let projectName: Swift.String?
     let secondarySourcesOverride: [CodeBuildClientTypes.ProjectSource]?
     let secondarySourcesVersionOverride: [CodeBuildClientTypes.ProjectSourceVersion]?
@@ -13526,7 +13526,7 @@ extension StartBuildOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBuildOutput: Swift.Equatable {
+public struct StartBuildOutput {
     /// Information about the build to be run.
     public var build: CodeBuildClientTypes.Build?
 
@@ -13538,7 +13538,7 @@ public struct StartBuildOutput: Swift.Equatable {
     }
 }
 
-struct StartBuildOutputBody: Swift.Equatable {
+struct StartBuildOutputBody {
     let build: CodeBuildClientTypes.Build?
 }
 
@@ -13631,7 +13631,7 @@ extension StopBuildBatchInput {
     }
 }
 
-public struct StopBuildBatchInput: Swift.Equatable {
+public struct StopBuildBatchInput {
     /// The identifier of the batch build to stop.
     /// This member is required.
     public var id: Swift.String?
@@ -13644,7 +13644,7 @@ public struct StopBuildBatchInput: Swift.Equatable {
     }
 }
 
-struct StopBuildBatchInputBody: Swift.Equatable {
+struct StopBuildBatchInputBody {
     let id: Swift.String?
 }
 
@@ -13672,7 +13672,7 @@ extension StopBuildBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBuildBatchOutput: Swift.Equatable {
+public struct StopBuildBatchOutput {
     /// Contains information about a batch build.
     public var buildBatch: CodeBuildClientTypes.BuildBatch?
 
@@ -13684,7 +13684,7 @@ public struct StopBuildBatchOutput: Swift.Equatable {
     }
 }
 
-struct StopBuildBatchOutputBody: Swift.Equatable {
+struct StopBuildBatchOutputBody {
     let buildBatch: CodeBuildClientTypes.BuildBatch?
 }
 
@@ -13732,7 +13732,7 @@ extension StopBuildInput {
     }
 }
 
-public struct StopBuildInput: Swift.Equatable {
+public struct StopBuildInput {
     /// The ID of the build.
     /// This member is required.
     public var id: Swift.String?
@@ -13745,7 +13745,7 @@ public struct StopBuildInput: Swift.Equatable {
     }
 }
 
-struct StopBuildInputBody: Swift.Equatable {
+struct StopBuildInputBody {
     let id: Swift.String?
 }
 
@@ -13773,7 +13773,7 @@ extension StopBuildOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBuildOutput: Swift.Equatable {
+public struct StopBuildOutput {
     /// Information about the build.
     public var build: CodeBuildClientTypes.Build?
 
@@ -13785,7 +13785,7 @@ public struct StopBuildOutput: Swift.Equatable {
     }
 }
 
-struct StopBuildOutputBody: Swift.Equatable {
+struct StopBuildOutputBody {
     let build: CodeBuildClientTypes.Build?
 }
 
@@ -13840,7 +13840,7 @@ extension CodeBuildClientTypes.Tag: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A tag, consisting of a key and a value. This tag is available for use by Amazon Web Services services that support tags in CodeBuild.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         public var key: Swift.String?
         /// The tag's value.
@@ -13885,7 +13885,7 @@ extension CodeBuildClientTypes.TargetTrackingScalingConfiguration: Swift.Codable
 
 extension CodeBuildClientTypes {
     /// Defines when a new instance is auto-scaled into the compute fleet.
-    public struct TargetTrackingScalingConfiguration: Swift.Equatable {
+    public struct TargetTrackingScalingConfiguration {
         /// The metric type to determine auto-scaling.
         public var metricType: CodeBuildClientTypes.FleetScalingMetricType?
         /// The value of metricType when to start scaling.
@@ -13966,7 +13966,7 @@ extension CodeBuildClientTypes.TestCase: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a test case created using a framework such as NUnit or Cucumber. A test case might be a unit test or a configuration test.
-    public struct TestCase: Swift.Equatable {
+    public struct TestCase {
         /// The number of nanoseconds it took to run this test case.
         public var durationInNanoSeconds: Swift.Int?
         /// The date and time a test case expires. A test case expires 30 days after it is created. An expired test case is not available to view in CodeBuild.
@@ -14035,7 +14035,7 @@ extension CodeBuildClientTypes.TestCaseFilter: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A filter used to return specific types of test cases. In order to pass the filter, the report must meet all of the filter properties.
-    public struct TestCaseFilter: Swift.Equatable {
+    public struct TestCaseFilter {
         /// A keyword that is used to filter on the name or the prefix of the test cases. Only test cases where the keyword is a substring of the name or the prefix will be returned.
         public var keyword: Swift.String?
         /// The status used to filter test cases. A TestCaseFilter can have one status. Valid values are:
@@ -14108,7 +14108,7 @@ extension CodeBuildClientTypes.TestReportSummary: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a test report.
-    public struct TestReportSummary: Swift.Equatable {
+    public struct TestReportSummary {
         /// The number of nanoseconds it took to run all of the test cases in this report.
         /// This member is required.
         public var durationInNanoSeconds: Swift.Int?
@@ -14180,7 +14180,7 @@ extension UpdateFleetInput {
     }
 }
 
-public struct UpdateFleetInput: Swift.Equatable {
+public struct UpdateFleetInput {
     /// The ARN of the compute fleet.
     /// This member is required.
     public var arn: Swift.String?
@@ -14265,7 +14265,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetInputBody: Swift.Equatable {
+struct UpdateFleetInputBody {
     let arn: Swift.String?
     let baseCapacity: Swift.Int?
     let environmentType: CodeBuildClientTypes.EnvironmentType?
@@ -14326,7 +14326,7 @@ extension UpdateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetOutput: Swift.Equatable {
+public struct UpdateFleetOutput {
     /// A Fleet object.
     public var fleet: CodeBuildClientTypes.Fleet?
 
@@ -14338,7 +14338,7 @@ public struct UpdateFleetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetOutputBody: Swift.Equatable {
+struct UpdateFleetOutputBody {
     let fleet: CodeBuildClientTypes.Fleet?
 }
 
@@ -14482,7 +14482,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// Information to be changed about the build output artifacts for the build project.
     public var artifacts: CodeBuildClientTypes.ProjectArtifacts?
     /// Set this to true to generate a publicly accessible URL for your project's build badge.
@@ -14586,7 +14586,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let source: CodeBuildClientTypes.ProjectSource?
@@ -14739,7 +14739,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// Information about the build project that was changed.
     public var project: CodeBuildClientTypes.Project?
 
@@ -14751,7 +14751,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let project: CodeBuildClientTypes.Project?
 }
 
@@ -14807,7 +14807,7 @@ extension UpdateProjectVisibilityInput {
     }
 }
 
-public struct UpdateProjectVisibilityInput: Swift.Equatable {
+public struct UpdateProjectVisibilityInput {
     /// The Amazon Resource Name (ARN) of the build project.
     /// This member is required.
     public var projectArn: Swift.String?
@@ -14829,7 +14829,7 @@ public struct UpdateProjectVisibilityInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectVisibilityInputBody: Swift.Equatable {
+struct UpdateProjectVisibilityInputBody {
     let projectArn: Swift.String?
     let projectVisibility: CodeBuildClientTypes.ProjectVisibilityType?
     let resourceAccessRole: Swift.String?
@@ -14869,7 +14869,7 @@ extension UpdateProjectVisibilityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectVisibilityOutput: Swift.Equatable {
+public struct UpdateProjectVisibilityOutput {
     /// The Amazon Resource Name (ARN) of the build project.
     public var projectArn: Swift.String?
     /// Specifies the visibility of the project's builds. Possible values are: PUBLIC_READ The project builds are visible to the public. PRIVATE The project builds are not visible to the public.
@@ -14889,7 +14889,7 @@ public struct UpdateProjectVisibilityOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectVisibilityOutputBody: Swift.Equatable {
+struct UpdateProjectVisibilityOutputBody {
     let projectArn: Swift.String?
     let publicProjectAlias: Swift.String?
     let projectVisibility: CodeBuildClientTypes.ProjectVisibilityType?
@@ -14956,7 +14956,7 @@ extension UpdateReportGroupInput {
     }
 }
 
-public struct UpdateReportGroupInput: Swift.Equatable {
+public struct UpdateReportGroupInput {
     /// The ARN of the report group to update.
     /// This member is required.
     public var arn: Swift.String?
@@ -14981,7 +14981,7 @@ public struct UpdateReportGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateReportGroupInputBody: Swift.Equatable {
+struct UpdateReportGroupInputBody {
     let arn: Swift.String?
     let exportConfig: CodeBuildClientTypes.ReportExportConfig?
     let tags: [CodeBuildClientTypes.Tag]?
@@ -15026,7 +15026,7 @@ extension UpdateReportGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReportGroupOutput: Swift.Equatable {
+public struct UpdateReportGroupOutput {
     /// Information about the updated report group.
     public var reportGroup: CodeBuildClientTypes.ReportGroup?
 
@@ -15038,7 +15038,7 @@ public struct UpdateReportGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReportGroupOutputBody: Swift.Equatable {
+struct UpdateReportGroupOutputBody {
     let reportGroup: CodeBuildClientTypes.ReportGroup?
 }
 
@@ -15108,7 +15108,7 @@ extension UpdateWebhookInput {
     }
 }
 
-public struct UpdateWebhookInput: Swift.Equatable {
+public struct UpdateWebhookInput {
     /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
     public var branchFilter: Swift.String?
     /// Specifies the type of build this webhook will trigger.
@@ -15137,7 +15137,7 @@ public struct UpdateWebhookInput: Swift.Equatable {
     }
 }
 
-struct UpdateWebhookInputBody: Swift.Equatable {
+struct UpdateWebhookInputBody {
     let projectName: Swift.String?
     let branchFilter: Swift.String?
     let rotateSecret: Swift.Bool?
@@ -15199,7 +15199,7 @@ extension UpdateWebhookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWebhookOutput: Swift.Equatable {
+public struct UpdateWebhookOutput {
     /// Information about a repository's webhook that is associated with a project in CodeBuild.
     public var webhook: CodeBuildClientTypes.Webhook?
 
@@ -15211,7 +15211,7 @@ public struct UpdateWebhookOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWebhookOutputBody: Swift.Equatable {
+struct UpdateWebhookOutputBody {
     let webhook: CodeBuildClientTypes.Webhook?
 }
 
@@ -15297,7 +15297,7 @@ extension CodeBuildClientTypes.VpcConfig: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about the VPC configuration that CodeBuild accesses.
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// A list of one or more security groups IDs in your Amazon VPC.
         public var securityGroupIds: [Swift.String]?
         /// A list of one or more subnet IDs in your Amazon VPC.
@@ -15400,7 +15400,7 @@ extension CodeBuildClientTypes.Webhook: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// Information about a webhook that connects repository events to a build project in CodeBuild.
-    public struct Webhook: Swift.Equatable {
+    public struct Webhook {
         /// A regular expression used to determine which repository branches are built when a webhook is triggered. If the name of a branch matches the regular expression, then it is built. If branchFilter is empty, then all branches are built. It is recommended that you use filterGroups instead of branchFilter.
         public var branchFilter: Swift.String?
         /// Specifies the type of build this webhook will trigger.
@@ -15503,7 +15503,7 @@ extension CodeBuildClientTypes.WebhookFilter: Swift.Codable {
 
 extension CodeBuildClientTypes {
     /// A filter used to determine which webhooks trigger a build.
-    public struct WebhookFilter: Swift.Equatable {
+    public struct WebhookFilter {
         /// Used to indicate that the pattern determines which webhook events do not trigger a build. If true, then a webhook event that does not match the pattern triggers a build. If false, then a webhook event that matches the pattern triggers a build.
         public var excludeMatchedPattern: Swift.Bool?
         /// For a WebHookFilter that uses EVENT type, a comma-separated string that specifies one or more events. For example, the webhook filter PUSH, PULL_REQUEST_CREATED, PULL_REQUEST_UPDATED allows all push, pull request created, and pull request updated events to trigger a build. For a WebHookFilter that uses any of the other filter types, a regular expression pattern. For example, a WebHookFilter that uses HEAD_REF for its type and the pattern ^refs/heads/ triggers a build when the head reference is a branch with a reference name refs/heads/branch-name.

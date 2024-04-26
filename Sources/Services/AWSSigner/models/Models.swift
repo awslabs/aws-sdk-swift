@@ -46,7 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -105,7 +105,7 @@ extension AddProfilePermissionInput {
     }
 }
 
-public struct AddProfilePermissionInput: Swift.Equatable {
+public struct AddProfilePermissionInput {
     /// The AWS Signer action permitted as part of cross-account permissions.
     /// This member is required.
     public var action: Swift.String?
@@ -141,7 +141,7 @@ public struct AddProfilePermissionInput: Swift.Equatable {
     }
 }
 
-struct AddProfilePermissionInputBody: Swift.Equatable {
+struct AddProfilePermissionInputBody {
     let profileVersion: Swift.String?
     let action: Swift.String?
     let principal: Swift.String?
@@ -185,7 +185,7 @@ extension AddProfilePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddProfilePermissionOutput: Swift.Equatable {
+public struct AddProfilePermissionOutput {
     /// A unique identifier for the current profile revision.
     public var revisionId: Swift.String?
 
@@ -197,7 +197,7 @@ public struct AddProfilePermissionOutput: Swift.Equatable {
     }
 }
 
-struct AddProfilePermissionOutputBody: Swift.Equatable {
+struct AddProfilePermissionOutputBody {
     let revisionId: Swift.String?
 }
 
@@ -274,7 +274,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -304,7 +304,7 @@ extension CancelSigningProfileInput {
     }
 }
 
-public struct CancelSigningProfileInput: Swift.Equatable {
+public struct CancelSigningProfileInput {
     /// The name of the signing profile to be canceled.
     /// This member is required.
     public var profileName: Swift.String?
@@ -317,7 +317,7 @@ public struct CancelSigningProfileInput: Swift.Equatable {
     }
 }
 
-struct CancelSigningProfileInputBody: Swift.Equatable {
+struct CancelSigningProfileInputBody {
 }
 
 extension CancelSigningProfileInputBody: Swift.Decodable {
@@ -331,7 +331,7 @@ extension CancelSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelSigningProfileOutput: Swift.Equatable {
+public struct CancelSigningProfileOutput {
 
     public init() { }
 }
@@ -423,7 +423,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -453,7 +453,7 @@ extension DescribeSigningJobInput {
     }
 }
 
-public struct DescribeSigningJobInput: Swift.Equatable {
+public struct DescribeSigningJobInput {
     /// The ID of the signing job on input.
     /// This member is required.
     public var jobId: Swift.String?
@@ -466,7 +466,7 @@ public struct DescribeSigningJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeSigningJobInputBody: Swift.Equatable {
+struct DescribeSigningJobInputBody {
 }
 
 extension DescribeSigningJobInputBody: Swift.Decodable {
@@ -523,7 +523,7 @@ extension DescribeSigningJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSigningJobOutput: Swift.Equatable {
+public struct DescribeSigningJobOutput {
     /// Date and time that the signing job was completed.
     public var completedAt: ClientRuntime.Date?
     /// Date and time that the signing job was created.
@@ -607,7 +607,7 @@ public struct DescribeSigningJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSigningJobOutputBody: Swift.Equatable {
+struct DescribeSigningJobOutputBody {
     let jobId: Swift.String?
     let source: SignerClientTypes.Source?
     let signingMaterial: SignerClientTypes.SigningMaterial?
@@ -739,7 +739,7 @@ extension SignerClientTypes.Destination: Swift.Codable {
 
 extension SignerClientTypes {
     /// Points to an S3Destination object that contains information about your S3 bucket.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// The S3Destination object.
         public var s3: SignerClientTypes.S3Destination?
 
@@ -824,7 +824,7 @@ extension SignerClientTypes.EncryptionAlgorithmOptions: Swift.Codable {
 
 extension SignerClientTypes {
     /// The encryption algorithm options that are available to a code-signing job.
-    public struct EncryptionAlgorithmOptions: Swift.Equatable {
+    public struct EncryptionAlgorithmOptions {
         /// The set of accepted encryption algorithms that are allowed in a code-signing job.
         /// This member is required.
         public var allowedValues: [SignerClientTypes.EncryptionAlgorithm]?
@@ -891,7 +891,7 @@ extension GetRevocationStatusInput {
     }
 }
 
-public struct GetRevocationStatusInput: Swift.Equatable {
+public struct GetRevocationStatusInput {
     /// A list of composite signed hashes that identify certificates. A certificate identifier consists of a subject certificate TBS hash (signed by the parent CA) combined with a parent CA TBS hash (signed by the parent CA’s CA). Root certificates are defined as their own CA. The following example shows how to calculate a hash for this parameter using OpenSSL commands: openssl asn1parse -in childCert.pem -strparse 4 -out childCert.tbs
     ///     openssl sha384 < childCert.tbs -binary > childCertTbsHash
     ///
@@ -934,7 +934,7 @@ public struct GetRevocationStatusInput: Swift.Equatable {
     }
 }
 
-struct GetRevocationStatusInputBody: Swift.Equatable {
+struct GetRevocationStatusInputBody {
 }
 
 extension GetRevocationStatusInputBody: Swift.Decodable {
@@ -955,7 +955,7 @@ extension GetRevocationStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRevocationStatusOutput: Swift.Equatable {
+public struct GetRevocationStatusOutput {
     /// A list of revoked entities (including zero or more of the signing profile ARN, signing job ARN, and certificate hashes) supplied as input to the API.
     public var revokedEntities: [Swift.String]?
 
@@ -967,7 +967,7 @@ public struct GetRevocationStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetRevocationStatusOutputBody: Swift.Equatable {
+struct GetRevocationStatusOutputBody {
     let revokedEntities: [Swift.String]?
 }
 
@@ -1016,7 +1016,7 @@ extension GetSigningPlatformInput {
     }
 }
 
-public struct GetSigningPlatformInput: Swift.Equatable {
+public struct GetSigningPlatformInput {
     /// The ID of the target signing platform.
     /// This member is required.
     public var platformId: Swift.String?
@@ -1029,7 +1029,7 @@ public struct GetSigningPlatformInput: Swift.Equatable {
     }
 }
 
-struct GetSigningPlatformInputBody: Swift.Equatable {
+struct GetSigningPlatformInputBody {
 }
 
 extension GetSigningPlatformInputBody: Swift.Decodable {
@@ -1066,7 +1066,7 @@ extension GetSigningPlatformOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSigningPlatformOutput: Swift.Equatable {
+public struct GetSigningPlatformOutput {
     /// The category type of the target signing platform.
     public var category: SignerClientTypes.Category?
     /// The display name of the target signing platform.
@@ -1110,7 +1110,7 @@ public struct GetSigningPlatformOutput: Swift.Equatable {
     }
 }
 
-struct GetSigningPlatformOutputBody: Swift.Equatable {
+struct GetSigningPlatformOutputBody {
     let platformId: Swift.String?
     let displayName: Swift.String?
     let partner: Swift.String?
@@ -1194,7 +1194,7 @@ extension GetSigningProfileInput {
     }
 }
 
-public struct GetSigningProfileInput: Swift.Equatable {
+public struct GetSigningProfileInput {
     /// The name of the target signing profile.
     /// This member is required.
     public var profileName: Swift.String?
@@ -1211,7 +1211,7 @@ public struct GetSigningProfileInput: Swift.Equatable {
     }
 }
 
-struct GetSigningProfileInputBody: Swift.Equatable {
+struct GetSigningProfileInputBody {
 }
 
 extension GetSigningProfileInputBody: Swift.Decodable {
@@ -1258,7 +1258,7 @@ extension GetSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSigningProfileOutput: Swift.Equatable {
+public struct GetSigningProfileOutput {
     /// The Amazon Resource Name (ARN) for the signing profile.
     public var arn: Swift.String?
     /// A list of overrides applied by the target signing profile for signing operations.
@@ -1322,7 +1322,7 @@ public struct GetSigningProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetSigningProfileOutputBody: Swift.Equatable {
+struct GetSigningProfileOutputBody {
     let profileName: Swift.String?
     let profileVersion: Swift.String?
     let profileVersionArn: Swift.String?
@@ -1493,7 +1493,7 @@ extension SignerClientTypes.HashAlgorithmOptions: Swift.Codable {
 
 extension SignerClientTypes {
     /// The hash algorithms that are available to a code-signing job.
-    public struct HashAlgorithmOptions: Swift.Equatable {
+    public struct HashAlgorithmOptions {
         /// The set of accepted hash algorithms allowed in a code-signing job.
         /// This member is required.
         public var allowedValues: [SignerClientTypes.HashAlgorithm]?
@@ -1592,7 +1592,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -1634,7 +1634,7 @@ extension ListProfilePermissionsInput {
     }
 }
 
-public struct ListProfilePermissionsInput: Swift.Equatable {
+public struct ListProfilePermissionsInput {
     /// String for specifying the next set of paginated results.
     public var nextToken: Swift.String?
     /// Name of the signing profile containing the cross-account permissions.
@@ -1651,7 +1651,7 @@ public struct ListProfilePermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListProfilePermissionsInputBody: Swift.Equatable {
+struct ListProfilePermissionsInputBody {
 }
 
 extension ListProfilePermissionsInputBody: Swift.Decodable {
@@ -1678,7 +1678,7 @@ extension ListProfilePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilePermissionsOutput: Swift.Equatable {
+public struct ListProfilePermissionsOutput {
     /// String for specifying the next set of paginated results.
     public var nextToken: Swift.String?
     /// List of permissions associated with the Signing Profile.
@@ -1702,7 +1702,7 @@ public struct ListProfilePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilePermissionsOutputBody: Swift.Equatable {
+struct ListProfilePermissionsOutputBody {
     let revisionId: Swift.String?
     let policySizeBytes: Swift.Int
     let permissions: [SignerClientTypes.Permission]?
@@ -1805,7 +1805,7 @@ extension ListSigningJobsInput {
     }
 }
 
-public struct ListSigningJobsInput: Swift.Equatable {
+public struct ListSigningJobsInput {
     /// Filters results to return only signing jobs with revoked signatures.
     public var isRevoked: Swift.Bool?
     /// Filters results to return only signing jobs initiated by a specified IAM entity.
@@ -1849,7 +1849,7 @@ public struct ListSigningJobsInput: Swift.Equatable {
     }
 }
 
-struct ListSigningJobsInputBody: Swift.Equatable {
+struct ListSigningJobsInputBody {
 }
 
 extension ListSigningJobsInputBody: Swift.Decodable {
@@ -1872,7 +1872,7 @@ extension ListSigningJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSigningJobsOutput: Swift.Equatable {
+public struct ListSigningJobsOutput {
     /// A list of your signing jobs.
     public var jobs: [SignerClientTypes.SigningJob]?
     /// String for specifying the next set of paginated results.
@@ -1888,7 +1888,7 @@ public struct ListSigningJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListSigningJobsOutputBody: Swift.Equatable {
+struct ListSigningJobsOutputBody {
     let jobs: [SignerClientTypes.SigningJob]?
     let nextToken: Swift.String?
 }
@@ -1966,7 +1966,7 @@ extension ListSigningPlatformsInput {
     }
 }
 
-public struct ListSigningPlatformsInput: Swift.Equatable {
+public struct ListSigningPlatformsInput {
     /// The category type of a signing platform.
     public var category: Swift.String?
     /// The maximum number of results to be returned by this operation.
@@ -1994,7 +1994,7 @@ public struct ListSigningPlatformsInput: Swift.Equatable {
     }
 }
 
-struct ListSigningPlatformsInputBody: Swift.Equatable {
+struct ListSigningPlatformsInputBody {
 }
 
 extension ListSigningPlatformsInputBody: Swift.Decodable {
@@ -2017,7 +2017,7 @@ extension ListSigningPlatformsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSigningPlatformsOutput: Swift.Equatable {
+public struct ListSigningPlatformsOutput {
     /// Value for specifying the next set of paginated results to return.
     public var nextToken: Swift.String?
     /// A list of all platforms that match the request parameters.
@@ -2033,7 +2033,7 @@ public struct ListSigningPlatformsOutput: Swift.Equatable {
     }
 }
 
-struct ListSigningPlatformsOutputBody: Swift.Equatable {
+struct ListSigningPlatformsOutputBody {
     let platforms: [SignerClientTypes.SigningPlatform]?
     let nextToken: Swift.String?
 }
@@ -2113,7 +2113,7 @@ extension ListSigningProfilesInput {
     }
 }
 
-public struct ListSigningProfilesInput: Swift.Equatable {
+public struct ListSigningProfilesInput {
     /// Designates whether to include profiles with the status of CANCELED.
     public var includeCanceled: Swift.Bool?
     /// The maximum number of profiles to be returned.
@@ -2141,7 +2141,7 @@ public struct ListSigningProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListSigningProfilesInputBody: Swift.Equatable {
+struct ListSigningProfilesInputBody {
 }
 
 extension ListSigningProfilesInputBody: Swift.Decodable {
@@ -2164,7 +2164,7 @@ extension ListSigningProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSigningProfilesOutput: Swift.Equatable {
+public struct ListSigningProfilesOutput {
     /// Value for specifying the next set of paginated results to return.
     public var nextToken: Swift.String?
     /// A list of profiles that are available in the AWS account. This includes profiles with the status of CANCELED if the includeCanceled parameter is set to true.
@@ -2180,7 +2180,7 @@ public struct ListSigningProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListSigningProfilesOutputBody: Swift.Equatable {
+struct ListSigningProfilesOutputBody {
     let profiles: [SignerClientTypes.SigningProfile]?
     let nextToken: Swift.String?
 }
@@ -2232,7 +2232,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the signing profile.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2245,7 +2245,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2266,7 +2266,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags associated with the signing profile.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2278,7 +2278,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2361,7 +2361,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -2420,7 +2420,7 @@ extension SignerClientTypes.Permission: Swift.Codable {
 
 extension SignerClientTypes {
     /// A cross-account permission for a signing profile.
-    public struct Permission: Swift.Equatable {
+    public struct Permission {
         /// An AWS Signer action permitted as part of cross-account permissions.
         public var action: Swift.String?
         /// The AWS principal that has been granted a cross-account permission.
@@ -2495,7 +2495,7 @@ extension PutSigningProfileInput {
     }
 }
 
-public struct PutSigningProfileInput: Swift.Equatable {
+public struct PutSigningProfileInput {
     /// A subfield of platform. This specifies any different configuration options that you want to apply to the chosen platform (such as a different hash-algorithm or signing-algorithm).
     public var overrides: SignerClientTypes.SigningPlatformOverrides?
     /// The ID of the signing platform to be created.
@@ -2533,7 +2533,7 @@ public struct PutSigningProfileInput: Swift.Equatable {
     }
 }
 
-struct PutSigningProfileInputBody: Swift.Equatable {
+struct PutSigningProfileInputBody {
     let signingMaterial: SignerClientTypes.SigningMaterial?
     let signatureValidityPeriod: SignerClientTypes.SignatureValidityPeriod?
     let platformId: Swift.String?
@@ -2603,7 +2603,7 @@ extension PutSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutSigningProfileOutput: Swift.Equatable {
+public struct PutSigningProfileOutput {
     /// The Amazon Resource Name (ARN) of the signing profile created.
     public var arn: Swift.String?
     /// The version of the signing profile being created.
@@ -2623,7 +2623,7 @@ public struct PutSigningProfileOutput: Swift.Equatable {
     }
 }
 
-struct PutSigningProfileOutputBody: Swift.Equatable {
+struct PutSigningProfileOutputBody {
     let arn: Swift.String?
     let profileVersion: Swift.String?
     let profileVersionArn: Swift.String?
@@ -2689,7 +2689,7 @@ extension RemoveProfilePermissionInput {
     }
 }
 
-public struct RemoveProfilePermissionInput: Swift.Equatable {
+public struct RemoveProfilePermissionInput {
     /// A human-readable name for the signing profile with permissions to be removed.
     /// This member is required.
     public var profileName: Swift.String?
@@ -2712,7 +2712,7 @@ public struct RemoveProfilePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemoveProfilePermissionInputBody: Swift.Equatable {
+struct RemoveProfilePermissionInputBody {
 }
 
 extension RemoveProfilePermissionInputBody: Swift.Decodable {
@@ -2733,7 +2733,7 @@ extension RemoveProfilePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveProfilePermissionOutput: Swift.Equatable {
+public struct RemoveProfilePermissionOutput {
     /// An identifier for the current revision of the profile permissions.
     public var revisionId: Swift.String?
 
@@ -2745,7 +2745,7 @@ public struct RemoveProfilePermissionOutput: Swift.Equatable {
     }
 }
 
-struct RemoveProfilePermissionOutputBody: Swift.Equatable {
+struct RemoveProfilePermissionOutputBody {
     let revisionId: Swift.String?
 }
 
@@ -2821,7 +2821,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -2868,7 +2868,7 @@ extension RevokeSignatureInput {
     }
 }
 
-public struct RevokeSignatureInput: Swift.Equatable {
+public struct RevokeSignatureInput {
     /// ID of the signing job to be revoked.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2890,7 +2890,7 @@ public struct RevokeSignatureInput: Swift.Equatable {
     }
 }
 
-struct RevokeSignatureInputBody: Swift.Equatable {
+struct RevokeSignatureInputBody {
     let jobOwner: Swift.String?
     let reason: Swift.String?
 }
@@ -2915,7 +2915,7 @@ extension RevokeSignatureOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeSignatureOutput: Swift.Equatable {
+public struct RevokeSignatureOutput {
 
     public init() { }
 }
@@ -2966,7 +2966,7 @@ extension RevokeSigningProfileInput {
     }
 }
 
-public struct RevokeSigningProfileInput: Swift.Equatable {
+public struct RevokeSigningProfileInput {
     /// A timestamp for when revocation of a Signing Profile should become effective. Signatures generated using the signing profile after this timestamp are not trusted.
     /// This member is required.
     public var effectiveTime: ClientRuntime.Date?
@@ -2994,7 +2994,7 @@ public struct RevokeSigningProfileInput: Swift.Equatable {
     }
 }
 
-struct RevokeSigningProfileInputBody: Swift.Equatable {
+struct RevokeSigningProfileInputBody {
     let profileVersion: Swift.String?
     let reason: Swift.String?
     let effectiveTime: ClientRuntime.Date?
@@ -3023,7 +3023,7 @@ extension RevokeSigningProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeSigningProfileOutput: Swift.Equatable {
+public struct RevokeSigningProfileOutput {
 
     public init() { }
 }
@@ -3070,7 +3070,7 @@ extension SignerClientTypes.S3Destination: Swift.Codable {
 
 extension SignerClientTypes {
     /// The name and prefix of the Amazon S3 bucket where AWS Signer saves your signed objects.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// Name of the S3 bucket.
         public var bucketName: Swift.String?
         /// An S3 prefix that you can use to limit responses to those that begin with the specified prefix.
@@ -3115,7 +3115,7 @@ extension SignerClientTypes.S3SignedObject: Swift.Codable {
 
 extension SignerClientTypes {
     /// The Amazon S3 bucket name and key where Signer saved your signed code image.
-    public struct S3SignedObject: Swift.Equatable {
+    public struct S3SignedObject {
         /// Name of the S3 bucket.
         public var bucketName: Swift.String?
         /// Key name that uniquely identifies a signed code image in your bucket.
@@ -3166,7 +3166,7 @@ extension SignerClientTypes.S3Source: Swift.Codable {
 
 extension SignerClientTypes {
     /// Information about the Amazon S3 bucket where you saved your unsigned code.
-    public struct S3Source: Swift.Equatable {
+    public struct S3Source {
         /// Name of the S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -3235,7 +3235,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceLimitExceededExceptionBody: Swift.Equatable {
+struct ServiceLimitExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -3287,7 +3287,7 @@ extension SignPayloadInput {
     }
 }
 
-public struct SignPayloadInput: Swift.Equatable {
+public struct SignPayloadInput {
     /// Specifies the object digest (hash) to sign.
     /// This member is required.
     public var payload: ClientRuntime.Data?
@@ -3314,7 +3314,7 @@ public struct SignPayloadInput: Swift.Equatable {
     }
 }
 
-struct SignPayloadInputBody: Swift.Equatable {
+struct SignPayloadInputBody {
     let profileName: Swift.String?
     let profileOwner: Swift.String?
     let payload: ClientRuntime.Data?
@@ -3360,7 +3360,7 @@ extension SignPayloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SignPayloadOutput: Swift.Equatable {
+public struct SignPayloadOutput {
     /// Unique identifier of the signing job.
     public var jobId: Swift.String?
     /// The AWS account ID of the job owner.
@@ -3384,7 +3384,7 @@ public struct SignPayloadOutput: Swift.Equatable {
     }
 }
 
-struct SignPayloadOutputBody: Swift.Equatable {
+struct SignPayloadOutputBody {
     let jobId: Swift.String?
     let jobOwner: Swift.String?
     let metadata: [Swift.String:Swift.String]?
@@ -3463,7 +3463,7 @@ extension SignerClientTypes.SignatureValidityPeriod: Swift.Codable {
 
 extension SignerClientTypes {
     /// The validity period for a signing job.
-    public struct SignatureValidityPeriod: Swift.Equatable {
+    public struct SignatureValidityPeriod {
         /// The time unit for signature validity.
         public var type: SignerClientTypes.ValidityType?
         /// The numerical value of the time unit for signature validity.
@@ -3502,7 +3502,7 @@ extension SignerClientTypes.SignedObject: Swift.Codable {
 
 extension SignerClientTypes {
     /// Points to an S3SignedObject object that contains information about your signed code image.
-    public struct SignedObject: Swift.Equatable {
+    public struct SignedObject {
         /// The S3SignedObject.
         public var s3: SignerClientTypes.S3SignedObject?
 
@@ -3545,7 +3545,7 @@ extension SignerClientTypes.SigningConfiguration: Swift.Codable {
 
 extension SignerClientTypes {
     /// The configuration of a signing operation.
-    public struct SigningConfiguration: Swift.Equatable {
+    public struct SigningConfiguration {
         /// The encryption algorithm options that are available for a code-signing job.
         /// This member is required.
         public var encryptionAlgorithmOptions: SignerClientTypes.EncryptionAlgorithmOptions?
@@ -3592,7 +3592,7 @@ extension SignerClientTypes.SigningConfigurationOverrides: Swift.Codable {
 
 extension SignerClientTypes {
     /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
-    public struct SigningConfigurationOverrides: Swift.Equatable {
+    public struct SigningConfigurationOverrides {
         /// A specified override of the default encryption algorithm that is used in a code-signing job.
         public var encryptionAlgorithm: SignerClientTypes.EncryptionAlgorithm?
         /// A specified override of the default hash algorithm that is used in a code-signing job.
@@ -3649,7 +3649,7 @@ extension SignerClientTypes.SigningImageFormat: Swift.Codable {
 
 extension SignerClientTypes {
     /// The image format of a AWS Signer platform or profile.
-    public struct SigningImageFormat: Swift.Equatable {
+    public struct SigningImageFormat {
         /// The default format of a signing image.
         /// This member is required.
         public var defaultFormat: SignerClientTypes.ImageFormat?
@@ -3768,7 +3768,7 @@ extension SignerClientTypes.SigningJob: Swift.Codable {
 
 extension SignerClientTypes {
     /// Contains information about a signing job.
-    public struct SigningJob: Swift.Equatable {
+    public struct SigningJob {
         /// The date and time that the signing job was created.
         public var createdAt: ClientRuntime.Date?
         /// Indicates whether the signing job is revoked.
@@ -3867,7 +3867,7 @@ extension SignerClientTypes.SigningJobRevocationRecord: Swift.Codable {
 
 extension SignerClientTypes {
     /// Revocation information for a signing job.
-    public struct SigningJobRevocationRecord: Swift.Equatable {
+    public struct SigningJobRevocationRecord {
         /// A caller-supplied reason for revocation.
         public var reason: Swift.String?
         /// The time of revocation.
@@ -3910,7 +3910,7 @@ extension SignerClientTypes.SigningMaterial: Swift.Codable {
 
 extension SignerClientTypes {
     /// The ACM certificate that is used to sign your code.
-    public struct SigningMaterial: Swift.Equatable {
+    public struct SigningMaterial {
         /// The Amazon Resource Name (ARN) of the certificates that is used to sign your code.
         /// This member is required.
         public var certificateArn: Swift.String?
@@ -3994,7 +3994,7 @@ extension SignerClientTypes.SigningPlatform: Swift.Codable {
 
 extension SignerClientTypes {
     /// Contains information about the signing configurations and parameters that are used to perform a code-signing job.
-    public struct SigningPlatform: Swift.Equatable {
+    public struct SigningPlatform {
         /// The category of a signing platform.
         public var category: SignerClientTypes.Category?
         /// The display name of a signing platform.
@@ -4067,7 +4067,7 @@ extension SignerClientTypes.SigningPlatformOverrides: Swift.Codable {
 
 extension SignerClientTypes {
     /// Any overrides that are applied to the signing configuration of a signing platform.
-    public struct SigningPlatformOverrides: Swift.Equatable {
+    public struct SigningPlatformOverrides {
         /// A signing configuration that overrides the default encryption or hash algorithm of a signing job.
         public var signingConfiguration: SignerClientTypes.SigningConfigurationOverrides?
         /// A signed image is a JSON object. When overriding the default signing platform configuration, a customer can select either of two signing formats, JSONEmbedded or JSONDetached. (A third format value, JSON, is reserved for future use.) With JSONEmbedded, the signing image has the payload embedded in it. With JSONDetached, the payload is not be embedded in the signing image.
@@ -4190,7 +4190,7 @@ extension SignerClientTypes.SigningProfile: Swift.Codable {
 
 extension SignerClientTypes {
     /// Contains information about the ACM certificates and signing configuration parameters that can be used by a given code signing user.
-    public struct SigningProfile: Swift.Equatable {
+    public struct SigningProfile {
         /// The Amazon Resource Name (ARN) for the signing profile.
         public var arn: Swift.String?
         /// The name of the signing platform.
@@ -4277,7 +4277,7 @@ extension SignerClientTypes.SigningProfileRevocationRecord: Swift.Codable {
 
 extension SignerClientTypes {
     /// Revocation information for a signing profile.
-    public struct SigningProfileRevocationRecord: Swift.Equatable {
+    public struct SigningProfileRevocationRecord {
         /// The time when revocation becomes effective.
         public var revocationEffectiveFrom: ClientRuntime.Date?
         /// The time when the signing profile was revoked.
@@ -4390,7 +4390,7 @@ extension SignerClientTypes.Source: Swift.Codable {
 
 extension SignerClientTypes {
     /// An S3Source object that contains information about the S3 bucket where you saved your unsigned code.
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// The S3Source object.
         public var s3: SignerClientTypes.S3Source?
 
@@ -4440,7 +4440,7 @@ extension StartSigningJobInput {
     }
 }
 
-public struct StartSigningJobInput: Swift.Equatable {
+public struct StartSigningJobInput {
     /// String that identifies the signing request. All calls after the first that use this token return the same response as the first call.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4472,7 +4472,7 @@ public struct StartSigningJobInput: Swift.Equatable {
     }
 }
 
-struct StartSigningJobInputBody: Swift.Equatable {
+struct StartSigningJobInputBody {
     let source: SignerClientTypes.Source?
     let destination: SignerClientTypes.Destination?
     let profileName: Swift.String?
@@ -4518,7 +4518,7 @@ extension StartSigningJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSigningJobOutput: Swift.Equatable {
+public struct StartSigningJobOutput {
     /// The ID of your signing job.
     public var jobId: Swift.String?
     /// The AWS account ID of the signing job owner.
@@ -4534,7 +4534,7 @@ public struct StartSigningJobOutput: Swift.Equatable {
     }
 }
 
-struct StartSigningJobOutputBody: Swift.Equatable {
+struct StartSigningJobOutputBody {
     let jobId: Swift.String?
     let jobOwner: Swift.String?
 }
@@ -4596,7 +4596,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the signing profile.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4614,7 +4614,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4644,7 +4644,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4708,7 +4708,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -4772,7 +4772,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -4818,7 +4818,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the signing profile.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4836,7 +4836,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4850,7 +4850,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4913,7 +4913,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }

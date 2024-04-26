@@ -30,7 +30,7 @@ extension AcceptInvitationInput {
     }
 }
 
-public struct AcceptInvitationInput: Swift.Equatable {
+public struct AcceptInvitationInput {
     /// The Amazon Web Services account ID for the account that sent the invitation.
     public var administratorAccountId: Swift.String?
     /// The unique identifier for the invitation to accept.
@@ -51,7 +51,7 @@ public struct AcceptInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptInvitationInputBody: Swift.Equatable {
+struct AcceptInvitationInputBody {
     let administratorAccountId: Swift.String?
     let invitationId: Swift.String?
     let masterAccount: Swift.String?
@@ -80,7 +80,7 @@ extension AcceptInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptInvitationOutput: Swift.Equatable {
+public struct AcceptInvitationOutput {
 
     public init() { }
 }
@@ -129,7 +129,7 @@ extension Macie2ClientTypes.AccessControlList: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the permissions settings of the bucket-level access control list (ACL) for an S3 bucket.
-    public struct AccessControlList: Swift.Equatable {
+    public struct AccessControlList {
         /// Specifies whether the ACL grants the general public with read access permissions for the bucket.
         public var allowsPublicReadAccess: Swift.Bool?
         /// Specifies whether the ACL grants the general public with write access permissions for the bucket.
@@ -187,7 +187,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -230,7 +230,7 @@ extension Macie2ClientTypes.AccountDetail: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the details of an account to associate with an Amazon Macie administrator account.
-    public struct AccountDetail: Swift.Equatable {
+    public struct AccountDetail {
         /// The Amazon Web Services account ID for the account.
         /// This member is required.
         public var accountId: Swift.String?
@@ -271,7 +271,7 @@ extension Macie2ClientTypes.AccountLevelPermissions: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the account-level permissions settings that apply to an S3 bucket.
-    public struct AccountLevelPermissions: Swift.Equatable {
+    public struct AccountLevelPermissions {
         /// The block public access settings for the Amazon Web Services account that owns the bucket.
         public var blockPublicAccess: Macie2ClientTypes.BlockPublicAccess?
 
@@ -312,7 +312,7 @@ extension Macie2ClientTypes.AdminAccount: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the delegated Amazon Macie administrator account for an organization in Organizations.
-    public struct AdminAccount: Swift.Equatable {
+    public struct AdminAccount {
         /// The Amazon Web Services account ID for the account.
         public var accountId: Swift.String?
         /// The current status of the account as the delegated Amazon Macie administrator account for the organization.
@@ -390,7 +390,7 @@ extension Macie2ClientTypes.AllowListCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the criteria for an allow list. The criteria must specify a regular expression (regex) or an S3 object (s3WordsList). It can't specify both.
-    public struct AllowListCriteria: Swift.Equatable {
+    public struct AllowListCriteria {
         /// The regular expression (regex) that defines the text pattern to ignore. The expression can contain as many as 512 characters.
         public var regex: Swift.String?
         /// The location and name of the S3 object that lists specific text to ignore.
@@ -435,7 +435,7 @@ extension Macie2ClientTypes.AllowListStatus: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the current status of an allow list, which indicates whether Amazon Macie can access and use the list's criteria.
-    public struct AllowListStatus: Swift.Equatable {
+    public struct AllowListStatus {
         /// The current status of the allow list. If the list's criteria specify a regular expression (regex), this value is typically OK. Amazon Macie can compile the expression. If the list's criteria specify an S3 object, possible values are:
         ///
         /// * OK - Macie can retrieve and parse the contents of the object.
@@ -572,7 +572,7 @@ extension Macie2ClientTypes.AllowListSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides a subset of information about an allow list.
-    public struct AllowListSummary: Swift.Equatable {
+    public struct AllowListSummary {
         /// The Amazon Resource Name (ARN) of the allow list.
         public var arn: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the allow list was created in Amazon Macie.
@@ -680,7 +680,7 @@ extension Macie2ClientTypes.ApiCallDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an API operation that an entity invoked for an affected resource.
-    public struct ApiCallDetails: Swift.Equatable {
+    public struct ApiCallDetails {
         /// The name of the operation that was invoked most recently and produced the finding.
         public var api: Swift.String?
         /// The URL of the Amazon Web Service that provides the operation, for example: s3.amazonaws.com.
@@ -751,7 +751,7 @@ extension Macie2ClientTypes.AssumedRole: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an identity that performed an action on an affected resource by using temporary security credentials. The credentials were obtained using the AssumeRole operation of the Security Token Service (STS) API.
-    public struct AssumedRole: Swift.Equatable {
+    public struct AssumedRole {
         /// The Amazon Web Services access key ID that identifies the credentials.
         public var accessKeyId: Swift.String?
         /// The unique identifier for the Amazon Web Services account that owns the entity that was used to get the credentials.
@@ -874,7 +874,7 @@ extension Macie2ClientTypes.AwsAccount: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an Amazon Web Services account and entity that performed an action on an affected resource. The action was performed using the credentials for an Amazon Web Services account other than your own account.
-    public struct AwsAccount: Swift.Equatable {
+    public struct AwsAccount {
         /// The unique identifier for the Amazon Web Services account.
         public var accountId: Swift.String?
         /// The unique identifier for the entity that performed the action.
@@ -913,7 +913,7 @@ extension Macie2ClientTypes.AwsService: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an Amazon Web Service that performed an action on an affected resource.
-    public struct AwsService: Swift.Equatable {
+    public struct AwsService {
         /// The name of the Amazon Web Service that performed the action.
         public var invokedBy: Swift.String?
 
@@ -978,7 +978,7 @@ extension Macie2ClientTypes.BatchGetCustomDataIdentifierSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a custom data identifier.
-    public struct BatchGetCustomDataIdentifierSummary: Swift.Equatable {
+    public struct BatchGetCustomDataIdentifierSummary {
         /// The Amazon Resource Name (ARN) of the custom data identifier.
         public var arn: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the custom data identifier was created.
@@ -1035,7 +1035,7 @@ extension BatchGetCustomDataIdentifiersInput {
     }
 }
 
-public struct BatchGetCustomDataIdentifiersInput: Swift.Equatable {
+public struct BatchGetCustomDataIdentifiersInput {
     /// An array of custom data identifier IDs, one for each custom data identifier to retrieve information about.
     public var ids: [Swift.String]?
 
@@ -1047,7 +1047,7 @@ public struct BatchGetCustomDataIdentifiersInput: Swift.Equatable {
     }
 }
 
-struct BatchGetCustomDataIdentifiersInputBody: Swift.Equatable {
+struct BatchGetCustomDataIdentifiersInputBody {
     let ids: [Swift.String]?
 }
 
@@ -1086,7 +1086,7 @@ extension BatchGetCustomDataIdentifiersOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct BatchGetCustomDataIdentifiersOutput: Swift.Equatable {
+public struct BatchGetCustomDataIdentifiersOutput {
     /// An array of objects, one for each custom data identifier that matches the criteria specified in the request.
     public var customDataIdentifiers: [Macie2ClientTypes.BatchGetCustomDataIdentifierSummary]?
     /// An array of custom data identifier IDs, one for each custom data identifier that was specified in the request but doesn't correlate to an existing custom data identifier.
@@ -1102,7 +1102,7 @@ public struct BatchGetCustomDataIdentifiersOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetCustomDataIdentifiersOutputBody: Swift.Equatable {
+struct BatchGetCustomDataIdentifiersOutputBody {
     let customDataIdentifiers: [Macie2ClientTypes.BatchGetCustomDataIdentifierSummary]?
     let notFoundIdentifierIds: [Swift.String]?
 }
@@ -1196,7 +1196,7 @@ extension Macie2ClientTypes.BlockPublicAccess: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the block public access settings for an S3 bucket. These settings can apply to a bucket at the account or bucket level. For detailed information about each setting, see [Blocking public access to your Amazon S3 storage](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-control-block-public-access.html) in the Amazon Simple Storage Service User Guide.
-    public struct BlockPublicAccess: Swift.Equatable {
+    public struct BlockPublicAccess {
         /// Specifies whether Amazon S3 blocks public access control lists (ACLs) for the bucket and objects in the bucket.
         public var blockPublicAcls: Swift.Bool?
         /// Specifies whether Amazon S3 blocks public bucket policies for the bucket.
@@ -1261,7 +1261,7 @@ extension Macie2ClientTypes.BucketCountByEffectivePermission: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets that are publicly accessible due to a combination of permissions settings for each bucket.
-    public struct BucketCountByEffectivePermission: Swift.Equatable {
+    public struct BucketCountByEffectivePermission {
         /// The total number of buckets that allow the general public to have read or write access to the bucket.
         public var publiclyAccessible: Swift.Int?
         /// The total number of buckets that allow the general public to have read access to the bucket.
@@ -1326,7 +1326,7 @@ extension Macie2ClientTypes.BucketCountByEncryptionType: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets whose settings do or don't specify default server-side encryption behavior for objects that are added to the buckets. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
-    public struct BucketCountByEncryptionType: Swift.Equatable {
+    public struct BucketCountByEncryptionType {
         /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an KMS key, either an Amazon Web Services managed key or a customer managed key. By default, these buckets encrypt new objects automatically using DSSE-KMS or SSE-KMS encryption.
         public var kmsManaged: Swift.Int?
         /// The total number of buckets whose default encryption settings are configured to encrypt new objects with an Amazon S3 managed key. By default, these buckets encrypt new objects automatically using SSE-S3 encryption.
@@ -1391,7 +1391,7 @@ extension Macie2ClientTypes.BucketCountBySharedAccessType: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets that are or aren't shared with other Amazon Web Services accounts, Amazon CloudFront origin access identities (OAIs), or CloudFront origin access controls (OACs). In this data, an Amazon Macie organization is defined as a set of Macie accounts that are centrally managed as a group of related accounts through Organizations or by Macie invitation.
-    public struct BucketCountBySharedAccessType: Swift.Equatable {
+    public struct BucketCountBySharedAccessType {
         /// The total number of buckets that are shared with one or more of the following or any combination of the following: an Amazon CloudFront OAI, a CloudFront OAC, or an Amazon Web Services account that isn't in the same Amazon Macie organization.
         public var external: Swift.Int?
         /// The total number of buckets that are shared with one or more Amazon Web Services accounts in the same Amazon Macie organization. These buckets aren't shared with Amazon CloudFront OAIs or OACs.
@@ -1450,7 +1450,7 @@ extension Macie2ClientTypes.BucketCountPolicyAllowsUnencryptedObjectUploads: Swi
 
 extension Macie2ClientTypes {
     /// Provides information about the number of S3 buckets whose bucket policies do or don't require server-side encryption of objects when objects are added to the buckets.
-    public struct BucketCountPolicyAllowsUnencryptedObjectUploads: Swift.Equatable {
+    public struct BucketCountPolicyAllowsUnencryptedObjectUploads {
         /// The total number of buckets that don't have a bucket policy or have a bucket policy that doesn't require server-side encryption of new objects. If a bucket policy exists, the policy doesn't require PutObject requests to include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
         public var allowsUnencryptedObjectUploads: Swift.Int?
         /// The total number of buckets whose bucket policies require server-side encryption of new objects. PutObject requests for these buckets must include a valid server-side encryption header: the x-amz-server-side-encryption header with a value of AES256 or aws:kms, or the x-amz-server-side-encryption-customer-algorithm header with a value of AES256.
@@ -1553,7 +1553,7 @@ extension Macie2ClientTypes.BucketCriteriaAdditionalProperties: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the operator to use in a property-based condition that filters the results of a query for information about S3 buckets.
-    public struct BucketCriteriaAdditionalProperties: Swift.Equatable {
+    public struct BucketCriteriaAdditionalProperties {
         /// The value for the property matches (equals) the specified value. If you specify multiple values, Amazon Macie uses OR logic to join the values.
         public var eq: [Swift.String]?
         /// The value for the property is greater than the specified value.
@@ -1624,7 +1624,7 @@ extension Macie2ClientTypes.BucketLevelPermissions: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the bucket-level permissions settings for an S3 bucket.
-    public struct BucketLevelPermissions: Swift.Equatable {
+    public struct BucketLevelPermissions {
         /// The permissions settings of the access control list (ACL) for the bucket. This value is null if an ACL hasn't been defined for the bucket.
         public var accessControlList: Macie2ClientTypes.AccessControlList?
         /// The block public access settings for the bucket.
@@ -1829,7 +1829,7 @@ extension Macie2ClientTypes.BucketMetadata: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process metadata from Amazon S3 for the bucket or the bucket's objects, the value for the versioning property is false and the value for most other properties is null. Key exceptions are accountId, bucketArn, bucketCreatedAt, bucketName, lastUpdated, and region. To identify the cause of the error, refer to the errorCode and errorMessage values.
-    public struct BucketMetadata: Swift.Equatable {
+    public struct BucketMetadata {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
@@ -2020,7 +2020,7 @@ extension Macie2ClientTypes.BucketPermissionConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the account-level and bucket-level permissions settings for an S3 bucket.
-    public struct BucketPermissionConfiguration: Swift.Equatable {
+    public struct BucketPermissionConfiguration {
         /// The account-level permissions settings that apply to the bucket.
         public var accountLevelPermissions: Macie2ClientTypes.AccountLevelPermissions?
         /// The bucket-level permissions settings for the bucket.
@@ -2065,7 +2065,7 @@ extension Macie2ClientTypes.BucketPolicy: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the permissions settings of the bucket policy for an S3 bucket.
-    public struct BucketPolicy: Swift.Equatable {
+    public struct BucketPolicy {
         /// Specifies whether the bucket policy allows the general public to have read access to the bucket.
         public var allowsPublicReadAccess: Swift.Bool?
         /// Specifies whether the bucket policy allows the general public to have write access to the bucket.
@@ -2110,7 +2110,7 @@ extension Macie2ClientTypes.BucketPublicAccess: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the permissions settings that determine whether an S3 bucket is publicly accessible.
-    public struct BucketPublicAccess: Swift.Equatable {
+    public struct BucketPublicAccess {
         /// Specifies whether the bucket is publicly accessible due to the combination of permissions settings that apply to the bucket. Possible values are:
         ///
         /// * NOT_PUBLIC - The bucket isn't publicly accessible.
@@ -2161,7 +2161,7 @@ extension Macie2ClientTypes.BucketServerSideEncryption: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the default server-side encryption settings for an S3 bucket. For detailed information about these settings, see [Setting default server-side encryption behavior for Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/bucket-encryption.html) in the Amazon Simple Storage Service User Guide.
-    public struct BucketServerSideEncryption: Swift.Equatable {
+    public struct BucketServerSideEncryption {
         /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used by default to encrypt objects that are added to the bucket. This value is null if the bucket is configured to use an Amazon S3 managed key to encrypt new objects.
         public var kmsMasterKeyId: Swift.String?
         /// The server-side encryption algorithm that's used by default to encrypt objects that are added to the bucket. Possible values are:
@@ -2214,7 +2214,7 @@ extension Macie2ClientTypes.BucketSortCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a query for information about S3 buckets.
-    public struct BucketSortCriteria: Swift.Equatable {
+    public struct BucketSortCriteria {
         /// The name of the bucket property to sort the results by. This value can be one of the following properties that Amazon Macie defines as bucket metadata: accountId, bucketName, classifiableObjectCount, classifiableSizeInBytes, objectCount, sensitivityScore, or sizeInBytes.
         public var attributeName: Swift.String?
         /// The sort order to apply to the results, based on the value specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -2271,7 +2271,7 @@ extension Macie2ClientTypes.BucketStatisticsBySensitivity: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets, grouped by bucket sensitivity score (sensitivityScore). If automated sensitive data discovery is currently disabled for your account, the value for each metric is 0.
-    public struct BucketStatisticsBySensitivity: Swift.Equatable {
+    public struct BucketStatisticsBySensitivity {
         /// The aggregated statistical data for all buckets that have a sensitivity score of -1.
         public var classificationError: Macie2ClientTypes.SensitivityAggregations?
         /// The aggregated statistical data for all buckets that have a sensitivity score of 50.
@@ -2336,7 +2336,7 @@ extension Macie2ClientTypes.Cell: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the location of an occurrence of sensitive data in a Microsoft Excel workbook, CSV file, or TSV file.
-    public struct Cell: Swift.Equatable {
+    public struct Cell {
         /// The location of the cell, as an absolute cell reference, that contains the sensitive data, for example Sheet2!C5 for cell C5 on Sheet2 in a Microsoft Excel workbook. This value is null for CSV and TSV files.
         public var cellReference: Swift.String?
         /// The column number of the column that contains the sensitive data. For a Microsoft Excel workbook, this value correlates to the alphabetical character(s) for a column identifier, for example: 1 for column A, 2 for column B, and so on.
@@ -2407,7 +2407,7 @@ extension Macie2ClientTypes.ClassificationDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a sensitive data finding and the details of the finding.
-    public struct ClassificationDetails: Swift.Equatable {
+    public struct ClassificationDetails {
         /// The path to the folder or file in Amazon S3 that contains the corresponding sensitive data discovery result for the finding. If a finding applies to a large archive or compressed file, this value is the path to a folder. Otherwise, this value is the path to a file.
         public var detailedResultsLocation: Swift.String?
         /// The Amazon Resource Name (ARN) of the classification job that produced the finding. This value is null if the origin of the finding (originType) is AUTOMATED_SENSITIVE_DATA_DISCOVERY.
@@ -2458,7 +2458,7 @@ extension Macie2ClientTypes.ClassificationExportConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies where to store data classification results, and the encryption settings to use when storing results in that location. The location must be an S3 bucket.
-    public struct ClassificationExportConfiguration: Swift.Equatable {
+    public struct ClassificationExportConfiguration {
         /// The S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
         public var s3Destination: Macie2ClientTypes.S3Destination?
 
@@ -2535,7 +2535,7 @@ extension Macie2ClientTypes.ClassificationResult: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides the details of a sensitive data finding, including the types, number of occurrences, and locations of the sensitive data that was detected.
-    public struct ClassificationResult: Swift.Equatable {
+    public struct ClassificationResult {
         /// Specifies whether Amazon Macie detected additional occurrences of sensitive data in the S3 object. A finding includes location data for a maximum of 15 occurrences of sensitive data. This value can help you determine whether to investigate additional occurrences of sensitive data in an object. You can do this by referring to the corresponding sensitive data discovery result for the finding (classificationDetails.detailedResultsLocation).
         public var additionalOccurrences: Swift.Bool?
         /// The custom data identifiers that detected the sensitive data and the number of occurrences of the data that they detected.
@@ -2596,7 +2596,7 @@ extension Macie2ClientTypes.ClassificationResultStatus: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the status of a sensitive data finding.
-    public struct ClassificationResultStatus: Swift.Equatable {
+    public struct ClassificationResultStatus {
         /// The status of the finding. Possible values are:
         ///
         /// * COMPLETE - Amazon Macie successfully completed its analysis of the S3 object that the finding applies to.
@@ -2692,7 +2692,7 @@ extension Macie2ClientTypes.ClassificationScopeSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the classification scope for an Amazon Macie account. Macie uses the scope's settings when it performs automated sensitive data discovery for the account.
-    public struct ClassificationScopeSummary: Swift.Equatable {
+    public struct ClassificationScopeSummary {
         /// The unique identifier for the classification scope.
         public var id: Swift.String?
         /// The name of the classification scope: automated-sensitive-data-discovery.
@@ -2786,7 +2786,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -2841,7 +2841,7 @@ extension CreateAllowListInput {
     }
 }
 
-public struct CreateAllowListInput: Swift.Equatable {
+public struct CreateAllowListInput {
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -2872,7 +2872,7 @@ public struct CreateAllowListInput: Swift.Equatable {
     }
 }
 
-struct CreateAllowListInputBody: Swift.Equatable {
+struct CreateAllowListInputBody {
     let clientToken: Swift.String?
     let criteria: Macie2ClientTypes.AllowListCriteria?
     let description: Swift.String?
@@ -2927,7 +2927,7 @@ extension CreateAllowListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAllowListOutput: Swift.Equatable {
+public struct CreateAllowListOutput {
     /// The Amazon Resource Name (ARN) of the allow list.
     public var arn: Swift.String?
     /// The unique identifier for the allow list.
@@ -2943,7 +2943,7 @@ public struct CreateAllowListOutput: Swift.Equatable {
     }
 }
 
-struct CreateAllowListOutputBody: Swift.Equatable {
+struct CreateAllowListOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
 }
@@ -3060,7 +3060,7 @@ extension CreateClassificationJobInput {
     }
 }
 
-public struct CreateClassificationJobInput: Swift.Equatable {
+public struct CreateClassificationJobInput {
     /// An array of unique identifiers, one for each allow list for the job to use when it analyzes data.
     public var allowListIds: [Swift.String]?
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
@@ -3141,7 +3141,7 @@ public struct CreateClassificationJobInput: Swift.Equatable {
     }
 }
 
-struct CreateClassificationJobInputBody: Swift.Equatable {
+struct CreateClassificationJobInputBody {
     let allowListIds: [Swift.String]?
     let clientToken: Swift.String?
     let customDataIdentifierIds: [Swift.String]?
@@ -3255,7 +3255,7 @@ extension CreateClassificationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClassificationJobOutput: Swift.Equatable {
+public struct CreateClassificationJobOutput {
     /// The Amazon Resource Name (ARN) of the job.
     public var jobArn: Swift.String?
     /// The unique identifier for the job.
@@ -3271,7 +3271,7 @@ public struct CreateClassificationJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateClassificationJobOutputBody: Swift.Equatable {
+struct CreateClassificationJobOutputBody {
     let jobArn: Swift.String?
     let jobId: Swift.String?
 }
@@ -3372,7 +3372,7 @@ extension CreateCustomDataIdentifierInput {
     }
 }
 
-public struct CreateCustomDataIdentifierInput: Swift.Equatable {
+public struct CreateCustomDataIdentifierInput {
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// A custom description of the custom data identifier. The description can contain as many as 512 characters. We strongly recommend that you avoid including any sensitive data in the description of a custom data identifier. Other users of your account might be able to see this description, depending on the actions that they're allowed to perform in Amazon Macie.
@@ -3418,7 +3418,7 @@ public struct CreateCustomDataIdentifierInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomDataIdentifierInputBody: Swift.Equatable {
+struct CreateCustomDataIdentifierInputBody {
     let clientToken: Swift.String?
     let description: Swift.String?
     let ignoreWords: [Swift.String]?
@@ -3514,7 +3514,7 @@ extension CreateCustomDataIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomDataIdentifierOutput: Swift.Equatable {
+public struct CreateCustomDataIdentifierOutput {
     /// The unique identifier for the custom data identifier that was created.
     public var customDataIdentifierId: Swift.String?
 
@@ -3526,7 +3526,7 @@ public struct CreateCustomDataIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomDataIdentifierOutputBody: Swift.Equatable {
+struct CreateCustomDataIdentifierOutputBody {
     let customDataIdentifierId: Swift.String?
 }
 
@@ -3606,7 +3606,7 @@ extension CreateFindingsFilterInput {
     }
 }
 
-public struct CreateFindingsFilterInput: Swift.Equatable {
+public struct CreateFindingsFilterInput {
     /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     /// This member is required.
     public var action: Macie2ClientTypes.FindingsFilterAction?
@@ -3645,7 +3645,7 @@ public struct CreateFindingsFilterInput: Swift.Equatable {
     }
 }
 
-struct CreateFindingsFilterInputBody: Swift.Equatable {
+struct CreateFindingsFilterInputBody {
     let action: Macie2ClientTypes.FindingsFilterAction?
     let clientToken: Swift.String?
     let description: Swift.String?
@@ -3708,7 +3708,7 @@ extension CreateFindingsFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFindingsFilterOutput: Swift.Equatable {
+public struct CreateFindingsFilterOutput {
     /// The Amazon Resource Name (ARN) of the filter that was created.
     public var arn: Swift.String?
     /// The unique identifier for the filter that was created.
@@ -3724,7 +3724,7 @@ public struct CreateFindingsFilterOutput: Swift.Equatable {
     }
 }
 
-struct CreateFindingsFilterOutputBody: Swift.Equatable {
+struct CreateFindingsFilterOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
 }
@@ -3792,7 +3792,7 @@ extension CreateInvitationsInput {
     }
 }
 
-public struct CreateInvitationsInput: Swift.Equatable {
+public struct CreateInvitationsInput {
     /// An array that lists Amazon Web Services account IDs, one for each account to send the invitation to.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -3813,7 +3813,7 @@ public struct CreateInvitationsInput: Swift.Equatable {
     }
 }
 
-struct CreateInvitationsInputBody: Swift.Equatable {
+struct CreateInvitationsInputBody {
     let accountIds: [Swift.String]?
     let disableEmailNotification: Swift.Bool?
     let message: Swift.String?
@@ -3858,7 +3858,7 @@ extension CreateInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInvitationsOutput: Swift.Equatable {
+public struct CreateInvitationsOutput {
     /// An array of objects, one for each account whose invitation hasn't been processed. Each object identifies the account and explains why the invitation hasn't been processed for the account.
     public var unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 
@@ -3870,7 +3870,7 @@ public struct CreateInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct CreateInvitationsOutputBody: Swift.Equatable {
+struct CreateInvitationsOutputBody {
     let unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 }
 
@@ -3939,7 +3939,7 @@ extension CreateMemberInput {
     }
 }
 
-public struct CreateMemberInput: Swift.Equatable {
+public struct CreateMemberInput {
     /// The details of the account to associate with the administrator account.
     /// This member is required.
     public var account: Macie2ClientTypes.AccountDetail?
@@ -3956,7 +3956,7 @@ public struct CreateMemberInput: Swift.Equatable {
     }
 }
 
-struct CreateMemberInputBody: Swift.Equatable {
+struct CreateMemberInputBody {
     let account: Macie2ClientTypes.AccountDetail?
     let tags: [Swift.String:Swift.String]?
 }
@@ -3997,7 +3997,7 @@ extension CreateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMemberOutput: Swift.Equatable {
+public struct CreateMemberOutput {
     /// The Amazon Resource Name (ARN) of the account that was associated with the administrator account.
     public var arn: Swift.String?
 
@@ -4009,7 +4009,7 @@ public struct CreateMemberOutput: Swift.Equatable {
     }
 }
 
-struct CreateMemberOutputBody: Swift.Equatable {
+struct CreateMemberOutputBody {
     let arn: Swift.String?
 }
 
@@ -4065,7 +4065,7 @@ extension CreateSampleFindingsInput {
     }
 }
 
-public struct CreateSampleFindingsInput: Swift.Equatable {
+public struct CreateSampleFindingsInput {
     /// An array of finding types, one for each type of sample finding to create. To create a sample of every type of finding that Amazon Macie supports, don't include this array in your request.
     public var findingTypes: [Macie2ClientTypes.FindingType]?
 
@@ -4077,7 +4077,7 @@ public struct CreateSampleFindingsInput: Swift.Equatable {
     }
 }
 
-struct CreateSampleFindingsInputBody: Swift.Equatable {
+struct CreateSampleFindingsInputBody {
     let findingTypes: [Macie2ClientTypes.FindingType]?
 }
 
@@ -4107,7 +4107,7 @@ extension CreateSampleFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSampleFindingsOutput: Swift.Equatable {
+public struct CreateSampleFindingsOutput {
 
     public init() { }
 }
@@ -4162,7 +4162,7 @@ extension Macie2ClientTypes.CriteriaBlockForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies one or more property- and tag-based conditions that define criteria for including or excluding S3 buckets from a classification job.
-    public struct CriteriaBlockForJob: Swift.Equatable {
+    public struct CriteriaBlockForJob {
         /// An array of conditions, one for each condition that determines which buckets to include or exclude from the job. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public var and: [Macie2ClientTypes.CriteriaForJob]?
 
@@ -4203,7 +4203,7 @@ extension Macie2ClientTypes.CriteriaForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property- or tag-based condition that defines criteria for including or excluding S3 buckets from a classification job.
-    public struct CriteriaForJob: Swift.Equatable {
+    public struct CriteriaForJob {
         /// A property-based condition that defines a property, operator, and one or more values for including or excluding buckets from the job.
         public var simpleCriterion: Macie2ClientTypes.SimpleCriterionForJob?
         /// A tag-based condition that defines an operator and tag keys, tag values, or tag key and value pairs for including or excluding buckets from the job.
@@ -4314,7 +4314,7 @@ extension Macie2ClientTypes.CriterionAdditionalProperties: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the operator to use in a property-based condition that filters the results of a query for findings. For detailed information and examples of each operator, see [Fundamentals of filtering findings](https://docs.aws.amazon.com/macie/latest/user/findings-filter-basics.html) in the Amazon Macie User Guide.
-    public struct CriterionAdditionalProperties: Swift.Equatable {
+    public struct CriterionAdditionalProperties {
         /// The value for the property matches (equals) the specified value. If you specify multiple values, Macie uses OR logic to join the values.
         public var eq: [Swift.String]?
         /// The value for the property exclusively matches (equals an exact match for) all the specified values. If you specify multiple values, Amazon Macie uses AND logic to join the values. You can use this operator with the following properties: customDataIdentifiers.detections.arn, customDataIdentifiers.detections.name, resourcesAffected.s3Bucket.tags.key, resourcesAffected.s3Bucket.tags.value, resourcesAffected.s3Object.tags.key, resourcesAffected.s3Object.tags.value, sensitiveData.category, and sensitiveData.detections.type.
@@ -4427,7 +4427,7 @@ extension Macie2ClientTypes.CustomDataIdentifierSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a custom data identifier.
-    public struct CustomDataIdentifierSummary: Swift.Equatable {
+    public struct CustomDataIdentifierSummary {
         /// The Amazon Resource Name (ARN) of the custom data identifier.
         public var arn: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the custom data identifier was created.
@@ -4496,7 +4496,7 @@ extension Macie2ClientTypes.CustomDataIdentifiers: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about custom data identifiers that produced a sensitive data finding, and the number of occurrences of the data that they detected for the finding.
-    public struct CustomDataIdentifiers: Swift.Equatable {
+    public struct CustomDataIdentifiers {
         /// The custom data identifiers that detected the data, and the number of occurrences of the data that each identifier detected.
         public var detections: [Macie2ClientTypes.CustomDetection]?
         /// The total number of occurrences of the data that was detected by the custom data identifiers and produced the finding.
@@ -4553,7 +4553,7 @@ extension Macie2ClientTypes.CustomDetection: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a custom data identifier that produced a sensitive data finding, and the sensitive data that it detected for the finding.
-    public struct CustomDetection: Swift.Equatable {
+    public struct CustomDetection {
         /// The unique identifier for the custom data identifier.
         public var arn: Swift.String?
         /// The total number of occurrences of the sensitive data that the custom data identifier detected.
@@ -4592,7 +4592,7 @@ extension Macie2ClientTypes.DailySchedule: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies that a classification job runs once a day, every day. This is an empty object.
-    public struct DailySchedule: Swift.Equatable {
+    public struct DailySchedule {
 
         public init() { }
     }
@@ -4738,7 +4738,7 @@ extension DeclineInvitationsInput {
     }
 }
 
-public struct DeclineInvitationsInput: Swift.Equatable {
+public struct DeclineInvitationsInput {
     /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to decline.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -4751,7 +4751,7 @@ public struct DeclineInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsInputBody: Swift.Equatable {
+struct DeclineInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -4788,7 +4788,7 @@ extension DeclineInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeclineInvitationsOutput: Swift.Equatable {
+public struct DeclineInvitationsOutput {
     /// An array of objects, one for each account whose invitation hasn't been declined. Each object identifies the account and explains why the request hasn't been processed for that account.
     public var unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 
@@ -4800,7 +4800,7 @@ public struct DeclineInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsOutputBody: Swift.Equatable {
+struct DeclineInvitationsOutputBody {
     let unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 }
 
@@ -4875,7 +4875,7 @@ extension Macie2ClientTypes.DefaultDetection: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a type of sensitive data that was detected by a managed data identifier and produced a sensitive data finding.
-    public struct DefaultDetection: Swift.Equatable {
+    public struct DefaultDetection {
         /// The total number of occurrences of the type of sensitive data that was detected.
         public var count: Swift.Int?
         /// The location of 1-15 occurrences of the sensitive data that was detected. A finding includes location data for a maximum of 15 occurrences of sensitive data.
@@ -4919,7 +4919,7 @@ extension DeleteAllowListInput {
     }
 }
 
-public struct DeleteAllowListInput: Swift.Equatable {
+public struct DeleteAllowListInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -4936,7 +4936,7 @@ public struct DeleteAllowListInput: Swift.Equatable {
     }
 }
 
-struct DeleteAllowListInputBody: Swift.Equatable {
+struct DeleteAllowListInputBody {
 }
 
 extension DeleteAllowListInputBody: Swift.Decodable {
@@ -4950,7 +4950,7 @@ extension DeleteAllowListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAllowListOutput: Swift.Equatable {
+public struct DeleteAllowListOutput {
 
     public init() { }
 }
@@ -4980,7 +4980,7 @@ extension DeleteCustomDataIdentifierInput {
     }
 }
 
-public struct DeleteCustomDataIdentifierInput: Swift.Equatable {
+public struct DeleteCustomDataIdentifierInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -4993,7 +4993,7 @@ public struct DeleteCustomDataIdentifierInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomDataIdentifierInputBody: Swift.Equatable {
+struct DeleteCustomDataIdentifierInputBody {
 }
 
 extension DeleteCustomDataIdentifierInputBody: Swift.Decodable {
@@ -5007,7 +5007,7 @@ extension DeleteCustomDataIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomDataIdentifierOutput: Swift.Equatable {
+public struct DeleteCustomDataIdentifierOutput {
 
     public init() { }
 }
@@ -5039,7 +5039,7 @@ extension DeleteFindingsFilterInput {
     }
 }
 
-public struct DeleteFindingsFilterInput: Swift.Equatable {
+public struct DeleteFindingsFilterInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -5052,7 +5052,7 @@ public struct DeleteFindingsFilterInput: Swift.Equatable {
     }
 }
 
-struct DeleteFindingsFilterInputBody: Swift.Equatable {
+struct DeleteFindingsFilterInputBody {
 }
 
 extension DeleteFindingsFilterInputBody: Swift.Decodable {
@@ -5066,7 +5066,7 @@ extension DeleteFindingsFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFindingsFilterOutput: Swift.Equatable {
+public struct DeleteFindingsFilterOutput {
 
     public init() { }
 }
@@ -5111,7 +5111,7 @@ extension DeleteInvitationsInput {
     }
 }
 
-public struct DeleteInvitationsInput: Swift.Equatable {
+public struct DeleteInvitationsInput {
     /// An array that lists Amazon Web Services account IDs, one for each account that sent an invitation to delete.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -5124,7 +5124,7 @@ public struct DeleteInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsInputBody: Swift.Equatable {
+struct DeleteInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -5161,7 +5161,7 @@ extension DeleteInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInvitationsOutput: Swift.Equatable {
+public struct DeleteInvitationsOutput {
     /// An array of objects, one for each account whose invitation hasn't been deleted. Each object identifies the account and explains why the request hasn't been processed for that account.
     public var unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 
@@ -5173,7 +5173,7 @@ public struct DeleteInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsOutputBody: Swift.Equatable {
+struct DeleteInvitationsOutputBody {
     let unprocessedAccounts: [Macie2ClientTypes.UnprocessedAccount]?
 }
 
@@ -5225,7 +5225,7 @@ extension DeleteMemberInput {
     }
 }
 
-public struct DeleteMemberInput: Swift.Equatable {
+public struct DeleteMemberInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -5238,7 +5238,7 @@ public struct DeleteMemberInput: Swift.Equatable {
     }
 }
 
-struct DeleteMemberInputBody: Swift.Equatable {
+struct DeleteMemberInputBody {
 }
 
 extension DeleteMemberInputBody: Swift.Decodable {
@@ -5252,7 +5252,7 @@ extension DeleteMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMemberOutput: Swift.Equatable {
+public struct DeleteMemberOutput {
 
     public init() { }
 }
@@ -5309,7 +5309,7 @@ extension DescribeBucketsInput {
     }
 }
 
-public struct DescribeBucketsInput: Swift.Equatable {
+public struct DescribeBucketsInput {
     /// The criteria to use to filter the query results.
     public var criteria: [Swift.String:Macie2ClientTypes.BucketCriteriaAdditionalProperties]?
     /// The maximum number of items to include in each page of the response. The default value is 50.
@@ -5333,7 +5333,7 @@ public struct DescribeBucketsInput: Swift.Equatable {
     }
 }
 
-struct DescribeBucketsInputBody: Swift.Equatable {
+struct DescribeBucketsInputBody {
     let criteria: [Swift.String:Macie2ClientTypes.BucketCriteriaAdditionalProperties]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5384,7 +5384,7 @@ extension DescribeBucketsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBucketsOutput: Swift.Equatable {
+public struct DescribeBucketsOutput {
     /// An array of objects, one for each bucket that matches the filter criteria specified in the request.
     public var buckets: [Macie2ClientTypes.BucketMetadata]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -5400,7 +5400,7 @@ public struct DescribeBucketsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBucketsOutputBody: Swift.Equatable {
+struct DescribeBucketsOutputBody {
     let buckets: [Macie2ClientTypes.BucketMetadata]?
     let nextToken: Swift.String?
 }
@@ -5456,7 +5456,7 @@ extension DescribeClassificationJobInput {
     }
 }
 
-public struct DescribeClassificationJobInput: Swift.Equatable {
+public struct DescribeClassificationJobInput {
     /// The unique identifier for the classification job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -5469,7 +5469,7 @@ public struct DescribeClassificationJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeClassificationJobInputBody: Swift.Equatable {
+struct DescribeClassificationJobInputBody {
 }
 
 extension DescribeClassificationJobInputBody: Swift.Decodable {
@@ -5530,7 +5530,7 @@ extension DescribeClassificationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClassificationJobOutput: Swift.Equatable {
+public struct DescribeClassificationJobOutput {
     /// An array of unique identifiers, one for each allow list that the job uses when it analyzes data.
     public var allowListIds: [Swift.String]?
     /// The token that was provided to ensure the idempotency of the request to create the job.
@@ -5651,7 +5651,7 @@ public struct DescribeClassificationJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClassificationJobOutputBody: Swift.Equatable {
+struct DescribeClassificationJobOutputBody {
     let allowListIds: [Swift.String]?
     let clientToken: Swift.String?
     let createdAt: ClientRuntime.Date?
@@ -5807,12 +5807,12 @@ extension DescribeOrganizationConfigurationInput {
     }
 }
 
-public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationInputBody {
 }
 
 extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
@@ -5835,7 +5835,7 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput {
     /// Specifies whether Amazon Macie is enabled automatically for accounts that are added to the organization.
     public var autoEnable: Swift.Bool?
     /// Specifies whether the maximum number of Amazon Macie member accounts are part of the organization.
@@ -5851,7 +5851,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationOutputBody {
     let autoEnable: Swift.Bool?
     let maxAccountLimitReached: Swift.Bool?
 }
@@ -5909,7 +5909,7 @@ extension Macie2ClientTypes.DetectedDataDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies 1-10 occurrences of a specific type of sensitive data reported by a finding.
-    public struct DetectedDataDetails: Swift.Equatable {
+    public struct DetectedDataDetails {
         /// An occurrence of the specified type of sensitive data. Each occurrence contains 1-128 characters.
         /// This member is required.
         public var value: Swift.String?
@@ -5975,7 +5975,7 @@ extension Macie2ClientTypes.Detection: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a type of sensitive data that Amazon Macie found in an S3 bucket while performing automated sensitive data discovery for the bucket. The information also specifies the custom data identifier or managed data identifier that detected the data. This information is available only if automated sensitive data discovery is currently enabled for your account.
-    public struct Detection: Swift.Equatable {
+    public struct Detection {
         /// If the sensitive data was detected by a custom data identifier, the Amazon Resource Name (ARN) of the custom data identifier that detected the data. Otherwise, this value is null.
         public var arn: Swift.String?
         /// The total number of occurrences of the sensitive data.
@@ -6016,12 +6016,12 @@ extension DisableMacieInput {
     }
 }
 
-public struct DisableMacieInput: Swift.Equatable {
+public struct DisableMacieInput {
 
     public init() { }
 }
 
-struct DisableMacieInputBody: Swift.Equatable {
+struct DisableMacieInputBody {
 }
 
 extension DisableMacieInputBody: Swift.Decodable {
@@ -6035,7 +6035,7 @@ extension DisableMacieOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableMacieOutput: Swift.Equatable {
+public struct DisableMacieOutput {
 
     public init() { }
 }
@@ -6078,7 +6078,7 @@ extension DisableOrganizationAdminAccountInput {
     }
 }
 
-public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountInput {
     /// The Amazon Web Services account ID of the delegated Amazon Macie administrator account.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -6091,7 +6091,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct DisableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct DisableOrganizationAdminAccountInputBody {
 }
 
 extension DisableOrganizationAdminAccountInputBody: Swift.Decodable {
@@ -6105,7 +6105,7 @@ extension DisableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -6134,12 +6134,12 @@ extension DisassociateFromAdministratorAccountInput {
     }
 }
 
-public struct DisassociateFromAdministratorAccountInput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountInput {
 
     public init() { }
 }
 
-struct DisassociateFromAdministratorAccountInputBody: Swift.Equatable {
+struct DisassociateFromAdministratorAccountInputBody {
 }
 
 extension DisassociateFromAdministratorAccountInputBody: Swift.Decodable {
@@ -6153,7 +6153,7 @@ extension DisassociateFromAdministratorAccountOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DisassociateFromAdministratorAccountOutput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountOutput {
 
     public init() { }
 }
@@ -6182,12 +6182,12 @@ extension DisassociateFromMasterAccountInput {
     }
 }
 
-public struct DisassociateFromMasterAccountInput: Swift.Equatable {
+public struct DisassociateFromMasterAccountInput {
 
     public init() { }
 }
 
-struct DisassociateFromMasterAccountInputBody: Swift.Equatable {
+struct DisassociateFromMasterAccountInputBody {
 }
 
 extension DisassociateFromMasterAccountInputBody: Swift.Decodable {
@@ -6201,7 +6201,7 @@ extension DisassociateFromMasterAccountOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DisassociateFromMasterAccountOutput: Swift.Equatable {
+public struct DisassociateFromMasterAccountOutput {
 
     public init() { }
 }
@@ -6233,7 +6233,7 @@ extension DisassociateMemberInput {
     }
 }
 
-public struct DisassociateMemberInput: Swift.Equatable {
+public struct DisassociateMemberInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -6246,7 +6246,7 @@ public struct DisassociateMemberInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberInputBody: Swift.Equatable {
+struct DisassociateMemberInputBody {
 }
 
 extension DisassociateMemberInputBody: Swift.Decodable {
@@ -6260,7 +6260,7 @@ extension DisassociateMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberOutput: Swift.Equatable {
+public struct DisassociateMemberOutput {
 
     public init() { }
 }
@@ -6303,7 +6303,7 @@ extension Macie2ClientTypes.DomainDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the domain name of the device that an entity used to perform an action on an affected resource.
-    public struct DomainDetails: Swift.Equatable {
+    public struct DomainDetails {
         /// The name of the domain.
         public var domainName: Swift.String?
 
@@ -6380,7 +6380,7 @@ extension EnableMacieInput {
     }
 }
 
-public struct EnableMacieInput: Swift.Equatable {
+public struct EnableMacieInput {
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events).
@@ -6400,7 +6400,7 @@ public struct EnableMacieInput: Swift.Equatable {
     }
 }
 
-struct EnableMacieInputBody: Swift.Equatable {
+struct EnableMacieInputBody {
     let clientToken: Swift.String?
     let findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency?
     let status: Macie2ClientTypes.MacieStatus?
@@ -6429,7 +6429,7 @@ extension EnableMacieOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableMacieOutput: Swift.Equatable {
+public struct EnableMacieOutput {
 
     public init() { }
 }
@@ -6475,7 +6475,7 @@ extension EnableOrganizationAdminAccountInput {
     }
 }
 
-public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountInput {
     /// The Amazon Web Services account ID for the account to designate as the delegated Amazon Macie administrator account for the organization.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -6492,7 +6492,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct EnableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct EnableOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -6517,7 +6517,7 @@ extension EnableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct EnableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -6659,7 +6659,7 @@ extension Macie2ClientTypes.FederatedUser: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an identity that performed an action on an affected resource by using temporary security credentials. The credentials were obtained using the GetFederationToken operation of the Security Token Service (STS) API.
-    public struct FederatedUser: Swift.Equatable {
+    public struct FederatedUser {
         /// The Amazon Web Services access key ID that identifies the credentials.
         public var accessKeyId: Swift.String?
         /// The unique identifier for the Amazon Web Services account that owns the entity that was used to get the credentials.
@@ -6812,7 +6812,7 @@ extension Macie2ClientTypes.Finding: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides the details of a finding.
-    public struct Finding: Swift.Equatable {
+    public struct Finding {
         /// The unique identifier for the Amazon Web Services account that the finding applies to. This is typically the account that owns the affected resource.
         public var accountId: Swift.String?
         /// Specifies whether the finding is archived (suppressed).
@@ -6921,7 +6921,7 @@ extension Macie2ClientTypes.FindingAction: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an action that occurred for a resource and produced a policy finding.
-    public struct FindingAction: Swift.Equatable {
+    public struct FindingAction {
         /// The type of action that occurred for the affected resource. This value is typically AWS_API_CALL, which indicates that an entity invoked an API operation for the resource.
         public var actionType: Macie2ClientTypes.FindingActionType?
         /// The invocation details of the API operation that an entity invoked for the affected resource, if the value for the actionType property is AWS_API_CALL.
@@ -7002,7 +7002,7 @@ extension Macie2ClientTypes.FindingActor: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an entity that performed an action that produced a policy finding for a resource.
-    public struct FindingActor: Swift.Equatable {
+    public struct FindingActor {
         /// The domain name of the device that the entity used to perform the action on the affected resource.
         public var domainDetails: Macie2ClientTypes.DomainDetails?
         /// The IP address of the device that the entity used to perform the action on the affected resource. This object also provides information such as the owner and geographic location for the IP address.
@@ -7090,7 +7090,7 @@ extension Macie2ClientTypes.FindingCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies, as a map, one or more property-based conditions that filter the results of a query for findings.
-    public struct FindingCriteria: Swift.Equatable {
+    public struct FindingCriteria {
         /// A condition that specifies the property, operator, and one or more values to use to filter the results.
         public var criterion: [Swift.String:Macie2ClientTypes.CriterionAdditionalProperties]?
 
@@ -7200,7 +7200,7 @@ extension Macie2ClientTypes.FindingStatisticsSortCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a query that retrieves aggregated statistical data about findings.
-    public struct FindingStatisticsSortCriteria: Swift.Equatable {
+    public struct FindingStatisticsSortCriteria {
         /// The grouping to sort the results by. Valid values are: count, sort the results by the number of findings in each group of results; and, groupKey, sort the results by the name of each group of results.
         public var attributeName: Macie2ClientTypes.FindingStatisticsSortAttributeName?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -7368,7 +7368,7 @@ extension Macie2ClientTypes.FindingsFilterListItem: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a findings filter.
-    public struct FindingsFilterListItem: Swift.Equatable {
+    public struct FindingsFilterListItem {
         /// The action that's performed on findings that match the filter criteria. Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
         public var action: Macie2ClientTypes.FindingsFilterAction?
         /// The Amazon Resource Name (ARN) of the filter.
@@ -7405,12 +7405,12 @@ extension GetAdministratorAccountInput {
     }
 }
 
-public struct GetAdministratorAccountInput: Swift.Equatable {
+public struct GetAdministratorAccountInput {
 
     public init() { }
 }
 
-struct GetAdministratorAccountInputBody: Swift.Equatable {
+struct GetAdministratorAccountInputBody {
 }
 
 extension GetAdministratorAccountInputBody: Swift.Decodable {
@@ -7431,7 +7431,7 @@ extension GetAdministratorAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdministratorAccountOutput: Swift.Equatable {
+public struct GetAdministratorAccountOutput {
     /// The Amazon Web Services account ID for the administrator account. If the accounts are associated by an Amazon Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
     public var administrator: Macie2ClientTypes.Invitation?
 
@@ -7443,7 +7443,7 @@ public struct GetAdministratorAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAdministratorAccountOutputBody: Swift.Equatable {
+struct GetAdministratorAccountOutputBody {
     let administrator: Macie2ClientTypes.Invitation?
 }
 
@@ -7486,7 +7486,7 @@ extension GetAllowListInput {
     }
 }
 
-public struct GetAllowListInput: Swift.Equatable {
+public struct GetAllowListInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -7499,7 +7499,7 @@ public struct GetAllowListInput: Swift.Equatable {
     }
 }
 
-struct GetAllowListInputBody: Swift.Equatable {
+struct GetAllowListInputBody {
 }
 
 extension GetAllowListInputBody: Swift.Decodable {
@@ -7536,7 +7536,7 @@ extension GetAllowListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAllowListOutput: Swift.Equatable {
+public struct GetAllowListOutput {
     /// The Amazon Resource Name (ARN) of the allow list.
     public var arn: Swift.String?
     /// The date and time, in UTC and extended ISO 8601 format, when the allow list was created in Amazon Macie.
@@ -7580,7 +7580,7 @@ public struct GetAllowListOutput: Swift.Equatable {
     }
 }
 
-struct GetAllowListOutputBody: Swift.Equatable {
+struct GetAllowListOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let criteria: Macie2ClientTypes.AllowListCriteria?
@@ -7659,12 +7659,12 @@ extension GetAutomatedDiscoveryConfigurationInput {
     }
 }
 
-public struct GetAutomatedDiscoveryConfigurationInput: Swift.Equatable {
+public struct GetAutomatedDiscoveryConfigurationInput {
 
     public init() { }
 }
 
-struct GetAutomatedDiscoveryConfigurationInputBody: Swift.Equatable {
+struct GetAutomatedDiscoveryConfigurationInputBody {
 }
 
 extension GetAutomatedDiscoveryConfigurationInputBody: Swift.Decodable {
@@ -7695,7 +7695,7 @@ extension GetAutomatedDiscoveryConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetAutomatedDiscoveryConfigurationOutput: Swift.Equatable {
+public struct GetAutomatedDiscoveryConfigurationOutput {
     /// The unique identifier for the classification scope that's used when performing automated sensitive data discovery for the account. The classification scope specifies S3 buckets to exclude from automated sensitive data discovery.
     public var classificationScopeId: Swift.String?
     /// The date and time, in UTC and extended ISO 8601 format, when automated sensitive data discovery was most recently disabled for the account. This value is null if automated sensitive data discovery wasn't enabled and subsequently disabled for the account.
@@ -7727,7 +7727,7 @@ public struct GetAutomatedDiscoveryConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAutomatedDiscoveryConfigurationOutputBody: Swift.Equatable {
+struct GetAutomatedDiscoveryConfigurationOutputBody {
     let classificationScopeId: Swift.String?
     let disabledAt: ClientRuntime.Date?
     let firstEnabledAt: ClientRuntime.Date?
@@ -7797,7 +7797,7 @@ extension GetBucketStatisticsInput {
     }
 }
 
-public struct GetBucketStatisticsInput: Swift.Equatable {
+public struct GetBucketStatisticsInput {
     /// The unique identifier for the Amazon Web Services account.
     public var accountId: Swift.String?
 
@@ -7809,7 +7809,7 @@ public struct GetBucketStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetBucketStatisticsInputBody: Swift.Equatable {
+struct GetBucketStatisticsInputBody {
     let accountId: Swift.String?
 }
 
@@ -7863,7 +7863,7 @@ extension GetBucketStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBucketStatisticsOutput: Swift.Equatable {
+public struct GetBucketStatisticsOutput {
     /// The total number of buckets.
     public var bucketCount: Swift.Int?
     /// The total number of buckets that are publicly accessible due to a combination of permissions settings for each bucket.
@@ -7927,7 +7927,7 @@ public struct GetBucketStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetBucketStatisticsOutputBody: Swift.Equatable {
+struct GetBucketStatisticsOutputBody {
     let bucketCount: Swift.Int?
     let bucketCountByEffectivePermission: Macie2ClientTypes.BucketCountByEffectivePermission?
     let bucketCountByEncryptionType: Macie2ClientTypes.BucketCountByEncryptionType?
@@ -8019,12 +8019,12 @@ extension GetClassificationExportConfigurationInput {
     }
 }
 
-public struct GetClassificationExportConfigurationInput: Swift.Equatable {
+public struct GetClassificationExportConfigurationInput {
 
     public init() { }
 }
 
-struct GetClassificationExportConfigurationInputBody: Swift.Equatable {
+struct GetClassificationExportConfigurationInputBody {
 }
 
 extension GetClassificationExportConfigurationInputBody: Swift.Decodable {
@@ -8045,7 +8045,7 @@ extension GetClassificationExportConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetClassificationExportConfigurationOutput: Swift.Equatable {
+public struct GetClassificationExportConfigurationOutput {
     /// The location where data classification results are stored, and the encryption settings that are used when storing results in that location.
     public var configuration: Macie2ClientTypes.ClassificationExportConfiguration?
 
@@ -8057,7 +8057,7 @@ public struct GetClassificationExportConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetClassificationExportConfigurationOutputBody: Swift.Equatable {
+struct GetClassificationExportConfigurationOutputBody {
     let configuration: Macie2ClientTypes.ClassificationExportConfiguration?
 }
 
@@ -8100,7 +8100,7 @@ extension GetClassificationScopeInput {
     }
 }
 
-public struct GetClassificationScopeInput: Swift.Equatable {
+public struct GetClassificationScopeInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -8113,7 +8113,7 @@ public struct GetClassificationScopeInput: Swift.Equatable {
     }
 }
 
-struct GetClassificationScopeInputBody: Swift.Equatable {
+struct GetClassificationScopeInputBody {
 }
 
 extension GetClassificationScopeInputBody: Swift.Decodable {
@@ -8138,7 +8138,7 @@ extension GetClassificationScopeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetClassificationScopeOutput: Swift.Equatable {
+public struct GetClassificationScopeOutput {
     /// The unique identifier for the classification scope.
     public var id: Swift.String?
     /// The name of the classification scope: automated-sensitive-data-discovery.
@@ -8158,7 +8158,7 @@ public struct GetClassificationScopeOutput: Swift.Equatable {
     }
 }
 
-struct GetClassificationScopeOutputBody: Swift.Equatable {
+struct GetClassificationScopeOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let s3: Macie2ClientTypes.S3ClassificationScope?
@@ -8207,7 +8207,7 @@ extension GetCustomDataIdentifierInput {
     }
 }
 
-public struct GetCustomDataIdentifierInput: Swift.Equatable {
+public struct GetCustomDataIdentifierInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -8220,7 +8220,7 @@ public struct GetCustomDataIdentifierInput: Swift.Equatable {
     }
 }
 
-struct GetCustomDataIdentifierInputBody: Swift.Equatable {
+struct GetCustomDataIdentifierInputBody {
 }
 
 extension GetCustomDataIdentifierInputBody: Swift.Decodable {
@@ -8263,7 +8263,7 @@ extension GetCustomDataIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCustomDataIdentifierOutput: Swift.Equatable {
+public struct GetCustomDataIdentifierOutput {
     /// The Amazon Resource Name (ARN) of the custom data identifier.
     public var arn: Swift.String?
     /// The date and time, in UTC and extended ISO 8601 format, when the custom data identifier was created.
@@ -8319,7 +8319,7 @@ public struct GetCustomDataIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct GetCustomDataIdentifierOutputBody: Swift.Equatable {
+struct GetCustomDataIdentifierOutputBody {
     let arn: Swift.String?
     let createdAt: ClientRuntime.Date?
     let deleted: Swift.Bool?
@@ -8464,7 +8464,7 @@ extension GetFindingStatisticsInput {
     }
 }
 
-public struct GetFindingStatisticsInput: Swift.Equatable {
+public struct GetFindingStatisticsInput {
     /// The criteria to use to filter the query results.
     public var findingCriteria: Macie2ClientTypes.FindingCriteria?
     /// The finding property to use to group the query results. Valid values are:
@@ -8497,7 +8497,7 @@ public struct GetFindingStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingStatisticsInputBody: Swift.Equatable {
+struct GetFindingStatisticsInputBody {
     let findingCriteria: Macie2ClientTypes.FindingCriteria?
     let groupBy: Macie2ClientTypes.GroupBy?
     let size: Swift.Int?
@@ -8537,7 +8537,7 @@ extension GetFindingStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingStatisticsOutput: Swift.Equatable {
+public struct GetFindingStatisticsOutput {
     /// An array of objects, one for each group of findings that matches the filter criteria specified in the request.
     public var countsByGroup: [Macie2ClientTypes.GroupCount]?
 
@@ -8549,7 +8549,7 @@ public struct GetFindingStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingStatisticsOutputBody: Swift.Equatable {
+struct GetFindingStatisticsOutputBody {
     let countsByGroup: [Macie2ClientTypes.GroupCount]?
 }
 
@@ -8601,7 +8601,7 @@ extension GetFindingsFilterInput {
     }
 }
 
-public struct GetFindingsFilterInput: Swift.Equatable {
+public struct GetFindingsFilterInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -8614,7 +8614,7 @@ public struct GetFindingsFilterInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsFilterInputBody: Swift.Equatable {
+struct GetFindingsFilterInputBody {
 }
 
 extension GetFindingsFilterInputBody: Swift.Decodable {
@@ -8649,7 +8649,7 @@ extension GetFindingsFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsFilterOutput: Swift.Equatable {
+public struct GetFindingsFilterOutput {
     /// The action that's performed on findings that match the filter criteria (findingCriteria). Possible values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     public var action: Macie2ClientTypes.FindingsFilterAction?
     /// The Amazon Resource Name (ARN) of the filter.
@@ -8689,7 +8689,7 @@ public struct GetFindingsFilterOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsFilterOutputBody: Swift.Equatable {
+struct GetFindingsFilterOutputBody {
     let action: Macie2ClientTypes.FindingsFilterAction?
     let arn: Swift.String?
     let description: Swift.String?
@@ -8786,7 +8786,7 @@ extension GetFindingsInput {
     }
 }
 
-public struct GetFindingsInput: Swift.Equatable {
+public struct GetFindingsInput {
     /// An array of strings that lists the unique identifiers for the findings to retrieve. You can specify as many as 50 unique identifiers in this array.
     /// This member is required.
     public var findingIds: [Swift.String]?
@@ -8803,7 +8803,7 @@ public struct GetFindingsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsInputBody: Swift.Equatable {
+struct GetFindingsInputBody {
     let findingIds: [Swift.String]?
     let sortCriteria: Macie2ClientTypes.SortCriteria?
 }
@@ -8844,7 +8844,7 @@ extension GetFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsOutput: Swift.Equatable {
+public struct GetFindingsOutput {
     /// An array of objects, one for each finding that matches the criteria specified in the request.
     public var findings: [Macie2ClientTypes.Finding]?
 
@@ -8856,7 +8856,7 @@ public struct GetFindingsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsOutputBody: Swift.Equatable {
+struct GetFindingsOutputBody {
     let findings: [Macie2ClientTypes.Finding]?
 }
 
@@ -8905,12 +8905,12 @@ extension GetFindingsPublicationConfigurationInput {
     }
 }
 
-public struct GetFindingsPublicationConfigurationInput: Swift.Equatable {
+public struct GetFindingsPublicationConfigurationInput {
 
     public init() { }
 }
 
-struct GetFindingsPublicationConfigurationInputBody: Swift.Equatable {
+struct GetFindingsPublicationConfigurationInputBody {
 }
 
 extension GetFindingsPublicationConfigurationInputBody: Swift.Decodable {
@@ -8931,7 +8931,7 @@ extension GetFindingsPublicationConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetFindingsPublicationConfigurationOutput: Swift.Equatable {
+public struct GetFindingsPublicationConfigurationOutput {
     /// The configuration settings that determine which findings are published to Security Hub.
     public var securityHubConfiguration: Macie2ClientTypes.SecurityHubConfiguration?
 
@@ -8943,7 +8943,7 @@ public struct GetFindingsPublicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsPublicationConfigurationOutputBody: Swift.Equatable {
+struct GetFindingsPublicationConfigurationOutputBody {
     let securityHubConfiguration: Macie2ClientTypes.SecurityHubConfiguration?
 }
 
@@ -8983,12 +8983,12 @@ extension GetInvitationsCountInput {
     }
 }
 
-public struct GetInvitationsCountInput: Swift.Equatable {
+public struct GetInvitationsCountInput {
 
     public init() { }
 }
 
-struct GetInvitationsCountInputBody: Swift.Equatable {
+struct GetInvitationsCountInputBody {
 }
 
 extension GetInvitationsCountInputBody: Swift.Decodable {
@@ -9009,7 +9009,7 @@ extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInvitationsCountOutput: Swift.Equatable {
+public struct GetInvitationsCountOutput {
     /// The total number of invitations that were received by the account, not including the currently accepted invitation.
     public var invitationsCount: Swift.Int?
 
@@ -9021,7 +9021,7 @@ public struct GetInvitationsCountOutput: Swift.Equatable {
     }
 }
 
-struct GetInvitationsCountOutputBody: Swift.Equatable {
+struct GetInvitationsCountOutputBody {
     let invitationsCount: Swift.Int?
 }
 
@@ -9061,12 +9061,12 @@ extension GetMacieSessionInput {
     }
 }
 
-public struct GetMacieSessionInput: Swift.Equatable {
+public struct GetMacieSessionInput {
 
     public init() { }
 }
 
-struct GetMacieSessionInputBody: Swift.Equatable {
+struct GetMacieSessionInputBody {
 }
 
 extension GetMacieSessionInputBody: Swift.Decodable {
@@ -9095,7 +9095,7 @@ extension GetMacieSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMacieSessionOutput: Swift.Equatable {
+public struct GetMacieSessionOutput {
     /// The date and time, in UTC and extended ISO 8601 format, when the Amazon Macie account was created.
     public var createdAt: ClientRuntime.Date?
     /// The frequency with which Amazon Macie publishes updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events).
@@ -9123,7 +9123,7 @@ public struct GetMacieSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetMacieSessionOutputBody: Swift.Equatable {
+struct GetMacieSessionOutputBody {
     let createdAt: ClientRuntime.Date?
     let findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency?
     let serviceRole: Swift.String?
@@ -9179,12 +9179,12 @@ extension GetMasterAccountInput {
     }
 }
 
-public struct GetMasterAccountInput: Swift.Equatable {
+public struct GetMasterAccountInput {
 
     public init() { }
 }
 
-struct GetMasterAccountInputBody: Swift.Equatable {
+struct GetMasterAccountInputBody {
 }
 
 extension GetMasterAccountInputBody: Swift.Decodable {
@@ -9205,7 +9205,7 @@ extension GetMasterAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMasterAccountOutput: Swift.Equatable {
+public struct GetMasterAccountOutput {
     /// (Deprecated) The Amazon Web Services account ID for the administrator account. If the accounts are associated by a Macie membership invitation, this object also provides details about the invitation that was sent to establish the relationship between the accounts.
     public var master: Macie2ClientTypes.Invitation?
 
@@ -9217,7 +9217,7 @@ public struct GetMasterAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetMasterAccountOutputBody: Swift.Equatable {
+struct GetMasterAccountOutputBody {
     let master: Macie2ClientTypes.Invitation?
 }
 
@@ -9260,7 +9260,7 @@ extension GetMemberInput {
     }
 }
 
-public struct GetMemberInput: Swift.Equatable {
+public struct GetMemberInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -9273,7 +9273,7 @@ public struct GetMemberInput: Swift.Equatable {
     }
 }
 
-struct GetMemberInputBody: Swift.Equatable {
+struct GetMemberInputBody {
 }
 
 extension GetMemberInputBody: Swift.Decodable {
@@ -9310,7 +9310,7 @@ extension GetMemberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMemberOutput: Swift.Equatable {
+public struct GetMemberOutput {
     /// The Amazon Web Services account ID for the account.
     public var accountId: Swift.String?
     /// The Amazon Web Services account ID for the administrator account.
@@ -9354,7 +9354,7 @@ public struct GetMemberOutput: Swift.Equatable {
     }
 }
 
-struct GetMemberOutputBody: Swift.Equatable {
+struct GetMemberOutputBody {
     let accountId: Swift.String?
     let administratorAccountId: Swift.String?
     let arn: Swift.String?
@@ -9449,7 +9449,7 @@ extension GetResourceProfileInput {
     }
 }
 
-public struct GetResourceProfileInput: Swift.Equatable {
+public struct GetResourceProfileInput {
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9462,7 +9462,7 @@ public struct GetResourceProfileInput: Swift.Equatable {
     }
 }
 
-struct GetResourceProfileInputBody: Swift.Equatable {
+struct GetResourceProfileInputBody {
 }
 
 extension GetResourceProfileInputBody: Swift.Decodable {
@@ -9489,7 +9489,7 @@ extension GetResourceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceProfileOutput: Swift.Equatable {
+public struct GetResourceProfileOutput {
     /// The date and time, in UTC and extended ISO 8601 format, when Amazon Macie most recently recalculated sensitive data discovery statistics and details for the bucket. If the bucket's sensitivity score is calculated automatically, this includes the score.
     public var profileUpdatedAt: ClientRuntime.Date?
     /// The current sensitivity score for the bucket, ranging from -1 (classification error) to 100 (sensitive). By default, this score is calculated automatically based on the amount of data that Amazon Macie has analyzed in the bucket and the amount of sensitive data that Macie has found in the bucket.
@@ -9513,7 +9513,7 @@ public struct GetResourceProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceProfileOutputBody: Swift.Equatable {
+struct GetResourceProfileOutputBody {
     let profileUpdatedAt: ClientRuntime.Date?
     let sensitivityScore: Swift.Int?
     let sensitivityScoreOverridden: Swift.Bool?
@@ -9564,12 +9564,12 @@ extension GetRevealConfigurationInput {
     }
 }
 
-public struct GetRevealConfigurationInput: Swift.Equatable {
+public struct GetRevealConfigurationInput {
 
     public init() { }
 }
 
-struct GetRevealConfigurationInputBody: Swift.Equatable {
+struct GetRevealConfigurationInputBody {
 }
 
 extension GetRevealConfigurationInputBody: Swift.Decodable {
@@ -9592,7 +9592,7 @@ extension GetRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRevealConfigurationOutput: Swift.Equatable {
+public struct GetRevealConfigurationOutput {
     /// The KMS key that's used to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
     /// The access method and settings that are used to retrieve the sensitive data.
@@ -9608,7 +9608,7 @@ public struct GetRevealConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetRevealConfigurationOutputBody: Swift.Equatable {
+struct GetRevealConfigurationOutputBody {
     let configuration: Macie2ClientTypes.RevealConfiguration?
     let retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
 }
@@ -9652,7 +9652,7 @@ extension GetSensitiveDataOccurrencesAvailabilityInput {
     }
 }
 
-public struct GetSensitiveDataOccurrencesAvailabilityInput: Swift.Equatable {
+public struct GetSensitiveDataOccurrencesAvailabilityInput {
     /// The unique identifier for the finding.
     /// This member is required.
     public var findingId: Swift.String?
@@ -9665,7 +9665,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityInput: Swift.Equatable {
     }
 }
 
-struct GetSensitiveDataOccurrencesAvailabilityInputBody: Swift.Equatable {
+struct GetSensitiveDataOccurrencesAvailabilityInputBody {
 }
 
 extension GetSensitiveDataOccurrencesAvailabilityInputBody: Swift.Decodable {
@@ -9688,7 +9688,7 @@ extension GetSensitiveDataOccurrencesAvailabilityOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
+public struct GetSensitiveDataOccurrencesAvailabilityOutput {
     /// Specifies whether occurrences of sensitive data can be retrieved for the finding. Possible values are: AVAILABLE, the sensitive data can be retrieved; and, UNAVAILABLE, the sensitive data can't be retrieved. If this value is UNAVAILABLE, the reasons array indicates why the data can't be retrieved.
     public var code: Macie2ClientTypes.AvailabilityCode?
     /// Specifies why occurrences of sensitive data can't be retrieved for the finding. Possible values are:
@@ -9729,7 +9729,7 @@ public struct GetSensitiveDataOccurrencesAvailabilityOutput: Swift.Equatable {
     }
 }
 
-struct GetSensitiveDataOccurrencesAvailabilityOutputBody: Swift.Equatable {
+struct GetSensitiveDataOccurrencesAvailabilityOutputBody {
     let code: Macie2ClientTypes.AvailabilityCode?
     let reasons: [Macie2ClientTypes.UnavailabilityReasonCode]?
 }
@@ -9782,7 +9782,7 @@ extension GetSensitiveDataOccurrencesInput {
     }
 }
 
-public struct GetSensitiveDataOccurrencesInput: Swift.Equatable {
+public struct GetSensitiveDataOccurrencesInput {
     /// The unique identifier for the finding.
     /// This member is required.
     public var findingId: Swift.String?
@@ -9795,7 +9795,7 @@ public struct GetSensitiveDataOccurrencesInput: Swift.Equatable {
     }
 }
 
-struct GetSensitiveDataOccurrencesInputBody: Swift.Equatable {
+struct GetSensitiveDataOccurrencesInputBody {
 }
 
 extension GetSensitiveDataOccurrencesInputBody: Swift.Decodable {
@@ -9820,7 +9820,7 @@ extension GetSensitiveDataOccurrencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSensitiveDataOccurrencesOutput: Swift.Equatable {
+public struct GetSensitiveDataOccurrencesOutput {
     /// If an error occurred when Amazon Macie attempted to retrieve occurrences of sensitive data reported by the finding, a description of the error that occurred. This value is null if the status (status) of the request is PROCESSING or SUCCESS.
     public var error: Swift.String?
     /// A map that specifies 1-100 types of sensitive data reported by the finding and, for each type, 1-10 occurrences of sensitive data.
@@ -9846,7 +9846,7 @@ public struct GetSensitiveDataOccurrencesOutput: Swift.Equatable {
     }
 }
 
-struct GetSensitiveDataOccurrencesOutputBody: Swift.Equatable {
+struct GetSensitiveDataOccurrencesOutputBody {
     let error: Swift.String?
     let sensitiveDataOccurrences: [Swift.String:[Macie2ClientTypes.DetectedDataDetails]]?
     let status: Macie2ClientTypes.RevealRequestStatus?
@@ -9912,7 +9912,7 @@ extension GetSensitivityInspectionTemplateInput {
     }
 }
 
-public struct GetSensitivityInspectionTemplateInput: Swift.Equatable {
+public struct GetSensitivityInspectionTemplateInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -9925,7 +9925,7 @@ public struct GetSensitivityInspectionTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetSensitivityInspectionTemplateInputBody: Swift.Equatable {
+struct GetSensitivityInspectionTemplateInputBody {
 }
 
 extension GetSensitivityInspectionTemplateInputBody: Swift.Decodable {
@@ -9954,7 +9954,7 @@ extension GetSensitivityInspectionTemplateOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetSensitivityInspectionTemplateOutput: Swift.Equatable {
+public struct GetSensitivityInspectionTemplateOutput {
     /// The custom description of the template.
     public var description: Swift.String?
     /// The managed data identifiers that are explicitly excluded (not used) when analyzing data.
@@ -9982,7 +9982,7 @@ public struct GetSensitivityInspectionTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetSensitivityInspectionTemplateOutputBody: Swift.Equatable {
+struct GetSensitivityInspectionTemplateOutputBody {
     let description: Swift.String?
     let excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
     let includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
@@ -10068,7 +10068,7 @@ extension GetUsageStatisticsInput {
     }
 }
 
-public struct GetUsageStatisticsInput: Swift.Equatable {
+public struct GetUsageStatisticsInput {
     /// An array of objects, one for each condition to use to filter the query results. If you specify more than one condition, Amazon Macie uses an AND operator to join the conditions.
     public var filterBy: [Macie2ClientTypes.UsageStatisticsFilter]?
     /// The maximum number of items to include in each page of the response.
@@ -10096,7 +10096,7 @@ public struct GetUsageStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetUsageStatisticsInputBody: Swift.Equatable {
+struct GetUsageStatisticsInputBody {
     let filterBy: [Macie2ClientTypes.UsageStatisticsFilter]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10153,7 +10153,7 @@ extension GetUsageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUsageStatisticsOutput: Swift.Equatable {
+public struct GetUsageStatisticsOutput {
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
     /// An array of objects that contains the results of the query. Each object contains the data for an account that matches the filter criteria specified in the request.
@@ -10173,7 +10173,7 @@ public struct GetUsageStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetUsageStatisticsOutputBody: Swift.Equatable {
+struct GetUsageStatisticsOutputBody {
     let nextToken: Swift.String?
     let records: [Macie2ClientTypes.UsageRecord]?
     let timeRange: Macie2ClientTypes.TimeRange?
@@ -10242,7 +10242,7 @@ extension GetUsageTotalsInput {
     }
 }
 
-public struct GetUsageTotalsInput: Swift.Equatable {
+public struct GetUsageTotalsInput {
     /// The inclusive time period to retrieve the data for. Valid values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days. If you don't specify a value for this parameter, Amazon Macie provides aggregated usage data for the preceding 30 days.
     public var timeRange: Swift.String?
 
@@ -10254,7 +10254,7 @@ public struct GetUsageTotalsInput: Swift.Equatable {
     }
 }
 
-struct GetUsageTotalsInputBody: Swift.Equatable {
+struct GetUsageTotalsInputBody {
 }
 
 extension GetUsageTotalsInputBody: Swift.Decodable {
@@ -10277,7 +10277,7 @@ extension GetUsageTotalsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUsageTotalsOutput: Swift.Equatable {
+public struct GetUsageTotalsOutput {
     /// The inclusive time period that the usage data applies to. Possible values are: MONTH_TO_DATE, for the current calendar month to date; and, PAST_30_DAYS, for the preceding 30 days.
     public var timeRange: Macie2ClientTypes.TimeRange?
     /// An array of objects that contains the results of the query. Each object contains the data for a specific usage metric.
@@ -10293,7 +10293,7 @@ public struct GetUsageTotalsOutput: Swift.Equatable {
     }
 }
 
-struct GetUsageTotalsOutputBody: Swift.Equatable {
+struct GetUsageTotalsOutputBody {
     let timeRange: Macie2ClientTypes.TimeRange?
     let usageTotals: [Macie2ClientTypes.UsageTotal]?
 }
@@ -10404,7 +10404,7 @@ extension Macie2ClientTypes.GroupCount: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides a group of results for a query that retrieved aggregated statistical data about findings.
-    public struct GroupCount: Swift.Equatable {
+    public struct GroupCount {
         /// The total number of findings in the group of query results.
         public var count: Swift.Int?
         /// The name of the property that defines the group in the query results, as specified by the groupBy property in the query request.
@@ -10461,7 +10461,7 @@ extension Macie2ClientTypes.IamUser: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an Identity and Access Management (IAM) user who performed an action on an affected resource.
-    public struct IamUser: Swift.Equatable {
+    public struct IamUser {
         /// The unique identifier for the Amazon Web Services account that's associated with the IAM user who performed the action.
         public var accountId: Swift.String?
         /// The Amazon Resource Name (ARN) of the principal that performed the action. The last section of the ARN contains the name of the user who performed the action.
@@ -10527,7 +10527,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -10582,7 +10582,7 @@ extension Macie2ClientTypes.Invitation: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an Amazon Macie membership invitation.
-    public struct Invitation: Swift.Equatable {
+    public struct Invitation {
         /// The Amazon Web Services account ID for the account that sent the invitation.
         public var accountId: Swift.String?
         /// The unique identifier for the invitation.
@@ -10653,7 +10653,7 @@ extension Macie2ClientTypes.IpAddressDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the IP address of the device that an entity used to perform an action on an affected resource.
-    public struct IpAddressDetails: Swift.Equatable {
+    public struct IpAddressDetails {
         /// The Internet Protocol version 4 (IPv4) address of the device.
         public var ipAddressV4: Swift.String?
         /// The city that the IP address originated from.
@@ -10704,7 +10704,7 @@ extension Macie2ClientTypes.IpCity: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the city that an IP address originated from.
-    public struct IpCity: Swift.Equatable {
+    public struct IpCity {
         /// The name of the city.
         public var name: Swift.String?
 
@@ -10745,7 +10745,7 @@ extension Macie2ClientTypes.IpCountry: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the country that an IP address originated from.
-    public struct IpCountry: Swift.Equatable {
+    public struct IpCountry {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country that the IP address originated from. For example, US for the United States.
         public var code: Swift.String?
         /// The name of the country that the IP address originated from.
@@ -10790,7 +10790,7 @@ extension Macie2ClientTypes.IpGeoLocation: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides geographic coordinates that indicate where a specified IP address originated from.
-    public struct IpGeoLocation: Swift.Equatable {
+    public struct IpGeoLocation {
         /// The latitude coordinate of the location, rounded to four decimal places.
         public var lat: Swift.Double?
         /// The longitude coordinate of the location, rounded to four decimal places.
@@ -10847,7 +10847,7 @@ extension Macie2ClientTypes.IpOwner: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the registered owner of an IP address.
-    public struct IpOwner: Swift.Equatable {
+    public struct IpOwner {
         /// The autonomous system number (ASN) for the autonomous system that included the IP address.
         public var asn: Swift.String?
         /// The organization identifier that's associated with the autonomous system number (ASN) for the autonomous system that included the IP address.
@@ -11033,7 +11033,7 @@ extension Macie2ClientTypes.JobDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies whether any one-time or recurring classification jobs are configured to analyze data in an S3 bucket, and, if so, the details of the job that ran most recently.
-    public struct JobDetails: Swift.Equatable {
+    public struct JobDetails {
         /// Specifies whether any one-time or recurring jobs are configured to analyze data in the bucket. Possible values are:
         ///
         /// * TRUE - The bucket is explicitly included in the bucket definition (S3BucketDefinitionForJob) for one or more jobs and at least one of those jobs has a status other than CANCELLED. Or the bucket matched the bucket criteria (S3BucketCriteriaForJob) for at least one job that previously ran.
@@ -11104,7 +11104,7 @@ extension Macie2ClientTypes.JobScheduleFrequency: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the recurrence pattern for running a classification job.
-    public struct JobScheduleFrequency: Swift.Equatable {
+    public struct JobScheduleFrequency {
         /// Specifies a daily recurrence pattern for running the job.
         public var dailySchedule: Macie2ClientTypes.DailySchedule?
         /// Specifies a monthly recurrence pattern for running the job.
@@ -11153,7 +11153,7 @@ extension Macie2ClientTypes.JobScopeTerm: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property- or tag-based condition that defines criteria for including or excluding S3 objects from a classification job. A JobScopeTerm object can contain only one simpleScopeTerm object or one tagScopeTerm object.
-    public struct JobScopeTerm: Swift.Equatable {
+    public struct JobScopeTerm {
         /// A property-based condition that defines a property, operator, and one or more values for including or excluding objects from the job.
         public var simpleScopeTerm: Macie2ClientTypes.SimpleScopeTerm?
         /// A tag-based condition that defines the operator and tag keys or tag key and value pairs for including or excluding objects from the job.
@@ -11204,7 +11204,7 @@ extension Macie2ClientTypes.JobScopingBlock: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies one or more property- and tag-based conditions that define criteria for including or excluding S3 objects from a classification job.
-    public struct JobScopingBlock: Swift.Equatable {
+    public struct JobScopingBlock {
         /// An array of conditions, one for each property- or tag-based condition that determines which objects to include or exclude from the job. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public var and: [Macie2ClientTypes.JobScopeTerm]?
 
@@ -11344,7 +11344,7 @@ extension Macie2ClientTypes.JobSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a classification job, including the current status of the job.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The property- and tag-based conditions that determine which S3 buckets are included or excluded from the job's analysis. Each time the job runs, the job uses these criteria to determine which buckets to analyze. A job's definition can contain a bucketCriteria object or a bucketDefinitions array, not both.
         public var bucketCriteria: Macie2ClientTypes.S3BucketCriteriaForJob?
         /// An array of objects, one for each Amazon Web Services account that owns specific S3 buckets for the job to analyze. Each object specifies the account ID for an account and one or more buckets to analyze for that account. A job's definition can contain a bucketDefinitions array or a bucketCriteria object, not both.
@@ -11466,7 +11466,7 @@ extension Macie2ClientTypes.KeyValuePair: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the tags that are associated with an S3 bucket or object. Each tag consists of a required tag key and an associated tag value.
-    public struct KeyValuePair: Swift.Equatable {
+    public struct KeyValuePair {
         /// One part of a key-value pair that comprises a tag. A tag key is a general label that acts as a category for more specific tag values.
         public var key: Swift.String?
         /// One part of a key-value pair that comprises a tag. A tag value acts as a descriptor for a tag key. A tag value can be an empty string.
@@ -11505,7 +11505,7 @@ extension Macie2ClientTypes.LastRunErrorStatus: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies whether any account- or bucket-level access errors occurred when a classification job ran. For information about using logging data to investigate these errors, see [Monitoring sensitive data discovery jobs](https://docs.aws.amazon.com/macie/latest/user/discovery-jobs-monitor-cw-logs.html) in the Amazon Macie User Guide.
-    public struct LastRunErrorStatus: Swift.Equatable {
+    public struct LastRunErrorStatus {
         /// Specifies whether any account- or bucket-level access errors occurred when the job ran. For a recurring job, this value indicates the error status of the job's most recent run. Possible values are:
         ///
         /// * ERROR - One or more errors occurred. Amazon Macie didn't process all the data specified for the job.
@@ -11579,7 +11579,7 @@ extension ListAllowListsInput {
     }
 }
 
-public struct ListAllowListsInput: Swift.Equatable {
+public struct ListAllowListsInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -11595,7 +11595,7 @@ public struct ListAllowListsInput: Swift.Equatable {
     }
 }
 
-struct ListAllowListsInputBody: Swift.Equatable {
+struct ListAllowListsInputBody {
 }
 
 extension ListAllowListsInputBody: Swift.Decodable {
@@ -11618,7 +11618,7 @@ extension ListAllowListsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAllowListsOutput: Swift.Equatable {
+public struct ListAllowListsOutput {
     /// An array of objects, one for each allow list.
     public var allowLists: [Macie2ClientTypes.AllowListSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -11634,7 +11634,7 @@ public struct ListAllowListsOutput: Swift.Equatable {
     }
 }
 
-struct ListAllowListsOutputBody: Swift.Equatable {
+struct ListAllowListsOutputBody {
     let allowLists: [Macie2ClientTypes.AllowListSummary]?
     let nextToken: Swift.String?
 }
@@ -11709,7 +11709,7 @@ extension ListClassificationJobsInput {
     }
 }
 
-public struct ListClassificationJobsInput: Swift.Equatable {
+public struct ListClassificationJobsInput {
     /// The criteria to use to filter the results.
     public var filterCriteria: Macie2ClientTypes.ListJobsFilterCriteria?
     /// The maximum number of items to include in each page of the response.
@@ -11733,7 +11733,7 @@ public struct ListClassificationJobsInput: Swift.Equatable {
     }
 }
 
-struct ListClassificationJobsInputBody: Swift.Equatable {
+struct ListClassificationJobsInputBody {
     let filterCriteria: Macie2ClientTypes.ListJobsFilterCriteria?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -11775,7 +11775,7 @@ extension ListClassificationJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClassificationJobsOutput: Swift.Equatable {
+public struct ListClassificationJobsOutput {
     /// An array of objects, one for each job that matches the filter criteria specified in the request.
     public var items: [Macie2ClientTypes.JobSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -11791,7 +11791,7 @@ public struct ListClassificationJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListClassificationJobsOutputBody: Swift.Equatable {
+struct ListClassificationJobsOutputBody {
     let items: [Macie2ClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -11860,7 +11860,7 @@ extension ListClassificationScopesInput {
     }
 }
 
-public struct ListClassificationScopesInput: Swift.Equatable {
+public struct ListClassificationScopesInput {
     /// The name of the classification scope to retrieve the unique identifier for.
     public var name: Swift.String?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -11876,7 +11876,7 @@ public struct ListClassificationScopesInput: Swift.Equatable {
     }
 }
 
-struct ListClassificationScopesInputBody: Swift.Equatable {
+struct ListClassificationScopesInputBody {
 }
 
 extension ListClassificationScopesInputBody: Swift.Decodable {
@@ -11899,7 +11899,7 @@ extension ListClassificationScopesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClassificationScopesOutput: Swift.Equatable {
+public struct ListClassificationScopesOutput {
     /// An array that specifies the unique identifier and name of the classification scope for the account.
     public var classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -11915,7 +11915,7 @@ public struct ListClassificationScopesOutput: Swift.Equatable {
     }
 }
 
-struct ListClassificationScopesOutputBody: Swift.Equatable {
+struct ListClassificationScopesOutputBody {
     let classificationScopes: [Macie2ClientTypes.ClassificationScopeSummary]?
     let nextToken: Swift.String?
 }
@@ -11982,7 +11982,7 @@ extension ListCustomDataIdentifiersInput {
     }
 }
 
-public struct ListCustomDataIdentifiersInput: Swift.Equatable {
+public struct ListCustomDataIdentifiersInput {
     /// The maximum number of items to include in each page of the response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -11998,7 +11998,7 @@ public struct ListCustomDataIdentifiersInput: Swift.Equatable {
     }
 }
 
-struct ListCustomDataIdentifiersInputBody: Swift.Equatable {
+struct ListCustomDataIdentifiersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -12032,7 +12032,7 @@ extension ListCustomDataIdentifiersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomDataIdentifiersOutput: Swift.Equatable {
+public struct ListCustomDataIdentifiersOutput {
     /// An array of objects, one for each custom data identifier.
     public var items: [Macie2ClientTypes.CustomDataIdentifierSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12048,7 +12048,7 @@ public struct ListCustomDataIdentifiersOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomDataIdentifiersOutputBody: Swift.Equatable {
+struct ListCustomDataIdentifiersOutputBody {
     let items: [Macie2ClientTypes.CustomDataIdentifierSummary]?
     let nextToken: Swift.String?
 }
@@ -12117,7 +12117,7 @@ extension ListFindingsFiltersInput {
     }
 }
 
-public struct ListFindingsFiltersInput: Swift.Equatable {
+public struct ListFindingsFiltersInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -12133,7 +12133,7 @@ public struct ListFindingsFiltersInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsFiltersInputBody: Swift.Equatable {
+struct ListFindingsFiltersInputBody {
 }
 
 extension ListFindingsFiltersInputBody: Swift.Decodable {
@@ -12156,7 +12156,7 @@ extension ListFindingsFiltersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsFiltersOutput: Swift.Equatable {
+public struct ListFindingsFiltersOutput {
     /// An array of objects, one for each filter that's associated with the account.
     public var findingsFilterListItems: [Macie2ClientTypes.FindingsFilterListItem]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12172,7 +12172,7 @@ public struct ListFindingsFiltersOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsFiltersOutputBody: Swift.Equatable {
+struct ListFindingsFiltersOutputBody {
     let findingsFilterListItems: [Macie2ClientTypes.FindingsFilterListItem]?
     let nextToken: Swift.String?
 }
@@ -12250,7 +12250,7 @@ extension ListFindingsInput {
     }
 }
 
-public struct ListFindingsInput: Swift.Equatable {
+public struct ListFindingsInput {
     /// The criteria to use to filter the results.
     public var findingCriteria: Macie2ClientTypes.FindingCriteria?
     /// The maximum number of items to include in each page of the response.
@@ -12274,7 +12274,7 @@ public struct ListFindingsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsInputBody: Swift.Equatable {
+struct ListFindingsInputBody {
     let findingCriteria: Macie2ClientTypes.FindingCriteria?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -12316,7 +12316,7 @@ extension ListFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsOutput: Swift.Equatable {
+public struct ListFindingsOutput {
     /// An array of strings, where each string is the unique identifier for a finding that matches the filter criteria specified in the request.
     public var findingIds: [Swift.String]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12332,7 +12332,7 @@ public struct ListFindingsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsOutputBody: Swift.Equatable {
+struct ListFindingsOutputBody {
     let findingIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12401,7 +12401,7 @@ extension ListInvitationsInput {
     }
 }
 
-public struct ListInvitationsInput: Swift.Equatable {
+public struct ListInvitationsInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -12417,7 +12417,7 @@ public struct ListInvitationsInput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsInputBody: Swift.Equatable {
+struct ListInvitationsInputBody {
 }
 
 extension ListInvitationsInputBody: Swift.Decodable {
@@ -12440,7 +12440,7 @@ extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutput: Swift.Equatable {
+public struct ListInvitationsOutput {
     /// An array of objects, one for each invitation that was received by the account.
     public var invitations: [Macie2ClientTypes.Invitation]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12456,7 +12456,7 @@ public struct ListInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputBody: Swift.Equatable {
+struct ListInvitationsOutputBody {
     let invitations: [Macie2ClientTypes.Invitation]?
     let nextToken: Swift.String?
 }
@@ -12553,7 +12553,7 @@ extension Macie2ClientTypes.ListJobsFilterCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for filtering the results of a request for information about classification jobs.
-    public struct ListJobsFilterCriteria: Swift.Equatable {
+    public struct ListJobsFilterCriteria {
         /// An array of objects, one for each condition that determines which jobs to exclude from the results.
         public var excludes: [Macie2ClientTypes.ListJobsFilterTerm]?
         /// An array of objects, one for each condition that determines which jobs to include in the results.
@@ -12655,7 +12655,7 @@ extension Macie2ClientTypes.ListJobsFilterTerm: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a condition that filters the results of a request for information about classification jobs. Each condition consists of a property, an operator, and one or more values.
-    public struct ListJobsFilterTerm: Swift.Equatable {
+    public struct ListJobsFilterTerm {
         /// The operator to use to filter the results.
         public var comparator: Macie2ClientTypes.JobComparator?
         /// The property to use to filter the results.
@@ -12743,7 +12743,7 @@ extension Macie2ClientTypes.ListJobsSortCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a request for information about classification jobs.
-    public struct ListJobsSortCriteria: Swift.Equatable {
+    public struct ListJobsSortCriteria {
         /// The property to sort the results by.
         public var attributeName: Macie2ClientTypes.ListJobsSortAttributeName?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -12781,7 +12781,7 @@ extension ListManagedDataIdentifiersInput {
     }
 }
 
-public struct ListManagedDataIdentifiersInput: Swift.Equatable {
+public struct ListManagedDataIdentifiersInput {
     /// The nextToken string that specifies which page of results to return in a paginated response.
     public var nextToken: Swift.String?
 
@@ -12793,7 +12793,7 @@ public struct ListManagedDataIdentifiersInput: Swift.Equatable {
     }
 }
 
-struct ListManagedDataIdentifiersInputBody: Swift.Equatable {
+struct ListManagedDataIdentifiersInputBody {
     let nextToken: Swift.String?
 }
 
@@ -12823,7 +12823,7 @@ extension ListManagedDataIdentifiersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListManagedDataIdentifiersOutput: Swift.Equatable {
+public struct ListManagedDataIdentifiersOutput {
     /// An array of objects, one for each managed data identifier.
     public var items: [Macie2ClientTypes.ManagedDataIdentifierSummary]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12839,7 +12839,7 @@ public struct ListManagedDataIdentifiersOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedDataIdentifiersOutputBody: Swift.Equatable {
+struct ListManagedDataIdentifiersOutputBody {
     let items: [Macie2ClientTypes.ManagedDataIdentifierSummary]?
     let nextToken: Swift.String?
 }
@@ -12905,7 +12905,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -12925,7 +12925,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
 }
 
 extension ListMembersInputBody: Swift.Decodable {
@@ -12948,7 +12948,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// An array of objects, one for each account that's associated with the administrator account and matches the criteria specified in the request.
     public var members: [Macie2ClientTypes.Member]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -12964,7 +12964,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let members: [Macie2ClientTypes.Member]?
     let nextToken: Swift.String?
 }
@@ -13033,7 +13033,7 @@ extension ListOrganizationAdminAccountsInput {
     }
 }
 
-public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -13049,7 +13049,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsInputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsInputBody {
 }
 
 extension ListOrganizationAdminAccountsInputBody: Swift.Decodable {
@@ -13072,7 +13072,7 @@ extension ListOrganizationAdminAccountsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsOutput {
     /// An array of objects, one for each delegated Amazon Macie administrator account for the organization. Only one of these accounts can have a status of ENABLED.
     public var adminAccounts: [Macie2ClientTypes.AdminAccount]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -13088,7 +13088,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsOutputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsOutputBody {
     let adminAccounts: [Macie2ClientTypes.AdminAccount]?
     let nextToken: Swift.String?
 }
@@ -13159,7 +13159,7 @@ extension ListResourceProfileArtifactsInput {
     }
 }
 
-public struct ListResourceProfileArtifactsInput: Swift.Equatable {
+public struct ListResourceProfileArtifactsInput {
     /// The nextToken string that specifies which page of results to return in a paginated response.
     public var nextToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
@@ -13176,7 +13176,7 @@ public struct ListResourceProfileArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceProfileArtifactsInputBody: Swift.Equatable {
+struct ListResourceProfileArtifactsInputBody {
 }
 
 extension ListResourceProfileArtifactsInputBody: Swift.Decodable {
@@ -13199,7 +13199,7 @@ extension ListResourceProfileArtifactsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListResourceProfileArtifactsOutput: Swift.Equatable {
+public struct ListResourceProfileArtifactsOutput {
     /// An array of objects, one for each of 1-100 S3 objects that Amazon Macie selected for analysis. If Macie has analyzed more than 100 objects in the bucket, Macie populates the array based on the value for the ResourceProfileArtifact.sensitive field for an object: true (sensitive), followed by false (not sensitive). Macie then populates any remaining items in the array with information about objects where the value for the ResourceProfileArtifact.classificationResultStatus field is SKIPPED.
     public var artifacts: [Macie2ClientTypes.ResourceProfileArtifact]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -13215,7 +13215,7 @@ public struct ListResourceProfileArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceProfileArtifactsOutputBody: Swift.Equatable {
+struct ListResourceProfileArtifactsOutputBody {
     let artifacts: [Macie2ClientTypes.ResourceProfileArtifact]?
     let nextToken: Swift.String?
 }
@@ -13288,7 +13288,7 @@ extension ListResourceProfileDetectionsInput {
     }
 }
 
-public struct ListResourceProfileDetectionsInput: Swift.Equatable {
+public struct ListResourceProfileDetectionsInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -13309,7 +13309,7 @@ public struct ListResourceProfileDetectionsInput: Swift.Equatable {
     }
 }
 
-struct ListResourceProfileDetectionsInputBody: Swift.Equatable {
+struct ListResourceProfileDetectionsInputBody {
 }
 
 extension ListResourceProfileDetectionsInputBody: Swift.Decodable {
@@ -13332,7 +13332,7 @@ extension ListResourceProfileDetectionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListResourceProfileDetectionsOutput: Swift.Equatable {
+public struct ListResourceProfileDetectionsOutput {
     /// An array of objects, one for each type of sensitive data that Amazon Macie found in the bucket. Each object reports the number of occurrences of the specified type and provides information about the custom data identifier or managed data identifier that detected the data.
     public var detections: [Macie2ClientTypes.Detection]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -13348,7 +13348,7 @@ public struct ListResourceProfileDetectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListResourceProfileDetectionsOutputBody: Swift.Equatable {
+struct ListResourceProfileDetectionsOutputBody {
     let detections: [Macie2ClientTypes.Detection]?
     let nextToken: Swift.String?
 }
@@ -13416,7 +13416,7 @@ extension ListSensitivityInspectionTemplatesInput {
     }
 }
 
-public struct ListSensitivityInspectionTemplatesInput: Swift.Equatable {
+public struct ListSensitivityInspectionTemplatesInput {
     /// The maximum number of items to include in each page of a paginated response.
     public var maxResults: Swift.Int?
     /// The nextToken string that specifies which page of results to return in a paginated response.
@@ -13432,7 +13432,7 @@ public struct ListSensitivityInspectionTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListSensitivityInspectionTemplatesInputBody: Swift.Equatable {
+struct ListSensitivityInspectionTemplatesInputBody {
 }
 
 extension ListSensitivityInspectionTemplatesInputBody: Swift.Decodable {
@@ -13455,7 +13455,7 @@ extension ListSensitivityInspectionTemplatesOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct ListSensitivityInspectionTemplatesOutput: Swift.Equatable {
+public struct ListSensitivityInspectionTemplatesOutput {
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
     public var nextToken: Swift.String?
     /// An array that specifies the unique identifier and name of the sensitivity inspection template for the account.
@@ -13471,7 +13471,7 @@ public struct ListSensitivityInspectionTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListSensitivityInspectionTemplatesOutputBody: Swift.Equatable {
+struct ListSensitivityInspectionTemplatesOutputBody {
     let nextToken: Swift.String?
     let sensitivityInspectionTemplates: [Macie2ClientTypes.SensitivityInspectionTemplatesEntry]?
 }
@@ -13525,7 +13525,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13538,7 +13538,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -13559,7 +13559,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of key-value pairs that specifies which tags (keys and values) are associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13571,7 +13571,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13710,7 +13710,7 @@ extension Macie2ClientTypes.ManagedDataIdentifierSummary: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a managed data identifier. For additional information, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
-    public struct ManagedDataIdentifierSummary: Swift.Equatable {
+    public struct ManagedDataIdentifierSummary {
         /// The category of sensitive data that the managed data identifier detects: CREDENTIALS, for credentials data such as private keys or Amazon Web Services secret access keys; FINANCIAL_INFORMATION, for financial data such as credit card numbers; or, PERSONAL_INFORMATION, for personal health information, such as health insurance identification numbers, or personally identifiable information, such as passport numbers.
         public var category: Macie2ClientTypes.SensitiveDataItemCategory?
         /// The unique identifier for the managed data identifier. This is a string that describes the type of sensitive data that the managed data identifier detects. For example: OPENSSH_PRIVATE_KEY for OpenSSH private keys, CREDIT_CARD_NUMBER for credit card numbers, or USA_PASSPORT_NUMBER for US passport numbers.
@@ -13833,7 +13833,7 @@ extension Macie2ClientTypes.MatchingBucket: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides statistical data and other information about an S3 bucket that Amazon Macie monitors and analyzes for your account. By default, object count and storage size values include data for object parts that are the result of incomplete multipart uploads. For more information, see [How Macie monitors Amazon S3 data security](https://docs.aws.amazon.com/macie/latest/user/monitoring-s3-how-it-works.html) in the Amazon Macie User Guide. If an error occurs when Macie attempts to retrieve and process information about the bucket or the bucket's objects, the value for most of these properties is null. Key exceptions are accountId and bucketName. To identify the cause of the error, refer to the errorCode and errorMessage values.
-    public struct MatchingBucket: Swift.Equatable {
+    public struct MatchingBucket {
         /// The unique identifier for the Amazon Web Services account that owns the bucket.
         public var accountId: Swift.String?
         /// The name of the bucket.
@@ -13924,7 +13924,7 @@ extension Macie2ClientTypes.MatchingResource: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides statistical data and other information about an Amazon Web Services resource that Amazon Macie monitors and analyzes for your account.
-    public struct MatchingResource: Swift.Equatable {
+    public struct MatchingResource {
         /// The details of an S3 bucket that Amazon Macie monitors and analyzes.
         public var matchingBucket: Macie2ClientTypes.MatchingBucket?
 
@@ -14019,7 +14019,7 @@ extension Macie2ClientTypes.Member: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an account that's associated with an Amazon Macie administrator account.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The Amazon Web Services account ID for the account.
         public var accountId: Swift.String?
         /// The Amazon Web Services account ID for the administrator account.
@@ -14086,7 +14086,7 @@ extension Macie2ClientTypes.MonthlySchedule: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a monthly recurrence pattern for running a classification job.
-    public struct MonthlySchedule: Swift.Equatable {
+    public struct MonthlySchedule {
         /// The numeric day of the month when Amazon Macie runs the job. This value can be an integer from 1 through 31. If this value exceeds the number of days in a certain month, Macie doesn't run the job that month. Macie runs the job only during months that have the specified day. For example, if this value is 31 and a month has only 30 days, Macie doesn't run the job that month. To run the job every month, specify a value that's less than 29.
         public var dayOfMonth: Swift.Int?
 
@@ -14145,7 +14145,7 @@ extension Macie2ClientTypes.ObjectCountByEncryptionType: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the number of objects that are in an S3 bucket and use certain types of server-side encryption, use client-side encryption, or aren't encrypted.
-    public struct ObjectCountByEncryptionType: Swift.Equatable {
+    public struct ObjectCountByEncryptionType {
         /// The total number of objects that are encrypted with customer-provided keys. The objects use server-side encryption with customer-provided keys (SSE-C).
         public var customerManaged: Swift.Int?
         /// The total number of objects that are encrypted with KMS keys, either Amazon Web Services managed keys or customer managed keys. The objects use dual-layer server-side encryption or server-side encryption with KMS keys (DSSE-KMS or SSE-KMS).
@@ -14208,7 +14208,7 @@ extension Macie2ClientTypes.ObjectLevelStatistics: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the total storage size (in bytes) or number of objects that Amazon Macie can't analyze in one or more S3 buckets. In a BucketMetadata or MatchingBucket object, this data is for a specific bucket. In a GetBucketStatisticsResponse object, this data is aggregated for all the buckets in the query results. If versioning is enabled for a bucket, storage size values are based on the size of the latest version of each applicable object in the bucket.
-    public struct ObjectLevelStatistics: Swift.Equatable {
+    public struct ObjectLevelStatistics {
         /// The total storage size (in bytes) or number of objects that Amazon Macie can't analyze because the objects don't have a file name extension for a supported file or storage format.
         public var fileType: Swift.Int?
         /// The total storage size (in bytes) or number of objects that Amazon Macie can't analyze because the objects use an unsupported storage class.
@@ -14335,7 +14335,7 @@ extension Macie2ClientTypes.Occurrences: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the location of 1-15 occurrences of sensitive data that was detected by a managed data identifier or a custom data identifier and produced a sensitive data finding.
-    public struct Occurrences: Swift.Equatable {
+    public struct Occurrences {
         /// An array of objects, one for each occurrence of sensitive data in a Microsoft Excel workbook, CSV file, or TSV file. This value is null for all other types of files. Each Cell object specifies a cell or field that contains the sensitive data.
         public var cells: [Macie2ClientTypes.Cell]?
         /// An array of objects, one for each occurrence of sensitive data in an email message or a non-binary text file such as an HTML, TXT, or XML file. Each Range object specifies a line or inclusive range of lines that contains the sensitive data, and the position of the data on the specified line or lines. This value is often null for file types that are supported by Cell, Page, or Record objects. Exceptions are the location of sensitive data in: unstructured sections of an otherwise structured file, such as a comment in a file; a malformed file that Amazon Macie analyzes as plain text; and, a CSV or TSV file that has any column names that contain sensitive data.
@@ -14463,7 +14463,7 @@ extension Macie2ClientTypes.Page: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the location of an occurrence of sensitive data in an Adobe Portable Document Format file.
-    public struct Page: Swift.Equatable {
+    public struct Page {
         /// Reserved for future use.
         public var lineRange: Macie2ClientTypes.Range?
         /// Reserved for future use.
@@ -14512,7 +14512,7 @@ extension Macie2ClientTypes.PolicyDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides the details of a policy finding.
-    public struct PolicyDetails: Swift.Equatable {
+    public struct PolicyDetails {
         /// The action that produced the finding.
         public var action: Macie2ClientTypes.FindingAction?
         /// The entity that performed the action that produced the finding.
@@ -14550,7 +14550,7 @@ extension PutClassificationExportConfigurationInput {
     }
 }
 
-public struct PutClassificationExportConfigurationInput: Swift.Equatable {
+public struct PutClassificationExportConfigurationInput {
     /// The location to store data classification results in, and the encryption settings to use when storing results in that location.
     /// This member is required.
     public var configuration: Macie2ClientTypes.ClassificationExportConfiguration?
@@ -14563,7 +14563,7 @@ public struct PutClassificationExportConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutClassificationExportConfigurationInputBody: Swift.Equatable {
+struct PutClassificationExportConfigurationInputBody {
     let configuration: Macie2ClientTypes.ClassificationExportConfiguration?
 }
 
@@ -14591,7 +14591,7 @@ extension PutClassificationExportConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct PutClassificationExportConfigurationOutput: Swift.Equatable {
+public struct PutClassificationExportConfigurationOutput {
     /// The location where the data classification results are stored, and the encryption settings that are used when storing results in that location.
     public var configuration: Macie2ClientTypes.ClassificationExportConfiguration?
 
@@ -14603,7 +14603,7 @@ public struct PutClassificationExportConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutClassificationExportConfigurationOutputBody: Swift.Equatable {
+struct PutClassificationExportConfigurationOutputBody {
     let configuration: Macie2ClientTypes.ClassificationExportConfiguration?
 }
 
@@ -14660,7 +14660,7 @@ extension PutFindingsPublicationConfigurationInput {
     }
 }
 
-public struct PutFindingsPublicationConfigurationInput: Swift.Equatable {
+public struct PutFindingsPublicationConfigurationInput {
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The configuration settings that determine which findings to publish to Security Hub.
@@ -14676,7 +14676,7 @@ public struct PutFindingsPublicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutFindingsPublicationConfigurationInputBody: Swift.Equatable {
+struct PutFindingsPublicationConfigurationInputBody {
     let clientToken: Swift.String?
     let securityHubConfiguration: Macie2ClientTypes.SecurityHubConfiguration?
 }
@@ -14701,7 +14701,7 @@ extension PutFindingsPublicationConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct PutFindingsPublicationConfigurationOutput: Swift.Equatable {
+public struct PutFindingsPublicationConfigurationOutput {
 
     public init() { }
 }
@@ -14756,7 +14756,7 @@ extension Macie2ClientTypes.Range: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the location of an occurrence of sensitive data in an email message or a non-binary text file such as an HTML, TXT, or XML file.
-    public struct Range: Swift.Equatable {
+    public struct Range {
         /// The number of lines from the beginning of the file to the end of the sensitive data.
         public var end: Swift.Int?
         /// The number of lines from the beginning of the file to the beginning of the sensitive data.
@@ -14805,7 +14805,7 @@ extension Macie2ClientTypes.Record: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the location of an occurrence of sensitive data in an Apache Avro object container, Apache Parquet file, JSON file, or JSON Lines file.
-    public struct Record: Swift.Equatable {
+    public struct Record {
         /// The path, as a JSONPath expression, to the sensitive data. For an Avro object container or Parquet file, this is the path to the field in the record (recordIndex) that contains the data. For a JSON or JSON Lines file, this is the path to the field or array that contains the data. If the data is a value in an array, the path also indicates which value contains the data. If Amazon Macie detects sensitive data in the name of any element in the path, Macie omits this field. If the name of an element exceeds 240 characters, Macie truncates the name by removing characters from the beginning of the name. If the resulting full path exceeds 250 characters, Macie also truncates the path, starting with the first element in the path, until the path contains 250 or fewer characters.
         public var jsonPath: Swift.String?
         /// For an Avro object container or Parquet file, the record index, starting from 0, for the record that contains the sensitive data. For a JSON Lines file, the line index, starting from 0, for the line that contains the sensitive data. This value is always 0 for JSON files.
@@ -14925,7 +14925,7 @@ extension Macie2ClientTypes.ReplicationDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about settings that define whether one or more objects in an S3 bucket are replicated to S3 buckets for other Amazon Web Services accounts and, if so, which accounts.
-    public struct ReplicationDetails: Swift.Equatable {
+    public struct ReplicationDetails {
         /// Specifies whether the bucket is configured to replicate one or more objects to any destination.
         public var replicated: Swift.Bool?
         /// Specifies whether the bucket is configured to replicate one or more objects to a bucket for an Amazon Web Services account that isn't part of your Amazon Macie organization. An Amazon Macie organization is a set of Macie accounts that are centrally managed as a group of related accounts through Organizations or by Macie invitation.
@@ -14987,7 +14987,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -15036,7 +15036,7 @@ extension Macie2ClientTypes.ResourceProfileArtifact: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an S3 object that Amazon Macie selected for analysis while performing automated sensitive data discovery for an S3 bucket, and the status and results of the analysis. This information is available only if automated sensitive data discovery is currently enabled for your account.
-    public struct ResourceProfileArtifact: Swift.Equatable {
+    public struct ResourceProfileArtifact {
         /// The Amazon Resource Name (ARN) of the object.
         /// This member is required.
         public var arn: Swift.String?
@@ -15135,7 +15135,7 @@ extension Macie2ClientTypes.ResourceStatistics: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides statistical data for sensitive data discovery metrics that apply to an S3 bucket that Amazon Macie monitors and analyzes for your account. The statistics capture the results of automated sensitive data discovery activities that Macie has performed for the bucket. The data is available only if automated sensitive data discovery is currently enabled for your account.
-    public struct ResourceStatistics: Swift.Equatable {
+    public struct ResourceStatistics {
         /// The total amount of data, in bytes, that Amazon Macie has analyzed in the bucket.
         public var totalBytesClassified: Swift.Int?
         /// The total number of occurrences of sensitive data that Amazon Macie has found in the bucket's objects. This includes occurrences that are currently suppressed by the sensitivity scoring settings for the bucket (totalDetectionsSuppressed).
@@ -15208,7 +15208,7 @@ extension Macie2ClientTypes.ResourcesAffected: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the resources that a finding applies to.
-    public struct ResourcesAffected: Swift.Equatable {
+    public struct ResourcesAffected {
         /// The details of the S3 bucket that the finding applies to.
         public var s3Bucket: Macie2ClientTypes.S3Bucket?
         /// The details of the S3 object that the finding applies to.
@@ -15259,7 +15259,7 @@ extension Macie2ClientTypes.RetrievalConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the access method and settings that are used to retrieve occurrences of sensitive data reported by findings.
-    public struct RetrievalConfiguration: Swift.Equatable {
+    public struct RetrievalConfiguration {
         /// The external ID to specify in the trust policy for the IAM role to assume when retrieving sensitive data from affected S3 objects (roleName). This value is null if the value for retrievalMode is CALLER_CREDENTIALS. This ID is a unique alphanumeric string that Amazon Macie generates automatically after you configure it to assume an IAM role. For a Macie administrator to retrieve sensitive data from an affected S3 object for a member account, the trust policy for the role in the member account must include an sts:ExternalId condition that requires this ID.
         public var externalId: Swift.String?
         /// The access method that's used to retrieve sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie (roleName); and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data.
@@ -15342,7 +15342,7 @@ extension Macie2ClientTypes.RevealConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the status of the Amazon Macie configuration for retrieving occurrences of sensitive data reported by findings, and the Key Management Service (KMS) key to use to encrypt sensitive data that's retrieved. When you enable the configuration for the first time, your request must specify an KMS key. Otherwise, an error occurs.
-    public struct RevealConfiguration: Swift.Equatable {
+    public struct RevealConfiguration {
         /// The Amazon Resource Name (ARN), ID, or alias of the KMS key to use to encrypt sensitive data that's retrieved. The key must be an existing, customer managed, symmetric encryption key that's enabled in the same Amazon Web Services Region as the Amazon Macie account. If this value specifies an alias, it must include the following prefix: alias/. If this value specifies a key that's owned by another Amazon Web Services account, it must specify the ARN of the key or the ARN of the key's alias.
         public var kmsKeyId: Swift.String?
         /// The status of the configuration for the Amazon Macie account. In a response, possible values are: ENABLED, the configuration is currently enabled for the account; and, DISABLED, the configuration is currently disabled for the account. In a request, valid values are: ENABLED, enable the configuration for the account; and, DISABLED, disable the configuration for the account. If you disable the configuration, you also permanently delete current settings that specify how to access affected S3 objects. If your current access method is ASSUME_ROLE, Macie also deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
@@ -15505,7 +15505,7 @@ extension Macie2ClientTypes.S3Bucket: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the S3 bucket that a finding applies to.
-    public struct S3Bucket: Swift.Equatable {
+    public struct S3Bucket {
         /// Specifies whether the bucket policy for the bucket requires server-side encryption of objects when objects are added to the bucket. Possible values are:
         ///
         /// * FALSE - The bucket policy requires server-side encryption of new objects. PutObject requests must include a valid server-side encryption header.
@@ -15583,7 +15583,7 @@ extension Macie2ClientTypes.S3BucketCriteriaForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies property- and tag-based conditions that define criteria for including or excluding S3 buckets from a classification job. Exclude conditions take precedence over include conditions.
-    public struct S3BucketCriteriaForJob: Swift.Equatable {
+    public struct S3BucketCriteriaForJob {
         /// The property- and tag-based conditions that determine which buckets to exclude from the job.
         public var excludes: Macie2ClientTypes.CriteriaBlockForJob?
         /// The property- and tag-based conditions that determine which buckets to include in the job.
@@ -15640,7 +15640,7 @@ extension Macie2ClientTypes.S3BucketDefinitionForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies an Amazon Web Services account that owns S3 buckets for a classification job to analyze, and one or more specific buckets to analyze for that account.
-    public struct S3BucketDefinitionForJob: Swift.Equatable {
+    public struct S3BucketDefinitionForJob {
         /// The unique identifier for the Amazon Web Services account that owns the buckets.
         /// This member is required.
         public var accountId: Swift.String?
@@ -15687,7 +15687,7 @@ extension Macie2ClientTypes.S3BucketOwner: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the Amazon Web Services account that owns an S3 bucket.
-    public struct S3BucketOwner: Swift.Equatable {
+    public struct S3BucketOwner {
         /// The display name of the account that owns the bucket.
         public var displayName: Swift.String?
         /// The canonical user ID for the account that owns the bucket.
@@ -15726,7 +15726,7 @@ extension Macie2ClientTypes.S3ClassificationScope: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the S3 buckets that are excluded from automated sensitive data discovery for an Amazon Macie account.
-    public struct S3ClassificationScope: Swift.Equatable {
+    public struct S3ClassificationScope {
         /// The S3 buckets that are excluded.
         /// This member is required.
         public var excludes: Macie2ClientTypes.S3ClassificationScopeExclusion?
@@ -15774,7 +15774,7 @@ extension Macie2ClientTypes.S3ClassificationScopeExclusion: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the names of the S3 buckets that are excluded from automated sensitive data discovery.
-    public struct S3ClassificationScopeExclusion: Swift.Equatable {
+    public struct S3ClassificationScopeExclusion {
         /// An array of strings, one for each S3 bucket that is excluded. Each string is the full name of an excluded bucket.
         /// This member is required.
         public var bucketNames: [Swift.String]?
@@ -15828,7 +15828,7 @@ extension Macie2ClientTypes.S3ClassificationScopeExclusionUpdate: Swift.Codable 
 
 extension Macie2ClientTypes {
     /// Specifies S3 buckets to add or remove from the exclusion list defined by the classification scope for an Amazon Macie account.
-    public struct S3ClassificationScopeExclusionUpdate: Swift.Equatable {
+    public struct S3ClassificationScopeExclusionUpdate {
         /// Depending on the value specified for the update operation (ClassificationScopeUpdateOperation), an array of strings that: lists the names of buckets to add or remove from the list, or specifies a new set of bucket names that overwrites all existing names in the list. Each string must be the full name of an S3 bucket. Values are case sensitive.
         /// This member is required.
         public var bucketNames: [Swift.String]?
@@ -15875,7 +15875,7 @@ extension Macie2ClientTypes.S3ClassificationScopeUpdate: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies changes to the list of S3 buckets that are excluded from automated sensitive data discovery for an Amazon Macie account.
-    public struct S3ClassificationScopeUpdate: Swift.Equatable {
+    public struct S3ClassificationScopeUpdate {
         /// The names of the S3 buckets to add or remove from the list.
         /// This member is required.
         public var excludes: Macie2ClientTypes.S3ClassificationScopeExclusionUpdate?
@@ -15923,7 +15923,7 @@ extension Macie2ClientTypes.S3Destination: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies an S3 bucket to store data classification results in, and the encryption settings to use when storing results in that bucket.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of the bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -15992,7 +15992,7 @@ extension Macie2ClientTypes.S3JobDefinition: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies which S3 buckets contain the objects that a classification job analyzes, and the scope of that analysis. The bucket specification can be static (bucketDefinitions) or dynamic (bucketCriteria). If it's static, the job analyzes objects in the same predefined set of buckets each time the job runs. If it's dynamic, the job analyzes objects in any buckets that match the specified criteria each time the job starts to run.
-    public struct S3JobDefinition: Swift.Equatable {
+    public struct S3JobDefinition {
         /// The property- and tag-based conditions that determine which S3 buckets to include or exclude from the analysis. Each time the job runs, the job uses these criteria to determine which buckets contain objects to analyze. A job's definition can contain a bucketCriteria object or a bucketDefinitions array, not both.
         public var bucketCriteria: Macie2ClientTypes.S3BucketCriteriaForJob?
         /// An array of objects, one for each Amazon Web Services account that owns specific S3 buckets to analyze. Each object specifies the account ID for an account and one or more buckets to analyze for that account. A job's definition can contain a bucketDefinitions array or a bucketCriteria object, not both.
@@ -16113,7 +16113,7 @@ extension Macie2ClientTypes.S3Object: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the S3 object that a finding applies to.
-    public struct S3Object: Swift.Equatable {
+    public struct S3Object {
         /// The Amazon Resource Name (ARN) of the bucket that contains the object.
         public var bucketArn: Swift.String?
         /// The entity tag (ETag) that identifies the affected version of the object. If the object was overwritten or changed after Amazon Macie produced the finding, this value might be different from the current ETag for the object.
@@ -16198,7 +16198,7 @@ extension Macie2ClientTypes.S3WordsList: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an S3 object that lists specific text to ignore.
-    public struct S3WordsList: Swift.Equatable {
+    public struct S3WordsList {
         /// The full name of the S3 bucket that contains the object.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -16284,7 +16284,7 @@ extension Macie2ClientTypes.Scoping: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies one or more property- and tag-based conditions that define criteria for including or excluding S3 objects from a classification job. Exclude conditions take precedence over include conditions.
-    public struct Scoping: Swift.Equatable {
+    public struct Scoping {
         /// The property- and tag-based conditions that determine which objects to exclude from the analysis.
         public var excludes: Macie2ClientTypes.JobScopingBlock?
         /// The property- and tag-based conditions that determine which objects to include in the analysis.
@@ -16329,7 +16329,7 @@ extension Macie2ClientTypes.SearchResourcesBucketCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies property- and tag-based conditions that define filter criteria for including or excluding S3 buckets from the query results. Exclude conditions take precedence over include conditions.
-    public struct SearchResourcesBucketCriteria: Swift.Equatable {
+    public struct SearchResourcesBucketCriteria {
         /// The property- and tag-based conditions that determine which buckets to exclude from the results.
         public var excludes: Macie2ClientTypes.SearchResourcesCriteriaBlock?
         /// The property- and tag-based conditions that determine which buckets to include in the results.
@@ -16407,7 +16407,7 @@ extension Macie2ClientTypes.SearchResourcesCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property- or tag-based filter condition for including or excluding Amazon Web Services resources from the query results.
-    public struct SearchResourcesCriteria: Swift.Equatable {
+    public struct SearchResourcesCriteria {
         /// A property-based condition that defines a property, operator, and one or more values for including or excluding resources from the results.
         public var simpleCriterion: Macie2ClientTypes.SearchResourcesSimpleCriterion?
         /// A tag-based condition that defines an operator and tag keys, tag values, or tag key and value pairs for including or excluding resources from the results.
@@ -16458,7 +16458,7 @@ extension Macie2ClientTypes.SearchResourcesCriteriaBlock: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies property- and tag-based conditions that define filter criteria for including or excluding Amazon Web Services resources from the query results.
-    public struct SearchResourcesCriteriaBlock: Swift.Equatable {
+    public struct SearchResourcesCriteriaBlock {
         /// An array of objects, one for each property- or tag-based condition that includes or excludes resources from the query results. If you specify more than one condition, Amazon Macie uses AND logic to join the conditions.
         public var and: [Macie2ClientTypes.SearchResourcesCriteria]?
 
@@ -16504,7 +16504,7 @@ extension SearchResourcesInput {
     }
 }
 
-public struct SearchResourcesInput: Swift.Equatable {
+public struct SearchResourcesInput {
     /// The filter conditions that determine which S3 buckets to include or exclude from the query results.
     public var bucketCriteria: Macie2ClientTypes.SearchResourcesBucketCriteria?
     /// The maximum number of items to include in each page of the response. The default value is 50.
@@ -16528,7 +16528,7 @@ public struct SearchResourcesInput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesInputBody: Swift.Equatable {
+struct SearchResourcesInputBody {
     let bucketCriteria: Macie2ClientTypes.SearchResourcesBucketCriteria?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -16570,7 +16570,7 @@ extension SearchResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchResourcesOutput: Swift.Equatable {
+public struct SearchResourcesOutput {
     /// An array of objects, one for each resource that matches the filter criteria specified in the request.
     public var matchingResources: [Macie2ClientTypes.MatchingResource]?
     /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -16586,7 +16586,7 @@ public struct SearchResourcesOutput: Swift.Equatable {
     }
 }
 
-struct SearchResourcesOutputBody: Swift.Equatable {
+struct SearchResourcesOutputBody {
     let matchingResources: [Macie2ClientTypes.MatchingResource]?
     let nextToken: Swift.String?
 }
@@ -16677,7 +16677,7 @@ extension Macie2ClientTypes.SearchResourcesSimpleCriterion: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property-based filter condition that determines which Amazon Web Services resources are included or excluded from the query results.
-    public struct SearchResourcesSimpleCriterion: Swift.Equatable {
+    public struct SearchResourcesSimpleCriterion {
         /// The operator to use in the condition. Valid values are EQ (equals) and NE (not equals).
         public var comparator: Macie2ClientTypes.SearchResourcesComparator?
         /// The property to use in the condition.
@@ -16815,7 +16815,7 @@ extension Macie2ClientTypes.SearchResourcesSortCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a query for information about Amazon Web Services resources that Amazon Macie monitors and analyzes.
-    public struct SearchResourcesSortCriteria: Swift.Equatable {
+    public struct SearchResourcesSortCriteria {
         /// The property to sort the results by.
         public var attributeName: Macie2ClientTypes.SearchResourcesSortAttributeName?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -16872,7 +16872,7 @@ extension Macie2ClientTypes.SearchResourcesTagCriterion: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag-based filter condition that determines which Amazon Web Services resources are included or excluded from the query results.
-    public struct SearchResourcesTagCriterion: Swift.Equatable {
+    public struct SearchResourcesTagCriterion {
         /// The operator to use in the condition. Valid values are EQ (equals) and NE (not equals).
         public var comparator: Macie2ClientTypes.SearchResourcesComparator?
         /// The tag keys, tag values, or tag key and value pairs to use in the condition.
@@ -16917,7 +16917,7 @@ extension Macie2ClientTypes.SearchResourcesTagCriterionPair: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag key, a tag value, or a tag key and value (as a pair) to use in a tag-based filter condition for a query. Tag keys and values are case sensitive. Also, Amazon Macie doesn't support use of partial values or wildcard characters in tag-based filter conditions.
-    public struct SearchResourcesTagCriterionPair: Swift.Equatable {
+    public struct SearchResourcesTagCriterionPair {
         /// The value for the tag key to use in the condition.
         public var key: Swift.String?
         /// The tag value to use in the condition.
@@ -16962,7 +16962,7 @@ extension Macie2ClientTypes.SecurityHubConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies configuration settings that determine which findings are published to Security Hub automatically. For information about how Macie publishes findings to Security Hub, see [Amazon Macie integration with Security Hub](https://docs.aws.amazon.com/macie/latest/user/securityhub-integration.html) in the Amazon Macie User Guide.
-    public struct SecurityHubConfiguration: Swift.Equatable {
+    public struct SecurityHubConfiguration {
         /// Specifies whether to publish sensitive data findings to Security Hub. If you set this value to true, Amazon Macie automatically publishes all sensitive data findings that weren't suppressed by a findings filter. The default value is false.
         /// This member is required.
         public var publishClassificationFindings: Swift.Bool?
@@ -17027,7 +17027,7 @@ extension Macie2ClientTypes.SensitiveDataItem: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the category, types, and occurrences of sensitive data that produced a sensitive data finding.
-    public struct SensitiveDataItem: Swift.Equatable {
+    public struct SensitiveDataItem {
         /// The category of sensitive data that was detected. For example: CREDENTIALS, for credentials data such as private keys or Amazon Web Services secret access keys; FINANCIAL_INFORMATION, for financial data such as credit card numbers; or, PERSONAL_INFORMATION, for personal health information, such as health insurance identification numbers, or personally identifiable information, such as passport numbers.
         public var category: Macie2ClientTypes.SensitiveDataItemCategory?
         /// An array of objects, one for each type of sensitive data that was detected. Each object reports the number of occurrences of a specific type of sensitive data that was detected, and the location of up to 15 of those occurrences.
@@ -17127,7 +17127,7 @@ extension Macie2ClientTypes.SensitivityAggregations: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides aggregated statistical data for sensitive data discovery metrics that apply to S3 buckets. Each field contains aggregated data for all the buckets that have a sensitivity score (sensitivityScore) of a specified value or within a specified range (BucketStatisticsBySensitivity). If automated sensitive data discovery is currently disabled for your account, the value for each field is 0.
-    public struct SensitivityAggregations: Swift.Equatable {
+    public struct SensitivityAggregations {
         /// The total storage size, in bytes, of all the objects that Amazon Macie can analyze in the buckets. These objects use a supported storage class and have a file name extension for a supported file or storage format. If versioning is enabled for any of the buckets, this value is based on the size of the latest version of each applicable object in the buckets. This value doesn't reflect the storage size of all versions of all applicable objects in the buckets.
         public var classifiableSizeInBytes: Swift.Int?
         /// The total number of buckets that are publicly accessible due to a combination of permissions settings for each bucket.
@@ -17186,7 +17186,7 @@ extension Macie2ClientTypes.SensitivityInspectionTemplateExcludes: Swift.Codable
 
 extension Macie2ClientTypes {
     /// Specifies managed data identifiers to exclude (not use) when performing automated sensitive data discovery for an Amazon Macie account. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
-    public struct SensitivityInspectionTemplateExcludes: Swift.Equatable {
+    public struct SensitivityInspectionTemplateExcludes {
         /// An array of unique identifiers, one for each managed data identifier to exclude. To retrieve a list of valid values, use the ListManagedDataIdentifiers operation.
         public var managedDataIdentifierIds: [Swift.String]?
 
@@ -17269,7 +17269,7 @@ extension Macie2ClientTypes.SensitivityInspectionTemplateIncludes: Swift.Codable
 
 extension Macie2ClientTypes {
     /// Specifies the allow lists, custom data identifiers, and managed data identifiers to include (use) when performing automated sensitive data discovery for an Amazon Macie account. The configuration must specify at least one custom data identifier or managed data identifier. For information about the managed data identifiers that Amazon Macie currently provides, see [Using managed data identifiers](https://docs.aws.amazon.com/macie/latest/user/managed-data-identifiers.html) in the Amazon Macie User Guide.
-    public struct SensitivityInspectionTemplateIncludes: Swift.Equatable {
+    public struct SensitivityInspectionTemplateIncludes {
         /// An array of unique identifiers, one for each allow list to include.
         public var allowListIds: [Swift.String]?
         /// An array of unique identifiers, one for each custom data identifier to include.
@@ -17318,7 +17318,7 @@ extension Macie2ClientTypes.SensitivityInspectionTemplatesEntry: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the sensitivity inspection template for an Amazon Macie account. Macie uses the template's settings when it performs automated sensitive data discovery for the account.
-    public struct SensitivityInspectionTemplatesEntry: Swift.Equatable {
+    public struct SensitivityInspectionTemplatesEntry {
         /// The unique identifier for the sensitivity inspection template.
         public var id: Swift.String?
         /// The name of the sensitivity inspection template: automated-sensitive-data-discovery.
@@ -17363,7 +17363,7 @@ extension Macie2ClientTypes.ServerSideEncryption: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the default server-side encryption settings for an S3 bucket or the encryption settings for an S3 object.
-    public struct ServerSideEncryption: Swift.Equatable {
+    public struct ServerSideEncryption {
         /// The server-side encryption algorithm that's used when storing data in the bucket or object. If default encryption settings aren't configured for the bucket or the object isn't encrypted using server-side encryption, this value is NONE.
         public var encryptionType: Macie2ClientTypes.EncryptionType?
         /// The Amazon Resource Name (ARN) or unique identifier (key ID) for the KMS key that's used to encrypt data in the bucket or the object. This value is null if an KMS key isn't used to encrypt the data.
@@ -17414,7 +17414,7 @@ extension Macie2ClientTypes.ServiceLimit: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a current quota for an Amazon Macie account.
-    public struct ServiceLimit: Swift.Equatable {
+    public struct ServiceLimit {
         /// Specifies whether the account has met the quota that corresponds to the metric specified by the UsageByAccount.type field in the response.
         public var isServiceLimited: Swift.Bool?
         /// The unit of measurement for the value specified by the value field.
@@ -17476,7 +17476,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -17519,7 +17519,7 @@ extension Macie2ClientTypes.SessionContext: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about a session that was created for an entity that performed an action by using temporary security credentials.
-    public struct SessionContext: Swift.Equatable {
+    public struct SessionContext {
         /// The date and time when the credentials were issued, and whether the credentials were authenticated with a multi-factor authentication (MFA) device.
         public var attributes: Macie2ClientTypes.SessionContextAttributes?
         /// The source and type of credentials that were issued to the entity.
@@ -17564,7 +17564,7 @@ extension Macie2ClientTypes.SessionContextAttributes: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the context in which temporary security credentials were issued to an entity.
-    public struct SessionContextAttributes: Swift.Equatable {
+    public struct SessionContextAttributes {
         /// The date and time, in UTC and ISO 8601 format, when the credentials were issued.
         public var creationDate: ClientRuntime.Date?
         /// Specifies whether the credentials were authenticated with a multi-factor authentication (MFA) device.
@@ -17627,7 +17627,7 @@ extension Macie2ClientTypes.SessionIssuer: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the source and type of temporary security credentials that were issued to an entity.
-    public struct SessionIssuer: Swift.Equatable {
+    public struct SessionIssuer {
         /// The unique identifier for the Amazon Web Services account that owns the entity that was used to get the credentials.
         public var accountId: Swift.String?
         /// The Amazon Resource Name (ARN) of the source account, Identity and Access Management (IAM) user, or role that was used to get the credentials.
@@ -17684,7 +17684,7 @@ extension Macie2ClientTypes.Severity: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides the numerical and qualitative representations of a finding's severity.
-    public struct Severity: Swift.Equatable {
+    public struct Severity {
         /// The qualitative representation of the finding's severity, ranging from Low (least severe) to High (most severe).
         public var description: Macie2ClientTypes.SeverityDescription?
         /// The numerical representation of the finding's severity, ranging from 1 (least severe) to 3 (most severe).
@@ -17765,7 +17765,7 @@ extension Macie2ClientTypes.SeverityLevel: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a severity level for findings that a custom data identifier produces. A severity level determines which severity is assigned to the findings, based on the number of occurrences of text that match the custom data identifier's detection criteria.
-    public struct SeverityLevel: Swift.Equatable {
+    public struct SeverityLevel {
         /// The minimum number of occurrences of text that must match the custom data identifier's detection criteria in order to produce a finding with the specified severity (severity).
         /// This member is required.
         public var occurrencesThreshold: Swift.Int?
@@ -17868,7 +17868,7 @@ extension Macie2ClientTypes.SimpleCriterionForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property-based condition that determines whether an S3 bucket is included or excluded from a classification job.
-    public struct SimpleCriterionForJob: Swift.Equatable {
+    public struct SimpleCriterionForJob {
         /// The operator to use in the condition. Valid values are EQ (equals) and NE (not equals).
         public var comparator: Macie2ClientTypes.JobComparator?
         /// The property to use in the condition.
@@ -17985,7 +17985,7 @@ extension Macie2ClientTypes.SimpleScopeTerm: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a property-based condition that determines whether an S3 object is included or excluded from a classification job.
-    public struct SimpleScopeTerm: Swift.Equatable {
+    public struct SimpleScopeTerm {
         /// The operator to use in the condition. Valid values for each supported property (key) are:
         ///
         /// * OBJECT_EXTENSION - EQ (equals) or NE (not equals)
@@ -18053,7 +18053,7 @@ extension Macie2ClientTypes.SortCriteria: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a request for findings.
-    public struct SortCriteria: Swift.Equatable {
+    public struct SortCriteria {
         /// The name of the property to sort the results by. Valid values are: count, createdAt, policyDetails.action.apiCallDetails.firstSeen, policyDetails.action.apiCallDetails.lastSeen, resourcesAffected, severity.score, type, and updatedAt.
         public var attributeName: Swift.String?
         /// The sort order to apply to the results, based on the value for the property specified by the attributeName property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -18098,7 +18098,7 @@ extension Macie2ClientTypes.Statistics: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides processing statistics for a classification job.
-    public struct Statistics: Swift.Equatable {
+    public struct Statistics {
         /// The approximate number of objects that the job has yet to process during its current run.
         public var approximateNumberOfObjectsToProcess: Swift.Double?
         /// The number of times that the job has run.
@@ -18197,7 +18197,7 @@ extension Macie2ClientTypes.SuppressDataIdentifier: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a custom data identifier or managed data identifier that detected a type of sensitive data to start excluding or including in an S3 bucket's sensitivity score.
-    public struct SuppressDataIdentifier: Swift.Equatable {
+    public struct SuppressDataIdentifier {
         /// The unique identifier for the custom data identifier or managed data identifier that detected the type of sensitive data to exclude or include in the score.
         public var id: Swift.String?
         /// The type of data identifier that detected the sensitive data. Possible values are: CUSTOM, for a custom data identifier; and, MANAGED, for a managed data identifier.
@@ -18254,7 +18254,7 @@ extension Macie2ClientTypes.TagCriterionForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag-based condition that determines whether an S3 bucket is included or excluded from a classification job.
-    public struct TagCriterionForJob: Swift.Equatable {
+    public struct TagCriterionForJob {
         /// The operator to use in the condition. Valid values are EQ (equals) and NE (not equals).
         public var comparator: Macie2ClientTypes.JobComparator?
         /// The tag keys, tag values, or tag key and value pairs to use in the condition.
@@ -18299,7 +18299,7 @@ extension Macie2ClientTypes.TagCriterionPairForJob: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag key, a tag value, or a tag key and value (as a pair) to use in a tag-based condition that determines whether an S3 bucket is included or excluded from a classification job. Tag keys and values are case sensitive. Also, Amazon Macie doesn't support use of partial values or wildcard characters in tag-based conditions.
-    public struct TagCriterionPairForJob: Swift.Equatable {
+    public struct TagCriterionPairForJob {
         /// The value for the tag key to use in the condition.
         public var key: Swift.String?
         /// The tag value to use in the condition.
@@ -18343,7 +18343,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -18361,7 +18361,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -18391,7 +18391,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -18457,7 +18457,7 @@ extension Macie2ClientTypes.TagScopeTerm: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag-based condition that determines whether an S3 object is included or excluded from a classification job.
-    public struct TagScopeTerm: Swift.Equatable {
+    public struct TagScopeTerm {
         /// The operator to use in the condition. Valid values are EQ (equals) or NE (not equals).
         public var comparator: Macie2ClientTypes.JobComparator?
         /// The object property to use in the condition. The only valid value is TAG.
@@ -18540,7 +18540,7 @@ extension Macie2ClientTypes.TagValuePair: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a tag key or tag key and value pair to use in a tag-based condition that determines whether an S3 object is included or excluded from a classification job. Tag keys and values are case sensitive. Also, Amazon Macie doesn't support use of partial values or wildcard characters in tag-based conditions.
-    public struct TagValuePair: Swift.Equatable {
+    public struct TagValuePair {
         /// The value for the tag key to use in the condition.
         public var key: Swift.String?
         /// The tag value, associated with the specified tag key (key), to use in the condition. To specify only a tag key for a condition, specify the tag key for the key property and set this value to an empty string.
@@ -18600,7 +18600,7 @@ extension TestCustomDataIdentifierInput {
     }
 }
 
-public struct TestCustomDataIdentifierInput: Swift.Equatable {
+public struct TestCustomDataIdentifierInput {
     /// An array that lists specific character sequences (ignore words) to exclude from the results. If the text matched by the regular expression contains any string in this array, Amazon Macie ignores it. The array can contain as many as 10 ignore words. Each ignore word can contain 4-90 UTF-8 characters. Ignore words are case sensitive.
     public var ignoreWords: [Swift.String]?
     /// An array that lists specific character sequences (keywords), one of which must precede and be within proximity (maximumMatchDistance) of the regular expression to match. The array can contain as many as 50 keywords. Each keyword can contain 3-90 UTF-8 characters. Keywords aren't case sensitive.
@@ -18630,7 +18630,7 @@ public struct TestCustomDataIdentifierInput: Swift.Equatable {
     }
 }
 
-struct TestCustomDataIdentifierInputBody: Swift.Equatable {
+struct TestCustomDataIdentifierInputBody {
     let ignoreWords: [Swift.String]?
     let keywords: [Swift.String]?
     let maximumMatchDistance: Swift.Int?
@@ -18692,7 +18692,7 @@ extension TestCustomDataIdentifierOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestCustomDataIdentifierOutput: Swift.Equatable {
+public struct TestCustomDataIdentifierOutput {
     /// The number of occurrences of sample text that matched the criteria specified by the custom data identifier.
     public var matchCount: Swift.Int?
 
@@ -18704,7 +18704,7 @@ public struct TestCustomDataIdentifierOutput: Swift.Equatable {
     }
 }
 
-struct TestCustomDataIdentifierOutputBody: Swift.Equatable {
+struct TestCustomDataIdentifierOutputBody {
     let matchCount: Swift.Int?
 }
 
@@ -18777,7 +18777,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -19016,7 +19016,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnprocessableEntityExceptionBody: Swift.Equatable {
+struct UnprocessableEntityExceptionBody {
     let message: Swift.String?
 }
 
@@ -19065,7 +19065,7 @@ extension Macie2ClientTypes.UnprocessedAccount: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an account-related request that hasn't been processed.
-    public struct UnprocessedAccount: Swift.Equatable {
+    public struct UnprocessedAccount {
         /// The Amazon Web Services account ID for the account that the request applies to.
         public var accountId: Swift.String?
         /// The source of the issue or delay in processing the request.
@@ -19113,7 +19113,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -19131,7 +19131,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -19145,7 +19145,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -19191,7 +19191,7 @@ extension UpdateAllowListInput {
     }
 }
 
-public struct UpdateAllowListInput: Swift.Equatable {
+public struct UpdateAllowListInput {
     /// The criteria that specify the text or text pattern to ignore. The criteria can be the location and name of an S3 object that lists specific text to ignore (s3WordsList), or a regular expression that defines a text pattern to ignore (regex). You can change a list's underlying criteria, such as the name of the S3 object or the regular expression to use. However, you can't change the type from s3WordsList to regex or the other way around.
     /// This member is required.
     public var criteria: Macie2ClientTypes.AllowListCriteria?
@@ -19218,7 +19218,7 @@ public struct UpdateAllowListInput: Swift.Equatable {
     }
 }
 
-struct UpdateAllowListInputBody: Swift.Equatable {
+struct UpdateAllowListInputBody {
     let criteria: Macie2ClientTypes.AllowListCriteria?
     let description: Swift.String?
     let name: Swift.String?
@@ -19256,7 +19256,7 @@ extension UpdateAllowListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAllowListOutput: Swift.Equatable {
+public struct UpdateAllowListOutput {
     /// The Amazon Resource Name (ARN) of the allow list.
     public var arn: Swift.String?
     /// The unique identifier for the allow list.
@@ -19272,7 +19272,7 @@ public struct UpdateAllowListOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAllowListOutputBody: Swift.Equatable {
+struct UpdateAllowListOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
 }
@@ -19327,7 +19327,7 @@ extension UpdateAutomatedDiscoveryConfigurationInput {
     }
 }
 
-public struct UpdateAutomatedDiscoveryConfigurationInput: Swift.Equatable {
+public struct UpdateAutomatedDiscoveryConfigurationInput {
     /// The new status of automated sensitive data discovery for the account. Valid values are: ENABLED, start or resume automated sensitive data discovery activities for the account; and, DISABLED, stop performing automated sensitive data discovery activities for the account. When you enable automated sensitive data discovery for the first time, Amazon Macie uses default configuration settings to determine which data sources to analyze and which managed data identifiers to use. To change these settings, use the UpdateClassificationScope and UpdateSensitivityInspectionTemplate operations, respectively. If you change the settings and subsequently disable the configuration, Amazon Macie retains your changes.
     /// This member is required.
     public var status: Macie2ClientTypes.AutomatedDiscoveryStatus?
@@ -19340,7 +19340,7 @@ public struct UpdateAutomatedDiscoveryConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAutomatedDiscoveryConfigurationInputBody: Swift.Equatable {
+struct UpdateAutomatedDiscoveryConfigurationInputBody {
     let status: Macie2ClientTypes.AutomatedDiscoveryStatus?
 }
 
@@ -19361,7 +19361,7 @@ extension UpdateAutomatedDiscoveryConfigurationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct UpdateAutomatedDiscoveryConfigurationOutput: Swift.Equatable {
+public struct UpdateAutomatedDiscoveryConfigurationOutput {
 
     public init() { }
 }
@@ -19403,7 +19403,7 @@ extension UpdateClassificationJobInput {
     }
 }
 
-public struct UpdateClassificationJobInput: Swift.Equatable {
+public struct UpdateClassificationJobInput {
     /// The unique identifier for the classification job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -19427,7 +19427,7 @@ public struct UpdateClassificationJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateClassificationJobInputBody: Swift.Equatable {
+struct UpdateClassificationJobInputBody {
     let jobStatus: Macie2ClientTypes.JobStatus?
 }
 
@@ -19448,7 +19448,7 @@ extension UpdateClassificationJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClassificationJobOutput: Swift.Equatable {
+public struct UpdateClassificationJobOutput {
 
     public init() { }
 }
@@ -19493,7 +19493,7 @@ extension UpdateClassificationScopeInput {
     }
 }
 
-public struct UpdateClassificationScopeInput: Swift.Equatable {
+public struct UpdateClassificationScopeInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -19510,7 +19510,7 @@ public struct UpdateClassificationScopeInput: Swift.Equatable {
     }
 }
 
-struct UpdateClassificationScopeInputBody: Swift.Equatable {
+struct UpdateClassificationScopeInputBody {
     let s3: Macie2ClientTypes.S3ClassificationScopeUpdate?
 }
 
@@ -19531,7 +19531,7 @@ extension UpdateClassificationScopeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClassificationScopeOutput: Swift.Equatable {
+public struct UpdateClassificationScopeOutput {
 
     public init() { }
 }
@@ -19594,7 +19594,7 @@ extension UpdateFindingsFilterInput {
     }
 }
 
-public struct UpdateFindingsFilterInput: Swift.Equatable {
+public struct UpdateFindingsFilterInput {
     /// The action to perform on findings that match the filter criteria (findingCriteria). Valid values are: ARCHIVE, suppress (automatically archive) the findings; and, NOOP, don't perform any action on the findings.
     public var action: Macie2ClientTypes.FindingsFilterAction?
     /// A unique, case-sensitive token that you provide to ensure the idempotency of the request.
@@ -19631,7 +19631,7 @@ public struct UpdateFindingsFilterInput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingsFilterInputBody: Swift.Equatable {
+struct UpdateFindingsFilterInputBody {
     let action: Macie2ClientTypes.FindingsFilterAction?
     let clientToken: Swift.String?
     let description: Swift.String?
@@ -19681,7 +19681,7 @@ extension UpdateFindingsFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFindingsFilterOutput: Swift.Equatable {
+public struct UpdateFindingsFilterOutput {
     /// The Amazon Resource Name (ARN) of the filter that was updated.
     public var arn: Swift.String?
     /// The unique identifier for the filter that was updated.
@@ -19697,7 +19697,7 @@ public struct UpdateFindingsFilterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingsFilterOutputBody: Swift.Equatable {
+struct UpdateFindingsFilterOutputBody {
     let arn: Swift.String?
     let id: Swift.String?
 }
@@ -19758,7 +19758,7 @@ extension UpdateMacieSessionInput {
     }
 }
 
-public struct UpdateMacieSessionInput: Swift.Equatable {
+public struct UpdateMacieSessionInput {
     /// Specifies how often to publish updates to policy findings for the account. This includes publishing updates to Security Hub and Amazon EventBridge (formerly Amazon CloudWatch Events).
     public var findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency?
     /// Specifies a new status for the account. Valid values are: ENABLED, resume all Amazon Macie activities for the account; and, PAUSED, suspend all Macie activities for the account.
@@ -19774,7 +19774,7 @@ public struct UpdateMacieSessionInput: Swift.Equatable {
     }
 }
 
-struct UpdateMacieSessionInputBody: Swift.Equatable {
+struct UpdateMacieSessionInputBody {
     let findingPublishingFrequency: Macie2ClientTypes.FindingPublishingFrequency?
     let status: Macie2ClientTypes.MacieStatus?
 }
@@ -19799,7 +19799,7 @@ extension UpdateMacieSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMacieSessionOutput: Swift.Equatable {
+public struct UpdateMacieSessionOutput {
 
     public init() { }
 }
@@ -19844,7 +19844,7 @@ extension UpdateMemberSessionInput {
     }
 }
 
-public struct UpdateMemberSessionInput: Swift.Equatable {
+public struct UpdateMemberSessionInput {
     /// The unique identifier for the Amazon Macie resource that the request applies to.
     /// This member is required.
     public var id: Swift.String?
@@ -19862,7 +19862,7 @@ public struct UpdateMemberSessionInput: Swift.Equatable {
     }
 }
 
-struct UpdateMemberSessionInputBody: Swift.Equatable {
+struct UpdateMemberSessionInputBody {
     let status: Macie2ClientTypes.MacieStatus?
 }
 
@@ -19883,7 +19883,7 @@ extension UpdateMemberSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMemberSessionOutput: Swift.Equatable {
+public struct UpdateMemberSessionOutput {
 
     public init() { }
 }
@@ -19925,7 +19925,7 @@ extension UpdateOrganizationConfigurationInput {
     }
 }
 
-public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationInput {
     /// Specifies whether to enable Amazon Macie automatically for an account when the account is added to the organization in Organizations.
     /// This member is required.
     public var autoEnable: Swift.Bool?
@@ -19938,7 +19938,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
+struct UpdateOrganizationConfigurationInputBody {
     let autoEnable: Swift.Bool?
 }
 
@@ -19959,7 +19959,7 @@ extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationOutput {
 
     public init() { }
 }
@@ -20018,7 +20018,7 @@ extension UpdateResourceProfileDetectionsInput {
     }
 }
 
-public struct UpdateResourceProfileDetectionsInput: Swift.Equatable {
+public struct UpdateResourceProfileDetectionsInput {
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20035,7 +20035,7 @@ public struct UpdateResourceProfileDetectionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceProfileDetectionsInputBody: Swift.Equatable {
+struct UpdateResourceProfileDetectionsInputBody {
     let suppressDataIdentifiers: [Macie2ClientTypes.SuppressDataIdentifier]?
 }
 
@@ -20065,7 +20065,7 @@ extension UpdateResourceProfileDetectionsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateResourceProfileDetectionsOutput: Swift.Equatable {
+public struct UpdateResourceProfileDetectionsOutput {
 
     public init() { }
 }
@@ -20120,7 +20120,7 @@ extension UpdateResourceProfileInput {
     }
 }
 
-public struct UpdateResourceProfileInput: Swift.Equatable {
+public struct UpdateResourceProfileInput {
     /// The Amazon Resource Name (ARN) of the S3 bucket that the request applies to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20137,7 +20137,7 @@ public struct UpdateResourceProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourceProfileInputBody: Swift.Equatable {
+struct UpdateResourceProfileInputBody {
     let sensitivityScoreOverride: Swift.Int?
 }
 
@@ -20158,7 +20158,7 @@ extension UpdateResourceProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourceProfileOutput: Swift.Equatable {
+public struct UpdateResourceProfileOutput {
 
     public init() { }
 }
@@ -20206,7 +20206,7 @@ extension Macie2ClientTypes.UpdateRetrievalConfiguration: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies the access method and settings to use when retrieving occurrences of sensitive data reported by findings. If your request specifies an Identity and Access Management (IAM) role to assume, Amazon Macie verifies that the role exists and the attached policies are configured correctly. If there's an issue, Macie returns an error. For information about addressing the issue, see [Configuration options and requirements for retrieving sensitive data samples](https://docs.aws.amazon.com/macie/latest/user/findings-retrieve-sd-options.html) in the Amazon Macie User Guide.
-    public struct UpdateRetrievalConfiguration: Swift.Equatable {
+    public struct UpdateRetrievalConfiguration {
         /// The access method to use when retrieving sensitive data from affected S3 objects. Valid values are: ASSUME_ROLE, assume an IAM role that is in the affected Amazon Web Services account and delegates access to Amazon Macie; and, CALLER_CREDENTIALS, use the credentials of the IAM user who requests the sensitive data. If you specify ASSUME_ROLE, also specify the name of an existing IAM role for Macie to assume (roleName). If you change this value from ASSUME_ROLE to CALLER_CREDENTIALS for an existing configuration, Macie permanently deletes the external ID and role name currently specified for the configuration. These settings can't be recovered after they're deleted.
         /// This member is required.
         public var retrievalMode: Macie2ClientTypes.RetrievalMode?
@@ -20249,7 +20249,7 @@ extension UpdateRevealConfigurationInput {
     }
 }
 
-public struct UpdateRevealConfigurationInput: Swift.Equatable {
+public struct UpdateRevealConfigurationInput {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     /// This member is required.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
@@ -20266,7 +20266,7 @@ public struct UpdateRevealConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateRevealConfigurationInputBody: Swift.Equatable {
+struct UpdateRevealConfigurationInputBody {
     let configuration: Macie2ClientTypes.RevealConfiguration?
     let retrievalConfiguration: Macie2ClientTypes.UpdateRetrievalConfiguration?
 }
@@ -20300,7 +20300,7 @@ extension UpdateRevealConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRevealConfigurationOutput: Swift.Equatable {
+public struct UpdateRevealConfigurationOutput {
     /// The KMS key to use to encrypt the sensitive data, and the status of the configuration for the Amazon Macie account.
     public var configuration: Macie2ClientTypes.RevealConfiguration?
     /// The access method and settings to use when retrieving the sensitive data.
@@ -20316,7 +20316,7 @@ public struct UpdateRevealConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRevealConfigurationOutputBody: Swift.Equatable {
+struct UpdateRevealConfigurationOutputBody {
     let configuration: Macie2ClientTypes.RevealConfiguration?
     let retrievalConfiguration: Macie2ClientTypes.RetrievalConfiguration?
 }
@@ -20381,7 +20381,7 @@ extension UpdateSensitivityInspectionTemplateInput {
     }
 }
 
-public struct UpdateSensitivityInspectionTemplateInput: Swift.Equatable {
+public struct UpdateSensitivityInspectionTemplateInput {
     /// A custom description of the template. The description can contain as many as 200 characters.
     public var description: Swift.String?
     /// The managed data identifiers to explicitly exclude (not use) when analyzing data. To exclude an allow list or custom data identifier that's currently included by the template, update the values for the SensitivityInspectionTemplateIncludes.allowListIds and SensitivityInspectionTemplateIncludes.customDataIdentifierIds properties, respectively.
@@ -20406,7 +20406,7 @@ public struct UpdateSensitivityInspectionTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateSensitivityInspectionTemplateInputBody: Swift.Equatable {
+struct UpdateSensitivityInspectionTemplateInputBody {
     let description: Swift.String?
     let excludes: Macie2ClientTypes.SensitivityInspectionTemplateExcludes?
     let includes: Macie2ClientTypes.SensitivityInspectionTemplateIncludes?
@@ -20435,7 +20435,7 @@ extension UpdateSensitivityInspectionTemplateOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateSensitivityInspectionTemplateOutput: Swift.Equatable {
+public struct UpdateSensitivityInspectionTemplateOutput {
 
     public init() { }
 }
@@ -20494,7 +20494,7 @@ extension Macie2ClientTypes.UsageByAccount: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides data for a specific usage metric and the corresponding quota for an Amazon Macie account.
-    public struct UsageByAccount: Swift.Equatable {
+    public struct UsageByAccount {
         /// The type of currency that the value for the metric (estimatedCost) is reported in.
         public var currency: Macie2ClientTypes.Currency?
         /// The estimated value for the metric.
@@ -20571,7 +20571,7 @@ extension Macie2ClientTypes.UsageRecord: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides quota and aggregated usage data for an Amazon Macie account.
-    public struct UsageRecord: Swift.Equatable {
+    public struct UsageRecord {
         /// The unique identifier for the Amazon Web Services account that the data applies to.
         public var accountId: Swift.String?
         /// The date and time, in UTC and extended ISO 8601 format, when the free trial of automated sensitive data discovery started for the account. If the account is a member account in an organization, this value is the same as the value for the organization's Amazon Macie administrator account.
@@ -20642,7 +20642,7 @@ extension Macie2ClientTypes.UsageStatisticsFilter: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a condition for filtering the results of a query for quota and usage data for one or more Amazon Macie accounts.
-    public struct UsageStatisticsFilter: Swift.Equatable {
+    public struct UsageStatisticsFilter {
         /// The operator to use in the condition. If the value for the key property is accountId, this value must be CONTAINS. If the value for the key property is any other supported field, this value can be EQ, GT, GTE, LT, LTE, or NE.
         public var comparator: Macie2ClientTypes.UsageStatisticsFilterComparator?
         /// The field to use in the condition.
@@ -20786,7 +20786,7 @@ extension Macie2ClientTypes.UsageStatisticsSortBy: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies criteria for sorting the results of a query for Amazon Macie account quotas and usage data.
-    public struct UsageStatisticsSortBy: Swift.Equatable {
+    public struct UsageStatisticsSortBy {
         /// The field to sort the results by.
         public var key: Macie2ClientTypes.UsageStatisticsSortKey?
         /// The sort order to apply to the results, based on the value for the field specified by the key property. Valid values are: ASC, sort the results in ascending order; and, DESC, sort the results in descending order.
@@ -20876,7 +20876,7 @@ extension Macie2ClientTypes.UsageTotal: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides aggregated data for an Amazon Macie usage metric. The value for the metric reports estimated usage data for an account for the preceding 30 days or the current calendar month to date, depending on the time period (timeRange) specified in the request.
-    public struct UsageTotal: Swift.Equatable {
+    public struct UsageTotal {
         /// The type of currency that the value for the metric (estimatedCost) is reported in.
         public var currency: Macie2ClientTypes.Currency?
         /// The estimated value for the metric.
@@ -20994,7 +20994,7 @@ extension Macie2ClientTypes.UserIdentity: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about the type and other characteristics of an entity that performed an action on an affected resource.
-    public struct UserIdentity: Swift.Equatable {
+    public struct UserIdentity {
         /// If the action was performed with temporary security credentials that were obtained using the AssumeRole operation of the Security Token Service (STS) API, the identifiers, session context, and other details about the identity.
         public var assumedRole: Macie2ClientTypes.AssumedRole?
         /// If the action was performed using the credentials for another Amazon Web Services account, the details of that account.
@@ -21065,7 +21065,7 @@ extension Macie2ClientTypes.UserIdentityRoot: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about an Amazon Web Services account and entity that performed an action on an affected resource. The action was performed using the credentials for your Amazon Web Services account.
-    public struct UserIdentityRoot: Swift.Equatable {
+    public struct UserIdentityRoot {
         /// The unique identifier for the Amazon Web Services account.
         public var accountId: Swift.String?
         /// The Amazon Resource Name (ARN) of the principal that performed the action. The last section of the ARN contains the name of the user or role that performed the action.
@@ -21165,7 +21165,7 @@ extension Macie2ClientTypes.UserPausedDetails: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Provides information about when a classification job was paused. For a one-time job, this object also specifies when the job will expire and be cancelled if it isn't resumed. For a recurring job, this object also specifies when the paused job run will expire and be cancelled if it isn't resumed. This object is present only if a job's current status (jobStatus) is USER_PAUSED. The information in this object applies only to a job that was paused while it had a status of RUNNING.
-    public struct UserPausedDetails: Swift.Equatable {
+    public struct UserPausedDetails {
         /// The date and time, in UTC and extended ISO 8601 format, when the job or job run will expire and be cancelled if you don't resume it first.
         public var jobExpiresAt: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Health event that Amazon Macie sent to notify you of the job or job run's pending expiration and cancellation. This value is null if a job has been paused for less than 23 days.
@@ -21227,7 +21227,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -21264,7 +21264,7 @@ extension Macie2ClientTypes.WeeklySchedule: Swift.Codable {
 
 extension Macie2ClientTypes {
     /// Specifies a weekly recurrence pattern for running a classification job.
-    public struct WeeklySchedule: Swift.Equatable {
+    public struct WeeklySchedule {
         /// The day of the week when Amazon Macie runs the job.
         public var dayOfWeek: Macie2ClientTypes.DayOfWeek?
 

@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -153,7 +153,7 @@ extension CreateTemplateInput {
     }
 }
 
-public struct CreateTemplateInput: Swift.Equatable {
+public struct CreateTemplateInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request. For more information, see [Idempotency](https://smithy.io/2.0/spec/behavior-traits.html#idempotencytoken-trait) in the Smithy documentation.
     public var clientToken: Swift.String?
     /// The tags to add to the migration workflow template.
@@ -183,7 +183,7 @@ public struct CreateTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateInputBody: Swift.Equatable {
+struct CreateTemplateInputBody {
     let templateName: Swift.String?
     let templateDescription: Swift.String?
     let templateSource: MigrationHubOrchestratorClientTypes.TemplateSource?
@@ -240,7 +240,7 @@ extension CreateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateOutput: Swift.Equatable {
+public struct CreateTemplateOutput {
     /// The tags added to the migration workflow template.
     public var tags: [Swift.String:Swift.String]?
     /// The Amazon Resource Name (ARN) of the migration workflow template. The format for an Migration Hub Orchestrator template ARN is arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) in the AWS General Reference.
@@ -260,7 +260,7 @@ public struct CreateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateOutputBody: Swift.Equatable {
+struct CreateTemplateOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -366,7 +366,7 @@ extension CreateWorkflowInput {
     }
 }
 
-public struct CreateWorkflowInput: Swift.Equatable {
+public struct CreateWorkflowInput {
     /// The configuration ID of the application configured in Application Discovery Service.
     public var applicationConfigurationId: Swift.String?
     /// The description of the migration workflow.
@@ -405,7 +405,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowInputBody: Swift.Equatable {
+struct CreateWorkflowInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let templateId: Swift.String?
@@ -509,7 +509,7 @@ extension CreateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowOutput: Swift.Equatable {
+public struct CreateWorkflowOutput {
     /// The configuration ID of the application configured in Application Discovery Service.
     public var adsApplicationConfigurationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the migration workflow.
@@ -561,7 +561,7 @@ public struct CreateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowOutputBody: Swift.Equatable {
+struct CreateWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -700,7 +700,7 @@ extension CreateWorkflowStepGroupInput {
     }
 }
 
-public struct CreateWorkflowStepGroupInput: Swift.Equatable {
+public struct CreateWorkflowStepGroupInput {
     /// The description of the step group.
     public var description: Swift.String?
     /// The name of the step group.
@@ -730,7 +730,7 @@ public struct CreateWorkflowStepGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowStepGroupInputBody: Swift.Equatable {
+struct CreateWorkflowStepGroupInputBody {
     let workflowId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -806,7 +806,7 @@ extension CreateWorkflowStepGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowStepGroupOutput: Swift.Equatable {
+public struct CreateWorkflowStepGroupOutput {
     /// The time at which the step group is created.
     public var creationTime: ClientRuntime.Date?
     /// The description of the step group.
@@ -846,7 +846,7 @@ public struct CreateWorkflowStepGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowStepGroupOutputBody: Swift.Equatable {
+struct CreateWorkflowStepGroupOutputBody {
     let workflowId: Swift.String?
     let name: Swift.String?
     let id: Swift.String?
@@ -999,7 +999,7 @@ extension CreateWorkflowStepInput {
     }
 }
 
-public struct CreateWorkflowStepInput: Swift.Equatable {
+public struct CreateWorkflowStepInput {
     /// The description of the step.
     public var description: Swift.String?
     /// The name of the step.
@@ -1051,7 +1051,7 @@ public struct CreateWorkflowStepInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowStepInputBody: Swift.Equatable {
+struct CreateWorkflowStepInputBody {
     let name: Swift.String?
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
@@ -1157,7 +1157,7 @@ extension CreateWorkflowStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowStepOutput: Swift.Equatable {
+public struct CreateWorkflowStepOutput {
     /// The ID of the step.
     public var id: Swift.String?
     /// The name of the step.
@@ -1181,7 +1181,7 @@ public struct CreateWorkflowStepOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowStepOutputBody: Swift.Equatable {
+struct CreateWorkflowStepOutputBody {
     let id: Swift.String?
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
@@ -1271,7 +1271,7 @@ extension DeleteTemplateInput {
     }
 }
 
-public struct DeleteTemplateInput: Swift.Equatable {
+public struct DeleteTemplateInput {
     /// The ID of the request to delete a migration workflow template.
     /// This member is required.
     public var id: Swift.String?
@@ -1284,7 +1284,7 @@ public struct DeleteTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateInputBody: Swift.Equatable {
+struct DeleteTemplateInputBody {
 }
 
 extension DeleteTemplateInputBody: Swift.Decodable {
@@ -1298,7 +1298,7 @@ extension DeleteTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTemplateOutput: Swift.Equatable {
+public struct DeleteTemplateOutput {
 
     public init() { }
 }
@@ -1328,7 +1328,7 @@ extension DeleteWorkflowInput {
     }
 }
 
-public struct DeleteWorkflowInput: Swift.Equatable {
+public struct DeleteWorkflowInput {
     /// The ID of the migration workflow you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -1341,7 +1341,7 @@ public struct DeleteWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowInputBody: Swift.Equatable {
+struct DeleteWorkflowInputBody {
 }
 
 extension DeleteWorkflowInputBody: Swift.Decodable {
@@ -1366,7 +1366,7 @@ extension DeleteWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowOutput: Swift.Equatable {
+public struct DeleteWorkflowOutput {
     /// The Amazon Resource Name (ARN) of the migration workflow.
     public var arn: Swift.String?
     /// The ID of the migration workflow.
@@ -1386,7 +1386,7 @@ public struct DeleteWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowOutputBody: Swift.Equatable {
+struct DeleteWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum?
@@ -1449,7 +1449,7 @@ extension DeleteWorkflowStepGroupInput {
     }
 }
 
-public struct DeleteWorkflowStepGroupInput: Swift.Equatable {
+public struct DeleteWorkflowStepGroupInput {
     /// The ID of the step group you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -1467,7 +1467,7 @@ public struct DeleteWorkflowStepGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowStepGroupInputBody: Swift.Equatable {
+struct DeleteWorkflowStepGroupInputBody {
 }
 
 extension DeleteWorkflowStepGroupInputBody: Swift.Decodable {
@@ -1481,7 +1481,7 @@ extension DeleteWorkflowStepGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowStepGroupOutput: Swift.Equatable {
+public struct DeleteWorkflowStepGroupOutput {
 
     public init() { }
 }
@@ -1531,7 +1531,7 @@ extension DeleteWorkflowStepInput {
     }
 }
 
-public struct DeleteWorkflowStepInput: Swift.Equatable {
+public struct DeleteWorkflowStepInput {
     /// The ID of the step you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -1554,7 +1554,7 @@ public struct DeleteWorkflowStepInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowStepInputBody: Swift.Equatable {
+struct DeleteWorkflowStepInputBody {
 }
 
 extension DeleteWorkflowStepInputBody: Swift.Decodable {
@@ -1568,7 +1568,7 @@ extension DeleteWorkflowStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowStepOutput: Swift.Equatable {
+public struct DeleteWorkflowStepOutput {
 
     public init() { }
 }
@@ -1598,7 +1598,7 @@ extension GetTemplateInput {
     }
 }
 
-public struct GetTemplateInput: Swift.Equatable {
+public struct GetTemplateInput {
     /// The ID of the template.
     /// This member is required.
     public var id: Swift.String?
@@ -1611,7 +1611,7 @@ public struct GetTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateInputBody: Swift.Equatable {
+struct GetTemplateInputBody {
 }
 
 extension GetTemplateInputBody: Swift.Decodable {
@@ -1654,7 +1654,7 @@ extension GetTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateOutput: Swift.Equatable {
+public struct GetTemplateOutput {
     /// The time at which the template was last created.
     public var creationTime: ClientRuntime.Date?
     /// The time at which the template was last created.
@@ -1722,7 +1722,7 @@ public struct GetTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateOutputBody: Swift.Equatable {
+struct GetTemplateOutputBody {
     let id: Swift.String?
     let templateArn: Swift.String?
     let name: Swift.String?
@@ -1836,7 +1836,7 @@ extension GetTemplateStepGroupInput {
     }
 }
 
-public struct GetTemplateStepGroupInput: Swift.Equatable {
+public struct GetTemplateStepGroupInput {
     /// The ID of the step group.
     /// This member is required.
     public var id: Swift.String?
@@ -1854,7 +1854,7 @@ public struct GetTemplateStepGroupInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateStepGroupInputBody: Swift.Equatable {
+struct GetTemplateStepGroupInputBody {
 }
 
 extension GetTemplateStepGroupInputBody: Swift.Decodable {
@@ -1893,7 +1893,7 @@ extension GetTemplateStepGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateStepGroupOutput: Swift.Equatable {
+public struct GetTemplateStepGroupOutput {
     /// The time at which the step group was created.
     public var creationTime: ClientRuntime.Date?
     /// The description of the step group.
@@ -1941,7 +1941,7 @@ public struct GetTemplateStepGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateStepGroupOutputBody: Swift.Equatable {
+struct GetTemplateStepGroupOutputBody {
     let templateId: Swift.String?
     let id: Swift.String?
     let name: Swift.String?
@@ -2065,7 +2065,7 @@ extension GetTemplateStepInput {
     }
 }
 
-public struct GetTemplateStepInput: Swift.Equatable {
+public struct GetTemplateStepInput {
     /// The ID of the step.
     /// This member is required.
     public var id: Swift.String?
@@ -2088,7 +2088,7 @@ public struct GetTemplateStepInput: Swift.Equatable {
     }
 }
 
-struct GetTemplateStepInputBody: Swift.Equatable {
+struct GetTemplateStepInputBody {
 }
 
 extension GetTemplateStepInputBody: Swift.Decodable {
@@ -2129,7 +2129,7 @@ extension GetTemplateStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTemplateStepOutput: Swift.Equatable {
+public struct GetTemplateStepOutput {
     /// The time at which the step was created.
     public var creationTime: Swift.String?
     /// The description of the step.
@@ -2181,7 +2181,7 @@ public struct GetTemplateStepOutput: Swift.Equatable {
     }
 }
 
-struct GetTemplateStepOutputBody: Swift.Equatable {
+struct GetTemplateStepOutputBody {
     let id: Swift.String?
     let stepGroupId: Swift.String?
     let templateId: Swift.String?
@@ -2289,7 +2289,7 @@ extension GetWorkflowInput {
     }
 }
 
-public struct GetWorkflowInput: Swift.Equatable {
+public struct GetWorkflowInput {
     /// The ID of the migration workflow.
     /// This member is required.
     public var id: Swift.String?
@@ -2302,7 +2302,7 @@ public struct GetWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowInputBody: Swift.Equatable {
+struct GetWorkflowInputBody {
 }
 
 extension GetWorkflowInputBody: Swift.Decodable {
@@ -2366,7 +2366,7 @@ extension GetWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowOutput: Swift.Equatable {
+public struct GetWorkflowOutput {
     /// The configuration ID of the application configured in Application Discovery Service.
     public var adsApplicationConfigurationId: Swift.String?
     /// The name of the application configured in Application Discovery Service.
@@ -2454,7 +2454,7 @@ public struct GetWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowOutputBody: Swift.Equatable {
+struct GetWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -2612,7 +2612,7 @@ extension GetWorkflowStepGroupInput {
     }
 }
 
-public struct GetWorkflowStepGroupInput: Swift.Equatable {
+public struct GetWorkflowStepGroupInput {
     /// The ID of the step group.
     /// This member is required.
     public var id: Swift.String?
@@ -2630,7 +2630,7 @@ public struct GetWorkflowStepGroupInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepGroupInputBody: Swift.Equatable {
+struct GetWorkflowStepGroupInputBody {
 }
 
 extension GetWorkflowStepGroupInputBody: Swift.Decodable {
@@ -2673,7 +2673,7 @@ extension GetWorkflowStepGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowStepGroupOutput: Swift.Equatable {
+public struct GetWorkflowStepGroupOutput {
     /// The time at which the step group was created.
     public var creationTime: ClientRuntime.Date?
     /// The description of the step group.
@@ -2729,7 +2729,7 @@ public struct GetWorkflowStepGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepGroupOutputBody: Swift.Equatable {
+struct GetWorkflowStepGroupOutputBody {
     let id: Swift.String?
     let workflowId: Swift.String?
     let name: Swift.String?
@@ -2861,7 +2861,7 @@ extension GetWorkflowStepInput {
     }
 }
 
-public struct GetWorkflowStepInput: Swift.Equatable {
+public struct GetWorkflowStepInput {
     /// The ID of the step.
     /// This member is required.
     public var id: Swift.String?
@@ -2884,7 +2884,7 @@ public struct GetWorkflowStepInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepInputBody: Swift.Equatable {
+struct GetWorkflowStepInputBody {
 }
 
 extension GetWorkflowStepInputBody: Swift.Decodable {
@@ -2945,7 +2945,7 @@ extension GetWorkflowStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowStepOutput: Swift.Equatable {
+public struct GetWorkflowStepOutput {
     /// The time at which the step was created.
     public var creationTime: ClientRuntime.Date?
     /// The description of the step.
@@ -3037,7 +3037,7 @@ public struct GetWorkflowStepOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowStepOutputBody: Swift.Equatable {
+struct GetWorkflowStepOutputBody {
     let name: Swift.String?
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
@@ -3223,7 +3223,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3262,7 +3262,7 @@ extension ListPluginsInput {
     }
 }
 
-public struct ListPluginsInput: Swift.Equatable {
+public struct ListPluginsInput {
     /// The maximum number of plugins that can be returned.
     public var maxResults: Swift.Int
     /// The pagination token.
@@ -3278,7 +3278,7 @@ public struct ListPluginsInput: Swift.Equatable {
     }
 }
 
-struct ListPluginsInputBody: Swift.Equatable {
+struct ListPluginsInputBody {
 }
 
 extension ListPluginsInputBody: Swift.Decodable {
@@ -3301,7 +3301,7 @@ extension ListPluginsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPluginsOutput: Swift.Equatable {
+public struct ListPluginsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// Migration Hub Orchestrator plugins.
@@ -3317,7 +3317,7 @@ public struct ListPluginsOutput: Swift.Equatable {
     }
 }
 
-struct ListPluginsOutputBody: Swift.Equatable {
+struct ListPluginsOutputBody {
     let nextToken: Swift.String?
     let plugins: [MigrationHubOrchestratorClientTypes.PluginSummary]?
 }
@@ -3369,7 +3369,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3382,7 +3382,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3403,7 +3403,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags added to a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3415,7 +3415,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3478,7 +3478,7 @@ extension ListTemplateStepGroupsInput {
     }
 }
 
-public struct ListTemplateStepGroupsInput: Swift.Equatable {
+public struct ListTemplateStepGroupsInput {
     /// The maximum number of results that can be returned.
     public var maxResults: Swift.Int
     /// The pagination token.
@@ -3499,7 +3499,7 @@ public struct ListTemplateStepGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateStepGroupsInputBody: Swift.Equatable {
+struct ListTemplateStepGroupsInputBody {
 }
 
 extension ListTemplateStepGroupsInputBody: Swift.Decodable {
@@ -3522,7 +3522,7 @@ extension ListTemplateStepGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateStepGroupsOutput: Swift.Equatable {
+public struct ListTemplateStepGroupsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The summary of the step group in the template.
@@ -3539,7 +3539,7 @@ public struct ListTemplateStepGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateStepGroupsOutputBody: Swift.Equatable {
+struct ListTemplateStepGroupsOutputBody {
     let nextToken: Swift.String?
     let templateStepGroupSummary: [MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary]?
 }
@@ -3617,7 +3617,7 @@ extension ListTemplateStepsInput {
     }
 }
 
-public struct ListTemplateStepsInput: Swift.Equatable {
+public struct ListTemplateStepsInput {
     /// The maximum number of results that can be returned.
     public var maxResults: Swift.Int
     /// The pagination token.
@@ -3643,7 +3643,7 @@ public struct ListTemplateStepsInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateStepsInputBody: Swift.Equatable {
+struct ListTemplateStepsInputBody {
 }
 
 extension ListTemplateStepsInputBody: Swift.Decodable {
@@ -3666,7 +3666,7 @@ extension ListTemplateStepsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateStepsOutput: Swift.Equatable {
+public struct ListTemplateStepsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The list of summaries of steps in a template.
@@ -3682,7 +3682,7 @@ public struct ListTemplateStepsOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateStepsOutputBody: Swift.Equatable {
+struct ListTemplateStepsOutputBody {
     let nextToken: Swift.String?
     let templateStepSummaryList: [MigrationHubOrchestratorClientTypes.TemplateStepSummary]?
 }
@@ -3753,7 +3753,7 @@ extension ListTemplatesInput {
     }
 }
 
-public struct ListTemplatesInput: Swift.Equatable {
+public struct ListTemplatesInput {
     /// The maximum number of results that can be returned.
     public var maxResults: Swift.Int
     /// The name of the template.
@@ -3773,7 +3773,7 @@ public struct ListTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesInputBody: Swift.Equatable {
+struct ListTemplatesInputBody {
 }
 
 extension ListTemplatesInputBody: Swift.Decodable {
@@ -3796,7 +3796,7 @@ extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutput: Swift.Equatable {
+public struct ListTemplatesOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The summary of the template.
@@ -3813,7 +3813,7 @@ public struct ListTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputBody: Swift.Equatable {
+struct ListTemplatesOutputBody {
     let nextToken: Swift.String?
     let templateSummary: [MigrationHubOrchestratorClientTypes.TemplateSummary]?
 }
@@ -3884,7 +3884,7 @@ extension ListWorkflowStepGroupsInput {
     }
 }
 
-public struct ListWorkflowStepGroupsInput: Swift.Equatable {
+public struct ListWorkflowStepGroupsInput {
     /// The maximum number of results that can be returned.
     public var maxResults: Swift.Int
     /// The pagination token.
@@ -3905,7 +3905,7 @@ public struct ListWorkflowStepGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepGroupsInputBody: Swift.Equatable {
+struct ListWorkflowStepGroupsInputBody {
 }
 
 extension ListWorkflowStepGroupsInputBody: Swift.Decodable {
@@ -3928,7 +3928,7 @@ extension ListWorkflowStepGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowStepGroupsOutput: Swift.Equatable {
+public struct ListWorkflowStepGroupsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The summary of step groups in a migration workflow.
@@ -3945,7 +3945,7 @@ public struct ListWorkflowStepGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepGroupsOutputBody: Swift.Equatable {
+struct ListWorkflowStepGroupsOutputBody {
     let nextToken: Swift.String?
     let workflowStepGroupsSummary: [MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary]?
 }
@@ -4018,7 +4018,7 @@ extension ListWorkflowStepsInput {
     }
 }
 
-public struct ListWorkflowStepsInput: Swift.Equatable {
+public struct ListWorkflowStepsInput {
     /// The maximum number of results that can be returned.
     public var maxResults: Swift.Int
     /// The pagination token.
@@ -4044,7 +4044,7 @@ public struct ListWorkflowStepsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepsInputBody: Swift.Equatable {
+struct ListWorkflowStepsInputBody {
 }
 
 extension ListWorkflowStepsInputBody: Swift.Decodable {
@@ -4067,7 +4067,7 @@ extension ListWorkflowStepsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowStepsOutput: Swift.Equatable {
+public struct ListWorkflowStepsOutput {
     /// The pagination token.
     public var nextToken: Swift.String?
     /// The summary of steps in a migration workflow.
@@ -4084,7 +4084,7 @@ public struct ListWorkflowStepsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowStepsOutputBody: Swift.Equatable {
+struct ListWorkflowStepsOutputBody {
     let nextToken: Swift.String?
     let workflowStepsSummary: [MigrationHubOrchestratorClientTypes.WorkflowStepSummary]?
 }
@@ -4166,7 +4166,7 @@ extension ListWorkflowsInput {
     }
 }
 
-public struct ListWorkflowsInput: Swift.Equatable {
+public struct ListWorkflowsInput {
     /// The name of the application configured in Application Discovery Service.
     public var adsApplicationConfigurationName: Swift.String?
     /// The maximum number of results that can be returned.
@@ -4198,7 +4198,7 @@ public struct ListWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsInputBody: Swift.Equatable {
+struct ListWorkflowsInputBody {
 }
 
 extension ListWorkflowsInputBody: Swift.Decodable {
@@ -4221,7 +4221,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowsOutput: Swift.Equatable {
+public struct ListWorkflowsOutput {
     /// The summary of the migration workflow.
     /// This member is required.
     public var migrationWorkflowSummary: [MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary]?
@@ -4238,7 +4238,7 @@ public struct ListWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsOutputBody: Swift.Equatable {
+struct ListWorkflowsOutputBody {
     let nextToken: Swift.String?
     let migrationWorkflowSummary: [MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary]?
 }
@@ -4427,7 +4427,7 @@ extension MigrationHubOrchestratorClientTypes.MigrationWorkflowSummary: Swift.Co
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of a migration workflow.
-    public struct MigrationWorkflowSummary: Swift.Equatable {
+    public struct MigrationWorkflowSummary {
         /// The name of the application configured in Application Discovery Service.
         public var adsApplicationConfigurationName: Swift.String?
         /// The steps completed in the migration workflow.
@@ -4536,7 +4536,7 @@ extension MigrationHubOrchestratorClientTypes.PlatformCommand: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// Command to be run on a particular operating system.
-    public struct PlatformCommand: Swift.Equatable {
+    public struct PlatformCommand {
         /// Command for Linux.
         public var linux: Swift.String?
         /// Command for Windows.
@@ -4581,7 +4581,7 @@ extension MigrationHubOrchestratorClientTypes.PlatformScriptKey: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The script location for a particular operating system.
-    public struct PlatformScriptKey: Swift.Equatable {
+    public struct PlatformScriptKey {
         /// The script location for Linux.
         public var linux: Swift.String?
         /// The script location for Windows.
@@ -4682,7 +4682,7 @@ extension MigrationHubOrchestratorClientTypes.PluginSummary: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of the Migration Hub Orchestrator plugin.
-    public struct PluginSummary: Swift.Equatable {
+    public struct PluginSummary {
         /// The name of the host.
         public var hostname: Swift.String?
         /// The IP address at which the plugin is located.
@@ -4756,7 +4756,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4802,7 +4802,7 @@ extension RetryWorkflowStepInput {
     }
 }
 
-public struct RetryWorkflowStepInput: Swift.Equatable {
+public struct RetryWorkflowStepInput {
     /// The ID of the step.
     /// This member is required.
     public var id: Swift.String?
@@ -4825,7 +4825,7 @@ public struct RetryWorkflowStepInput: Swift.Equatable {
     }
 }
 
-struct RetryWorkflowStepInputBody: Swift.Equatable {
+struct RetryWorkflowStepInputBody {
 }
 
 extension RetryWorkflowStepInputBody: Swift.Decodable {
@@ -4852,7 +4852,7 @@ extension RetryWorkflowStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetryWorkflowStepOutput: Swift.Equatable {
+public struct RetryWorkflowStepOutput {
     /// The ID of the step.
     public var id: Swift.String?
     /// The status of the step.
@@ -4876,7 +4876,7 @@ public struct RetryWorkflowStepOutput: Swift.Equatable {
     }
 }
 
-struct RetryWorkflowStepOutputBody: Swift.Equatable {
+struct RetryWorkflowStepOutputBody {
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
     let id: Swift.String?
@@ -4960,7 +4960,7 @@ extension StartWorkflowInput {
     }
 }
 
-public struct StartWorkflowInput: Swift.Equatable {
+public struct StartWorkflowInput {
     /// The ID of the migration workflow.
     /// This member is required.
     public var id: Swift.String?
@@ -4973,7 +4973,7 @@ public struct StartWorkflowInput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowInputBody: Swift.Equatable {
+struct StartWorkflowInputBody {
 }
 
 extension StartWorkflowInputBody: Swift.Decodable {
@@ -5002,7 +5002,7 @@ extension StartWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartWorkflowOutput: Swift.Equatable {
+public struct StartWorkflowOutput {
     /// The Amazon Resource Name (ARN) of the migration workflow.
     public var arn: Swift.String?
     /// The ID of the migration workflow.
@@ -5030,7 +5030,7 @@ public struct StartWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowOutputBody: Swift.Equatable {
+struct StartWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum?
@@ -5154,7 +5154,7 @@ extension MigrationHubOrchestratorClientTypes.StepAutomationConfiguration: Swift
 
 extension MigrationHubOrchestratorClientTypes {
     /// The custom script to run tests on source or target environments.
-    public struct StepAutomationConfiguration: Swift.Equatable {
+    public struct StepAutomationConfiguration {
         /// The command to run the script.
         public var command: MigrationHubOrchestratorClientTypes.PlatformCommand?
         /// The source or target environment.
@@ -5311,7 +5311,7 @@ extension MigrationHubOrchestratorClientTypes.StepInput: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// A map of key value pairs that is generated when you create a migration workflow. The key value pairs will differ based on your selection of the template.
-    public enum StepInput: Swift.Equatable {
+    public enum StepInput {
         /// The value of the integer.
         case integervalue(Swift.Int)
         /// String value.
@@ -5358,7 +5358,7 @@ extension MigrationHubOrchestratorClientTypes.StepOutput: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The output of the step.
-    public struct StepOutput: Swift.Equatable {
+    public struct StepOutput {
         /// The data type of the step output.
         public var dataType: MigrationHubOrchestratorClientTypes.DataType?
         /// The name of the step.
@@ -5440,7 +5440,7 @@ extension StopWorkflowInput {
     }
 }
 
-public struct StopWorkflowInput: Swift.Equatable {
+public struct StopWorkflowInput {
     /// The ID of the migration workflow.
     /// This member is required.
     public var id: Swift.String?
@@ -5453,7 +5453,7 @@ public struct StopWorkflowInput: Swift.Equatable {
     }
 }
 
-struct StopWorkflowInputBody: Swift.Equatable {
+struct StopWorkflowInputBody {
 }
 
 extension StopWorkflowInputBody: Swift.Decodable {
@@ -5482,7 +5482,7 @@ extension StopWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopWorkflowOutput: Swift.Equatable {
+public struct StopWorkflowOutput {
     /// The Amazon Resource Name (ARN) of the migration workflow.
     public var arn: Swift.String?
     /// The ID of the migration workflow.
@@ -5510,7 +5510,7 @@ public struct StopWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct StopWorkflowOutputBody: Swift.Equatable {
+struct StopWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let status: MigrationHubOrchestratorClientTypes.MigrationWorkflowStatusEnum?
@@ -5583,7 +5583,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which you want to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5601,7 +5601,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5631,7 +5631,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5716,7 +5716,7 @@ extension MigrationHubOrchestratorClientTypes.TemplateInput: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The input parameters of a template.
-    public struct TemplateInput: Swift.Equatable {
+    public struct TemplateInput {
         /// The data type of the template input.
         public var dataType: MigrationHubOrchestratorClientTypes.DataType?
         /// The name of the template.
@@ -5767,7 +5767,7 @@ extension MigrationHubOrchestratorClientTypes.TemplateSource: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The migration workflow template used as the source for the new template.
-    public enum TemplateSource: Swift.Equatable {
+    public enum TemplateSource {
         /// The ID of the workflow from the source migration workflow template.
         case workflowid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -5879,7 +5879,7 @@ extension MigrationHubOrchestratorClientTypes.TemplateStepGroupSummary: Swift.Co
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of the step group in the template.
-    public struct TemplateStepGroupSummary: Swift.Equatable {
+    public struct TemplateStepGroupSummary {
         /// The ID of the step group.
         public var id: Swift.String?
         /// The name of the step group.
@@ -5998,7 +5998,7 @@ extension MigrationHubOrchestratorClientTypes.TemplateStepSummary: Swift.Codable
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of the step.
-    public struct TemplateStepSummary: Swift.Equatable {
+    public struct TemplateStepSummary {
         /// The ID of the step.
         public var id: Swift.String?
         /// The name of the step.
@@ -6083,7 +6083,7 @@ extension MigrationHubOrchestratorClientTypes.TemplateSummary: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of the template.
-    public struct TemplateSummary: Swift.Equatable {
+    public struct TemplateSummary {
         /// The Amazon Resource Name (ARN) of the template.
         public var arn: Swift.String?
         /// The description of the template.
@@ -6149,7 +6149,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -6192,7 +6192,7 @@ extension MigrationHubOrchestratorClientTypes.Tool: Swift.Codable {
 
 extension MigrationHubOrchestratorClientTypes {
     /// List of AWS services utilized in a migration workflow.
-    public struct Tool: Swift.Equatable {
+    public struct Tool {
         /// The name of an AWS service.
         public var name: Swift.String?
         /// The URL of an AWS service.
@@ -6236,7 +6236,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource from which you want to remove tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6254,7 +6254,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6268,7 +6268,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -6316,7 +6316,7 @@ extension UpdateTemplateInput {
     }
 }
 
-public struct UpdateTemplateInput: Swift.Equatable {
+public struct UpdateTemplateInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The ID of the request to update a migration workflow template.
@@ -6341,7 +6341,7 @@ public struct UpdateTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateInputBody: Swift.Equatable {
+struct UpdateTemplateInputBody {
     let templateName: Swift.String?
     let templateDescription: Swift.String?
     let clientToken: Swift.String?
@@ -6381,7 +6381,7 @@ extension UpdateTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateOutput: Swift.Equatable {
+public struct UpdateTemplateOutput {
     /// The tags added to the migration workflow template.
     public var tags: [Swift.String:Swift.String]?
     /// The ARN of the migration workflow template being updated. The format for an Migration Hub Orchestrator template ARN is arn:aws:migrationhub-orchestrator:region:account:template/template-abcd1234. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference-arns.html) in the AWS General Reference.
@@ -6401,7 +6401,7 @@ public struct UpdateTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateOutputBody: Swift.Equatable {
+struct UpdateTemplateOutputBody {
     let templateId: Swift.String?
     let templateArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -6495,7 +6495,7 @@ extension UpdateWorkflowInput {
     }
 }
 
-public struct UpdateWorkflowInput: Swift.Equatable {
+public struct UpdateWorkflowInput {
     /// The description of the migration workflow.
     public var description: Swift.String?
     /// The ID of the migration workflow.
@@ -6524,7 +6524,7 @@ public struct UpdateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowInputBody: Swift.Equatable {
+struct UpdateWorkflowInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let inputParameters: [Swift.String:MigrationHubOrchestratorClientTypes.StepInput]?
@@ -6609,7 +6609,7 @@ extension UpdateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkflowOutput: Swift.Equatable {
+public struct UpdateWorkflowOutput {
     /// The ID of the application configured in Application Discovery Service.
     public var adsApplicationConfigurationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the migration workflow.
@@ -6665,7 +6665,7 @@ public struct UpdateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowOutputBody: Swift.Equatable {
+struct UpdateWorkflowOutputBody {
     let id: Swift.String?
     let arn: Swift.String?
     let name: Swift.String?
@@ -6822,7 +6822,7 @@ extension UpdateWorkflowStepGroupInput {
     }
 }
 
-public struct UpdateWorkflowStepGroupInput: Swift.Equatable {
+public struct UpdateWorkflowStepGroupInput {
     /// The description of the step group.
     public var description: Swift.String?
     /// The ID of the step group.
@@ -6856,7 +6856,7 @@ public struct UpdateWorkflowStepGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowStepGroupInputBody: Swift.Equatable {
+struct UpdateWorkflowStepGroupInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let next: [Swift.String]?
@@ -6928,7 +6928,7 @@ extension UpdateWorkflowStepGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkflowStepGroupOutput: Swift.Equatable {
+public struct UpdateWorkflowStepGroupOutput {
     /// The description of the step group.
     public var description: Swift.String?
     /// The ID of the step group.
@@ -6968,7 +6968,7 @@ public struct UpdateWorkflowStepGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowStepGroupOutputBody: Swift.Equatable {
+struct UpdateWorkflowStepGroupOutputBody {
     let workflowId: Swift.String?
     let name: Swift.String?
     let id: Swift.String?
@@ -7129,7 +7129,7 @@ extension UpdateWorkflowStepInput {
     }
 }
 
-public struct UpdateWorkflowStepInput: Swift.Equatable {
+public struct UpdateWorkflowStepInput {
     /// The description of the step.
     public var description: Swift.String?
     /// The ID of the step.
@@ -7188,7 +7188,7 @@ public struct UpdateWorkflowStepInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowStepInputBody: Swift.Equatable {
+struct UpdateWorkflowStepInputBody {
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
     let name: Swift.String?
@@ -7298,7 +7298,7 @@ extension UpdateWorkflowStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkflowStepOutput: Swift.Equatable {
+public struct UpdateWorkflowStepOutput {
     /// The ID of the step.
     public var id: Swift.String?
     /// The name of the step.
@@ -7322,7 +7322,7 @@ public struct UpdateWorkflowStepOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkflowStepOutputBody: Swift.Equatable {
+struct UpdateWorkflowStepOutputBody {
     let id: Swift.String?
     let stepGroupId: Swift.String?
     let workflowId: Swift.String?
@@ -7404,7 +7404,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7465,7 +7465,7 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepAutomationConfiguratio
 
 extension MigrationHubOrchestratorClientTypes {
     /// The custom script to run tests on source or target environments.
-    public struct WorkflowStepAutomationConfiguration: Swift.Equatable {
+    public struct WorkflowStepAutomationConfiguration {
         /// The command required to run the script.
         public var command: MigrationHubOrchestratorClientTypes.PlatformCommand?
         /// The source or target environment.
@@ -7570,7 +7570,7 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepGroupSummary: Swift.Co
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of a step group in a workflow.
-    public struct WorkflowStepGroupSummary: Swift.Equatable {
+    public struct WorkflowStepGroupSummary {
         /// The ID of the step group.
         public var id: Swift.String?
         /// The name of the step group.
@@ -7643,7 +7643,7 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepOutput: Swift.Codable 
 
 extension MigrationHubOrchestratorClientTypes {
     /// The output of a step.
-    public struct WorkflowStepOutput: Swift.Equatable {
+    public struct WorkflowStepOutput {
         /// The data type of the output.
         public var dataType: MigrationHubOrchestratorClientTypes.DataType?
         /// The name of the step.
@@ -7726,7 +7726,7 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepOutputUnion: Swift.Cod
 
 extension MigrationHubOrchestratorClientTypes {
     /// A structure to hold multiple values of an output.
-    public enum WorkflowStepOutputUnion: Swift.Equatable {
+    public enum WorkflowStepOutputUnion {
         /// The integer value.
         case integervalue(Swift.Int)
         /// The string value.
@@ -7855,7 +7855,7 @@ extension MigrationHubOrchestratorClientTypes.WorkflowStepSummary: Swift.Codable
 
 extension MigrationHubOrchestratorClientTypes {
     /// The summary of the step in a migration workflow.
-    public struct WorkflowStepSummary: Swift.Equatable {
+    public struct WorkflowStepSummary {
         /// The description of the step.
         public var description: Swift.String?
         /// The name of the step.

@@ -107,7 +107,7 @@ extension SnowballClientTypes.Address: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The address that you want the Snow device(s) associated with a specific job to be shipped to. Addresses are validated at the time of creation. The address you provide must be located within the serviceable area of your region. Although no individual elements of the Address are required, if the address is invalid or unsupported, then an exception is thrown.
-    public struct Address: Swift.Equatable {
+    public struct Address {
         /// The unique ID for an address.
         public var addressId: Swift.String?
         /// The city in an address that a Snow device is to be delivered to.
@@ -229,7 +229,7 @@ extension CancelClusterInput {
     }
 }
 
-public struct CancelClusterInput: Swift.Equatable {
+public struct CancelClusterInput {
     /// The 39-character ID for the cluster that you want to cancel, for example CID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var clusterId: Swift.String?
@@ -242,7 +242,7 @@ public struct CancelClusterInput: Swift.Equatable {
     }
 }
 
-struct CancelClusterInputBody: Swift.Equatable {
+struct CancelClusterInputBody {
     let clusterId: Swift.String?
 }
 
@@ -263,7 +263,7 @@ extension CancelClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelClusterOutput: Swift.Equatable {
+public struct CancelClusterOutput {
 
     public init() { }
 }
@@ -301,7 +301,7 @@ extension CancelJobInput {
     }
 }
 
-public struct CancelJobInput: Swift.Equatable {
+public struct CancelJobInput {
     /// The 39-character job ID for the job that you want to cancel, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -314,7 +314,7 @@ public struct CancelJobInput: Swift.Equatable {
     }
 }
 
-struct CancelJobInputBody: Swift.Equatable {
+struct CancelJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -335,7 +335,7 @@ extension CancelJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobOutput: Swift.Equatable {
+public struct CancelJobOutput {
 
     public init() { }
 }
@@ -392,7 +392,7 @@ public struct ClusterLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ClusterLimitExceededExceptionBody: Swift.Equatable {
+struct ClusterLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -447,7 +447,7 @@ extension SnowballClientTypes.ClusterListEntry: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains a cluster's state, a cluster's ID, and other important information.
-    public struct ClusterListEntry: Swift.Equatable {
+    public struct ClusterListEntry {
         /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
         public var clusterId: Swift.String?
         /// The current state of this cluster. For information about the state of a specific node, see [JobListEntry$JobState].
@@ -578,7 +578,7 @@ extension SnowballClientTypes.ClusterMetadata: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains metadata about a specific cluster.
-    public struct ClusterMetadata: Swift.Equatable {
+    public struct ClusterMetadata {
         /// The automatically generated ID for a specific address.
         public var addressId: Swift.String?
         /// The automatically generated ID for a cluster.
@@ -724,7 +724,7 @@ extension SnowballClientTypes.CompatibleImage: Swift.Codable {
 
 extension SnowballClientTypes {
     /// A JSON-formatted object that describes a compatible Amazon Machine Image (AMI), including the ID and name for a Snow device AMI. This AMI is compatible with the device's physical hardware requirements, and it should be able to be run in an SBE1 instance on the device.
-    public struct CompatibleImage: Swift.Equatable {
+    public struct CompatibleImage {
         /// The unique identifier for an individual Snow device AMI.
         public var amiId: Swift.String?
         /// The optional name of a compatible image.
@@ -787,7 +787,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let conflictResource: Swift.String?
     let message: Swift.String?
 }
@@ -827,7 +827,7 @@ extension CreateAddressInput {
     }
 }
 
-public struct CreateAddressInput: Swift.Equatable {
+public struct CreateAddressInput {
     /// The address that you want the Snow device shipped to.
     /// This member is required.
     public var address: SnowballClientTypes.Address?
@@ -840,7 +840,7 @@ public struct CreateAddressInput: Swift.Equatable {
     }
 }
 
-struct CreateAddressInputBody: Swift.Equatable {
+struct CreateAddressInputBody {
     let address: SnowballClientTypes.Address?
 }
 
@@ -868,7 +868,7 @@ extension CreateAddressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAddressOutput: Swift.Equatable {
+public struct CreateAddressOutput {
     /// The automatically generated ID for a specific address. You'll use this ID when you create a job to specify which address you want the Snow device for that job shipped to.
     public var addressId: Swift.String?
 
@@ -880,7 +880,7 @@ public struct CreateAddressOutput: Swift.Equatable {
     }
 }
 
-struct CreateAddressOutputBody: Swift.Equatable {
+struct CreateAddressOutputBody {
     let addressId: Swift.String?
 }
 
@@ -995,7 +995,7 @@ extension CreateClusterInput {
     }
 }
 
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// The ID for the address that you want the cluster shipped to.
     /// This member is required.
     public var addressId: Swift.String?
@@ -1094,7 +1094,7 @@ public struct CreateClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterInputBody: Swift.Equatable {
+struct CreateClusterInputBody {
     let jobType: SnowballClientTypes.JobType?
     let resources: SnowballClientTypes.JobResource?
     let onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration?
@@ -1197,7 +1197,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// The automatically generated ID for a cluster.
     public var clusterId: Swift.String?
     /// List of jobs created for this cluster. For syntax, see [ListJobsResult$JobListEntries](http://amazonaws.com/snowball/latest/api-reference/API_ListJobs.html#API_ListJobs_ResponseSyntax) in this guide.
@@ -1213,7 +1213,7 @@ public struct CreateClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterOutputBody: Swift.Equatable {
+struct CreateClusterOutputBody {
     let clusterId: Swift.String?
     let jobListEntries: [SnowballClientTypes.JobListEntry]?
 }
@@ -1348,7 +1348,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// The ID for the address that you want the Snow device shipped to.
     public var addressId: Swift.String?
     /// The ID of a cluster. If you're creating a job for a node in a cluster, you need to provide only this clusterId value. The other job attributes are inherited from the cluster.
@@ -1440,7 +1440,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let jobType: SnowballClientTypes.JobType?
     let resources: SnowballClientTypes.JobResource?
     let onDeviceServiceConfiguration: SnowballClientTypes.OnDeviceServiceConfiguration?
@@ -1540,7 +1540,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
     public var jobId: Swift.String?
 
@@ -1552,7 +1552,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -1611,7 +1611,7 @@ extension CreateLongTermPricingInput {
     }
 }
 
-public struct CreateLongTermPricingInput: Swift.Equatable {
+public struct CreateLongTermPricingInput {
     /// Specifies whether the current long-term pricing type for the device should be renewed.
     public var isLongTermPricingAutoRenew: Swift.Bool?
     /// The type of long-term pricing option you want for the device, either 1-year or 3-year long-term pricing.
@@ -1633,7 +1633,7 @@ public struct CreateLongTermPricingInput: Swift.Equatable {
     }
 }
 
-struct CreateLongTermPricingInputBody: Swift.Equatable {
+struct CreateLongTermPricingInputBody {
     let longTermPricingType: SnowballClientTypes.LongTermPricingType?
     let isLongTermPricingAutoRenew: Swift.Bool?
     let snowballType: SnowballClientTypes.SnowballType?
@@ -1669,7 +1669,7 @@ extension CreateLongTermPricingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLongTermPricingOutput: Swift.Equatable {
+public struct CreateLongTermPricingOutput {
     /// The ID of the long-term pricing type for the device.
     public var longTermPricingId: Swift.String?
 
@@ -1681,7 +1681,7 @@ public struct CreateLongTermPricingOutput: Swift.Equatable {
     }
 }
 
-struct CreateLongTermPricingOutputBody: Swift.Equatable {
+struct CreateLongTermPricingOutputBody {
     let longTermPricingId: Swift.String?
 }
 
@@ -1732,7 +1732,7 @@ extension CreateReturnShippingLabelInput {
     }
 }
 
-public struct CreateReturnShippingLabelInput: Swift.Equatable {
+public struct CreateReturnShippingLabelInput {
     /// The ID for a job that you want to create the return shipping label for; for example, JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1749,7 +1749,7 @@ public struct CreateReturnShippingLabelInput: Swift.Equatable {
     }
 }
 
-struct CreateReturnShippingLabelInputBody: Swift.Equatable {
+struct CreateReturnShippingLabelInputBody {
     let jobId: Swift.String?
     let shippingOption: SnowballClientTypes.ShippingOption?
 }
@@ -1781,7 +1781,7 @@ extension CreateReturnShippingLabelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReturnShippingLabelOutput: Swift.Equatable {
+public struct CreateReturnShippingLabelOutput {
     /// The status information of the task on a Snow device that is being returned to Amazon Web Services.
     public var status: SnowballClientTypes.ShippingLabelStatus?
 
@@ -1793,7 +1793,7 @@ public struct CreateReturnShippingLabelOutput: Swift.Equatable {
     }
 }
 
-struct CreateReturnShippingLabelOutputBody: Swift.Equatable {
+struct CreateReturnShippingLabelOutputBody {
     let status: SnowballClientTypes.ShippingLabelStatus?
 }
 
@@ -1863,7 +1863,7 @@ extension SnowballClientTypes.DataTransfer: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Defines the real-time status of a Snow device's data transfer while the device is at Amazon Web Services. This data is only available while a job has a JobState value of InProgress, for both import and export jobs.
-    public struct DataTransfer: Swift.Equatable {
+    public struct DataTransfer {
         /// The number of bytes transferred between a Snow device and Amazon S3.
         public var bytesTransferred: Swift.Int
         /// The number of objects transferred between a Snow device and Amazon S3.
@@ -1916,7 +1916,7 @@ extension SnowballClientTypes.DependentService: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The name and version of the service dependant on the requested service.
-    public struct DependentService: Swift.Equatable {
+    public struct DependentService {
         /// The name of the dependent service.
         public var serviceName: SnowballClientTypes.ServiceName?
         /// The version of the dependent service.
@@ -1954,7 +1954,7 @@ extension DescribeAddressInput {
     }
 }
 
-public struct DescribeAddressInput: Swift.Equatable {
+public struct DescribeAddressInput {
     /// The automatically generated ID for a specific address.
     /// This member is required.
     public var addressId: Swift.String?
@@ -1967,7 +1967,7 @@ public struct DescribeAddressInput: Swift.Equatable {
     }
 }
 
-struct DescribeAddressInputBody: Swift.Equatable {
+struct DescribeAddressInputBody {
     let addressId: Swift.String?
 }
 
@@ -1995,7 +1995,7 @@ extension DescribeAddressOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAddressOutput: Swift.Equatable {
+public struct DescribeAddressOutput {
     /// The address that you want the Snow device(s) associated with a specific job to be shipped to.
     public var address: SnowballClientTypes.Address?
 
@@ -2007,7 +2007,7 @@ public struct DescribeAddressOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAddressOutputBody: Swift.Equatable {
+struct DescribeAddressOutputBody {
     let address: SnowballClientTypes.Address?
 }
 
@@ -2058,7 +2058,7 @@ extension DescribeAddressesInput {
     }
 }
 
-public struct DescribeAddressesInput: Swift.Equatable {
+public struct DescribeAddressesInput {
     /// The number of ADDRESS objects to return.
     public var maxResults: Swift.Int?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ADDRESS objects, you have the option of specifying a value for NextToken as the starting point for your list of returned addresses.
@@ -2074,7 +2074,7 @@ public struct DescribeAddressesInput: Swift.Equatable {
     }
 }
 
-struct DescribeAddressesInputBody: Swift.Equatable {
+struct DescribeAddressesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2108,7 +2108,7 @@ extension DescribeAddressesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAddressesOutput: Swift.Equatable {
+public struct DescribeAddressesOutput {
     /// The Snow device shipping addresses that were created for this account.
     public var addresses: [SnowballClientTypes.Address]?
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next DescribeAddresses call, your list of returned addresses will start from this point in the array.
@@ -2124,7 +2124,7 @@ public struct DescribeAddressesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAddressesOutputBody: Swift.Equatable {
+struct DescribeAddressesOutputBody {
     let addresses: [SnowballClientTypes.Address]?
     let nextToken: Swift.String?
 }
@@ -2185,7 +2185,7 @@ extension DescribeClusterInput {
     }
 }
 
-public struct DescribeClusterInput: Swift.Equatable {
+public struct DescribeClusterInput {
     /// The automatically generated ID for a cluster.
     /// This member is required.
     public var clusterId: Swift.String?
@@ -2198,7 +2198,7 @@ public struct DescribeClusterInput: Swift.Equatable {
     }
 }
 
-struct DescribeClusterInputBody: Swift.Equatable {
+struct DescribeClusterInputBody {
     let clusterId: Swift.String?
 }
 
@@ -2226,7 +2226,7 @@ extension DescribeClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClusterOutput: Swift.Equatable {
+public struct DescribeClusterOutput {
     /// Information about a specific cluster, including shipping information, cluster status, and other important metadata.
     public var clusterMetadata: SnowballClientTypes.ClusterMetadata?
 
@@ -2238,7 +2238,7 @@ public struct DescribeClusterOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClusterOutputBody: Swift.Equatable {
+struct DescribeClusterOutputBody {
     let clusterMetadata: SnowballClientTypes.ClusterMetadata?
 }
 
@@ -2285,7 +2285,7 @@ extension DescribeJobInput {
     }
 }
 
-public struct DescribeJobInput: Swift.Equatable {
+public struct DescribeJobInput {
     /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2298,7 +2298,7 @@ public struct DescribeJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobInputBody: Swift.Equatable {
+struct DescribeJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -2328,7 +2328,7 @@ extension DescribeJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobOutput: Swift.Equatable {
+public struct DescribeJobOutput {
     /// Information about a specific job, including shipping information, job status, and other important metadata.
     public var jobMetadata: SnowballClientTypes.JobMetadata?
     /// Information about a specific job part (in the case of an export job), including shipping information, job status, and other important metadata.
@@ -2344,7 +2344,7 @@ public struct DescribeJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobOutputBody: Swift.Equatable {
+struct DescribeJobOutputBody {
     let jobMetadata: SnowballClientTypes.JobMetadata?
     let subJobMetadata: [SnowballClientTypes.JobMetadata]?
 }
@@ -2404,7 +2404,7 @@ extension DescribeReturnShippingLabelInput {
     }
 }
 
-public struct DescribeReturnShippingLabelInput: Swift.Equatable {
+public struct DescribeReturnShippingLabelInput {
     /// The automatically generated ID for a job, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2417,7 +2417,7 @@ public struct DescribeReturnShippingLabelInput: Swift.Equatable {
     }
 }
 
-struct DescribeReturnShippingLabelInputBody: Swift.Equatable {
+struct DescribeReturnShippingLabelInputBody {
     let jobId: Swift.String?
 }
 
@@ -2449,7 +2449,7 @@ extension DescribeReturnShippingLabelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReturnShippingLabelOutput: Swift.Equatable {
+public struct DescribeReturnShippingLabelOutput {
     /// The expiration date of the current return shipping label.
     public var expirationDate: ClientRuntime.Date?
     /// The pre-signed Amazon S3 URI used to download the return shipping label.
@@ -2469,7 +2469,7 @@ public struct DescribeReturnShippingLabelOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReturnShippingLabelOutputBody: Swift.Equatable {
+struct DescribeReturnShippingLabelOutputBody {
     let status: SnowballClientTypes.ShippingLabelStatus?
     let expirationDate: ClientRuntime.Date?
     let returnShippingLabelURI: Swift.String?
@@ -2527,7 +2527,7 @@ extension SnowballClientTypes.DeviceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The container for SnowconeDeviceConfiguration.
-    public struct DeviceConfiguration: Swift.Equatable {
+    public struct DeviceConfiguration {
         /// Returns information about the device configuration for an Snowcone job.
         public var snowconeDeviceConfiguration: SnowballClientTypes.SnowconeDeviceConfiguration?
 
@@ -2600,7 +2600,7 @@ extension SnowballClientTypes.EKSOnDeviceServiceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// An object representing the metadata and configuration settings of EKS Anywhere on the Snow Family device.
-    public struct EKSOnDeviceServiceConfiguration: Swift.Equatable {
+    public struct EKSOnDeviceServiceConfiguration {
         /// The optional version of EKS Anywhere on the Snow Family device.
         public var eksAnywhereVersion: Swift.String?
         /// The Kubernetes version for EKS Anywhere on the Snow Family device.
@@ -2645,7 +2645,7 @@ extension SnowballClientTypes.Ec2AmiResource: Swift.Codable {
 
 extension SnowballClientTypes {
     /// A JSON-formatted object that contains the IDs for an Amazon Machine Image (AMI), including the Amazon EC2-compatible AMI ID and the Snow device AMI ID. Each AMI has these two IDs to simplify identifying the AMI in both the Amazon Web Services Cloud and on the device.
-    public struct Ec2AmiResource: Swift.Equatable {
+    public struct Ec2AmiResource {
         /// The ID of the AMI in Amazon EC2.
         /// This member is required.
         public var amiId: Swift.String?
@@ -2703,7 +2703,7 @@ public struct Ec2RequestFailedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct Ec2RequestFailedExceptionBody: Swift.Equatable {
+struct Ec2RequestFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -2740,7 +2740,7 @@ extension SnowballClientTypes.EventTriggerDefinition: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The container for the [EventTriggerDefinition$EventResourceARN].
-    public struct EventTriggerDefinition: Swift.Equatable {
+    public struct EventTriggerDefinition {
         /// The Amazon Resource Name (ARN) for any local Amazon S3 resource that is an Lambda function's event trigger associated with this job.
         public var eventResourceARN: Swift.String?
 
@@ -2774,7 +2774,7 @@ extension GetJobManifestInput {
     }
 }
 
-public struct GetJobManifestInput: Swift.Equatable {
+public struct GetJobManifestInput {
     /// The ID for a job that you want to get the manifest file for, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2787,7 +2787,7 @@ public struct GetJobManifestInput: Swift.Equatable {
     }
 }
 
-struct GetJobManifestInputBody: Swift.Equatable {
+struct GetJobManifestInputBody {
     let jobId: Swift.String?
 }
 
@@ -2815,7 +2815,7 @@ extension GetJobManifestOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobManifestOutput: Swift.Equatable {
+public struct GetJobManifestOutput {
     /// The Amazon S3 presigned URL for the manifest file associated with the specified JobId value.
     public var manifestURI: Swift.String?
 
@@ -2827,7 +2827,7 @@ public struct GetJobManifestOutput: Swift.Equatable {
     }
 }
 
-struct GetJobManifestOutputBody: Swift.Equatable {
+struct GetJobManifestOutputBody {
     let manifestURI: Swift.String?
 }
 
@@ -2875,7 +2875,7 @@ extension GetJobUnlockCodeInput {
     }
 }
 
-public struct GetJobUnlockCodeInput: Swift.Equatable {
+public struct GetJobUnlockCodeInput {
     /// The ID for the job that you want to get the UnlockCode value for, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2888,7 +2888,7 @@ public struct GetJobUnlockCodeInput: Swift.Equatable {
     }
 }
 
-struct GetJobUnlockCodeInputBody: Swift.Equatable {
+struct GetJobUnlockCodeInputBody {
     let jobId: Swift.String?
 }
 
@@ -2916,7 +2916,7 @@ extension GetJobUnlockCodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobUnlockCodeOutput: Swift.Equatable {
+public struct GetJobUnlockCodeOutput {
     /// The UnlockCode value for the specified job. The UnlockCode value can be accessed for up to 360 days after the job has been created.
     public var unlockCode: Swift.String?
 
@@ -2928,7 +2928,7 @@ public struct GetJobUnlockCodeOutput: Swift.Equatable {
     }
 }
 
-struct GetJobUnlockCodeOutputBody: Swift.Equatable {
+struct GetJobUnlockCodeOutputBody {
     let unlockCode: Swift.String?
 }
 
@@ -2971,12 +2971,12 @@ extension GetSnowballUsageInput {
     }
 }
 
-public struct GetSnowballUsageInput: Swift.Equatable {
+public struct GetSnowballUsageInput {
 
     public init() { }
 }
 
-struct GetSnowballUsageInputBody: Swift.Equatable {
+struct GetSnowballUsageInputBody {
 }
 
 extension GetSnowballUsageInputBody: Swift.Decodable {
@@ -2999,7 +2999,7 @@ extension GetSnowballUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSnowballUsageOutput: Swift.Equatable {
+public struct GetSnowballUsageOutput {
     /// The service limit for number of Snow devices this account can have at once. The default service limit is 1 (one).
     public var snowballLimit: Swift.Int?
     /// The number of Snow devices that this account is currently using.
@@ -3015,7 +3015,7 @@ public struct GetSnowballUsageOutput: Swift.Equatable {
     }
 }
 
-struct GetSnowballUsageOutputBody: Swift.Equatable {
+struct GetSnowballUsageOutputBody {
     let snowballLimit: Swift.Int?
     let snowballsInUse: Swift.Int?
 }
@@ -3065,7 +3065,7 @@ extension GetSoftwareUpdatesInput {
     }
 }
 
-public struct GetSoftwareUpdatesInput: Swift.Equatable {
+public struct GetSoftwareUpdatesInput {
     /// The ID for a job that you want to get the software update file for, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3078,7 +3078,7 @@ public struct GetSoftwareUpdatesInput: Swift.Equatable {
     }
 }
 
-struct GetSoftwareUpdatesInputBody: Swift.Equatable {
+struct GetSoftwareUpdatesInputBody {
     let jobId: Swift.String?
 }
 
@@ -3106,7 +3106,7 @@ extension GetSoftwareUpdatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSoftwareUpdatesOutput: Swift.Equatable {
+public struct GetSoftwareUpdatesOutput {
     /// The Amazon S3 presigned URL for the update file associated with the specified JobId value. The software update will be available for 2 days after this request is made. To access an update after the 2 days have passed, you'll have to make another call to GetSoftwareUpdates.
     public var updatesURI: Swift.String?
 
@@ -3118,7 +3118,7 @@ public struct GetSoftwareUpdatesOutput: Swift.Equatable {
     }
 }
 
-struct GetSoftwareUpdatesOutputBody: Swift.Equatable {
+struct GetSoftwareUpdatesOutputBody {
     let updatesURI: Swift.String?
 }
 
@@ -3167,7 +3167,7 @@ extension SnowballClientTypes.INDTaxDocuments: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The tax documents required in Amazon Web Services Region in India.
-    public struct INDTaxDocuments: Swift.Equatable {
+    public struct INDTaxDocuments {
         /// The Goods and Services Tax (GST) documents required in Amazon Web Services Region in India.
         public var gstin: Swift.String?
 
@@ -3261,7 +3261,7 @@ public struct InvalidAddressException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidAddressExceptionBody: Swift.Equatable {
+struct InvalidAddressExceptionBody {
     let message: Swift.String?
 }
 
@@ -3316,7 +3316,7 @@ public struct InvalidInputCombinationException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidInputCombinationExceptionBody: Swift.Equatable {
+struct InvalidInputCombinationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3371,7 +3371,7 @@ public struct InvalidJobStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidJobStateExceptionBody: Swift.Equatable {
+struct InvalidJobStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -3426,7 +3426,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3487,7 +3487,7 @@ public struct InvalidResourceException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidResourceExceptionBody: Swift.Equatable {
+struct InvalidResourceExceptionBody {
     let message: Swift.String?
     let resourceType: Swift.String?
 }
@@ -3564,7 +3564,7 @@ extension SnowballClientTypes.JobListEntry: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of an export job.
-    public struct JobListEntry: Swift.Equatable {
+    public struct JobListEntry {
         /// The creation date for this job.
         public var creationDate: ClientRuntime.Date?
         /// The optional description of this specific job, for example Important Photos 2016-08-11.
@@ -3635,7 +3635,7 @@ extension SnowballClientTypes.JobLogs: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains job logs. Whenever a Snow device is used to import data into or export data out of Amazon S3, you'll have the option of downloading a PDF job report. Job logs are returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type. The job logs can be accessed for up to 60 minutes after this request has been made. To access any of the job logs after 60 minutes have passed, you'll have to make another call to the DescribeJob action. For import jobs, the PDF job report becomes available at the end of the import process. For export jobs, your job report typically becomes available while the Snow device for your job part is being delivered to you. The job report provides you insight into the state of your Amazon S3 data transfer. The report includes details about your job or job part for your records. For deeper visibility into the status of your transferred objects, you can look at the two associated logs: a success log and a failure log. The logs are saved in comma-separated value (CSV) format, and the name of each log includes the ID of the job or job part that the log describes.
-    public struct JobLogs: Swift.Equatable {
+    public struct JobLogs {
         /// A link to an Amazon S3 presigned URL where the job completion report is located.
         public var jobCompletionReportURI: Swift.String?
         /// A link to an Amazon S3 presigned URL where the job failure log is located.
@@ -3822,7 +3822,7 @@ extension SnowballClientTypes.JobMetadata: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains information about a specific job including shipping information, job status, and other important metadata. This information is returned as a part of the response syntax of the DescribeJob action.
-    public struct JobMetadata: Swift.Equatable {
+    public struct JobMetadata {
         /// The ID for the address that you want the Snow device shipped to.
         public var addressId: Swift.String?
         /// The 39-character ID for the cluster, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -4001,7 +4001,7 @@ extension SnowballClientTypes.JobResource: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains an array of Amazon Web Services resource objects. Each object represents an Amazon S3 bucket, an Lambda function, or an Amazon Machine Image (AMI) based on Amazon EC2 that is associated with a particular job.
-    public struct JobResource: Swift.Equatable {
+    public struct JobResource {
         /// The Amazon Machine Images (AMIs) associated with this job.
         public var ec2AmiResources: [SnowballClientTypes.Ec2AmiResource]?
         /// The Python-language Lambda functions for this job.
@@ -4162,7 +4162,7 @@ public struct KMSRequestFailedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct KMSRequestFailedExceptionBody: Swift.Equatable {
+struct KMSRequestFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4205,7 +4205,7 @@ extension SnowballClientTypes.KeyRange: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Contains a key range. For export jobs, a S3Resource object can have an optional KeyRange value. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
-    public struct KeyRange: Swift.Equatable {
+    public struct KeyRange {
         /// The key that starts an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
         public var beginMarker: Swift.String?
         /// The key that ends an optional key range for an export job. Ranges are inclusive and UTF-8 binary sorted.
@@ -4262,7 +4262,7 @@ extension SnowballClientTypes.LambdaResource: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Identifies
-    public struct LambdaResource: Swift.Equatable {
+    public struct LambdaResource {
         /// The array of ARNs for [S3Resource] objects to trigger the [LambdaResource] objects associated with this job.
         public var eventTriggers: [SnowballClientTypes.EventTriggerDefinition]?
         /// An Amazon Resource Name (ARN) that represents an Lambda function to be triggered by PUT object actions on the associated local Amazon S3 resource.
@@ -4308,7 +4308,7 @@ extension ListClusterJobsInput {
     }
 }
 
-public struct ListClusterJobsInput: Swift.Equatable {
+public struct ListClusterJobsInput {
     /// The 39-character ID for the cluster that you want to list, for example CID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var clusterId: Swift.String?
@@ -4329,7 +4329,7 @@ public struct ListClusterJobsInput: Swift.Equatable {
     }
 }
 
-struct ListClusterJobsInputBody: Swift.Equatable {
+struct ListClusterJobsInputBody {
     let clusterId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4367,7 +4367,7 @@ extension ListClusterJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClusterJobsOutput: Swift.Equatable {
+public struct ListClusterJobsOutput {
     /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs.
     public var jobListEntries: [SnowballClientTypes.JobListEntry]?
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ListClusterJobsResult call, your list of returned jobs will start from this point in the array.
@@ -4383,7 +4383,7 @@ public struct ListClusterJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListClusterJobsOutputBody: Swift.Equatable {
+struct ListClusterJobsOutputBody {
     let jobListEntries: [SnowballClientTypes.JobListEntry]?
     let nextToken: Swift.String?
 }
@@ -4448,7 +4448,7 @@ extension ListClustersInput {
     }
 }
 
-public struct ListClustersInput: Swift.Equatable {
+public struct ListClustersInput {
     /// The number of ClusterListEntry objects to return.
     public var maxResults: Swift.Int?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ClusterListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -4464,7 +4464,7 @@ public struct ListClustersInput: Swift.Equatable {
     }
 }
 
-struct ListClustersInputBody: Swift.Equatable {
+struct ListClustersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4498,7 +4498,7 @@ extension ListClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListClustersOutput: Swift.Equatable {
+public struct ListClustersOutput {
     /// Each ClusterListEntry object contains a cluster's state, a cluster's ID, and other important status information.
     public var clusterListEntries: [SnowballClientTypes.ClusterListEntry]?
     /// HTTP requests are stateless. If you use the automatically generated NextToken value in your next ClusterListEntry call, your list of returned clusters will start from this point in the array.
@@ -4514,7 +4514,7 @@ public struct ListClustersOutput: Swift.Equatable {
     }
 }
 
-struct ListClustersOutputBody: Swift.Equatable {
+struct ListClustersOutputBody {
     let clusterListEntries: [SnowballClientTypes.ClusterListEntry]?
     let nextToken: Swift.String?
 }
@@ -4578,7 +4578,7 @@ extension ListCompatibleImagesInput {
     }
 }
 
-public struct ListCompatibleImagesInput: Swift.Equatable {
+public struct ListCompatibleImagesInput {
     /// The maximum number of results for the list of compatible images. Currently, a Snowball Edge device can store 10 AMIs.
     public var maxResults: Swift.Int?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of compatible images, you can specify a value for NextToken as the starting point for your list of returned images.
@@ -4594,7 +4594,7 @@ public struct ListCompatibleImagesInput: Swift.Equatable {
     }
 }
 
-struct ListCompatibleImagesInputBody: Swift.Equatable {
+struct ListCompatibleImagesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4628,7 +4628,7 @@ extension ListCompatibleImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCompatibleImagesOutput: Swift.Equatable {
+public struct ListCompatibleImagesOutput {
     /// A JSON-formatted object that describes a compatible AMI, including the ID and name for a Snow device AMI.
     public var compatibleImages: [SnowballClientTypes.CompatibleImage]?
     /// Because HTTP requests are stateless, this is the starting point for your next list of returned images.
@@ -4644,7 +4644,7 @@ public struct ListCompatibleImagesOutput: Swift.Equatable {
     }
 }
 
-struct ListCompatibleImagesOutputBody: Swift.Equatable {
+struct ListCompatibleImagesOutputBody {
     let compatibleImages: [SnowballClientTypes.CompatibleImage]?
     let nextToken: Swift.String?
 }
@@ -4709,7 +4709,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The number of JobListEntry objects to return.
     public var maxResults: Swift.Int?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of JobListEntry objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -4725,7 +4725,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4759,7 +4759,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// Each JobListEntry object contains a job's state, a job's ID, and a value that indicates whether the job is a job part, in the case of export jobs.
     public var jobListEntries: [SnowballClientTypes.JobListEntry]?
     /// HTTP requests are stateless. If you use this automatically generated NextToken value in your next ListJobs call, your returned JobListEntry objects will start from this point in the array.
@@ -4775,7 +4775,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobListEntries: [SnowballClientTypes.JobListEntry]?
     let nextToken: Swift.String?
 }
@@ -4839,7 +4839,7 @@ extension ListLongTermPricingInput {
     }
 }
 
-public struct ListLongTermPricingInput: Swift.Equatable {
+public struct ListLongTermPricingInput {
     /// The maximum number of ListLongTermPricing objects to return.
     public var maxResults: Swift.Int?
     /// Because HTTP requests are stateless, this is the starting point for your next list of ListLongTermPricing to return.
@@ -4855,7 +4855,7 @@ public struct ListLongTermPricingInput: Swift.Equatable {
     }
 }
 
-struct ListLongTermPricingInputBody: Swift.Equatable {
+struct ListLongTermPricingInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4889,7 +4889,7 @@ extension ListLongTermPricingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLongTermPricingOutput: Swift.Equatable {
+public struct ListLongTermPricingOutput {
     /// Each LongTermPricingEntry object contains a status, ID, and other information about the LongTermPricing type.
     public var longTermPricingEntries: [SnowballClientTypes.LongTermPricingListEntry]?
     /// Because HTTP requests are stateless, this is the starting point for your next list of returned ListLongTermPricing list.
@@ -4905,7 +4905,7 @@ public struct ListLongTermPricingOutput: Swift.Equatable {
     }
 }
 
-struct ListLongTermPricingOutputBody: Swift.Equatable {
+struct ListLongTermPricingOutputBody {
     let longTermPricingEntries: [SnowballClientTypes.LongTermPricingListEntry]?
     let nextToken: Swift.String?
 }
@@ -4970,7 +4970,7 @@ extension ListPickupLocationsInput {
     }
 }
 
-public struct ListPickupLocationsInput: Swift.Equatable {
+public struct ListPickupLocationsInput {
     /// The maximum number of locations to list per page.
     public var maxResults: Swift.Int?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsRequest objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -4986,7 +4986,7 @@ public struct ListPickupLocationsInput: Swift.Equatable {
     }
 }
 
-struct ListPickupLocationsInputBody: Swift.Equatable {
+struct ListPickupLocationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -5020,7 +5020,7 @@ extension ListPickupLocationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPickupLocationsOutput: Swift.Equatable {
+public struct ListPickupLocationsOutput {
     /// Information about the address of pickup locations.
     public var addresses: [SnowballClientTypes.Address]?
     /// HTTP requests are stateless. To identify what object comes "next" in the list of ListPickupLocationsResult objects, you have the option of specifying NextToken as the starting point for your returned list.
@@ -5036,7 +5036,7 @@ public struct ListPickupLocationsOutput: Swift.Equatable {
     }
 }
 
-struct ListPickupLocationsOutputBody: Swift.Equatable {
+struct ListPickupLocationsOutputBody {
     let addresses: [SnowballClientTypes.Address]?
     let nextToken: Swift.String?
 }
@@ -5111,7 +5111,7 @@ extension ListServiceVersionsInput {
     }
 }
 
-public struct ListServiceVersionsInput: Swift.Equatable {
+public struct ListServiceVersionsInput {
     /// A list of names and versions of dependant services of the requested service.
     public var dependentServices: [SnowballClientTypes.DependentService]?
     /// The maximum number of ListServiceVersions objects to return.
@@ -5136,7 +5136,7 @@ public struct ListServiceVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListServiceVersionsInputBody: Swift.Equatable {
+struct ListServiceVersionsInputBody {
     let serviceName: SnowballClientTypes.ServiceName?
     let dependentServices: [SnowballClientTypes.DependentService]?
     let maxResults: Swift.Int?
@@ -5191,7 +5191,7 @@ extension ListServiceVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServiceVersionsOutput: Swift.Equatable {
+public struct ListServiceVersionsOutput {
     /// A list of names and versions of dependant services of the service for which the system provided supported versions.
     public var dependentServices: [SnowballClientTypes.DependentService]?
     /// Because HTTP requests are stateless, this is the starting point of the next list of returned ListServiceVersionsResult results.
@@ -5217,7 +5217,7 @@ public struct ListServiceVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListServiceVersionsOutputBody: Swift.Equatable {
+struct ListServiceVersionsOutputBody {
     let serviceVersions: [SnowballClientTypes.ServiceVersion]?
     let serviceName: SnowballClientTypes.ServiceName?
     let dependentServices: [SnowballClientTypes.DependentService]?
@@ -5362,7 +5362,7 @@ extension SnowballClientTypes.LongTermPricingListEntry: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Each LongTermPricingListEntry object contains information about a long-term pricing type.
-    public struct LongTermPricingListEntry: Swift.Equatable {
+    public struct LongTermPricingListEntry {
         /// The current active jobs on the device the long-term pricing type.
         public var currentActiveJob: Swift.String?
         /// If set to true, specifies that the current long-term pricing type for the device should be automatically renewed before the long-term pricing contract expires.
@@ -5474,7 +5474,7 @@ extension SnowballClientTypes.NFSOnDeviceServiceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// An object that represents the metadata and configuration settings for the NFS (Network File System) service on an Amazon Web Services Snow Family device.
-    public struct NFSOnDeviceServiceConfiguration: Swift.Equatable {
+    public struct NFSOnDeviceServiceConfiguration {
         /// The maximum NFS storage for one Snow Family device.
         public var storageLimit: Swift.Int
         /// The scale unit of the NFS storage on the device. Valid values: TB.
@@ -5543,7 +5543,7 @@ extension SnowballClientTypes.Notification: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The Amazon Simple Notification Service (Amazon SNS) notification settings associated with a specific job. The Notification object is returned as a part of the response syntax of the DescribeJob action in the JobMetadata data type. When the notification settings are defined during job creation, you can choose to notify based on a specific set of job states using the JobStatesToNotify array of strings, or you can specify that you want to have Amazon SNS notifications sent out for all job states with NotifyAll set to true.
-    public struct Notification: Swift.Equatable {
+    public struct Notification {
         /// Used to send SNS notifications for the person picking up the device (identified during job creation).
         public var devicePickupSnsTopicARN: Swift.String?
         /// The list of job states that will trigger a notification for this job.
@@ -5608,7 +5608,7 @@ extension SnowballClientTypes.OnDeviceServiceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// An object that represents the metadata and configuration settings for services on an Amazon Web Services Snow Family device.
-    public struct OnDeviceServiceConfiguration: Swift.Equatable {
+    public struct OnDeviceServiceConfiguration {
         /// The configuration of EKS Anywhere on the Snow Family device.
         public var eksOnDeviceService: SnowballClientTypes.EKSOnDeviceServiceConfiguration?
         /// Represents the NFS (Network File System) service on a Snow Family device.
@@ -5696,7 +5696,7 @@ extension SnowballClientTypes.PickupDetails: Swift.CustomDebugStringConvertible 
 
 extension SnowballClientTypes {
     /// Information identifying the person picking up the device.
-    public struct PickupDetails: Swift.Equatable {
+    public struct PickupDetails {
         /// The unique ID for a device that will be picked up.
         public var devicePickupId: Swift.String?
         /// The email address of the person picking up the device.
@@ -5808,7 +5808,7 @@ public struct ReturnShippingLabelAlreadyExistsException: ClientRuntime.ModeledEr
     }
 }
 
-struct ReturnShippingLabelAlreadyExistsExceptionBody: Swift.Equatable {
+struct ReturnShippingLabelAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5863,7 +5863,7 @@ extension SnowballClientTypes.S3OnDeviceServiceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Amazon S3 compatible storage on Snow family devices configuration items.
-    public struct S3OnDeviceServiceConfiguration: Swift.Equatable {
+    public struct S3OnDeviceServiceConfiguration {
         /// >Fault tolerance level of the cluster. This indicates the number of nodes that can go down without degrading the performance of the cluster. This additional input helps when the specified StorageLimit matches more than one Amazon S3 compatible storage on Snow family devices service configuration.
         public var faultTolerance: Swift.Int?
         /// Applicable when creating a cluster. Specifies how many nodes are needed for Amazon S3 compatible storage on Snow family devices. If specified, the other input can be omitted.
@@ -5934,7 +5934,7 @@ extension SnowballClientTypes.S3Resource: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Each S3Resource object represents an Amazon S3 bucket that your transferred data will be exported from or imported into. For export jobs, this object can have an optional KeyRange value. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
-    public struct S3Resource: Swift.Equatable {
+    public struct S3Resource {
         /// The Amazon Resource Name (ARN) of an Amazon S3 bucket.
         public var bucketArn: Swift.String?
         /// For export jobs, you can provide an optional KeyRange within a specific Amazon S3 bucket. The length of the range is defined at job creation, and has either an inclusive BeginMarker, an inclusive EndMarker, or both. Ranges are UTF-8 binary sorted.
@@ -6009,7 +6009,7 @@ extension SnowballClientTypes.ServiceVersion: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The version of the requested service.
-    public struct ServiceVersion: Swift.Equatable {
+    public struct ServiceVersion {
         /// The version number of the requested service.
         public var version: Swift.String?
 
@@ -6050,7 +6050,7 @@ extension SnowballClientTypes.Shipment: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The Status and TrackingNumber information for an inbound or outbound shipment.
-    public struct Shipment: Swift.Equatable {
+    public struct Shipment {
         /// Status information for a shipment.
         public var status: Swift.String?
         /// The tracking number for this job. Using this tracking number with your region's carrier's website, you can track a Snow device as the carrier transports it. For India, the carrier is Amazon Logistics. For all other regions, UPS is the carrier.
@@ -6133,7 +6133,7 @@ extension SnowballClientTypes.ShippingDetails: Swift.Codable {
 
 extension SnowballClientTypes {
     /// A job's shipping information, including inbound and outbound tracking numbers and shipping speed options.
-    public struct ShippingDetails: Swift.Equatable {
+    public struct ShippingDetails {
         /// The Status and TrackingNumber values for a Snow device being returned to Amazon Web Services for a particular job.
         public var inboundShipment: SnowballClientTypes.Shipment?
         /// The Status and TrackingNumber values for a Snow device being delivered to the address that you specified for a particular job.
@@ -6377,7 +6377,7 @@ extension SnowballClientTypes.SnowconeDeviceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Specifies the device configuration for an Snowcone job.
-    public struct SnowconeDeviceConfiguration: Swift.Equatable {
+    public struct SnowconeDeviceConfiguration {
         /// Configures the wireless connection for the Snowcone device.
         public var wirelessConnection: SnowballClientTypes.WirelessConnection?
 
@@ -6447,7 +6447,7 @@ extension SnowballClientTypes.TGWOnDeviceServiceConfiguration: Swift.Codable {
 
 extension SnowballClientTypes {
     /// An object that represents the metadata and configuration settings for the Storage Gateway service Tape Gateway type on an Amazon Web Services Snow Family device.
-    public struct TGWOnDeviceServiceConfiguration: Swift.Equatable {
+    public struct TGWOnDeviceServiceConfiguration {
         /// The maximum number of virtual tapes to store on one Snow Family device. Due to physical resource limitations, this value must be set to 80 for Snowball Edge.
         public var storageLimit: Swift.Int
         /// The scale unit of the virtual tapes on the device.
@@ -6492,7 +6492,7 @@ extension SnowballClientTypes.TargetOnDeviceService: Swift.Codable {
 
 extension SnowballClientTypes {
     /// An object that represents the service or services on the Snow Family device that your transferred data will be exported from or imported into. Amazon Web Services Snow Family supports Amazon S3 and NFS (Network File System).
-    public struct TargetOnDeviceService: Swift.Equatable {
+    public struct TargetOnDeviceService {
         /// Specifies the name of the service on the Snow Family device that your transferred data will be exported from or imported into.
         public var serviceName: SnowballClientTypes.DeviceServiceName?
         /// Specifies whether the data is being imported or exported. You can import or export the data, or use it locally on the device.
@@ -6531,7 +6531,7 @@ extension SnowballClientTypes.TaxDocuments: Swift.Codable {
 
 extension SnowballClientTypes {
     /// The tax documents required in your Amazon Web Services Region.
-    public struct TaxDocuments: Swift.Equatable {
+    public struct TaxDocuments {
         /// The tax documents required in Amazon Web Services Region in India.
         public var ind: SnowballClientTypes.INDTaxDocuments?
 
@@ -6619,7 +6619,7 @@ public struct UnsupportedAddressException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct UnsupportedAddressExceptionBody: Swift.Equatable {
+struct UnsupportedAddressExceptionBody {
     let message: Swift.String?
 }
 
@@ -6687,7 +6687,7 @@ extension UpdateClusterInput {
     }
 }
 
-public struct UpdateClusterInput: Swift.Equatable {
+public struct UpdateClusterInput {
     /// The ID of the updated [Address] object.
     public var addressId: Swift.String?
     /// The cluster ID of the cluster that you want to update, for example CID123e4567-e89b-12d3-a456-426655440000.
@@ -6732,7 +6732,7 @@ public struct UpdateClusterInput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterInputBody: Swift.Equatable {
+struct UpdateClusterInputBody {
     let clusterId: Swift.String?
     let roleARN: Swift.String?
     let description: Swift.String?
@@ -6785,7 +6785,7 @@ extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClusterOutput: Swift.Equatable {
+public struct UpdateClusterOutput {
 
     public init() { }
 }
@@ -6865,7 +6865,7 @@ extension UpdateJobInput {
     }
 }
 
-public struct UpdateJobInput: Swift.Equatable {
+public struct UpdateJobInput {
     /// The ID of the updated [Address] object.
     public var addressId: Swift.String?
     /// The updated description of this job's [JobMetadata] object.
@@ -6918,7 +6918,7 @@ public struct UpdateJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobInputBody: Swift.Equatable {
+struct UpdateJobInputBody {
     let jobId: Swift.String?
     let roleARN: Swift.String?
     let notification: SnowballClientTypes.Notification?
@@ -6979,7 +6979,7 @@ extension UpdateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobOutput: Swift.Equatable {
+public struct UpdateJobOutput {
 
     public init() { }
 }
@@ -7024,7 +7024,7 @@ extension UpdateJobShipmentStateInput {
     }
 }
 
-public struct UpdateJobShipmentStateInput: Swift.Equatable {
+public struct UpdateJobShipmentStateInput {
     /// The job ID of the job whose shipment date you want to update, for example JID123e4567-e89b-12d3-a456-426655440000.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7042,7 +7042,7 @@ public struct UpdateJobShipmentStateInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobShipmentStateInputBody: Swift.Equatable {
+struct UpdateJobShipmentStateInputBody {
     let jobId: Swift.String?
     let shipmentState: SnowballClientTypes.ShipmentState?
 }
@@ -7067,7 +7067,7 @@ extension UpdateJobShipmentStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobShipmentStateOutput: Swift.Equatable {
+public struct UpdateJobShipmentStateOutput {
 
     public init() { }
 }
@@ -7112,7 +7112,7 @@ extension UpdateLongTermPricingInput {
     }
 }
 
-public struct UpdateLongTermPricingInput: Swift.Equatable {
+public struct UpdateLongTermPricingInput {
     /// If set to true, specifies that the current long-term pricing type for the device should be automatically renewed before the long-term pricing contract expires.
     public var isLongTermPricingAutoRenew: Swift.Bool?
     /// The ID of the long-term pricing type for the device.
@@ -7133,7 +7133,7 @@ public struct UpdateLongTermPricingInput: Swift.Equatable {
     }
 }
 
-struct UpdateLongTermPricingInputBody: Swift.Equatable {
+struct UpdateLongTermPricingInputBody {
     let longTermPricingId: Swift.String?
     let replacementJob: Swift.String?
     let isLongTermPricingAutoRenew: Swift.Bool?
@@ -7162,7 +7162,7 @@ extension UpdateLongTermPricingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLongTermPricingOutput: Swift.Equatable {
+public struct UpdateLongTermPricingOutput {
 
     public init() { }
 }
@@ -7199,7 +7199,7 @@ extension SnowballClientTypes.WirelessConnection: Swift.Codable {
 
 extension SnowballClientTypes {
     /// Configures the wireless connection on an Snowcone device.
-    public struct WirelessConnection: Swift.Equatable {
+    public struct WirelessConnection {
         /// Enables the Wi-Fi adapter on an Snowcone device.
         public var isWifiEnabled: Swift.Bool
 

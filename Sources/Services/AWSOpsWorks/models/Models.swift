@@ -29,7 +29,7 @@ extension OpsWorksClientTypes.AgentVersion: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an agent version.
-    public struct AgentVersion: Swift.Equatable {
+    public struct AgentVersion {
         /// The configuration manager.
         public var configurationManager: OpsWorksClientTypes.StackConfigurationManager?
         /// The agent version.
@@ -194,7 +194,7 @@ extension OpsWorksClientTypes.App: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// A description of the app.
-    public struct App: Swift.Equatable {
+    public struct App {
         /// The app ID.
         public var appId: Swift.String?
         /// A Source object that describes the app repository.
@@ -404,7 +404,7 @@ extension AssignInstanceInput {
     }
 }
 
-public struct AssignInstanceInput: Swift.Equatable {
+public struct AssignInstanceInput {
     /// The instance ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -422,7 +422,7 @@ public struct AssignInstanceInput: Swift.Equatable {
     }
 }
 
-struct AssignInstanceInputBody: Swift.Equatable {
+struct AssignInstanceInputBody {
     let instanceId: Swift.String?
     let layerIds: [Swift.String]?
 }
@@ -456,7 +456,7 @@ extension AssignInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssignInstanceOutput: Swift.Equatable {
+public struct AssignInstanceOutput {
 
     public init() { }
 }
@@ -497,7 +497,7 @@ extension AssignVolumeInput {
     }
 }
 
-public struct AssignVolumeInput: Swift.Equatable {
+public struct AssignVolumeInput {
     /// The instance ID.
     public var instanceId: Swift.String?
     /// The volume ID.
@@ -514,7 +514,7 @@ public struct AssignVolumeInput: Swift.Equatable {
     }
 }
 
-struct AssignVolumeInputBody: Swift.Equatable {
+struct AssignVolumeInputBody {
     let volumeId: Swift.String?
     let instanceId: Swift.String?
 }
@@ -539,7 +539,7 @@ extension AssignVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssignVolumeOutput: Swift.Equatable {
+public struct AssignVolumeOutput {
 
     public init() { }
 }
@@ -580,7 +580,7 @@ extension AssociateElasticIpInput {
     }
 }
 
-public struct AssociateElasticIpInput: Swift.Equatable {
+public struct AssociateElasticIpInput {
     /// The Elastic IP address.
     /// This member is required.
     public var elasticIp: Swift.String?
@@ -597,7 +597,7 @@ public struct AssociateElasticIpInput: Swift.Equatable {
     }
 }
 
-struct AssociateElasticIpInputBody: Swift.Equatable {
+struct AssociateElasticIpInputBody {
     let elasticIp: Swift.String?
     let instanceId: Swift.String?
 }
@@ -622,7 +622,7 @@ extension AssociateElasticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateElasticIpOutput: Swift.Equatable {
+public struct AssociateElasticIpOutput {
 
     public init() { }
 }
@@ -663,7 +663,7 @@ extension AttachElasticLoadBalancerInput {
     }
 }
 
-public struct AttachElasticLoadBalancerInput: Swift.Equatable {
+public struct AttachElasticLoadBalancerInput {
     /// The Elastic Load Balancing instance's name.
     /// This member is required.
     public var elasticLoadBalancerName: Swift.String?
@@ -681,7 +681,7 @@ public struct AttachElasticLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct AttachElasticLoadBalancerInputBody: Swift.Equatable {
+struct AttachElasticLoadBalancerInputBody {
     let elasticLoadBalancerName: Swift.String?
     let layerId: Swift.String?
 }
@@ -706,7 +706,7 @@ extension AttachElasticLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AttachElasticLoadBalancerOutput: Swift.Equatable {
+public struct AttachElasticLoadBalancerOutput {
 
     public init() { }
 }
@@ -792,7 +792,7 @@ extension OpsWorksClientTypes.AutoScalingThresholds: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a load-based auto scaling upscaling or downscaling threshold configuration, which specifies when AWS OpsWorks Stacks starts or stops load-based instances.
-    public struct AutoScalingThresholds: Swift.Equatable {
+    public struct AutoScalingThresholds {
         /// Custom Cloudwatch auto scaling alarms, to be used as thresholds. This parameter takes a list of up to five alarm names, which are case sensitive and must be in the same region as the stack. To use custom alarms, you must update your service role to allow cloudwatch:DescribeAlarms. You can either have AWS OpsWorks Stacks update the role for you when you first use this feature or you can edit the role manually. For more information, see [Allowing AWS OpsWorks Stacks to Act on Your Behalf](https://docs.aws.amazon.com/opsworks/latest/userguide/opsworks-security-servicerole.html).
         public var alarms: [Swift.String]?
         /// The CPU utilization threshold, as a percent of the available CPU. A value of -1 disables the threshold.
@@ -901,7 +901,7 @@ extension OpsWorksClientTypes.BlockDeviceMapping: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a block device mapping. This data type maps directly to the Amazon EC2 [BlockDeviceMapping](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_BlockDeviceMapping.html) data type.
-    public struct BlockDeviceMapping: Swift.Equatable {
+    public struct BlockDeviceMapping {
         /// The device name that is exposed to the instance, such as /dev/sdh. For the root device, you can use the explicit device name or you can set this parameter to ROOT_DEVICE and AWS OpsWorks Stacks will provide the correct device name.
         public var deviceName: Swift.String?
         /// An EBSBlockDevice that defines how to configure an Amazon EBS volume when the instance is launched.
@@ -954,7 +954,7 @@ extension OpsWorksClientTypes.ChefConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes the Chef configuration.
-    public struct ChefConfiguration: Swift.Equatable {
+    public struct ChefConfiguration {
         /// The Berkshelf version.
         public var berkshelfVersion: Swift.String?
         /// Whether to enable Berkshelf.
@@ -1082,7 +1082,7 @@ extension CloneStackInput {
     }
 }
 
-public struct CloneStackInput: Swift.Equatable {
+public struct CloneStackInput {
     /// The default AWS OpsWorks Stacks agent version. You have the following options:
     ///
     /// * Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.
@@ -1248,7 +1248,7 @@ public struct CloneStackInput: Swift.Equatable {
     }
 }
 
-struct CloneStackInputBody: Swift.Equatable {
+struct CloneStackInputBody {
     let sourceStackId: Swift.String?
     let name: Swift.String?
     let region: Swift.String?
@@ -1379,7 +1379,7 @@ extension CloneStackOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CloneStack request.
-public struct CloneStackOutput: Swift.Equatable {
+public struct CloneStackOutput {
     /// The cloned stack ID.
     public var stackId: Swift.String?
 
@@ -1391,7 +1391,7 @@ public struct CloneStackOutput: Swift.Equatable {
     }
 }
 
-struct CloneStackOutputBody: Swift.Equatable {
+struct CloneStackOutputBody {
     let stackId: Swift.String?
 }
 
@@ -1458,7 +1458,7 @@ extension OpsWorksClientTypes.CloudWatchLogsConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes the Amazon CloudWatch logs configuration for a layer.
-    public struct CloudWatchLogsConfiguration: Swift.Equatable {
+    public struct CloudWatchLogsConfiguration {
         /// Whether CloudWatch Logs is enabled for a layer.
         public var enabled: Swift.Bool?
         /// A list of configuration options for CloudWatch Logs.
@@ -1893,7 +1893,7 @@ extension OpsWorksClientTypes.CloudWatchLogsLogStream: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes the Amazon CloudWatch logs configuration for a layer. For detailed information about members of this data type, see the [CloudWatch Logs Agent Reference](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/AgentReference.html).
-    public struct CloudWatchLogsLogStream: Swift.Equatable {
+    public struct CloudWatchLogsLogStream {
         /// Specifies the max number of log events in a batch, up to 10000. The default value is 1000.
         public var batchCount: Swift.Int?
         /// Specifies the maximum size of log events in a batch, in bytes, up to 1048576 bytes. The default value is 32768 bytes. This size is calculated as the sum of all event messages in UTF-8, plus 26 bytes for each log event.
@@ -2055,7 +2055,7 @@ extension OpsWorksClientTypes.Command: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a command.
-    public struct Command: Swift.Equatable {
+    public struct Command {
         /// Date and time when the command was acknowledged.
         public var acknowledgedAt: Swift.String?
         /// The command ID.
@@ -2213,7 +2213,7 @@ extension CreateAppInput {
     }
 }
 
-public struct CreateAppInput: Swift.Equatable {
+public struct CreateAppInput {
     /// A Source object that specifies the app repository.
     public var appSource: OpsWorksClientTypes.Source?
     /// One or more user-defined key/value pairs to be added to the stack attributes.
@@ -2272,7 +2272,7 @@ public struct CreateAppInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInputBody: Swift.Equatable {
+struct CreateAppInputBody {
     let stackId: Swift.String?
     let shortname: Swift.String?
     let name: Swift.String?
@@ -2381,7 +2381,7 @@ extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateApp request.
-public struct CreateAppOutput: Swift.Equatable {
+public struct CreateAppOutput {
     /// The app ID.
     public var appId: Swift.String?
 
@@ -2393,7 +2393,7 @@ public struct CreateAppOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputBody: Swift.Equatable {
+struct CreateAppOutputBody {
     let appId: Swift.String?
 }
 
@@ -2471,7 +2471,7 @@ extension CreateDeploymentInput {
     }
 }
 
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// The app ID. This parameter is required for app deployments, but not for other deployment commands.
     public var appId: Swift.String?
     /// A DeploymentCommand object that specifies the deployment command and any associated arguments.
@@ -2509,7 +2509,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let stackId: Swift.String?
     let appId: Swift.String?
     let instanceIds: [Swift.String]?
@@ -2580,7 +2580,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateDeployment request.
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// The deployment ID, which can be used with other requests to identify the deployment.
     public var deploymentId: Swift.String?
 
@@ -2592,7 +2592,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let deploymentId: Swift.String?
 }
 
@@ -2714,7 +2714,7 @@ extension CreateInstanceInput {
     }
 }
 
-public struct CreateInstanceInput: Swift.Equatable {
+public struct CreateInstanceInput {
     /// The default AWS OpsWorks Stacks agent version. You have the following options:
     ///
     /// * INHERIT - Use the stack's default agent version setting.
@@ -2819,7 +2819,7 @@ public struct CreateInstanceInput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceInputBody: Swift.Equatable {
+struct CreateInstanceInputBody {
     let stackId: Swift.String?
     let layerIds: [Swift.String]?
     let instanceType: Swift.String?
@@ -2934,7 +2934,7 @@ extension CreateInstanceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateInstance request.
-public struct CreateInstanceOutput: Swift.Equatable {
+public struct CreateInstanceOutput {
     /// The instance ID.
     public var instanceId: Swift.String?
 
@@ -2946,7 +2946,7 @@ public struct CreateInstanceOutput: Swift.Equatable {
     }
 }
 
-struct CreateInstanceOutputBody: Swift.Equatable {
+struct CreateInstanceOutputBody {
     let instanceId: Swift.String?
 }
 
@@ -3074,7 +3074,7 @@ extension CreateLayerInput {
     }
 }
 
-public struct CreateLayerInput: Swift.Equatable {
+public struct CreateLayerInput {
     /// One or more user-defined key-value pairs to be added to the stack attributes. To create a cluster layer, set the EcsClusterArn attribute to the cluster's ARN.
     public var attributes: [Swift.String:Swift.String]?
     /// Whether to automatically assign an [Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
@@ -3158,7 +3158,7 @@ public struct CreateLayerInput: Swift.Equatable {
     }
 }
 
-struct CreateLayerInputBody: Swift.Equatable {
+struct CreateLayerInputBody {
     let stackId: Swift.String?
     let type: OpsWorksClientTypes.LayerType?
     let name: Swift.String?
@@ -3291,7 +3291,7 @@ extension CreateLayerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateLayer request.
-public struct CreateLayerOutput: Swift.Equatable {
+public struct CreateLayerOutput {
     /// The layer ID.
     public var layerId: Swift.String?
 
@@ -3303,7 +3303,7 @@ public struct CreateLayerOutput: Swift.Equatable {
     }
 }
 
-struct CreateLayerOutputBody: Swift.Equatable {
+struct CreateLayerOutputBody {
     let layerId: Swift.String?
 }
 
@@ -3426,7 +3426,7 @@ extension CreateStackInput {
     }
 }
 
-public struct CreateStackInput: Swift.Equatable {
+public struct CreateStackInput {
     /// The default AWS OpsWorks Stacks agent version. You have the following options:
     ///
     /// * Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.
@@ -3582,7 +3582,7 @@ public struct CreateStackInput: Swift.Equatable {
     }
 }
 
-struct CreateStackInputBody: Swift.Equatable {
+struct CreateStackInputBody {
     let name: Swift.String?
     let region: Swift.String?
     let vpcId: Swift.String?
@@ -3692,7 +3692,7 @@ extension CreateStackOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateStack request.
-public struct CreateStackOutput: Swift.Equatable {
+public struct CreateStackOutput {
     /// The stack ID, which is an opaque string that you use to identify the stack when performing actions such as DescribeStacks.
     public var stackId: Swift.String?
 
@@ -3704,7 +3704,7 @@ public struct CreateStackOutput: Swift.Equatable {
     }
 }
 
-struct CreateStackOutputBody: Swift.Equatable {
+struct CreateStackOutputBody {
     let stackId: Swift.String?
 }
 
@@ -3763,7 +3763,7 @@ extension CreateUserProfileInput {
     }
 }
 
-public struct CreateUserProfileInput: Swift.Equatable {
+public struct CreateUserProfileInput {
     /// Whether users can specify their own SSH public key through the My Settings page. For more information, see [Setting an IAM User's Public SSH Key](https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html).
     public var allowSelfManagement: Swift.Bool?
     /// The user's IAM ARN; this can also be a federated user's ARN.
@@ -3788,7 +3788,7 @@ public struct CreateUserProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateUserProfileInputBody: Swift.Equatable {
+struct CreateUserProfileInputBody {
     let iamUserArn: Swift.String?
     let sshUsername: Swift.String?
     let sshPublicKey: Swift.String?
@@ -3829,7 +3829,7 @@ extension CreateUserProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a CreateUserProfile request.
-public struct CreateUserProfileOutput: Swift.Equatable {
+public struct CreateUserProfileOutput {
     /// The user's IAM ARN.
     public var iamUserArn: Swift.String?
 
@@ -3841,7 +3841,7 @@ public struct CreateUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserProfileOutputBody: Swift.Equatable {
+struct CreateUserProfileOutputBody {
     let iamUserArn: Swift.String?
 }
 
@@ -3901,7 +3901,7 @@ extension OpsWorksClientTypes.DataSource: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an app's data source.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The data source's ARN.
         public var arn: Swift.String?
         /// The database name.
@@ -3943,7 +3943,7 @@ extension DeleteAppInput {
     }
 }
 
-public struct DeleteAppInput: Swift.Equatable {
+public struct DeleteAppInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -3956,7 +3956,7 @@ public struct DeleteAppInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputBody: Swift.Equatable {
+struct DeleteAppInputBody {
     let appId: Swift.String?
 }
 
@@ -3977,7 +3977,7 @@ extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppOutput: Swift.Equatable {
+public struct DeleteAppOutput {
 
     public init() { }
 }
@@ -4022,7 +4022,7 @@ extension DeleteInstanceInput {
     }
 }
 
-public struct DeleteInstanceInput: Swift.Equatable {
+public struct DeleteInstanceInput {
     /// Whether to delete the instance Elastic IP address.
     public var deleteElasticIp: Swift.Bool?
     /// Whether to delete the instance's Amazon EBS volumes.
@@ -4043,7 +4043,7 @@ public struct DeleteInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteInstanceInputBody: Swift.Equatable {
+struct DeleteInstanceInputBody {
     let instanceId: Swift.String?
     let deleteElasticIp: Swift.Bool?
     let deleteVolumes: Swift.Bool?
@@ -4072,7 +4072,7 @@ extension DeleteInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInstanceOutput: Swift.Equatable {
+public struct DeleteInstanceOutput {
 
     public init() { }
 }
@@ -4109,7 +4109,7 @@ extension DeleteLayerInput {
     }
 }
 
-public struct DeleteLayerInput: Swift.Equatable {
+public struct DeleteLayerInput {
     /// The layer ID.
     /// This member is required.
     public var layerId: Swift.String?
@@ -4122,7 +4122,7 @@ public struct DeleteLayerInput: Swift.Equatable {
     }
 }
 
-struct DeleteLayerInputBody: Swift.Equatable {
+struct DeleteLayerInputBody {
     let layerId: Swift.String?
 }
 
@@ -4143,7 +4143,7 @@ extension DeleteLayerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLayerOutput: Swift.Equatable {
+public struct DeleteLayerOutput {
 
     public init() { }
 }
@@ -4180,7 +4180,7 @@ extension DeleteStackInput {
     }
 }
 
-public struct DeleteStackInput: Swift.Equatable {
+public struct DeleteStackInput {
     /// The stack ID.
     /// This member is required.
     public var stackId: Swift.String?
@@ -4193,7 +4193,7 @@ public struct DeleteStackInput: Swift.Equatable {
     }
 }
 
-struct DeleteStackInputBody: Swift.Equatable {
+struct DeleteStackInputBody {
     let stackId: Swift.String?
 }
 
@@ -4214,7 +4214,7 @@ extension DeleteStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStackOutput: Swift.Equatable {
+public struct DeleteStackOutput {
 
     public init() { }
 }
@@ -4251,7 +4251,7 @@ extension DeleteUserProfileInput {
     }
 }
 
-public struct DeleteUserProfileInput: Swift.Equatable {
+public struct DeleteUserProfileInput {
     /// The user's IAM ARN. This can also be a federated user's ARN.
     /// This member is required.
     public var iamUserArn: Swift.String?
@@ -4264,7 +4264,7 @@ public struct DeleteUserProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserProfileInputBody: Swift.Equatable {
+struct DeleteUserProfileInputBody {
     let iamUserArn: Swift.String?
 }
 
@@ -4285,7 +4285,7 @@ extension DeleteUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserProfileOutput: Swift.Equatable {
+public struct DeleteUserProfileOutput {
 
     public init() { }
 }
@@ -4401,7 +4401,7 @@ extension OpsWorksClientTypes.Deployment: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a deployment of a stack or app.
-    public struct Deployment: Swift.Equatable {
+    public struct Deployment {
         /// The app ID.
         public var appId: Swift.String?
         /// Used to specify a stack or deployment command.
@@ -4514,7 +4514,7 @@ extension OpsWorksClientTypes.DeploymentCommand: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Used to specify a stack or deployment command.
-    public struct DeploymentCommand: Swift.Equatable {
+    public struct DeploymentCommand {
         /// The arguments of those commands that take arguments. It should be set to a JSON object with the following format: {"arg_name1" : ["value1", "value2", ...], "arg_name2" : ["value1", "value2", ...], ...} The update_dependencies command takes two arguments:
         ///
         /// * upgrade_os_to - Specifies the desired Amazon Linux version for instances whose OS you want to upgrade, such as Amazon Linux 2016.09. You must also set the allow_reboot argument to true.
@@ -4645,7 +4645,7 @@ extension DeregisterEcsClusterInput {
     }
 }
 
-public struct DeregisterEcsClusterInput: Swift.Equatable {
+public struct DeregisterEcsClusterInput {
     /// The cluster's Amazon Resource Number (ARN).
     /// This member is required.
     public var ecsClusterArn: Swift.String?
@@ -4658,7 +4658,7 @@ public struct DeregisterEcsClusterInput: Swift.Equatable {
     }
 }
 
-struct DeregisterEcsClusterInputBody: Swift.Equatable {
+struct DeregisterEcsClusterInputBody {
     let ecsClusterArn: Swift.String?
 }
 
@@ -4679,7 +4679,7 @@ extension DeregisterEcsClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterEcsClusterOutput: Swift.Equatable {
+public struct DeregisterEcsClusterOutput {
 
     public init() { }
 }
@@ -4716,7 +4716,7 @@ extension DeregisterElasticIpInput {
     }
 }
 
-public struct DeregisterElasticIpInput: Swift.Equatable {
+public struct DeregisterElasticIpInput {
     /// The Elastic IP address.
     /// This member is required.
     public var elasticIp: Swift.String?
@@ -4729,7 +4729,7 @@ public struct DeregisterElasticIpInput: Swift.Equatable {
     }
 }
 
-struct DeregisterElasticIpInputBody: Swift.Equatable {
+struct DeregisterElasticIpInputBody {
     let elasticIp: Swift.String?
 }
 
@@ -4750,7 +4750,7 @@ extension DeregisterElasticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterElasticIpOutput: Swift.Equatable {
+public struct DeregisterElasticIpOutput {
 
     public init() { }
 }
@@ -4787,7 +4787,7 @@ extension DeregisterInstanceInput {
     }
 }
 
-public struct DeregisterInstanceInput: Swift.Equatable {
+public struct DeregisterInstanceInput {
     /// The instance ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -4800,7 +4800,7 @@ public struct DeregisterInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeregisterInstanceInputBody: Swift.Equatable {
+struct DeregisterInstanceInputBody {
     let instanceId: Swift.String?
 }
 
@@ -4821,7 +4821,7 @@ extension DeregisterInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterInstanceOutput: Swift.Equatable {
+public struct DeregisterInstanceOutput {
 
     public init() { }
 }
@@ -4858,7 +4858,7 @@ extension DeregisterRdsDbInstanceInput {
     }
 }
 
-public struct DeregisterRdsDbInstanceInput: Swift.Equatable {
+public struct DeregisterRdsDbInstanceInput {
     /// The Amazon RDS instance's ARN.
     /// This member is required.
     public var rdsDbInstanceArn: Swift.String?
@@ -4871,7 +4871,7 @@ public struct DeregisterRdsDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeregisterRdsDbInstanceInputBody: Swift.Equatable {
+struct DeregisterRdsDbInstanceInputBody {
     let rdsDbInstanceArn: Swift.String?
 }
 
@@ -4892,7 +4892,7 @@ extension DeregisterRdsDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterRdsDbInstanceOutput: Swift.Equatable {
+public struct DeregisterRdsDbInstanceOutput {
 
     public init() { }
 }
@@ -4929,7 +4929,7 @@ extension DeregisterVolumeInput {
     }
 }
 
-public struct DeregisterVolumeInput: Swift.Equatable {
+public struct DeregisterVolumeInput {
     /// The AWS OpsWorks Stacks volume ID, which is the GUID that AWS OpsWorks Stacks assigned to the instance when you registered the volume with the stack, not the Amazon EC2 volume ID.
     /// This member is required.
     public var volumeId: Swift.String?
@@ -4942,7 +4942,7 @@ public struct DeregisterVolumeInput: Swift.Equatable {
     }
 }
 
-struct DeregisterVolumeInputBody: Swift.Equatable {
+struct DeregisterVolumeInputBody {
     let volumeId: Swift.String?
 }
 
@@ -4963,7 +4963,7 @@ extension DeregisterVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeregisterVolumeOutput: Swift.Equatable {
+public struct DeregisterVolumeOutput {
 
     public init() { }
 }
@@ -5004,7 +5004,7 @@ extension DescribeAgentVersionsInput {
     }
 }
 
-public struct DescribeAgentVersionsInput: Swift.Equatable {
+public struct DescribeAgentVersionsInput {
     /// The configuration manager.
     public var configurationManager: OpsWorksClientTypes.StackConfigurationManager?
     /// The stack ID.
@@ -5020,7 +5020,7 @@ public struct DescribeAgentVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentVersionsInputBody: Swift.Equatable {
+struct DescribeAgentVersionsInputBody {
     let stackId: Swift.String?
     let configurationManager: OpsWorksClientTypes.StackConfigurationManager?
 }
@@ -5053,7 +5053,7 @@ extension DescribeAgentVersionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeAgentVersions request.
-public struct DescribeAgentVersionsOutput: Swift.Equatable {
+public struct DescribeAgentVersionsOutput {
     /// The agent versions for the specified stack or configuration manager. Note that this value is the complete version number, not the abbreviated number used by the console.
     public var agentVersions: [OpsWorksClientTypes.AgentVersion]?
 
@@ -5065,7 +5065,7 @@ public struct DescribeAgentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgentVersionsOutputBody: Swift.Equatable {
+struct DescribeAgentVersionsOutputBody {
     let agentVersions: [OpsWorksClientTypes.AgentVersion]?
 }
 
@@ -5129,7 +5129,7 @@ extension DescribeAppsInput {
     }
 }
 
-public struct DescribeAppsInput: Swift.Equatable {
+public struct DescribeAppsInput {
     /// An array of app IDs for the apps to be described. If you use this parameter, DescribeApps returns a description of the specified apps. Otherwise, it returns a description of every app.
     public var appIds: [Swift.String]?
     /// The app stack ID. If you use this parameter, DescribeApps returns a description of the apps in the specified stack.
@@ -5145,7 +5145,7 @@ public struct DescribeAppsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppsInputBody: Swift.Equatable {
+struct DescribeAppsInputBody {
     let stackId: Swift.String?
     let appIds: [Swift.String]?
 }
@@ -5187,7 +5187,7 @@ extension DescribeAppsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeApps request.
-public struct DescribeAppsOutput: Swift.Equatable {
+public struct DescribeAppsOutput {
     /// An array of App objects that describe the specified apps.
     public var apps: [OpsWorksClientTypes.App]?
 
@@ -5199,7 +5199,7 @@ public struct DescribeAppsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppsOutputBody: Swift.Equatable {
+struct DescribeAppsOutputBody {
     let apps: [OpsWorksClientTypes.App]?
 }
 
@@ -5267,7 +5267,7 @@ extension DescribeCommandsInput {
     }
 }
 
-public struct DescribeCommandsInput: Swift.Equatable {
+public struct DescribeCommandsInput {
     /// An array of command IDs. If you include this parameter, DescribeCommands returns a description of the specified commands. Otherwise, it returns a description of every command.
     public var commandIds: [Swift.String]?
     /// The deployment ID. If you include this parameter, DescribeCommands returns a description of the commands associated with the specified deployment.
@@ -5287,7 +5287,7 @@ public struct DescribeCommandsInput: Swift.Equatable {
     }
 }
 
-struct DescribeCommandsInputBody: Swift.Equatable {
+struct DescribeCommandsInputBody {
     let deploymentId: Swift.String?
     let instanceId: Swift.String?
     let commandIds: [Swift.String]?
@@ -5333,7 +5333,7 @@ extension DescribeCommandsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeCommands request.
-public struct DescribeCommandsOutput: Swift.Equatable {
+public struct DescribeCommandsOutput {
     /// An array of Command objects that describe each of the specified commands.
     public var commands: [OpsWorksClientTypes.Command]?
 
@@ -5345,7 +5345,7 @@ public struct DescribeCommandsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCommandsOutputBody: Swift.Equatable {
+struct DescribeCommandsOutputBody {
     let commands: [OpsWorksClientTypes.Command]?
 }
 
@@ -5413,7 +5413,7 @@ extension DescribeDeploymentsInput {
     }
 }
 
-public struct DescribeDeploymentsInput: Swift.Equatable {
+public struct DescribeDeploymentsInput {
     /// The app ID. If you include this parameter, the command returns a description of the commands associated with the specified app.
     public var appId: Swift.String?
     /// An array of deployment IDs to be described. If you include this parameter, the command returns a description of the specified deployments. Otherwise, it returns a description of every deployment.
@@ -5433,7 +5433,7 @@ public struct DescribeDeploymentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDeploymentsInputBody: Swift.Equatable {
+struct DescribeDeploymentsInputBody {
     let stackId: Swift.String?
     let appId: Swift.String?
     let deploymentIds: [Swift.String]?
@@ -5479,7 +5479,7 @@ extension DescribeDeploymentsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeDeployments request.
-public struct DescribeDeploymentsOutput: Swift.Equatable {
+public struct DescribeDeploymentsOutput {
     /// An array of Deployment objects that describe the deployments.
     public var deployments: [OpsWorksClientTypes.Deployment]?
 
@@ -5491,7 +5491,7 @@ public struct DescribeDeploymentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDeploymentsOutputBody: Swift.Equatable {
+struct DescribeDeploymentsOutputBody {
     let deployments: [OpsWorksClientTypes.Deployment]?
 }
 
@@ -5563,7 +5563,7 @@ extension DescribeEcsClustersInput {
     }
 }
 
-public struct DescribeEcsClustersInput: Swift.Equatable {
+public struct DescribeEcsClustersInput {
     /// A list of ARNs, one for each cluster to be described.
     public var ecsClusterArns: [Swift.String]?
     /// To receive a paginated response, use this parameter to specify the maximum number of results to be returned with a single call. If the number of available results exceeds this maximum, the response includes a NextToken value that you can assign to the NextToken request parameter to get the next set of results.
@@ -5587,7 +5587,7 @@ public struct DescribeEcsClustersInput: Swift.Equatable {
     }
 }
 
-struct DescribeEcsClustersInputBody: Swift.Equatable {
+struct DescribeEcsClustersInputBody {
     let ecsClusterArns: [Swift.String]?
     let stackId: Swift.String?
     let nextToken: Swift.String?
@@ -5639,7 +5639,7 @@ extension DescribeEcsClustersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeEcsClusters request.
-public struct DescribeEcsClustersOutput: Swift.Equatable {
+public struct DescribeEcsClustersOutput {
     /// A list of EcsCluster objects containing the cluster descriptions.
     public var ecsClusters: [OpsWorksClientTypes.EcsCluster]?
     /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to retrieve the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
@@ -5655,7 +5655,7 @@ public struct DescribeEcsClustersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEcsClustersOutputBody: Swift.Equatable {
+struct DescribeEcsClustersOutputBody {
     let ecsClusters: [OpsWorksClientTypes.EcsCluster]?
     let nextToken: Swift.String?
 }
@@ -5727,7 +5727,7 @@ extension DescribeElasticIpsInput {
     }
 }
 
-public struct DescribeElasticIpsInput: Swift.Equatable {
+public struct DescribeElasticIpsInput {
     /// The instance ID. If you include this parameter, DescribeElasticIps returns a description of the Elastic IP addresses associated with the specified instance.
     public var instanceId: Swift.String?
     /// An array of Elastic IP addresses to be described. If you include this parameter, DescribeElasticIps returns a description of the specified Elastic IP addresses. Otherwise, it returns a description of every Elastic IP address.
@@ -5747,7 +5747,7 @@ public struct DescribeElasticIpsInput: Swift.Equatable {
     }
 }
 
-struct DescribeElasticIpsInputBody: Swift.Equatable {
+struct DescribeElasticIpsInputBody {
     let instanceId: Swift.String?
     let stackId: Swift.String?
     let ips: [Swift.String]?
@@ -5793,7 +5793,7 @@ extension DescribeElasticIpsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeElasticIps request.
-public struct DescribeElasticIpsOutput: Swift.Equatable {
+public struct DescribeElasticIpsOutput {
     /// An ElasticIps object that describes the specified Elastic IP addresses.
     public var elasticIps: [OpsWorksClientTypes.ElasticIp]?
 
@@ -5805,7 +5805,7 @@ public struct DescribeElasticIpsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeElasticIpsOutputBody: Swift.Equatable {
+struct DescribeElasticIpsOutputBody {
     let elasticIps: [OpsWorksClientTypes.ElasticIp]?
 }
 
@@ -5869,7 +5869,7 @@ extension DescribeElasticLoadBalancersInput {
     }
 }
 
-public struct DescribeElasticLoadBalancersInput: Swift.Equatable {
+public struct DescribeElasticLoadBalancersInput {
     /// A list of layer IDs. The action describes the Elastic Load Balancing instances for the specified layers.
     public var layerIds: [Swift.String]?
     /// A stack ID. The action describes the stack's Elastic Load Balancing instances.
@@ -5885,7 +5885,7 @@ public struct DescribeElasticLoadBalancersInput: Swift.Equatable {
     }
 }
 
-struct DescribeElasticLoadBalancersInputBody: Swift.Equatable {
+struct DescribeElasticLoadBalancersInputBody {
     let stackId: Swift.String?
     let layerIds: [Swift.String]?
 }
@@ -5927,7 +5927,7 @@ extension DescribeElasticLoadBalancersOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a DescribeElasticLoadBalancers request.
-public struct DescribeElasticLoadBalancersOutput: Swift.Equatable {
+public struct DescribeElasticLoadBalancersOutput {
     /// A list of ElasticLoadBalancer objects that describe the specified Elastic Load Balancing instances.
     public var elasticLoadBalancers: [OpsWorksClientTypes.ElasticLoadBalancer]?
 
@@ -5939,7 +5939,7 @@ public struct DescribeElasticLoadBalancersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeElasticLoadBalancersOutputBody: Swift.Equatable {
+struct DescribeElasticLoadBalancersOutputBody {
     let elasticLoadBalancers: [OpsWorksClientTypes.ElasticLoadBalancer]?
 }
 
@@ -6007,7 +6007,7 @@ extension DescribeInstancesInput {
     }
 }
 
-public struct DescribeInstancesInput: Swift.Equatable {
+public struct DescribeInstancesInput {
     /// An array of instance IDs to be described. If you use this parameter, DescribeInstances returns a description of the specified instances. Otherwise, it returns a description of every instance.
     public var instanceIds: [Swift.String]?
     /// A layer ID. If you use this parameter, DescribeInstances returns descriptions of the instances associated with the specified layer.
@@ -6027,7 +6027,7 @@ public struct DescribeInstancesInput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancesInputBody: Swift.Equatable {
+struct DescribeInstancesInputBody {
     let stackId: Swift.String?
     let layerId: Swift.String?
     let instanceIds: [Swift.String]?
@@ -6073,7 +6073,7 @@ extension DescribeInstancesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeInstances request.
-public struct DescribeInstancesOutput: Swift.Equatable {
+public struct DescribeInstancesOutput {
     /// An array of Instance objects that describe the instances.
     public var instances: [OpsWorksClientTypes.Instance]?
 
@@ -6085,7 +6085,7 @@ public struct DescribeInstancesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeInstancesOutputBody: Swift.Equatable {
+struct DescribeInstancesOutputBody {
     let instances: [OpsWorksClientTypes.Instance]?
 }
 
@@ -6149,7 +6149,7 @@ extension DescribeLayersInput {
     }
 }
 
-public struct DescribeLayersInput: Swift.Equatable {
+public struct DescribeLayersInput {
     /// An array of layer IDs that specify the layers to be described. If you omit this parameter, DescribeLayers returns a description of every layer in the specified stack.
     public var layerIds: [Swift.String]?
     /// The stack ID.
@@ -6165,7 +6165,7 @@ public struct DescribeLayersInput: Swift.Equatable {
     }
 }
 
-struct DescribeLayersInputBody: Swift.Equatable {
+struct DescribeLayersInputBody {
     let stackId: Swift.String?
     let layerIds: [Swift.String]?
 }
@@ -6207,7 +6207,7 @@ extension DescribeLayersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeLayers request.
-public struct DescribeLayersOutput: Swift.Equatable {
+public struct DescribeLayersOutput {
     /// An array of Layer objects that describe the layers.
     public var layers: [OpsWorksClientTypes.Layer]?
 
@@ -6219,7 +6219,7 @@ public struct DescribeLayersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLayersOutputBody: Swift.Equatable {
+struct DescribeLayersOutputBody {
     let layers: [OpsWorksClientTypes.Layer]?
 }
 
@@ -6279,7 +6279,7 @@ extension DescribeLoadBasedAutoScalingInput {
     }
 }
 
-public struct DescribeLoadBasedAutoScalingInput: Swift.Equatable {
+public struct DescribeLoadBasedAutoScalingInput {
     /// An array of layer IDs.
     /// This member is required.
     public var layerIds: [Swift.String]?
@@ -6292,7 +6292,7 @@ public struct DescribeLoadBasedAutoScalingInput: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBasedAutoScalingInputBody: Swift.Equatable {
+struct DescribeLoadBasedAutoScalingInputBody {
     let layerIds: [Swift.String]?
 }
 
@@ -6330,7 +6330,7 @@ extension DescribeLoadBasedAutoScalingOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a DescribeLoadBasedAutoScaling request.
-public struct DescribeLoadBasedAutoScalingOutput: Swift.Equatable {
+public struct DescribeLoadBasedAutoScalingOutput {
     /// An array of LoadBasedAutoScalingConfiguration objects that describe each layer's configuration.
     public var loadBasedAutoScalingConfigurations: [OpsWorksClientTypes.LoadBasedAutoScalingConfiguration]?
 
@@ -6342,7 +6342,7 @@ public struct DescribeLoadBasedAutoScalingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLoadBasedAutoScalingOutputBody: Swift.Equatable {
+struct DescribeLoadBasedAutoScalingOutputBody {
     let loadBasedAutoScalingConfigurations: [OpsWorksClientTypes.LoadBasedAutoScalingConfiguration]?
 }
 
@@ -6394,12 +6394,12 @@ extension DescribeMyUserProfileInput {
     }
 }
 
-public struct DescribeMyUserProfileInput: Swift.Equatable {
+public struct DescribeMyUserProfileInput {
 
     public init() { }
 }
 
-struct DescribeMyUserProfileInputBody: Swift.Equatable {
+struct DescribeMyUserProfileInputBody {
 }
 
 extension DescribeMyUserProfileInputBody: Swift.Decodable {
@@ -6421,7 +6421,7 @@ extension DescribeMyUserProfileOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeMyUserProfile request.
-public struct DescribeMyUserProfileOutput: Swift.Equatable {
+public struct DescribeMyUserProfileOutput {
     /// A UserProfile object that describes the user's SSH information.
     public var userProfile: OpsWorksClientTypes.SelfUserProfile?
 
@@ -6433,7 +6433,7 @@ public struct DescribeMyUserProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMyUserProfileOutputBody: Swift.Equatable {
+struct DescribeMyUserProfileOutputBody {
     let userProfile: OpsWorksClientTypes.SelfUserProfile?
 }
 
@@ -6474,12 +6474,12 @@ extension DescribeOperatingSystemsInput {
     }
 }
 
-public struct DescribeOperatingSystemsInput: Swift.Equatable {
+public struct DescribeOperatingSystemsInput {
 
     public init() { }
 }
 
-struct DescribeOperatingSystemsInputBody: Swift.Equatable {
+struct DescribeOperatingSystemsInputBody {
 }
 
 extension DescribeOperatingSystemsInputBody: Swift.Decodable {
@@ -6501,7 +6501,7 @@ extension DescribeOperatingSystemsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response to a DescribeOperatingSystems request.
-public struct DescribeOperatingSystemsOutput: Swift.Equatable {
+public struct DescribeOperatingSystemsOutput {
     /// Contains information in response to a DescribeOperatingSystems request.
     public var operatingSystems: [OpsWorksClientTypes.OperatingSystem]?
 
@@ -6513,7 +6513,7 @@ public struct DescribeOperatingSystemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOperatingSystemsOutputBody: Swift.Equatable {
+struct DescribeOperatingSystemsOutputBody {
     let operatingSystems: [OpsWorksClientTypes.OperatingSystem]?
 }
 
@@ -6572,7 +6572,7 @@ extension DescribePermissionsInput {
     }
 }
 
-public struct DescribePermissionsInput: Swift.Equatable {
+public struct DescribePermissionsInput {
     /// The user's IAM ARN. This can also be a federated user's ARN. For more information about IAM ARNs, see [Using Identifiers](https://docs.aws.amazon.com/IAM/latest/UserGuide/Using_Identifiers.html).
     public var iamUserArn: Swift.String?
     /// The stack ID.
@@ -6588,7 +6588,7 @@ public struct DescribePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribePermissionsInputBody: Swift.Equatable {
+struct DescribePermissionsInputBody {
     let iamUserArn: Swift.String?
     let stackId: Swift.String?
 }
@@ -6621,7 +6621,7 @@ extension DescribePermissionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribePermissions request.
-public struct DescribePermissionsOutput: Swift.Equatable {
+public struct DescribePermissionsOutput {
     /// An array of Permission objects that describe the stack permissions.
     ///
     /// * If the request object contains only a stack ID, the array contains a Permission object with permissions for each of the stack IAM ARNs.
@@ -6639,7 +6639,7 @@ public struct DescribePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribePermissionsOutputBody: Swift.Equatable {
+struct DescribePermissionsOutputBody {
     let permissions: [OpsWorksClientTypes.Permission]?
 }
 
@@ -6707,7 +6707,7 @@ extension DescribeRaidArraysInput {
     }
 }
 
-public struct DescribeRaidArraysInput: Swift.Equatable {
+public struct DescribeRaidArraysInput {
     /// The instance ID. If you use this parameter, DescribeRaidArrays returns descriptions of the RAID arrays associated with the specified instance.
     public var instanceId: Swift.String?
     /// An array of RAID array IDs. If you use this parameter, DescribeRaidArrays returns descriptions of the specified arrays. Otherwise, it returns a description of every array.
@@ -6727,7 +6727,7 @@ public struct DescribeRaidArraysInput: Swift.Equatable {
     }
 }
 
-struct DescribeRaidArraysInputBody: Swift.Equatable {
+struct DescribeRaidArraysInputBody {
     let instanceId: Swift.String?
     let stackId: Swift.String?
     let raidArrayIds: [Swift.String]?
@@ -6773,7 +6773,7 @@ extension DescribeRaidArraysOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeRaidArrays request.
-public struct DescribeRaidArraysOutput: Swift.Equatable {
+public struct DescribeRaidArraysOutput {
     /// A RaidArrays object that describes the specified RAID arrays.
     public var raidArrays: [OpsWorksClientTypes.RaidArray]?
 
@@ -6785,7 +6785,7 @@ public struct DescribeRaidArraysOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRaidArraysOutputBody: Swift.Equatable {
+struct DescribeRaidArraysOutputBody {
     let raidArrays: [OpsWorksClientTypes.RaidArray]?
 }
 
@@ -6849,7 +6849,7 @@ extension DescribeRdsDbInstancesInput {
     }
 }
 
-public struct DescribeRdsDbInstancesInput: Swift.Equatable {
+public struct DescribeRdsDbInstancesInput {
     /// An array containing the ARNs of the instances to be described.
     public var rdsDbInstanceArns: [Swift.String]?
     /// The ID of the stack with which the instances are registered. The operation returns descriptions of all registered Amazon RDS instances.
@@ -6866,7 +6866,7 @@ public struct DescribeRdsDbInstancesInput: Swift.Equatable {
     }
 }
 
-struct DescribeRdsDbInstancesInputBody: Swift.Equatable {
+struct DescribeRdsDbInstancesInputBody {
     let stackId: Swift.String?
     let rdsDbInstanceArns: [Swift.String]?
 }
@@ -6908,7 +6908,7 @@ extension DescribeRdsDbInstancesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeRdsDbInstances request.
-public struct DescribeRdsDbInstancesOutput: Swift.Equatable {
+public struct DescribeRdsDbInstancesOutput {
     /// An a array of RdsDbInstance objects that describe the instances.
     public var rdsDbInstances: [OpsWorksClientTypes.RdsDbInstance]?
 
@@ -6920,7 +6920,7 @@ public struct DescribeRdsDbInstancesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRdsDbInstancesOutputBody: Swift.Equatable {
+struct DescribeRdsDbInstancesOutputBody {
     let rdsDbInstances: [OpsWorksClientTypes.RdsDbInstance]?
 }
 
@@ -6988,7 +6988,7 @@ extension DescribeServiceErrorsInput {
     }
 }
 
-public struct DescribeServiceErrorsInput: Swift.Equatable {
+public struct DescribeServiceErrorsInput {
     /// The instance ID. If you use this parameter, DescribeServiceErrors returns descriptions of the errors associated with the specified instance.
     public var instanceId: Swift.String?
     /// An array of service error IDs. If you use this parameter, DescribeServiceErrors returns descriptions of the specified errors. Otherwise, it returns a description of every error.
@@ -7008,7 +7008,7 @@ public struct DescribeServiceErrorsInput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceErrorsInputBody: Swift.Equatable {
+struct DescribeServiceErrorsInputBody {
     let stackId: Swift.String?
     let instanceId: Swift.String?
     let serviceErrorIds: [Swift.String]?
@@ -7054,7 +7054,7 @@ extension DescribeServiceErrorsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeServiceErrors request.
-public struct DescribeServiceErrorsOutput: Swift.Equatable {
+public struct DescribeServiceErrorsOutput {
     /// An array of ServiceError objects that describe the specified service errors.
     public var serviceErrors: [OpsWorksClientTypes.ServiceError]?
 
@@ -7066,7 +7066,7 @@ public struct DescribeServiceErrorsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceErrorsOutputBody: Swift.Equatable {
+struct DescribeServiceErrorsOutputBody {
     let serviceErrors: [OpsWorksClientTypes.ServiceError]?
 }
 
@@ -7123,7 +7123,7 @@ extension DescribeStackProvisioningParametersInput {
     }
 }
 
-public struct DescribeStackProvisioningParametersInput: Swift.Equatable {
+public struct DescribeStackProvisioningParametersInput {
     /// The stack ID.
     /// This member is required.
     public var stackId: Swift.String?
@@ -7136,7 +7136,7 @@ public struct DescribeStackProvisioningParametersInput: Swift.Equatable {
     }
 }
 
-struct DescribeStackProvisioningParametersInputBody: Swift.Equatable {
+struct DescribeStackProvisioningParametersInputBody {
     let stackId: Swift.String?
 }
 
@@ -7167,7 +7167,7 @@ extension DescribeStackProvisioningParametersOutput: ClientRuntime.HttpResponseB
 }
 
 /// Contains the response to a DescribeStackProvisioningParameters request.
-public struct DescribeStackProvisioningParametersOutput: Swift.Equatable {
+public struct DescribeStackProvisioningParametersOutput {
     /// The AWS OpsWorks Stacks agent installer's URL.
     public var agentInstallerUrl: Swift.String?
     /// An embedded object that contains the provisioning parameters.
@@ -7183,7 +7183,7 @@ public struct DescribeStackProvisioningParametersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStackProvisioningParametersOutputBody: Swift.Equatable {
+struct DescribeStackProvisioningParametersOutputBody {
     let agentInstallerUrl: Swift.String?
     let parameters: [Swift.String:Swift.String]?
 }
@@ -7244,7 +7244,7 @@ extension DescribeStackSummaryInput {
     }
 }
 
-public struct DescribeStackSummaryInput: Swift.Equatable {
+public struct DescribeStackSummaryInput {
     /// The stack ID.
     /// This member is required.
     public var stackId: Swift.String?
@@ -7257,7 +7257,7 @@ public struct DescribeStackSummaryInput: Swift.Equatable {
     }
 }
 
-struct DescribeStackSummaryInputBody: Swift.Equatable {
+struct DescribeStackSummaryInputBody {
     let stackId: Swift.String?
 }
 
@@ -7286,7 +7286,7 @@ extension DescribeStackSummaryOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeStackSummary request.
-public struct DescribeStackSummaryOutput: Swift.Equatable {
+public struct DescribeStackSummaryOutput {
     /// A StackSummary object that contains the results.
     public var stackSummary: OpsWorksClientTypes.StackSummary?
 
@@ -7298,7 +7298,7 @@ public struct DescribeStackSummaryOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStackSummaryOutputBody: Swift.Equatable {
+struct DescribeStackSummaryOutputBody {
     let stackSummary: OpsWorksClientTypes.StackSummary?
 }
 
@@ -7349,7 +7349,7 @@ extension DescribeStacksInput {
     }
 }
 
-public struct DescribeStacksInput: Swift.Equatable {
+public struct DescribeStacksInput {
     /// An array of stack IDs that specify the stacks to be described. If you omit this parameter, DescribeStacks returns a description of every stack.
     public var stackIds: [Swift.String]?
 
@@ -7361,7 +7361,7 @@ public struct DescribeStacksInput: Swift.Equatable {
     }
 }
 
-struct DescribeStacksInputBody: Swift.Equatable {
+struct DescribeStacksInputBody {
     let stackIds: [Swift.String]?
 }
 
@@ -7399,7 +7399,7 @@ extension DescribeStacksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeStacks request.
-public struct DescribeStacksOutput: Swift.Equatable {
+public struct DescribeStacksOutput {
     /// An array of Stack objects that describe the stacks.
     public var stacks: [OpsWorksClientTypes.Stack]?
 
@@ -7411,7 +7411,7 @@ public struct DescribeStacksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStacksOutputBody: Swift.Equatable {
+struct DescribeStacksOutputBody {
     let stacks: [OpsWorksClientTypes.Stack]?
 }
 
@@ -7471,7 +7471,7 @@ extension DescribeTimeBasedAutoScalingInput {
     }
 }
 
-public struct DescribeTimeBasedAutoScalingInput: Swift.Equatable {
+public struct DescribeTimeBasedAutoScalingInput {
     /// An array of instance IDs.
     /// This member is required.
     public var instanceIds: [Swift.String]?
@@ -7484,7 +7484,7 @@ public struct DescribeTimeBasedAutoScalingInput: Swift.Equatable {
     }
 }
 
-struct DescribeTimeBasedAutoScalingInputBody: Swift.Equatable {
+struct DescribeTimeBasedAutoScalingInputBody {
     let instanceIds: [Swift.String]?
 }
 
@@ -7522,7 +7522,7 @@ extension DescribeTimeBasedAutoScalingOutput: ClientRuntime.HttpResponseBinding 
 }
 
 /// Contains the response to a DescribeTimeBasedAutoScaling request.
-public struct DescribeTimeBasedAutoScalingOutput: Swift.Equatable {
+public struct DescribeTimeBasedAutoScalingOutput {
     /// An array of TimeBasedAutoScalingConfiguration objects that describe the configuration for the specified instances.
     public var timeBasedAutoScalingConfigurations: [OpsWorksClientTypes.TimeBasedAutoScalingConfiguration]?
 
@@ -7534,7 +7534,7 @@ public struct DescribeTimeBasedAutoScalingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTimeBasedAutoScalingOutputBody: Swift.Equatable {
+struct DescribeTimeBasedAutoScalingOutputBody {
     let timeBasedAutoScalingConfigurations: [OpsWorksClientTypes.TimeBasedAutoScalingConfiguration]?
 }
 
@@ -7594,7 +7594,7 @@ extension DescribeUserProfilesInput {
     }
 }
 
-public struct DescribeUserProfilesInput: Swift.Equatable {
+public struct DescribeUserProfilesInput {
     /// An array of IAM or federated user ARNs that identify the users to be described.
     public var iamUserArns: [Swift.String]?
 
@@ -7606,7 +7606,7 @@ public struct DescribeUserProfilesInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserProfilesInputBody: Swift.Equatable {
+struct DescribeUserProfilesInputBody {
     let iamUserArns: [Swift.String]?
 }
 
@@ -7644,7 +7644,7 @@ extension DescribeUserProfilesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeUserProfiles request.
-public struct DescribeUserProfilesOutput: Swift.Equatable {
+public struct DescribeUserProfilesOutput {
     /// A Users object that describes the specified users.
     public var userProfiles: [OpsWorksClientTypes.UserProfile]?
 
@@ -7656,7 +7656,7 @@ public struct DescribeUserProfilesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserProfilesOutputBody: Swift.Equatable {
+struct DescribeUserProfilesOutputBody {
     let userProfiles: [OpsWorksClientTypes.UserProfile]?
 }
 
@@ -7728,7 +7728,7 @@ extension DescribeVolumesInput {
     }
 }
 
-public struct DescribeVolumesInput: Swift.Equatable {
+public struct DescribeVolumesInput {
     /// The instance ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified instance.
     public var instanceId: Swift.String?
     /// The RAID array ID. If you use this parameter, DescribeVolumes returns descriptions of the volumes associated with the specified RAID array.
@@ -7752,7 +7752,7 @@ public struct DescribeVolumesInput: Swift.Equatable {
     }
 }
 
-struct DescribeVolumesInputBody: Swift.Equatable {
+struct DescribeVolumesInputBody {
     let instanceId: Swift.String?
     let stackId: Swift.String?
     let raidArrayId: Swift.String?
@@ -7802,7 +7802,7 @@ extension DescribeVolumesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a DescribeVolumes request.
-public struct DescribeVolumesOutput: Swift.Equatable {
+public struct DescribeVolumesOutput {
     /// An array of volume IDs.
     public var volumes: [OpsWorksClientTypes.Volume]?
 
@@ -7814,7 +7814,7 @@ public struct DescribeVolumesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVolumesOutputBody: Swift.Equatable {
+struct DescribeVolumesOutputBody {
     let volumes: [OpsWorksClientTypes.Volume]?
 }
 
@@ -7875,7 +7875,7 @@ extension DetachElasticLoadBalancerInput {
     }
 }
 
-public struct DetachElasticLoadBalancerInput: Swift.Equatable {
+public struct DetachElasticLoadBalancerInput {
     /// The Elastic Load Balancing instance's name.
     /// This member is required.
     public var elasticLoadBalancerName: Swift.String?
@@ -7893,7 +7893,7 @@ public struct DetachElasticLoadBalancerInput: Swift.Equatable {
     }
 }
 
-struct DetachElasticLoadBalancerInputBody: Swift.Equatable {
+struct DetachElasticLoadBalancerInputBody {
     let elasticLoadBalancerName: Swift.String?
     let layerId: Swift.String?
 }
@@ -7918,7 +7918,7 @@ extension DetachElasticLoadBalancerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetachElasticLoadBalancerOutput: Swift.Equatable {
+public struct DetachElasticLoadBalancerOutput {
 
     public init() { }
 }
@@ -7954,7 +7954,7 @@ extension DisassociateElasticIpInput {
     }
 }
 
-public struct DisassociateElasticIpInput: Swift.Equatable {
+public struct DisassociateElasticIpInput {
     /// The Elastic IP address.
     /// This member is required.
     public var elasticIp: Swift.String?
@@ -7967,7 +7967,7 @@ public struct DisassociateElasticIpInput: Swift.Equatable {
     }
 }
 
-struct DisassociateElasticIpInputBody: Swift.Equatable {
+struct DisassociateElasticIpInputBody {
     let elasticIp: Swift.String?
 }
 
@@ -7988,7 +7988,7 @@ extension DisassociateElasticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateElasticIpOutput: Swift.Equatable {
+public struct DisassociateElasticIpOutput {
 
     public init() { }
 }
@@ -8050,7 +8050,7 @@ extension OpsWorksClientTypes.EbsBlockDevice: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an Amazon EBS volume. This data type maps directly to the Amazon EC2 [EbsBlockDevice](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EbsBlockDevice.html) data type.
-    public struct EbsBlockDevice: Swift.Equatable {
+    public struct EbsBlockDevice {
         /// Whether the volume is deleted on instance termination.
         public var deleteOnTermination: Swift.Bool?
         /// The number of I/O operations per second (IOPS) that the volume supports. For more information, see [EbsBlockDevice](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_EbsBlockDevice.html).
@@ -8119,7 +8119,7 @@ extension OpsWorksClientTypes.EcsCluster: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a registered Amazon ECS cluster.
-    public struct EcsCluster: Swift.Equatable {
+    public struct EcsCluster {
         /// The cluster's ARN.
         public var ecsClusterArn: Swift.String?
         /// The cluster name.
@@ -8190,7 +8190,7 @@ extension OpsWorksClientTypes.ElasticIp: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an Elastic IP address.
-    public struct ElasticIp: Swift.Equatable {
+    public struct ElasticIp {
         /// The domain.
         public var domain: Swift.String?
         /// The ID of the instance that the address is attached to.
@@ -8325,7 +8325,7 @@ extension OpsWorksClientTypes.ElasticLoadBalancer: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an Elastic Load Balancing instance.
-    public struct ElasticLoadBalancer: Swift.Equatable {
+    public struct ElasticLoadBalancer {
         /// A list of Availability Zones.
         public var availabilityZones: [Swift.String]?
         /// The instance's public DNS name.
@@ -8404,7 +8404,7 @@ extension OpsWorksClientTypes.EnvironmentVariable: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Represents an app's environment variable.
-    public struct EnvironmentVariable: Swift.Equatable {
+    public struct EnvironmentVariable {
         /// (Required) The environment variable's name, which can consist of up to 64 characters and must be specified. The name can contain upper- and lowercase letters, numbers, and underscores (_), but it must start with a letter or underscore.
         /// This member is required.
         public var key: Swift.String?
@@ -8448,7 +8448,7 @@ extension GetHostnameSuggestionInput {
     }
 }
 
-public struct GetHostnameSuggestionInput: Swift.Equatable {
+public struct GetHostnameSuggestionInput {
     /// The layer ID.
     /// This member is required.
     public var layerId: Swift.String?
@@ -8461,7 +8461,7 @@ public struct GetHostnameSuggestionInput: Swift.Equatable {
     }
 }
 
-struct GetHostnameSuggestionInputBody: Swift.Equatable {
+struct GetHostnameSuggestionInputBody {
     let layerId: Swift.String?
 }
 
@@ -8492,7 +8492,7 @@ extension GetHostnameSuggestionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a GetHostnameSuggestion request.
-public struct GetHostnameSuggestionOutput: Swift.Equatable {
+public struct GetHostnameSuggestionOutput {
     /// The generated host name.
     public var hostname: Swift.String?
     /// The layer ID.
@@ -8508,7 +8508,7 @@ public struct GetHostnameSuggestionOutput: Swift.Equatable {
     }
 }
 
-struct GetHostnameSuggestionOutputBody: Swift.Equatable {
+struct GetHostnameSuggestionOutputBody {
     let layerId: Swift.String?
     let hostname: Swift.String?
 }
@@ -8564,7 +8564,7 @@ extension GrantAccessInput {
     }
 }
 
-public struct GrantAccessInput: Swift.Equatable {
+public struct GrantAccessInput {
     /// The instance's AWS OpsWorks Stacks ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -8581,7 +8581,7 @@ public struct GrantAccessInput: Swift.Equatable {
     }
 }
 
-struct GrantAccessInputBody: Swift.Equatable {
+struct GrantAccessInputBody {
     let instanceId: Swift.String?
     let validForInMinutes: Swift.Int?
 }
@@ -8614,7 +8614,7 @@ extension GrantAccessOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a GrantAccess request.
-public struct GrantAccessOutput: Swift.Equatable {
+public struct GrantAccessOutput {
     /// A TemporaryCredential object that contains the data needed to log in to the instance by RDP clients, such as the Microsoft Remote Desktop Connection.
     public var temporaryCredential: OpsWorksClientTypes.TemporaryCredential?
 
@@ -8626,7 +8626,7 @@ public struct GrantAccessOutput: Swift.Equatable {
     }
 }
 
-struct GrantAccessOutputBody: Swift.Equatable {
+struct GrantAccessOutputBody {
     let temporaryCredential: OpsWorksClientTypes.TemporaryCredential?
 }
 
@@ -8951,7 +8951,7 @@ extension OpsWorksClientTypes.Instance: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an instance.
-    public struct Instance: Swift.Equatable {
+    public struct Instance {
         /// The agent version. This parameter is set to INHERIT if the instance inherits the default stack setting or to a a version number for a fixed agent version.
         public var agentVersion: Swift.String?
         /// A custom AMI ID to be used to create the instance. For more information, see [Instances](https://docs.aws.amazon.com/opsworks/latest/userguide/workinginstances-custom-ami.html)
@@ -9182,7 +9182,7 @@ extension OpsWorksClientTypes.InstanceIdentity: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Contains a description of an Amazon EC2 instance from the Amazon EC2 metadata service. For more information, see [Instance Metadata and User Data](https://docs.aws.amazon.com/sdkfornet/latest/apidocs/Index.html).
-    public struct InstanceIdentity: Swift.Equatable {
+    public struct InstanceIdentity {
         /// A JSON document that contains the metadata.
         public var document: Swift.String?
         /// A signature that can be used to verify the document's accuracy and authenticity.
@@ -9335,7 +9335,7 @@ extension OpsWorksClientTypes.InstancesCount: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes how many instances a stack has for each status.
-    public struct InstancesCount: Swift.Equatable {
+    public struct InstancesCount {
         /// The number of instances in the Assigning state.
         public var assigning: Swift.Int?
         /// The number of instances with booting status.
@@ -9638,7 +9638,7 @@ extension OpsWorksClientTypes.Layer: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a layer.
-    public struct Layer: Swift.Equatable {
+    public struct Layer {
         /// The Amazon Resource Number (ARN) of a layer.
         public var arn: Swift.String?
         /// The layer attributes. For the HaproxyStatsPassword, MysqlRootPassword, and GangliaPassword attributes, AWS OpsWorks Stacks returns *****FILTERED***** instead of the actual value For an ECS Cluster layer, AWS OpsWorks Stacks the EcsClusterArn attribute is set to the cluster's ARN.
@@ -9924,7 +9924,7 @@ extension OpsWorksClientTypes.LifecycleEventConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Specifies the lifecycle event configuration
-    public struct LifecycleEventConfiguration: Swift.Equatable {
+    public struct LifecycleEventConfiguration {
         /// A ShutdownEventConfiguration object that specifies the Shutdown event configuration.
         public var shutdown: OpsWorksClientTypes.ShutdownEventConfiguration?
 
@@ -9966,7 +9966,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// Do not use. A validation exception occurs if you add a MaxResults parameter to a ListTagsRequest call.
     public var maxResults: Swift.Int?
     /// Do not use. A validation exception occurs if you add a NextToken parameter to a ListTagsRequest call.
@@ -9987,7 +9987,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let resourceArn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10026,7 +10026,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a ListTags request.
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// If a paginated request does not return all of the remaining results, this parameter is set to a token that you can assign to the request object's NextToken parameter to get the next set of results. If the previous paginated request returned all of the remaining results, this parameter is set to null.
     public var nextToken: Swift.String?
     /// A set of key-value pairs that contain tag keys and tag values that are attached to a stack or layer.
@@ -10042,7 +10042,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tags: [Swift.String:Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10122,7 +10122,7 @@ extension OpsWorksClientTypes.LoadBasedAutoScalingConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a layer's load-based auto scaling configuration.
-    public struct LoadBasedAutoScalingConfiguration: Swift.Equatable {
+    public struct LoadBasedAutoScalingConfiguration {
         /// An AutoScalingThresholds object that describes the downscaling configuration, which defines how and when AWS OpsWorks Stacks reduces the number of instances.
         public var downScaling: OpsWorksClientTypes.AutoScalingThresholds?
         /// Whether load-based auto scaling is enabled for the layer.
@@ -10217,7 +10217,7 @@ extension OpsWorksClientTypes.OperatingSystem: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes supported operating systems in AWS OpsWorks Stacks.
-    public struct OperatingSystem: Swift.Equatable {
+    public struct OperatingSystem {
         /// Supported configuration manager name and versions for an AWS OpsWorks Stacks operating system.
         public var configurationManagers: [OpsWorksClientTypes.OperatingSystemConfigurationManager]?
         /// The ID of a supported operating system, such as Amazon Linux 2018.03.
@@ -10282,7 +10282,7 @@ extension OpsWorksClientTypes.OperatingSystemConfigurationManager: Swift.Codable
 
 extension OpsWorksClientTypes {
     /// A block that contains information about the configuration manager (Chef) and the versions of the configuration manager that are supported for an operating system.
-    public struct OperatingSystemConfigurationManager: Swift.Equatable {
+    public struct OperatingSystemConfigurationManager {
         /// The name of the configuration manager, which is Chef.
         public var name: Swift.String?
         /// The versions of the configuration manager that are supported by an operating system.
@@ -10347,7 +10347,7 @@ extension OpsWorksClientTypes.Permission: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes stack or user permissions.
-    public struct Permission: Swift.Equatable {
+    public struct Permission {
         /// Whether the user can use SSH.
         public var allowSsh: Swift.Bool?
         /// Whether the user can use sudo.
@@ -10483,7 +10483,7 @@ extension OpsWorksClientTypes.RaidArray: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an instance's RAID array.
-    public struct RaidArray: Swift.Equatable {
+    public struct RaidArray {
         /// The array's Availability Zone. For more information, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
         public var availabilityZone: Swift.String?
         /// When the RAID array was created.
@@ -10614,7 +10614,7 @@ extension OpsWorksClientTypes.RdsDbInstance: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an Amazon RDS instance.
-    public struct RdsDbInstance: Swift.Equatable {
+    public struct RdsDbInstance {
         /// The instance's address.
         public var address: Swift.String?
         /// The DB instance identifier.
@@ -10680,7 +10680,7 @@ extension RebootInstanceInput {
     }
 }
 
-public struct RebootInstanceInput: Swift.Equatable {
+public struct RebootInstanceInput {
     /// The instance ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -10693,7 +10693,7 @@ public struct RebootInstanceInput: Swift.Equatable {
     }
 }
 
-struct RebootInstanceInputBody: Swift.Equatable {
+struct RebootInstanceInputBody {
     let instanceId: Swift.String?
 }
 
@@ -10714,7 +10714,7 @@ extension RebootInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootInstanceOutput: Swift.Equatable {
+public struct RebootInstanceOutput {
 
     public init() { }
 }
@@ -10836,7 +10836,7 @@ extension OpsWorksClientTypes.Recipes: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// AWS OpsWorks Stacks supports five lifecycle events: setup, configuration, deploy, undeploy, and shutdown. For each layer, AWS OpsWorks Stacks runs a set of standard recipes for each event. In addition, you can provide custom recipes for any or all layers and events. AWS OpsWorks Stacks runs custom event recipes after the standard recipes. LayerCustomRecipes specifies the custom recipes for a particular layer to be run in response to each of the five events. To specify a recipe, use the cookbook's directory name in the repository followed by two colons and the recipe name, which is the recipe's file name without the .rb extension. For example: phpapp2::dbsetup specifies the dbsetup.rb recipe in the repository's phpapp2 folder.
-    public struct Recipes: Swift.Equatable {
+    public struct Recipes {
         /// An array of custom recipe names to be run following a configure event.
         public var configure: [Swift.String]?
         /// An array of custom recipe names to be run following a deploy event.
@@ -10890,7 +10890,7 @@ extension RegisterEcsClusterInput {
     }
 }
 
-public struct RegisterEcsClusterInput: Swift.Equatable {
+public struct RegisterEcsClusterInput {
     /// The cluster's ARN.
     /// This member is required.
     public var ecsClusterArn: Swift.String?
@@ -10908,7 +10908,7 @@ public struct RegisterEcsClusterInput: Swift.Equatable {
     }
 }
 
-struct RegisterEcsClusterInputBody: Swift.Equatable {
+struct RegisterEcsClusterInputBody {
     let ecsClusterArn: Swift.String?
     let stackId: Swift.String?
 }
@@ -10941,7 +10941,7 @@ extension RegisterEcsClusterOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a RegisterEcsCluster request.
-public struct RegisterEcsClusterOutput: Swift.Equatable {
+public struct RegisterEcsClusterOutput {
     /// The cluster's ARN.
     public var ecsClusterArn: Swift.String?
 
@@ -10953,7 +10953,7 @@ public struct RegisterEcsClusterOutput: Swift.Equatable {
     }
 }
 
-struct RegisterEcsClusterOutputBody: Swift.Equatable {
+struct RegisterEcsClusterOutputBody {
     let ecsClusterArn: Swift.String?
 }
 
@@ -11005,7 +11005,7 @@ extension RegisterElasticIpInput {
     }
 }
 
-public struct RegisterElasticIpInput: Swift.Equatable {
+public struct RegisterElasticIpInput {
     /// The Elastic IP address.
     /// This member is required.
     public var elasticIp: Swift.String?
@@ -11023,7 +11023,7 @@ public struct RegisterElasticIpInput: Swift.Equatable {
     }
 }
 
-struct RegisterElasticIpInputBody: Swift.Equatable {
+struct RegisterElasticIpInputBody {
     let elasticIp: Swift.String?
     let stackId: Swift.String?
 }
@@ -11056,7 +11056,7 @@ extension RegisterElasticIpOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a RegisterElasticIp request.
-public struct RegisterElasticIpOutput: Swift.Equatable {
+public struct RegisterElasticIpOutput {
     /// The Elastic IP address.
     public var elasticIp: Swift.String?
 
@@ -11068,7 +11068,7 @@ public struct RegisterElasticIpOutput: Swift.Equatable {
     }
 }
 
-struct RegisterElasticIpOutputBody: Swift.Equatable {
+struct RegisterElasticIpOutputBody {
     let elasticIp: Swift.String?
 }
 
@@ -11140,7 +11140,7 @@ extension RegisterInstanceInput {
     }
 }
 
-public struct RegisterInstanceInput: Swift.Equatable {
+public struct RegisterInstanceInput {
     /// The instance's hostname.
     public var hostname: Swift.String?
     /// An InstanceIdentity object that contains the instance's identity.
@@ -11177,7 +11177,7 @@ public struct RegisterInstanceInput: Swift.Equatable {
     }
 }
 
-struct RegisterInstanceInputBody: Swift.Equatable {
+struct RegisterInstanceInputBody {
     let stackId: Swift.String?
     let hostname: Swift.String?
     let publicIp: Swift.String?
@@ -11230,7 +11230,7 @@ extension RegisterInstanceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a RegisterInstanceResult request.
-public struct RegisterInstanceOutput: Swift.Equatable {
+public struct RegisterInstanceOutput {
     /// The registered instance's AWS OpsWorks Stacks ID.
     public var instanceId: Swift.String?
 
@@ -11242,7 +11242,7 @@ public struct RegisterInstanceOutput: Swift.Equatable {
     }
 }
 
-struct RegisterInstanceOutputBody: Swift.Equatable {
+struct RegisterInstanceOutputBody {
     let instanceId: Swift.String?
 }
 
@@ -11302,7 +11302,7 @@ extension RegisterRdsDbInstanceInput {
     }
 }
 
-public struct RegisterRdsDbInstanceInput: Swift.Equatable {
+public struct RegisterRdsDbInstanceInput {
     /// The database password.
     /// This member is required.
     public var dbPassword: Swift.String?
@@ -11330,7 +11330,7 @@ public struct RegisterRdsDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct RegisterRdsDbInstanceInputBody: Swift.Equatable {
+struct RegisterRdsDbInstanceInputBody {
     let stackId: Swift.String?
     let rdsDbInstanceArn: Swift.String?
     let dbUser: Swift.String?
@@ -11363,7 +11363,7 @@ extension RegisterRdsDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterRdsDbInstanceOutput: Swift.Equatable {
+public struct RegisterRdsDbInstanceOutput {
 
     public init() { }
 }
@@ -11404,7 +11404,7 @@ extension RegisterVolumeInput {
     }
 }
 
-public struct RegisterVolumeInput: Swift.Equatable {
+public struct RegisterVolumeInput {
     /// The Amazon EBS volume ID.
     public var ec2VolumeId: Swift.String?
     /// The stack ID.
@@ -11421,7 +11421,7 @@ public struct RegisterVolumeInput: Swift.Equatable {
     }
 }
 
-struct RegisterVolumeInputBody: Swift.Equatable {
+struct RegisterVolumeInputBody {
     let ec2VolumeId: Swift.String?
     let stackId: Swift.String?
 }
@@ -11454,7 +11454,7 @@ extension RegisterVolumeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the response to a RegisterVolume request.
-public struct RegisterVolumeOutput: Swift.Equatable {
+public struct RegisterVolumeOutput {
     /// The volume ID.
     public var volumeId: Swift.String?
 
@@ -11466,7 +11466,7 @@ public struct RegisterVolumeOutput: Swift.Equatable {
     }
 }
 
-struct RegisterVolumeOutputBody: Swift.Equatable {
+struct RegisterVolumeOutputBody {
     let volumeId: Swift.String?
 }
 
@@ -11527,7 +11527,7 @@ extension OpsWorksClientTypes.ReportedOs: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// A registered instance's reported operating system.
-    public struct ReportedOs: Swift.Equatable {
+    public struct ReportedOs {
         /// The operating system family.
         public var family: Swift.String?
         /// The operating system name.
@@ -11589,7 +11589,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -11676,7 +11676,7 @@ extension OpsWorksClientTypes.SelfUserProfile: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a user's SSH information.
-    public struct SelfUserProfile: Swift.Equatable {
+    public struct SelfUserProfile {
         /// The user's IAM ARN.
         public var iamUserArn: Swift.String?
         /// The user's name.
@@ -11753,7 +11753,7 @@ extension OpsWorksClientTypes.ServiceError: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an AWS OpsWorks Stacks service error.
-    public struct ServiceError: Swift.Equatable {
+    public struct ServiceError {
         /// When the error occurred.
         public var createdAt: Swift.String?
         /// The instance ID.
@@ -11819,7 +11819,7 @@ extension SetLoadBasedAutoScalingInput {
     }
 }
 
-public struct SetLoadBasedAutoScalingInput: Swift.Equatable {
+public struct SetLoadBasedAutoScalingInput {
     /// An AutoScalingThresholds object with the downscaling threshold configuration. If the load falls below these thresholds for a specified amount of time, AWS OpsWorks Stacks stops a specified number of instances.
     public var downScaling: OpsWorksClientTypes.AutoScalingThresholds?
     /// Enables load-based auto scaling for the layer.
@@ -11844,7 +11844,7 @@ public struct SetLoadBasedAutoScalingInput: Swift.Equatable {
     }
 }
 
-struct SetLoadBasedAutoScalingInputBody: Swift.Equatable {
+struct SetLoadBasedAutoScalingInputBody {
     let layerId: Swift.String?
     let enable: Swift.Bool?
     let upScaling: OpsWorksClientTypes.AutoScalingThresholds?
@@ -11877,7 +11877,7 @@ extension SetLoadBasedAutoScalingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetLoadBasedAutoScalingOutput: Swift.Equatable {
+public struct SetLoadBasedAutoScalingOutput {
 
     public init() { }
 }
@@ -11930,7 +11930,7 @@ extension SetPermissionInput {
     }
 }
 
-public struct SetPermissionInput: Swift.Equatable {
+public struct SetPermissionInput {
     /// The user is allowed to use SSH to communicate with the instance.
     public var allowSsh: Swift.Bool?
     /// The user is allowed to use sudo to elevate privileges.
@@ -11973,7 +11973,7 @@ public struct SetPermissionInput: Swift.Equatable {
     }
 }
 
-struct SetPermissionInputBody: Swift.Equatable {
+struct SetPermissionInputBody {
     let stackId: Swift.String?
     let iamUserArn: Swift.String?
     let allowSsh: Swift.Bool?
@@ -12010,7 +12010,7 @@ extension SetPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetPermissionOutput: Swift.Equatable {
+public struct SetPermissionOutput {
 
     public init() { }
 }
@@ -12051,7 +12051,7 @@ extension SetTimeBasedAutoScalingInput {
     }
 }
 
-public struct SetTimeBasedAutoScalingInput: Swift.Equatable {
+public struct SetTimeBasedAutoScalingInput {
     /// An AutoScalingSchedule with the instance schedule.
     public var autoScalingSchedule: OpsWorksClientTypes.WeeklyAutoScalingSchedule?
     /// The instance ID.
@@ -12068,7 +12068,7 @@ public struct SetTimeBasedAutoScalingInput: Swift.Equatable {
     }
 }
 
-struct SetTimeBasedAutoScalingInputBody: Swift.Equatable {
+struct SetTimeBasedAutoScalingInputBody {
     let instanceId: Swift.String?
     let autoScalingSchedule: OpsWorksClientTypes.WeeklyAutoScalingSchedule?
 }
@@ -12093,7 +12093,7 @@ extension SetTimeBasedAutoScalingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SetTimeBasedAutoScalingOutput: Swift.Equatable {
+public struct SetTimeBasedAutoScalingOutput {
 
     public init() { }
 }
@@ -12137,7 +12137,7 @@ extension OpsWorksClientTypes.ShutdownEventConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// The Shutdown event configuration.
-    public struct ShutdownEventConfiguration: Swift.Equatable {
+    public struct ShutdownEventConfiguration {
         /// Whether to enable Elastic Load Balancing connection draining. For more information, see [Connection Draining](https://docs.aws.amazon.com/ElasticLoadBalancing/latest/DeveloperGuide/TerminologyandKeyConcepts.html#conn-drain)
         public var delayUntilElbConnectionsDrained: Swift.Bool?
         /// The time, in seconds, that AWS OpsWorks Stacks will wait after triggering a Shutdown event before shutting down an instance.
@@ -12206,7 +12206,7 @@ extension OpsWorksClientTypes.Source: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Contains the information required to retrieve an app or cookbook from a repository. For more information, see [Creating Apps](https://docs.aws.amazon.com/opsworks/latest/userguide/workingapps-creating.html) or [Custom Recipes and Cookbooks](https://docs.aws.amazon.com/opsworks/latest/userguide/workingcookbook.html).
-    public struct Source: Swift.Equatable {
+    public struct Source {
         /// When included in a request, the parameter depends on the repository type.
         ///
         /// * For Amazon S3 bundles, set Password to the appropriate IAM secret access key.
@@ -12322,7 +12322,7 @@ extension OpsWorksClientTypes.SslConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an app's SSL configuration.
-    public struct SslConfiguration: Swift.Equatable {
+    public struct SslConfiguration {
         /// The contents of the certificate's domain.crt file.
         /// This member is required.
         public var certificate: Swift.String?
@@ -12505,7 +12505,7 @@ extension OpsWorksClientTypes.Stack: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a stack.
-    public struct Stack: Swift.Equatable {
+    public struct Stack {
         /// The agent version. This parameter is set to LATEST for auto-update. or a version number for a fixed agent version.
         public var agentVersion: Swift.String?
         /// The stack's ARN.
@@ -12659,7 +12659,7 @@ extension OpsWorksClientTypes.StackConfigurationManager: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes the configuration manager.
-    public struct StackConfigurationManager: Swift.Equatable {
+    public struct StackConfigurationManager {
         /// The name. This parameter must be set to "Chef".
         public var name: Swift.String?
         /// The Chef version. This parameter must be set to 12, 11.10, or 11.4 for Linux stacks, and to 12.2 for Windows stacks. The default value for Linux stacks is 11.4.
@@ -12728,7 +12728,7 @@ extension OpsWorksClientTypes.StackSummary: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Summarizes the number of layers, instances, and apps in a stack.
-    public struct StackSummary: Swift.Equatable {
+    public struct StackSummary {
         /// The number of apps.
         public var appsCount: Swift.Int?
         /// The stack's ARN.
@@ -12782,7 +12782,7 @@ extension StartInstanceInput {
     }
 }
 
-public struct StartInstanceInput: Swift.Equatable {
+public struct StartInstanceInput {
     /// The instance ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -12795,7 +12795,7 @@ public struct StartInstanceInput: Swift.Equatable {
     }
 }
 
-struct StartInstanceInputBody: Swift.Equatable {
+struct StartInstanceInputBody {
     let instanceId: Swift.String?
 }
 
@@ -12816,7 +12816,7 @@ extension StartInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartInstanceOutput: Swift.Equatable {
+public struct StartInstanceOutput {
 
     public init() { }
 }
@@ -12853,7 +12853,7 @@ extension StartStackInput {
     }
 }
 
-public struct StartStackInput: Swift.Equatable {
+public struct StartStackInput {
     /// The stack ID.
     /// This member is required.
     public var stackId: Swift.String?
@@ -12866,7 +12866,7 @@ public struct StartStackInput: Swift.Equatable {
     }
 }
 
-struct StartStackInputBody: Swift.Equatable {
+struct StartStackInputBody {
     let stackId: Swift.String?
 }
 
@@ -12887,7 +12887,7 @@ extension StartStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartStackOutput: Swift.Equatable {
+public struct StartStackOutput {
 
     public init() { }
 }
@@ -12928,7 +12928,7 @@ extension StopInstanceInput {
     }
 }
 
-public struct StopInstanceInput: Swift.Equatable {
+public struct StopInstanceInput {
     /// Specifies whether to force an instance to stop. If the instance's root device type is ebs, or EBS-backed, adding the Force parameter to the StopInstances API call disassociates the AWS OpsWorks Stacks instance from EC2, and forces deletion of only the OpsWorks Stacks instance. You must also delete the formerly-associated instance in EC2 after troubleshooting and replacing the AWS OpsWorks Stacks instance with a new one.
     public var force: Swift.Bool?
     /// The instance ID.
@@ -12945,7 +12945,7 @@ public struct StopInstanceInput: Swift.Equatable {
     }
 }
 
-struct StopInstanceInputBody: Swift.Equatable {
+struct StopInstanceInputBody {
     let instanceId: Swift.String?
     let force: Swift.Bool?
 }
@@ -12970,7 +12970,7 @@ extension StopInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopInstanceOutput: Swift.Equatable {
+public struct StopInstanceOutput {
 
     public init() { }
 }
@@ -13007,7 +13007,7 @@ extension StopStackInput {
     }
 }
 
-public struct StopStackInput: Swift.Equatable {
+public struct StopStackInput {
     /// The stack ID.
     /// This member is required.
     public var stackId: Swift.String?
@@ -13020,7 +13020,7 @@ public struct StopStackInput: Swift.Equatable {
     }
 }
 
-struct StopStackInputBody: Swift.Equatable {
+struct StopStackInputBody {
     let stackId: Swift.String?
 }
 
@@ -13041,7 +13041,7 @@ extension StopStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopStackOutput: Swift.Equatable {
+public struct StopStackOutput {
 
     public init() { }
 }
@@ -13085,7 +13085,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The stack or layer's Amazon Resource Number (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13113,7 +13113,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -13147,7 +13147,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13203,7 +13203,7 @@ extension OpsWorksClientTypes.TemporaryCredential: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Contains the data needed by RDP clients such as the Microsoft Remote Desktop Connection to log in to the instance.
-    public struct TemporaryCredential: Swift.Equatable {
+    public struct TemporaryCredential {
         /// The instance's AWS OpsWorks Stacks ID.
         public var instanceId: Swift.String?
         /// The password.
@@ -13256,7 +13256,7 @@ extension OpsWorksClientTypes.TimeBasedAutoScalingConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an instance's time-based auto scaling configuration.
-    public struct TimeBasedAutoScalingConfiguration: Swift.Equatable {
+    public struct TimeBasedAutoScalingConfiguration {
         /// A WeeklyAutoScalingSchedule object with the instance schedule.
         public var autoScalingSchedule: OpsWorksClientTypes.WeeklyAutoScalingSchedule?
         /// The instance ID.
@@ -13294,7 +13294,7 @@ extension UnassignInstanceInput {
     }
 }
 
-public struct UnassignInstanceInput: Swift.Equatable {
+public struct UnassignInstanceInput {
     /// The instance ID.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -13307,7 +13307,7 @@ public struct UnassignInstanceInput: Swift.Equatable {
     }
 }
 
-struct UnassignInstanceInputBody: Swift.Equatable {
+struct UnassignInstanceInputBody {
     let instanceId: Swift.String?
 }
 
@@ -13328,7 +13328,7 @@ extension UnassignInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnassignInstanceOutput: Swift.Equatable {
+public struct UnassignInstanceOutput {
 
     public init() { }
 }
@@ -13365,7 +13365,7 @@ extension UnassignVolumeInput {
     }
 }
 
-public struct UnassignVolumeInput: Swift.Equatable {
+public struct UnassignVolumeInput {
     /// The volume ID.
     /// This member is required.
     public var volumeId: Swift.String?
@@ -13378,7 +13378,7 @@ public struct UnassignVolumeInput: Swift.Equatable {
     }
 }
 
-struct UnassignVolumeInputBody: Swift.Equatable {
+struct UnassignVolumeInputBody {
     let volumeId: Swift.String?
 }
 
@@ -13399,7 +13399,7 @@ extension UnassignVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnassignVolumeOutput: Swift.Equatable {
+public struct UnassignVolumeOutput {
 
     public init() { }
 }
@@ -13443,7 +13443,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The stack or layer's Amazon Resource Number (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13461,7 +13461,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -13495,7 +13495,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -13584,7 +13584,7 @@ extension UpdateAppInput {
     }
 }
 
-public struct UpdateAppInput: Swift.Equatable {
+public struct UpdateAppInput {
     /// The app ID.
     /// This member is required.
     public var appId: Swift.String?
@@ -13637,7 +13637,7 @@ public struct UpdateAppInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInputBody: Swift.Equatable {
+struct UpdateAppInputBody {
     let appId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -13734,7 +13734,7 @@ extension UpdateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppOutput: Swift.Equatable {
+public struct UpdateAppOutput {
 
     public init() { }
 }
@@ -13775,7 +13775,7 @@ extension UpdateElasticIpInput {
     }
 }
 
-public struct UpdateElasticIpInput: Swift.Equatable {
+public struct UpdateElasticIpInput {
     /// The IP address for which you want to update the name.
     /// This member is required.
     public var elasticIp: Swift.String?
@@ -13792,7 +13792,7 @@ public struct UpdateElasticIpInput: Swift.Equatable {
     }
 }
 
-struct UpdateElasticIpInputBody: Swift.Equatable {
+struct UpdateElasticIpInputBody {
     let elasticIp: Swift.String?
     let name: Swift.String?
 }
@@ -13817,7 +13817,7 @@ extension UpdateElasticIpOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateElasticIpOutput: Swift.Equatable {
+public struct UpdateElasticIpOutput {
 
     public init() { }
 }
@@ -13901,7 +13901,7 @@ extension UpdateInstanceInput {
     }
 }
 
-public struct UpdateInstanceInput: Swift.Equatable {
+public struct UpdateInstanceInput {
     /// The default AWS OpsWorks Stacks agent version. You have the following options:
     ///
     /// * INHERIT - Use the stack's default agent version setting.
@@ -13978,7 +13978,7 @@ public struct UpdateInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateInstanceInputBody: Swift.Equatable {
+struct UpdateInstanceInputBody {
     let instanceId: Swift.String?
     let layerIds: [Swift.String]?
     let instanceType: Swift.String?
@@ -14052,7 +14052,7 @@ extension UpdateInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInstanceOutput: Swift.Equatable {
+public struct UpdateInstanceOutput {
 
     public init() { }
 }
@@ -14165,7 +14165,7 @@ extension UpdateLayerInput {
     }
 }
 
-public struct UpdateLayerInput: Swift.Equatable {
+public struct UpdateLayerInput {
     /// One or more user-defined key/value pairs to be added to the stack attributes.
     public var attributes: [Swift.String:Swift.String]?
     /// Whether to automatically assign an [Elastic IP address](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/elastic-ip-addresses-eip.html) to the layer's instances. For more information, see [How to Edit a Layer](https://docs.aws.amazon.com/opsworks/latest/userguide/workinglayers-basics-edit.html).
@@ -14242,7 +14242,7 @@ public struct UpdateLayerInput: Swift.Equatable {
     }
 }
 
-struct UpdateLayerInputBody: Swift.Equatable {
+struct UpdateLayerInputBody {
     let layerId: Swift.String?
     let name: Swift.String?
     let shortname: Swift.String?
@@ -14363,7 +14363,7 @@ extension UpdateLayerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLayerOutput: Swift.Equatable {
+public struct UpdateLayerOutput {
 
     public init() { }
 }
@@ -14400,7 +14400,7 @@ extension UpdateMyUserProfileInput {
     }
 }
 
-public struct UpdateMyUserProfileInput: Swift.Equatable {
+public struct UpdateMyUserProfileInput {
     /// The user's SSH public key.
     public var sshPublicKey: Swift.String?
 
@@ -14412,7 +14412,7 @@ public struct UpdateMyUserProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateMyUserProfileInputBody: Swift.Equatable {
+struct UpdateMyUserProfileInputBody {
     let sshPublicKey: Swift.String?
 }
 
@@ -14433,7 +14433,7 @@ extension UpdateMyUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMyUserProfileOutput: Swift.Equatable {
+public struct UpdateMyUserProfileOutput {
 
     public init() { }
 }
@@ -14477,7 +14477,7 @@ extension UpdateRdsDbInstanceInput {
     }
 }
 
-public struct UpdateRdsDbInstanceInput: Swift.Equatable {
+public struct UpdateRdsDbInstanceInput {
     /// The database password.
     public var dbPassword: Swift.String?
     /// The master user name.
@@ -14498,7 +14498,7 @@ public struct UpdateRdsDbInstanceInput: Swift.Equatable {
     }
 }
 
-struct UpdateRdsDbInstanceInputBody: Swift.Equatable {
+struct UpdateRdsDbInstanceInputBody {
     let rdsDbInstanceArn: Swift.String?
     let dbUser: Swift.String?
     let dbPassword: Swift.String?
@@ -14527,7 +14527,7 @@ extension UpdateRdsDbInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRdsDbInstanceOutput: Swift.Equatable {
+public struct UpdateRdsDbInstanceOutput {
 
     public init() { }
 }
@@ -14635,7 +14635,7 @@ extension UpdateStackInput {
     }
 }
 
-public struct UpdateStackInput: Swift.Equatable {
+public struct UpdateStackInput {
     /// The default AWS OpsWorks Stacks agent version. You have the following options:
     ///
     /// * Auto-update - Set this parameter to LATEST. AWS OpsWorks Stacks automatically installs new agent versions on the stack's instances as soon as they are available.
@@ -14770,7 +14770,7 @@ public struct UpdateStackInput: Swift.Equatable {
     }
 }
 
-struct UpdateStackInputBody: Swift.Equatable {
+struct UpdateStackInputBody {
     let stackId: Swift.String?
     let name: Swift.String?
     let attributes: [Swift.String:Swift.String]?
@@ -14868,7 +14868,7 @@ extension UpdateStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStackOutput: Swift.Equatable {
+public struct UpdateStackOutput {
 
     public init() { }
 }
@@ -14917,7 +14917,7 @@ extension UpdateUserProfileInput {
     }
 }
 
-public struct UpdateUserProfileInput: Swift.Equatable {
+public struct UpdateUserProfileInput {
     /// Whether users can specify their own SSH public key through the My Settings page. For more information, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html).
     public var allowSelfManagement: Swift.Bool?
     /// The user IAM ARN. This can also be a federated user's ARN.
@@ -14942,7 +14942,7 @@ public struct UpdateUserProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserProfileInputBody: Swift.Equatable {
+struct UpdateUserProfileInputBody {
     let iamUserArn: Swift.String?
     let sshUsername: Swift.String?
     let sshPublicKey: Swift.String?
@@ -14975,7 +14975,7 @@ extension UpdateUserProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserProfileOutput: Swift.Equatable {
+public struct UpdateUserProfileOutput {
 
     public init() { }
 }
@@ -15020,7 +15020,7 @@ extension UpdateVolumeInput {
     }
 }
 
-public struct UpdateVolumeInput: Swift.Equatable {
+public struct UpdateVolumeInput {
     /// The new mount point.
     public var mountPoint: Swift.String?
     /// The new name.
@@ -15041,7 +15041,7 @@ public struct UpdateVolumeInput: Swift.Equatable {
     }
 }
 
-struct UpdateVolumeInputBody: Swift.Equatable {
+struct UpdateVolumeInputBody {
     let volumeId: Swift.String?
     let name: Swift.String?
     let mountPoint: Swift.String?
@@ -15070,7 +15070,7 @@ extension UpdateVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVolumeOutput: Swift.Equatable {
+public struct UpdateVolumeOutput {
 
     public init() { }
 }
@@ -15132,7 +15132,7 @@ extension OpsWorksClientTypes.UserProfile: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes a user's SSH information.
-    public struct UserProfile: Swift.Equatable {
+    public struct UserProfile {
         /// Whether users can specify their own SSH public key through the My Settings page. For more information, see [Managing User Permissions](https://docs.aws.amazon.com/opsworks/latest/userguide/security-settingsshkey.html).
         public var allowSelfManagement: Swift.Bool?
         /// The user's IAM ARN.
@@ -15202,7 +15202,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -15349,7 +15349,7 @@ extension OpsWorksClientTypes.Volume: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an instance's Amazon EBS volume.
-    public struct Volume: Swift.Equatable {
+    public struct Volume {
         /// The volume Availability Zone. For more information, see [Regions and Endpoints](https://docs.aws.amazon.com/general/latest/gr/rande.html).
         public var availabilityZone: Swift.String?
         /// The device name.
@@ -15482,7 +15482,7 @@ extension OpsWorksClientTypes.VolumeConfiguration: Swift.Codable {
 
 extension OpsWorksClientTypes {
     /// Describes an Amazon EBS volume configuration.
-    public struct VolumeConfiguration: Swift.Equatable {
+    public struct VolumeConfiguration {
         /// Specifies whether an Amazon EBS volume is encrypted. For more information, see [Amazon EBS Encryption](https://docs.aws.amazon.com/AWSEC2/latest/UserGuide/EBSEncryption.html).
         public var encrypted: Swift.Bool?
         /// For PIOPS volumes, the IOPS per disk.
@@ -15716,7 +15716,7 @@ extension OpsWorksClientTypes {
     ///
     ///
     /// The default setting for all time periods is off, so you use the following parameters primarily to specify the online periods. You don't have to explicitly specify offline periods unless you want to change an online period to an offline period. The following example specifies that the instance should be online for four hours, from UTC 1200 - 1600. It will be off for the remainder of the day.  { "12":"on", "13":"on", "14":"on", "15":"on" }
-    public struct WeeklyAutoScalingSchedule: Swift.Equatable {
+    public struct WeeklyAutoScalingSchedule {
         /// The schedule for Friday.
         public var friday: [Swift.String:Swift.String]?
         /// The schedule for Monday.

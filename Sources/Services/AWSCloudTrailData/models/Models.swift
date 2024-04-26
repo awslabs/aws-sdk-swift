@@ -35,7 +35,7 @@ extension CloudTrailDataClientTypes.AuditEvent: Swift.Codable {
 
 extension CloudTrailDataClientTypes {
     /// An event from a source outside of Amazon Web Services that you want CloudTrail to log.
-    public struct AuditEvent: Swift.Equatable {
+    public struct AuditEvent {
         /// The content of an audit event that comes from the event, such as userIdentity, userAgent, and eventSource.
         /// This member is required.
         public var eventData: Swift.String?
@@ -86,7 +86,7 @@ extension CloudTrailDataClientTypes.AuditEventResultEntry: Swift.Codable {
 
 extension CloudTrailDataClientTypes {
     /// A response that includes successful and failed event results.
-    public struct AuditEventResultEntry: Swift.Equatable {
+    public struct AuditEventResultEntry {
         /// The event ID assigned by CloudTrail.
         /// This member is required.
         public var eventID: Swift.String?
@@ -145,7 +145,7 @@ public struct ChannelInsufficientPermission: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ChannelInsufficientPermissionBody: Swift.Equatable {
+struct ChannelInsufficientPermissionBody {
     let message: Swift.String?
 }
 
@@ -200,7 +200,7 @@ public struct ChannelNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ChannelNotFoundBody: Swift.Equatable {
+struct ChannelNotFoundBody {
     let message: Swift.String?
 }
 
@@ -255,7 +255,7 @@ public struct ChannelUnsupportedSchema: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ChannelUnsupportedSchemaBody: Swift.Equatable {
+struct ChannelUnsupportedSchemaBody {
     let message: Swift.String?
 }
 
@@ -312,7 +312,7 @@ public struct DuplicatedAuditEventId: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct DuplicatedAuditEventIdBody: Swift.Equatable {
+struct DuplicatedAuditEventIdBody {
     let message: Swift.String?
 }
 
@@ -367,7 +367,7 @@ public struct InvalidChannelARN: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidChannelARNBody: Swift.Equatable {
+struct InvalidChannelARNBody {
     let message: Swift.String?
 }
 
@@ -424,7 +424,7 @@ extension PutAuditEventsInput {
     }
 }
 
-public struct PutAuditEventsInput: Swift.Equatable {
+public struct PutAuditEventsInput {
     /// The JSON payload of events that you want to ingest. You can also point to the JSON event payload in a file.
     /// This member is required.
     public var auditEvents: [CloudTrailDataClientTypes.AuditEvent]?
@@ -446,7 +446,7 @@ public struct PutAuditEventsInput: Swift.Equatable {
     }
 }
 
-struct PutAuditEventsInputBody: Swift.Equatable {
+struct PutAuditEventsInputBody {
     let auditEvents: [CloudTrailDataClientTypes.AuditEvent]?
 }
 
@@ -485,7 +485,7 @@ extension PutAuditEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAuditEventsOutput: Swift.Equatable {
+public struct PutAuditEventsOutput {
     /// Lists events in the provided event payload that could not be ingested into CloudTrail, and includes the error code and error message returned for events that could not be ingested.
     /// This member is required.
     public var failed: [CloudTrailDataClientTypes.ResultErrorEntry]?
@@ -503,7 +503,7 @@ public struct PutAuditEventsOutput: Swift.Equatable {
     }
 }
 
-struct PutAuditEventsOutputBody: Swift.Equatable {
+struct PutAuditEventsOutputBody {
     let successful: [CloudTrailDataClientTypes.AuditEventResultEntry]?
     let failed: [CloudTrailDataClientTypes.ResultErrorEntry]?
 }
@@ -590,7 +590,7 @@ extension CloudTrailDataClientTypes.ResultErrorEntry: Swift.Codable {
 
 extension CloudTrailDataClientTypes {
     /// Includes the error code and error message for events that could not be ingested by CloudTrail.
-    public struct ResultErrorEntry: Swift.Equatable {
+    public struct ResultErrorEntry {
         /// The error code for events that could not be ingested by CloudTrail. Possible error codes include: FieldTooLong, FieldNotFound, InvalidChecksum, InvalidData, InvalidRecipient, InvalidEventSource, AccountNotSubscribed, Throttling, and InternalFailure.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -654,7 +654,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 

@@ -51,7 +51,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -126,7 +126,7 @@ public struct ConcurrentAccessException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ConcurrentAccessExceptionBody: Swift.Equatable {
+struct ConcurrentAccessExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -199,7 +199,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -323,7 +323,7 @@ extension CreateEnvironmentEC2Input {
     }
 }
 
-public struct CreateEnvironmentEC2Input: Swift.Equatable {
+public struct CreateEnvironmentEC2Input {
     /// The number of minutes until the running instance is shut down after the environment has last been used.
     public var automaticStopTimeMinutes: Swift.Int?
     /// A unique, case-sensitive string that helps Cloud9 to ensure this operation completes no more than one time. For more information, see [Client Tokens](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/Run_Instance_Idempotency.html) in the Amazon EC2 API Reference.
@@ -397,7 +397,7 @@ public struct CreateEnvironmentEC2Input: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentEC2InputBody: Swift.Equatable {
+struct CreateEnvironmentEC2InputBody {
     let name: Swift.String?
     let description: Swift.String?
     let clientRequestToken: Swift.String?
@@ -474,7 +474,7 @@ extension CreateEnvironmentEC2Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentEC2Output: Swift.Equatable {
+public struct CreateEnvironmentEC2Output {
     /// The ID of the environment that was created.
     public var environmentId: Swift.String?
 
@@ -486,7 +486,7 @@ public struct CreateEnvironmentEC2Output: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentEC2OutputBody: Swift.Equatable {
+struct CreateEnvironmentEC2OutputBody {
     let environmentId: Swift.String?
 }
 
@@ -547,7 +547,7 @@ extension CreateEnvironmentMembershipInput {
     }
 }
 
-public struct CreateEnvironmentMembershipInput: Swift.Equatable {
+public struct CreateEnvironmentMembershipInput {
     /// The ID of the environment that contains the environment member you want to add.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -574,7 +574,7 @@ public struct CreateEnvironmentMembershipInput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentMembershipInputBody: Swift.Equatable {
+struct CreateEnvironmentMembershipInputBody {
     let environmentId: Swift.String?
     let userArn: Swift.String?
     let permissions: Cloud9ClientTypes.MemberPermissions?
@@ -610,7 +610,7 @@ extension CreateEnvironmentMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEnvironmentMembershipOutput: Swift.Equatable {
+public struct CreateEnvironmentMembershipOutput {
     /// Information about the environment member that was added.
     /// This member is required.
     public var membership: Cloud9ClientTypes.EnvironmentMember?
@@ -623,7 +623,7 @@ public struct CreateEnvironmentMembershipOutput: Swift.Equatable {
     }
 }
 
-struct CreateEnvironmentMembershipOutputBody: Swift.Equatable {
+struct CreateEnvironmentMembershipOutputBody {
     let membership: Cloud9ClientTypes.EnvironmentMember?
 }
 
@@ -676,7 +676,7 @@ extension DeleteEnvironmentInput {
     }
 }
 
-public struct DeleteEnvironmentInput: Swift.Equatable {
+public struct DeleteEnvironmentInput {
     /// The ID of the environment to delete.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -689,7 +689,7 @@ public struct DeleteEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentInputBody: Swift.Equatable {
+struct DeleteEnvironmentInputBody {
     let environmentId: Swift.String?
 }
 
@@ -729,7 +729,7 @@ extension DeleteEnvironmentMembershipInput {
     }
 }
 
-public struct DeleteEnvironmentMembershipInput: Swift.Equatable {
+public struct DeleteEnvironmentMembershipInput {
     /// The ID of the environment to delete the environment member from.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -747,7 +747,7 @@ public struct DeleteEnvironmentMembershipInput: Swift.Equatable {
     }
 }
 
-struct DeleteEnvironmentMembershipInputBody: Swift.Equatable {
+struct DeleteEnvironmentMembershipInputBody {
     let environmentId: Swift.String?
     let userArn: Swift.String?
 }
@@ -772,7 +772,7 @@ extension DeleteEnvironmentMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentMembershipOutput: Swift.Equatable {
+public struct DeleteEnvironmentMembershipOutput {
 
     public init() { }
 }
@@ -799,7 +799,7 @@ extension DeleteEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEnvironmentOutput: Swift.Equatable {
+public struct DeleteEnvironmentOutput {
 
     public init() { }
 }
@@ -860,7 +860,7 @@ extension DescribeEnvironmentMembershipsInput {
     }
 }
 
-public struct DescribeEnvironmentMembershipsInput: Swift.Equatable {
+public struct DescribeEnvironmentMembershipsInput {
     /// The ID of the environment to get environment member information about.
     public var environmentId: Swift.String?
     /// The maximum number of environment members to get information about.
@@ -897,7 +897,7 @@ public struct DescribeEnvironmentMembershipsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentMembershipsInputBody: Swift.Equatable {
+struct DescribeEnvironmentMembershipsInputBody {
     let userArn: Swift.String?
     let environmentId: Swift.String?
     let permissions: [Cloud9ClientTypes.Permissions]?
@@ -952,7 +952,7 @@ extension DescribeEnvironmentMembershipsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeEnvironmentMembershipsOutput: Swift.Equatable {
+public struct DescribeEnvironmentMembershipsOutput {
     /// Information about the environment members for the environment.
     public var memberships: [Cloud9ClientTypes.EnvironmentMember]?
     /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -968,7 +968,7 @@ public struct DescribeEnvironmentMembershipsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentMembershipsOutputBody: Swift.Equatable {
+struct DescribeEnvironmentMembershipsOutputBody {
     let memberships: [Cloud9ClientTypes.EnvironmentMember]?
     let nextToken: Swift.String?
 }
@@ -1034,7 +1034,7 @@ extension DescribeEnvironmentStatusInput {
     }
 }
 
-public struct DescribeEnvironmentStatusInput: Swift.Equatable {
+public struct DescribeEnvironmentStatusInput {
     /// The ID of the environment to get status information about.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -1047,7 +1047,7 @@ public struct DescribeEnvironmentStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentStatusInputBody: Swift.Equatable {
+struct DescribeEnvironmentStatusInputBody {
     let environmentId: Swift.String?
 }
 
@@ -1077,7 +1077,7 @@ extension DescribeEnvironmentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEnvironmentStatusOutput: Swift.Equatable {
+public struct DescribeEnvironmentStatusOutput {
     /// Any informational message about the status of the environment.
     /// This member is required.
     public var message: Swift.String?
@@ -1109,7 +1109,7 @@ public struct DescribeEnvironmentStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentStatusOutputBody: Swift.Equatable {
+struct DescribeEnvironmentStatusOutputBody {
     let status: Cloud9ClientTypes.EnvironmentStatus?
     let message: Swift.String?
 }
@@ -1169,7 +1169,7 @@ extension DescribeEnvironmentsInput {
     }
 }
 
-public struct DescribeEnvironmentsInput: Swift.Equatable {
+public struct DescribeEnvironmentsInput {
     /// The IDs of individual environments to get information about.
     /// This member is required.
     public var environmentIds: [Swift.String]?
@@ -1182,7 +1182,7 @@ public struct DescribeEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentsInputBody: Swift.Equatable {
+struct DescribeEnvironmentsInputBody {
     let environmentIds: [Swift.String]?
 }
 
@@ -1219,7 +1219,7 @@ extension DescribeEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEnvironmentsOutput: Swift.Equatable {
+public struct DescribeEnvironmentsOutput {
     /// Information about the environments that are returned.
     public var environments: [Cloud9ClientTypes.Environment]?
 
@@ -1231,7 +1231,7 @@ public struct DescribeEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEnvironmentsOutputBody: Swift.Equatable {
+struct DescribeEnvironmentsOutputBody {
     let environments: [Cloud9ClientTypes.Environment]?
 }
 
@@ -1347,7 +1347,7 @@ extension Cloud9ClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension Cloud9ClientTypes {
     /// Information about an Cloud9 development environment.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// The Amazon Resource Name (ARN) of the environment.
         /// This member is required.
         public var arn: Swift.String?
@@ -1453,7 +1453,7 @@ extension Cloud9ClientTypes.EnvironmentLifecycle: Swift.Codable {
 
 extension Cloud9ClientTypes {
     /// Information about the current creation or deletion lifecycle state of an Cloud9 development environment.
-    public struct EnvironmentLifecycle: Swift.Equatable {
+    public struct EnvironmentLifecycle {
         /// If the environment failed to delete, the Amazon Resource Name (ARN) of the related Amazon Web Services resource.
         public var failureResource: Swift.String?
         /// Any informational message about the lifecycle state of the environment.
@@ -1571,7 +1571,7 @@ extension Cloud9ClientTypes.EnvironmentMember: Swift.Codable {
 
 extension Cloud9ClientTypes {
     /// Information about an environment member for an Cloud9 development environment.
-    public struct EnvironmentMember: Swift.Equatable {
+    public struct EnvironmentMember {
         /// The ID of the environment for the environment member.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -1739,7 +1739,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -1812,7 +1812,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -1885,7 +1885,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -1933,7 +1933,7 @@ extension ListEnvironmentsInput {
     }
 }
 
-public struct ListEnvironmentsInput: Swift.Equatable {
+public struct ListEnvironmentsInput {
     /// The maximum number of environments to get identifiers for.
     public var maxResults: Swift.Int?
     /// During a previous call, if there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call. To get all of the items in the list, keep calling this operation with each subsequent next token that is returned, until no more next tokens are returned.
@@ -1949,7 +1949,7 @@ public struct ListEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsInputBody: Swift.Equatable {
+struct ListEnvironmentsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -1983,7 +1983,7 @@ extension ListEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnvironmentsOutput: Swift.Equatable {
+public struct ListEnvironmentsOutput {
     /// The list of environment identifiers.
     public var environmentIds: [Swift.String]?
     /// If there are more than 25 items in the list, only the first 25 items are returned, along with a unique string called a next token. To get the next batch of items in the list, call this operation again, adding the next token to the call.
@@ -1999,7 +1999,7 @@ public struct ListEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListEnvironmentsOutputBody: Swift.Equatable {
+struct ListEnvironmentsOutputBody {
     let nextToken: Swift.String?
     let environmentIds: [Swift.String]?
 }
@@ -2065,7 +2065,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the Cloud9 development environment to get the tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2078,7 +2078,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -2111,7 +2111,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags associated with the Cloud9 development environment.
     public var tags: [Cloud9ClientTypes.Tag]?
 
@@ -2123,7 +2123,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Cloud9ClientTypes.Tag]?
 }
 
@@ -2333,7 +2333,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -2425,7 +2425,7 @@ extension Cloud9ClientTypes.Tag: Swift.CustomDebugStringConvertible {
 
 extension Cloud9ClientTypes {
     /// Metadata that is associated with Amazon Web Services resources. In particular, a name-value pair that can be associated with an Cloud9 development environment. There are two types of tags: user tags and system tags. A user tag is created by the user. A system tag is automatically created by Amazon Web Services services. A system tag is prefixed with "aws:" and cannot be modified by the user.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The name part of a tag.
         /// This member is required.
         public var key: Swift.String?
@@ -2477,7 +2477,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Cloud9 development environment to add tags to.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2495,7 +2495,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [Cloud9ClientTypes.Tag]?
 }
@@ -2529,7 +2529,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -2597,7 +2597,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
     let className: Swift.String?
     let code: Swift.Int
@@ -2653,7 +2653,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the Cloud9 development environment to remove tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2671,7 +2671,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -2705,7 +2705,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -2761,7 +2761,7 @@ extension UpdateEnvironmentInput {
     }
 }
 
-public struct UpdateEnvironmentInput: Swift.Equatable {
+public struct UpdateEnvironmentInput {
     /// Any new or replacement description for the environment.
     public var description: Swift.String?
     /// The ID of the environment to change settings.
@@ -2793,7 +2793,7 @@ public struct UpdateEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentInputBody: Swift.Equatable {
+struct UpdateEnvironmentInputBody {
     let environmentId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2849,7 +2849,7 @@ extension UpdateEnvironmentMembershipInput {
     }
 }
 
-public struct UpdateEnvironmentMembershipInput: Swift.Equatable {
+public struct UpdateEnvironmentMembershipInput {
     /// The ID of the environment for the environment member whose settings you want to change.
     /// This member is required.
     public var environmentId: Swift.String?
@@ -2876,7 +2876,7 @@ public struct UpdateEnvironmentMembershipInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentMembershipInputBody: Swift.Equatable {
+struct UpdateEnvironmentMembershipInputBody {
     let environmentId: Swift.String?
     let userArn: Swift.String?
     let permissions: Cloud9ClientTypes.MemberPermissions?
@@ -2912,7 +2912,7 @@ extension UpdateEnvironmentMembershipOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentMembershipOutput: Swift.Equatable {
+public struct UpdateEnvironmentMembershipOutput {
     /// Information about the environment member whose settings were changed.
     public var membership: Cloud9ClientTypes.EnvironmentMember?
 
@@ -2924,7 +2924,7 @@ public struct UpdateEnvironmentMembershipOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnvironmentMembershipOutputBody: Swift.Equatable {
+struct UpdateEnvironmentMembershipOutputBody {
     let membership: Cloud9ClientTypes.EnvironmentMember?
 }
 
@@ -2962,7 +2962,7 @@ extension UpdateEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnvironmentOutput: Swift.Equatable {
+public struct UpdateEnvironmentOutput {
 
     public init() { }
 }

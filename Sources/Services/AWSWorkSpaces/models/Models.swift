@@ -26,7 +26,7 @@ extension AcceptAccountLinkInvitationInput {
     }
 }
 
-public struct AcceptAccountLinkInvitationInput: Swift.Equatable {
+public struct AcceptAccountLinkInvitationInput {
     /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
     public var clientToken: Swift.String?
     /// The identifier of the account link.
@@ -43,7 +43,7 @@ public struct AcceptAccountLinkInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptAccountLinkInvitationInputBody: Swift.Equatable {
+struct AcceptAccountLinkInvitationInputBody {
     let linkId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -75,7 +75,7 @@ extension AcceptAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AcceptAccountLinkInvitationOutput: Swift.Equatable {
+public struct AcceptAccountLinkInvitationOutput {
     /// Information about the account link.
     public var accountLink: WorkSpacesClientTypes.AccountLink?
 
@@ -87,7 +87,7 @@ public struct AcceptAccountLinkInvitationOutput: Swift.Equatable {
     }
 }
 
-struct AcceptAccountLinkInvitationOutputBody: Swift.Equatable {
+struct AcceptAccountLinkInvitationOutputBody {
     let accountLink: WorkSpacesClientTypes.AccountLink?
 }
 
@@ -157,7 +157,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -244,7 +244,7 @@ extension WorkSpacesClientTypes.AccountLink: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Information about about the account link.
-    public struct AccountLink: Swift.Equatable {
+    public struct AccountLink {
         /// The identifier of the account link.
         public var accountLinkId: Swift.String?
         /// The status of the account link.
@@ -362,7 +362,7 @@ extension WorkSpacesClientTypes.AccountModification: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a modification to the configuration of Bring Your Own License (BYOL) for the specified account.
-    public struct AccountModification: Swift.Equatable {
+    public struct AccountModification {
         /// The IP address range, specified as an IPv4 CIDR block, for the management network interface used for the account.
         public var dedicatedTenancyManagementCidrRange: Swift.String?
         /// The status of BYOL (whether BYOL is being enabled or disabled).
@@ -541,7 +541,7 @@ extension WorkSpacesClientTypes.ApplicationResourceAssociation: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the association between an application and an application resource.
-    public struct ApplicationResourceAssociation: Swift.Equatable {
+    public struct ApplicationResourceAssociation {
         /// The identifier of the application.
         public var applicationId: Swift.String?
         /// The identifier of the associated resource.
@@ -603,7 +603,7 @@ extension AssociateConnectionAliasInput {
     }
 }
 
-public struct AssociateConnectionAliasInput: Swift.Equatable {
+public struct AssociateConnectionAliasInput {
     /// The identifier of the connection alias.
     /// This member is required.
     public var aliasId: Swift.String?
@@ -621,7 +621,7 @@ public struct AssociateConnectionAliasInput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectionAliasInputBody: Swift.Equatable {
+struct AssociateConnectionAliasInputBody {
     let aliasId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -653,7 +653,7 @@ extension AssociateConnectionAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateConnectionAliasOutput: Swift.Equatable {
+public struct AssociateConnectionAliasOutput {
     /// The identifier of the connection alias association. You use the connection identifier in the DNS TXT record when you're configuring your DNS routing policies.
     public var connectionIdentifier: Swift.String?
 
@@ -665,7 +665,7 @@ public struct AssociateConnectionAliasOutput: Swift.Equatable {
     }
 }
 
-struct AssociateConnectionAliasOutputBody: Swift.Equatable {
+struct AssociateConnectionAliasOutputBody {
     let connectionIdentifier: Swift.String?
 }
 
@@ -724,7 +724,7 @@ extension AssociateIpGroupsInput {
     }
 }
 
-public struct AssociateIpGroupsInput: Swift.Equatable {
+public struct AssociateIpGroupsInput {
     /// The identifier of the directory.
     /// This member is required.
     public var directoryId: Swift.String?
@@ -742,7 +742,7 @@ public struct AssociateIpGroupsInput: Swift.Equatable {
     }
 }
 
-struct AssociateIpGroupsInputBody: Swift.Equatable {
+struct AssociateIpGroupsInputBody {
     let directoryId: Swift.String?
     let groupIds: [Swift.String]?
 }
@@ -776,7 +776,7 @@ extension AssociateIpGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateIpGroupsOutput: Swift.Equatable {
+public struct AssociateIpGroupsOutput {
 
     public init() { }
 }
@@ -821,7 +821,7 @@ extension AssociateWorkspaceApplicationInput {
     }
 }
 
-public struct AssociateWorkspaceApplicationInput: Swift.Equatable {
+public struct AssociateWorkspaceApplicationInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -839,7 +839,7 @@ public struct AssociateWorkspaceApplicationInput: Swift.Equatable {
     }
 }
 
-struct AssociateWorkspaceApplicationInputBody: Swift.Equatable {
+struct AssociateWorkspaceApplicationInputBody {
     let workspaceId: Swift.String?
     let applicationId: Swift.String?
 }
@@ -871,7 +871,7 @@ extension AssociateWorkspaceApplicationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AssociateWorkspaceApplicationOutput: Swift.Equatable {
+public struct AssociateWorkspaceApplicationOutput {
     /// Information about the association between the specified WorkSpace and the specified application.
     public var association: WorkSpacesClientTypes.WorkspaceResourceAssociation?
 
@@ -883,7 +883,7 @@ public struct AssociateWorkspaceApplicationOutput: Swift.Equatable {
     }
 }
 
-struct AssociateWorkspaceApplicationOutputBody: Swift.Equatable {
+struct AssociateWorkspaceApplicationOutputBody {
     let association: WorkSpacesClientTypes.WorkspaceResourceAssociation?
 }
 
@@ -1040,7 +1040,7 @@ extension WorkSpacesClientTypes.AssociationStateReason: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Indicates the reason that the association deployment failed, including the error code and error message.
-    public struct AssociationStateReason: Swift.Equatable {
+    public struct AssociationStateReason {
         /// The error code of the association deployment failure.
         public var errorCode: WorkSpacesClientTypes.AssociationErrorCode?
         /// The error message of the association deployment failure.
@@ -1126,7 +1126,7 @@ extension AuthorizeIpRulesInput {
     }
 }
 
-public struct AuthorizeIpRulesInput: Swift.Equatable {
+public struct AuthorizeIpRulesInput {
     /// The identifier of the group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -1144,7 +1144,7 @@ public struct AuthorizeIpRulesInput: Swift.Equatable {
     }
 }
 
-struct AuthorizeIpRulesInputBody: Swift.Equatable {
+struct AuthorizeIpRulesInputBody {
     let groupId: Swift.String?
     let userRules: [WorkSpacesClientTypes.IpRuleItem]?
 }
@@ -1178,7 +1178,7 @@ extension AuthorizeIpRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AuthorizeIpRulesOutput: Swift.Equatable {
+public struct AuthorizeIpRulesOutput {
 
     public init() { }
 }
@@ -1284,7 +1284,7 @@ extension WorkSpacesClientTypes.BundleResourceAssociation: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the association between an application and a bundle resource.
-    public struct BundleResourceAssociation: Swift.Equatable {
+    public struct BundleResourceAssociation {
         /// The identifier of the associated resource.
         public var associatedResourceId: Swift.String?
         /// The resource type of the associated resources.
@@ -1381,7 +1381,7 @@ extension WorkSpacesClientTypes.CertificateBasedAuthProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the properties of the certificate-based authentication you want to use with your WorkSpaces.
-    public struct CertificateBasedAuthProperties: Swift.Equatable {
+    public struct CertificateBasedAuthProperties {
         /// The Amazon Resource Name (ARN) of the Amazon Web Services Certificate Manager Private CA resource.
         public var certificateAuthorityArn: Swift.String?
         /// The status of the certificate-based authentication properties.
@@ -1502,7 +1502,7 @@ extension WorkSpacesClientTypes.ClientProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes an Amazon WorkSpaces client.
-    public struct ClientProperties: Swift.Equatable {
+    public struct ClientProperties {
         /// Specifies whether users can upload diagnostic log files of Amazon WorkSpaces client directly to WorkSpaces to troubleshoot issues when using the WorkSpaces client. When enabled, the log files will be sent to WorkSpaces automatically and will be applied to all users in the specified directory.
         public var logUploadEnabled: WorkSpacesClientTypes.LogUploadEnum?
         /// Specifies whether users can cache their credentials on the Amazon WorkSpaces client. When enabled, users can choose to reconnect to their WorkSpaces without re-entering their credentials.
@@ -1547,7 +1547,7 @@ extension WorkSpacesClientTypes.ClientPropertiesResult: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Information about the Amazon WorkSpaces client.
-    public struct ClientPropertiesResult: Swift.Equatable {
+    public struct ClientPropertiesResult {
         /// Information about the Amazon WorkSpaces client.
         public var clientProperties: WorkSpacesClientTypes.ClientProperties?
         /// The resource identifier, in the form of a directory ID.
@@ -1660,7 +1660,7 @@ extension WorkSpacesClientTypes.ComputeType: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the compute type of the bundle.
-    public struct ComputeType: Swift.Equatable {
+    public struct ComputeType {
         /// The compute type.
         public var name: WorkSpacesClientTypes.Compute?
 
@@ -1713,7 +1713,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1768,7 +1768,7 @@ extension WorkSpacesClientTypes.ConnectClientAddIn: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes an Amazon Connect client add-in.
-    public struct ConnectClientAddIn: Swift.Equatable {
+    public struct ConnectClientAddIn {
         /// The client add-in identifier.
         public var addInId: Swift.String?
         /// The name of the client add in.
@@ -1851,7 +1851,7 @@ extension WorkSpacesClientTypes.ConnectionAlias: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a connection alias. Connection aliases are used for cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
-    public struct ConnectionAlias: Swift.Equatable {
+    public struct ConnectionAlias {
         /// The identifier of the connection alias.
         public var aliasId: Swift.String?
         /// The association status of the connection alias.
@@ -1920,7 +1920,7 @@ extension WorkSpacesClientTypes.ConnectionAliasAssociation: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a connection alias association that is used for cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
-    public struct ConnectionAliasAssociation: Swift.Equatable {
+    public struct ConnectionAliasAssociation {
         /// The identifier of the Amazon Web Services account that associated the connection alias with a directory.
         public var associatedAccountId: Swift.String?
         /// The association status of the connection alias.
@@ -1973,7 +1973,7 @@ extension WorkSpacesClientTypes.ConnectionAliasPermission: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the permissions for a connection alias. Connection aliases are used for cross-Region redirection. For more information, see [ Cross-Region Redirection for Amazon WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/cross-region-redirection.html).
-    public struct ConnectionAliasPermission: Swift.Equatable {
+    public struct ConnectionAliasPermission {
         /// Indicates whether the specified Amazon Web Services account is allowed to associate the connection alias with a directory.
         /// This member is required.
         public var allowAssociation: Swift.Bool?
@@ -2102,7 +2102,7 @@ extension CopyWorkspaceImageInput {
     }
 }
 
-public struct CopyWorkspaceImageInput: Swift.Equatable {
+public struct CopyWorkspaceImageInput {
     /// A description of the image.
     public var description: Swift.String?
     /// The name of the image.
@@ -2133,7 +2133,7 @@ public struct CopyWorkspaceImageInput: Swift.Equatable {
     }
 }
 
-struct CopyWorkspaceImageInputBody: Swift.Equatable {
+struct CopyWorkspaceImageInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let sourceImageId: Swift.String?
@@ -2186,7 +2186,7 @@ extension CopyWorkspaceImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyWorkspaceImageOutput: Swift.Equatable {
+public struct CopyWorkspaceImageOutput {
     /// The identifier of the image.
     public var imageId: Swift.String?
 
@@ -2198,7 +2198,7 @@ public struct CopyWorkspaceImageOutput: Swift.Equatable {
     }
 }
 
-struct CopyWorkspaceImageOutputBody: Swift.Equatable {
+struct CopyWorkspaceImageOutputBody {
     let imageId: Swift.String?
 }
 
@@ -2255,7 +2255,7 @@ extension CreateAccountLinkInvitationInput {
     }
 }
 
-public struct CreateAccountLinkInvitationInput: Swift.Equatable {
+public struct CreateAccountLinkInvitationInput {
     /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
     public var clientToken: Swift.String?
     /// The identifier of the target account.
@@ -2272,7 +2272,7 @@ public struct CreateAccountLinkInvitationInput: Swift.Equatable {
     }
 }
 
-struct CreateAccountLinkInvitationInputBody: Swift.Equatable {
+struct CreateAccountLinkInvitationInputBody {
     let targetAccountId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -2304,7 +2304,7 @@ extension CreateAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccountLinkInvitationOutput: Swift.Equatable {
+public struct CreateAccountLinkInvitationOutput {
     /// Information about the account link.
     public var accountLink: WorkSpacesClientTypes.AccountLink?
 
@@ -2316,7 +2316,7 @@ public struct CreateAccountLinkInvitationOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccountLinkInvitationOutputBody: Swift.Equatable {
+struct CreateAccountLinkInvitationOutputBody {
     let accountLink: WorkSpacesClientTypes.AccountLink?
 }
 
@@ -2374,7 +2374,7 @@ extension CreateConnectClientAddInInput {
     }
 }
 
-public struct CreateConnectClientAddInInput: Swift.Equatable {
+public struct CreateConnectClientAddInInput {
     /// The name of the client add-in.
     /// This member is required.
     public var name: Swift.String?
@@ -2397,7 +2397,7 @@ public struct CreateConnectClientAddInInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectClientAddInInputBody: Swift.Equatable {
+struct CreateConnectClientAddInInputBody {
     let resourceId: Swift.String?
     let name: Swift.String?
     let url: Swift.String?
@@ -2433,7 +2433,7 @@ extension CreateConnectClientAddInOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectClientAddInOutput: Swift.Equatable {
+public struct CreateConnectClientAddInOutput {
     /// The client add-in identifier.
     public var addInId: Swift.String?
 
@@ -2445,7 +2445,7 @@ public struct CreateConnectClientAddInOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectClientAddInOutputBody: Swift.Equatable {
+struct CreateConnectClientAddInOutputBody {
     let addInId: Swift.String?
 }
 
@@ -2503,7 +2503,7 @@ extension CreateConnectionAliasInput {
     }
 }
 
-public struct CreateConnectionAliasInput: Swift.Equatable {
+public struct CreateConnectionAliasInput {
     /// A connection string in the form of a fully qualified domain name (FQDN), such as www.example.com. After you create a connection string, it is always associated to your Amazon Web Services account. You cannot recreate the same connection string with a different account, even if you delete all instances of it from the original account. The connection string is globally reserved for your account.
     /// This member is required.
     public var connectionString: Swift.String?
@@ -2520,7 +2520,7 @@ public struct CreateConnectionAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionAliasInputBody: Swift.Equatable {
+struct CreateConnectionAliasInputBody {
     let connectionString: Swift.String?
     let tags: [WorkSpacesClientTypes.Tag]?
 }
@@ -2561,7 +2561,7 @@ extension CreateConnectionAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionAliasOutput: Swift.Equatable {
+public struct CreateConnectionAliasOutput {
     /// The identifier of the connection alias.
     public var aliasId: Swift.String?
 
@@ -2573,7 +2573,7 @@ public struct CreateConnectionAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionAliasOutputBody: Swift.Equatable {
+struct CreateConnectionAliasOutputBody {
     let aliasId: Swift.String?
 }
 
@@ -2643,7 +2643,7 @@ extension CreateIpGroupInput {
     }
 }
 
-public struct CreateIpGroupInput: Swift.Equatable {
+public struct CreateIpGroupInput {
     /// The description of the group.
     public var groupDesc: Swift.String?
     /// The name of the group.
@@ -2668,7 +2668,7 @@ public struct CreateIpGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateIpGroupInputBody: Swift.Equatable {
+struct CreateIpGroupInputBody {
     let groupName: Swift.String?
     let groupDesc: Swift.String?
     let userRules: [WorkSpacesClientTypes.IpRuleItem]?
@@ -2726,7 +2726,7 @@ extension CreateIpGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIpGroupOutput: Swift.Equatable {
+public struct CreateIpGroupOutput {
     /// The identifier of the group.
     public var groupId: Swift.String?
 
@@ -2738,7 +2738,7 @@ public struct CreateIpGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateIpGroupOutputBody: Swift.Equatable {
+struct CreateIpGroupOutputBody {
     let groupId: Swift.String?
 }
 
@@ -2796,7 +2796,7 @@ extension CreateStandbyWorkspacesInput {
     }
 }
 
-public struct CreateStandbyWorkspacesInput: Swift.Equatable {
+public struct CreateStandbyWorkspacesInput {
     /// The Region of the primary WorkSpace.
     /// This member is required.
     public var primaryRegion: Swift.String?
@@ -2814,7 +2814,7 @@ public struct CreateStandbyWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct CreateStandbyWorkspacesInputBody: Swift.Equatable {
+struct CreateStandbyWorkspacesInputBody {
     let primaryRegion: Swift.String?
     let standbyWorkspaces: [WorkSpacesClientTypes.StandbyWorkspace]?
 }
@@ -2857,7 +2857,7 @@ extension CreateStandbyWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStandbyWorkspacesOutput: Swift.Equatable {
+public struct CreateStandbyWorkspacesOutput {
     /// Information about the standby WorkSpace that could not be created.
     public var failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]?
     /// Information about the standby WorkSpace that was created.
@@ -2873,7 +2873,7 @@ public struct CreateStandbyWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct CreateStandbyWorkspacesOutputBody: Swift.Equatable {
+struct CreateStandbyWorkspacesOutputBody {
     let failedStandbyRequests: [WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest]?
     let pendingStandbyRequests: [WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest]?
 }
@@ -2953,7 +2953,7 @@ extension CreateTagsInput {
     }
 }
 
-public struct CreateTagsInput: Swift.Equatable {
+public struct CreateTagsInput {
     /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -2971,7 +2971,7 @@ public struct CreateTagsInput: Swift.Equatable {
     }
 }
 
-struct CreateTagsInputBody: Swift.Equatable {
+struct CreateTagsInputBody {
     let resourceId: Swift.String?
     let tags: [WorkSpacesClientTypes.Tag]?
 }
@@ -3005,7 +3005,7 @@ extension CreateTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTagsOutput: Swift.Equatable {
+public struct CreateTagsOutput {
 
     public init() { }
 }
@@ -3058,7 +3058,7 @@ extension CreateUpdatedWorkspaceImageInput {
     }
 }
 
-public struct CreateUpdatedWorkspaceImageInput: Swift.Equatable {
+public struct CreateUpdatedWorkspaceImageInput {
     /// A description of whether updates for the WorkSpace image are available.
     /// This member is required.
     public var description: Swift.String?
@@ -3085,7 +3085,7 @@ public struct CreateUpdatedWorkspaceImageInput: Swift.Equatable {
     }
 }
 
-struct CreateUpdatedWorkspaceImageInputBody: Swift.Equatable {
+struct CreateUpdatedWorkspaceImageInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let sourceImageId: Swift.String?
@@ -3134,7 +3134,7 @@ extension CreateUpdatedWorkspaceImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUpdatedWorkspaceImageOutput: Swift.Equatable {
+public struct CreateUpdatedWorkspaceImageOutput {
     /// The identifier of the new updated WorkSpace image.
     public var imageId: Swift.String?
 
@@ -3146,7 +3146,7 @@ public struct CreateUpdatedWorkspaceImageOutput: Swift.Equatable {
     }
 }
 
-struct CreateUpdatedWorkspaceImageOutputBody: Swift.Equatable {
+struct CreateUpdatedWorkspaceImageOutputBody {
     let imageId: Swift.String?
 }
 
@@ -3226,7 +3226,7 @@ extension CreateWorkspaceBundleInput {
     }
 }
 
-public struct CreateWorkspaceBundleInput: Swift.Equatable {
+public struct CreateWorkspaceBundleInput {
     /// The description of the bundle.
     /// This member is required.
     public var bundleDescription: Swift.String?
@@ -3267,7 +3267,7 @@ public struct CreateWorkspaceBundleInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceBundleInputBody: Swift.Equatable {
+struct CreateWorkspaceBundleInputBody {
     let bundleName: Swift.String?
     let bundleDescription: Swift.String?
     let imageId: Swift.String?
@@ -3328,7 +3328,7 @@ extension CreateWorkspaceBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspaceBundleOutput: Swift.Equatable {
+public struct CreateWorkspaceBundleOutput {
     /// Describes a WorkSpace bundle.
     public var workspaceBundle: WorkSpacesClientTypes.WorkspaceBundle?
 
@@ -3340,7 +3340,7 @@ public struct CreateWorkspaceBundleOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceBundleOutputBody: Swift.Equatable {
+struct CreateWorkspaceBundleOutputBody {
     let workspaceBundle: WorkSpacesClientTypes.WorkspaceBundle?
 }
 
@@ -3407,7 +3407,7 @@ extension CreateWorkspaceImageInput {
     }
 }
 
-public struct CreateWorkspaceImageInput: Swift.Equatable {
+public struct CreateWorkspaceImageInput {
     /// The description of the new WorkSpace image.
     /// This member is required.
     public var description: Swift.String?
@@ -3434,7 +3434,7 @@ public struct CreateWorkspaceImageInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceImageInputBody: Swift.Equatable {
+struct CreateWorkspaceImageInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let workspaceId: Swift.String?
@@ -3497,7 +3497,7 @@ extension CreateWorkspaceImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspaceImageOutput: Swift.Equatable {
+public struct CreateWorkspaceImageOutput {
     /// The date when the image was created.
     public var created: ClientRuntime.Date?
     /// The description of the image.
@@ -3537,7 +3537,7 @@ public struct CreateWorkspaceImageOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspaceImageOutputBody: Swift.Equatable {
+struct CreateWorkspaceImageOutputBody {
     let imageId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -3621,7 +3621,7 @@ extension CreateWorkspacesInput {
     }
 }
 
-public struct CreateWorkspacesInput: Swift.Equatable {
+public struct CreateWorkspacesInput {
     /// The WorkSpaces to create. You can specify up to 25 WorkSpaces.
     /// This member is required.
     public var workspaces: [WorkSpacesClientTypes.WorkspaceRequest]?
@@ -3634,7 +3634,7 @@ public struct CreateWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspacesInputBody: Swift.Equatable {
+struct CreateWorkspacesInputBody {
     let workspaces: [WorkSpacesClientTypes.WorkspaceRequest]?
 }
 
@@ -3673,7 +3673,7 @@ extension CreateWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkspacesOutput: Swift.Equatable {
+public struct CreateWorkspacesOutput {
     /// Information about the WorkSpaces that could not be created.
     public var failedRequests: [WorkSpacesClientTypes.FailedCreateWorkspaceRequest]?
     /// Information about the WorkSpaces that were created. Because this operation is asynchronous, the identifier returned is not immediately available for use with other operations. For example, if you call [DescribeWorkspaces] before the WorkSpace is created, the information returned can be incomplete.
@@ -3689,7 +3689,7 @@ public struct CreateWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkspacesOutputBody: Swift.Equatable {
+struct CreateWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedCreateWorkspaceRequest]?
     let pendingRequests: [WorkSpacesClientTypes.Workspace]?
 }
@@ -3798,7 +3798,7 @@ extension WorkSpacesClientTypes.DataReplicationSettings: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the data replication settings.
-    public struct DataReplicationSettings: Swift.Equatable {
+    public struct DataReplicationSettings {
         /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
         public var dataReplication: WorkSpacesClientTypes.DataReplication?
         /// The date and time at which the last successful snapshot was taken of the primary WorkSpace used for replicating data.
@@ -4001,7 +4001,7 @@ extension WorkSpacesClientTypes.DefaultClientBrandingAttributes: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Returns default client branding attributes that were imported. These attributes display on the client login screen. Client branding attributes are public facing. Ensure that you don't include sensitive information.
-    public struct DefaultClientBrandingAttributes: Swift.Equatable {
+    public struct DefaultClientBrandingAttributes {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public var forgotPasswordLink: Swift.String?
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
@@ -4096,7 +4096,7 @@ extension WorkSpacesClientTypes.DefaultImportClientBrandingAttributes: Swift.Cod
 
 extension WorkSpacesClientTypes {
     /// The default client branding attributes to be imported. These attributes display on the client login screen. Client branding attributes are public facing. Ensure that you do not include sensitive information.
-    public struct DefaultImportClientBrandingAttributes: Swift.Equatable {
+    public struct DefaultImportClientBrandingAttributes {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public var forgotPasswordLink: Swift.String?
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
@@ -4185,7 +4185,7 @@ extension WorkSpacesClientTypes.DefaultWorkspaceCreationProperties: Swift.Codabl
 
 extension WorkSpacesClientTypes {
     /// Describes the default values that are used to create WorkSpaces. For more information, see [Update Directory Details for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html).
-    public struct DefaultWorkspaceCreationProperties: Swift.Equatable {
+    public struct DefaultWorkspaceCreationProperties {
         /// The identifier of the default security group to apply to WorkSpaces when they are created. For more information, see [ Security Groups for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/amazon-workspaces-security-groups.html).
         public var customSecurityGroupId: Swift.String?
         /// The organizational unit (OU) in the directory for the WorkSpace machine accounts.
@@ -4304,7 +4304,7 @@ extension DeleteAccountLinkInvitationInput {
     }
 }
 
-public struct DeleteAccountLinkInvitationInput: Swift.Equatable {
+public struct DeleteAccountLinkInvitationInput {
     /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
     public var clientToken: Swift.String?
     /// The identifier of the account link.
@@ -4321,7 +4321,7 @@ public struct DeleteAccountLinkInvitationInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountLinkInvitationInputBody: Swift.Equatable {
+struct DeleteAccountLinkInvitationInputBody {
     let linkId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -4353,7 +4353,7 @@ extension DeleteAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccountLinkInvitationOutput: Swift.Equatable {
+public struct DeleteAccountLinkInvitationOutput {
     /// Information about the account link.
     public var accountLink: WorkSpacesClientTypes.AccountLink?
 
@@ -4365,7 +4365,7 @@ public struct DeleteAccountLinkInvitationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAccountLinkInvitationOutputBody: Swift.Equatable {
+struct DeleteAccountLinkInvitationOutputBody {
     let accountLink: WorkSpacesClientTypes.AccountLink?
 }
 
@@ -4423,7 +4423,7 @@ extension DeleteClientBrandingInput {
     }
 }
 
-public struct DeleteClientBrandingInput: Swift.Equatable {
+public struct DeleteClientBrandingInput {
     /// The device type for which you want to delete client branding.
     /// This member is required.
     public var platforms: [WorkSpacesClientTypes.ClientDeviceType]?
@@ -4441,7 +4441,7 @@ public struct DeleteClientBrandingInput: Swift.Equatable {
     }
 }
 
-struct DeleteClientBrandingInputBody: Swift.Equatable {
+struct DeleteClientBrandingInputBody {
     let resourceId: Swift.String?
     let platforms: [WorkSpacesClientTypes.ClientDeviceType]?
 }
@@ -4475,7 +4475,7 @@ extension DeleteClientBrandingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClientBrandingOutput: Swift.Equatable {
+public struct DeleteClientBrandingOutput {
 
     public init() { }
 }
@@ -4517,7 +4517,7 @@ extension DeleteConnectClientAddInInput {
     }
 }
 
-public struct DeleteConnectClientAddInInput: Swift.Equatable {
+public struct DeleteConnectClientAddInInput {
     /// The identifier of the client add-in to delete.
     /// This member is required.
     public var addInId: Swift.String?
@@ -4535,7 +4535,7 @@ public struct DeleteConnectClientAddInInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectClientAddInInputBody: Swift.Equatable {
+struct DeleteConnectClientAddInInputBody {
     let addInId: Swift.String?
     let resourceId: Swift.String?
 }
@@ -4560,7 +4560,7 @@ extension DeleteConnectClientAddInOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectClientAddInOutput: Swift.Equatable {
+public struct DeleteConnectClientAddInOutput {
 
     public init() { }
 }
@@ -4598,7 +4598,7 @@ extension DeleteConnectionAliasInput {
     }
 }
 
-public struct DeleteConnectionAliasInput: Swift.Equatable {
+public struct DeleteConnectionAliasInput {
     /// The identifier of the connection alias to delete.
     /// This member is required.
     public var aliasId: Swift.String?
@@ -4611,7 +4611,7 @@ public struct DeleteConnectionAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionAliasInputBody: Swift.Equatable {
+struct DeleteConnectionAliasInputBody {
     let aliasId: Swift.String?
 }
 
@@ -4632,7 +4632,7 @@ extension DeleteConnectionAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionAliasOutput: Swift.Equatable {
+public struct DeleteConnectionAliasOutput {
 
     public init() { }
 }
@@ -4673,7 +4673,7 @@ extension DeleteIpGroupInput {
     }
 }
 
-public struct DeleteIpGroupInput: Swift.Equatable {
+public struct DeleteIpGroupInput {
     /// The identifier of the IP access control group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -4686,7 +4686,7 @@ public struct DeleteIpGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteIpGroupInputBody: Swift.Equatable {
+struct DeleteIpGroupInputBody {
     let groupId: Swift.String?
 }
 
@@ -4707,7 +4707,7 @@ extension DeleteIpGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIpGroupOutput: Swift.Equatable {
+public struct DeleteIpGroupOutput {
 
     public init() { }
 }
@@ -4753,7 +4753,7 @@ extension DeleteTagsInput {
     }
 }
 
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -4771,7 +4771,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagsInputBody: Swift.Equatable {
+struct DeleteTagsInputBody {
     let resourceId: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4805,7 +4805,7 @@ extension DeleteTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -4842,7 +4842,7 @@ extension DeleteWorkspaceBundleInput {
     }
 }
 
-public struct DeleteWorkspaceBundleInput: Swift.Equatable {
+public struct DeleteWorkspaceBundleInput {
     /// The identifier of the bundle.
     public var bundleId: Swift.String?
 
@@ -4854,7 +4854,7 @@ public struct DeleteWorkspaceBundleInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceBundleInputBody: Swift.Equatable {
+struct DeleteWorkspaceBundleInputBody {
     let bundleId: Swift.String?
 }
 
@@ -4875,7 +4875,7 @@ extension DeleteWorkspaceBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceBundleOutput: Swift.Equatable {
+public struct DeleteWorkspaceBundleOutput {
 
     public init() { }
 }
@@ -4914,7 +4914,7 @@ extension DeleteWorkspaceImageInput {
     }
 }
 
-public struct DeleteWorkspaceImageInput: Swift.Equatable {
+public struct DeleteWorkspaceImageInput {
     /// The identifier of the image.
     /// This member is required.
     public var imageId: Swift.String?
@@ -4927,7 +4927,7 @@ public struct DeleteWorkspaceImageInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkspaceImageInputBody: Swift.Equatable {
+struct DeleteWorkspaceImageInputBody {
     let imageId: Swift.String?
 }
 
@@ -4948,7 +4948,7 @@ extension DeleteWorkspaceImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkspaceImageOutput: Swift.Equatable {
+public struct DeleteWorkspaceImageOutput {
 
     public init() { }
 }
@@ -4990,7 +4990,7 @@ extension DeployWorkspaceApplicationsInput {
     }
 }
 
-public struct DeployWorkspaceApplicationsInput: Swift.Equatable {
+public struct DeployWorkspaceApplicationsInput {
     /// Indicates whether the force flag is applied for the specified WorkSpace. When the force flag is enabled, it allows previously failed deployments to be retried.
     public var force: Swift.Bool?
     /// The identifier of the WorkSpace.
@@ -5007,7 +5007,7 @@ public struct DeployWorkspaceApplicationsInput: Swift.Equatable {
     }
 }
 
-struct DeployWorkspaceApplicationsInputBody: Swift.Equatable {
+struct DeployWorkspaceApplicationsInputBody {
     let workspaceId: Swift.String?
     let force: Swift.Bool?
 }
@@ -5039,7 +5039,7 @@ extension DeployWorkspaceApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeployWorkspaceApplicationsOutput: Swift.Equatable {
+public struct DeployWorkspaceApplicationsOutput {
     /// The list of deployed associations and information about them.
     public var deployment: WorkSpacesClientTypes.WorkSpaceApplicationDeployment?
 
@@ -5051,7 +5051,7 @@ public struct DeployWorkspaceApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct DeployWorkspaceApplicationsOutputBody: Swift.Equatable {
+struct DeployWorkspaceApplicationsOutputBody {
     let deployment: WorkSpacesClientTypes.WorkSpaceApplicationDeployment?
 }
 
@@ -5103,7 +5103,7 @@ extension DeregisterWorkspaceDirectoryInput {
     }
 }
 
-public struct DeregisterWorkspaceDirectoryInput: Swift.Equatable {
+public struct DeregisterWorkspaceDirectoryInput {
     /// The identifier of the directory. If any WorkSpaces are registered to this directory, you must remove them before you deregister the directory, or you will receive an OperationNotSupportedException error.
     /// This member is required.
     public var directoryId: Swift.String?
@@ -5116,7 +5116,7 @@ public struct DeregisterWorkspaceDirectoryInput: Swift.Equatable {
     }
 }
 
-struct DeregisterWorkspaceDirectoryInputBody: Swift.Equatable {
+struct DeregisterWorkspaceDirectoryInputBody {
     let directoryId: Swift.String?
 }
 
@@ -5137,7 +5137,7 @@ extension DeregisterWorkspaceDirectoryOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeregisterWorkspaceDirectoryOutput: Swift.Equatable {
+public struct DeregisterWorkspaceDirectoryOutput {
 
     public init() { }
 }
@@ -5172,12 +5172,12 @@ extension DescribeAccountInput {
     }
 }
 
-public struct DescribeAccountInput: Swift.Equatable {
+public struct DescribeAccountInput {
 
     public init() { }
 }
 
-struct DescribeAccountInputBody: Swift.Equatable {
+struct DescribeAccountInputBody {
 }
 
 extension DescribeAccountInputBody: Swift.Decodable {
@@ -5206,7 +5206,7 @@ extension DescribeAccountModificationsInput {
     }
 }
 
-public struct DescribeAccountModificationsInput: Swift.Equatable {
+public struct DescribeAccountModificationsInput {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
 
@@ -5218,7 +5218,7 @@ public struct DescribeAccountModificationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountModificationsInputBody: Swift.Equatable {
+struct DescribeAccountModificationsInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5248,7 +5248,7 @@ extension DescribeAccountModificationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeAccountModificationsOutput: Swift.Equatable {
+public struct DescribeAccountModificationsOutput {
     /// The list of modifications to the configuration of BYOL.
     public var accountModifications: [WorkSpacesClientTypes.AccountModification]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -5264,7 +5264,7 @@ public struct DescribeAccountModificationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountModificationsOutputBody: Swift.Equatable {
+struct DescribeAccountModificationsOutputBody {
     let accountModifications: [WorkSpacesClientTypes.AccountModification]?
     let nextToken: Swift.String?
 }
@@ -5320,7 +5320,7 @@ extension DescribeAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountOutput: Swift.Equatable {
+public struct DescribeAccountOutput {
     /// The type of linked account.
     public var dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType?
     /// The IP address range, specified as an IPv4 CIDR block, used for the management network interface. The management network interface is connected to a secure Amazon WorkSpaces management network. It is used for interactive streaming of the WorkSpace desktop to Amazon WorkSpaces clients, and to allow Amazon WorkSpaces to manage the WorkSpace.
@@ -5340,7 +5340,7 @@ public struct DescribeAccountOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountOutputBody: Swift.Equatable {
+struct DescribeAccountOutputBody {
     let dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportResultEnum?
     let dedicatedTenancyManagementCidrRange: Swift.String?
     let dedicatedTenancyAccountType: WorkSpacesClientTypes.DedicatedTenancyAccountType?
@@ -5410,7 +5410,7 @@ extension DescribeApplicationAssociationsInput {
     }
 }
 
-public struct DescribeApplicationAssociationsInput: Swift.Equatable {
+public struct DescribeApplicationAssociationsInput {
     /// The identifier of the specified application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5436,7 +5436,7 @@ public struct DescribeApplicationAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationAssociationsInputBody: Swift.Equatable {
+struct DescribeApplicationAssociationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let applicationId: Swift.String?
@@ -5487,7 +5487,7 @@ extension DescribeApplicationAssociationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeApplicationAssociationsOutput: Swift.Equatable {
+public struct DescribeApplicationAssociationsOutput {
     /// List of associations and information about them.
     public var associations: [WorkSpacesClientTypes.ApplicationResourceAssociation]?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
@@ -5503,7 +5503,7 @@ public struct DescribeApplicationAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationAssociationsOutputBody: Swift.Equatable {
+struct DescribeApplicationAssociationsOutputBody {
     let associations: [WorkSpacesClientTypes.ApplicationResourceAssociation]?
     let nextToken: Swift.String?
 }
@@ -5599,7 +5599,7 @@ extension DescribeApplicationsInput {
     }
 }
 
-public struct DescribeApplicationsInput: Swift.Equatable {
+public struct DescribeApplicationsInput {
     /// The identifiers of one or more applications.
     public var applicationIds: [Swift.String]?
     /// The compute types supported by the applications.
@@ -5635,7 +5635,7 @@ public struct DescribeApplicationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationsInputBody: Swift.Equatable {
+struct DescribeApplicationsInputBody {
     let applicationIds: [Swift.String]?
     let computeTypeNames: [WorkSpacesClientTypes.Compute]?
     let licenseType: WorkSpacesClientTypes.WorkSpaceApplicationLicenseType?
@@ -5716,7 +5716,7 @@ extension DescribeApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationsOutput: Swift.Equatable {
+public struct DescribeApplicationsOutput {
     /// List of information about the specified applications.
     public var applications: [WorkSpacesClientTypes.WorkSpaceApplication]?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
@@ -5732,7 +5732,7 @@ public struct DescribeApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationsOutputBody: Swift.Equatable {
+struct DescribeApplicationsOutputBody {
     let applications: [WorkSpacesClientTypes.WorkSpaceApplication]?
     let nextToken: Swift.String?
 }
@@ -5802,7 +5802,7 @@ extension DescribeBundleAssociationsInput {
     }
 }
 
-public struct DescribeBundleAssociationsInput: Swift.Equatable {
+public struct DescribeBundleAssociationsInput {
     /// The resource types of the associated resource.
     /// This member is required.
     public var associatedResourceTypes: [WorkSpacesClientTypes.BundleAssociatedResourceType]?
@@ -5820,7 +5820,7 @@ public struct DescribeBundleAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeBundleAssociationsInputBody: Swift.Equatable {
+struct DescribeBundleAssociationsInputBody {
     let bundleId: Swift.String?
     let associatedResourceTypes: [WorkSpacesClientTypes.BundleAssociatedResourceType]?
 }
@@ -5861,7 +5861,7 @@ extension DescribeBundleAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBundleAssociationsOutput: Swift.Equatable {
+public struct DescribeBundleAssociationsOutput {
     /// List of information about the specified associations.
     public var associations: [WorkSpacesClientTypes.BundleResourceAssociation]?
 
@@ -5873,7 +5873,7 @@ public struct DescribeBundleAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBundleAssociationsOutputBody: Swift.Equatable {
+struct DescribeBundleAssociationsOutputBody {
     let associations: [WorkSpacesClientTypes.BundleResourceAssociation]?
 }
 
@@ -5932,7 +5932,7 @@ extension DescribeClientBrandingInput {
     }
 }
 
-public struct DescribeClientBrandingInput: Swift.Equatable {
+public struct DescribeClientBrandingInput {
     /// The directory identifier of the WorkSpace for which you want to view client branding information.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -5945,7 +5945,7 @@ public struct DescribeClientBrandingInput: Swift.Equatable {
     }
 }
 
-struct DescribeClientBrandingInputBody: Swift.Equatable {
+struct DescribeClientBrandingInputBody {
     let resourceId: Swift.String?
 }
 
@@ -5983,7 +5983,7 @@ extension DescribeClientBrandingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClientBrandingOutput: Swift.Equatable {
+public struct DescribeClientBrandingOutput {
     /// The branding information for Android devices.
     public var deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     /// The branding information for iOS devices.
@@ -6015,7 +6015,7 @@ public struct DescribeClientBrandingOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClientBrandingOutputBody: Swift.Equatable {
+struct DescribeClientBrandingOutputBody {
     let deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     let deviceTypeOsx: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     let deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
@@ -6087,7 +6087,7 @@ extension DescribeClientPropertiesInput {
     }
 }
 
-public struct DescribeClientPropertiesInput: Swift.Equatable {
+public struct DescribeClientPropertiesInput {
     /// The resource identifier, in the form of directory IDs.
     /// This member is required.
     public var resourceIds: [Swift.String]?
@@ -6100,7 +6100,7 @@ public struct DescribeClientPropertiesInput: Swift.Equatable {
     }
 }
 
-struct DescribeClientPropertiesInputBody: Swift.Equatable {
+struct DescribeClientPropertiesInputBody {
     let resourceIds: [Swift.String]?
 }
 
@@ -6137,7 +6137,7 @@ extension DescribeClientPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClientPropertiesOutput: Swift.Equatable {
+public struct DescribeClientPropertiesOutput {
     /// Information about the specified Amazon WorkSpaces clients.
     public var clientPropertiesList: [WorkSpacesClientTypes.ClientPropertiesResult]?
 
@@ -6149,7 +6149,7 @@ public struct DescribeClientPropertiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClientPropertiesOutputBody: Swift.Equatable {
+struct DescribeClientPropertiesOutputBody {
     let clientPropertiesList: [WorkSpacesClientTypes.ClientPropertiesResult]?
 }
 
@@ -6215,7 +6215,7 @@ extension DescribeConnectClientAddInsInput {
     }
 }
 
-public struct DescribeConnectClientAddInsInput: Swift.Equatable {
+public struct DescribeConnectClientAddInsInput {
     /// The maximum number of items to return.
     public var maxResults: Swift.Int?
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
@@ -6236,7 +6236,7 @@ public struct DescribeConnectClientAddInsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectClientAddInsInputBody: Swift.Equatable {
+struct DescribeConnectClientAddInsInputBody {
     let resourceId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6274,7 +6274,7 @@ extension DescribeConnectClientAddInsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectClientAddInsOutput: Swift.Equatable {
+public struct DescribeConnectClientAddInsOutput {
     /// Information about client add-ins.
     public var addIns: [WorkSpacesClientTypes.ConnectClientAddIn]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -6290,7 +6290,7 @@ public struct DescribeConnectClientAddInsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectClientAddInsOutputBody: Swift.Equatable {
+struct DescribeConnectClientAddInsOutputBody {
     let addIns: [WorkSpacesClientTypes.ConnectClientAddIn]?
     let nextToken: Swift.String?
 }
@@ -6360,7 +6360,7 @@ extension DescribeConnectionAliasPermissionsInput {
     }
 }
 
-public struct DescribeConnectionAliasPermissionsInput: Swift.Equatable {
+public struct DescribeConnectionAliasPermissionsInput {
     /// The identifier of the connection alias.
     /// This member is required.
     public var aliasId: Swift.String?
@@ -6381,7 +6381,7 @@ public struct DescribeConnectionAliasPermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionAliasPermissionsInputBody: Swift.Equatable {
+struct DescribeConnectionAliasPermissionsInputBody {
     let aliasId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6421,7 +6421,7 @@ extension DescribeConnectionAliasPermissionsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeConnectionAliasPermissionsOutput: Swift.Equatable {
+public struct DescribeConnectionAliasPermissionsOutput {
     /// The identifier of the connection alias.
     public var aliasId: Swift.String?
     /// The permissions associated with a connection alias.
@@ -6441,7 +6441,7 @@ public struct DescribeConnectionAliasPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionAliasPermissionsOutputBody: Swift.Equatable {
+struct DescribeConnectionAliasPermissionsOutputBody {
     let aliasId: Swift.String?
     let connectionAliasPermissions: [WorkSpacesClientTypes.ConnectionAliasPermission]?
     let nextToken: Swift.String?
@@ -6523,7 +6523,7 @@ extension DescribeConnectionAliasesInput {
     }
 }
 
-public struct DescribeConnectionAliasesInput: Swift.Equatable {
+public struct DescribeConnectionAliasesInput {
     /// The identifiers of the connection aliases to describe.
     public var aliasIds: [Swift.String]?
     /// The maximum number of connection aliases to return.
@@ -6547,7 +6547,7 @@ public struct DescribeConnectionAliasesInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionAliasesInputBody: Swift.Equatable {
+struct DescribeConnectionAliasesInputBody {
     let aliasIds: [Swift.String]?
     let resourceId: Swift.String?
     let limit: Swift.Int?
@@ -6598,7 +6598,7 @@ extension DescribeConnectionAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectionAliasesOutput: Swift.Equatable {
+public struct DescribeConnectionAliasesOutput {
     /// Information about the specified connection aliases.
     public var connectionAliases: [WorkSpacesClientTypes.ConnectionAlias]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -6614,7 +6614,7 @@ public struct DescribeConnectionAliasesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectionAliasesOutputBody: Swift.Equatable {
+struct DescribeConnectionAliasesOutputBody {
     let connectionAliases: [WorkSpacesClientTypes.ConnectionAlias]?
     let nextToken: Swift.String?
 }
@@ -6683,7 +6683,7 @@ extension DescribeImageAssociationsInput {
     }
 }
 
-public struct DescribeImageAssociationsInput: Swift.Equatable {
+public struct DescribeImageAssociationsInput {
     /// The resource types of the associated resource.
     /// This member is required.
     public var associatedResourceTypes: [WorkSpacesClientTypes.ImageAssociatedResourceType]?
@@ -6701,7 +6701,7 @@ public struct DescribeImageAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeImageAssociationsInputBody: Swift.Equatable {
+struct DescribeImageAssociationsInputBody {
     let imageId: Swift.String?
     let associatedResourceTypes: [WorkSpacesClientTypes.ImageAssociatedResourceType]?
 }
@@ -6742,7 +6742,7 @@ extension DescribeImageAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImageAssociationsOutput: Swift.Equatable {
+public struct DescribeImageAssociationsOutput {
     /// List of information about the specified associations.
     public var associations: [WorkSpacesClientTypes.ImageResourceAssociation]?
 
@@ -6754,7 +6754,7 @@ public struct DescribeImageAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImageAssociationsOutputBody: Swift.Equatable {
+struct DescribeImageAssociationsOutputBody {
     let associations: [WorkSpacesClientTypes.ImageResourceAssociation]?
 }
 
@@ -6824,7 +6824,7 @@ extension DescribeIpGroupsInput {
     }
 }
 
-public struct DescribeIpGroupsInput: Swift.Equatable {
+public struct DescribeIpGroupsInput {
     /// The identifiers of one or more IP access control groups.
     public var groupIds: [Swift.String]?
     /// The maximum number of items to return.
@@ -6844,7 +6844,7 @@ public struct DescribeIpGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeIpGroupsInputBody: Swift.Equatable {
+struct DescribeIpGroupsInputBody {
     let groupIds: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6891,7 +6891,7 @@ extension DescribeIpGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIpGroupsOutput: Swift.Equatable {
+public struct DescribeIpGroupsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the IP access control groups.
@@ -6907,7 +6907,7 @@ public struct DescribeIpGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIpGroupsOutputBody: Swift.Equatable {
+struct DescribeIpGroupsOutputBody {
     let result: [WorkSpacesClientTypes.WorkspacesIpGroup]?
     let nextToken: Swift.String?
 }
@@ -6968,7 +6968,7 @@ extension DescribeTagsInput {
     }
 }
 
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// The identifier of the WorkSpaces resource. The supported resource types are WorkSpaces, registered directories, images, custom bundles, IP access control groups, and connection aliases.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -6981,7 +6981,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsInputBody: Swift.Equatable {
+struct DescribeTagsInputBody {
     let resourceId: Swift.String?
 }
 
@@ -7009,7 +7009,7 @@ extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// The tags.
     public var tagList: [WorkSpacesClientTypes.Tag]?
 
@@ -7021,7 +7021,7 @@ public struct DescribeTagsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputBody: Swift.Equatable {
+struct DescribeTagsOutputBody {
     let tagList: [WorkSpacesClientTypes.Tag]?
 }
 
@@ -7084,7 +7084,7 @@ extension DescribeWorkspaceAssociationsInput {
     }
 }
 
-public struct DescribeWorkspaceAssociationsInput: Swift.Equatable {
+public struct DescribeWorkspaceAssociationsInput {
     /// The resource types of the associated resources.
     /// This member is required.
     public var associatedResourceTypes: [WorkSpacesClientTypes.WorkSpaceAssociatedResourceType]?
@@ -7102,7 +7102,7 @@ public struct DescribeWorkspaceAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceAssociationsInputBody: Swift.Equatable {
+struct DescribeWorkspaceAssociationsInputBody {
     let workspaceId: Swift.String?
     let associatedResourceTypes: [WorkSpacesClientTypes.WorkSpaceAssociatedResourceType]?
 }
@@ -7143,7 +7143,7 @@ extension DescribeWorkspaceAssociationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeWorkspaceAssociationsOutput: Swift.Equatable {
+public struct DescribeWorkspaceAssociationsOutput {
     /// List of information about the specified associations.
     public var associations: [WorkSpacesClientTypes.WorkspaceResourceAssociation]?
 
@@ -7155,7 +7155,7 @@ public struct DescribeWorkspaceAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceAssociationsOutputBody: Swift.Equatable {
+struct DescribeWorkspaceAssociationsOutputBody {
     let associations: [WorkSpacesClientTypes.WorkspaceResourceAssociation]?
 }
 
@@ -7225,7 +7225,7 @@ extension DescribeWorkspaceBundlesInput {
     }
 }
 
-public struct DescribeWorkspaceBundlesInput: Swift.Equatable {
+public struct DescribeWorkspaceBundlesInput {
     /// The identifiers of the bundles. You cannot combine this parameter with any other filter.
     public var bundleIds: [Swift.String]?
     /// The token for the next set of results. (You received this token from a previous call.)
@@ -7245,7 +7245,7 @@ public struct DescribeWorkspaceBundlesInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceBundlesInputBody: Swift.Equatable {
+struct DescribeWorkspaceBundlesInputBody {
     let bundleIds: [Swift.String]?
     let owner: Swift.String?
     let nextToken: Swift.String?
@@ -7292,7 +7292,7 @@ extension DescribeWorkspaceBundlesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkspaceBundlesOutput: Swift.Equatable {
+public struct DescribeWorkspaceBundlesOutput {
     /// Information about the bundles.
     public var bundles: [WorkSpacesClientTypes.WorkspaceBundle]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return. This token is valid for one day and must be used within that time frame.
@@ -7308,7 +7308,7 @@ public struct DescribeWorkspaceBundlesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceBundlesOutputBody: Swift.Equatable {
+struct DescribeWorkspaceBundlesOutputBody {
     let bundles: [WorkSpacesClientTypes.WorkspaceBundle]?
     let nextToken: Swift.String?
 }
@@ -7379,7 +7379,7 @@ extension DescribeWorkspaceDirectoriesInput {
     }
 }
 
-public struct DescribeWorkspaceDirectoriesInput: Swift.Equatable {
+public struct DescribeWorkspaceDirectoriesInput {
     /// The identifiers of the directories. If the value is null, all directories are retrieved.
     public var directoryIds: [Swift.String]?
     /// The maximum number of directories to return.
@@ -7399,7 +7399,7 @@ public struct DescribeWorkspaceDirectoriesInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceDirectoriesInputBody: Swift.Equatable {
+struct DescribeWorkspaceDirectoriesInputBody {
     let directoryIds: [Swift.String]?
     let limit: Swift.Int?
     let nextToken: Swift.String?
@@ -7446,7 +7446,7 @@ extension DescribeWorkspaceDirectoriesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeWorkspaceDirectoriesOutput: Swift.Equatable {
+public struct DescribeWorkspaceDirectoriesOutput {
     /// Information about the directories.
     public var directories: [WorkSpacesClientTypes.WorkspaceDirectory]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -7462,7 +7462,7 @@ public struct DescribeWorkspaceDirectoriesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceDirectoriesOutputBody: Swift.Equatable {
+struct DescribeWorkspaceDirectoriesOutputBody {
     let directories: [WorkSpacesClientTypes.WorkspaceDirectory]?
     let nextToken: Swift.String?
 }
@@ -7530,7 +7530,7 @@ extension DescribeWorkspaceImagePermissionsInput {
     }
 }
 
-public struct DescribeWorkspaceImagePermissionsInput: Swift.Equatable {
+public struct DescribeWorkspaceImagePermissionsInput {
     /// The identifier of the image.
     /// This member is required.
     public var imageId: Swift.String?
@@ -7551,7 +7551,7 @@ public struct DescribeWorkspaceImagePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceImagePermissionsInputBody: Swift.Equatable {
+struct DescribeWorkspaceImagePermissionsInputBody {
     let imageId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7591,7 +7591,7 @@ extension DescribeWorkspaceImagePermissionsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeWorkspaceImagePermissionsOutput: Swift.Equatable {
+public struct DescribeWorkspaceImagePermissionsOutput {
     /// The identifier of the image.
     public var imageId: Swift.String?
     /// The identifiers of the Amazon Web Services accounts that the image has been shared with.
@@ -7611,7 +7611,7 @@ public struct DescribeWorkspaceImagePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceImagePermissionsOutputBody: Swift.Equatable {
+struct DescribeWorkspaceImagePermissionsOutputBody {
     let imageId: Swift.String?
     let imagePermissions: [WorkSpacesClientTypes.ImagePermission]?
     let nextToken: Swift.String?
@@ -7692,7 +7692,7 @@ extension DescribeWorkspaceImagesInput {
     }
 }
 
-public struct DescribeWorkspaceImagesInput: Swift.Equatable {
+public struct DescribeWorkspaceImagesInput {
     /// The identifier of the image.
     public var imageIds: [Swift.String]?
     /// The type (owned or shared) of the image.
@@ -7716,7 +7716,7 @@ public struct DescribeWorkspaceImagesInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceImagesInputBody: Swift.Equatable {
+struct DescribeWorkspaceImagesInputBody {
     let imageIds: [Swift.String]?
     let imageType: WorkSpacesClientTypes.ImageType?
     let nextToken: Swift.String?
@@ -7767,7 +7767,7 @@ extension DescribeWorkspaceImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkspaceImagesOutput: Swift.Equatable {
+public struct DescribeWorkspaceImagesOutput {
     /// Information about the images.
     public var images: [WorkSpacesClientTypes.WorkspaceImage]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -7783,7 +7783,7 @@ public struct DescribeWorkspaceImagesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceImagesOutputBody: Swift.Equatable {
+struct DescribeWorkspaceImagesOutputBody {
     let images: [WorkSpacesClientTypes.WorkspaceImage]?
     let nextToken: Swift.String?
 }
@@ -7843,7 +7843,7 @@ extension DescribeWorkspaceSnapshotsInput {
     }
 }
 
-public struct DescribeWorkspaceSnapshotsInput: Swift.Equatable {
+public struct DescribeWorkspaceSnapshotsInput {
     /// The identifier of the WorkSpace.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -7856,7 +7856,7 @@ public struct DescribeWorkspaceSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceSnapshotsInputBody: Swift.Equatable {
+struct DescribeWorkspaceSnapshotsInputBody {
     let workspaceId: Swift.String?
 }
 
@@ -7886,7 +7886,7 @@ extension DescribeWorkspaceSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkspaceSnapshotsOutput: Swift.Equatable {
+public struct DescribeWorkspaceSnapshotsOutput {
     /// Information about the snapshots that can be used to rebuild a WorkSpace. These snapshots include the user volume.
     public var rebuildSnapshots: [WorkSpacesClientTypes.Snapshot]?
     /// Information about the snapshots that can be used to restore a WorkSpace. These snapshots include both the root volume and the user volume.
@@ -7902,7 +7902,7 @@ public struct DescribeWorkspaceSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspaceSnapshotsOutputBody: Swift.Equatable {
+struct DescribeWorkspaceSnapshotsOutputBody {
     let rebuildSnapshots: [WorkSpacesClientTypes.Snapshot]?
     let restoreSnapshots: [WorkSpacesClientTypes.Snapshot]?
 }
@@ -7980,7 +7980,7 @@ extension DescribeWorkspacesConnectionStatusInput {
     }
 }
 
-public struct DescribeWorkspacesConnectionStatusInput: Swift.Equatable {
+public struct DescribeWorkspacesConnectionStatusInput {
     /// If you received a NextToken from a previous call that was paginated, provide this token to receive the next set of results.
     public var nextToken: Swift.String?
     /// The identifiers of the WorkSpaces. You can specify up to 25 WorkSpaces.
@@ -7996,7 +7996,7 @@ public struct DescribeWorkspacesConnectionStatusInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspacesConnectionStatusInputBody: Swift.Equatable {
+struct DescribeWorkspacesConnectionStatusInputBody {
     let workspaceIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8039,7 +8039,7 @@ extension DescribeWorkspacesConnectionStatusOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeWorkspacesConnectionStatusOutput: Swift.Equatable {
+public struct DescribeWorkspacesConnectionStatusOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the connection status of the WorkSpace.
@@ -8055,7 +8055,7 @@ public struct DescribeWorkspacesConnectionStatusOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspacesConnectionStatusOutputBody: Swift.Equatable {
+struct DescribeWorkspacesConnectionStatusOutputBody {
     let workspacesConnectionStatus: [WorkSpacesClientTypes.WorkspaceConnectionStatus]?
     let nextToken: Swift.String?
 }
@@ -8142,7 +8142,7 @@ extension DescribeWorkspacesInput {
     }
 }
 
-public struct DescribeWorkspacesInput: Swift.Equatable {
+public struct DescribeWorkspacesInput {
     /// The identifier of the bundle. All WorkSpaces that are created from this bundle are retrieved. You cannot combine this parameter with any other filter.
     public var bundleId: Swift.String?
     /// The identifier of the directory. In addition, you can optionally specify a specific directory user (see UserName). You cannot combine this parameter with any other filter.
@@ -8178,7 +8178,7 @@ public struct DescribeWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspacesInputBody: Swift.Equatable {
+struct DescribeWorkspacesInputBody {
     let workspaceIds: [Swift.String]?
     let directoryId: Swift.String?
     let userName: Swift.String?
@@ -8241,7 +8241,7 @@ extension DescribeWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkspacesOutput: Swift.Equatable {
+public struct DescribeWorkspacesOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the WorkSpaces. Because [CreateWorkspaces] is an asynchronous operation, some of the returned information could be incomplete.
@@ -8257,7 +8257,7 @@ public struct DescribeWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkspacesOutputBody: Swift.Equatable {
+struct DescribeWorkspacesOutputBody {
     let workspaces: [WorkSpacesClientTypes.Workspace]?
     let nextToken: Swift.String?
 }
@@ -8318,7 +8318,7 @@ extension DisassociateConnectionAliasInput {
     }
 }
 
-public struct DisassociateConnectionAliasInput: Swift.Equatable {
+public struct DisassociateConnectionAliasInput {
     /// The identifier of the connection alias to disassociate.
     /// This member is required.
     public var aliasId: Swift.String?
@@ -8331,7 +8331,7 @@ public struct DisassociateConnectionAliasInput: Swift.Equatable {
     }
 }
 
-struct DisassociateConnectionAliasInputBody: Swift.Equatable {
+struct DisassociateConnectionAliasInputBody {
     let aliasId: Swift.String?
 }
 
@@ -8352,7 +8352,7 @@ extension DisassociateConnectionAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateConnectionAliasOutput: Swift.Equatable {
+public struct DisassociateConnectionAliasOutput {
 
     public init() { }
 }
@@ -8399,7 +8399,7 @@ extension DisassociateIpGroupsInput {
     }
 }
 
-public struct DisassociateIpGroupsInput: Swift.Equatable {
+public struct DisassociateIpGroupsInput {
     /// The identifier of the directory.
     /// This member is required.
     public var directoryId: Swift.String?
@@ -8417,7 +8417,7 @@ public struct DisassociateIpGroupsInput: Swift.Equatable {
     }
 }
 
-struct DisassociateIpGroupsInputBody: Swift.Equatable {
+struct DisassociateIpGroupsInputBody {
     let directoryId: Swift.String?
     let groupIds: [Swift.String]?
 }
@@ -8451,7 +8451,7 @@ extension DisassociateIpGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateIpGroupsOutput: Swift.Equatable {
+public struct DisassociateIpGroupsOutput {
 
     public init() { }
 }
@@ -8494,7 +8494,7 @@ extension DisassociateWorkspaceApplicationInput {
     }
 }
 
-public struct DisassociateWorkspaceApplicationInput: Swift.Equatable {
+public struct DisassociateWorkspaceApplicationInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8512,7 +8512,7 @@ public struct DisassociateWorkspaceApplicationInput: Swift.Equatable {
     }
 }
 
-struct DisassociateWorkspaceApplicationInputBody: Swift.Equatable {
+struct DisassociateWorkspaceApplicationInputBody {
     let workspaceId: Swift.String?
     let applicationId: Swift.String?
 }
@@ -8544,7 +8544,7 @@ extension DisassociateWorkspaceApplicationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DisassociateWorkspaceApplicationOutput: Swift.Equatable {
+public struct DisassociateWorkspaceApplicationOutput {
     /// Information about the targeted association.
     public var association: WorkSpacesClientTypes.WorkspaceResourceAssociation?
 
@@ -8556,7 +8556,7 @@ public struct DisassociateWorkspaceApplicationOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateWorkspaceApplicationOutputBody: Swift.Equatable {
+struct DisassociateWorkspaceApplicationOutputBody {
     let association: WorkSpacesClientTypes.WorkspaceResourceAssociation?
 }
 
@@ -8614,7 +8614,7 @@ extension WorkSpacesClientTypes.ErrorDetails: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes in-depth details about the error. These details include the possible causes of the error and troubleshooting information.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// Indicates the error code returned.
         public var errorCode: WorkSpacesClientTypes.WorkspaceImageErrorDetailCode?
         /// The text of the error message related the error code.
@@ -8665,7 +8665,7 @@ extension WorkSpacesClientTypes.FailedCreateStandbyWorkspacesRequest: Swift.Coda
 
 extension WorkSpacesClientTypes {
     /// Describes the standby WorkSpace that could not be created.
-    public struct FailedCreateStandbyWorkspacesRequest: Swift.Equatable {
+    public struct FailedCreateStandbyWorkspacesRequest {
         /// The error code that is returned if the standby WorkSpace could not be created.
         public var errorCode: Swift.String?
         /// The text of the error message that is returned if the standby WorkSpace could not be created.
@@ -8720,7 +8720,7 @@ extension WorkSpacesClientTypes.FailedCreateWorkspaceRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace that cannot be created.
-    public struct FailedCreateWorkspaceRequest: Swift.Equatable {
+    public struct FailedCreateWorkspaceRequest {
         /// The error code that is returned if the WorkSpace cannot be created.
         public var errorCode: Swift.String?
         /// The text of the error message that is returned if the WorkSpace cannot be created.
@@ -8775,7 +8775,7 @@ extension WorkSpacesClientTypes.FailedWorkspaceChangeRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace that could not be rebooted. ([RebootWorkspaces]), rebuilt ([RebuildWorkspaces]), restored ([RestoreWorkspace]), terminated ([TerminateWorkspaces]), started ([StartWorkspaces]), or stopped ([StopWorkspaces]).
-    public struct FailedWorkspaceChangeRequest: Swift.Equatable {
+    public struct FailedWorkspaceChangeRequest {
         /// The error code that is returned if the WorkSpace cannot be rebooted.
         public var errorCode: Swift.String?
         /// The text of the error message that is returned if the WorkSpace cannot be rebooted.
@@ -8821,7 +8821,7 @@ extension GetAccountLinkInput {
     }
 }
 
-public struct GetAccountLinkInput: Swift.Equatable {
+public struct GetAccountLinkInput {
     /// The identifier of the account to link.
     public var linkId: Swift.String?
     /// The identifier of the account link
@@ -8837,7 +8837,7 @@ public struct GetAccountLinkInput: Swift.Equatable {
     }
 }
 
-struct GetAccountLinkInputBody: Swift.Equatable {
+struct GetAccountLinkInputBody {
     let linkId: Swift.String?
     let linkedAccountId: Swift.String?
 }
@@ -8869,7 +8869,7 @@ extension GetAccountLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountLinkOutput: Swift.Equatable {
+public struct GetAccountLinkOutput {
     /// The account link of the account link to retrieve.
     public var accountLink: WorkSpacesClientTypes.AccountLink?
 
@@ -8881,7 +8881,7 @@ public struct GetAccountLinkOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountLinkOutputBody: Swift.Equatable {
+struct GetAccountLinkOutputBody {
     let accountLink: WorkSpacesClientTypes.AccountLink?
 }
 
@@ -8961,7 +8961,7 @@ extension WorkSpacesClientTypes.ImagePermission: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the Amazon Web Services accounts that have been granted permission to use a shared image. For more information about sharing images, see [ Share or Unshare a Custom WorkSpaces Image](https://docs.aws.amazon.com/workspaces/latest/adminguide/share-custom-image.html).
-    public struct ImagePermission: Swift.Equatable {
+    public struct ImagePermission {
         /// The identifier of the Amazon Web Services account that an image has been shared with.
         public var sharedAccountId: Swift.String?
 
@@ -9032,7 +9032,7 @@ extension WorkSpacesClientTypes.ImageResourceAssociation: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the association between an application and an image resource.
-    public struct ImageResourceAssociation: Swift.Equatable {
+    public struct ImageResourceAssociation {
         /// The identifier of the associated resource.
         public var associatedResourceId: Swift.String?
         /// The resource type of the associated resources.
@@ -9146,7 +9146,7 @@ extension ImportClientBrandingInput {
     }
 }
 
-public struct ImportClientBrandingInput: Swift.Equatable {
+public struct ImportClientBrandingInput {
     /// The branding information to import for Android devices.
     public var deviceTypeAndroid: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes?
     /// The branding information to import for iOS devices.
@@ -9183,7 +9183,7 @@ public struct ImportClientBrandingInput: Swift.Equatable {
     }
 }
 
-struct ImportClientBrandingInputBody: Swift.Equatable {
+struct ImportClientBrandingInputBody {
     let resourceId: Swift.String?
     let deviceTypeWindows: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes?
     let deviceTypeOsx: WorkSpacesClientTypes.DefaultImportClientBrandingAttributes?
@@ -9245,7 +9245,7 @@ extension ImportClientBrandingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportClientBrandingOutput: Swift.Equatable {
+public struct ImportClientBrandingOutput {
     /// The branding information configured for Android devices.
     public var deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     /// The branding information configured for iOS devices.
@@ -9277,7 +9277,7 @@ public struct ImportClientBrandingOutput: Swift.Equatable {
     }
 }
 
-struct ImportClientBrandingOutputBody: Swift.Equatable {
+struct ImportClientBrandingOutputBody {
     let deviceTypeWindows: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     let deviceTypeOsx: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
     let deviceTypeAndroid: WorkSpacesClientTypes.DefaultClientBrandingAttributes?
@@ -9373,7 +9373,7 @@ extension ImportWorkspaceImageInput {
     }
 }
 
-public struct ImportWorkspaceImageInput: Swift.Equatable {
+public struct ImportWorkspaceImageInput {
     /// If specified, the version of Microsoft Office to subscribe to. Valid only for Windows 10 and 11 BYOL images. For more information about subscribing to Office for BYOL images, see [ Bring Your Own Windows Desktop Licenses](https://docs.aws.amazon.com/workspaces/latest/adminguide/byol-windows-images.html).
     ///
     /// * Although this parameter is an array, only one item is allowed at this time.
@@ -9413,7 +9413,7 @@ public struct ImportWorkspaceImageInput: Swift.Equatable {
     }
 }
 
-struct ImportWorkspaceImageInputBody: Swift.Equatable {
+struct ImportWorkspaceImageInputBody {
     let ec2ImageId: Swift.String?
     let ingestionProcess: WorkSpacesClientTypes.WorkspaceImageIngestionProcess?
     let imageName: Swift.String?
@@ -9479,7 +9479,7 @@ extension ImportWorkspaceImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportWorkspaceImageOutput: Swift.Equatable {
+public struct ImportWorkspaceImageOutput {
     /// The identifier of the WorkSpace image.
     public var imageId: Swift.String?
 
@@ -9491,7 +9491,7 @@ public struct ImportWorkspaceImageOutput: Swift.Equatable {
     }
 }
 
-struct ImportWorkspaceImageOutputBody: Swift.Equatable {
+struct ImportWorkspaceImageOutputBody {
     let imageId: Swift.String?
 }
 
@@ -9583,7 +9583,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -9639,7 +9639,7 @@ public struct InvalidParameterValuesException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidParameterValuesExceptionBody: Swift.Equatable {
+struct InvalidParameterValuesExceptionBody {
     let message: Swift.String?
 }
 
@@ -9694,7 +9694,7 @@ public struct InvalidResourceStateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidResourceStateExceptionBody: Swift.Equatable {
+struct InvalidResourceStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -9779,7 +9779,7 @@ extension WorkSpacesClientTypes.IosClientBrandingAttributes: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// The client branding attributes for iOS device types. These attributes are displayed on the iOS client login screen only. Client branding attributes are public facing. Ensure you do not include sensitive information.
-    public struct IosClientBrandingAttributes: Swift.Equatable {
+    public struct IosClientBrandingAttributes {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public var forgotPasswordLink: Swift.String?
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
@@ -9894,7 +9894,7 @@ extension WorkSpacesClientTypes.IosImportClientBrandingAttributes: Swift.Codable
 
 extension WorkSpacesClientTypes {
     /// The client branding attributes to import for iOS device types. These attributes are displayed on the iOS client login screen. Client branding attributes are public facing. Ensure you do not include sensitive information.
-    public struct IosImportClientBrandingAttributes: Swift.Equatable {
+    public struct IosImportClientBrandingAttributes {
         /// The forgotten password link. This is the web address that users can go to if they forget the password for their WorkSpace.
         public var forgotPasswordLink: Swift.String?
         /// The login message. Specified as a key value pair, in which the key is a locale and the value is the localized message for that locale. The only key supported is en_US. The HTML tags supported include the following: a, b, blockquote, br, cite, code, dd, dl, dt, div, em, i, li, ol, p, pre, q, small, span, strike, strong, sub, sup, u, ul.
@@ -9967,7 +9967,7 @@ extension WorkSpacesClientTypes.IpRuleItem: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a rule for an IP access control group.
-    public struct IpRuleItem: Swift.Equatable {
+    public struct IpRuleItem {
         /// The IP address range, in CIDR notation.
         public var ipRule: Swift.String?
         /// The description.
@@ -10016,7 +10016,7 @@ extension ListAccountLinksInput {
     }
 }
 
-public struct ListAccountLinksInput: Swift.Equatable {
+public struct ListAccountLinksInput {
     /// Filters the account based on their link status.
     public var linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]?
     /// The maximum number of accounts to return.
@@ -10036,7 +10036,7 @@ public struct ListAccountLinksInput: Swift.Equatable {
     }
 }
 
-struct ListAccountLinksInputBody: Swift.Equatable {
+struct ListAccountLinksInputBody {
     let linkStatusFilter: [WorkSpacesClientTypes.AccountLinkStatusEnum]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10083,7 +10083,7 @@ extension ListAccountLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccountLinksOutput: Swift.Equatable {
+public struct ListAccountLinksOutput {
     /// Information about the account links.
     public var accountLinks: [WorkSpacesClientTypes.AccountLink]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10099,7 +10099,7 @@ public struct ListAccountLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListAccountLinksOutputBody: Swift.Equatable {
+struct ListAccountLinksOutputBody {
     let accountLinks: [WorkSpacesClientTypes.AccountLink]?
     let nextToken: Swift.String?
 }
@@ -10169,7 +10169,7 @@ extension ListAvailableManagementCidrRangesInput {
     }
 }
 
-public struct ListAvailableManagementCidrRangesInput: Swift.Equatable {
+public struct ListAvailableManagementCidrRangesInput {
     /// The IP address range to search. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block).
     /// This member is required.
     public var managementCidrRangeConstraint: Swift.String?
@@ -10190,7 +10190,7 @@ public struct ListAvailableManagementCidrRangesInput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagementCidrRangesInputBody: Swift.Equatable {
+struct ListAvailableManagementCidrRangesInputBody {
     let managementCidrRangeConstraint: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -10228,7 +10228,7 @@ extension ListAvailableManagementCidrRangesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListAvailableManagementCidrRangesOutput: Swift.Equatable {
+public struct ListAvailableManagementCidrRangesOutput {
     /// The list of available IP address ranges, specified as IPv4 CIDR blocks.
     public var managementCidrRanges: [Swift.String]?
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
@@ -10244,7 +10244,7 @@ public struct ListAvailableManagementCidrRangesOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagementCidrRangesOutputBody: Swift.Equatable {
+struct ListAvailableManagementCidrRangesOutputBody {
     let managementCidrRanges: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -10341,7 +10341,7 @@ extension MigrateWorkspaceInput {
     }
 }
 
-public struct MigrateWorkspaceInput: Swift.Equatable {
+public struct MigrateWorkspaceInput {
     /// The identifier of the target bundle type to migrate the WorkSpace to.
     /// This member is required.
     public var bundleId: Swift.String?
@@ -10359,7 +10359,7 @@ public struct MigrateWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct MigrateWorkspaceInputBody: Swift.Equatable {
+struct MigrateWorkspaceInputBody {
     let sourceWorkspaceId: Swift.String?
     let bundleId: Swift.String?
 }
@@ -10393,7 +10393,7 @@ extension MigrateWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MigrateWorkspaceOutput: Swift.Equatable {
+public struct MigrateWorkspaceOutput {
     /// The original identifier of the WorkSpace that is being migrated.
     public var sourceWorkspaceId: Swift.String?
     /// The new identifier of the WorkSpace that is being migrated. If the migration does not succeed, the target WorkSpace ID will not be used, and the WorkSpace will still have the original WorkSpace ID.
@@ -10409,7 +10409,7 @@ public struct MigrateWorkspaceOutput: Swift.Equatable {
     }
 }
 
-struct MigrateWorkspaceOutputBody: Swift.Equatable {
+struct MigrateWorkspaceOutputBody {
     let sourceWorkspaceId: Swift.String?
     let targetWorkspaceId: Swift.String?
 }
@@ -10507,7 +10507,7 @@ extension WorkSpacesClientTypes.ModificationState: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace modification.
-    public struct ModificationState: Swift.Equatable {
+    public struct ModificationState {
         /// The resource.
         public var resource: WorkSpacesClientTypes.ModificationResourceEnum?
         /// The modification state.
@@ -10581,7 +10581,7 @@ extension ModifyAccountInput {
     }
 }
 
-public struct ModifyAccountInput: Swift.Equatable {
+public struct ModifyAccountInput {
     /// The IP address range, specified as an IPv4 CIDR block, for the management network interface. Specify an IP address range that is compatible with your network and in CIDR notation (that is, specify the range as an IPv4 CIDR block). The CIDR block size must be /16 (for example, 203.0.113.25/16). It must also be specified as available by the ListAvailableManagementCidrRanges operation.
     public var dedicatedTenancyManagementCidrRange: Swift.String?
     /// The status of BYOL.
@@ -10597,7 +10597,7 @@ public struct ModifyAccountInput: Swift.Equatable {
     }
 }
 
-struct ModifyAccountInputBody: Swift.Equatable {
+struct ModifyAccountInputBody {
     let dedicatedTenancySupport: WorkSpacesClientTypes.DedicatedTenancySupportEnum?
     let dedicatedTenancyManagementCidrRange: Swift.String?
 }
@@ -10622,7 +10622,7 @@ extension ModifyAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyAccountOutput: Swift.Equatable {
+public struct ModifyAccountOutput {
 
     public init() { }
 }
@@ -10673,7 +10673,7 @@ extension ModifyCertificateBasedAuthPropertiesInput {
     }
 }
 
-public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Equatable {
+public struct ModifyCertificateBasedAuthPropertiesInput {
     /// The properties of the certificate-based authentication.
     public var certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties?
     /// The properties of the certificate-based authentication you want to delete.
@@ -10694,7 +10694,7 @@ public struct ModifyCertificateBasedAuthPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifyCertificateBasedAuthPropertiesInputBody: Swift.Equatable {
+struct ModifyCertificateBasedAuthPropertiesInputBody {
     let resourceId: Swift.String?
     let certificateBasedAuthProperties: WorkSpacesClientTypes.CertificateBasedAuthProperties?
     let propertiesToDelete: [WorkSpacesClientTypes.DeletableCertificateBasedAuthProperty]?
@@ -10732,7 +10732,7 @@ extension ModifyCertificateBasedAuthPropertiesOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct ModifyCertificateBasedAuthPropertiesOutput: Swift.Equatable {
+public struct ModifyCertificateBasedAuthPropertiesOutput {
 
     public init() { }
 }
@@ -10775,7 +10775,7 @@ extension ModifyClientPropertiesInput {
     }
 }
 
-public struct ModifyClientPropertiesInput: Swift.Equatable {
+public struct ModifyClientPropertiesInput {
     /// Information about the Amazon WorkSpaces client.
     /// This member is required.
     public var clientProperties: WorkSpacesClientTypes.ClientProperties?
@@ -10793,7 +10793,7 @@ public struct ModifyClientPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifyClientPropertiesInputBody: Swift.Equatable {
+struct ModifyClientPropertiesInputBody {
     let resourceId: Swift.String?
     let clientProperties: WorkSpacesClientTypes.ClientProperties?
 }
@@ -10818,7 +10818,7 @@ extension ModifyClientPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyClientPropertiesOutput: Swift.Equatable {
+public struct ModifyClientPropertiesOutput {
 
     public init() { }
 }
@@ -10867,7 +10867,7 @@ extension ModifySamlPropertiesInput {
     }
 }
 
-public struct ModifySamlPropertiesInput: Swift.Equatable {
+public struct ModifySamlPropertiesInput {
     /// The SAML properties to delete as part of your request. Specify one of the following options:
     ///
     /// * SAML_PROPERTIES_USER_ACCESS_URL to delete the user access URL.
@@ -10892,7 +10892,7 @@ public struct ModifySamlPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifySamlPropertiesInputBody: Swift.Equatable {
+struct ModifySamlPropertiesInputBody {
     let resourceId: Swift.String?
     let samlProperties: WorkSpacesClientTypes.SamlProperties?
     let propertiesToDelete: [WorkSpacesClientTypes.DeletableSamlProperty]?
@@ -10930,7 +10930,7 @@ extension ModifySamlPropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifySamlPropertiesOutput: Swift.Equatable {
+public struct ModifySamlPropertiesOutput {
 
     public init() { }
 }
@@ -10973,7 +10973,7 @@ extension ModifySelfservicePermissionsInput {
     }
 }
 
-public struct ModifySelfservicePermissionsInput: Swift.Equatable {
+public struct ModifySelfservicePermissionsInput {
     /// The identifier of the directory.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -10991,7 +10991,7 @@ public struct ModifySelfservicePermissionsInput: Swift.Equatable {
     }
 }
 
-struct ModifySelfservicePermissionsInputBody: Swift.Equatable {
+struct ModifySelfservicePermissionsInputBody {
     let resourceId: Swift.String?
     let selfservicePermissions: WorkSpacesClientTypes.SelfservicePermissions?
 }
@@ -11016,7 +11016,7 @@ extension ModifySelfservicePermissionsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ModifySelfservicePermissionsOutput: Swift.Equatable {
+public struct ModifySelfservicePermissionsOutput {
 
     public init() { }
 }
@@ -11058,7 +11058,7 @@ extension ModifyWorkspaceAccessPropertiesInput {
     }
 }
 
-public struct ModifyWorkspaceAccessPropertiesInput: Swift.Equatable {
+public struct ModifyWorkspaceAccessPropertiesInput {
     /// The identifier of the directory.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -11076,7 +11076,7 @@ public struct ModifyWorkspaceAccessPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifyWorkspaceAccessPropertiesInputBody: Swift.Equatable {
+struct ModifyWorkspaceAccessPropertiesInputBody {
     let resourceId: Swift.String?
     let workspaceAccessProperties: WorkSpacesClientTypes.WorkspaceAccessProperties?
 }
@@ -11101,7 +11101,7 @@ extension ModifyWorkspaceAccessPropertiesOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ModifyWorkspaceAccessPropertiesOutput: Swift.Equatable {
+public struct ModifyWorkspaceAccessPropertiesOutput {
 
     public init() { }
 }
@@ -11142,7 +11142,7 @@ extension ModifyWorkspaceCreationPropertiesInput {
     }
 }
 
-public struct ModifyWorkspaceCreationPropertiesInput: Swift.Equatable {
+public struct ModifyWorkspaceCreationPropertiesInput {
     /// The identifier of the directory.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -11160,7 +11160,7 @@ public struct ModifyWorkspaceCreationPropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifyWorkspaceCreationPropertiesInputBody: Swift.Equatable {
+struct ModifyWorkspaceCreationPropertiesInputBody {
     let resourceId: Swift.String?
     let workspaceCreationProperties: WorkSpacesClientTypes.WorkspaceCreationProperties?
 }
@@ -11185,7 +11185,7 @@ extension ModifyWorkspaceCreationPropertiesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ModifyWorkspaceCreationPropertiesOutput: Swift.Equatable {
+public struct ModifyWorkspaceCreationPropertiesOutput {
 
     public init() { }
 }
@@ -11232,7 +11232,7 @@ extension ModifyWorkspacePropertiesInput {
     }
 }
 
-public struct ModifyWorkspacePropertiesInput: Swift.Equatable {
+public struct ModifyWorkspacePropertiesInput {
     /// Indicates the data replication status.
     public var dataReplication: WorkSpacesClientTypes.DataReplication?
     /// The identifier of the WorkSpace.
@@ -11253,7 +11253,7 @@ public struct ModifyWorkspacePropertiesInput: Swift.Equatable {
     }
 }
 
-struct ModifyWorkspacePropertiesInputBody: Swift.Equatable {
+struct ModifyWorkspacePropertiesInputBody {
     let workspaceId: Swift.String?
     let workspaceProperties: WorkSpacesClientTypes.WorkspaceProperties?
     let dataReplication: WorkSpacesClientTypes.DataReplication?
@@ -11282,7 +11282,7 @@ extension ModifyWorkspacePropertiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyWorkspacePropertiesOutput: Swift.Equatable {
+public struct ModifyWorkspacePropertiesOutput {
 
     public init() { }
 }
@@ -11328,7 +11328,7 @@ extension ModifyWorkspaceStateInput {
     }
 }
 
-public struct ModifyWorkspaceStateInput: Swift.Equatable {
+public struct ModifyWorkspaceStateInput {
     /// The identifier of the WorkSpace.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -11346,7 +11346,7 @@ public struct ModifyWorkspaceStateInput: Swift.Equatable {
     }
 }
 
-struct ModifyWorkspaceStateInputBody: Swift.Equatable {
+struct ModifyWorkspaceStateInputBody {
     let workspaceId: Swift.String?
     let workspaceState: WorkSpacesClientTypes.TargetWorkspaceState?
 }
@@ -11371,7 +11371,7 @@ extension ModifyWorkspaceStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyWorkspaceStateOutput: Swift.Equatable {
+public struct ModifyWorkspaceStateOutput {
 
     public init() { }
 }
@@ -11411,7 +11411,7 @@ extension WorkSpacesClientTypes.OperatingSystem: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// The operating system that the image is running.
-    public struct OperatingSystem: Swift.Equatable {
+    public struct OperatingSystem {
         /// The operating system.
         public var type: WorkSpacesClientTypes.OperatingSystemType?
 
@@ -11576,7 +11576,7 @@ public struct OperationInProgressException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct OperationInProgressExceptionBody: Swift.Equatable {
+struct OperationInProgressExceptionBody {
     let message: Swift.String?
 }
 
@@ -11638,7 +11638,7 @@ public struct OperationNotSupportedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotSupportedExceptionBody: Swift.Equatable {
+struct OperationNotSupportedExceptionBody {
     let message: Swift.String?
     let reason: Swift.String?
 }
@@ -11697,7 +11697,7 @@ extension WorkSpacesClientTypes.PendingCreateStandbyWorkspacesRequest: Swift.Cod
 
 extension WorkSpacesClientTypes {
     /// Information about the standby WorkSpace.
-    public struct PendingCreateStandbyWorkspacesRequest: Swift.Equatable {
+    public struct PendingCreateStandbyWorkspacesRequest {
         /// The identifier of the directory for the standby WorkSpace.
         public var directoryId: Swift.String?
         /// The operational state of the standby WorkSpace.
@@ -11776,7 +11776,7 @@ extension WorkSpacesClientTypes.RebootRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the information used to reboot a WorkSpace.
-    public struct RebootRequest: Swift.Equatable {
+    public struct RebootRequest {
         /// The identifier of the WorkSpace.
         /// This member is required.
         public var workspaceId: Swift.String?
@@ -11814,7 +11814,7 @@ extension RebootWorkspacesInput {
     }
 }
 
-public struct RebootWorkspacesInput: Swift.Equatable {
+public struct RebootWorkspacesInput {
     /// The WorkSpaces to reboot. You can specify up to 25 WorkSpaces.
     /// This member is required.
     public var rebootWorkspaceRequests: [WorkSpacesClientTypes.RebootRequest]?
@@ -11827,7 +11827,7 @@ public struct RebootWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct RebootWorkspacesInputBody: Swift.Equatable {
+struct RebootWorkspacesInputBody {
     let rebootWorkspaceRequests: [WorkSpacesClientTypes.RebootRequest]?
 }
 
@@ -11864,7 +11864,7 @@ extension RebootWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebootWorkspacesOutput: Swift.Equatable {
+public struct RebootWorkspacesOutput {
     /// Information about the WorkSpaces that could not be rebooted.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
@@ -11876,7 +11876,7 @@ public struct RebootWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct RebootWorkspacesOutputBody: Swift.Equatable {
+struct RebootWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 }
 
@@ -11933,7 +11933,7 @@ extension WorkSpacesClientTypes.RebuildRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the information used to rebuild a WorkSpace.
-    public struct RebuildRequest: Swift.Equatable {
+    public struct RebuildRequest {
         /// The identifier of the WorkSpace.
         /// This member is required.
         public var workspaceId: Swift.String?
@@ -11971,7 +11971,7 @@ extension RebuildWorkspacesInput {
     }
 }
 
-public struct RebuildWorkspacesInput: Swift.Equatable {
+public struct RebuildWorkspacesInput {
     /// The WorkSpace to rebuild. You can specify a single WorkSpace.
     /// This member is required.
     public var rebuildWorkspaceRequests: [WorkSpacesClientTypes.RebuildRequest]?
@@ -11984,7 +11984,7 @@ public struct RebuildWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct RebuildWorkspacesInputBody: Swift.Equatable {
+struct RebuildWorkspacesInputBody {
     let rebuildWorkspaceRequests: [WorkSpacesClientTypes.RebuildRequest]?
 }
 
@@ -12021,7 +12021,7 @@ extension RebuildWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RebuildWorkspacesOutput: Swift.Equatable {
+public struct RebuildWorkspacesOutput {
     /// Information about the WorkSpace that could not be rebuilt.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
@@ -12033,7 +12033,7 @@ public struct RebuildWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct RebuildWorkspacesOutputBody: Swift.Equatable {
+struct RebuildWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 }
 
@@ -12147,7 +12147,7 @@ extension RegisterWorkspaceDirectoryInput {
     }
 }
 
-public struct RegisterWorkspaceDirectoryInput: Swift.Equatable {
+public struct RegisterWorkspaceDirectoryInput {
     /// The identifier of the directory. You cannot register a directory if it does not have a status of Active. If the directory does not have a status of Active, you will receive an InvalidResourceStateException error. If you have already registered the maximum number of directories that you can register with Amazon WorkSpaces, you will receive a ResourceLimitExceededException error. Deregister directories that you are not using for WorkSpaces, and try again.
     /// This member is required.
     public var directoryId: Swift.String?
@@ -12181,7 +12181,7 @@ public struct RegisterWorkspaceDirectoryInput: Swift.Equatable {
     }
 }
 
-struct RegisterWorkspaceDirectoryInputBody: Swift.Equatable {
+struct RegisterWorkspaceDirectoryInputBody {
     let directoryId: Swift.String?
     let subnetIds: [Swift.String]?
     let enableWorkDocs: Swift.Bool?
@@ -12240,7 +12240,7 @@ extension RegisterWorkspaceDirectoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterWorkspaceDirectoryOutput: Swift.Equatable {
+public struct RegisterWorkspaceDirectoryOutput {
 
     public init() { }
 }
@@ -12287,7 +12287,7 @@ extension RejectAccountLinkInvitationInput {
     }
 }
 
-public struct RejectAccountLinkInvitationInput: Swift.Equatable {
+public struct RejectAccountLinkInvitationInput {
     /// The client token of the account link invitation to reject.
     public var clientToken: Swift.String?
     /// The identifier of the account link
@@ -12304,7 +12304,7 @@ public struct RejectAccountLinkInvitationInput: Swift.Equatable {
     }
 }
 
-struct RejectAccountLinkInvitationInputBody: Swift.Equatable {
+struct RejectAccountLinkInvitationInputBody {
     let linkId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -12336,7 +12336,7 @@ extension RejectAccountLinkInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RejectAccountLinkInvitationOutput: Swift.Equatable {
+public struct RejectAccountLinkInvitationOutput {
     /// Information about the account link.
     public var accountLink: WorkSpacesClientTypes.AccountLink?
 
@@ -12348,7 +12348,7 @@ public struct RejectAccountLinkInvitationOutput: Swift.Equatable {
     }
 }
 
-struct RejectAccountLinkInvitationOutputBody: Swift.Equatable {
+struct RejectAccountLinkInvitationOutputBody {
     let accountLink: WorkSpacesClientTypes.AccountLink?
 }
 
@@ -12418,7 +12418,7 @@ extension WorkSpacesClientTypes.RelatedWorkspaceProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the related WorkSpace. The related WorkSpace could be a standby WorkSpace or primary WorkSpace related to the specified WorkSpace.
-    public struct RelatedWorkspaceProperties: Swift.Equatable {
+    public struct RelatedWorkspaceProperties {
         /// The Region of the related WorkSpace.
         public var region: Swift.String?
         /// Indicates the state of the WorkSpace.
@@ -12483,7 +12483,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -12538,7 +12538,7 @@ public struct ResourceAssociatedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ResourceAssociatedExceptionBody: Swift.Equatable {
+struct ResourceAssociatedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12593,7 +12593,7 @@ public struct ResourceCreationFailedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ResourceCreationFailedExceptionBody: Swift.Equatable {
+struct ResourceCreationFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12654,7 +12654,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -12714,7 +12714,7 @@ public struct ResourceLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceLimitExceededExceptionBody: Swift.Equatable {
+struct ResourceLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -12776,7 +12776,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -12842,7 +12842,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -12882,7 +12882,7 @@ extension RestoreWorkspaceInput {
     }
 }
 
-public struct RestoreWorkspaceInput: Swift.Equatable {
+public struct RestoreWorkspaceInput {
     /// The identifier of the WorkSpace.
     /// This member is required.
     public var workspaceId: Swift.String?
@@ -12895,7 +12895,7 @@ public struct RestoreWorkspaceInput: Swift.Equatable {
     }
 }
 
-struct RestoreWorkspaceInputBody: Swift.Equatable {
+struct RestoreWorkspaceInputBody {
     let workspaceId: Swift.String?
 }
 
@@ -12916,7 +12916,7 @@ extension RestoreWorkspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreWorkspaceOutput: Swift.Equatable {
+public struct RestoreWorkspaceOutput {
 
     public init() { }
 }
@@ -12962,7 +12962,7 @@ extension RevokeIpRulesInput {
     }
 }
 
-public struct RevokeIpRulesInput: Swift.Equatable {
+public struct RevokeIpRulesInput {
     /// The identifier of the group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -12980,7 +12980,7 @@ public struct RevokeIpRulesInput: Swift.Equatable {
     }
 }
 
-struct RevokeIpRulesInputBody: Swift.Equatable {
+struct RevokeIpRulesInputBody {
     let groupId: Swift.String?
     let userRules: [Swift.String]?
 }
@@ -13014,7 +13014,7 @@ extension RevokeIpRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeIpRulesOutput: Swift.Equatable {
+public struct RevokeIpRulesOutput {
 
     public init() { }
 }
@@ -13054,7 +13054,7 @@ extension WorkSpacesClientTypes.RootStorage: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the root volume for a WorkSpace bundle.
-    public struct RootStorage: Swift.Equatable {
+    public struct RootStorage {
         /// The size of the root volume.
         public var capacity: Swift.String?
 
@@ -13136,7 +13136,7 @@ extension WorkSpacesClientTypes.SamlProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the enablement status, user access URL, and relay state parameter name that are used for configuring federation with an SAML 2.0 identity provider.
-    public struct SamlProperties: Swift.Equatable {
+    public struct SamlProperties {
         /// The relay state parameter name supported by the SAML 2.0 identity provider (IdP). When the end user is redirected to the user access URL from the WorkSpaces client application, this relay state parameter name is appended as a query parameter to the URL along with the relay state endpoint to return the user to the client application session. To use SAML 2.0 authentication with WorkSpaces, the IdP must support IdP-initiated deep linking for the relay state URL. Consult your IdP documentation for more information.
         public var relayStateParameterName: Swift.String?
         /// Indicates the status of SAML 2.0 authentication. These statuses include the following.
@@ -13244,7 +13244,7 @@ extension WorkSpacesClientTypes.SelfservicePermissions: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the self-service permissions for a directory. For more information, see [Enable Self-Service WorkSpace Management Capabilities for Your Users](https://docs.aws.amazon.com/workspaces/latest/adminguide/enable-user-self-service-workspace-management.html).
-    public struct SelfservicePermissions: Swift.Equatable {
+    public struct SelfservicePermissions {
         /// Specifies whether users can change the compute type (bundle) for their WorkSpace.
         public var changeComputeType: WorkSpacesClientTypes.ReconnectEnum?
         /// Specifies whether users can increase the volume size of the drives on their WorkSpace.
@@ -13295,7 +13295,7 @@ extension WorkSpacesClientTypes.Snapshot: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a snapshot.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// The time when the snapshot was created.
         public var snapshotTime: ClientRuntime.Date?
 
@@ -13366,7 +13366,7 @@ extension WorkSpacesClientTypes.StandbyWorkspace: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a standby WorkSpace.
-    public struct StandbyWorkspace: Swift.Equatable {
+    public struct StandbyWorkspace {
         /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
         public var dataReplication: WorkSpacesClientTypes.DataReplication?
         /// The identifier of the directory for the standby WorkSpace.
@@ -13463,7 +13463,7 @@ extension WorkSpacesClientTypes.StandbyWorkspacesProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the properties of the related standby WorkSpaces.
-    public struct StandbyWorkspacesProperties: Swift.Equatable {
+    public struct StandbyWorkspacesProperties {
         /// Indicates whether data replication is enabled, and if enabled, the type of data replication.
         public var dataReplication: WorkSpacesClientTypes.DataReplication?
         /// The date and time at which the last successful snapshot was taken of the primary WorkSpace used for replicating data.
@@ -13506,7 +13506,7 @@ extension WorkSpacesClientTypes.StartRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Information used to start a WorkSpace.
-    public struct StartRequest: Swift.Equatable {
+    public struct StartRequest {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
@@ -13543,7 +13543,7 @@ extension StartWorkspacesInput {
     }
 }
 
-public struct StartWorkspacesInput: Swift.Equatable {
+public struct StartWorkspacesInput {
     /// The WorkSpaces to start. You can specify up to 25 WorkSpaces.
     /// This member is required.
     public var startWorkspaceRequests: [WorkSpacesClientTypes.StartRequest]?
@@ -13556,7 +13556,7 @@ public struct StartWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct StartWorkspacesInputBody: Swift.Equatable {
+struct StartWorkspacesInputBody {
     let startWorkspaceRequests: [WorkSpacesClientTypes.StartRequest]?
 }
 
@@ -13593,7 +13593,7 @@ extension StartWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartWorkspacesOutput: Swift.Equatable {
+public struct StartWorkspacesOutput {
     /// Information about the WorkSpaces that could not be started.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
@@ -13605,7 +13605,7 @@ public struct StartWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct StartWorkspacesOutputBody: Swift.Equatable {
+struct StartWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 }
 
@@ -13661,7 +13661,7 @@ extension WorkSpacesClientTypes.StopRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the information used to stop a WorkSpace.
-    public struct StopRequest: Swift.Equatable {
+    public struct StopRequest {
         /// The identifier of the WorkSpace.
         public var workspaceId: Swift.String?
 
@@ -13698,7 +13698,7 @@ extension StopWorkspacesInput {
     }
 }
 
-public struct StopWorkspacesInput: Swift.Equatable {
+public struct StopWorkspacesInput {
     /// The WorkSpaces to stop. You can specify up to 25 WorkSpaces.
     /// This member is required.
     public var stopWorkspaceRequests: [WorkSpacesClientTypes.StopRequest]?
@@ -13711,7 +13711,7 @@ public struct StopWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct StopWorkspacesInputBody: Swift.Equatable {
+struct StopWorkspacesInputBody {
     let stopWorkspaceRequests: [WorkSpacesClientTypes.StopRequest]?
 }
 
@@ -13748,7 +13748,7 @@ extension StopWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopWorkspacesOutput: Swift.Equatable {
+public struct StopWorkspacesOutput {
     /// Information about the WorkSpaces that could not be stopped.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
@@ -13760,7 +13760,7 @@ public struct StopWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct StopWorkspacesOutputBody: Swift.Equatable {
+struct StopWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 }
 
@@ -13822,7 +13822,7 @@ extension WorkSpacesClientTypes.Tag: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -13926,7 +13926,7 @@ extension WorkSpacesClientTypes.TerminateRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the information used to terminate a WorkSpace.
-    public struct TerminateRequest: Swift.Equatable {
+    public struct TerminateRequest {
         /// The identifier of the WorkSpace.
         /// This member is required.
         public var workspaceId: Swift.String?
@@ -13964,7 +13964,7 @@ extension TerminateWorkspacesInput {
     }
 }
 
-public struct TerminateWorkspacesInput: Swift.Equatable {
+public struct TerminateWorkspacesInput {
     /// The WorkSpaces to terminate. You can specify up to 25 WorkSpaces.
     /// This member is required.
     public var terminateWorkspaceRequests: [WorkSpacesClientTypes.TerminateRequest]?
@@ -13977,7 +13977,7 @@ public struct TerminateWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct TerminateWorkspacesInputBody: Swift.Equatable {
+struct TerminateWorkspacesInputBody {
     let terminateWorkspaceRequests: [WorkSpacesClientTypes.TerminateRequest]?
 }
 
@@ -14014,7 +14014,7 @@ extension TerminateWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateWorkspacesOutput: Swift.Equatable {
+public struct TerminateWorkspacesOutput {
     /// Information about the WorkSpaces that could not be terminated.
     public var failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 
@@ -14026,7 +14026,7 @@ public struct TerminateWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct TerminateWorkspacesOutputBody: Swift.Equatable {
+struct TerminateWorkspacesOutputBody {
     let failedRequests: [WorkSpacesClientTypes.FailedWorkspaceChangeRequest]?
 }
 
@@ -14100,7 +14100,7 @@ public struct UnsupportedNetworkConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct UnsupportedNetworkConfigurationExceptionBody: Swift.Equatable {
+struct UnsupportedNetworkConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14155,7 +14155,7 @@ public struct UnsupportedWorkspaceConfigurationException: ClientRuntime.ModeledE
     }
 }
 
-struct UnsupportedWorkspaceConfigurationExceptionBody: Swift.Equatable {
+struct UnsupportedWorkspaceConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14203,7 +14203,7 @@ extension UpdateConnectClientAddInInput {
     }
 }
 
-public struct UpdateConnectClientAddInInput: Swift.Equatable {
+public struct UpdateConnectClientAddInInput {
     /// The identifier of the client add-in to update.
     /// This member is required.
     public var addInId: Swift.String?
@@ -14229,7 +14229,7 @@ public struct UpdateConnectClientAddInInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectClientAddInInputBody: Swift.Equatable {
+struct UpdateConnectClientAddInInputBody {
     let addInId: Swift.String?
     let resourceId: Swift.String?
     let name: Swift.String?
@@ -14262,7 +14262,7 @@ extension UpdateConnectClientAddInOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectClientAddInOutput: Swift.Equatable {
+public struct UpdateConnectClientAddInOutput {
 
     public init() { }
 }
@@ -14304,7 +14304,7 @@ extension UpdateConnectionAliasPermissionInput {
     }
 }
 
-public struct UpdateConnectionAliasPermissionInput: Swift.Equatable {
+public struct UpdateConnectionAliasPermissionInput {
     /// The identifier of the connection alias that you want to update permissions for.
     /// This member is required.
     public var aliasId: Swift.String?
@@ -14322,7 +14322,7 @@ public struct UpdateConnectionAliasPermissionInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectionAliasPermissionInputBody: Swift.Equatable {
+struct UpdateConnectionAliasPermissionInputBody {
     let aliasId: Swift.String?
     let connectionAliasPermission: WorkSpacesClientTypes.ConnectionAliasPermission?
 }
@@ -14347,7 +14347,7 @@ extension UpdateConnectionAliasPermissionOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateConnectionAliasPermissionOutput: Swift.Equatable {
+public struct UpdateConnectionAliasPermissionOutput {
 
     public init() { }
 }
@@ -14396,7 +14396,7 @@ extension WorkSpacesClientTypes.UpdateResult: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes whether a WorkSpace image needs to be updated with the latest drivers and other components required by Amazon WorkSpaces. Only Windows 10 WorkSpace images can be programmatically updated at this time.
-    public struct UpdateResult: Swift.Equatable {
+    public struct UpdateResult {
         /// A description of whether updates for the WorkSpace image are pending or available.
         public var description: Swift.String?
         /// Indicates whether updated drivers or other components are available for the specified WorkSpace image.
@@ -14441,7 +14441,7 @@ extension UpdateRulesOfIpGroupInput {
     }
 }
 
-public struct UpdateRulesOfIpGroupInput: Swift.Equatable {
+public struct UpdateRulesOfIpGroupInput {
     /// The identifier of the group.
     /// This member is required.
     public var groupId: Swift.String?
@@ -14459,7 +14459,7 @@ public struct UpdateRulesOfIpGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateRulesOfIpGroupInputBody: Swift.Equatable {
+struct UpdateRulesOfIpGroupInputBody {
     let groupId: Swift.String?
     let userRules: [WorkSpacesClientTypes.IpRuleItem]?
 }
@@ -14493,7 +14493,7 @@ extension UpdateRulesOfIpGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRulesOfIpGroupOutput: Swift.Equatable {
+public struct UpdateRulesOfIpGroupOutput {
 
     public init() { }
 }
@@ -14537,7 +14537,7 @@ extension UpdateWorkspaceBundleInput {
     }
 }
 
-public struct UpdateWorkspaceBundleInput: Swift.Equatable {
+public struct UpdateWorkspaceBundleInput {
     /// The identifier of the bundle.
     public var bundleId: Swift.String?
     /// The identifier of the image.
@@ -14553,7 +14553,7 @@ public struct UpdateWorkspaceBundleInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceBundleInputBody: Swift.Equatable {
+struct UpdateWorkspaceBundleInputBody {
     let bundleId: Swift.String?
     let imageId: Swift.String?
 }
@@ -14578,7 +14578,7 @@ extension UpdateWorkspaceBundleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkspaceBundleOutput: Swift.Equatable {
+public struct UpdateWorkspaceBundleOutput {
 
     public init() { }
 }
@@ -14626,7 +14626,7 @@ extension UpdateWorkspaceImagePermissionInput {
     }
 }
 
-public struct UpdateWorkspaceImagePermissionInput: Swift.Equatable {
+public struct UpdateWorkspaceImagePermissionInput {
     /// The permission to copy the image. This permission can be revoked only after an image has been shared.
     /// This member is required.
     public var allowCopyImage: Swift.Bool?
@@ -14649,7 +14649,7 @@ public struct UpdateWorkspaceImagePermissionInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkspaceImagePermissionInputBody: Swift.Equatable {
+struct UpdateWorkspaceImagePermissionInputBody {
     let imageId: Swift.String?
     let allowCopyImage: Swift.Bool?
     let sharedAccountId: Swift.String?
@@ -14678,7 +14678,7 @@ extension UpdateWorkspaceImagePermissionOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateWorkspaceImagePermissionOutput: Swift.Equatable {
+public struct UpdateWorkspaceImagePermissionOutput {
 
     public init() { }
 }
@@ -14719,7 +14719,7 @@ extension WorkSpacesClientTypes.UserStorage: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the user volume for a WorkSpace bundle.
-    public struct UserStorage: Swift.Equatable {
+    public struct UserStorage {
         /// The size of the user volume.
         public var capacity: Swift.String?
 
@@ -14772,7 +14772,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -14881,7 +14881,7 @@ extension WorkSpacesClientTypes.WorkSpaceApplication: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the WorkSpace application.
-    public struct WorkSpaceApplication: Swift.Equatable {
+    public struct WorkSpaceApplication {
         /// The identifier of the application.
         public var applicationId: Swift.String?
         /// The time the application is created.
@@ -14960,7 +14960,7 @@ extension WorkSpacesClientTypes.WorkSpaceApplicationDeployment: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the WorkSpace application deployment.
-    public struct WorkSpaceApplicationDeployment: Swift.Equatable {
+    public struct WorkSpaceApplicationDeployment {
         /// The associations between the applications and the associated resources.
         public var associations: [WorkSpacesClientTypes.WorkspaceResourceAssociation]?
 
@@ -15240,7 +15240,7 @@ extension WorkSpacesClientTypes.Workspace: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace.
-    public struct Workspace: Swift.Equatable {
+    public struct Workspace {
         /// The identifier of the bundle used to create the WorkSpace.
         public var bundleId: Swift.String?
         /// The name of the WorkSpace, as seen by the operating system. The format of this name varies. For more information, see [ Launch a WorkSpace](https://docs.aws.amazon.com/workspaces/latest/adminguide/launch-workspaces-tutorials.html).
@@ -15426,7 +15426,7 @@ extension WorkSpacesClientTypes.WorkspaceAccessProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// The device types and operating systems that can be used to access a WorkSpace. For more information, see [Amazon WorkSpaces Client Network Requirements](https://docs.aws.amazon.com/workspaces/latest/adminguide/workspaces-network-requirements.html).
-    public struct WorkspaceAccessProperties: Swift.Equatable {
+    public struct WorkspaceAccessProperties {
         /// Indicates whether users can use Android and Android-compatible Chrome OS devices to access their WorkSpaces.
         public var deviceTypeAndroid: WorkSpacesClientTypes.AccessPropertyValue?
         /// Indicates whether users can use Chromebooks to access their WorkSpaces.
@@ -15555,7 +15555,7 @@ extension WorkSpacesClientTypes.WorkspaceBundle: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace bundle.
-    public struct WorkspaceBundle: Swift.Equatable {
+    public struct WorkspaceBundle {
         /// The identifier of the bundle.
         public var bundleId: Swift.String?
         /// The type of WorkSpace bundle.
@@ -15687,7 +15687,7 @@ extension WorkSpacesClientTypes.WorkspaceConnectionStatus: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the connection status of a WorkSpace.
-    public struct WorkspaceConnectionStatus: Swift.Equatable {
+    public struct WorkspaceConnectionStatus {
         /// The connection state of the WorkSpace. The connection state is unknown if the WorkSpace is stopped.
         public var connectionState: WorkSpacesClientTypes.ConnectionState?
         /// The timestamp of the connection status check.
@@ -15764,7 +15764,7 @@ extension WorkSpacesClientTypes.WorkspaceCreationProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the default properties that are used for creating WorkSpaces. For more information, see [Update Directory Details for Your WorkSpaces](https://docs.aws.amazon.com/workspaces/latest/adminguide/update-directory-details.html).
-    public struct WorkspaceCreationProperties: Swift.Equatable {
+    public struct WorkspaceCreationProperties {
         /// The identifier of your custom security group.
         public var customSecurityGroupId: Swift.String?
         /// The default organizational unit (OU) for your WorkSpaces directories. This string must be the full Lightweight Directory Access Protocol (LDAP) distinguished name for the target domain and OU. It must be in the form "OU=value,DC=value,DC=value", where value is any string of characters, and the number of domain components (DCs) is two or more. For example, OU=WorkSpaces_machines,DC=machines,DC=example,DC=com.
@@ -15961,7 +15961,7 @@ extension WorkSpacesClientTypes.WorkspaceDirectory: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a directory that is used with Amazon WorkSpaces.
-    public struct WorkspaceDirectory: Swift.Equatable {
+    public struct WorkspaceDirectory {
         /// The directory alias.
         public var alias: Swift.String?
         /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory for WorkSpaces login.
@@ -16215,7 +16215,7 @@ extension WorkSpacesClientTypes.WorkspaceImage: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace image.
-    public struct WorkspaceImage: Swift.Equatable {
+    public struct WorkspaceImage {
         /// The date when the image was created. If the image has been shared, the Amazon Web Services account that the image has been shared with sees the original creation date of the image.
         public var created: ClientRuntime.Date?
         /// The description of the image.
@@ -16560,7 +16560,7 @@ extension WorkSpacesClientTypes.WorkspaceProperties: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes a WorkSpace.
-    public struct WorkspaceProperties: Swift.Equatable {
+    public struct WorkspaceProperties {
         /// The compute type. For more information, see [Amazon WorkSpaces Bundles](http://aws.amazon.com/workspaces/details/#Amazon_WorkSpaces_Bundles).
         public var computeTypeName: WorkSpacesClientTypes.Compute?
         /// The name of the operating system.
@@ -16685,7 +16685,7 @@ extension WorkSpacesClientTypes.WorkspaceRequest: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the information used to create a WorkSpace.
-    public struct WorkspaceRequest: Swift.Equatable {
+    public struct WorkspaceRequest {
         /// The identifier of the bundle for the WorkSpace. You can use [DescribeWorkspaceBundles] to list the available bundles.
         /// This member is required.
         public var bundleId: Swift.String?
@@ -16791,7 +16791,7 @@ extension WorkSpacesClientTypes.WorkspaceResourceAssociation: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes the association between an application and a WorkSpace resource.
-    public struct WorkspaceResourceAssociation: Swift.Equatable {
+    public struct WorkspaceResourceAssociation {
         /// The identifier of the associated resource.
         public var associatedResourceId: Swift.String?
         /// The resource types of the associated resource.
@@ -16945,7 +16945,7 @@ public struct WorkspacesDefaultRoleNotFoundException: ClientRuntime.ModeledError
     }
 }
 
-struct WorkspacesDefaultRoleNotFoundExceptionBody: Swift.Equatable {
+struct WorkspacesDefaultRoleNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -17012,7 +17012,7 @@ extension WorkSpacesClientTypes.WorkspacesIpGroup: Swift.Codable {
 
 extension WorkSpacesClientTypes {
     /// Describes an IP access control group.
-    public struct WorkspacesIpGroup: Swift.Equatable {
+    public struct WorkspacesIpGroup {
         /// The description of the group.
         public var groupDesc: Swift.String?
         /// The identifier of the group.

@@ -31,7 +31,7 @@ extension AddSourceIdentifierToSubscriptionInput {
 }
 
 /// Represents the input to [AddSourceIdentifierToSubscription].
-public struct AddSourceIdentifierToSubscriptionInput: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionInput {
     /// The identifier of the event source to be added:
     ///
     /// * If the source type is an instance, a DBInstanceIdentifier must be provided.
@@ -70,7 +70,7 @@ extension AddSourceIdentifierToSubscriptionOutput {
     }
 }
 
-public struct AddSourceIdentifierToSubscriptionOutput: Swift.Equatable {
+public struct AddSourceIdentifierToSubscriptionOutput {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -136,7 +136,7 @@ extension AddTagsToResourceInput {
 }
 
 /// Represents the input to [AddTagsToResource].
-public struct AddTagsToResourceInput: Swift.Equatable {
+public struct AddTagsToResourceInput {
     /// The Amazon DocumentDB resource that the tags are added to. This value is an Amazon Resource Name .
     /// This member is required.
     public var resourceName: Swift.String?
@@ -163,7 +163,7 @@ extension AddTagsToResourceOutput {
     }
 }
 
-public struct AddTagsToResourceOutput: Swift.Equatable {
+public struct AddTagsToResourceOutput {
 
     public init() { }
 }
@@ -250,7 +250,7 @@ extension ApplyPendingMaintenanceActionInput {
 }
 
 /// Represents the input to [ApplyPendingMaintenanceAction].
-public struct ApplyPendingMaintenanceActionInput: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionInput {
     /// The pending maintenance action to apply to this resource. Valid values: system-update, db-upgrade
     /// This member is required.
     public var applyAction: Swift.String?
@@ -292,7 +292,7 @@ extension ApplyPendingMaintenanceActionOutput {
     }
 }
 
-public struct ApplyPendingMaintenanceActionOutput: Swift.Equatable {
+public struct ApplyPendingMaintenanceActionOutput {
     /// Represents the output of [ApplyPendingMaintenanceAction].
     public var resourcePendingMaintenanceActions: DocDBClientTypes.ResourcePendingMaintenanceActions?
 
@@ -383,7 +383,7 @@ extension DocDBClientTypes.AvailabilityZone: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Information about an Availability Zone.
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
@@ -446,7 +446,7 @@ extension DocDBClientTypes.Certificate: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// A certificate authority (CA) certificate for an Amazon Web Services account.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The Amazon Resource Name (ARN) for the certificate. Example: arn:aws:rds:us-east-1::cert:rds-ca-2019
         public var certificateArn: Swift.String?
         /// The unique key that identifies a certificate. Example: rds-ca-2019
@@ -509,7 +509,7 @@ extension DocDBClientTypes.CertificateDetails: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Returns the details of the DB instance’s server certificate. For more information, see [Updating Your Amazon DocumentDB TLS Certificates](https://docs.aws.amazon.com/documentdb/latest/developerguide/ca_cert_rotation.html) and [ Encrypting Data in Transit](https://docs.aws.amazon.com/documentdb/latest/developerguide/security.encryption.ssl.html) in the Amazon DocumentDB Developer Guide.
-    public struct CertificateDetails: Swift.Equatable {
+    public struct CertificateDetails {
         /// The CA identifier of the CA certificate used for the DB instance's server certificate.
         public var caIdentifier: Swift.String?
         /// The expiration date of the DB instance’s server certificate.
@@ -610,7 +610,7 @@ extension DocDBClientTypes.CloudwatchLogsExportConfiguration: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// The configuration setting for the log types to be enabled for export to Amazon CloudWatch Logs for a specific instance or cluster. The EnableLogTypes and DisableLogTypes arrays determine which logs are exported (or not exported) to CloudWatch Logs. The values within these arrays depend on the engine that is being used.
-    public struct CloudwatchLogsExportConfiguration: Swift.Equatable {
+    public struct CloudwatchLogsExportConfiguration {
         /// The list of log types to disable.
         public var disableLogTypes: [Swift.String]?
         /// The list of log types to enable.
@@ -672,7 +672,7 @@ extension CopyDBClusterParameterGroupInput {
 }
 
 /// Represents the input to [CopyDBClusterParameterGroup].
-public struct CopyDBClusterParameterGroupInput: Swift.Equatable {
+public struct CopyDBClusterParameterGroupInput {
     /// The identifier or Amazon Resource Name (ARN) for the source cluster parameter group. Constraints:
     ///
     /// * Must specify a valid cluster parameter group.
@@ -729,7 +729,7 @@ extension CopyDBClusterParameterGroupOutput {
     }
 }
 
-public struct CopyDBClusterParameterGroupOutput: Swift.Equatable {
+public struct CopyDBClusterParameterGroupOutput {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
@@ -812,7 +812,7 @@ extension CopyDBClusterSnapshotInput {
 }
 
 /// Represents the input to [CopyDBClusterSnapshot].
-public struct CopyDBClusterSnapshotInput: Swift.Equatable {
+public struct CopyDBClusterSnapshotInput {
     /// Set to true to copy all tags from the source cluster snapshot to the target cluster snapshot, and otherwise false. The default is false.
     public var copyTags: Swift.Bool?
     /// The KMS key ID for an encrypted cluster snapshot. The KMS key ID is the Amazon Resource Name (ARN), KMS key identifier, or the KMS key alias for the KMS encryption key. If you copy an encrypted cluster snapshot from your Amazon Web Services account, you can specify a value for KmsKeyId to encrypt the copy with a new KMS encryption key. If you don't specify a value for KmsKeyId, then the copy of the cluster snapshot is encrypted with the same KMS key as the source cluster snapshot. If you copy an encrypted cluster snapshot that is shared from another Amazon Web Services account, then you must specify a value for KmsKeyId. To copy an encrypted cluster snapshot to another Amazon Web Services Region, set KmsKeyId to the KMS key ID that you want to use to encrypt the copy of the cluster snapshot in the destination Region. KMS encryption keys are specific to the Amazon Web Services Region that they are created in, and you can't use encryption keys from one Amazon Web Services Region in another Amazon Web Services Region. If you copy an unencrypted cluster snapshot and specify a value for the KmsKeyId parameter, an error is returned.
@@ -883,7 +883,7 @@ extension CopyDBClusterSnapshotOutput {
     }
 }
 
-public struct CopyDBClusterSnapshotOutput: Swift.Equatable {
+public struct CopyDBClusterSnapshotOutput {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
@@ -1056,7 +1056,7 @@ extension CreateDBClusterInput {
 }
 
 /// Represents the input to [CreateDBCluster].
-public struct CreateDBClusterInput: Swift.Equatable {
+public struct CreateDBClusterInput {
     /// A list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
     public var availabilityZones: [Swift.String]?
     /// The number of days for which automated backups are retained. You must specify a minimum value of 1. Default: 1 Constraints:
@@ -1193,7 +1193,7 @@ extension CreateDBClusterOutput {
     }
 }
 
-public struct CreateDBClusterOutput: Swift.Equatable {
+public struct CreateDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -1282,7 +1282,7 @@ extension CreateDBClusterParameterGroupInput {
 }
 
 /// Represents the input of [CreateDBClusterParameterGroup].
-public struct CreateDBClusterParameterGroupInput: Swift.Equatable {
+public struct CreateDBClusterParameterGroupInput {
     /// The name of the cluster parameter group. Constraints:
     ///
     /// * Must not match the name of an existing DBClusterParameterGroup.
@@ -1327,7 +1327,7 @@ extension CreateDBClusterParameterGroupOutput {
     }
 }
 
-public struct CreateDBClusterParameterGroupOutput: Swift.Equatable {
+public struct CreateDBClusterParameterGroupOutput {
     /// Detailed information about a cluster parameter group.
     public var dbClusterParameterGroup: DocDBClientTypes.DBClusterParameterGroup?
 
@@ -1397,7 +1397,7 @@ extension CreateDBClusterSnapshotInput {
 }
 
 /// Represents the input of [CreateDBClusterSnapshot].
-public struct CreateDBClusterSnapshotInput: Swift.Equatable {
+public struct CreateDBClusterSnapshotInput {
     /// The identifier of the cluster to create a snapshot for. This parameter is not case sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -1446,7 +1446,7 @@ extension CreateDBClusterSnapshotOutput {
     }
 }
 
-public struct CreateDBClusterSnapshotOutput: Swift.Equatable {
+public struct CreateDBClusterSnapshotOutput {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
@@ -1559,7 +1559,7 @@ extension CreateDBInstanceInput {
 }
 
 /// Represents the input to [CreateDBInstance].
-public struct CreateDBInstanceInput: Swift.Equatable {
+public struct CreateDBInstanceInput {
     /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set. Default: false
     public var autoMinorVersionUpgrade: Swift.Bool?
     /// The Amazon EC2 Availability Zone that the instance is created in. Default: A random, system-chosen Availability Zone in the endpoint's Amazon Web Services Region. Example: us-east-1d
@@ -1645,7 +1645,7 @@ extension CreateDBInstanceOutput {
     }
 }
 
-public struct CreateDBInstanceOutput: Swift.Equatable {
+public struct CreateDBInstanceOutput {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -1741,7 +1741,7 @@ extension CreateDBSubnetGroupInput {
 }
 
 /// Represents the input to [CreateDBSubnetGroup].
-public struct CreateDBSubnetGroupInput: Swift.Equatable {
+public struct CreateDBSubnetGroupInput {
     /// The description for the subnet group.
     /// This member is required.
     public var dbSubnetGroupDescription: Swift.String?
@@ -1781,7 +1781,7 @@ extension CreateDBSubnetGroupOutput {
     }
 }
 
-public struct CreateDBSubnetGroupOutput: Swift.Equatable {
+public struct CreateDBSubnetGroupOutput {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
@@ -1888,7 +1888,7 @@ extension CreateEventSubscriptionInput {
 }
 
 /// Represents the input to [CreateEventSubscription].
-public struct CreateEventSubscriptionInput: Swift.Equatable {
+public struct CreateEventSubscriptionInput {
     /// A Boolean value; set to true to activate the subscription, set to false to create the subscription but not active it.
     public var enabled: Swift.Bool?
     /// A list of event categories for a SourceType that you want to subscribe to.
@@ -1949,7 +1949,7 @@ extension CreateEventSubscriptionOutput {
     }
 }
 
-public struct CreateEventSubscriptionOutput: Swift.Equatable {
+public struct CreateEventSubscriptionOutput {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -2031,7 +2031,7 @@ extension CreateGlobalClusterInput {
 }
 
 /// Represents the input to [CreateGlobalCluster].
-public struct CreateGlobalClusterInput: Swift.Equatable {
+public struct CreateGlobalClusterInput {
     /// The name for your database of up to 64 alpha-numeric characters. If you do not provide a name, Amazon DocumentDB will not create a database in the global cluster you are creating.
     public var databaseName: Swift.String?
     /// The deletion protection setting for the new global cluster. The global cluster can't be deleted when deletion protection is enabled.
@@ -2081,7 +2081,7 @@ extension CreateGlobalClusterOutput {
     }
 }
 
-public struct CreateGlobalClusterOutput: Swift.Equatable {
+public struct CreateGlobalClusterOutput {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -2351,7 +2351,7 @@ extension DocDBClientTypes.DBCluster: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about a cluster.
-    public struct DBCluster: Swift.Equatable {
+    public struct DBCluster {
         /// Provides a list of the Identity and Access Management (IAM) roles that are associated with the cluster. (IAM) roles that are associated with a cluster grant permission for the cluster to access other Amazon Web Services services on your behalf.
         public var associatedRoles: [DocDBClientTypes.DBClusterRole]?
         /// Provides the list of Amazon EC2 Availability Zones that instances in the cluster can be created in.
@@ -2568,7 +2568,7 @@ extension DocDBClientTypes.DBClusterMember: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Contains information about an instance that is part of a cluster.
-    public struct DBClusterMember: Swift.Equatable {
+    public struct DBClusterMember {
         /// Specifies the status of the cluster parameter group for this member of the DB cluster.
         public var dbClusterParameterGroupStatus: Swift.String?
         /// Specifies the instance identifier for this member of the cluster.
@@ -2669,7 +2669,7 @@ extension DocDBClientTypes.DBClusterParameterGroup: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about a cluster parameter group.
-    public struct DBClusterParameterGroup: Swift.Equatable {
+    public struct DBClusterParameterGroup {
         /// The Amazon Resource Name (ARN) for the cluster parameter group.
         public var dbClusterParameterGroupArn: Swift.String?
         /// Provides the name of the cluster parameter group.
@@ -2796,7 +2796,7 @@ extension DocDBClientTypes.DBClusterRole: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Describes an Identity and Access Management (IAM) role that is associated with a cluster.
-    public struct DBClusterRole: Swift.Equatable {
+    public struct DBClusterRole {
         /// The Amazon Resource Name (ARN) of the IAMrole that is associated with the DB cluster.
         public var roleArn: Swift.String?
         /// Describes the state of association between the IAMrole and the cluster. The Status property returns one of the following values:
@@ -2938,7 +2938,7 @@ extension DocDBClientTypes.DBClusterSnapshot: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about a cluster snapshot.
-    public struct DBClusterSnapshot: Swift.Equatable {
+    public struct DBClusterSnapshot {
         /// Provides the list of Amazon EC2 Availability Zones that instances in the cluster snapshot can be restored in.
         public var availabilityZones: [Swift.String]?
         /// Specifies the time when the cluster was created, in Universal Coordinated Time (UTC).
@@ -3094,7 +3094,7 @@ extension DocDBClientTypes.DBClusterSnapshotAttribute: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Contains the name and values of a manual cluster snapshot attribute. Manual cluster snapshot attributes are used to authorize other Amazon Web Services accounts to restore a manual cluster snapshot.
-    public struct DBClusterSnapshotAttribute: Swift.Equatable {
+    public struct DBClusterSnapshotAttribute {
         /// The name of the manual cluster snapshot attribute. The attribute named restore refers to the list of Amazon Web Services accounts that have permission to copy or restore the manual cluster snapshot.
         public var attributeName: Swift.String?
         /// The values for the manual cluster snapshot attribute. If the AttributeName field is set to restore, then this element returns a list of IDs of the Amazon Web Services accounts that are authorized to copy or restore the manual cluster snapshot. If a value of all is in the list, then the manual cluster snapshot is public and available for any Amazon Web Services account to copy or restore.
@@ -3150,7 +3150,7 @@ extension DocDBClientTypes.DBClusterSnapshotAttributesResult: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
-    public struct DBClusterSnapshotAttributesResult: Swift.Equatable {
+    public struct DBClusterSnapshotAttributesResult {
         /// The list of attributes and values for the cluster snapshot.
         public var dbClusterSnapshotAttributes: [DocDBClientTypes.DBClusterSnapshotAttribute]?
         /// The identifier of the cluster snapshot that the attributes apply to.
@@ -3300,7 +3300,7 @@ extension DocDBClientTypes.DBEngineVersion: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about an engine version.
-    public struct DBEngineVersion: Swift.Equatable {
+    public struct DBEngineVersion {
         /// The description of the database engine.
         public var dbEngineDescription: Swift.String?
         /// The description of the database engine version.
@@ -3546,7 +3546,7 @@ extension DocDBClientTypes.DBInstance: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about an instance.
-    public struct DBInstance: Swift.Equatable {
+    public struct DBInstance {
         /// Does not apply. This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
         public var autoMinorVersionUpgrade: Swift.Bool?
         /// Specifies the name of the Availability Zone that the instance is located in.
@@ -3787,7 +3787,7 @@ extension DocDBClientTypes.DBInstanceStatusInfo: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Provides a list of status information for an instance.
-    public struct DBInstanceStatusInfo: Swift.Equatable {
+    public struct DBInstanceStatusInfo {
         /// Details of the error if there is an error for the instance. If the instance is not in an error state, this value is blank.
         public var message: Swift.String?
         /// A Boolean value that is true if the instance is operating normally, or false if the instance is in an error state.
@@ -4087,7 +4087,7 @@ extension DocDBClientTypes.DBSubnetGroup: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about a subnet group.
-    public struct DBSubnetGroup: Swift.Equatable {
+    public struct DBSubnetGroup {
         /// The Amazon Resource Name (ARN) for the DB subnet group.
         public var dbSubnetGroupArn: Swift.String?
         /// Provides the description of the subnet group.
@@ -4368,7 +4368,7 @@ extension DeleteDBClusterInput {
 }
 
 /// Represents the input to [DeleteDBCluster].
-public struct DeleteDBClusterInput: Swift.Equatable {
+public struct DeleteDBClusterInput {
     /// The cluster identifier for the cluster to be deleted. This parameter isn't case sensitive. Constraints:
     ///
     /// * Must match an existing DBClusterIdentifier.
@@ -4410,7 +4410,7 @@ extension DeleteDBClusterOutput {
     }
 }
 
-public struct DeleteDBClusterOutput: Swift.Equatable {
+public struct DeleteDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -4466,7 +4466,7 @@ extension DeleteDBClusterParameterGroupInput {
 }
 
 /// Represents the input to [DeleteDBClusterParameterGroup].
-public struct DeleteDBClusterParameterGroupInput: Swift.Equatable {
+public struct DeleteDBClusterParameterGroupInput {
     /// The name of the cluster parameter group. Constraints:
     ///
     /// * Must be the name of an existing cluster parameter group.
@@ -4494,7 +4494,7 @@ extension DeleteDBClusterParameterGroupOutput {
     }
 }
 
-public struct DeleteDBClusterParameterGroupOutput: Swift.Equatable {
+public struct DeleteDBClusterParameterGroupOutput {
 
     public init() { }
 }
@@ -4540,7 +4540,7 @@ extension DeleteDBClusterSnapshotInput {
 }
 
 /// Represents the input to [DeleteDBClusterSnapshot].
-public struct DeleteDBClusterSnapshotInput: Swift.Equatable {
+public struct DeleteDBClusterSnapshotInput {
     /// The identifier of the cluster snapshot to delete. Constraints: Must be the name of an existing cluster snapshot in the available state.
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
@@ -4566,7 +4566,7 @@ extension DeleteDBClusterSnapshotOutput {
     }
 }
 
-public struct DeleteDBClusterSnapshotOutput: Swift.Equatable {
+public struct DeleteDBClusterSnapshotOutput {
     /// Detailed information about a cluster snapshot.
     public var dbClusterSnapshot: DocDBClientTypes.DBClusterSnapshot?
 
@@ -4619,7 +4619,7 @@ extension DeleteDBInstanceInput {
 }
 
 /// Represents the input to [DeleteDBInstance].
-public struct DeleteDBInstanceInput: Swift.Equatable {
+public struct DeleteDBInstanceInput {
     /// The instance identifier for the instance to be deleted. This parameter isn't case sensitive. Constraints:
     ///
     /// * Must match the name of an existing instance.
@@ -4647,7 +4647,7 @@ extension DeleteDBInstanceOutput {
     }
 }
 
-public struct DeleteDBInstanceOutput: Swift.Equatable {
+public struct DeleteDBInstanceOutput {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -4703,7 +4703,7 @@ extension DeleteDBSubnetGroupInput {
 }
 
 /// Represents the input to [DeleteDBSubnetGroup].
-public struct DeleteDBSubnetGroupInput: Swift.Equatable {
+public struct DeleteDBSubnetGroupInput {
     /// The name of the database subnet group to delete. You can't delete the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
     /// This member is required.
     public var dbSubnetGroupName: Swift.String?
@@ -4725,7 +4725,7 @@ extension DeleteDBSubnetGroupOutput {
     }
 }
 
-public struct DeleteDBSubnetGroupOutput: Swift.Equatable {
+public struct DeleteDBSubnetGroupOutput {
 
     public init() { }
 }
@@ -4772,7 +4772,7 @@ extension DeleteEventSubscriptionInput {
 }
 
 /// Represents the input to [DeleteEventSubscription].
-public struct DeleteEventSubscriptionInput: Swift.Equatable {
+public struct DeleteEventSubscriptionInput {
     /// The name of the Amazon DocumentDB event notification subscription that you want to delete.
     /// This member is required.
     public var subscriptionName: Swift.String?
@@ -4798,7 +4798,7 @@ extension DeleteEventSubscriptionOutput {
     }
 }
 
-public struct DeleteEventSubscriptionOutput: Swift.Equatable {
+public struct DeleteEventSubscriptionOutput {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -4851,7 +4851,7 @@ extension DeleteGlobalClusterInput {
 }
 
 /// Represents the input to [DeleteGlobalCluster].
-public struct DeleteGlobalClusterInput: Swift.Equatable {
+public struct DeleteGlobalClusterInput {
     /// The cluster identifier of the global cluster being deleted.
     /// This member is required.
     public var globalClusterIdentifier: Swift.String?
@@ -4877,7 +4877,7 @@ extension DeleteGlobalClusterOutput {
     }
 }
 
-public struct DeleteGlobalClusterOutput: Swift.Equatable {
+public struct DeleteGlobalClusterOutput {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -4950,7 +4950,7 @@ extension DescribeCertificatesInput {
     }
 }
 
-public struct DescribeCertificatesInput: Swift.Equatable {
+public struct DescribeCertificatesInput {
     /// The user-supplied certificate identifier. If this parameter is specified, information for only the specified certificate is returned. If this parameter is omitted, a list of up to MaxRecords certificates is returned. This parameter is not case sensitive. Constraints
     ///
     /// * Must match an existing CertificateIdentifier.
@@ -4994,7 +4994,7 @@ extension DescribeCertificatesOutput {
     }
 }
 
-public struct DescribeCertificatesOutput: Swift.Equatable {
+public struct DescribeCertificatesOutput {
     /// A list of certificates for this Amazon Web Services account.
     public var certificates: [DocDBClientTypes.Certificate]?
     /// An optional pagination token provided if the number of records retrieved is greater than MaxRecords. If this parameter is specified, the marker specifies the next record in the list. Including the value of Marker in the next call to DescribeCertificates results in the next page of certificates.
@@ -5071,7 +5071,7 @@ extension DescribeDBClusterParameterGroupsInput {
 }
 
 /// Represents the input to [DescribeDBClusterParameterGroups].
-public struct DescribeDBClusterParameterGroupsInput: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsInput {
     /// The name of a specific cluster parameter group to return details for. Constraints:
     ///
     /// * If provided, must match the name of an existing DBClusterParameterGroup.
@@ -5112,7 +5112,7 @@ extension DescribeDBClusterParameterGroupsOutput {
 }
 
 /// Represents the output of [DBClusterParameterGroups].
-public struct DescribeDBClusterParameterGroupsOutput: Swift.Equatable {
+public struct DescribeDBClusterParameterGroupsOutput {
     /// A list of cluster parameter groups.
     public var dbClusterParameterGroups: [DocDBClientTypes.DBClusterParameterGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5193,7 +5193,7 @@ extension DescribeDBClusterParametersInput {
 }
 
 /// Represents the input to [DescribeDBClusterParameters].
-public struct DescribeDBClusterParametersInput: Swift.Equatable {
+public struct DescribeDBClusterParametersInput {
     /// The name of a specific cluster parameter group to return parameter details for. Constraints:
     ///
     /// * If provided, must match the name of an existing DBClusterParameterGroup.
@@ -5239,7 +5239,7 @@ extension DescribeDBClusterParametersOutput {
 }
 
 /// Represents the output of [DBClusterParameterGroup].
-public struct DescribeDBClusterParametersOutput: Swift.Equatable {
+public struct DescribeDBClusterParametersOutput {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// Provides a list of parameters for the cluster parameter group.
@@ -5295,7 +5295,7 @@ extension DescribeDBClusterSnapshotAttributesInput {
 }
 
 /// Represents the input to [DescribeDBClusterSnapshotAttributes].
-public struct DescribeDBClusterSnapshotAttributesInput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesInput {
     /// The identifier for the cluster snapshot to describe the attributes for.
     /// This member is required.
     public var dbClusterSnapshotIdentifier: Swift.String?
@@ -5321,7 +5321,7 @@ extension DescribeDBClusterSnapshotAttributesOutput {
     }
 }
 
-public struct DescribeDBClusterSnapshotAttributesOutput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotAttributesOutput {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -5410,7 +5410,7 @@ extension DescribeDBClusterSnapshotsInput {
 }
 
 /// Represents the input to [DescribeDBClusterSnapshots].
-public struct DescribeDBClusterSnapshotsInput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsInput {
     /// The ID of the cluster to retrieve the list of cluster snapshots for. This parameter can't be used with the DBClusterSnapshotIdentifier parameter. This parameter is not case sensitive. Constraints:
     ///
     /// * If provided, must match the identifier of an existing DBCluster.
@@ -5482,7 +5482,7 @@ extension DescribeDBClusterSnapshotsOutput {
 }
 
 /// Represents the output of [DescribeDBClusterSnapshots].
-public struct DescribeDBClusterSnapshotsOutput: Swift.Equatable {
+public struct DescribeDBClusterSnapshotsOutput {
     /// Provides a list of cluster snapshots.
     public var dbClusterSnapshots: [DocDBClientTypes.DBClusterSnapshot]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5559,7 +5559,7 @@ extension DescribeDBClustersInput {
 }
 
 /// Represents the input to [DescribeDBClusters].
-public struct DescribeDBClustersInput: Swift.Equatable {
+public struct DescribeDBClustersInput {
     /// The user-provided cluster identifier. If this parameter is specified, information from only the specific cluster is returned. This parameter isn't case sensitive. Constraints:
     ///
     /// * If provided, must match an existing DBClusterIdentifier.
@@ -5602,7 +5602,7 @@ extension DescribeDBClustersOutput {
 }
 
 /// Represents the output of [DescribeDBClusters].
-public struct DescribeDBClustersOutput: Swift.Equatable {
+public struct DescribeDBClustersOutput {
     /// A list of clusters.
     public var dbClusters: [DocDBClientTypes.DBCluster]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5699,7 +5699,7 @@ extension DescribeDBEngineVersionsInput {
 }
 
 /// Represents the input to [DescribeDBEngineVersions].
-public struct DescribeDBEngineVersionsInput: Swift.Equatable {
+public struct DescribeDBEngineVersionsInput {
     /// The name of a specific parameter group family to return details for. Constraints:
     ///
     /// * If provided, must match an existing DBParameterGroupFamily.
@@ -5760,7 +5760,7 @@ extension DescribeDBEngineVersionsOutput {
 }
 
 /// Represents the output of [DescribeDBEngineVersions].
-public struct DescribeDBEngineVersionsOutput: Swift.Equatable {
+public struct DescribeDBEngineVersionsOutput {
     /// Detailed information about one or more engine versions.
     public var dbEngineVersions: [DocDBClientTypes.DBEngineVersion]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5836,7 +5836,7 @@ extension DescribeDBInstancesInput {
 }
 
 /// Represents the input to [DescribeDBInstances].
-public struct DescribeDBInstancesInput: Swift.Equatable {
+public struct DescribeDBInstancesInput {
     /// The user-provided instance identifier. If this parameter is specified, information from only the specific instance is returned. This parameter isn't case sensitive. Constraints:
     ///
     /// * If provided, must match the identifier of an existing DBInstance.
@@ -5881,7 +5881,7 @@ extension DescribeDBInstancesOutput {
 }
 
 /// Represents the output of [DescribeDBInstances].
-public struct DescribeDBInstancesOutput: Swift.Equatable {
+public struct DescribeDBInstancesOutput {
     /// Detailed information about one or more instances.
     public var dbInstances: [DocDBClientTypes.DBInstance]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -5958,7 +5958,7 @@ extension DescribeDBSubnetGroupsInput {
 }
 
 /// Represents the input to [DescribeDBSubnetGroups].
-public struct DescribeDBSubnetGroupsInput: Swift.Equatable {
+public struct DescribeDBSubnetGroupsInput {
     /// The name of the subnet group to return details for.
     public var dbSubnetGroupName: Swift.String?
     /// This parameter is not currently supported.
@@ -5997,7 +5997,7 @@ extension DescribeDBSubnetGroupsOutput {
 }
 
 /// Represents the output of [DescribeDBSubnetGroups].
-public struct DescribeDBSubnetGroupsOutput: Swift.Equatable {
+public struct DescribeDBSubnetGroupsOutput {
     /// Detailed information about one or more subnet groups.
     public var dbSubnetGroups: [DocDBClientTypes.DBSubnetGroup]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6074,7 +6074,7 @@ extension DescribeEngineDefaultClusterParametersInput {
 }
 
 /// Represents the input to [DescribeEngineDefaultClusterParameters].
-public struct DescribeEngineDefaultClusterParametersInput: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersInput {
     /// The name of the cluster parameter group family to return the engine parameter information for.
     /// This member is required.
     public var dbParameterGroupFamily: Swift.String?
@@ -6112,7 +6112,7 @@ extension DescribeEngineDefaultClusterParametersOutput {
     }
 }
 
-public struct DescribeEngineDefaultClusterParametersOutput: Swift.Equatable {
+public struct DescribeEngineDefaultClusterParametersOutput {
     /// Contains the result of a successful invocation of the DescribeEngineDefaultClusterParameters operation.
     public var engineDefaults: DocDBClientTypes.EngineDefaults?
 
@@ -6176,7 +6176,7 @@ extension DescribeEventCategoriesInput {
 }
 
 /// Represents the input to [DescribeEventCategories].
-public struct DescribeEventCategoriesInput: Swift.Equatable {
+public struct DescribeEventCategoriesInput {
     /// This parameter is not currently supported.
     public var filters: [DocDBClientTypes.Filter]?
     /// The type of source that is generating the events. Valid values: db-instance, db-parameter-group, db-security-group
@@ -6206,7 +6206,7 @@ extension DescribeEventCategoriesOutput {
 }
 
 /// Represents the output of [DescribeEventCategories].
-public struct DescribeEventCategoriesOutput: Swift.Equatable {
+public struct DescribeEventCategoriesOutput {
     /// A list of event category maps.
     public var eventCategoriesMapList: [DocDBClientTypes.EventCategoriesMap]?
 
@@ -6278,7 +6278,7 @@ extension DescribeEventSubscriptionsInput {
 }
 
 /// Represents the input to [DescribeEventSubscriptions].
-public struct DescribeEventSubscriptionsInput: Swift.Equatable {
+public struct DescribeEventSubscriptionsInput {
     /// This parameter is not currently supported.
     public var filters: [DocDBClientTypes.Filter]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6317,7 +6317,7 @@ extension DescribeEventSubscriptionsOutput {
 }
 
 /// Represents the output of [DescribeEventSubscriptions].
-public struct DescribeEventSubscriptionsOutput: Swift.Equatable {
+public struct DescribeEventSubscriptionsOutput {
     /// A list of event subscriptions.
     public var eventSubscriptionsList: [DocDBClientTypes.EventSubscription]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6423,7 +6423,7 @@ extension DescribeEventsInput {
 }
 
 /// Represents the input to [DescribeEvents].
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// The number of minutes to retrieve events for. Default: 60
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. Example: 2009-07-08T18:00Z
@@ -6494,7 +6494,7 @@ extension DescribeEventsOutput {
 }
 
 /// Represents the output of [DescribeEvents].
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// Detailed information about one or more events.
     public var events: [DocDBClientTypes.Event]?
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -6569,7 +6569,7 @@ extension DescribeGlobalClustersInput {
     }
 }
 
-public struct DescribeGlobalClustersInput: Swift.Equatable {
+public struct DescribeGlobalClustersInput {
     /// A filter that specifies one or more global DB clusters to describe. Supported filters: db-cluster-id accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list will only include information about the clusters identified by these ARNs.
     public var filters: [DocDBClientTypes.Filter]?
     /// The user-supplied cluster identifier. If this parameter is specified, information from only the specific cluster is returned. This parameter isn't case-sensitive.
@@ -6607,7 +6607,7 @@ extension DescribeGlobalClustersOutput {
     }
 }
 
-public struct DescribeGlobalClustersOutput: Swift.Equatable {
+public struct DescribeGlobalClustersOutput {
     ///
     public var globalClusters: [DocDBClientTypes.GlobalCluster]?
     ///
@@ -6700,7 +6700,7 @@ extension DescribeOrderableDBInstanceOptionsInput {
 }
 
 /// Represents the input to [DescribeOrderableDBInstanceOptions].
-public struct DescribeOrderableDBInstanceOptionsInput: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsInput {
     /// The instance class filter value. Specify this parameter to show only the available offerings that match the specified instance class.
     public var dbInstanceClass: Swift.String?
     /// The name of the engine to retrieve instance options for.
@@ -6756,7 +6756,7 @@ extension DescribeOrderableDBInstanceOptionsOutput {
 }
 
 /// Represents the output of [DescribeOrderableDBInstanceOptions].
-public struct DescribeOrderableDBInstanceOptionsOutput: Swift.Equatable {
+public struct DescribeOrderableDBInstanceOptionsOutput {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The options that are available for a particular orderable instance.
@@ -6832,7 +6832,7 @@ extension DescribePendingMaintenanceActionsInput {
 }
 
 /// Represents the input to [DescribePendingMaintenanceActions].
-public struct DescribePendingMaintenanceActionsInput: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsInput {
     /// A filter that specifies one or more resources to return pending maintenance actions for. Supported filters:
     ///
     /// * db-cluster-id - Accepts cluster identifiers and cluster Amazon Resource Names (ARNs). The results list includes only pending maintenance actions for the clusters identified by these ARNs.
@@ -6875,7 +6875,7 @@ extension DescribePendingMaintenanceActionsOutput {
 }
 
 /// Represents the output of [DescribePendingMaintenanceActions].
-public struct DescribePendingMaintenanceActionsOutput: Swift.Equatable {
+public struct DescribePendingMaintenanceActionsOutput {
     /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var marker: Swift.String?
     /// The maintenance actions to be applied.
@@ -6944,7 +6944,7 @@ extension DocDBClientTypes.Endpoint: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Network information for accessing a cluster or instance. Client programs must specify a valid endpoint to access these Amazon DocumentDB resources.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// Specifies the DNS address of the instance.
         public var address: Swift.String?
         /// Specifies the ID that Amazon Route 53 assigns when you create a hosted zone.
@@ -7009,7 +7009,7 @@ extension DocDBClientTypes.EngineDefaults: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Contains the result of a successful invocation of the DescribeEngineDefaultClusterParameters operation.
-    public struct EngineDefaults: Swift.Equatable {
+    public struct EngineDefaults {
         /// The name of the cluster parameter group family to return the engine parameter information for.
         public var dbParameterGroupFamily: Swift.String?
         /// An optional pagination token provided by a previous request. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
@@ -7089,7 +7089,7 @@ extension DocDBClientTypes.Event: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about an event.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// Specifies the date and time of the event.
         public var date: ClientRuntime.Date?
         /// Specifies the category for the event.
@@ -7161,7 +7161,7 @@ extension DocDBClientTypes.EventCategoriesMap: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// An event source type, accompanied by one or more event category names.
-    public struct EventCategoriesMap: Swift.Equatable {
+    public struct EventCategoriesMap {
         /// The event categories for the specified source type.
         public var eventCategories: [Swift.String]?
         /// The source type that the returned categories belong to.
@@ -7266,7 +7266,7 @@ extension DocDBClientTypes.EventSubscription: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about an event to which you have subscribed.
-    public struct EventSubscription: Swift.Equatable {
+    public struct EventSubscription {
         /// The Amazon DocumentDB event notification subscription ID.
         public var custSubscriptionId: Swift.String?
         /// The Amazon Web Services customer account that is associated with the Amazon DocumentDB event notification subscription.
@@ -7379,7 +7379,7 @@ extension FailoverDBClusterInput {
 }
 
 /// Represents the input to [FailoverDBCluster].
-public struct FailoverDBClusterInput: Swift.Equatable {
+public struct FailoverDBClusterInput {
     /// A cluster identifier to force a failover for. This parameter is not case sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing DBCluster.
@@ -7410,7 +7410,7 @@ extension FailoverDBClusterOutput {
     }
 }
 
-public struct FailoverDBClusterOutput: Swift.Equatable {
+public struct FailoverDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -7479,7 +7479,7 @@ extension DocDBClientTypes.Filter: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// A named set of filter values, used to return a more specific list of results. You can use a filter to match a set of resources by specific criteria, such as IDs. Wildcards are not supported in filters.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter. Filter names are case sensitive.
         /// This member is required.
         public var name: Swift.String?
@@ -7577,7 +7577,7 @@ extension DocDBClientTypes.GlobalCluster: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// A data type representing an Amazon DocumentDB global cluster.
-    public struct GlobalCluster: Swift.Equatable {
+    public struct GlobalCluster {
         /// The default database name within the new global cluster.
         public var databaseName: Swift.String?
         /// The deletion protection setting for the new global cluster.
@@ -7706,7 +7706,7 @@ extension DocDBClientTypes.GlobalClusterMember: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// A data structure with information about any primary and secondary clusters associated with an Amazon DocumentDB global clusters.
-    public struct GlobalClusterMember: Swift.Equatable {
+    public struct GlobalClusterMember {
         /// The Amazon Resource Name (ARN) for each Amazon DocumentDB cluster.
         public var dbClusterArn: Swift.String?
         /// Specifies whether the Amazon DocumentDB cluster is the primary cluster (that is, has read-write capability) for the Amazon DocumentDB global cluster with which it is associated.
@@ -8484,7 +8484,7 @@ extension ListTagsForResourceInput {
 }
 
 /// Represents the input to [ListTagsForResource].
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// This parameter is not currently supported.
     public var filters: [DocDBClientTypes.Filter]?
     /// The Amazon DocumentDB resource with tags to be listed. This value is an Amazon Resource Name (ARN).
@@ -8515,7 +8515,7 @@ extension ListTagsForResourceOutput {
 }
 
 /// Represents the output of [ListTagsForResource].
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of one or more tags.
     public var tagList: [DocDBClientTypes.Tag]?
 
@@ -8634,7 +8634,7 @@ extension ModifyDBClusterInput {
 }
 
 /// Represents the input to [ModifyDBCluster].
-public struct ModifyDBClusterInput: Swift.Equatable {
+public struct ModifyDBClusterInput {
     /// A value that indicates whether major version upgrades are allowed. Constraints: You must allow major version upgrades when specifying a value for the EngineVersion parameter that is a different major version than the DB cluster's current version.
     public var allowMajorVersionUpgrade: Swift.Bool?
     /// A value that specifies whether the changes in this request and any pending changes are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the cluster. If this parameter is set to false, changes to the cluster are applied during the next maintenance window. The ApplyImmediately parameter affects only the NewDBClusterIdentifier and MasterUserPassword values. If you set this parameter value to false, the changes to the NewDBClusterIdentifier and MasterUserPassword values are applied during the next maintenance window. All other changes are applied immediately, regardless of the value of the ApplyImmediately parameter. Default: false
@@ -8737,7 +8737,7 @@ extension ModifyDBClusterOutput {
     }
 }
 
-public struct ModifyDBClusterOutput: Swift.Equatable {
+public struct ModifyDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -8812,7 +8812,7 @@ extension ModifyDBClusterParameterGroupInput {
 }
 
 /// Represents the input to [ModifyDBClusterParameterGroup].
-public struct ModifyDBClusterParameterGroupInput: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupInput {
     /// The name of the cluster parameter group to modify.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
@@ -8844,7 +8844,7 @@ extension ModifyDBClusterParameterGroupOutput {
 }
 
 /// Contains the name of a cluster parameter group.
-public struct ModifyDBClusterParameterGroupOutput: Swift.Equatable {
+public struct ModifyDBClusterParameterGroupOutput {
     /// The name of a cluster parameter group. Constraints:
     ///
     /// * Must be from 1 to 255 letters or numbers.
@@ -8936,7 +8936,7 @@ extension ModifyDBClusterSnapshotAttributeInput {
 }
 
 /// Represents the input to [ModifyDBClusterSnapshotAttribute].
-public struct ModifyDBClusterSnapshotAttributeInput: Swift.Equatable {
+public struct ModifyDBClusterSnapshotAttributeInput {
     /// The name of the cluster snapshot attribute to modify. To manage authorization for other Amazon Web Services accounts to copy or restore a manual cluster snapshot, set this value to restore.
     /// This member is required.
     public var attributeName: Swift.String?
@@ -8975,7 +8975,7 @@ extension ModifyDBClusterSnapshotAttributeOutput {
     }
 }
 
-public struct ModifyDBClusterSnapshotAttributeOutput: Swift.Equatable {
+public struct ModifyDBClusterSnapshotAttributeOutput {
     /// Detailed information about the attributes that are associated with a cluster snapshot.
     public var dbClusterSnapshotAttributesResult: DocDBClientTypes.DBClusterSnapshotAttributesResult?
 
@@ -9073,7 +9073,7 @@ extension ModifyDBInstanceInput {
 }
 
 /// Represents the input to [ModifyDBInstance].
-public struct ModifyDBInstanceInput: Swift.Equatable {
+public struct ModifyDBInstanceInput {
     /// Specifies whether the modifications in this request and any pending modifications are asynchronously applied as soon as possible, regardless of the PreferredMaintenanceWindow setting for the instance. If this parameter is set to false, changes to the instance are applied during the next maintenance window. Some parameter changes can cause an outage and are applied on the next reboot. Default: false
     public var applyImmediately: Swift.Bool?
     /// This parameter does not apply to Amazon DocumentDB. Amazon DocumentDB does not perform minor version upgrades regardless of the value set.
@@ -9154,7 +9154,7 @@ extension ModifyDBInstanceOutput {
     }
 }
 
-public struct ModifyDBInstanceOutput: Swift.Equatable {
+public struct ModifyDBInstanceOutput {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -9235,7 +9235,7 @@ extension ModifyDBSubnetGroupInput {
 }
 
 /// Represents the input to [ModifyDBSubnetGroup].
-public struct ModifyDBSubnetGroupInput: Swift.Equatable {
+public struct ModifyDBSubnetGroupInput {
     /// The description for the subnet group.
     public var dbSubnetGroupDescription: Swift.String?
     /// The name for the subnet group. This value is stored as a lowercase string. You can't modify the default subnet group. Constraints: Must match the name of an existing DBSubnetGroup. Must not be default. Example: mySubnetgroup
@@ -9270,7 +9270,7 @@ extension ModifyDBSubnetGroupOutput {
     }
 }
 
-public struct ModifyDBSubnetGroupOutput: Swift.Equatable {
+public struct ModifyDBSubnetGroupOutput {
     /// Detailed information about a subnet group.
     public var dbSubnetGroup: DocDBClientTypes.DBSubnetGroup?
 
@@ -9351,7 +9351,7 @@ extension ModifyEventSubscriptionInput {
 }
 
 /// Represents the input to [ModifyEventSubscription].
-public struct ModifyEventSubscriptionInput: Swift.Equatable {
+public struct ModifyEventSubscriptionInput {
     /// A Boolean value; set to true to activate the subscription.
     public var enabled: Swift.Bool?
     /// A list of event categories for a SourceType that you want to subscribe to.
@@ -9393,7 +9393,7 @@ extension ModifyEventSubscriptionOutput {
     }
 }
 
-public struct ModifyEventSubscriptionOutput: Swift.Equatable {
+public struct ModifyEventSubscriptionOutput {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -9458,7 +9458,7 @@ extension ModifyGlobalClusterInput {
 }
 
 /// Represents the input to [ModifyGlobalCluster].
-public struct ModifyGlobalClusterInput: Swift.Equatable {
+public struct ModifyGlobalClusterInput {
     /// Indicates if the global cluster has deletion protection enabled. The global cluster can't be deleted when deletion protection is enabled.
     public var deletionProtection: Swift.Bool?
     /// The identifier for the global cluster being modified. This parameter isn't case-sensitive. Constraints:
@@ -9499,7 +9499,7 @@ extension ModifyGlobalClusterOutput {
     }
 }
 
-public struct ModifyGlobalClusterOutput: Swift.Equatable {
+public struct ModifyGlobalClusterOutput {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -9592,7 +9592,7 @@ extension DocDBClientTypes.OrderableDBInstanceOption: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// The options that are available for an instance.
-    public struct OrderableDBInstanceOption: Swift.Equatable {
+    public struct OrderableDBInstanceOption {
         /// A list of Availability Zones for an instance.
         public var availabilityZones: [DocDBClientTypes.AvailabilityZone]?
         /// The instance class for an instance.
@@ -9699,7 +9699,7 @@ extension DocDBClientTypes.Parameter: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about an individual parameter.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter {
         /// Specifies the valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// Indicates when to apply parameter updates.
@@ -9796,7 +9796,7 @@ extension DocDBClientTypes.PendingCloudwatchLogsExports: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// A list of the log types whose configuration is still pending. These log types are in the process of being activated or deactivated.
-    public struct PendingCloudwatchLogsExports: Swift.Equatable {
+    public struct PendingCloudwatchLogsExports {
         /// Log types that are in the process of being enabled. After they are enabled, these log types are exported to Amazon CloudWatch Logs.
         public var logTypesToDisable: [Swift.String]?
         /// Log types that are in the process of being deactivated. After they are deactivated, these log types aren't exported to CloudWatch Logs.
@@ -9863,7 +9863,7 @@ extension DocDBClientTypes.PendingMaintenanceAction: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Provides information about a pending maintenance action for a resource.
-    public struct PendingMaintenanceAction: Swift.Equatable {
+    public struct PendingMaintenanceAction {
         /// The type of pending maintenance action that is available for the resource.
         public var action: Swift.String?
         /// The date of the maintenance window when the action is applied. The maintenance action is applied to the resource during its first maintenance window after this date. If this date is specified, any next-maintenance opt-in requests are ignored.
@@ -9986,7 +9986,7 @@ extension DocDBClientTypes.PendingModifiedValues: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// One or more modified settings for an instance. These modified settings have been requested, but haven't been applied yet.
-    public struct PendingModifiedValues: Swift.Equatable {
+    public struct PendingModifiedValues {
         /// Contains the new AllocatedStorage size for then instance that will be applied or is currently being applied.
         public var allocatedStorage: Swift.Int?
         /// Specifies the pending number of days for which automated backups are retained.
@@ -10079,7 +10079,7 @@ extension RebootDBInstanceInput {
 }
 
 /// Represents the input to [RebootDBInstance].
-public struct RebootDBInstanceInput: Swift.Equatable {
+public struct RebootDBInstanceInput {
     /// The instance identifier. This parameter is stored as a lowercase string. Constraints:
     ///
     /// * Must match the identifier of an existing DBInstance.
@@ -10111,7 +10111,7 @@ extension RebootDBInstanceOutput {
     }
 }
 
-public struct RebootDBInstanceOutput: Swift.Equatable {
+public struct RebootDBInstanceOutput {
     /// Detailed information about an instance.
     public var dbInstance: DocDBClientTypes.DBInstance?
 
@@ -10168,7 +10168,7 @@ extension RemoveFromGlobalClusterInput {
 }
 
 /// Represents the input to [RemoveFromGlobalCluster].
-public struct RemoveFromGlobalClusterInput: Swift.Equatable {
+public struct RemoveFromGlobalClusterInput {
     /// The Amazon Resource Name (ARN) identifying the cluster that was detached from the Amazon DocumentDB global cluster.
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -10199,7 +10199,7 @@ extension RemoveFromGlobalClusterOutput {
     }
 }
 
-public struct RemoveFromGlobalClusterOutput: Swift.Equatable {
+public struct RemoveFromGlobalClusterOutput {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -10257,7 +10257,7 @@ extension RemoveSourceIdentifierFromSubscriptionInput {
 }
 
 /// Represents the input to [RemoveSourceIdentifierFromSubscription].
-public struct RemoveSourceIdentifierFromSubscriptionInput: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionInput {
     /// The source identifier to be removed from the subscription, such as the instance identifier for an instance, or the name of a security group.
     /// This member is required.
     public var sourceIdentifier: Swift.String?
@@ -10288,7 +10288,7 @@ extension RemoveSourceIdentifierFromSubscriptionOutput {
     }
 }
 
-public struct RemoveSourceIdentifierFromSubscriptionOutput: Swift.Equatable {
+public struct RemoveSourceIdentifierFromSubscriptionOutput {
     /// Detailed information about an event to which you have subscribed.
     public var eventSubscription: DocDBClientTypes.EventSubscription?
 
@@ -10354,7 +10354,7 @@ extension RemoveTagsFromResourceInput {
 }
 
 /// Represents the input to [RemoveTagsFromResource].
-public struct RemoveTagsFromResourceInput: Swift.Equatable {
+public struct RemoveTagsFromResourceInput {
     /// The Amazon DocumentDB resource that the tags are removed from. This value is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceName: Swift.String?
@@ -10381,7 +10381,7 @@ extension RemoveTagsFromResourceOutput {
     }
 }
 
-public struct RemoveTagsFromResourceOutput: Swift.Equatable {
+public struct RemoveTagsFromResourceOutput {
 
     public init() { }
 }
@@ -10445,7 +10445,7 @@ extension ResetDBClusterParameterGroupInput {
 }
 
 /// Represents the input to [ResetDBClusterParameterGroup].
-public struct ResetDBClusterParameterGroupInput: Swift.Equatable {
+public struct ResetDBClusterParameterGroupInput {
     /// The name of the cluster parameter group to reset.
     /// This member is required.
     public var dbClusterParameterGroupName: Swift.String?
@@ -10480,7 +10480,7 @@ extension ResetDBClusterParameterGroupOutput {
 }
 
 /// Contains the name of a cluster parameter group.
-public struct ResetDBClusterParameterGroupOutput: Swift.Equatable {
+public struct ResetDBClusterParameterGroupOutput {
     /// The name of a cluster parameter group. Constraints:
     ///
     /// * Must be from 1 to 255 letters or numbers.
@@ -10593,7 +10593,7 @@ extension DocDBClientTypes.ResourcePendingMaintenanceActions: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Represents the output of [ApplyPendingMaintenanceAction].
-    public struct ResourcePendingMaintenanceActions: Swift.Equatable {
+    public struct ResourcePendingMaintenanceActions {
         /// A list that provides details about the pending maintenance actions for the resource.
         public var pendingMaintenanceActionDetails: [DocDBClientTypes.PendingMaintenanceAction]?
         /// The Amazon Resource Name (ARN) of the resource that has pending maintenance actions.
@@ -10722,7 +10722,7 @@ extension RestoreDBClusterFromSnapshotInput {
 }
 
 /// Represents the input to [RestoreDBClusterFromSnapshot].
-public struct RestoreDBClusterFromSnapshotInput: Swift.Equatable {
+public struct RestoreDBClusterFromSnapshotInput {
     /// Provides the list of Amazon EC2 Availability Zones that instances in the restored DB cluster can be created in.
     public var availabilityZones: [Swift.String]?
     /// The name of the cluster to create from the snapshot or cluster snapshot. This parameter isn't case sensitive. Constraints:
@@ -10817,7 +10817,7 @@ extension RestoreDBClusterFromSnapshotOutput {
     }
 }
 
-public struct RestoreDBClusterFromSnapshotOutput: Swift.Equatable {
+public struct RestoreDBClusterFromSnapshotOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -10957,7 +10957,7 @@ extension RestoreDBClusterToPointInTimeInput {
 }
 
 /// Represents the input to [RestoreDBClusterToPointInTime].
-public struct RestoreDBClusterToPointInTimeInput: Swift.Equatable {
+public struct RestoreDBClusterToPointInTimeInput {
     /// The name of the new cluster to be created. Constraints:
     ///
     /// * Must contain from 1 to 63 letters, numbers, or hyphens.
@@ -11065,7 +11065,7 @@ extension RestoreDBClusterToPointInTimeOutput {
     }
 }
 
-public struct RestoreDBClusterToPointInTimeOutput: Swift.Equatable {
+public struct RestoreDBClusterToPointInTimeOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -11390,7 +11390,7 @@ extension StartDBClusterInput {
     }
 }
 
-public struct StartDBClusterInput: Swift.Equatable {
+public struct StartDBClusterInput {
     /// The identifier of the cluster to restart. Example: docdb-2019-05-28-15-24-52
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -11416,7 +11416,7 @@ extension StartDBClusterOutput {
     }
 }
 
-public struct StartDBClusterOutput: Swift.Equatable {
+public struct StartDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -11469,7 +11469,7 @@ extension StopDBClusterInput {
     }
 }
 
-public struct StopDBClusterInput: Swift.Equatable {
+public struct StopDBClusterInput {
     /// The identifier of the cluster to stop. Example: docdb-2019-05-28-15-24-52
     /// This member is required.
     public var dbClusterIdentifier: Swift.String?
@@ -11495,7 +11495,7 @@ extension StopDBClusterOutput {
     }
 }
 
-public struct StopDBClusterOutput: Swift.Equatable {
+public struct StopDBClusterOutput {
     /// Detailed information about a cluster.
     public var dbCluster: DocDBClientTypes.DBCluster?
 
@@ -11632,7 +11632,7 @@ extension DocDBClientTypes.Subnet: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Detailed information about a subnet.
-    public struct Subnet: Swift.Equatable {
+    public struct Subnet {
         /// Specifies the Availability Zone for the subnet.
         public var subnetAvailabilityZone: DocDBClientTypes.AvailabilityZone?
         /// Specifies the identifier of the subnet.
@@ -11824,7 +11824,7 @@ extension SwitchoverGlobalClusterInput {
     }
 }
 
-public struct SwitchoverGlobalClusterInput: Swift.Equatable {
+public struct SwitchoverGlobalClusterInput {
     /// The identifier of the Amazon DocumentDB global database cluster to switch over. The identifier is the unique key assigned by the user when the cluster is created. In other words, it's the name of the global cluster. This parameter isn’t case-sensitive. Constraints:
     ///
     /// * Must match the identifier of an existing global cluster (Amazon DocumentDB global database).
@@ -11869,7 +11869,7 @@ extension SwitchoverGlobalClusterOutput {
     }
 }
 
-public struct SwitchoverGlobalClusterOutput: Swift.Equatable {
+public struct SwitchoverGlobalClusterOutput {
     /// A data type representing an Amazon DocumentDB global cluster.
     public var globalCluster: DocDBClientTypes.GlobalCluster?
 
@@ -11930,7 +11930,7 @@ extension DocDBClientTypes.Tag: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Metadata assigned to an Amazon DocumentDB resource consisting of a key-value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The required name of the tag. The string value can be from 1 to 128 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
         public var key: Swift.String?
         /// The optional value of the tag. The string value can be from 1 to 256 Unicode characters in length and can't be prefixed with "aws:" or "rds:". The string can contain only the set of Unicode letters, digits, white space, '_', '.', '/', '=', '+', '-' (Java regex: "^([\\p{L}\\p{Z}\\p{N}_.:/=+\\-]*)$").
@@ -11992,7 +11992,7 @@ extension DocDBClientTypes.UpgradeTarget: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// The version of the database engine that an instance can be upgraded to.
-    public struct UpgradeTarget: Swift.Equatable {
+    public struct UpgradeTarget {
         /// A value that indicates whether the target version is applied to any source DB instances that have AutoMinorVersionUpgrade set to true.
         public var autoUpgrade: Swift.Bool?
         /// The version of the database engine that an instance can be upgraded to.
@@ -12051,7 +12051,7 @@ extension DocDBClientTypes.VpcSecurityGroupMembership: Swift.Encodable {
 
 extension DocDBClientTypes {
     /// Used as a response element for queries on virtual private cloud (VPC) security group membership.
-    public struct VpcSecurityGroupMembership: Swift.Equatable {
+    public struct VpcSecurityGroupMembership {
         /// The status of the VPC security group.
         public var status: Swift.String?
         /// The name of the VPC security group.

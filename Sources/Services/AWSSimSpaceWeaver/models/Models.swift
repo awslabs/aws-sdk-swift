@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -154,7 +154,7 @@ extension SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// The Amazon CloudWatch Logs log group for the simulation. For more information about log groups, see [Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) in the Amazon CloudWatch Logs User Guide.
-    public struct CloudWatchLogsLogGroup: Swift.Equatable {
+    public struct CloudWatchLogsLogGroup {
         /// The Amazon Resource Name (ARN) of the Amazon CloudWatch Logs log group for the simulation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference. For more information about log groups, see [Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) in the Amazon CloudWatch Logs User Guide.
         public var logGroupArn: Swift.String?
 
@@ -207,7 +207,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -247,7 +247,7 @@ extension CreateSnapshotInput {
     }
 }
 
-public struct CreateSnapshotInput: Swift.Equatable {
+public struct CreateSnapshotInput {
     /// The Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates the snapshot file. The Amazon S3 bucket must be in the same Amazon Web Services Region as the simulation.
     /// This member is required.
     public var destination: SimSpaceWeaverClientTypes.S3Destination?
@@ -265,7 +265,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotInputBody: Swift.Equatable {
+struct CreateSnapshotInputBody {
     let simulation: Swift.String?
     let destination: SimSpaceWeaverClientTypes.S3Destination?
 }
@@ -290,7 +290,7 @@ extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSnapshotOutput: Swift.Equatable {
+public struct CreateSnapshotOutput {
 
     public init() { }
 }
@@ -343,7 +343,7 @@ extension DeleteAppInput {
     }
 }
 
-public struct DeleteAppInput: Swift.Equatable {
+public struct DeleteAppInput {
     /// The name of the app.
     /// This member is required.
     public var app: Swift.String?
@@ -366,7 +366,7 @@ public struct DeleteAppInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputBody: Swift.Equatable {
+struct DeleteAppInputBody {
 }
 
 extension DeleteAppInputBody: Swift.Decodable {
@@ -380,7 +380,7 @@ extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppOutput: Swift.Equatable {
+public struct DeleteAppOutput {
 
     public init() { }
 }
@@ -421,7 +421,7 @@ extension DeleteSimulationInput {
     }
 }
 
-public struct DeleteSimulationInput: Swift.Equatable {
+public struct DeleteSimulationInput {
     /// The name of the simulation.
     /// This member is required.
     public var simulation: Swift.String?
@@ -434,7 +434,7 @@ public struct DeleteSimulationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSimulationInputBody: Swift.Equatable {
+struct DeleteSimulationInputBody {
 }
 
 extension DeleteSimulationInputBody: Swift.Decodable {
@@ -448,7 +448,7 @@ extension DeleteSimulationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSimulationOutput: Swift.Equatable {
+public struct DeleteSimulationOutput {
 
     public init() { }
 }
@@ -501,7 +501,7 @@ extension DescribeAppInput {
     }
 }
 
-public struct DescribeAppInput: Swift.Equatable {
+public struct DescribeAppInput {
     /// The name of the app.
     /// This member is required.
     public var app: Swift.String?
@@ -524,7 +524,7 @@ public struct DescribeAppInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppInputBody: Swift.Equatable {
+struct DescribeAppInputBody {
 }
 
 extension DescribeAppInputBody: Swift.Decodable {
@@ -559,7 +559,7 @@ extension DescribeAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppOutput: Swift.Equatable {
+public struct DescribeAppOutput {
     /// The description of the app.
     public var description: Swift.String?
     /// The name of the domain of the app.
@@ -599,7 +599,7 @@ public struct DescribeAppOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppOutputBody: Swift.Equatable {
+struct DescribeAppOutputBody {
     let name: Swift.String?
     let simulation: Swift.String?
     let domain: Swift.String?
@@ -678,7 +678,7 @@ extension DescribeSimulationInput {
     }
 }
 
-public struct DescribeSimulationInput: Swift.Equatable {
+public struct DescribeSimulationInput {
     /// The name of the simulation.
     /// This member is required.
     public var simulation: Swift.String?
@@ -691,7 +691,7 @@ public struct DescribeSimulationInput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationInputBody: Swift.Equatable {
+struct DescribeSimulationInputBody {
 }
 
 extension DescribeSimulationInputBody: Swift.Decodable {
@@ -740,7 +740,7 @@ extension DescribeSimulationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSimulationOutput: Swift.Equatable {
+public struct DescribeSimulationOutput {
     /// The Amazon Resource Name (ARN) of the simulation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     public var arn: Swift.String?
     /// The time when the simulation was created, expressed as the number of seconds and milliseconds in UTC since the Unix epoch (0:0:0.000, January 1, 1970).
@@ -809,7 +809,7 @@ public struct DescribeSimulationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSimulationOutputBody: Swift.Equatable {
+struct DescribeSimulationOutputBody {
     let name: Swift.String?
     let executionId: Swift.String?
     let arn: Swift.String?
@@ -922,7 +922,7 @@ extension SimSpaceWeaverClientTypes.Domain: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A collection of app instances that run the same executable app code and have the same launch options and commands. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
-    public struct Domain: Swift.Equatable {
+    public struct Domain {
         /// The type of lifecycle management for apps in the domain. Indicates whether apps in this domain are managed (SimSpace Weaver starts and stops the apps) or unmanaged (you must start and stop the apps). Lifecycle types
         ///
         /// * PerWorker – Managed: SimSpace Weaver starts one app on each worker.
@@ -985,7 +985,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1034,7 +1034,7 @@ extension SimSpaceWeaverClientTypes.LaunchOverrides: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// Options that apply when the app starts. These options override default behavior.
-    public struct LaunchOverrides: Swift.Equatable {
+    public struct LaunchOverrides {
         /// App launch commands and command line parameters that override the launch command configured in the simulation schema.
         public var launchCommands: [Swift.String]?
 
@@ -1119,7 +1119,7 @@ extension ListAppsInput {
     }
 }
 
-public struct ListAppsInput: Swift.Equatable {
+public struct ListAppsInput {
     /// The name of the domain that you want to list apps for.
     public var domain: Swift.String?
     /// The maximum number of apps to list.
@@ -1144,7 +1144,7 @@ public struct ListAppsInput: Swift.Equatable {
     }
 }
 
-struct ListAppsInputBody: Swift.Equatable {
+struct ListAppsInputBody {
 }
 
 extension ListAppsInputBody: Swift.Decodable {
@@ -1167,7 +1167,7 @@ extension ListAppsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAppsOutput: Swift.Equatable {
+public struct ListAppsOutput {
     /// The list of apps for the given simulation and domain.
     public var apps: [SimSpaceWeaverClientTypes.SimulationAppMetadata]?
     /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
@@ -1183,7 +1183,7 @@ public struct ListAppsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppsOutputBody: Swift.Equatable {
+struct ListAppsOutputBody {
     let apps: [SimSpaceWeaverClientTypes.SimulationAppMetadata]?
     let nextToken: Swift.String?
 }
@@ -1249,7 +1249,7 @@ extension ListSimulationsInput {
     }
 }
 
-public struct ListSimulationsInput: Swift.Equatable {
+public struct ListSimulationsInput {
     /// The maximum number of simulations to list.
     public var maxResults: Swift.Int?
     /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
@@ -1265,7 +1265,7 @@ public struct ListSimulationsInput: Swift.Equatable {
     }
 }
 
-struct ListSimulationsInputBody: Swift.Equatable {
+struct ListSimulationsInputBody {
 }
 
 extension ListSimulationsInputBody: Swift.Decodable {
@@ -1288,7 +1288,7 @@ extension ListSimulationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSimulationsOutput: Swift.Equatable {
+public struct ListSimulationsOutput {
     /// If SimSpace Weaver returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The list of simulations.
@@ -1304,7 +1304,7 @@ public struct ListSimulationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSimulationsOutputBody: Swift.Equatable {
+struct ListSimulationsOutputBody {
     let simulations: [SimSpaceWeaverClientTypes.SimulationMetadata]?
     let nextToken: Swift.String?
 }
@@ -1356,7 +1356,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1369,7 +1369,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -1390,7 +1390,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The list of tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1402,7 +1402,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1490,7 +1490,7 @@ extension SimSpaceWeaverClientTypes.LiveSimulationState: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A collection of additional state information, such as domain and clock configuration.
-    public struct LiveSimulationState: Swift.Equatable {
+    public struct LiveSimulationState {
         /// A list of simulation clocks. At this time, a simulation has only one clock.
         public var clocks: [SimSpaceWeaverClientTypes.SimulationClock]?
         /// A list of domains for the simulation. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
@@ -1529,7 +1529,7 @@ extension SimSpaceWeaverClientTypes.LogDestination: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// The location where SimSpace Weaver sends simulation log data.
-    public struct LogDestination: Swift.Equatable {
+    public struct LogDestination {
         /// An Amazon CloudWatch Logs log group that stores simulation log data. For more information about log groups, see [Working with log groups and log streams](https://docs.aws.amazon.com/AmazonCloudWatch/latest/logs/Working-with-log-groups-and-streams.html) in the Amazon CloudWatch Logs User Guide.
         public var cloudWatchLogsLogGroup: SimSpaceWeaverClientTypes.CloudWatchLogsLogGroup?
 
@@ -1576,7 +1576,7 @@ extension SimSpaceWeaverClientTypes.LoggingConfiguration: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// The logging configuration for a simulation.
-    public struct LoggingConfiguration: Swift.Equatable {
+    public struct LoggingConfiguration {
         /// A list of the locations where SimSpace Weaver sends simulation log data.
         public var destinations: [SimSpaceWeaverClientTypes.LogDestination]?
 
@@ -1629,7 +1629,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1672,7 +1672,7 @@ extension SimSpaceWeaverClientTypes.S3Destination: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// An Amazon S3 bucket and optional folder (object key prefix) where SimSpace Weaver creates a file.
-    public struct S3Destination: Swift.Equatable {
+    public struct S3Destination {
         /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -1718,7 +1718,7 @@ extension SimSpaceWeaverClientTypes.S3Location: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A location in Amazon Simple Storage Service (Amazon S3) where SimSpace Weaver stores simulation data, such as your app .zip files and schema file. For more information about Amazon S3, see the [ Amazon Simple Storage Service User Guide ](https://docs.aws.amazon.com/AmazonS3/latest/userguide/Welcome.html).
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The name of an Amazon S3 bucket. For more information about buckets, see [Creating, configuring, and working with Amazon S3 buckets](https://docs.aws.amazon.com/AmazonS3/latest/userguide/creating-buckets-s3.html) in the Amazon Simple Storage Service User Guide.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -1777,7 +1777,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -1834,7 +1834,7 @@ extension SimSpaceWeaverClientTypes.SimulationAppEndpointInfo: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// Information about the network endpoint that you can use to connect to your custom or service app. For more information about SimSpace Weaver apps, see [Key concepts: Apps](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_apps) in the SimSpace Weaver User Guide..
-    public struct SimulationAppEndpointInfo: Swift.Equatable {
+    public struct SimulationAppEndpointInfo {
         /// The IP address of the app. SimSpace Weaver dynamically assigns this IP address when the app starts.
         public var address: Swift.String?
         /// The inbound TCP/UDP port numbers of the app. The combination of an IP address and a port number form a network endpoint.
@@ -1897,7 +1897,7 @@ extension SimSpaceWeaverClientTypes.SimulationAppMetadata: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A collection of metadata about the app.
-    public struct SimulationAppMetadata: Swift.Equatable {
+    public struct SimulationAppMetadata {
         /// The domain of the app. For more information about domains, see [Key concepts: Domains](https://docs.aws.amazon.com/simspaceweaver/latest/userguide/what-is_key-concepts.html#what-is_key-concepts_domains) in the SimSpace Weaver User Guide.
         public var domain: Swift.String?
         /// The name of the app.
@@ -1954,7 +1954,7 @@ extension SimSpaceWeaverClientTypes.SimulationAppPortMapping: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A collection of TCP/UDP ports for a custom or service app.
-    public struct SimulationAppPortMapping: Swift.Equatable {
+    public struct SimulationAppPortMapping {
         /// The TCP/UDP port number of the running app. SimSpace Weaver dynamically assigns this port number when the app starts. SimSpace Weaver maps the Declared port to the Actual port. Clients connect to the app using the app's IP address and the Actual port number.
         public var actual: Swift.Int?
         /// The TCP/UDP port number of the app, declared in the simulation schema. SimSpace Weaver maps the Declared port to the Actual port. The source code for the app should bind to the Declared port.
@@ -2078,7 +2078,7 @@ extension SimSpaceWeaverClientTypes.SimulationClock: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// Status information about the simulation clock.
-    public struct SimulationClock: Swift.Equatable {
+    public struct SimulationClock {
         /// The current status of the simulation clock.
         public var status: SimSpaceWeaverClientTypes.ClockStatus?
         /// The desired status of the simulation clock.
@@ -2141,7 +2141,7 @@ extension SimSpaceWeaverClientTypes.SimulationMetadata: Swift.Codable {
 
 extension SimSpaceWeaverClientTypes {
     /// A collection of data about the simulation.
-    public struct SimulationMetadata: Swift.Equatable {
+    public struct SimulationMetadata {
         /// The Amazon Resource Name (ARN) of the simulation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
         public var arn: Swift.String?
         /// The time when the simulation was created, expressed as the number of seconds and milliseconds in UTC since the Unix epoch (0:0:0.000, January 1, 1970).
@@ -2307,7 +2307,7 @@ extension StartAppInput {
     }
 }
 
-public struct StartAppInput: Swift.Equatable {
+public struct StartAppInput {
     /// A value that you provide to ensure that repeated calls to this API operation using the same parameters complete only once. A ClientToken is also known as an idempotency token. A ClientToken expires after 24 hours.
     public var clientToken: Swift.String?
     /// The description of the app.
@@ -2342,7 +2342,7 @@ public struct StartAppInput: Swift.Equatable {
     }
 }
 
-struct StartAppInputBody: Swift.Equatable {
+struct StartAppInputBody {
     let clientToken: Swift.String?
     let simulation: Swift.String?
     let domain: Swift.String?
@@ -2394,7 +2394,7 @@ extension StartAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAppOutput: Swift.Equatable {
+public struct StartAppOutput {
     /// The name of the domain of the app.
     public var domain: Swift.String?
     /// The name of the app.
@@ -2414,7 +2414,7 @@ public struct StartAppOutput: Swift.Equatable {
     }
 }
 
-struct StartAppOutputBody: Swift.Equatable {
+struct StartAppOutputBody {
     let name: Swift.String?
     let domain: Swift.String?
     let simulation: Swift.String?
@@ -2473,7 +2473,7 @@ extension StartClockInput {
     }
 }
 
-public struct StartClockInput: Swift.Equatable {
+public struct StartClockInput {
     /// The name of the simulation.
     /// This member is required.
     public var simulation: Swift.String?
@@ -2486,7 +2486,7 @@ public struct StartClockInput: Swift.Equatable {
     }
 }
 
-struct StartClockInputBody: Swift.Equatable {
+struct StartClockInputBody {
     let simulation: Swift.String?
 }
 
@@ -2507,7 +2507,7 @@ extension StartClockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartClockOutput: Swift.Equatable {
+public struct StartClockOutput {
 
     public init() { }
 }
@@ -2583,7 +2583,7 @@ extension StartSimulationInput {
     }
 }
 
-public struct StartSimulationInput: Swift.Equatable {
+public struct StartSimulationInput {
     /// A value that you provide to ensure that repeated calls to this API operation using the same parameters complete only once. A ClientToken is also known as an idempotency token. A ClientToken expires after 24 hours.
     public var clientToken: Swift.String?
     /// The description of the simulation.
@@ -2625,7 +2625,7 @@ public struct StartSimulationInput: Swift.Equatable {
     }
 }
 
-struct StartSimulationInputBody: Swift.Equatable {
+struct StartSimulationInputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -2694,7 +2694,7 @@ extension StartSimulationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSimulationOutput: Swift.Equatable {
+public struct StartSimulationOutput {
     /// The Amazon Resource Name (ARN) of the simulation. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     public var arn: Swift.String?
     /// The time when the simulation was created, expressed as the number of seconds and milliseconds in UTC since the Unix epoch (0:0:0.000, January 1, 1970).
@@ -2714,7 +2714,7 @@ public struct StartSimulationOutput: Swift.Equatable {
     }
 }
 
-struct StartSimulationOutputBody: Swift.Equatable {
+struct StartSimulationOutputBody {
     let arn: Swift.String?
     let executionId: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -2781,7 +2781,7 @@ extension StopAppInput {
     }
 }
 
-public struct StopAppInput: Swift.Equatable {
+public struct StopAppInput {
     /// The name of the app.
     /// This member is required.
     public var app: Swift.String?
@@ -2804,7 +2804,7 @@ public struct StopAppInput: Swift.Equatable {
     }
 }
 
-struct StopAppInputBody: Swift.Equatable {
+struct StopAppInputBody {
     let simulation: Swift.String?
     let domain: Swift.String?
     let app: Swift.String?
@@ -2833,7 +2833,7 @@ extension StopAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopAppOutput: Swift.Equatable {
+public struct StopAppOutput {
 
     public init() { }
 }
@@ -2873,7 +2873,7 @@ extension StopClockInput {
     }
 }
 
-public struct StopClockInput: Swift.Equatable {
+public struct StopClockInput {
     /// The name of the simulation.
     /// This member is required.
     public var simulation: Swift.String?
@@ -2886,7 +2886,7 @@ public struct StopClockInput: Swift.Equatable {
     }
 }
 
-struct StopClockInputBody: Swift.Equatable {
+struct StopClockInputBody {
     let simulation: Swift.String?
 }
 
@@ -2907,7 +2907,7 @@ extension StopClockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopClockOutput: Swift.Equatable {
+public struct StopClockOutput {
 
     public init() { }
 }
@@ -2947,7 +2947,7 @@ extension StopSimulationInput {
     }
 }
 
-public struct StopSimulationInput: Swift.Equatable {
+public struct StopSimulationInput {
     /// The name of the simulation.
     /// This member is required.
     public var simulation: Swift.String?
@@ -2960,7 +2960,7 @@ public struct StopSimulationInput: Swift.Equatable {
     }
 }
 
-struct StopSimulationInputBody: Swift.Equatable {
+struct StopSimulationInputBody {
     let simulation: Swift.String?
 }
 
@@ -2981,7 +2981,7 @@ extension StopSimulationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSimulationOutput: Swift.Equatable {
+public struct StopSimulationOutput {
 
     public init() { }
 }
@@ -3027,7 +3027,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to add tags to. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3045,7 +3045,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3075,7 +3075,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3132,7 +3132,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3174,7 +3174,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource that you want to remove tags from. For more information about ARNs, see [Amazon Resource Names (ARNs)](https://docs.aws.amazon.com/general/latest/gr/aws-arns-and-namespaces.html) in the Amazon Web Services General Reference.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3192,7 +3192,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3206,7 +3206,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3262,7 +3262,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

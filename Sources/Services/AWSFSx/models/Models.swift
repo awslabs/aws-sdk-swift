@@ -35,7 +35,7 @@ extension FSxClientTypes.ActiveDirectoryBackupAttributes: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Microsoft Active Directory attributes of the Amazon FSx for Windows File Server file system.
-    public struct ActiveDirectoryBackupAttributes: Swift.Equatable {
+    public struct ActiveDirectoryBackupAttributes {
         /// The ID of the Amazon Web Services Managed Microsoft Active Directory instance to which the file system is joined.
         public var activeDirectoryId: Swift.String?
         /// The fully qualified domain name of the self-managed Active Directory directory.
@@ -110,7 +110,7 @@ public struct ActiveDirectoryError: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ActiveDirectoryErrorBody: Swift.Equatable {
+struct ActiveDirectoryErrorBody {
     let activeDirectoryId: Swift.String?
     let type: FSxClientTypes.ActiveDirectoryErrorType?
     let message: Swift.String?
@@ -248,7 +248,7 @@ extension FSxClientTypes.AdministrativeAction: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes a specific Amazon FSx administrative action for the current Windows, Lustre, OpenZFS, or ONTAP file system or volume.
-    public struct AdministrativeAction: Swift.Equatable {
+    public struct AdministrativeAction {
         /// Describes the type of administrative action, as follows:
         ///
         /// * FILE_SYSTEM_UPDATE - A file system update administrative action initiated from the Amazon FSx console, API (UpdateFileSystem), or CLI (update-file-system).
@@ -362,7 +362,7 @@ extension FSxClientTypes.AdministrativeActionFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// Provides information about a failed administrative action.
-    public struct AdministrativeActionFailureDetails: Swift.Equatable {
+    public struct AdministrativeActionFailureDetails {
         /// Error message providing details about the failed administrative action.
         public var message: Swift.String?
 
@@ -517,7 +517,7 @@ extension FSxClientTypes.AggregateConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Used to specify configuration options for a volume’s storage aggregate or aggregates.
-    public struct AggregateConfiguration: Swift.Equatable {
+    public struct AggregateConfiguration {
         /// The list of aggregates that this volume resides on. Aggregates are storage pools which make up your primary storage tier. Each high-availability (HA) pair has one aggregate. The names of the aggregates map to the names of the aggregates in the ONTAP CLI and REST API. For FlexVols, there will always be a single entry. Amazon FSx responds with an HTTP status code 400 (Bad Request) for the following conditions:
         ///
         /// * The strings in the value of Aggregates are not are not formatted as aggrX, where X is a number between 1 and 6.
@@ -568,7 +568,7 @@ extension FSxClientTypes.Alias: Swift.Codable {
 
 extension FSxClientTypes {
     /// A DNS alias that is associated with the file system. You can use a DNS alias to access a file system using user-defined DNS names, in addition to the default DNS name that Amazon FSx assigns to the file system. For more information, see [DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) in the FSx for Windows File Server User Guide.
-    public struct Alias: Swift.Equatable {
+    public struct Alias {
         /// Describes the state of the DNS alias.
         ///
         /// * AVAILABLE - The DNS alias is associated with an Amazon FSx file system.
@@ -680,7 +680,7 @@ extension AssociateFileSystemAliasesInput {
 }
 
 /// The request object specifying one or more DNS alias names to associate with an Amazon FSx for Windows File Server file system.
-public struct AssociateFileSystemAliasesInput: Swift.Equatable {
+public struct AssociateFileSystemAliasesInput {
     /// An array of one or more DNS alias names to associate with the file system. The alias name has to comply with the following formatting requirements:
     ///
     /// * Formatted as a fully-qualified domain name (FQDN), hostname.domain , for example, accounting.corp.example.com.
@@ -713,7 +713,7 @@ public struct AssociateFileSystemAliasesInput: Swift.Equatable {
     }
 }
 
-struct AssociateFileSystemAliasesInputBody: Swift.Equatable {
+struct AssociateFileSystemAliasesInputBody {
     let clientRequestToken: Swift.String?
     let fileSystemId: Swift.String?
     let aliases: [Swift.String]?
@@ -759,7 +759,7 @@ extension AssociateFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is attempting to associate with the file system. Use the API operation to monitor the status of the aliases Amazon FSx is associating with the file system. It can take up to 2.5 minutes for the alias status to change from CREATING to AVAILABLE.
-public struct AssociateFileSystemAliasesOutput: Swift.Equatable {
+public struct AssociateFileSystemAliasesOutput {
     /// An array of the DNS aliases that Amazon FSx is associating with the file system.
     public var aliases: [FSxClientTypes.Alias]?
 
@@ -771,7 +771,7 @@ public struct AssociateFileSystemAliasesOutput: Swift.Equatable {
     }
 }
 
-struct AssociateFileSystemAliasesOutputBody: Swift.Equatable {
+struct AssociateFileSystemAliasesOutputBody {
     let aliases: [FSxClientTypes.Alias]?
 }
 
@@ -842,7 +842,7 @@ extension FSxClientTypes.AutoExportPolicy: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes a data repository association's automatic export policy. The AutoExportPolicy defines the types of updated objects on the file system that will be automatically exported to the data repository. As you create, modify, or delete files, Amazon FSx for Lustre automatically exports the defined changes asynchronously once your application finishes modifying the file. The AutoExportPolicy is only supported on Amazon FSx for Lustre file systems with a data repository association.
-    public struct AutoExportPolicy: Swift.Equatable {
+    public struct AutoExportPolicy {
         /// The AutoExportPolicy can have the following event values:
         ///
         /// * NEW - New files and directories are automatically exported to the data repository as they are added to the file system.
@@ -898,7 +898,7 @@ extension FSxClientTypes.AutoImportPolicy: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes the data repository association's automatic import policy. The AutoImportPolicy defines how Amazon FSx keeps your file metadata and directory listings up to date by importing changes to your Amazon FSx for Lustre file system as you modify objects in a linked S3 bucket. The AutoImportPolicy is only supported on Amazon FSx for Lustre file systems with a data repository association.
-    public struct AutoImportPolicy: Swift.Equatable {
+    public struct AutoImportPolicy {
         /// The AutoImportPolicy can have the following event values:
         ///
         /// * NEW - Amazon FSx automatically imports metadata of files added to the linked S3 bucket that do not currently exist in the FSx file system.
@@ -986,7 +986,7 @@ extension FSxClientTypes.AutocommitPeriod: Swift.Codable {
 
 extension FSxClientTypes {
     /// Sets the autocommit period of files in an FSx for ONTAP SnapLock volume, which determines how long the files must remain unmodified before they're automatically transitioned to the write once, read many (WORM) state. For more information, see [Autocommit](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/worm-state.html#worm-state-autocommit).
-    public struct AutocommitPeriod: Swift.Equatable {
+    public struct AutocommitPeriod {
         /// Defines the type of time for the autocommit period of a file in an FSx for ONTAP SnapLock volume. Setting this value to NONE disables autocommit. The default value is NONE.
         /// This member is required.
         public var type: FSxClientTypes.AutocommitPeriodType?
@@ -1182,7 +1182,7 @@ extension FSxClientTypes.Backup: Swift.Codable {
 
 extension FSxClientTypes {
     /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system.
-    public struct Backup: Swift.Equatable {
+    public struct Backup {
         /// The ID of the backup.
         /// This member is required.
         public var backupId: Swift.String?
@@ -1321,7 +1321,7 @@ public struct BackupBeingCopied: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct BackupBeingCopiedBody: Swift.Equatable {
+struct BackupBeingCopiedBody {
     let message: Swift.String?
     let backupId: Swift.String?
 }
@@ -1362,7 +1362,7 @@ extension FSxClientTypes.BackupFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// If backup creation fails, this structure contains the details of that failure.
-    public struct BackupFailureDetails: Swift.Equatable {
+    public struct BackupFailureDetails {
         /// A message describing the backup-creation failure.
         public var message: Swift.String?
 
@@ -1416,7 +1416,7 @@ public struct BackupInProgress: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct BackupInProgressBody: Swift.Equatable {
+struct BackupInProgressBody {
     let message: Swift.String?
 }
 
@@ -1534,7 +1534,7 @@ public struct BackupNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct BackupNotFoundBody: Swift.Equatable {
+struct BackupNotFoundBody {
     let message: Swift.String?
 }
 
@@ -1596,7 +1596,7 @@ public struct BackupRestoring: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct BackupRestoringBody: Swift.Equatable {
+struct BackupRestoringBody {
     let message: Swift.String?
     let fileSystemId: Swift.String?
 }
@@ -1692,7 +1692,7 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     }
 }
 
-struct BadRequestBody: Swift.Equatable {
+struct BadRequestBody {
     let message: Swift.String?
 }
 
@@ -1729,7 +1729,7 @@ extension CancelDataRepositoryTaskInput {
 }
 
 /// Cancels a data repository task.
-public struct CancelDataRepositoryTaskInput: Swift.Equatable {
+public struct CancelDataRepositoryTaskInput {
     /// Specifies the data repository task to cancel.
     /// This member is required.
     public var taskId: Swift.String?
@@ -1742,7 +1742,7 @@ public struct CancelDataRepositoryTaskInput: Swift.Equatable {
     }
 }
 
-struct CancelDataRepositoryTaskInputBody: Swift.Equatable {
+struct CancelDataRepositoryTaskInputBody {
     let taskId: Swift.String?
 }
 
@@ -1772,7 +1772,7 @@ extension CancelDataRepositoryTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelDataRepositoryTaskOutput: Swift.Equatable {
+public struct CancelDataRepositoryTaskOutput {
     /// The lifecycle status of the data repository task, as follows:
     ///
     /// * PENDING - Amazon FSx has not started the task.
@@ -1800,7 +1800,7 @@ public struct CancelDataRepositoryTaskOutput: Swift.Equatable {
     }
 }
 
-struct CancelDataRepositoryTaskOutputBody: Swift.Equatable {
+struct CancelDataRepositoryTaskOutputBody {
     let lifecycle: FSxClientTypes.DataRepositoryTaskLifecycle?
     let taskId: Swift.String?
 }
@@ -1874,7 +1874,7 @@ extension FSxClientTypes.CompletionReport: Swift.Codable {
 
 extension FSxClientTypes {
     /// Provides a report detailing the data repository task results of the files processed that match the criteria specified in the report Scope parameter. FSx delivers the report to the file system's linked data repository in Amazon S3, using the path specified in the report Path parameter. You can specify whether or not a report gets generated for a task using the Enabled parameter.
-    public struct CompletionReport: Swift.Equatable {
+    public struct CompletionReport {
         /// Set Enabled to True to generate a CompletionReport when the task completes. If set to true, then you need to provide a report Scope, Path, and Format. Set Enabled to False if you do not want a CompletionReport generated when the task completes.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -1944,7 +1944,7 @@ extension CopyBackupInput {
     }
 }
 
-public struct CopyBackupInput: Swift.Equatable {
+public struct CopyBackupInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// A Boolean flag indicating whether tags from the source backup should be copied to the backup copy. This value defaults to false. If you set CopyTags to true and the source backup has existing tags, you can use the Tags parameter to create new tags, provided that the sum of the source backup tags and the new tags doesn't exceed 50. Both sets of tags are merged. If there are tag conflicts (for example, two tags with the same key but different values), the tags created with the Tags parameter take precedence.
@@ -1988,7 +1988,7 @@ public struct CopyBackupInput: Swift.Equatable {
     }
 }
 
-struct CopyBackupInputBody: Swift.Equatable {
+struct CopyBackupInputBody {
     let clientRequestToken: Swift.String?
     let sourceBackupId: Swift.String?
     let sourceRegion: Swift.String?
@@ -2045,7 +2045,7 @@ extension CopyBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyBackupOutput: Swift.Equatable {
+public struct CopyBackupOutput {
     /// A backup of an Amazon FSx for Windows File Server, Amazon FSx for Lustre file system, Amazon FSx for NetApp ONTAP volume, or Amazon FSx for OpenZFS file system.
     public var backup: FSxClientTypes.Backup?
 
@@ -2057,7 +2057,7 @@ public struct CopyBackupOutput: Swift.Equatable {
     }
 }
 
-struct CopyBackupOutputBody: Swift.Equatable {
+struct CopyBackupOutputBody {
     let backup: FSxClientTypes.Backup?
 }
 
@@ -2133,7 +2133,7 @@ extension CopySnapshotAndUpdateVolumeInput {
     }
 }
 
-public struct CopySnapshotAndUpdateVolumeInput: Swift.Equatable {
+public struct CopySnapshotAndUpdateVolumeInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies the strategy to use when copying data from a snapshot to the volume.
@@ -2176,7 +2176,7 @@ public struct CopySnapshotAndUpdateVolumeInput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotAndUpdateVolumeInputBody: Swift.Equatable {
+struct CopySnapshotAndUpdateVolumeInputBody {
     let clientRequestToken: Swift.String?
     let volumeId: Swift.String?
     let sourceSnapshotARN: Swift.String?
@@ -2233,7 +2233,7 @@ extension CopySnapshotAndUpdateVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopySnapshotAndUpdateVolumeOutput: Swift.Equatable {
+public struct CopySnapshotAndUpdateVolumeOutput {
     /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
     public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
     /// The lifecycle state of the destination volume.
@@ -2253,7 +2253,7 @@ public struct CopySnapshotAndUpdateVolumeOutput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotAndUpdateVolumeOutputBody: Swift.Equatable {
+struct CopySnapshotAndUpdateVolumeOutputBody {
     let volumeId: Swift.String?
     let lifecycle: FSxClientTypes.VolumeLifecycle?
     let administrativeActions: [FSxClientTypes.AdministrativeAction]?
@@ -2339,7 +2339,7 @@ extension FSxClientTypes.CreateAggregateConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Used to specify the configuration options for an FSx for ONTAP volume's storage aggregate or aggregates.
-    public struct CreateAggregateConfiguration: Swift.Equatable {
+    public struct CreateAggregateConfiguration {
         /// Used to specify the names of aggregates on which the volume will be created.
         public var aggregates: [Swift.String]?
         /// Used to explicitly set the number of constituents within the FlexGroup per storage aggregate. This field is optional when creating a FlexGroup volume. If unspecified, the default value will be 8. This field cannot be provided when creating a FlexVol volume.
@@ -2393,7 +2393,7 @@ extension CreateBackupInput {
 }
 
 /// The request object for the CreateBackup operation.
-public struct CreateBackupInput: Swift.Equatable {
+public struct CreateBackupInput {
     /// (Optional) A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system to back up.
@@ -2417,7 +2417,7 @@ public struct CreateBackupInput: Swift.Equatable {
     }
 }
 
-struct CreateBackupInputBody: Swift.Equatable {
+struct CreateBackupInputBody {
     let fileSystemId: Swift.String?
     let clientRequestToken: Swift.String?
     let tags: [FSxClientTypes.Tag]?
@@ -2467,7 +2467,7 @@ extension CreateBackupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the CreateBackup operation.
-public struct CreateBackupOutput: Swift.Equatable {
+public struct CreateBackupOutput {
     /// A description of the backup.
     public var backup: FSxClientTypes.Backup?
 
@@ -2479,7 +2479,7 @@ public struct CreateBackupOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackupOutputBody: Swift.Equatable {
+struct CreateBackupOutputBody {
     let backup: FSxClientTypes.Backup?
 }
 
@@ -2564,7 +2564,7 @@ extension CreateDataRepositoryAssociationInput {
     }
 }
 
-public struct CreateDataRepositoryAssociationInput: Swift.Equatable {
+public struct CreateDataRepositoryAssociationInput {
     /// Set to true to run an import data repository task to import metadata from the data repository to the file system after the data repository association is created. Default is false.
     public var batchImportMetaDataOnCreate: Swift.Bool?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -2606,7 +2606,7 @@ public struct CreateDataRepositoryAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateDataRepositoryAssociationInputBody: Swift.Equatable {
+struct CreateDataRepositoryAssociationInputBody {
     let fileSystemId: Swift.String?
     let fileSystemPath: Swift.String?
     let dataRepositoryPath: Swift.String?
@@ -2671,7 +2671,7 @@ extension CreateDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateDataRepositoryAssociationOutput: Swift.Equatable {
+public struct CreateDataRepositoryAssociationOutput {
     /// The response object returned after the data repository association is created.
     public var association: FSxClientTypes.DataRepositoryAssociation?
 
@@ -2683,7 +2683,7 @@ public struct CreateDataRepositoryAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataRepositoryAssociationOutputBody: Swift.Equatable {
+struct CreateDataRepositoryAssociationOutputBody {
     let association: FSxClientTypes.DataRepositoryAssociation?
 }
 
@@ -2769,7 +2769,7 @@ extension CreateDataRepositoryTaskInput {
     }
 }
 
-public struct CreateDataRepositoryTaskInput: Swift.Equatable {
+public struct CreateDataRepositoryTaskInput {
     /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
     public var capacityToRelease: Swift.Int?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -2826,7 +2826,7 @@ public struct CreateDataRepositoryTaskInput: Swift.Equatable {
     }
 }
 
-struct CreateDataRepositoryTaskInputBody: Swift.Equatable {
+struct CreateDataRepositoryTaskInputBody {
     let type: FSxClientTypes.DataRepositoryTaskType?
     let paths: [Swift.String]?
     let fileSystemId: Swift.String?
@@ -2900,7 +2900,7 @@ extension CreateDataRepositoryTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataRepositoryTaskOutput: Swift.Equatable {
+public struct CreateDataRepositoryTaskOutput {
     /// The description of the data repository task that you just created.
     public var dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
 
@@ -2912,7 +2912,7 @@ public struct CreateDataRepositoryTaskOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataRepositoryTaskOutputBody: Swift.Equatable {
+struct CreateDataRepositoryTaskOutputBody {
     let dataRepositoryTask: FSxClientTypes.DataRepositoryTask?
 }
 
@@ -3017,7 +3017,7 @@ extension CreateFileCacheInput {
     }
 }
 
-public struct CreateFileCacheInput: Swift.Equatable {
+public struct CreateFileCacheInput {
     /// An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK. By using the idempotent operation, you can retry a CreateFileCache operation without the risk of creating an extra cache. This approach can be useful when an initial call fails in a way that makes it unclear whether a cache was created. Examples are if a transport level timeout occurred, or your connection was reset. If you use the same client request token and the initial call created a cache, the client receives success as long as the parameters are the same.
     public var clientRequestToken: Swift.String?
     /// A boolean flag indicating whether tags for the cache should be copied to data repository associations. This value defaults to false.
@@ -3080,7 +3080,7 @@ public struct CreateFileCacheInput: Swift.Equatable {
     }
 }
 
-struct CreateFileCacheInputBody: Swift.Equatable {
+struct CreateFileCacheInputBody {
     let clientRequestToken: Swift.String?
     let fileCacheType: FSxClientTypes.FileCacheType?
     let fileCacheTypeVersion: Swift.String?
@@ -3211,7 +3211,7 @@ extension FSxClientTypes.CreateFileCacheLustreConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Amazon File Cache configuration for the cache that you are creating.
-    public struct CreateFileCacheLustreConfiguration: Swift.Equatable {
+    public struct CreateFileCacheLustreConfiguration {
         /// Specifies the cache deployment type, which must be CACHE_1.
         /// This member is required.
         public var deploymentType: FSxClientTypes.FileCacheLustreDeploymentType?
@@ -3252,7 +3252,7 @@ extension CreateFileCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFileCacheOutput: Swift.Equatable {
+public struct CreateFileCacheOutput {
     /// A description of the cache that was created.
     public var fileCache: FSxClientTypes.FileCacheCreating?
 
@@ -3264,7 +3264,7 @@ public struct CreateFileCacheOutput: Swift.Equatable {
     }
 }
 
-struct CreateFileCacheOutputBody: Swift.Equatable {
+struct CreateFileCacheOutputBody {
     let fileCache: FSxClientTypes.FileCacheCreating?
 }
 
@@ -3371,7 +3371,7 @@ extension CreateFileSystemFromBackupInput {
 }
 
 /// The request object for the CreateFileSystemFromBackup operation.
-public struct CreateFileSystemFromBackupInput: Swift.Equatable {
+public struct CreateFileSystemFromBackupInput {
     /// The ID of the source backup. Specifies the backup that you are copying.
     /// This member is required.
     public var backupId: Swift.String?
@@ -3455,7 +3455,7 @@ public struct CreateFileSystemFromBackupInput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemFromBackupInputBody: Swift.Equatable {
+struct CreateFileSystemFromBackupInputBody {
     let backupId: Swift.String?
     let clientRequestToken: Swift.String?
     let subnetIds: [Swift.String]?
@@ -3555,7 +3555,7 @@ extension CreateFileSystemFromBackupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the CreateFileSystemFromBackup operation.
-public struct CreateFileSystemFromBackupOutput: Swift.Equatable {
+public struct CreateFileSystemFromBackupOutput {
     /// A description of the file system.
     public var fileSystem: FSxClientTypes.FileSystem?
 
@@ -3567,7 +3567,7 @@ public struct CreateFileSystemFromBackupOutput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemFromBackupOutputBody: Swift.Equatable {
+struct CreateFileSystemFromBackupOutputBody {
     let fileSystem: FSxClientTypes.FileSystem?
 }
 
@@ -3680,7 +3680,7 @@ extension CreateFileSystemInput {
 }
 
 /// The request object used to create a new Amazon FSx file system.
-public struct CreateFileSystemInput: Swift.Equatable {
+public struct CreateFileSystemInput {
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent creation. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The type of Amazon FSx file system to create. Valid values are WINDOWS, LUSTRE, ONTAP, and OPENZFS.
@@ -3789,7 +3789,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemInputBody: Swift.Equatable {
+struct CreateFileSystemInputBody {
     let clientRequestToken: Swift.String?
     let fileSystemType: FSxClientTypes.FileSystemType?
     let storageCapacity: Swift.Int?
@@ -3987,7 +3987,7 @@ extension FSxClientTypes {
     /// * ImportedFileChunkSize
     ///
     /// * ImportPath
-    public struct CreateFileSystemLustreConfiguration: Swift.Equatable {
+    public struct CreateFileSystemLustreConfiguration {
         /// (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this parameter to choose how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
         ///
         /// * NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.
@@ -4181,7 +4181,7 @@ extension FSxClientTypes.CreateFileSystemOntapConfiguration: Swift.CustomDebugSt
 
 extension FSxClientTypes {
     /// The ONTAP configuration properties of the FSx for ONTAP file system that you are creating.
-    public struct CreateFileSystemOntapConfiguration: Swift.Equatable {
+    public struct CreateFileSystemOntapConfiguration {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
@@ -4369,7 +4369,7 @@ extension FSxClientTypes.CreateFileSystemOpenZFSConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Amazon FSx for OpenZFS configuration properties for the file system that you are creating.
-    public struct CreateFileSystemOpenZFSConfiguration: Swift.Equatable {
+    public struct CreateFileSystemOpenZFSConfiguration {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags for the file system should be copied to backups. This value defaults to false. If it's set to true, all tags for the file system are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -4458,7 +4458,7 @@ extension CreateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object returned after the file system is created.
-public struct CreateFileSystemOutput: Swift.Equatable {
+public struct CreateFileSystemOutput {
     /// The configuration of the file system that was created.
     public var fileSystem: FSxClientTypes.FileSystem?
 
@@ -4470,7 +4470,7 @@ public struct CreateFileSystemOutput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemOutputBody: Swift.Equatable {
+struct CreateFileSystemOutputBody {
     let fileSystem: FSxClientTypes.FileSystem?
 }
 
@@ -4605,7 +4605,7 @@ extension FSxClientTypes.CreateFileSystemWindowsConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration object for the Microsoft Windows file system used in CreateFileSystem and CreateFileSystemFromBackup operations.
-    public struct CreateFileSystemWindowsConfiguration: Swift.Equatable {
+    public struct CreateFileSystemWindowsConfiguration {
         /// The ID for an existing Amazon Web Services Managed Microsoft Active Directory (AD) instance that the file system should join when it's created.
         public var activeDirectoryId: Swift.String?
         /// An array of one or more DNS alias names that you want to associate with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [Working with DNS Aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html) and [Walkthrough 5: Using DNS aliases to access your file system](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/walkthrough05-file-system-custom-CNAME.html), including additional steps you must take to be able to access your file system using a DNS alias. An alias name has to meet the following requirements:
@@ -4777,7 +4777,7 @@ extension FSxClientTypes.CreateOntapVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies the configuration of the ONTAP volume that you are creating.
-    public struct CreateOntapVolumeConfiguration: Swift.Equatable {
+    public struct CreateOntapVolumeConfiguration {
         /// Use to specify configuration options for a volume’s storage aggregate or aggregates.
         public var aggregateConfiguration: FSxClientTypes.CreateAggregateConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
@@ -4910,7 +4910,7 @@ extension FSxClientTypes.CreateOpenZFSOriginSnapshotConfiguration: Swift.Codable
 
 extension FSxClientTypes {
     /// The snapshot configuration to use when creating an Amazon FSx for OpenZFS volume from a snapshot.
-    public struct CreateOpenZFSOriginSnapshotConfiguration: Swift.Equatable {
+    public struct CreateOpenZFSOriginSnapshotConfiguration {
         /// Specifies the strategy used when copying data from the snapshot to the new volume.
         ///
         /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying data from the snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
@@ -5036,7 +5036,7 @@ extension FSxClientTypes.CreateOpenZFSVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies the configuration of the Amazon FSx for OpenZFS volume that you are creating.
-    public struct CreateOpenZFSVolumeConfiguration: Swift.Equatable {
+    public struct CreateOpenZFSVolumeConfiguration {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public var copyTagsToSnapshots: Swift.Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
@@ -5147,7 +5147,7 @@ extension FSxClientTypes.CreateSnaplockConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Defines the SnapLock configuration when creating an FSx for ONTAP SnapLock volume.
-    public struct CreateSnaplockConfiguration: Swift.Equatable {
+    public struct CreateSnaplockConfiguration {
         /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default value is false. If you set AuditLogVolume to true, the SnapLock volume is created as an audit log volume. The minimum retention period for an audit log volume is six months. For more information, see [ SnapLock audit log volumes](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume).
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
@@ -5221,7 +5221,7 @@ extension CreateSnapshotInput {
     }
 }
 
-public struct CreateSnapshotInput: Swift.Equatable {
+public struct CreateSnapshotInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot.
@@ -5247,7 +5247,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotInputBody: Swift.Equatable {
+struct CreateSnapshotInputBody {
     let clientRequestToken: Swift.String?
     let name: Swift.String?
     let volumeId: Swift.String?
@@ -5296,7 +5296,7 @@ extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSnapshotOutput: Swift.Equatable {
+public struct CreateSnapshotOutput {
     /// A description of the snapshot.
     public var snapshot: FSxClientTypes.Snapshot?
 
@@ -5308,7 +5308,7 @@ public struct CreateSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotOutputBody: Swift.Equatable {
+struct CreateSnapshotOutputBody {
     let snapshot: FSxClientTypes.Snapshot?
 }
 
@@ -5390,7 +5390,7 @@ extension CreateStorageVirtualMachineInput {
     }
 }
 
-public struct CreateStorageVirtualMachineInput: Swift.Equatable {
+public struct CreateStorageVirtualMachineInput {
     /// Describes the self-managed Microsoft Active Directory to which you want to join the SVM. Joining an Active Directory provides user authentication and access control for SMB clients, including Microsoft Windows and macOS clients accessing the file system.
     public var activeDirectoryConfiguration: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -5434,7 +5434,7 @@ public struct CreateStorageVirtualMachineInput: Swift.Equatable {
     }
 }
 
-struct CreateStorageVirtualMachineInputBody: Swift.Equatable {
+struct CreateStorageVirtualMachineInputBody {
     let activeDirectoryConfiguration: FSxClientTypes.CreateSvmActiveDirectoryConfiguration?
     let clientRequestToken: Swift.String?
     let fileSystemId: Swift.String?
@@ -5495,7 +5495,7 @@ extension CreateStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStorageVirtualMachineOutput: Swift.Equatable {
+public struct CreateStorageVirtualMachineOutput {
     /// Returned after a successful CreateStorageVirtualMachine operation; describes the SVM just created.
     public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
 
@@ -5507,7 +5507,7 @@ public struct CreateStorageVirtualMachineOutput: Swift.Equatable {
     }
 }
 
-struct CreateStorageVirtualMachineOutputBody: Swift.Equatable {
+struct CreateStorageVirtualMachineOutputBody {
     let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
 }
 
@@ -5567,7 +5567,7 @@ extension FSxClientTypes.CreateSvmActiveDirectoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration that Amazon FSx uses to join the ONTAP storage virtual machine (SVM) to your self-managed (including on-premises) Microsoft Active Directory directory.
-    public struct CreateSvmActiveDirectoryConfiguration: Swift.Equatable {
+    public struct CreateSvmActiveDirectoryConfiguration {
         /// The NetBIOS name of the Active Directory computer object that will be created for your SVM.
         /// This member is required.
         public var netBiosName: Swift.String?
@@ -5625,7 +5625,7 @@ extension CreateVolumeFromBackupInput {
     }
 }
 
-public struct CreateVolumeFromBackupInput: Swift.Equatable {
+public struct CreateVolumeFromBackupInput {
     /// The ID of the source backup. Specifies the backup that you are copying.
     /// This member is required.
     public var backupId: Swift.String?
@@ -5655,7 +5655,7 @@ public struct CreateVolumeFromBackupInput: Swift.Equatable {
     }
 }
 
-struct CreateVolumeFromBackupInputBody: Swift.Equatable {
+struct CreateVolumeFromBackupInputBody {
     let backupId: Swift.String?
     let clientRequestToken: Swift.String?
     let name: Swift.String?
@@ -5708,7 +5708,7 @@ extension CreateVolumeFromBackupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVolumeFromBackupOutput: Swift.Equatable {
+public struct CreateVolumeFromBackupOutput {
     /// Returned after a successful CreateVolumeFromBackup API operation, describing the volume just created.
     public var volume: FSxClientTypes.Volume?
 
@@ -5720,7 +5720,7 @@ public struct CreateVolumeFromBackupOutput: Swift.Equatable {
     }
 }
 
-struct CreateVolumeFromBackupOutputBody: Swift.Equatable {
+struct CreateVolumeFromBackupOutputBody {
     let volume: FSxClientTypes.Volume?
 }
 
@@ -5797,7 +5797,7 @@ extension CreateVolumeInput {
     }
 }
 
-public struct CreateVolumeInput: Swift.Equatable {
+public struct CreateVolumeInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies the name of the volume that you're creating.
@@ -5831,7 +5831,7 @@ public struct CreateVolumeInput: Swift.Equatable {
     }
 }
 
-struct CreateVolumeInputBody: Swift.Equatable {
+struct CreateVolumeInputBody {
     let clientRequestToken: Swift.String?
     let volumeType: FSxClientTypes.VolumeType?
     let name: Swift.String?
@@ -5888,7 +5888,7 @@ extension CreateVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVolumeOutput: Swift.Equatable {
+public struct CreateVolumeOutput {
     /// Returned after a successful CreateVolume API operation, describing the volume just created.
     public var volume: FSxClientTypes.Volume?
 
@@ -5900,7 +5900,7 @@ public struct CreateVolumeOutput: Swift.Equatable {
     }
 }
 
-struct CreateVolumeOutputBody: Swift.Equatable {
+struct CreateVolumeOutputBody {
     let volume: FSxClientTypes.Volume?
 }
 
@@ -6110,7 +6110,7 @@ extension FSxClientTypes {
     ///
     ///
     /// Data repository associations are supported on Amazon File Cache resources and all FSx for Lustre 2.12 and 2.15 file systems, excluding scratch_1 deployment type.
-    public struct DataRepositoryAssociation: Swift.Equatable {
+    public struct DataRepositoryAssociation {
         /// The system-generated, unique ID of the data repository association.
         public var associationId: Swift.String?
         /// A boolean flag indicating whether an import data repository task to import metadata should run after the data repository association is created. The task runs if this flag is set to true. BatchImportMetaDataOnCreate is not supported for data repositories linked to an Amazon File Cache resource.
@@ -6249,7 +6249,7 @@ public struct DataRepositoryAssociationNotFound: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct DataRepositoryAssociationNotFoundBody: Swift.Equatable {
+struct DataRepositoryAssociationNotFoundBody {
     let message: Swift.String?
 }
 
@@ -6316,7 +6316,7 @@ extension FSxClientTypes.DataRepositoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The data repository configuration object for Lustre file systems returned in the response of the CreateFileSystem operation. This data type is not supported on file systems with a data repository association. For file systems with a data repository association, see .
-    public struct DataRepositoryConfiguration: Swift.Equatable {
+    public struct DataRepositoryConfiguration {
         /// Describes the file system's linked S3 data repository's AutoImportPolicy. The AutoImportPolicy configures how Amazon FSx keeps your file and directory listings up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
         ///
         /// * NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update file and directory listings for any new or changed objects after choosing this option.
@@ -6389,7 +6389,7 @@ extension FSxClientTypes.DataRepositoryFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// Provides detailed information about the data repository if its Lifecycle is set to MISCONFIGURED or FAILED.
-    public struct DataRepositoryFailureDetails: Swift.Equatable {
+    public struct DataRepositoryFailureDetails {
         /// A detailed error message.
         public var message: Swift.String?
 
@@ -6591,7 +6591,7 @@ extension FSxClientTypes {
     ///
     ///
     /// To learn more about data repository tasks, see [Data Repository Tasks](https://docs.aws.amazon.com/fsx/latest/LustreGuide/data-repository-tasks.html).
-    public struct DataRepositoryTask: Swift.Equatable {
+    public struct DataRepositoryTask {
         /// Specifies the amount of data to release, in GiB, by an Amazon File Cache AUTO_RELEASE_DATA task that automatically releases files from the cache.
         public var capacityToRelease: Swift.Int?
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -6732,7 +6732,7 @@ public struct DataRepositoryTaskEnded: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct DataRepositoryTaskEndedBody: Swift.Equatable {
+struct DataRepositoryTaskEndedBody {
     let message: Swift.String?
 }
 
@@ -6788,7 +6788,7 @@ public struct DataRepositoryTaskExecuting: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct DataRepositoryTaskExecutingBody: Swift.Equatable {
+struct DataRepositoryTaskExecutingBody {
     let message: Swift.String?
 }
 
@@ -6825,7 +6825,7 @@ extension FSxClientTypes.DataRepositoryTaskFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// Provides information about why a data repository task failed. Only populated when the task Lifecycle is set to FAILED.
-    public struct DataRepositoryTaskFailureDetails: Swift.Equatable {
+    public struct DataRepositoryTaskFailureDetails {
         /// A detailed error message.
         public var message: Swift.String?
 
@@ -6878,7 +6878,7 @@ extension FSxClientTypes.DataRepositoryTaskFilter: Swift.Codable {
 
 extension FSxClientTypes {
     /// (Optional) An array of filter objects you can use to filter the response of data repository tasks you will see in the the response. You can filter the tasks returned in the response by one or more file system IDs, task lifecycles, and by task type. A filter object consists of a filter Name, and one or more Values for the filter.
-    public struct DataRepositoryTaskFilter: Swift.Equatable {
+    public struct DataRepositoryTaskFilter {
         /// Name of the task property to use in filtering the tasks returned in the response.
         ///
         /// * Use file-system-id to retrieve data repository tasks for specific file systems.
@@ -7022,7 +7022,7 @@ public struct DataRepositoryTaskNotFound: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct DataRepositoryTaskNotFoundBody: Swift.Equatable {
+struct DataRepositoryTaskNotFoundBody {
     let message: Swift.String?
 }
 
@@ -7083,7 +7083,7 @@ extension FSxClientTypes.DataRepositoryTaskStatus: Swift.Codable {
 
 extension FSxClientTypes {
     /// Provides the task status showing a running total of the total number of files to be processed, the number successfully processed, and the number of files the task failed to process.
-    public struct DataRepositoryTaskStatus: Swift.Equatable {
+    public struct DataRepositoryTaskStatus {
         /// A running total of the number of files that the task failed to process.
         public var failedCount: Swift.Int?
         /// The time at which the task status was last updated.
@@ -7176,7 +7176,7 @@ extension DeleteBackupInput {
 }
 
 /// The request object for the DeleteBackup operation.
-public struct DeleteBackupInput: Swift.Equatable {
+public struct DeleteBackupInput {
     /// The ID of the backup that you want to delete.
     /// This member is required.
     public var backupId: Swift.String?
@@ -7193,7 +7193,7 @@ public struct DeleteBackupInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupInputBody: Swift.Equatable {
+struct DeleteBackupInputBody {
     let backupId: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -7228,7 +7228,7 @@ extension DeleteBackupOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the DeleteBackup operation.
-public struct DeleteBackupOutput: Swift.Equatable {
+public struct DeleteBackupOutput {
     /// The ID of the backup that was deleted.
     public var backupId: Swift.String?
     /// The lifecycle status of the backup. If the DeleteBackup operation is successful, the status is DELETED.
@@ -7244,7 +7244,7 @@ public struct DeleteBackupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackupOutputBody: Swift.Equatable {
+struct DeleteBackupOutputBody {
     let backupId: Swift.String?
     let lifecycle: FSxClientTypes.BackupLifecycle?
 }
@@ -7309,7 +7309,7 @@ extension DeleteDataRepositoryAssociationInput {
     }
 }
 
-public struct DeleteDataRepositoryAssociationInput: Swift.Equatable {
+public struct DeleteDataRepositoryAssociationInput {
     /// The ID of the data repository association that you want to delete.
     /// This member is required.
     public var associationId: Swift.String?
@@ -7330,7 +7330,7 @@ public struct DeleteDataRepositoryAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataRepositoryAssociationInputBody: Swift.Equatable {
+struct DeleteDataRepositoryAssociationInputBody {
     let associationId: Swift.String?
     let clientRequestToken: Swift.String?
     let deleteDataInFileSystem: Swift.Bool?
@@ -7370,7 +7370,7 @@ extension DeleteDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteDataRepositoryAssociationOutput: Swift.Equatable {
+public struct DeleteDataRepositoryAssociationOutput {
     /// The ID of the data repository association being deleted.
     public var associationId: Swift.String?
     /// Indicates whether data in the file system that corresponds to the data repository association is being deleted. Default is false.
@@ -7390,7 +7390,7 @@ public struct DeleteDataRepositoryAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDataRepositoryAssociationOutputBody: Swift.Equatable {
+struct DeleteDataRepositoryAssociationOutputBody {
     let associationId: Swift.String?
     let lifecycle: FSxClientTypes.DataRepositoryLifecycle?
     let deleteDataInFileSystem: Swift.Bool?
@@ -7453,7 +7453,7 @@ extension DeleteFileCacheInput {
     }
 }
 
-public struct DeleteFileCacheInput: Swift.Equatable {
+public struct DeleteFileCacheInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the cache that's being deleted.
@@ -7470,7 +7470,7 @@ public struct DeleteFileCacheInput: Swift.Equatable {
     }
 }
 
-struct DeleteFileCacheInputBody: Swift.Equatable {
+struct DeleteFileCacheInputBody {
     let fileCacheId: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -7504,7 +7504,7 @@ extension DeleteFileCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFileCacheOutput: Swift.Equatable {
+public struct DeleteFileCacheOutput {
     /// The ID of the cache that's being deleted.
     public var fileCacheId: Swift.String?
     /// The cache lifecycle for the deletion request. If the DeleteFileCache operation is successful, this status is DELETING.
@@ -7520,7 +7520,7 @@ public struct DeleteFileCacheOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFileCacheOutputBody: Swift.Equatable {
+struct DeleteFileCacheOutputBody {
     let fileCacheId: Swift.String?
     let lifecycle: FSxClientTypes.FileCacheLifecycle?
 }
@@ -7592,7 +7592,7 @@ extension DeleteFileSystemInput {
 }
 
 /// The request object for DeleteFileSystem operation.
-public struct DeleteFileSystemInput: Swift.Equatable {
+public struct DeleteFileSystemInput {
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent deletion. This token is automatically filled on your behalf when using the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system that you want to delete.
@@ -7621,7 +7621,7 @@ public struct DeleteFileSystemInput: Swift.Equatable {
     }
 }
 
-struct DeleteFileSystemInputBody: Swift.Equatable {
+struct DeleteFileSystemInputBody {
     let fileSystemId: Swift.String?
     let clientRequestToken: Swift.String?
     let windowsConfiguration: FSxClientTypes.DeleteFileSystemWindowsConfiguration?
@@ -7692,7 +7692,7 @@ extension FSxClientTypes.DeleteFileSystemLustreConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration object for the Amazon FSx for Lustre file system being deleted in the DeleteFileSystem operation.
-    public struct DeleteFileSystemLustreConfiguration: Swift.Equatable {
+    public struct DeleteFileSystemLustreConfiguration {
         /// Use if SkipFinalBackup is set to false, and you want to apply an array of tags to the final backup. If you have set the file system property CopyTagsToBackups to true, and you specify one or more FinalBackupTags when deleting a file system, Amazon FSx will not copy any existing file system tags to the backup.
         public var finalBackupTags: [FSxClientTypes.Tag]?
         /// Set SkipFinalBackup to false if you want to take a final backup of the file system you are deleting. By default, Amazon FSx will not take a final backup on your behalf when the DeleteFileSystem operation is invoked. (Default = true) The fsx:CreateBackup permission is required if you set SkipFinalBackup to false in order to delete the file system and take a final backup.
@@ -7749,7 +7749,7 @@ extension FSxClientTypes.DeleteFileSystemLustreResponse: Swift.Codable {
 
 extension FSxClientTypes {
     /// The response object for the Amazon FSx for Lustre file system being deleted in the DeleteFileSystem operation.
-    public struct DeleteFileSystemLustreResponse: Swift.Equatable {
+    public struct DeleteFileSystemLustreResponse {
         /// The ID of the final backup for this file system.
         public var finalBackupId: Swift.String?
         /// The set of tags applied to the final backup.
@@ -7824,7 +7824,7 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration object for the Amazon FSx for OpenZFS file system used in the DeleteFileSystem operation.
-    public struct DeleteFileSystemOpenZFSConfiguration: Swift.Equatable {
+    public struct DeleteFileSystemOpenZFSConfiguration {
         /// A list of tags to apply to the file system's final backup.
         public var finalBackupTags: [FSxClientTypes.Tag]?
         /// To delete a file system if there are child volumes present below the root volume, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS. If your file system has child volumes and you don't use this option, the delete request will fail.
@@ -7914,7 +7914,7 @@ extension FSxClientTypes.DeleteFileSystemOpenZFSResponse: Swift.Codable {
 
 extension FSxClientTypes {
     /// The response object for the Amazon FSx for OpenZFS file system that's being deleted in the DeleteFileSystem operation.
-    public struct DeleteFileSystemOpenZFSResponse: Swift.Equatable {
+    public struct DeleteFileSystemOpenZFSResponse {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public var finalBackupId: Swift.String?
         /// A list of Tag values, with a maximum of 50 elements.
@@ -7953,7 +7953,7 @@ extension DeleteFileSystemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the DeleteFileSystem operation.
-public struct DeleteFileSystemOutput: Swift.Equatable {
+public struct DeleteFileSystemOutput {
     /// The ID of the file system that's being deleted.
     public var fileSystemId: Swift.String?
     /// The file system lifecycle for the deletion request. If the DeleteFileSystem operation is successful, this status is DELETING.
@@ -7981,7 +7981,7 @@ public struct DeleteFileSystemOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFileSystemOutputBody: Swift.Equatable {
+struct DeleteFileSystemOutputBody {
     let fileSystemId: Swift.String?
     let lifecycle: FSxClientTypes.FileSystemLifecycle?
     let windowsResponse: FSxClientTypes.DeleteFileSystemWindowsResponse?
@@ -8067,7 +8067,7 @@ extension FSxClientTypes.DeleteFileSystemWindowsConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration object for the Microsoft Windows file system used in the DeleteFileSystem operation.
-    public struct DeleteFileSystemWindowsConfiguration: Swift.Equatable {
+    public struct DeleteFileSystemWindowsConfiguration {
         /// A set of tags for your final backup.
         public var finalBackupTags: [FSxClientTypes.Tag]?
         /// By default, Amazon FSx for Windows takes a final backup on your behalf when the DeleteFileSystem operation is invoked. Doing this helps protect you from data loss, and we highly recommend taking the final backup. If you want to skip this backup, use this flag to do so.
@@ -8124,7 +8124,7 @@ extension FSxClientTypes.DeleteFileSystemWindowsResponse: Swift.Codable {
 
 extension FSxClientTypes {
     /// The response object for the Microsoft Windows file system used in the DeleteFileSystem operation.
-    public struct DeleteFileSystemWindowsResponse: Swift.Equatable {
+    public struct DeleteFileSystemWindowsResponse {
         /// The ID of the final backup for this file system.
         public var finalBackupId: Swift.String?
         /// The set of tags applied to the final backup.
@@ -8195,7 +8195,7 @@ extension DeleteSnapshotInput {
     }
 }
 
-public struct DeleteSnapshotInput: Swift.Equatable {
+public struct DeleteSnapshotInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the snapshot that you want to delete.
@@ -8212,7 +8212,7 @@ public struct DeleteSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotInputBody: Swift.Equatable {
+struct DeleteSnapshotInputBody {
     let clientRequestToken: Swift.String?
     let snapshotId: Swift.String?
 }
@@ -8246,7 +8246,7 @@ extension DeleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSnapshotOutput: Swift.Equatable {
+public struct DeleteSnapshotOutput {
     /// The lifecycle status of the snapshot. If the DeleteSnapshot operation is successful, this status is DELETING.
     public var lifecycle: FSxClientTypes.SnapshotLifecycle?
     /// The ID of the deleted snapshot.
@@ -8262,7 +8262,7 @@ public struct DeleteSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotOutputBody: Swift.Equatable {
+struct DeleteSnapshotOutputBody {
     let snapshotId: Swift.String?
     let lifecycle: FSxClientTypes.SnapshotLifecycle?
 }
@@ -8319,7 +8319,7 @@ extension DeleteStorageVirtualMachineInput {
     }
 }
 
-public struct DeleteStorageVirtualMachineInput: Swift.Equatable {
+public struct DeleteStorageVirtualMachineInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the SVM that you want to delete.
@@ -8336,7 +8336,7 @@ public struct DeleteStorageVirtualMachineInput: Swift.Equatable {
     }
 }
 
-struct DeleteStorageVirtualMachineInputBody: Swift.Equatable {
+struct DeleteStorageVirtualMachineInputBody {
     let clientRequestToken: Swift.String?
     let storageVirtualMachineId: Swift.String?
 }
@@ -8370,7 +8370,7 @@ extension DeleteStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStorageVirtualMachineOutput: Swift.Equatable {
+public struct DeleteStorageVirtualMachineOutput {
     /// Describes the lifecycle state of the SVM being deleted.
     public var lifecycle: FSxClientTypes.StorageVirtualMachineLifecycle?
     /// The ID of the SVM Amazon FSx is deleting.
@@ -8386,7 +8386,7 @@ public struct DeleteStorageVirtualMachineOutput: Swift.Equatable {
     }
 }
 
-struct DeleteStorageVirtualMachineOutputBody: Swift.Equatable {
+struct DeleteStorageVirtualMachineOutputBody {
     let storageVirtualMachineId: Swift.String?
     let lifecycle: FSxClientTypes.StorageVirtualMachineLifecycle?
 }
@@ -8452,7 +8452,7 @@ extension DeleteVolumeInput {
     }
 }
 
-public struct DeleteVolumeInput: Swift.Equatable {
+public struct DeleteVolumeInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// For Amazon FSx for ONTAP volumes, specify whether to take a final backup of the volume and apply tags to the backup. To apply tags to the backup, you must have the fsx:TagResource permission.
@@ -8477,7 +8477,7 @@ public struct DeleteVolumeInput: Swift.Equatable {
     }
 }
 
-struct DeleteVolumeInputBody: Swift.Equatable {
+struct DeleteVolumeInputBody {
     let clientRequestToken: Swift.String?
     let volumeId: Swift.String?
     let ontapConfiguration: FSxClientTypes.DeleteVolumeOntapConfiguration?
@@ -8550,7 +8550,7 @@ extension FSxClientTypes.DeleteVolumeOntapConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Use to specify skipping a final backup, adding tags to a final backup, or bypassing the retention period of an FSx for ONTAP SnapLock Enterprise volume when deleting an FSx for ONTAP volume.
-    public struct DeleteVolumeOntapConfiguration: Swift.Equatable {
+    public struct DeleteVolumeOntapConfiguration {
         /// Setting this to true allows a SnapLock administrator to delete an FSx for ONTAP SnapLock Enterprise volume with unexpired write once, read many (WORM) files. The IAM permission fsx:BypassSnaplockEnterpriseRetention is also required to delete SnapLock Enterprise volumes with unexpired WORM files. The default value is false. For more information, see [ Deleting a SnapLock volume](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-delete-volume.html).
         public var bypassSnaplockEnterpriseRetention: Swift.Bool?
         /// A list of Tag values, with a maximum of 50 elements.
@@ -8611,7 +8611,7 @@ extension FSxClientTypes.DeleteVolumeOntapResponse: Swift.Codable {
 
 extension FSxClientTypes {
     /// The response object for the Amazon FSx for NetApp ONTAP volume being deleted in the DeleteVolume operation.
-    public struct DeleteVolumeOntapResponse: Swift.Equatable {
+    public struct DeleteVolumeOntapResponse {
         /// The ID of the source backup. Specifies the backup that you are copying.
         public var finalBackupId: Swift.String?
         /// A list of Tag values, with a maximum of 50 elements.
@@ -8662,7 +8662,7 @@ extension FSxClientTypes.DeleteVolumeOpenZFSConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// A value that specifies whether to delete all child volumes and snapshots.
-    public struct DeleteVolumeOpenZFSConfiguration: Swift.Equatable {
+    public struct DeleteVolumeOpenZFSConfiguration {
         /// To delete the volume's child volumes, snapshots, and clones, use the string DELETE_CHILD_VOLUMES_AND_SNAPSHOTS.
         public var options: [FSxClientTypes.DeleteOpenZFSVolumeOption]?
 
@@ -8692,7 +8692,7 @@ extension DeleteVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVolumeOutput: Swift.Equatable {
+public struct DeleteVolumeOutput {
     /// The lifecycle state of the volume being deleted. If the DeleteVolume operation is successful, this value is DELETING.
     public var lifecycle: FSxClientTypes.VolumeLifecycle?
     /// Returned after a DeleteVolume request, showing the status of the delete request.
@@ -8712,7 +8712,7 @@ public struct DeleteVolumeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVolumeOutputBody: Swift.Equatable {
+struct DeleteVolumeOutputBody {
     let volumeId: Swift.String?
     let lifecycle: FSxClientTypes.VolumeLifecycle?
     let ontapResponse: FSxClientTypes.DeleteVolumeOntapResponse?
@@ -8790,7 +8790,7 @@ extension DescribeBackupsInput {
 }
 
 /// The request object for the DescribeBackups operation.
-public struct DescribeBackupsInput: Swift.Equatable {
+public struct DescribeBackupsInput {
     /// The IDs of the backups that you want to retrieve. This parameter value overrides any filters. If any IDs aren't found, a BackupNotFound error occurs.
     public var backupIds: [Swift.String]?
     /// The filters structure. The supported names are file-system-id, backup-type, file-system-type, and volume-id.
@@ -8814,7 +8814,7 @@ public struct DescribeBackupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsInputBody: Swift.Equatable {
+struct DescribeBackupsInputBody {
     let backupIds: [Swift.String]?
     let filters: [FSxClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -8875,7 +8875,7 @@ extension DescribeBackupsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Response object for the DescribeBackups operation.
-public struct DescribeBackupsOutput: Swift.Equatable {
+public struct DescribeBackupsOutput {
     /// An array of backups.
     public var backups: [FSxClientTypes.Backup]?
     /// A NextToken value is present if there are more backups than returned in the response. You can use the NextToken value in the subsequent request to fetch the backups.
@@ -8891,7 +8891,7 @@ public struct DescribeBackupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupsOutputBody: Swift.Equatable {
+struct DescribeBackupsOutputBody {
     let backups: [FSxClientTypes.Backup]?
     let nextToken: Swift.String?
 }
@@ -8973,7 +8973,7 @@ extension DescribeDataRepositoryAssociationsInput {
     }
 }
 
-public struct DescribeDataRepositoryAssociationsInput: Swift.Equatable {
+public struct DescribeDataRepositoryAssociationsInput {
     /// IDs of the data repository associations whose descriptions you want to retrieve (String).
     public var associationIds: [Swift.String]?
     /// A list of Filter elements.
@@ -8997,7 +8997,7 @@ public struct DescribeDataRepositoryAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataRepositoryAssociationsInputBody: Swift.Equatable {
+struct DescribeDataRepositoryAssociationsInputBody {
     let associationIds: [Swift.String]?
     let filters: [FSxClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -9057,7 +9057,7 @@ extension DescribeDataRepositoryAssociationsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeDataRepositoryAssociationsOutput: Swift.Equatable {
+public struct DescribeDataRepositoryAssociationsOutput {
     /// An array of one or more data repository association descriptions.
     public var associations: [FSxClientTypes.DataRepositoryAssociation]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -9073,7 +9073,7 @@ public struct DescribeDataRepositoryAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataRepositoryAssociationsOutputBody: Swift.Equatable {
+struct DescribeDataRepositoryAssociationsOutputBody {
     let associations: [FSxClientTypes.DataRepositoryAssociation]?
     let nextToken: Swift.String?
 }
@@ -9155,7 +9155,7 @@ extension DescribeDataRepositoryTasksInput {
     }
 }
 
-public struct DescribeDataRepositoryTasksInput: Swift.Equatable {
+public struct DescribeDataRepositoryTasksInput {
     /// (Optional) You can use filters to narrow the DescribeDataRepositoryTasks response to include just tasks for specific file systems, or tasks in a specific lifecycle state.
     public var filters: [FSxClientTypes.DataRepositoryTaskFilter]?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
@@ -9179,7 +9179,7 @@ public struct DescribeDataRepositoryTasksInput: Swift.Equatable {
     }
 }
 
-struct DescribeDataRepositoryTasksInputBody: Swift.Equatable {
+struct DescribeDataRepositoryTasksInputBody {
     let taskIds: [Swift.String]?
     let filters: [FSxClientTypes.DataRepositoryTaskFilter]?
     let maxResults: Swift.Int?
@@ -9239,7 +9239,7 @@ extension DescribeDataRepositoryTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDataRepositoryTasksOutput: Swift.Equatable {
+public struct DescribeDataRepositoryTasksOutput {
     /// The collection of data repository task descriptions returned.
     public var dataRepositoryTasks: [FSxClientTypes.DataRepositoryTask]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -9255,7 +9255,7 @@ public struct DescribeDataRepositoryTasksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDataRepositoryTasksOutputBody: Swift.Equatable {
+struct DescribeDataRepositoryTasksOutputBody {
     let dataRepositoryTasks: [FSxClientTypes.DataRepositoryTask]?
     let nextToken: Swift.String?
 }
@@ -9329,7 +9329,7 @@ extension DescribeFileCachesInput {
     }
 }
 
-public struct DescribeFileCachesInput: Swift.Equatable {
+public struct DescribeFileCachesInput {
     /// IDs of the caches whose descriptions you want to retrieve (String).
     public var fileCacheIds: [Swift.String]?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
@@ -9349,7 +9349,7 @@ public struct DescribeFileCachesInput: Swift.Equatable {
     }
 }
 
-struct DescribeFileCachesInputBody: Swift.Equatable {
+struct DescribeFileCachesInputBody {
     let fileCacheIds: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9396,7 +9396,7 @@ extension DescribeFileCachesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFileCachesOutput: Swift.Equatable {
+public struct DescribeFileCachesOutput {
     /// The response object for the DescribeFileCaches operation.
     public var fileCaches: [FSxClientTypes.FileCache]?
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
@@ -9412,7 +9412,7 @@ public struct DescribeFileCachesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFileCachesOutputBody: Swift.Equatable {
+struct DescribeFileCachesOutputBody {
     let fileCaches: [FSxClientTypes.FileCache]?
     let nextToken: Swift.String?
 }
@@ -9487,7 +9487,7 @@ extension DescribeFileSystemAliasesInput {
 }
 
 /// The request object for DescribeFileSystemAliases operation.
-public struct DescribeFileSystemAliasesInput: Swift.Equatable {
+public struct DescribeFileSystemAliasesInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system to return the associated DNS aliases for (String).
@@ -9512,7 +9512,7 @@ public struct DescribeFileSystemAliasesInput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemAliasesInputBody: Swift.Equatable {
+struct DescribeFileSystemAliasesInputBody {
     let clientRequestToken: Swift.String?
     let fileSystemId: Swift.String?
     let maxResults: Swift.Int?
@@ -9555,7 +9555,7 @@ extension DescribeFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for DescribeFileSystemAliases operation.
-public struct DescribeFileSystemAliasesOutput: Swift.Equatable {
+public struct DescribeFileSystemAliasesOutput {
     /// An array of one or more DNS aliases currently associated with the specified file system.
     public var aliases: [FSxClientTypes.Alias]?
     /// Present if there are more DNS aliases than returned in the response (String). You can use the NextToken value in a later request to fetch additional descriptions.
@@ -9571,7 +9571,7 @@ public struct DescribeFileSystemAliasesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemAliasesOutputBody: Swift.Equatable {
+struct DescribeFileSystemAliasesOutputBody {
     let aliases: [FSxClientTypes.Alias]?
     let nextToken: Swift.String?
 }
@@ -9645,7 +9645,7 @@ extension DescribeFileSystemsInput {
 }
 
 /// The request object for DescribeFileSystems operation.
-public struct DescribeFileSystemsInput: Swift.Equatable {
+public struct DescribeFileSystemsInput {
     /// IDs of the file systems whose descriptions you want to retrieve (String).
     public var fileSystemIds: [Swift.String]?
     /// Maximum number of file systems to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
@@ -9665,7 +9665,7 @@ public struct DescribeFileSystemsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemsInputBody: Swift.Equatable {
+struct DescribeFileSystemsInputBody {
     let fileSystemIds: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9713,7 +9713,7 @@ extension DescribeFileSystemsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for DescribeFileSystems operation.
-public struct DescribeFileSystemsOutput: Swift.Equatable {
+public struct DescribeFileSystemsOutput {
     /// An array of file system descriptions.
     public var fileSystems: [FSxClientTypes.FileSystem]?
     /// Present if there are more file systems than returned in the response (String). You can use the NextToken value in the later request to fetch the descriptions.
@@ -9729,7 +9729,7 @@ public struct DescribeFileSystemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemsOutputBody: Swift.Equatable {
+struct DescribeFileSystemsOutputBody {
     let fileSystems: [FSxClientTypes.FileSystem]?
     let nextToken: Swift.String?
 }
@@ -9786,12 +9786,12 @@ extension DescribeSharedVpcConfigurationInput {
     }
 }
 
-public struct DescribeSharedVpcConfigurationInput: Swift.Equatable {
+public struct DescribeSharedVpcConfigurationInput {
 
     public init() { }
 }
 
-struct DescribeSharedVpcConfigurationInputBody: Swift.Equatable {
+struct DescribeSharedVpcConfigurationInputBody {
 }
 
 extension DescribeSharedVpcConfigurationInputBody: Swift.Decodable {
@@ -9812,7 +9812,7 @@ extension DescribeSharedVpcConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeSharedVpcConfigurationOutput: Swift.Equatable {
+public struct DescribeSharedVpcConfigurationOutput {
     /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
     public var enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
 
@@ -9824,7 +9824,7 @@ public struct DescribeSharedVpcConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSharedVpcConfigurationOutputBody: Swift.Equatable {
+struct DescribeSharedVpcConfigurationOutputBody {
     let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
 }
 
@@ -9894,7 +9894,7 @@ extension DescribeSnapshotsInput {
     }
 }
 
-public struct DescribeSnapshotsInput: Swift.Equatable {
+public struct DescribeSnapshotsInput {
     /// The filters structure. The supported names are file-system-id or volume-id.
     public var filters: [FSxClientTypes.SnapshotFilter]?
     /// Set to false (default) if you want to only see the snapshots owned by your Amazon Web Services account. Set to true if you want to see the snapshots in your account and the ones shared with you from another account.
@@ -9922,7 +9922,7 @@ public struct DescribeSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsInputBody: Swift.Equatable {
+struct DescribeSnapshotsInputBody {
     let snapshotIds: [Swift.String]?
     let filters: [FSxClientTypes.SnapshotFilter]?
     let maxResults: Swift.Int?
@@ -9986,7 +9986,7 @@ extension DescribeSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSnapshotsOutput: Swift.Equatable {
+public struct DescribeSnapshotsOutput {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// An array of snapshots.
@@ -10002,7 +10002,7 @@ public struct DescribeSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsOutputBody: Swift.Equatable {
+struct DescribeSnapshotsOutputBody {
     let snapshots: [FSxClientTypes.Snapshot]?
     let nextToken: Swift.String?
 }
@@ -10082,7 +10082,7 @@ extension DescribeStorageVirtualMachinesInput {
     }
 }
 
-public struct DescribeStorageVirtualMachinesInput: Swift.Equatable {
+public struct DescribeStorageVirtualMachinesInput {
     /// Enter a filter name:value pair to view a select set of SVMs.
     public var filters: [FSxClientTypes.StorageVirtualMachineFilter]?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
@@ -10106,7 +10106,7 @@ public struct DescribeStorageVirtualMachinesInput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageVirtualMachinesInputBody: Swift.Equatable {
+struct DescribeStorageVirtualMachinesInputBody {
     let storageVirtualMachineIds: [Swift.String]?
     let filters: [FSxClientTypes.StorageVirtualMachineFilter]?
     let maxResults: Swift.Int?
@@ -10166,7 +10166,7 @@ extension DescribeStorageVirtualMachinesOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeStorageVirtualMachinesOutput: Swift.Equatable {
+public struct DescribeStorageVirtualMachinesOutput {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// Returned after a successful DescribeStorageVirtualMachines operation, describing each SVM.
@@ -10182,7 +10182,7 @@ public struct DescribeStorageVirtualMachinesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStorageVirtualMachinesOutputBody: Swift.Equatable {
+struct DescribeStorageVirtualMachinesOutputBody {
     let storageVirtualMachines: [FSxClientTypes.StorageVirtualMachine]?
     let nextToken: Swift.String?
 }
@@ -10262,7 +10262,7 @@ extension DescribeVolumesInput {
     }
 }
 
-public struct DescribeVolumesInput: Swift.Equatable {
+public struct DescribeVolumesInput {
     /// Enter a filter Name and Values pair to view a select set of volumes.
     public var filters: [FSxClientTypes.VolumeFilter]?
     /// The maximum number of resources to return in the response. This value must be an integer greater than zero.
@@ -10286,7 +10286,7 @@ public struct DescribeVolumesInput: Swift.Equatable {
     }
 }
 
-struct DescribeVolumesInputBody: Swift.Equatable {
+struct DescribeVolumesInputBody {
     let volumeIds: [Swift.String]?
     let filters: [FSxClientTypes.VolumeFilter]?
     let maxResults: Swift.Int?
@@ -10346,7 +10346,7 @@ extension DescribeVolumesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVolumesOutput: Swift.Equatable {
+public struct DescribeVolumesOutput {
     /// (Optional) Opaque pagination token returned from a previous operation (String). If present, this token indicates from what point you can continue processing the request, where the previous NextToken value left off.
     public var nextToken: Swift.String?
     /// Returned after a successful DescribeVolumes operation, describing each volume.
@@ -10362,7 +10362,7 @@ public struct DescribeVolumesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVolumesOutputBody: Swift.Equatable {
+struct DescribeVolumesOutputBody {
     let volumes: [FSxClientTypes.Volume]?
     let nextToken: Swift.String?
 }
@@ -10436,7 +10436,7 @@ extension DisassociateFileSystemAliasesInput {
 }
 
 /// The request object of DNS aliases to disassociate from an Amazon FSx for Windows File Server file system.
-public struct DisassociateFileSystemAliasesInput: Swift.Equatable {
+public struct DisassociateFileSystemAliasesInput {
     /// An array of one or more DNS alias names to disassociate, or remove, from the file system.
     /// This member is required.
     public var aliases: [Swift.String]?
@@ -10458,7 +10458,7 @@ public struct DisassociateFileSystemAliasesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFileSystemAliasesInputBody: Swift.Equatable {
+struct DisassociateFileSystemAliasesInputBody {
     let clientRequestToken: Swift.String?
     let fileSystemId: Swift.String?
     let aliases: [Swift.String]?
@@ -10504,7 +10504,7 @@ extension DisassociateFileSystemAliasesOutput: ClientRuntime.HttpResponseBinding
 }
 
 /// The system generated response showing the DNS aliases that Amazon FSx is attempting to disassociate from the file system. Use the API operation to monitor the status of the aliases Amazon FSx is removing from the file system.
-public struct DisassociateFileSystemAliasesOutput: Swift.Equatable {
+public struct DisassociateFileSystemAliasesOutput {
     /// An array of one or more DNS aliases that Amazon FSx is attempting to disassociate from the file system.
     public var aliases: [FSxClientTypes.Alias]?
 
@@ -10516,7 +10516,7 @@ public struct DisassociateFileSystemAliasesOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateFileSystemAliasesOutputBody: Swift.Equatable {
+struct DisassociateFileSystemAliasesOutputBody {
     let aliases: [FSxClientTypes.Alias]?
 }
 
@@ -10581,7 +10581,7 @@ extension FSxClientTypes.DiskIopsConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The SSD IOPS (input/output operations per second) configuration for an Amazon FSx for NetApp ONTAP, Amazon FSx for Windows File Server, or FSx for OpenZFS file system. By default, Amazon FSx automatically provisions 3 IOPS per GB of storage capacity. You can provision additional IOPS per GB of storage. The configuration consists of the total number of provisioned SSD IOPS and how it is was provisioned, or the mode (by the customer or by Amazon FSx).
-    public struct DiskIopsConfiguration: Swift.Equatable {
+    public struct DiskIopsConfiguration {
         /// The total number of SSD IOPS provisioned for the file system. The minimum and maximum values for this property depend on the value of HAPairs and StorageCapacity. The minimum value is calculated as StorageCapacity * 3 * HAPairs (3 IOPS per GB of StorageCapacity). The maximum value is calculated as 200,000 * HAPairs. Amazon FSx responds with an HTTP status code 400 (Bad Request) if the value of Iops is outside of the minimum or maximum values.
         public var iops: Swift.Int?
         /// Specifies whether the file system is using the AUTOMATIC setting of SSD IOPS of 3 IOPS per GB of storage capacity, or if it using a USER_PROVISIONED value.
@@ -10690,7 +10690,7 @@ extension FSxClientTypes.DurationSinceLastAccess: Swift.Codable {
 
 extension FSxClientTypes {
     /// Defines the minimum amount of time since last access for a file to be eligible for release. Only files that have been exported to S3 and that were last accessed or modified before this point-in-time are eligible to be released from the Amazon FSx for Lustre file system.
-    public struct DurationSinceLastAccess: Swift.Equatable {
+    public struct DurationSinceLastAccess {
         /// The unit of time used by the Value parameter to determine if a file can be released, based on when it was last accessed. DAYS is the only supported value. This is a required parameter.
         public var unit: FSxClientTypes.Unit?
         /// An integer that represents the minimum amount of time (in days) since a file was last accessed in the file system. Only exported files with a MAX(atime, ctime, mtime) timestamp that is more than this amount of time in the past (relative to the task create time) will be released. The default of Value is 0. This is a required parameter. If an exported file meets the last accessed time criteria, its file or directory path must also be specified in the Paths parameter of the operation in order for the file to be released.
@@ -10892,7 +10892,7 @@ extension FSxClientTypes.FileCache: Swift.Codable {
 
 extension FSxClientTypes {
     /// A description of a specific Amazon File Cache resource, which is a response object from the DescribeFileCaches operation.
-    public struct FileCache: Swift.Equatable {
+    public struct FileCache {
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
         public var creationTime: ClientRuntime.Date?
         /// A list of IDs of data repository associations that are associated with this cache.
@@ -11147,7 +11147,7 @@ extension FSxClientTypes.FileCacheCreating: Swift.Codable {
 
 extension FSxClientTypes {
     /// The response object for the Amazon File Cache resource being created in the CreateFileCache operation.
-    public struct FileCacheCreating: Swift.Equatable {
+    public struct FileCacheCreating {
         /// A boolean flag indicating whether tags for the cache should be copied to data repository associations.
         public var copyTagsToDataRepositoryAssociations: Swift.Bool?
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -11290,7 +11290,7 @@ extension FSxClientTypes.FileCacheDataRepositoryAssociation: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for a data repository association (DRA) to be created during the Amazon File Cache resource creation. The DRA links the cache to either an Amazon S3 bucket or prefix, or a Network File System (NFS) data repository that supports the NFSv3 protocol. The DRA does not support automatic import or automatic export.
-    public struct FileCacheDataRepositoryAssociation: Swift.Equatable {
+    public struct FileCacheDataRepositoryAssociation {
         /// The path to the S3 or NFS data repository that links to the cache. You must provide one of the following paths:
         ///
         /// * The path can be an NFS data repository that links to the cache. The path can be in one of two formats:
@@ -11350,7 +11350,7 @@ extension FSxClientTypes.FileCacheFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// A structure providing details of any failures that occurred.
-    public struct FileCacheFailureDetails: Swift.Equatable {
+    public struct FileCacheFailureDetails {
         /// A message describing any failures that occurred.
         public var message: Swift.String?
 
@@ -11456,7 +11456,7 @@ extension FSxClientTypes.FileCacheLustreConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for the Amazon File Cache resource.
-    public struct FileCacheLustreConfiguration: Swift.Equatable {
+    public struct FileCacheLustreConfiguration {
         /// The deployment type of the Amazon File Cache resource, which must be CACHE_1.
         public var deploymentType: FSxClientTypes.FileCacheLustreDeploymentType?
         /// The configuration for Lustre logging used to write the enabled logging events for your Amazon File Cache resource to Amazon CloudWatch Logs.
@@ -11540,7 +11540,7 @@ extension FSxClientTypes.FileCacheLustreMetadataConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for a Lustre MDT (Metadata Target) storage volume. The metadata on Amazon File Cache is managed by a Lustre Metadata Server (MDS) while the actual metadata is persisted on an MDT.
-    public struct FileCacheLustreMetadataConfiguration: Swift.Equatable {
+    public struct FileCacheLustreMetadataConfiguration {
         /// The storage capacity of the Lustre MDT (Metadata Target) storage volume in gibibytes (GiB). The only supported value is 2400 GiB.
         /// This member is required.
         public var storageCapacity: Swift.Int?
@@ -11594,7 +11594,7 @@ extension FSxClientTypes.FileCacheNFSConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for an NFS data repository association (DRA) created during the creation of the Amazon File Cache resource.
-    public struct FileCacheNFSConfiguration: Swift.Equatable {
+    public struct FileCacheNFSConfiguration {
         /// A list of up to 2 IP addresses of DNS servers used to resolve the NFS file system domain name. The provided IP addresses can either be the IP addresses of a DNS forwarder or resolver that the customer manages and runs inside the customer VPC, or the IP addresses of the on-premises DNS servers.
         public var dnsIps: [Swift.String]?
         /// The version of the NFS (Network File System) protocol of the NFS data repository. The only supported value is NFS3, which indicates that the data repository must support the NFSv3 protocol.
@@ -11653,7 +11653,7 @@ public struct FileCacheNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct FileCacheNotFoundBody: Swift.Equatable {
+struct FileCacheNotFoundBody {
     let message: Swift.String?
 }
 
@@ -11887,7 +11887,7 @@ extension FSxClientTypes.FileSystem: Swift.Codable {
 
 extension FSxClientTypes {
     /// A description of a specific Amazon FSx file system.
-    public struct FileSystem: Swift.Equatable {
+    public struct FileSystem {
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system that you have initiated using the UpdateFileSystem operation.
         public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
         /// The time that the file system was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -12042,7 +12042,7 @@ extension FSxClientTypes.FileSystemEndpoint: Swift.Codable {
 
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP file system has two endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror. They are the Management and Intercluster endpoints.
-    public struct FileSystemEndpoint: Swift.Equatable {
+    public struct FileSystemEndpoint {
         /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
         /// IP addresses of the file system endpoint.
@@ -12087,7 +12087,7 @@ extension FSxClientTypes.FileSystemEndpoints: Swift.Codable {
 
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP file system has the following endpoints that are used to access data or to manage the file system using the NetApp ONTAP CLI, REST API, or NetApp SnapMirror.
-    public struct FileSystemEndpoints: Swift.Equatable {
+    public struct FileSystemEndpoints {
         /// An endpoint for managing your file system by setting up NetApp SnapMirror with other ONTAP systems.
         public var intercluster: FSxClientTypes.FileSystemEndpoint?
         /// An endpoint for managing your file system using the NetApp ONTAP CLI and NetApp ONTAP API.
@@ -12126,7 +12126,7 @@ extension FSxClientTypes.FileSystemFailureDetails: Swift.Codable {
 
 extension FSxClientTypes {
     /// A structure providing details of any failures that occurred.
-    public struct FileSystemFailureDetails: Swift.Equatable {
+    public struct FileSystemFailureDetails {
         /// A message describing any failures that occurred.
         public var message: Swift.String?
 
@@ -12261,7 +12261,7 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct FileSystemNotFoundBody: Swift.Equatable {
+struct FileSystemNotFoundBody {
     let message: Swift.String?
 }
 
@@ -12355,7 +12355,7 @@ extension FSxClientTypes.Filter: Swift.Codable {
 
 extension FSxClientTypes {
     /// A filter used to restrict the results of describe calls. You can use multiple filters to return results that meet all applied filter requirements.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name for this filter.
         public var name: FSxClientTypes.FilterName?
         /// The values of the filter. These are all the values for any of the applied filters.
@@ -12503,7 +12503,7 @@ public struct IncompatibleParameterError: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct IncompatibleParameterErrorBody: Swift.Equatable {
+struct IncompatibleParameterErrorBody {
     let parameter: Swift.String?
     let message: Swift.String?
 }
@@ -12563,7 +12563,7 @@ public struct IncompatibleRegionForMultiAZ: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct IncompatibleRegionForMultiAZBody: Swift.Equatable {
+struct IncompatibleRegionForMultiAZBody {
     let message: Swift.String?
 }
 
@@ -12651,7 +12651,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
 }
 
@@ -12707,7 +12707,7 @@ public struct InvalidDataRepositoryType: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidDataRepositoryTypeBody: Swift.Equatable {
+struct InvalidDataRepositoryTypeBody {
     let message: Swift.String?
 }
 
@@ -12763,7 +12763,7 @@ public struct InvalidDestinationKmsKey: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidDestinationKmsKeyBody: Swift.Equatable {
+struct InvalidDestinationKmsKeyBody {
     let message: Swift.String?
 }
 
@@ -12819,7 +12819,7 @@ public struct InvalidExportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidExportPathBody: Swift.Equatable {
+struct InvalidExportPathBody {
     let message: Swift.String?
 }
 
@@ -12875,7 +12875,7 @@ public struct InvalidImportPath: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct InvalidImportPathBody: Swift.Equatable {
+struct InvalidImportPathBody {
     let message: Swift.String?
 }
 
@@ -12949,7 +12949,7 @@ public struct InvalidNetworkSettings: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidNetworkSettingsBody: Swift.Equatable {
+struct InvalidNetworkSettingsBody {
     let message: Swift.String?
     let invalidSubnetId: Swift.String?
     let invalidSecurityGroupId: Swift.String?
@@ -13017,7 +13017,7 @@ public struct InvalidPerUnitStorageThroughput: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidPerUnitStorageThroughputBody: Swift.Equatable {
+struct InvalidPerUnitStorageThroughputBody {
     let message: Swift.String?
 }
 
@@ -13073,7 +13073,7 @@ public struct InvalidRegion: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InvalidRegionBody: Swift.Equatable {
+struct InvalidRegionBody {
     let message: Swift.String?
 }
 
@@ -13129,7 +13129,7 @@ public struct InvalidSourceKmsKey: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidSourceKmsKeyBody: Swift.Equatable {
+struct InvalidSourceKmsKeyBody {
     let message: Swift.String?
 }
 
@@ -13166,7 +13166,7 @@ extension FSxClientTypes.LifecycleTransitionReason: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes why a resource lifecycle state changed.
-    public struct LifecycleTransitionReason: Swift.Equatable {
+    public struct LifecycleTransitionReason {
         /// A detailed error message.
         public var message: Swift.String?
 
@@ -13209,7 +13209,7 @@ extension ListTagsForResourceInput {
 }
 
 /// The request object for ListTagsForResource operation.
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Maximum number of tags to return in the response (integer). This parameter value must be greater than 0. The number of items that Amazon FSx returns is the minimum of the MaxResults parameter specified in the request and the service's internal maximum number of items per page.
     public var maxResults: Swift.Int?
     /// Opaque pagination token returned from a previous ListTagsForResource operation (String). If a token present, the action continues the list from where the returning call left off.
@@ -13230,7 +13230,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -13269,7 +13269,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for ListTagsForResource operation.
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// This is present if there are more tags than returned in the response (String). You can use the NextToken value in the later request to fetch the tags.
     public var nextToken: Swift.String?
     /// A list of tags on the resource.
@@ -13285,7 +13285,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [FSxClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -13492,7 +13492,7 @@ extension FSxClientTypes.LustreFileSystemConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for the Amazon FSx for Lustre file system.
-    public struct LustreFileSystemConfiguration: Swift.Equatable {
+    public struct LustreFileSystemConfiguration {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A boolean flag indicating whether tags on the file system are copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value. (Default = false)
@@ -13590,7 +13590,7 @@ extension FSxClientTypes.LustreLogConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for Lustre logging used to write the enabled logging events for your Amazon FSx for Lustre file system or Amazon File Cache resource to Amazon CloudWatch Logs.
-    public struct LustreLogConfiguration: Swift.Equatable {
+    public struct LustreLogConfiguration {
         /// The Amazon Resource Name (ARN) that specifies the destination of the logs. The destination can be any Amazon CloudWatch Logs log group ARN. The destination ARN must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         public var destination: Swift.String?
         /// The data repository events that are logged by Amazon FSx.
@@ -13647,7 +13647,7 @@ extension FSxClientTypes.LustreLogCreateConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Lustre logging configuration used when creating or updating an Amazon FSx for Lustre file system. An Amazon File Cache is created with Lustre logging enabled by default, with a setting of WARN_ERROR for the logging events. which can't be changed. Lustre logging writes the enabled logging events for your file system or cache to Amazon CloudWatch Logs.
-    public struct LustreLogCreateConfiguration: Swift.Equatable {
+    public struct LustreLogCreateConfiguration {
         /// The Amazon Resource Name (ARN) that specifies the destination of the logs. The destination can be any Amazon CloudWatch Logs log group ARN, with the following requirements:
         ///
         /// * The destination ARN that you provide must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
@@ -13723,7 +13723,7 @@ extension FSxClientTypes.LustreRootSquashConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for Lustre root squash used to restrict root-level access from clients that try to access your FSx for Lustre file system as root. Use the RootSquash parameter to enable root squash. To learn more about Lustre root squash, see [Lustre root squash](https://docs.aws.amazon.com/fsx/latest/LustreGuide/root-squash.html). You can also use the NoSquashNids parameter to provide an array of clients who are not affected by the root squash setting. These clients will access the file system as root, with unrestricted privileges.
-    public struct LustreRootSquashConfiguration: Swift.Equatable {
+    public struct LustreRootSquashConfiguration {
         /// When root squash is enabled, you can optionally specify an array of NIDs of clients for which root squash does not apply. A client NID is a Lustre Network Identifier used to uniquely identify a client. You can specify the NID as either a single address or a range of addresses:
         ///
         /// * A single address is described in standard Lustre NID format by specifying the client’s IP address followed by the Lustre network ID (for example, 10.0.1.6@tcp).
@@ -13792,7 +13792,7 @@ public struct MissingFileCacheConfiguration: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct MissingFileCacheConfigurationBody: Swift.Equatable {
+struct MissingFileCacheConfigurationBody {
     let message: Swift.String?
 }
 
@@ -13848,7 +13848,7 @@ public struct MissingFileSystemConfiguration: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct MissingFileSystemConfigurationBody: Swift.Equatable {
+struct MissingFileSystemConfigurationBody {
     let message: Swift.String?
 }
 
@@ -13904,7 +13904,7 @@ public struct MissingVolumeConfiguration: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct MissingVolumeConfigurationBody: Swift.Equatable {
+struct MissingVolumeConfigurationBody {
     let message: Swift.String?
 }
 
@@ -13965,7 +13965,7 @@ extension FSxClientTypes.NFSDataRepositoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for a data repository association that links an Amazon File Cache resource to an NFS data repository.
-    public struct NFSDataRepositoryConfiguration: Swift.Equatable {
+    public struct NFSDataRepositoryConfiguration {
         /// This parameter is not supported for Amazon File Cache.
         public var autoExportPolicy: FSxClientTypes.AutoExportPolicy?
         /// A list of up to 2 IP addresses of DNS servers used to resolve the NFS file system domain name. The provided IP addresses can either be the IP addresses of a DNS forwarder or resolver that the customer manages and runs inside the customer VPC, or the IP addresses of the on-premises DNS servers.
@@ -14064,7 +14064,7 @@ public struct NotServiceResourceError: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct NotServiceResourceErrorBody: Swift.Equatable {
+struct NotServiceResourceErrorBody {
     let resourceARN: Swift.String?
     let message: Swift.String?
 }
@@ -14229,7 +14229,7 @@ extension FSxClientTypes.OntapFileSystemConfiguration: Swift.CustomDebugStringCo
 
 extension FSxClientTypes {
     /// Configuration for the FSx for NetApp ONTAP file system.
-    public struct OntapFileSystemConfiguration: Swift.Equatable {
+    public struct OntapFileSystemConfiguration {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A recurring daily time, in the format HH:MM. HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 05:00 specifies 5 AM daily.
@@ -14428,7 +14428,7 @@ extension FSxClientTypes.OntapVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration of an Amazon FSx for NetApp ONTAP volume.
-    public struct OntapVolumeConfiguration: Swift.Equatable {
+    public struct OntapVolumeConfiguration {
         /// This structure specifies configuration options for a volume’s storage aggregate or aggregates.
         public var aggregateConfiguration: FSxClientTypes.AggregateConfiguration?
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
@@ -14597,7 +14597,7 @@ extension FSxClientTypes.OpenZFSClientConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies who can mount an OpenZFS file system and the options available while mounting the file system.
-    public struct OpenZFSClientConfiguration: Swift.Equatable {
+    public struct OpenZFSClientConfiguration {
         /// A value that specifies who can mount the file system. You can provide a wildcard character (*), an IP address (0.0.0.0), or a CIDR address (192.0.2.0/24). By default, Amazon FSx uses the wildcard character when specifying the client.
         /// This member is required.
         public var clients: Swift.String?
@@ -14731,7 +14731,7 @@ extension FSxClientTypes.OpenZFSCreateRootVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration of an Amazon FSx for OpenZFS root volume.
-    public struct OpenZFSCreateRootVolumeConfiguration: Swift.Equatable {
+    public struct OpenZFSCreateRootVolumeConfiguration {
         /// A Boolean value indicating whether tags for the volume should be copied to snapshots of the volume. This value defaults to false. If it's set to true, all tags for the volume are copied to snapshots where the user doesn't specify tags. If this value is true and you specify one or more tags, only the specified tags are copied to snapshots. If you specify one or more tags when creating the snapshot, no tags are copied from the volume, regardless of this value.
         public var copyTagsToSnapshots: Swift.Bool?
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
@@ -14946,7 +14946,7 @@ extension FSxClientTypes.OpenZFSFileSystemConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for the Amazon FSx for OpenZFS file system.
-    public struct OpenZFSFileSystemConfiguration: Swift.Equatable {
+    public struct OpenZFSFileSystemConfiguration {
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
         public var automaticBackupRetentionDays: Swift.Int?
         /// A Boolean value indicating whether tags on the file system should be copied to backups. If it's set to true, all tags on the file system are copied to all automatic backups and any user-initiated backups where the user doesn't specify any tags. If this value is true and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the file system, regardless of this value.
@@ -15041,7 +15041,7 @@ extension FSxClientTypes.OpenZFSNfsExport: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Network File System (NFS) configurations for mounting an Amazon FSx for OpenZFS file system.
-    public struct OpenZFSNfsExport: Swift.Equatable {
+    public struct OpenZFSNfsExport {
         /// A list of configuration objects that contain the client and options for mounting the OpenZFS file system.
         /// This member is required.
         public var clientConfigurations: [FSxClientTypes.OpenZFSClientConfiguration]?
@@ -15083,7 +15083,7 @@ extension FSxClientTypes.OpenZFSOriginSnapshotConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The snapshot configuration used when creating an Amazon FSx for OpenZFS volume from a snapshot.
-    public struct OpenZFSOriginSnapshotConfiguration: Swift.Equatable {
+    public struct OpenZFSOriginSnapshotConfiguration {
         /// The strategy used when copying data from the snapshot to the new volume.
         ///
         /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying the data from a snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
@@ -15173,7 +15173,7 @@ extension FSxClientTypes.OpenZFSUserOrGroupQuota: Swift.Codable {
 
 extension FSxClientTypes {
     /// Used to configure quotas that define how much storage a user or group can use on an FSx for OpenZFS volume. For more information, see [Volume properties](https://docs.aws.amazon.com/fsx/latest/OpenZFSGuide/managing-volumes.html#volume-properties) in the FSx for OpenZFS User Guide.
-    public struct OpenZFSUserOrGroupQuota: Swift.Equatable {
+    public struct OpenZFSUserOrGroupQuota {
         /// The ID of the user or group that the quota applies to.
         /// This member is required.
         public var id: Swift.Int?
@@ -15345,7 +15345,7 @@ extension FSxClientTypes.OpenZFSVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration of an Amazon FSx for OpenZFS volume.
-    public struct OpenZFSVolumeConfiguration: Swift.Equatable {
+    public struct OpenZFSVolumeConfiguration {
         /// Specifies the strategy used when copying data from the snapshot to the new volume.
         ///
         /// * CLONE - The new volume references the data in the origin snapshot. Cloning a snapshot is faster than copying data from the snapshot to a new volume and doesn't consume disk throughput. However, the origin snapshot can't be deleted if there is a volume using its copied data.
@@ -15496,7 +15496,7 @@ extension FSxClientTypes.ReleaseConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration that specifies a minimum amount of time since last access for an exported file to be eligible for release from an Amazon FSx for Lustre file system. Only files that were last accessed before this point-in-time can be released. For example, if you specify a last accessed time criteria of 9 days, only files that were last accessed 9.00001 or more days ago can be released. Only file data that has been exported to S3 can be released. Files that have not yet been exported to S3, such as new or changed files that have not been exported, are not eligible for release. When files are released, their metadata stays on the file system, so they can still be accessed later. Users and applications can access a released file by reading the file again, which restores data from Amazon S3 to the FSx for Lustre file system. If a file meets the last accessed time criteria, its file or directory path must also be specified with the Paths parameter of the operation in order for the file to be released.
-    public struct ReleaseConfiguration: Swift.Equatable {
+    public struct ReleaseConfiguration {
         /// Defines the point-in-time since an exported file was last accessed, in order for that file to be eligible for release. Only files that were last accessed before this point-in-time are eligible to be released from the file system.
         public var durationSinceLastAccess: FSxClientTypes.DurationSinceLastAccess?
 
@@ -15534,7 +15534,7 @@ extension ReleaseFileSystemNfsV3LocksInput {
     }
 }
 
-public struct ReleaseFileSystemNfsV3LocksInput: Swift.Equatable {
+public struct ReleaseFileSystemNfsV3LocksInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The globally unique ID of the file system, assigned by Amazon FSx.
@@ -15551,7 +15551,7 @@ public struct ReleaseFileSystemNfsV3LocksInput: Swift.Equatable {
     }
 }
 
-struct ReleaseFileSystemNfsV3LocksInputBody: Swift.Equatable {
+struct ReleaseFileSystemNfsV3LocksInputBody {
     let fileSystemId: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -15583,7 +15583,7 @@ extension ReleaseFileSystemNfsV3LocksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReleaseFileSystemNfsV3LocksOutput: Swift.Equatable {
+public struct ReleaseFileSystemNfsV3LocksOutput {
     /// A description of a specific Amazon FSx file system.
     public var fileSystem: FSxClientTypes.FileSystem?
 
@@ -15595,7 +15595,7 @@ public struct ReleaseFileSystemNfsV3LocksOutput: Swift.Equatable {
     }
 }
 
-struct ReleaseFileSystemNfsV3LocksOutputBody: Swift.Equatable {
+struct ReleaseFileSystemNfsV3LocksOutputBody {
     let fileSystem: FSxClientTypes.FileSystem?
 }
 
@@ -15731,7 +15731,7 @@ public struct ResourceDoesNotSupportTagging: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ResourceDoesNotSupportTaggingBody: Swift.Equatable {
+struct ResourceDoesNotSupportTaggingBody {
     let resourceARN: Swift.String?
     let message: Swift.String?
 }
@@ -15798,7 +15798,7 @@ public struct ResourceNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ResourceNotFoundBody: Swift.Equatable {
+struct ResourceNotFoundBody {
     let resourceARN: Swift.String?
     let message: Swift.String?
 }
@@ -15917,7 +15917,7 @@ extension RestoreVolumeFromSnapshotInput {
     }
 }
 
-public struct RestoreVolumeFromSnapshotInput: Swift.Equatable {
+public struct RestoreVolumeFromSnapshotInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The settings used when restoring the specified volume from snapshot.
@@ -15947,7 +15947,7 @@ public struct RestoreVolumeFromSnapshotInput: Swift.Equatable {
     }
 }
 
-struct RestoreVolumeFromSnapshotInputBody: Swift.Equatable {
+struct RestoreVolumeFromSnapshotInputBody {
     let clientRequestToken: Swift.String?
     let volumeId: Swift.String?
     let snapshotId: Swift.String?
@@ -16000,7 +16000,7 @@ extension RestoreVolumeFromSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreVolumeFromSnapshotOutput: Swift.Equatable {
+public struct RestoreVolumeFromSnapshotOutput {
     /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
     public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
     /// The lifecycle state of the volume being restored.
@@ -16020,7 +16020,7 @@ public struct RestoreVolumeFromSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct RestoreVolumeFromSnapshotOutputBody: Swift.Equatable {
+struct RestoreVolumeFromSnapshotOutputBody {
     let volumeId: Swift.String?
     let lifecycle: FSxClientTypes.VolumeLifecycle?
     let administrativeActions: [FSxClientTypes.AdministrativeAction]?
@@ -16093,7 +16093,7 @@ extension FSxClientTypes.RetentionPeriod: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies the retention period of an FSx for ONTAP SnapLock volume. After it is set, it can't be changed. Files can't be deleted or modified during the retention period. For more information, see [Working with the retention period in SnapLock](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html).
-    public struct RetentionPeriod: Swift.Equatable {
+    public struct RetentionPeriod {
         /// Defines the type of time for the retention period of an FSx for ONTAP SnapLock volume. Set it to one of the valid types. If you set it to INFINITE, the files are retained forever. If you set it to UNSPECIFIED, the files are retained until you set an explicit retention period.
         /// This member is required.
         public var type: FSxClientTypes.RetentionPeriodType?
@@ -16201,7 +16201,7 @@ extension FSxClientTypes.S3DataRepositoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for an Amazon S3 data repository linked to an Amazon FSx for Lustre file system with a data repository association. The configuration consists of an AutoImportPolicy that defines which file events on the data repository are automatically imported to the file system and an AutoExportPolicy that defines which file events on the file system are automatically exported to the data repository. File events are when files or directories are added, changed, or deleted on the file system or the data repository. Data repository associations on Amazon File Cache don't use S3DataRepositoryConfiguration because they don't support automatic import or automatic export.
-    public struct S3DataRepositoryConfiguration: Swift.Equatable {
+    public struct S3DataRepositoryConfiguration {
         /// Specifies the type of updated objects (new, changed, deleted) that will be automatically exported from your file system to the linked S3 bucket.
         public var autoExportPolicy: FSxClientTypes.AutoExportPolicy?
         /// Specifies the type of updated objects (new, changed, deleted) that will be automatically imported from the linked S3 bucket to your file system.
@@ -16311,7 +16311,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryAttributes: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration of the self-managed Microsoft Active Directory (AD) directory to which the Windows File Server or ONTAP storage virtual machine (SVM) instance is joined.
-    public struct SelfManagedActiveDirectoryAttributes: Swift.Equatable {
+    public struct SelfManagedActiveDirectoryAttributes {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         public var dnsIps: [Swift.String]?
         /// The fully qualified domain name of the self-managed AD directory.
@@ -16409,7 +16409,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfiguration: Swift.CustomDe
 
 extension FSxClientTypes {
     /// The configuration that Amazon FSx uses to join a FSx for Windows File Server file system or an FSx for ONTAP storage virtual machine (SVM) to a self-managed (including on-premises) Microsoft Active Directory (AD) directory. For more information, see [ Using Amazon FSx for Windows with your self-managed Microsoft Active Directory](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/self-managed-AD.html) or [Managing FSx for ONTAP SVMs](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/managing-svms.html).
-    public struct SelfManagedActiveDirectoryConfiguration: Swift.Equatable {
+    public struct SelfManagedActiveDirectoryConfiguration {
         /// A list of up to three IP addresses of DNS servers or domain controllers in the self-managed AD directory.
         /// This member is required.
         public var dnsIps: [Swift.String]?
@@ -16515,7 +16515,7 @@ extension FSxClientTypes.SelfManagedActiveDirectoryConfigurationUpdates: Swift.C
 
 extension FSxClientTypes {
     /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
-    public struct SelfManagedActiveDirectoryConfigurationUpdates: Swift.Equatable {
+    public struct SelfManagedActiveDirectoryConfigurationUpdates {
         /// A list of up to three DNS server or domain controller IP addresses in your self-managed AD domain.
         public var dnsIps: [Swift.String]?
         /// Specifies an updated fully qualified domain name of your self-managed AD configuration.
@@ -16653,7 +16653,7 @@ public struct ServiceLimitExceeded: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ServiceLimitExceededBody: Swift.Equatable {
+struct ServiceLimitExceededBody {
     let limit: FSxClientTypes.ServiceLimit?
     let message: Swift.String?
 }
@@ -16724,7 +16724,7 @@ extension FSxClientTypes.SnaplockConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies the SnapLock configuration for an FSx for ONTAP SnapLock volume.
-    public struct SnaplockConfiguration: Swift.Equatable {
+    public struct SnaplockConfiguration {
         /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default value is false. If you set AuditLogVolume to true, the SnapLock volume is created as an audit log volume. The minimum retention period for an audit log volume is six months. For more information, see [ SnapLock audit log volumes](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume).
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
@@ -16795,7 +16795,7 @@ extension FSxClientTypes.SnaplockRetentionPeriod: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration to set the retention period of an FSx for ONTAP SnapLock volume. The retention period includes default, maximum, and minimum settings. For more information, see [Working with the retention period in SnapLock](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/snaplock-retention.html).
-    public struct SnaplockRetentionPeriod: Swift.Equatable {
+    public struct SnaplockRetentionPeriod {
         /// The retention period assigned to a write once, read many (WORM) file by default if an explicit retention period is not set for an FSx for ONTAP SnapLock volume. The default retention period must be greater than or equal to the minimum retention period and less than or equal to the maximum retention period.
         /// This member is required.
         public var defaultRetention: FSxClientTypes.RetentionPeriod?
@@ -16945,7 +16945,7 @@ extension FSxClientTypes.Snapshot: Swift.Codable {
 
 extension FSxClientTypes {
     /// A snapshot of an Amazon FSx for OpenZFS volume.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// A list of administrative actions for the file system that are in process or waiting to be processed. Administrative actions describe changes to the Amazon FSx system.
         public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -17038,7 +17038,7 @@ extension FSxClientTypes.SnapshotFilter: Swift.Codable {
 
 extension FSxClientTypes {
     /// A filter used to restrict the results of DescribeSnapshots calls. You can use multiple filters to return results that meet all applied filter requirements.
-    public struct SnapshotFilter: Swift.Equatable {
+    public struct SnapshotFilter {
         /// The name of the filter to use. You can filter by the file-system-id or by volume-id.
         public var name: FSxClientTypes.SnapshotFilterName?
         /// The file-system-id or volume-id that you are filtering for.
@@ -17166,7 +17166,7 @@ public struct SnapshotNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct SnapshotNotFoundBody: Swift.Equatable {
+struct SnapshotNotFoundBody {
     let message: Swift.String?
 }
 
@@ -17228,7 +17228,7 @@ public struct SourceBackupUnavailable: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct SourceBackupUnavailableBody: Swift.Equatable {
+struct SourceBackupUnavailableBody {
     let message: Swift.String?
     let backupId: Swift.String?
 }
@@ -17272,7 +17272,7 @@ extension StartMisconfiguredStateRecoveryInput {
     }
 }
 
-public struct StartMisconfiguredStateRecoveryInput: Swift.Equatable {
+public struct StartMisconfiguredStateRecoveryInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The globally unique ID of the file system, assigned by Amazon FSx.
@@ -17289,7 +17289,7 @@ public struct StartMisconfiguredStateRecoveryInput: Swift.Equatable {
     }
 }
 
-struct StartMisconfiguredStateRecoveryInputBody: Swift.Equatable {
+struct StartMisconfiguredStateRecoveryInputBody {
     let clientRequestToken: Swift.String?
     let fileSystemId: Swift.String?
 }
@@ -17321,7 +17321,7 @@ extension StartMisconfiguredStateRecoveryOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct StartMisconfiguredStateRecoveryOutput: Swift.Equatable {
+public struct StartMisconfiguredStateRecoveryOutput {
     /// A description of a specific Amazon FSx file system.
     public var fileSystem: FSxClientTypes.FileSystem?
 
@@ -17333,7 +17333,7 @@ public struct StartMisconfiguredStateRecoveryOutput: Swift.Equatable {
     }
 }
 
-struct StartMisconfiguredStateRecoveryOutputBody: Swift.Equatable {
+struct StartMisconfiguredStateRecoveryOutputBody {
     let fileSystem: FSxClientTypes.FileSystem?
 }
 
@@ -17541,7 +17541,7 @@ extension FSxClientTypes.StorageVirtualMachine: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM) configuration.
-    public struct StorageVirtualMachine: Swift.Equatable {
+    public struct StorageVirtualMachine {
         /// Describes the Microsoft Active Directory configuration to which the SVM is joined, if applicable.
         public var activeDirectoryConfiguration: FSxClientTypes.SvmActiveDirectoryConfiguration?
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -17654,7 +17654,7 @@ extension FSxClientTypes.StorageVirtualMachineFilter: Swift.Codable {
 
 extension FSxClientTypes {
     /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP storage virtual machines (SVMs). You can use multiple filters to return results that meet all applied filter requirements.
-    public struct StorageVirtualMachineFilter: Swift.Equatable {
+    public struct StorageVirtualMachineFilter {
         /// The name for this filter.
         public var name: FSxClientTypes.StorageVirtualMachineFilterName?
         /// The values of the filter. These are all the values for any of the applied filters.
@@ -17785,7 +17785,7 @@ public struct StorageVirtualMachineNotFound: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct StorageVirtualMachineNotFoundBody: Swift.Equatable {
+struct StorageVirtualMachineNotFoundBody {
     let message: Swift.String?
 }
 
@@ -17901,7 +17901,7 @@ extension FSxClientTypes.SvmActiveDirectoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes the Microsoft Active Directory (AD) directory configuration to which the FSx for ONTAP storage virtual machine (SVM) is joined. Note that account credentials are not returned in the response payload.
-    public struct SvmActiveDirectoryConfiguration: Swift.Equatable {
+    public struct SvmActiveDirectoryConfiguration {
         /// The NetBIOS name of the AD computer object to which the SVM is joined.
         public var netBiosName: Swift.String?
         /// The configuration of the self-managed Microsoft Active Directory (AD) directory to which the Windows File Server or ONTAP storage virtual machine (SVM) instance is joined.
@@ -17958,7 +17958,7 @@ extension FSxClientTypes.SvmEndpoint: Swift.Codable {
 
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP storage virtual machine (SVM) has four endpoints that are used to access data or to manage the SVM using the NetApp ONTAP CLI, REST API, or NetApp CloudManager. They are the Iscsi, Management, Nfs, and Smb endpoints.
-    public struct SvmEndpoint: Swift.Equatable {
+    public struct SvmEndpoint {
         /// The file system's DNS name. You can mount your file system using its DNS name.
         public var dnsName: Swift.String?
         /// The SVM endpoint's IP addresses.
@@ -18015,7 +18015,7 @@ extension FSxClientTypes.SvmEndpoints: Swift.Codable {
 
 extension FSxClientTypes {
     /// An Amazon FSx for NetApp ONTAP storage virtual machine (SVM) has the following endpoints that are used to access data or to manage the SVM using the NetApp ONTAP CLI, REST API, or NetApp CloudManager.
-    public struct SvmEndpoints: Swift.Equatable {
+    public struct SvmEndpoints {
         /// An endpoint for connecting using the Internet Small Computer Systems Interface (iSCSI) protocol.
         public var iscsi: FSxClientTypes.SvmEndpoint?
         /// An endpoint for managing SVMs using the NetApp ONTAP CLI, NetApp ONTAP API, or NetApp CloudManager.
@@ -18068,7 +18068,7 @@ extension FSxClientTypes.Tag: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies a key-value pair for a resource tag.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A value that specifies the TagKey, the name of the tag. Tag keys must be unique for the resource to which they are attached.
         /// This member is required.
         public var key: Swift.String?
@@ -18116,7 +18116,7 @@ extension TagResourceInput {
 }
 
 /// The request object for the TagResource operation.
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon FSx resource that you want to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -18134,7 +18134,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [FSxClientTypes.Tag]?
 }
@@ -18169,7 +18169,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the TagResource operation.
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -18233,7 +18233,7 @@ extension FSxClientTypes {
     ///
     ///
     /// * NONE - keeps a volume's data in the primary storage tier, preventing it from being moved to the capacity pool tier.
-    public struct TieringPolicy: Swift.Equatable {
+    public struct TieringPolicy {
         /// Specifies the number of days that user data in a volume must remain inactive before it is considered "cold" and moved to the capacity pool. Used with the AUTO and SNAPSHOT_ONLY tiering policies. Enter a whole number between 2 and 183. Default values are 31 days for AUTO and 2 days for SNAPSHOT_ONLY.
         public var coolingPeriod: Swift.Int?
         /// Specifies the tiering policy used to transition data. Default value is SNAPSHOT_ONLY.
@@ -18366,7 +18366,7 @@ public struct UnsupportedOperation: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct UnsupportedOperationBody: Swift.Equatable {
+struct UnsupportedOperationBody {
     let message: Swift.String?
 }
 
@@ -18410,7 +18410,7 @@ extension UntagResourceInput {
 }
 
 /// The request object for UntagResource action.
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the Amazon FSx resource to untag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -18428,7 +18428,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -18463,7 +18463,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for UntagResource action.
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -18515,7 +18515,7 @@ extension UpdateDataRepositoryAssociationInput {
     }
 }
 
-public struct UpdateDataRepositoryAssociationInput: Swift.Equatable {
+public struct UpdateDataRepositoryAssociationInput {
     /// The ID of the data repository association that you are updating.
     /// This member is required.
     public var associationId: Swift.String?
@@ -18540,7 +18540,7 @@ public struct UpdateDataRepositoryAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataRepositoryAssociationInputBody: Swift.Equatable {
+struct UpdateDataRepositoryAssociationInputBody {
     let associationId: Swift.String?
     let clientRequestToken: Swift.String?
     let importedFileChunkSize: Swift.Int?
@@ -18580,7 +18580,7 @@ extension UpdateDataRepositoryAssociationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateDataRepositoryAssociationOutput: Swift.Equatable {
+public struct UpdateDataRepositoryAssociationOutput {
     /// The response object returned after the data repository association is updated.
     public var association: FSxClientTypes.DataRepositoryAssociation?
 
@@ -18592,7 +18592,7 @@ public struct UpdateDataRepositoryAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataRepositoryAssociationOutputBody: Swift.Equatable {
+struct UpdateDataRepositoryAssociationOutputBody {
     let association: FSxClientTypes.DataRepositoryAssociation?
 }
 
@@ -18651,7 +18651,7 @@ extension UpdateFileCacheInput {
     }
 }
 
-public struct UpdateFileCacheInput: Swift.Equatable {
+public struct UpdateFileCacheInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the cache that you are updating.
@@ -18672,7 +18672,7 @@ public struct UpdateFileCacheInput: Swift.Equatable {
     }
 }
 
-struct UpdateFileCacheInputBody: Swift.Equatable {
+struct UpdateFileCacheInputBody {
     let fileCacheId: Swift.String?
     let clientRequestToken: Swift.String?
     let lustreConfiguration: FSxClientTypes.UpdateFileCacheLustreConfiguration?
@@ -18717,7 +18717,7 @@ extension FSxClientTypes.UpdateFileCacheLustreConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration update for an Amazon File Cache resource.
-    public struct UpdateFileCacheLustreConfiguration: Swift.Equatable {
+    public struct UpdateFileCacheLustreConfiguration {
         /// A recurring weekly time, in the format D:HH:MM. D is the day of the week, for which 1 represents Monday and 7 represents Sunday. For further details, see [the ISO-8601 spec as described on Wikipedia](https://en.wikipedia.org/wiki/ISO_week_date). HH is the zero-padded hour of the day (0-23), and MM is the zero-padded minute of the hour. For example, 1:05:00 specifies maintenance at 5 AM Monday.
         public var weeklyMaintenanceStartTime: Swift.String?
 
@@ -18743,7 +18743,7 @@ extension UpdateFileCacheOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFileCacheOutput: Swift.Equatable {
+public struct UpdateFileCacheOutput {
     /// A description of the cache that was updated.
     public var fileCache: FSxClientTypes.FileCache?
 
@@ -18755,7 +18755,7 @@ public struct UpdateFileCacheOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFileCacheOutputBody: Swift.Equatable {
+struct UpdateFileCacheOutputBody {
     let fileCache: FSxClientTypes.FileCache?
 }
 
@@ -18837,7 +18837,7 @@ extension UpdateFileSystemInput {
 }
 
 /// The request object for the UpdateFileSystem operation.
-public struct UpdateFileSystemInput: Swift.Equatable {
+public struct UpdateFileSystemInput {
     /// A string of up to 63 ASCII characters that Amazon FSx uses to ensure idempotent updates. This string is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The ID of the file system that you are updating.
@@ -18887,7 +18887,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemInputBody: Swift.Equatable {
+struct UpdateFileSystemInputBody {
     let fileSystemId: Swift.String?
     let clientRequestToken: Swift.String?
     let storageCapacity: Swift.Int?
@@ -18994,7 +18994,7 @@ extension FSxClientTypes.UpdateFileSystemLustreConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration object for Amazon FSx for Lustre file systems used in the UpdateFileSystem operation.
-    public struct UpdateFileSystemLustreConfiguration: Swift.Equatable {
+    public struct UpdateFileSystemLustreConfiguration {
         /// (Optional) When you create your file system, your existing S3 objects appear as file and directory listings. Use this property to choose how Amazon FSx keeps your file and directory listing up to date as you add or modify objects in your linked S3 bucket. AutoImportPolicy can have the following values:
         ///
         /// * NONE - (Default) AutoImport is off. Amazon FSx only updates file and directory listings from the linked S3 bucket when the file system is created. FSx does not update the file and directory listing for any new or changed objects after choosing this option.
@@ -19159,7 +19159,7 @@ extension FSxClientTypes.UpdateFileSystemOntapConfiguration: Swift.CustomDebugSt
 
 extension FSxClientTypes {
     /// The configuration updates for an Amazon FSx for NetApp ONTAP file system.
-    public struct UpdateFileSystemOntapConfiguration: Swift.Equatable {
+    public struct UpdateFileSystemOntapConfiguration {
         /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for NetApp ONTAP file system.
         public var addRouteTableIds: [Swift.String]?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
@@ -19315,7 +19315,7 @@ extension FSxClientTypes.UpdateFileSystemOpenZFSConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration updates for an Amazon FSx for OpenZFS file system.
-    public struct UpdateFileSystemOpenZFSConfiguration: Swift.Equatable {
+    public struct UpdateFileSystemOpenZFSConfiguration {
         /// (Multi-AZ only) A list of IDs of new virtual private cloud (VPC) route tables to associate (add) with your Amazon FSx for OpenZFS file system.
         public var addRouteTableIds: [Swift.String]?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30.
@@ -19378,7 +19378,7 @@ extension UpdateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response object for the UpdateFileSystem operation.
-public struct UpdateFileSystemOutput: Swift.Equatable {
+public struct UpdateFileSystemOutput {
     /// A description of the file system that was updated.
     public var fileSystem: FSxClientTypes.FileSystem?
 
@@ -19390,7 +19390,7 @@ public struct UpdateFileSystemOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemOutputBody: Swift.Equatable {
+struct UpdateFileSystemOutputBody {
     let fileSystem: FSxClientTypes.FileSystem?
 }
 
@@ -19481,7 +19481,7 @@ extension FSxClientTypes.UpdateFileSystemWindowsConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Updates the configuration for an existing Amazon FSx for Windows File Server file system. Amazon FSx only overwrites existing properties with non-null values provided in the request.
-    public struct UpdateFileSystemWindowsConfiguration: Swift.Equatable {
+    public struct UpdateFileSystemWindowsConfiguration {
         /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system..
         public var auditLogConfiguration: FSxClientTypes.WindowsAuditLogCreateConfiguration?
         /// The number of days to retain automatic backups. Setting this property to 0 disables automatic backups. You can retain automatic backups for a maximum of 90 days. The default is 30. For more information, see [Working with Automatic Daily Backups](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/using-backups.html#automatic-backups).
@@ -19588,7 +19588,7 @@ extension FSxClientTypes.UpdateOntapVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Used to specify changes to the ONTAP configuration for the volume you are updating.
-    public struct UpdateOntapVolumeConfiguration: Swift.Equatable {
+    public struct UpdateOntapVolumeConfiguration {
         /// A boolean flag indicating whether tags for the volume should be copied to backups. This value defaults to false. If it's set to true, all tags for the volume are copied to all automatic and user-initiated backups where the user doesn't specify tags. If this value is true, and you specify one or more tags, only the specified tags are copied to backups. If you specify one or more tags when creating a user-initiated backup, no tags are copied from the volume, regardless of this value.
         public var copyTagsToBackups: Swift.Bool?
         /// Specifies the location in the SVM's namespace where the volume is mounted. The JunctionPath must have a leading forward slash, such as /vol3.
@@ -19724,7 +19724,7 @@ extension FSxClientTypes.UpdateOpenZFSVolumeConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Used to specify changes to the OpenZFS configuration for the volume that you are updating.
-    public struct UpdateOpenZFSVolumeConfiguration: Swift.Equatable {
+    public struct UpdateOpenZFSVolumeConfiguration {
         /// Specifies the method used to compress the data on the volume. The compression type is NONE by default.
         ///
         /// * NONE - Doesn't compress the data on the volume. NONE is the default.
@@ -19827,7 +19827,7 @@ extension UpdateSharedVpcConfigurationInput {
     }
 }
 
-public struct UpdateSharedVpcConfigurationInput: Swift.Equatable {
+public struct UpdateSharedVpcConfigurationInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// Specifies whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets. Set to true to enable or false to disable.
@@ -19843,7 +19843,7 @@ public struct UpdateSharedVpcConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSharedVpcConfigurationInputBody: Swift.Equatable {
+struct UpdateSharedVpcConfigurationInputBody {
     let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -19875,7 +19875,7 @@ extension UpdateSharedVpcConfigurationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateSharedVpcConfigurationOutput: Swift.Equatable {
+public struct UpdateSharedVpcConfigurationOutput {
     /// Indicates whether participant accounts can create FSx for ONTAP Multi-AZ file systems in shared subnets.
     public var enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
 
@@ -19887,7 +19887,7 @@ public struct UpdateSharedVpcConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSharedVpcConfigurationOutputBody: Swift.Equatable {
+struct UpdateSharedVpcConfigurationOutputBody {
     let enableFsxRouteTableUpdatesFromParticipantAccounts: Swift.String?
 }
 
@@ -19961,7 +19961,7 @@ extension FSxClientTypes.UpdateSnaplockConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Updates the SnapLock configuration for an existing FSx for ONTAP volume.
-    public struct UpdateSnaplockConfiguration: Swift.Equatable {
+    public struct UpdateSnaplockConfiguration {
         /// Enables or disables the audit log volume for an FSx for ONTAP SnapLock volume. The default value is false. If you set AuditLogVolume to true, the SnapLock volume is created as an audit log volume. The minimum retention period for an audit log volume is six months. For more information, see [ SnapLock audit log volumes](https://docs.aws.amazon.com/fsx/latest/ONTAPGuide/how-snaplock-works.html#snaplock-audit-log-volume).
         public var auditLogVolume: Swift.Bool?
         /// The configuration object for setting the autocommit period of files in an FSx for ONTAP SnapLock volume.
@@ -20019,7 +20019,7 @@ extension UpdateSnapshotInput {
     }
 }
 
-public struct UpdateSnapshotInput: Swift.Equatable {
+public struct UpdateSnapshotInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the snapshot to update.
@@ -20041,7 +20041,7 @@ public struct UpdateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotInputBody: Swift.Equatable {
+struct UpdateSnapshotInputBody {
     let clientRequestToken: Swift.String?
     let name: Swift.String?
     let snapshotId: Swift.String?
@@ -20077,7 +20077,7 @@ extension UpdateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSnapshotOutput: Swift.Equatable {
+public struct UpdateSnapshotOutput {
     /// Returned after a successful UpdateSnapshot operation, describing the snapshot that you updated.
     public var snapshot: FSxClientTypes.Snapshot?
 
@@ -20089,7 +20089,7 @@ public struct UpdateSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSnapshotOutputBody: Swift.Equatable {
+struct UpdateSnapshotOutputBody {
     let snapshot: FSxClientTypes.Snapshot?
 }
 
@@ -20155,7 +20155,7 @@ extension UpdateStorageVirtualMachineInput {
     }
 }
 
-public struct UpdateStorageVirtualMachineInput: Swift.Equatable {
+public struct UpdateStorageVirtualMachineInput {
     /// Specifies updates to an SVM's Microsoft Active Directory (AD) configuration.
     public var activeDirectoryConfiguration: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
@@ -20180,7 +20180,7 @@ public struct UpdateStorageVirtualMachineInput: Swift.Equatable {
     }
 }
 
-struct UpdateStorageVirtualMachineInputBody: Swift.Equatable {
+struct UpdateStorageVirtualMachineInputBody {
     let activeDirectoryConfiguration: FSxClientTypes.UpdateSvmActiveDirectoryConfiguration?
     let clientRequestToken: Swift.String?
     let storageVirtualMachineId: Swift.String?
@@ -20220,7 +20220,7 @@ extension UpdateStorageVirtualMachineOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStorageVirtualMachineOutput: Swift.Equatable {
+public struct UpdateStorageVirtualMachineOutput {
     /// Describes the Amazon FSx for NetApp ONTAP storage virtual machine (SVM) configuration.
     public var storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
 
@@ -20232,7 +20232,7 @@ public struct UpdateStorageVirtualMachineOutput: Swift.Equatable {
     }
 }
 
-struct UpdateStorageVirtualMachineOutputBody: Swift.Equatable {
+struct UpdateStorageVirtualMachineOutputBody {
     let storageVirtualMachine: FSxClientTypes.StorageVirtualMachine?
 }
 
@@ -20290,7 +20290,7 @@ extension FSxClientTypes.UpdateSvmActiveDirectoryConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// Specifies updates to an FSx for ONTAP storage virtual machine's (SVM) Microsoft Active Directory (AD) configuration. Note that account credentials are not returned in the response payload.
-    public struct UpdateSvmActiveDirectoryConfiguration: Swift.Equatable {
+    public struct UpdateSvmActiveDirectoryConfiguration {
         /// Specifies an updated NetBIOS name of the AD computer object NetBiosName to which an SVM is joined.
         public var netBiosName: Swift.String?
         /// Specifies changes you are making to the self-managed Microsoft Active Directory (AD) configuration to which an FSx for Windows File Server file system or an FSx for ONTAP SVM is joined.
@@ -20344,7 +20344,7 @@ extension UpdateVolumeInput {
     }
 }
 
-public struct UpdateVolumeInput: Swift.Equatable {
+public struct UpdateVolumeInput {
     /// (Optional) An idempotency token for resource creation, in a string of up to 63 ASCII characters. This token is automatically filled on your behalf when you use the Command Line Interface (CLI) or an Amazon Web Services SDK.
     public var clientRequestToken: Swift.String?
     /// The name of the OpenZFS volume. OpenZFS root volumes are automatically named FSX. Child volume names must be unique among their parent volume's children. The name of the volume is part of the mount string for the OpenZFS volume.
@@ -20373,7 +20373,7 @@ public struct UpdateVolumeInput: Swift.Equatable {
     }
 }
 
-struct UpdateVolumeInputBody: Swift.Equatable {
+struct UpdateVolumeInputBody {
     let clientRequestToken: Swift.String?
     let volumeId: Swift.String?
     let ontapConfiguration: FSxClientTypes.UpdateOntapVolumeConfiguration?
@@ -20417,7 +20417,7 @@ extension UpdateVolumeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVolumeOutput: Swift.Equatable {
+public struct UpdateVolumeOutput {
     /// A description of the volume just updated. Returned after a successful UpdateVolume API operation.
     public var volume: FSxClientTypes.Volume?
 
@@ -20429,7 +20429,7 @@ public struct UpdateVolumeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVolumeOutputBody: Swift.Equatable {
+struct UpdateVolumeOutputBody {
     let volume: FSxClientTypes.Volume?
 }
 
@@ -20571,7 +20571,7 @@ extension FSxClientTypes.Volume: Swift.Codable {
 
 extension FSxClientTypes {
     /// Describes an Amazon FSx volume.
-    public struct Volume: Swift.Equatable {
+    public struct Volume {
         /// A list of administrative actions for the volume that are in process or waiting to be processed. Administrative actions describe changes to the volume that you have initiated using the UpdateVolume action.
         public var administrativeActions: [FSxClientTypes.AdministrativeAction]?
         /// The time that the resource was created, in seconds (since 1970-01-01T00:00:00Z), also known as Unix time.
@@ -20682,7 +20682,7 @@ extension FSxClientTypes.VolumeFilter: Swift.Codable {
 
 extension FSxClientTypes {
     /// A filter used to restrict the results of describe calls for Amazon FSx for NetApp ONTAP or Amazon FSx for OpenZFS volumes. You can use multiple filters to return results that meet all applied filter requirements.
-    public struct VolumeFilter: Swift.Equatable {
+    public struct VolumeFilter {
         /// The name for this filter.
         public var name: FSxClientTypes.VolumeFilterName?
         /// The values of the filter. These are all the values for any of the applied filters.
@@ -20819,7 +20819,7 @@ public struct VolumeNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct VolumeNotFoundBody: Swift.Equatable {
+struct VolumeNotFoundBody {
     let message: Swift.String?
 }
 
@@ -20970,7 +20970,7 @@ extension FSxClientTypes.WindowsAuditLogConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration that Amazon FSx for Windows File Server uses to audit and log user accesses of files, folders, and file shares on the Amazon FSx for Windows File Server file system. For more information, see [ File access auditing](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/file-access-auditing.html).
-    public struct WindowsAuditLogConfiguration: Swift.Equatable {
+    public struct WindowsAuditLogConfiguration {
         /// The Amazon Resource Name (ARN) for the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN. The name of the Amazon CloudWatch Logs log group must begin with the /aws/fsx prefix. The name of the Amazon Kinesis Data Firehose delivery stream must begin with the aws-fsx prefix. The destination ARN (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
         public var auditLogDestination: Swift.String?
         /// Sets which attempt type is logged by Amazon FSx for file and folder accesses.
@@ -21043,7 +21043,7 @@ extension FSxClientTypes.WindowsAuditLogCreateConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The Windows file access auditing configuration used when creating or updating an Amazon FSx for Windows File Server file system.
-    public struct WindowsAuditLogCreateConfiguration: Swift.Equatable {
+    public struct WindowsAuditLogCreateConfiguration {
         /// The Amazon Resource Name (ARN) that specifies the destination of the audit logs. The destination can be any Amazon CloudWatch Logs log group ARN or Amazon Kinesis Data Firehose delivery stream ARN, with the following requirements:
         ///
         /// * The destination ARN that you provide (either CloudWatch Logs log group or Kinesis Data Firehose delivery stream) must be in the same Amazon Web Services partition, Amazon Web Services Region, and Amazon Web Services account as your Amazon FSx file system.
@@ -21257,7 +21257,7 @@ extension FSxClientTypes.WindowsFileSystemConfiguration: Swift.Codable {
 
 extension FSxClientTypes {
     /// The configuration for this Microsoft Windows file system.
-    public struct WindowsFileSystemConfiguration: Swift.Equatable {
+    public struct WindowsFileSystemConfiguration {
         /// The ID for an existing Amazon Web Services Managed Microsoft Active Directory instance that the file system is joined to.
         public var activeDirectoryId: Swift.String?
         /// An array of one or more DNS aliases that are currently associated with the Amazon FSx file system. Aliases allow you to use existing DNS names to access the data in your Amazon FSx file system. You can associate up to 50 aliases with a file system at any time. You can associate additional DNS aliases after you create the file system using the AssociateFileSystemAliases operation. You can remove DNS aliases from the file system after it is created using the DisassociateFileSystemAliases operation. You only need to specify the alias name in the request payload. For more information, see [DNS aliases](https://docs.aws.amazon.com/fsx/latest/WindowsGuide/managing-dns-aliases.html).

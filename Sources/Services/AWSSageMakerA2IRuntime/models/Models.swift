@@ -41,7 +41,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -99,7 +99,7 @@ extension DeleteHumanLoopInput {
     }
 }
 
-public struct DeleteHumanLoopInput: Swift.Equatable {
+public struct DeleteHumanLoopInput {
     /// The name of the human loop that you want to delete.
     /// This member is required.
     public var humanLoopName: Swift.String?
@@ -112,7 +112,7 @@ public struct DeleteHumanLoopInput: Swift.Equatable {
     }
 }
 
-struct DeleteHumanLoopInputBody: Swift.Equatable {
+struct DeleteHumanLoopInputBody {
 }
 
 extension DeleteHumanLoopInputBody: Swift.Decodable {
@@ -126,7 +126,7 @@ extension DeleteHumanLoopOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHumanLoopOutput: Swift.Equatable {
+public struct DeleteHumanLoopOutput {
 
     public init() { }
 }
@@ -155,7 +155,7 @@ extension DescribeHumanLoopInput {
     }
 }
 
-public struct DescribeHumanLoopInput: Swift.Equatable {
+public struct DescribeHumanLoopInput {
     /// The name of the human loop that you want information about.
     /// This member is required.
     public var humanLoopName: Swift.String?
@@ -168,7 +168,7 @@ public struct DescribeHumanLoopInput: Swift.Equatable {
     }
 }
 
-struct DescribeHumanLoopInputBody: Swift.Equatable {
+struct DescribeHumanLoopInputBody {
 }
 
 extension DescribeHumanLoopInputBody: Swift.Decodable {
@@ -203,7 +203,7 @@ extension DescribeHumanLoopOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHumanLoopOutput: Swift.Equatable {
+public struct DescribeHumanLoopOutput {
     /// The creation time when Amazon Augmented AI created the human loop.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -248,7 +248,7 @@ public struct DescribeHumanLoopOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHumanLoopOutputBody: Swift.Equatable {
+struct DescribeHumanLoopOutputBody {
     let creationTime: ClientRuntime.Date?
     let failureReason: Swift.String?
     let failureCode: Swift.String?
@@ -339,7 +339,7 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes: Swift.Codable 
 
 extension SageMakerA2IRuntimeClientTypes {
     /// Attributes of the data specified by the customer. Use these to describe the data to be labeled.
-    public struct HumanLoopDataAttributes: Swift.Equatable {
+    public struct HumanLoopDataAttributes {
         /// Declares that your content is free of personally identifiable information or adult content. Amazon SageMaker can restrict the Amazon Mechanical Turk workers who can view your task based on this information.
         /// This member is required.
         public var contentClassifiers: [SageMakerA2IRuntimeClientTypes.ContentClassifier]?
@@ -375,7 +375,7 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopInput: Swift.Codable {
 
 extension SageMakerA2IRuntimeClientTypes {
     /// An object containing the human loop input in JSON format.
-    public struct HumanLoopInput: Swift.Equatable {
+    public struct HumanLoopInput {
         /// Serialized input from the human loop. The input must be a string representation of a file in JSON format.
         /// This member is required.
         public var inputContent: Swift.String?
@@ -411,7 +411,7 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopOutput: Swift.Codable {
 
 extension SageMakerA2IRuntimeClientTypes {
     /// Information about where the human output will be stored.
-    public struct HumanLoopOutput: Swift.Equatable {
+    public struct HumanLoopOutput {
         /// The location of the Amazon S3 object where Amazon Augmented AI stores your human loop output.
         /// This member is required.
         public var outputS3Uri: Swift.String?
@@ -512,7 +512,7 @@ extension SageMakerA2IRuntimeClientTypes.HumanLoopSummary: Swift.Codable {
 
 extension SageMakerA2IRuntimeClientTypes {
     /// Summary information about the human loop.
-    public struct HumanLoopSummary: Swift.Equatable {
+    public struct HumanLoopSummary {
         /// When Amazon Augmented AI created the human loop.
         public var creationTime: ClientRuntime.Date?
         /// The reason why the human loop failed. A failure reason is returned when the status of the human loop is Failed.
@@ -581,7 +581,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -638,7 +638,7 @@ extension ListHumanLoopsInput {
     }
 }
 
-public struct ListHumanLoopsInput: Swift.Equatable {
+public struct ListHumanLoopsInput {
     /// (Optional) The timestamp of the date when you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
     public var creationTimeAfter: ClientRuntime.Date?
     /// (Optional) The timestamp of the date before which you want the human loops to begin in ISO 8601 format. For example, 2020-02-24.
@@ -671,7 +671,7 @@ public struct ListHumanLoopsInput: Swift.Equatable {
     }
 }
 
-struct ListHumanLoopsInputBody: Swift.Equatable {
+struct ListHumanLoopsInputBody {
 }
 
 extension ListHumanLoopsInputBody: Swift.Decodable {
@@ -694,7 +694,7 @@ extension ListHumanLoopsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHumanLoopsOutput: Swift.Equatable {
+public struct ListHumanLoopsOutput {
     /// An array of objects that contain information about the human loops.
     /// This member is required.
     public var humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]?
@@ -711,7 +711,7 @@ public struct ListHumanLoopsOutput: Swift.Equatable {
     }
 }
 
-struct ListHumanLoopsOutputBody: Swift.Equatable {
+struct ListHumanLoopsOutputBody {
     let humanLoopSummaries: [SageMakerA2IRuntimeClientTypes.HumanLoopSummary]?
     let nextToken: Swift.String?
 }
@@ -793,7 +793,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -850,7 +850,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -930,7 +930,7 @@ extension StartHumanLoopInput {
     }
 }
 
-public struct StartHumanLoopInput: Swift.Equatable {
+public struct StartHumanLoopInput {
     /// Attributes of the specified data. Use DataAttributes to specify if your data is free of personally identifiable information and/or free of adult content.
     public var dataAttributes: SageMakerA2IRuntimeClientTypes.HumanLoopDataAttributes?
     /// The Amazon Resource Name (ARN) of the flow definition associated with this human loop.
@@ -957,7 +957,7 @@ public struct StartHumanLoopInput: Swift.Equatable {
     }
 }
 
-struct StartHumanLoopInputBody: Swift.Equatable {
+struct StartHumanLoopInputBody {
     let humanLoopName: Swift.String?
     let flowDefinitionArn: Swift.String?
     let humanLoopInput: SageMakerA2IRuntimeClientTypes.HumanLoopInput?
@@ -997,7 +997,7 @@ extension StartHumanLoopOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartHumanLoopOutput: Swift.Equatable {
+public struct StartHumanLoopOutput {
     /// The Amazon Resource Name (ARN) of the human loop.
     public var humanLoopArn: Swift.String?
 
@@ -1009,7 +1009,7 @@ public struct StartHumanLoopOutput: Swift.Equatable {
     }
 }
 
-struct StartHumanLoopOutputBody: Swift.Equatable {
+struct StartHumanLoopOutputBody {
     let humanLoopArn: Swift.String?
 }
 
@@ -1060,7 +1060,7 @@ extension StopHumanLoopInput {
     }
 }
 
-public struct StopHumanLoopInput: Swift.Equatable {
+public struct StopHumanLoopInput {
     /// The name of the human loop that you want to stop.
     /// This member is required.
     public var humanLoopName: Swift.String?
@@ -1073,7 +1073,7 @@ public struct StopHumanLoopInput: Swift.Equatable {
     }
 }
 
-struct StopHumanLoopInputBody: Swift.Equatable {
+struct StopHumanLoopInputBody {
     let humanLoopName: Swift.String?
 }
 
@@ -1094,7 +1094,7 @@ extension StopHumanLoopOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopHumanLoopOutput: Swift.Equatable {
+public struct StopHumanLoopOutput {
 
     public init() { }
 }
@@ -1152,7 +1152,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1207,7 +1207,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

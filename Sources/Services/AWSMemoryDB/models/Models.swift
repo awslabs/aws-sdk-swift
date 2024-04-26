@@ -83,7 +83,7 @@ extension MemoryDBClientTypes.ACL: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// An Access Control List. You can authenticate users with Access Contol Lists. ACLs enable you to control cluster access by grouping users. These Access control lists are designed as a way to organize access to clusters.
-    public struct ACL: Swift.Equatable {
+    public struct ACL {
         /// The Amazon Resource Name (ARN) of the ACL
         public var arn: Swift.String?
         /// A list of clusters associated with the ACL.
@@ -160,7 +160,7 @@ public struct ACLAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ACLAlreadyExistsFaultBody: Swift.Equatable {
+struct ACLAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -215,7 +215,7 @@ public struct ACLNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ACLNotFoundFaultBody: Swift.Equatable {
+struct ACLNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -282,7 +282,7 @@ extension MemoryDBClientTypes.ACLPendingChanges: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Returns the updates being applied to the ACL.
-    public struct ACLPendingChanges: Swift.Equatable {
+    public struct ACLPendingChanges {
         /// A list of users being added to the ACL
         public var userNamesToAdd: [Swift.String]?
         /// A list of user names being removed from the ACL
@@ -339,7 +339,7 @@ public struct ACLQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ACLQuotaExceededFaultBody: Swift.Equatable {
+struct ACLQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -376,7 +376,7 @@ extension MemoryDBClientTypes.ACLsUpdateStatus: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// The status of the ACL update
-    public struct ACLsUpdateStatus: Swift.Equatable {
+    public struct ACLsUpdateStatus {
         /// A list of ACLs pending to be applied.
         public var aclToApply: Swift.String?
 
@@ -429,7 +429,7 @@ public struct APICallRateForCustomerExceededFault: ClientRuntime.ModeledError, A
     }
 }
 
-struct APICallRateForCustomerExceededFaultBody: Swift.Equatable {
+struct APICallRateForCustomerExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -504,7 +504,7 @@ extension MemoryDBClientTypes.Authentication: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Denotes the user's authentication properties, such as whether it requires a password to authenticate. Used in output responses.
-    public struct Authentication: Swift.Equatable {
+    public struct Authentication {
         /// The number of passwords belonging to the user. The maximum is two.
         public var passwordCount: Swift.Int?
         /// Indicates whether the user requires a password to authenticate.
@@ -561,7 +561,7 @@ extension MemoryDBClientTypes.AuthenticationMode: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Denotes the user's authentication properties, such as whether it requires a password to authenticate. Used in output responses.
-    public struct AuthenticationMode: Swift.Equatable {
+    public struct AuthenticationMode {
         /// The password(s) used for authentication
         public var passwords: [Swift.String]?
         /// Indicates whether the user requires a password to authenticate. All newly-created users require a password.
@@ -635,7 +635,7 @@ extension MemoryDBClientTypes.AvailabilityZone: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Indicates if the cluster has a Multi-AZ configuration (multiaz) or not (singleaz).
-    public struct AvailabilityZone: Swift.Equatable {
+    public struct AvailabilityZone {
         /// The name of the Availability Zone.
         public var name: Swift.String?
 
@@ -676,7 +676,7 @@ extension BatchUpdateClusterInput {
     }
 }
 
-public struct BatchUpdateClusterInput: Swift.Equatable {
+public struct BatchUpdateClusterInput {
     /// The cluster names to apply the updates.
     /// This member is required.
     public var clusterNames: [Swift.String]?
@@ -693,7 +693,7 @@ public struct BatchUpdateClusterInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateClusterInputBody: Swift.Equatable {
+struct BatchUpdateClusterInputBody {
     let clusterNames: [Swift.String]?
     let serviceUpdate: MemoryDBClientTypes.ServiceUpdateRequest?
 }
@@ -736,7 +736,7 @@ extension BatchUpdateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdateClusterOutput: Swift.Equatable {
+public struct BatchUpdateClusterOutput {
     /// The list of clusters that have been updated.
     public var processedClusters: [MemoryDBClientTypes.Cluster]?
     /// The list of clusters where updates have not been applied.
@@ -752,7 +752,7 @@ public struct BatchUpdateClusterOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateClusterOutputBody: Swift.Equatable {
+struct BatchUpdateClusterOutputBody {
     let processedClusters: [MemoryDBClientTypes.Cluster]?
     let unprocessedClusters: [MemoryDBClientTypes.UnprocessedCluster]?
 }
@@ -997,7 +997,7 @@ extension MemoryDBClientTypes.Cluster: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Contains all of the attributes of a specific cluster.
-    public struct Cluster: Swift.Equatable {
+    public struct Cluster {
         /// The name of the Access Control List associated with this cluster.
         public var aclName: Swift.String?
         /// The Amazon Resource Name (ARN) of the cluster.
@@ -1150,7 +1150,7 @@ public struct ClusterAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ClusterAlreadyExistsFaultBody: Swift.Equatable {
+struct ClusterAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -1277,7 +1277,7 @@ extension MemoryDBClientTypes.ClusterConfiguration: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A list of cluster configuration options.
-    public struct ClusterConfiguration: Swift.Equatable {
+    public struct ClusterConfiguration {
         /// The description of the cluster configuration
         public var description: Swift.String?
         /// The Redis engine version used by the cluster
@@ -1382,7 +1382,7 @@ public struct ClusterNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct ClusterNotFoundFaultBody: Swift.Equatable {
+struct ClusterNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -1443,7 +1443,7 @@ extension MemoryDBClientTypes.ClusterPendingUpdates: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A list of updates being applied to the cluster
-    public struct ClusterPendingUpdates: Swift.Equatable {
+    public struct ClusterPendingUpdates {
         /// A list of ACLs associated with the cluster that are being updated
         public var acLs: MemoryDBClientTypes.ACLsUpdateStatus?
         /// The status of an online resharding operation.
@@ -1504,7 +1504,7 @@ public struct ClusterQuotaForCustomerExceededFault: ClientRuntime.ModeledError, 
     }
 }
 
-struct ClusterQuotaForCustomerExceededFaultBody: Swift.Equatable {
+struct ClusterQuotaForCustomerExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -1559,7 +1559,7 @@ extension CopySnapshotInput {
     }
 }
 
-public struct CopySnapshotInput: Swift.Equatable {
+public struct CopySnapshotInput {
     /// The ID of the KMS key used to encrypt the target snapshot.
     public var kmsKeyId: Swift.String?
     /// The name of an existing snapshot from which to make a copy.
@@ -1589,7 +1589,7 @@ public struct CopySnapshotInput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotInputBody: Swift.Equatable {
+struct CopySnapshotInputBody {
     let sourceSnapshotName: Swift.String?
     let targetSnapshotName: Swift.String?
     let targetBucket: Swift.String?
@@ -1642,7 +1642,7 @@ extension CopySnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopySnapshotOutput: Swift.Equatable {
+public struct CopySnapshotOutput {
     /// Represents a copy of an entire cluster as of the time when the snapshot was taken.
     public var snapshot: MemoryDBClientTypes.Snapshot?
 
@@ -1654,7 +1654,7 @@ public struct CopySnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CopySnapshotOutputBody: Swift.Equatable {
+struct CopySnapshotOutputBody {
     let snapshot: MemoryDBClientTypes.Snapshot?
 }
 
@@ -1722,7 +1722,7 @@ extension CreateACLInput {
     }
 }
 
-public struct CreateACLInput: Swift.Equatable {
+public struct CreateACLInput {
     /// The name of the Access Control List.
     /// This member is required.
     public var aclName: Swift.String?
@@ -1743,7 +1743,7 @@ public struct CreateACLInput: Swift.Equatable {
     }
 }
 
-struct CreateACLInputBody: Swift.Equatable {
+struct CreateACLInputBody {
     let aclName: Swift.String?
     let userNames: [Swift.String]?
     let tags: [MemoryDBClientTypes.Tag]?
@@ -1797,7 +1797,7 @@ extension CreateACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateACLOutput: Swift.Equatable {
+public struct CreateACLOutput {
     /// The newly-created Access Control List.
     public var acl: MemoryDBClientTypes.ACL?
 
@@ -1809,7 +1809,7 @@ public struct CreateACLOutput: Swift.Equatable {
     }
 }
 
-struct CreateACLOutputBody: Swift.Equatable {
+struct CreateACLOutputBody {
     let acl: MemoryDBClientTypes.ACL?
 }
 
@@ -1955,7 +1955,7 @@ extension CreateClusterInput {
     }
 }
 
-public struct CreateClusterInput: Swift.Equatable {
+public struct CreateClusterInput {
     /// The name of the Access Control List to associate with the cluster.
     /// This member is required.
     public var aclName: Swift.String?
@@ -2071,7 +2071,7 @@ public struct CreateClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateClusterInputBody: Swift.Equatable {
+struct CreateClusterInputBody {
     let clusterName: Swift.String?
     let nodeType: Swift.String?
     let parameterGroupName: Swift.String?
@@ -2210,7 +2210,7 @@ extension CreateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateClusterOutput: Swift.Equatable {
+public struct CreateClusterOutput {
     /// The newly-created cluster.
     public var cluster: MemoryDBClientTypes.Cluster?
 
@@ -2222,7 +2222,7 @@ public struct CreateClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateClusterOutputBody: Swift.Equatable {
+struct CreateClusterOutputBody {
     let cluster: MemoryDBClientTypes.Cluster?
 }
 
@@ -2299,7 +2299,7 @@ extension CreateParameterGroupInput {
     }
 }
 
-public struct CreateParameterGroupInput: Swift.Equatable {
+public struct CreateParameterGroupInput {
     /// An optional description of the parameter group.
     public var description: Swift.String?
     /// The name of the parameter group family that the parameter group can be used with.
@@ -2325,7 +2325,7 @@ public struct CreateParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateParameterGroupInputBody: Swift.Equatable {
+struct CreateParameterGroupInputBody {
     let parameterGroupName: Swift.String?
     let family: Swift.String?
     let description: Swift.String?
@@ -2374,7 +2374,7 @@ extension CreateParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateParameterGroupOutput: Swift.Equatable {
+public struct CreateParameterGroupOutput {
     /// The newly-created parameter group.
     public var parameterGroup: MemoryDBClientTypes.ParameterGroup?
 
@@ -2386,7 +2386,7 @@ public struct CreateParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateParameterGroupOutputBody: Swift.Equatable {
+struct CreateParameterGroupOutputBody {
     let parameterGroup: MemoryDBClientTypes.ParameterGroup?
 }
 
@@ -2454,7 +2454,7 @@ extension CreateSnapshotInput {
     }
 }
 
-public struct CreateSnapshotInput: Swift.Equatable {
+public struct CreateSnapshotInput {
     /// The snapshot is created from this cluster.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -2480,7 +2480,7 @@ public struct CreateSnapshotInput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotInputBody: Swift.Equatable {
+struct CreateSnapshotInputBody {
     let clusterName: Swift.String?
     let snapshotName: Swift.String?
     let kmsKeyId: Swift.String?
@@ -2529,7 +2529,7 @@ extension CreateSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSnapshotOutput: Swift.Equatable {
+public struct CreateSnapshotOutput {
     /// The newly-created snapshot.
     public var snapshot: MemoryDBClientTypes.Snapshot?
 
@@ -2541,7 +2541,7 @@ public struct CreateSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct CreateSnapshotOutputBody: Swift.Equatable {
+struct CreateSnapshotOutputBody {
     let snapshot: MemoryDBClientTypes.Snapshot?
 }
 
@@ -2613,7 +2613,7 @@ extension CreateSubnetGroupInput {
     }
 }
 
-public struct CreateSubnetGroupInput: Swift.Equatable {
+public struct CreateSubnetGroupInput {
     /// A description for the subnet group.
     public var description: Swift.String?
     /// The name of the subnet group.
@@ -2639,7 +2639,7 @@ public struct CreateSubnetGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateSubnetGroupInputBody: Swift.Equatable {
+struct CreateSubnetGroupInputBody {
     let subnetGroupName: Swift.String?
     let description: Swift.String?
     let subnetIds: [Swift.String]?
@@ -2697,7 +2697,7 @@ extension CreateSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSubnetGroupOutput: Swift.Equatable {
+public struct CreateSubnetGroupOutput {
     /// The newly-created subnet group
     public var subnetGroup: MemoryDBClientTypes.SubnetGroup?
 
@@ -2709,7 +2709,7 @@ public struct CreateSubnetGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateSubnetGroupOutputBody: Swift.Equatable {
+struct CreateSubnetGroupOutputBody {
     let subnetGroup: MemoryDBClientTypes.SubnetGroup?
 }
 
@@ -2777,7 +2777,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// Access permissions string used for this user.
     /// This member is required.
     public var accessString: Swift.String?
@@ -2804,7 +2804,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let userName: Swift.String?
     let authenticationMode: MemoryDBClientTypes.AuthenticationMode?
     let accessString: Swift.String?
@@ -2853,7 +2853,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The newly-created user.
     public var user: MemoryDBClientTypes.User?
 
@@ -2865,7 +2865,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let user: MemoryDBClientTypes.User?
 }
 
@@ -2968,7 +2968,7 @@ public struct DefaultUserRequired: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct DefaultUserRequiredBody: Swift.Equatable {
+struct DefaultUserRequiredBody {
     let message: Swift.String?
 }
 
@@ -3004,7 +3004,7 @@ extension DeleteACLInput {
     }
 }
 
-public struct DeleteACLInput: Swift.Equatable {
+public struct DeleteACLInput {
     /// The name of the Access Control List to delete
     /// This member is required.
     public var aclName: Swift.String?
@@ -3017,7 +3017,7 @@ public struct DeleteACLInput: Swift.Equatable {
     }
 }
 
-struct DeleteACLInputBody: Swift.Equatable {
+struct DeleteACLInputBody {
     let aclName: Swift.String?
 }
 
@@ -3045,7 +3045,7 @@ extension DeleteACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteACLOutput: Swift.Equatable {
+public struct DeleteACLOutput {
     /// The Access Control List object that has been deleted.
     public var acl: MemoryDBClientTypes.ACL?
 
@@ -3057,7 +3057,7 @@ public struct DeleteACLOutput: Swift.Equatable {
     }
 }
 
-struct DeleteACLOutputBody: Swift.Equatable {
+struct DeleteACLOutputBody {
     let acl: MemoryDBClientTypes.ACL?
 }
 
@@ -3110,7 +3110,7 @@ extension DeleteClusterInput {
     }
 }
 
-public struct DeleteClusterInput: Swift.Equatable {
+public struct DeleteClusterInput {
     /// The name of the cluster to be deleted
     /// This member is required.
     public var clusterName: Swift.String?
@@ -3127,7 +3127,7 @@ public struct DeleteClusterInput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterInputBody: Swift.Equatable {
+struct DeleteClusterInputBody {
     let clusterName: Swift.String?
     let finalSnapshotName: Swift.String?
 }
@@ -3159,7 +3159,7 @@ extension DeleteClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteClusterOutput: Swift.Equatable {
+public struct DeleteClusterOutput {
     /// The cluster object that has been deleted
     public var cluster: MemoryDBClientTypes.Cluster?
 
@@ -3171,7 +3171,7 @@ public struct DeleteClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteClusterOutputBody: Swift.Equatable {
+struct DeleteClusterOutputBody {
     let cluster: MemoryDBClientTypes.Cluster?
 }
 
@@ -3223,7 +3223,7 @@ extension DeleteParameterGroupInput {
     }
 }
 
-public struct DeleteParameterGroupInput: Swift.Equatable {
+public struct DeleteParameterGroupInput {
     /// The name of the parameter group to delete.
     /// This member is required.
     public var parameterGroupName: Swift.String?
@@ -3236,7 +3236,7 @@ public struct DeleteParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteParameterGroupInputBody: Swift.Equatable {
+struct DeleteParameterGroupInputBody {
     let parameterGroupName: Swift.String?
 }
 
@@ -3264,7 +3264,7 @@ extension DeleteParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteParameterGroupOutput: Swift.Equatable {
+public struct DeleteParameterGroupOutput {
     /// The parameter group that has been deleted.
     public var parameterGroup: MemoryDBClientTypes.ParameterGroup?
 
@@ -3276,7 +3276,7 @@ public struct DeleteParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteParameterGroupOutputBody: Swift.Equatable {
+struct DeleteParameterGroupOutputBody {
     let parameterGroup: MemoryDBClientTypes.ParameterGroup?
 }
 
@@ -3327,7 +3327,7 @@ extension DeleteSnapshotInput {
     }
 }
 
-public struct DeleteSnapshotInput: Swift.Equatable {
+public struct DeleteSnapshotInput {
     /// The name of the snapshot to delete
     /// This member is required.
     public var snapshotName: Swift.String?
@@ -3340,7 +3340,7 @@ public struct DeleteSnapshotInput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotInputBody: Swift.Equatable {
+struct DeleteSnapshotInputBody {
     let snapshotName: Swift.String?
 }
 
@@ -3368,7 +3368,7 @@ extension DeleteSnapshotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSnapshotOutput: Swift.Equatable {
+public struct DeleteSnapshotOutput {
     /// The snapshot object that has been deleted.
     public var snapshot: MemoryDBClientTypes.Snapshot?
 
@@ -3380,7 +3380,7 @@ public struct DeleteSnapshotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSnapshotOutputBody: Swift.Equatable {
+struct DeleteSnapshotOutputBody {
     let snapshot: MemoryDBClientTypes.Snapshot?
 }
 
@@ -3431,7 +3431,7 @@ extension DeleteSubnetGroupInput {
     }
 }
 
-public struct DeleteSubnetGroupInput: Swift.Equatable {
+public struct DeleteSubnetGroupInput {
     /// The name of the subnet group to delete
     /// This member is required.
     public var subnetGroupName: Swift.String?
@@ -3444,7 +3444,7 @@ public struct DeleteSubnetGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteSubnetGroupInputBody: Swift.Equatable {
+struct DeleteSubnetGroupInputBody {
     let subnetGroupName: Swift.String?
 }
 
@@ -3472,7 +3472,7 @@ extension DeleteSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSubnetGroupOutput: Swift.Equatable {
+public struct DeleteSubnetGroupOutput {
     /// The subnet group object that has been deleted.
     public var subnetGroup: MemoryDBClientTypes.SubnetGroup?
 
@@ -3484,7 +3484,7 @@ public struct DeleteSubnetGroupOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSubnetGroupOutputBody: Swift.Equatable {
+struct DeleteSubnetGroupOutputBody {
     let subnetGroup: MemoryDBClientTypes.SubnetGroup?
 }
 
@@ -3533,7 +3533,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The name of the user to delete
     /// This member is required.
     public var userName: Swift.String?
@@ -3546,7 +3546,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let userName: Swift.String?
 }
 
@@ -3574,7 +3574,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
     /// The user object that has been deleted.
     public var user: MemoryDBClientTypes.User?
 
@@ -3586,7 +3586,7 @@ public struct DeleteUserOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUserOutputBody: Swift.Equatable {
+struct DeleteUserOutputBody {
     let user: MemoryDBClientTypes.User?
 }
 
@@ -3643,7 +3643,7 @@ extension DescribeACLsInput {
     }
 }
 
-public struct DescribeACLsInput: Swift.Equatable {
+public struct DescribeACLsInput {
     /// The name of the ACL
     public var aclName: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -3663,7 +3663,7 @@ public struct DescribeACLsInput: Swift.Equatable {
     }
 }
 
-struct DescribeACLsInputBody: Swift.Equatable {
+struct DescribeACLsInputBody {
     let aclName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3701,7 +3701,7 @@ extension DescribeACLsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeACLsOutput: Swift.Equatable {
+public struct DescribeACLsOutput {
     /// The list of ACLs
     public var acLs: [MemoryDBClientTypes.ACL]?
     /// If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -3717,7 +3717,7 @@ public struct DescribeACLsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeACLsOutputBody: Swift.Equatable {
+struct DescribeACLsOutputBody {
     let acLs: [MemoryDBClientTypes.ACL]?
     let nextToken: Swift.String?
 }
@@ -3790,7 +3790,7 @@ extension DescribeClustersInput {
     }
 }
 
-public struct DescribeClustersInput: Swift.Equatable {
+public struct DescribeClustersInput {
     /// The name of the cluster
     public var clusterName: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -3814,7 +3814,7 @@ public struct DescribeClustersInput: Swift.Equatable {
     }
 }
 
-struct DescribeClustersInputBody: Swift.Equatable {
+struct DescribeClustersInputBody {
     let clusterName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3856,7 +3856,7 @@ extension DescribeClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeClustersOutput: Swift.Equatable {
+public struct DescribeClustersOutput {
     /// A list of clusters
     public var clusters: [MemoryDBClientTypes.Cluster]?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -3872,7 +3872,7 @@ public struct DescribeClustersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeClustersOutputBody: Swift.Equatable {
+struct DescribeClustersOutputBody {
     let nextToken: Swift.String?
     let clusters: [MemoryDBClientTypes.Cluster]?
 }
@@ -3951,7 +3951,7 @@ extension DescribeEngineVersionsInput {
     }
 }
 
-public struct DescribeEngineVersionsInput: Swift.Equatable {
+public struct DescribeEngineVersionsInput {
     /// If true, specifies that only the default version of the specified engine or engine and major version combination is to be returned.
     public var defaultOnly: Swift.Bool?
     /// The Redis engine version
@@ -3979,7 +3979,7 @@ public struct DescribeEngineVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEngineVersionsInputBody: Swift.Equatable {
+struct DescribeEngineVersionsInputBody {
     let engineVersion: Swift.String?
     let parameterGroupFamily: Swift.String?
     let maxResults: Swift.Int?
@@ -4025,7 +4025,7 @@ extension DescribeEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEngineVersionsOutput: Swift.Equatable {
+public struct DescribeEngineVersionsOutput {
     /// A list of engine version details. Each element in the list contains detailed information about one engine version.
     public var engineVersions: [MemoryDBClientTypes.EngineVersionInfo]?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -4041,7 +4041,7 @@ public struct DescribeEngineVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEngineVersionsOutputBody: Swift.Equatable {
+struct DescribeEngineVersionsOutputBody {
     let nextToken: Swift.String?
     let engineVersions: [MemoryDBClientTypes.EngineVersionInfo]?
 }
@@ -4127,7 +4127,7 @@ extension DescribeEventsInput {
     }
 }
 
-public struct DescribeEventsInput: Swift.Equatable {
+public struct DescribeEventsInput {
     /// The number of minutes worth of events to retrieve.
     public var duration: Swift.Int?
     /// The end of the time interval for which to retrieve events, specified in ISO 8601 format. Example: 2017-03-30T07:03:49.555Z
@@ -4163,7 +4163,7 @@ public struct DescribeEventsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsInputBody: Swift.Equatable {
+struct DescribeEventsInputBody {
     let sourceName: Swift.String?
     let sourceType: MemoryDBClientTypes.SourceType?
     let startTime: ClientRuntime.Date?
@@ -4217,7 +4217,7 @@ extension DescribeEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventsOutput: Swift.Equatable {
+public struct DescribeEventsOutput {
     /// A list of events. Each element in the list contains detailed information about one event.
     public var events: [MemoryDBClientTypes.Event]?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -4233,7 +4233,7 @@ public struct DescribeEventsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventsOutputBody: Swift.Equatable {
+struct DescribeEventsOutputBody {
     let nextToken: Swift.String?
     let events: [MemoryDBClientTypes.Event]?
 }
@@ -4303,7 +4303,7 @@ extension DescribeParameterGroupsInput {
     }
 }
 
-public struct DescribeParameterGroupsInput: Swift.Equatable {
+public struct DescribeParameterGroupsInput {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -4323,7 +4323,7 @@ public struct DescribeParameterGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeParameterGroupsInputBody: Swift.Equatable {
+struct DescribeParameterGroupsInputBody {
     let parameterGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4361,7 +4361,7 @@ extension DescribeParameterGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeParameterGroupsOutput: Swift.Equatable {
+public struct DescribeParameterGroupsOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of parameter groups. Each element in the list contains detailed information about one parameter group.
@@ -4377,7 +4377,7 @@ public struct DescribeParameterGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeParameterGroupsOutputBody: Swift.Equatable {
+struct DescribeParameterGroupsOutputBody {
     let nextToken: Swift.String?
     let parameterGroups: [MemoryDBClientTypes.ParameterGroup]?
 }
@@ -4448,7 +4448,7 @@ extension DescribeParametersInput {
     }
 }
 
-public struct DescribeParametersInput: Swift.Equatable {
+public struct DescribeParametersInput {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -4469,7 +4469,7 @@ public struct DescribeParametersInput: Swift.Equatable {
     }
 }
 
-struct DescribeParametersInputBody: Swift.Equatable {
+struct DescribeParametersInputBody {
     let parameterGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4507,7 +4507,7 @@ extension DescribeParametersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeParametersOutput: Swift.Equatable {
+public struct DescribeParametersOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of parameters specific to a particular parameter group. Each element in the list contains detailed information about one parameter.
@@ -4523,7 +4523,7 @@ public struct DescribeParametersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeParametersOutputBody: Swift.Equatable {
+struct DescribeParametersOutputBody {
     let nextToken: Swift.String?
     let parameters: [MemoryDBClientTypes.Parameter]?
 }
@@ -4610,7 +4610,7 @@ extension DescribeReservedNodesInput {
     }
 }
 
-public struct DescribeReservedNodesInput: Swift.Equatable {
+public struct DescribeReservedNodesInput {
     /// The duration filter value, specified in years or seconds. Use this parameter to show only reservations for this duration.
     public var duration: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -4646,7 +4646,7 @@ public struct DescribeReservedNodesInput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedNodesInputBody: Swift.Equatable {
+struct DescribeReservedNodesInputBody {
     let reservationId: Swift.String?
     let reservedNodesOfferingId: Swift.String?
     let nodeType: Swift.String?
@@ -4726,7 +4726,7 @@ extension DescribeReservedNodesOfferingsInput {
     }
 }
 
-public struct DescribeReservedNodesOfferingsInput: Swift.Equatable {
+public struct DescribeReservedNodesOfferingsInput {
     /// Duration filter value, specified in years or seconds. Use this parameter to show only reservations for a given duration.
     public var duration: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxRecords value, a marker is included in the response so that the remaining results can be retrieved.
@@ -4758,7 +4758,7 @@ public struct DescribeReservedNodesOfferingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedNodesOfferingsInputBody: Swift.Equatable {
+struct DescribeReservedNodesOfferingsInputBody {
     let reservedNodesOfferingId: Swift.String?
     let nodeType: Swift.String?
     let duration: Swift.String?
@@ -4808,7 +4808,7 @@ extension DescribeReservedNodesOfferingsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeReservedNodesOfferingsOutput: Swift.Equatable {
+public struct DescribeReservedNodesOfferingsOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
     /// Lists available reserved node offerings.
@@ -4824,7 +4824,7 @@ public struct DescribeReservedNodesOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedNodesOfferingsOutputBody: Swift.Equatable {
+struct DescribeReservedNodesOfferingsOutputBody {
     let nextToken: Swift.String?
     let reservedNodesOfferings: [MemoryDBClientTypes.ReservedNodesOffering]?
 }
@@ -4881,7 +4881,7 @@ extension DescribeReservedNodesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeReservedNodesOutput: Swift.Equatable {
+public struct DescribeReservedNodesOutput {
     /// An optional marker returned from a prior request. Use this marker for pagination of results from this operation. If this parameter is specified, the response includes only records beyond the marker, up to the value specified by MaxRecords.
     public var nextToken: Swift.String?
     /// Returns information about reserved nodes for this account, or about a specified reserved node.
@@ -4897,7 +4897,7 @@ public struct DescribeReservedNodesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReservedNodesOutputBody: Swift.Equatable {
+struct DescribeReservedNodesOutputBody {
     let nextToken: Swift.String?
     let reservedNodes: [MemoryDBClientTypes.ReservedNode]?
 }
@@ -4982,7 +4982,7 @@ extension DescribeServiceUpdatesInput {
     }
 }
 
-public struct DescribeServiceUpdatesInput: Swift.Equatable {
+public struct DescribeServiceUpdatesInput {
     /// The list of cluster names to identify service updates to apply
     public var clusterNames: [Swift.String]?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -5010,7 +5010,7 @@ public struct DescribeServiceUpdatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceUpdatesInputBody: Swift.Equatable {
+struct DescribeServiceUpdatesInputBody {
     let serviceUpdateName: Swift.String?
     let clusterNames: [Swift.String]?
     let status: [MemoryDBClientTypes.ServiceUpdateStatus]?
@@ -5074,7 +5074,7 @@ extension DescribeServiceUpdatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServiceUpdatesOutput: Swift.Equatable {
+public struct DescribeServiceUpdatesOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of service updates
@@ -5090,7 +5090,7 @@ public struct DescribeServiceUpdatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServiceUpdatesOutputBody: Swift.Equatable {
+struct DescribeServiceUpdatesOutputBody {
     let nextToken: Swift.String?
     let serviceUpdates: [MemoryDBClientTypes.ServiceUpdate]?
 }
@@ -5171,7 +5171,7 @@ extension DescribeSnapshotsInput {
     }
 }
 
-public struct DescribeSnapshotsInput: Swift.Equatable {
+public struct DescribeSnapshotsInput {
     /// A user-supplied cluster identifier. If this parameter is specified, only snapshots associated with that specific cluster are described.
     public var clusterName: Swift.String?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -5203,7 +5203,7 @@ public struct DescribeSnapshotsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsInputBody: Swift.Equatable {
+struct DescribeSnapshotsInputBody {
     let clusterName: Swift.String?
     let snapshotName: Swift.String?
     let source: Swift.String?
@@ -5253,7 +5253,7 @@ extension DescribeSnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSnapshotsOutput: Swift.Equatable {
+public struct DescribeSnapshotsOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of snapshots. Each item in the list contains detailed information about one snapshot.
@@ -5269,7 +5269,7 @@ public struct DescribeSnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSnapshotsOutputBody: Swift.Equatable {
+struct DescribeSnapshotsOutputBody {
     let nextToken: Swift.String?
     let snapshots: [MemoryDBClientTypes.Snapshot]?
 }
@@ -5340,7 +5340,7 @@ extension DescribeSubnetGroupsInput {
     }
 }
 
-public struct DescribeSubnetGroupsInput: Swift.Equatable {
+public struct DescribeSubnetGroupsInput {
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
@@ -5360,7 +5360,7 @@ public struct DescribeSubnetGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSubnetGroupsInputBody: Swift.Equatable {
+struct DescribeSubnetGroupsInputBody {
     let subnetGroupName: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -5398,7 +5398,7 @@ extension DescribeSubnetGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSubnetGroupsOutput: Swift.Equatable {
+public struct DescribeSubnetGroupsOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of subnet groups. Each element in the list contains detailed information about one group.
@@ -5414,7 +5414,7 @@ public struct DescribeSubnetGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSubnetGroupsOutputBody: Swift.Equatable {
+struct DescribeSubnetGroupsOutputBody {
     let nextToken: Swift.String?
     let subnetGroups: [MemoryDBClientTypes.SubnetGroup]?
 }
@@ -5490,7 +5490,7 @@ extension DescribeUsersInput {
     }
 }
 
-public struct DescribeUsersInput: Swift.Equatable {
+public struct DescribeUsersInput {
     /// Filter to determine the list of users to return.
     public var filters: [MemoryDBClientTypes.Filter]?
     /// The maximum number of records to include in the response. If more records exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -5514,7 +5514,7 @@ public struct DescribeUsersInput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersInputBody: Swift.Equatable {
+struct DescribeUsersInputBody {
     let userName: Swift.String?
     let filters: [MemoryDBClientTypes.Filter]?
     let maxResults: Swift.Int?
@@ -5565,7 +5565,7 @@ extension DescribeUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUsersOutput: Swift.Equatable {
+public struct DescribeUsersOutput {
     /// An optional argument to pass in case the total number of records exceeds the value of MaxResults. If nextToken is returned, there are more results available. The value of nextToken is a unique pagination token for each page. Make the call again using the returned token to retrieve the next page. Keep all other arguments unchanged.
     public var nextToken: Swift.String?
     /// A list of users.
@@ -5581,7 +5581,7 @@ public struct DescribeUsersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersOutputBody: Swift.Equatable {
+struct DescribeUsersOutputBody {
     let users: [MemoryDBClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -5661,7 +5661,7 @@ public struct DuplicateUserNameFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct DuplicateUserNameFaultBody: Swift.Equatable {
+struct DuplicateUserNameFaultBody {
     let message: Swift.String?
 }
 
@@ -5704,7 +5704,7 @@ extension MemoryDBClientTypes.Endpoint: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents the information required for client programs to connect to the cluster and its nodes.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The DNS hostname of the node.
         public var address: Swift.String?
         /// The port number that the engine is listening on.
@@ -5755,7 +5755,7 @@ extension MemoryDBClientTypes.EngineVersionInfo: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Provides details of the Redis engine version
-    public struct EngineVersionInfo: Swift.Equatable {
+    public struct EngineVersionInfo {
         /// The patched engine version
         public var enginePatchVersion: Swift.String?
         /// The engine version
@@ -5816,7 +5816,7 @@ extension MemoryDBClientTypes.Event: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents a single occurrence of something interesting within the system. Some examples of events are creating a cluster or adding or removing a node.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The date and time when the event occurred.
         public var date: ClientRuntime.Date?
         /// The text of the event.
@@ -5866,7 +5866,7 @@ extension FailoverShardInput {
     }
 }
 
-public struct FailoverShardInput: Swift.Equatable {
+public struct FailoverShardInput {
     /// The cluster being failed over
     /// This member is required.
     public var clusterName: Swift.String?
@@ -5884,7 +5884,7 @@ public struct FailoverShardInput: Swift.Equatable {
     }
 }
 
-struct FailoverShardInputBody: Swift.Equatable {
+struct FailoverShardInputBody {
     let clusterName: Swift.String?
     let shardName: Swift.String?
 }
@@ -5916,7 +5916,7 @@ extension FailoverShardOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct FailoverShardOutput: Swift.Equatable {
+public struct FailoverShardOutput {
     /// The cluster being failed over
     public var cluster: MemoryDBClientTypes.Cluster?
 
@@ -5928,7 +5928,7 @@ public struct FailoverShardOutput: Swift.Equatable {
     }
 }
 
-struct FailoverShardOutputBody: Swift.Equatable {
+struct FailoverShardOutputBody {
     let cluster: MemoryDBClientTypes.Cluster?
 }
 
@@ -6001,7 +6001,7 @@ extension MemoryDBClientTypes.Filter: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Used to streamline results of a search based on the property being filtered.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The property being filtered. For example, UserName.
         /// This member is required.
         public var name: Swift.String?
@@ -6092,7 +6092,7 @@ public struct InsufficientClusterCapacityFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InsufficientClusterCapacityFaultBody: Swift.Equatable {
+struct InsufficientClusterCapacityFaultBody {
     let message: Swift.String?
 }
 
@@ -6147,7 +6147,7 @@ public struct InvalidACLStateFault: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidACLStateFaultBody: Swift.Equatable {
+struct InvalidACLStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6202,7 +6202,7 @@ public struct InvalidARNFault: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct InvalidARNFaultBody: Swift.Equatable {
+struct InvalidARNFaultBody {
     let message: Swift.String?
 }
 
@@ -6257,7 +6257,7 @@ public struct InvalidClusterStateFault: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidClusterStateFaultBody: Swift.Equatable {
+struct InvalidClusterStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6312,7 +6312,7 @@ public struct InvalidCredentialsException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidCredentialsExceptionBody: Swift.Equatable {
+struct InvalidCredentialsExceptionBody {
     let message: Swift.String?
 }
 
@@ -6367,7 +6367,7 @@ public struct InvalidKMSKeyFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct InvalidKMSKeyFaultBody: Swift.Equatable {
+struct InvalidKMSKeyFaultBody {
     let message: Swift.String?
 }
 
@@ -6422,7 +6422,7 @@ public struct InvalidNodeStateFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidNodeStateFaultBody: Swift.Equatable {
+struct InvalidNodeStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6477,7 +6477,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidParameterCombinationExceptionBody: Swift.Equatable {
+struct InvalidParameterCombinationExceptionBody {
     let message: Swift.String?
 }
 
@@ -6532,7 +6532,7 @@ public struct InvalidParameterGroupStateFault: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidParameterGroupStateFaultBody: Swift.Equatable {
+struct InvalidParameterGroupStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6587,7 +6587,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let message: Swift.String?
 }
 
@@ -6642,7 +6642,7 @@ public struct InvalidSnapshotStateFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidSnapshotStateFaultBody: Swift.Equatable {
+struct InvalidSnapshotStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6697,7 +6697,7 @@ public struct InvalidSubnet: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct InvalidSubnetBody: Swift.Equatable {
+struct InvalidSubnetBody {
     let message: Swift.String?
 }
 
@@ -6752,7 +6752,7 @@ public struct InvalidUserStateFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidUserStateFaultBody: Swift.Equatable {
+struct InvalidUserStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6807,7 +6807,7 @@ public struct InvalidVPCNetworkStateFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidVPCNetworkStateFaultBody: Swift.Equatable {
+struct InvalidVPCNetworkStateFaultBody {
     let message: Swift.String?
 }
 
@@ -6843,7 +6843,7 @@ extension ListAllowedNodeTypeUpdatesInput {
     }
 }
 
-public struct ListAllowedNodeTypeUpdatesInput: Swift.Equatable {
+public struct ListAllowedNodeTypeUpdatesInput {
     /// The name of the cluster you want to scale. MemoryDB uses the cluster name to identify the current node type being used by this cluster, and from that to create a list of node types you can scale up to.
     /// This member is required.
     public var clusterName: Swift.String?
@@ -6856,7 +6856,7 @@ public struct ListAllowedNodeTypeUpdatesInput: Swift.Equatable {
     }
 }
 
-struct ListAllowedNodeTypeUpdatesInputBody: Swift.Equatable {
+struct ListAllowedNodeTypeUpdatesInputBody {
     let clusterName: Swift.String?
 }
 
@@ -6886,7 +6886,7 @@ extension ListAllowedNodeTypeUpdatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAllowedNodeTypeUpdatesOutput: Swift.Equatable {
+public struct ListAllowedNodeTypeUpdatesOutput {
     /// A list node types which you can use to scale down your cluster.
     public var scaleDownNodeTypes: [Swift.String]?
     /// A list node types which you can use to scale up your cluster.
@@ -6902,7 +6902,7 @@ public struct ListAllowedNodeTypeUpdatesOutput: Swift.Equatable {
     }
 }
 
-struct ListAllowedNodeTypeUpdatesOutputBody: Swift.Equatable {
+struct ListAllowedNodeTypeUpdatesOutputBody {
     let scaleUpNodeTypes: [Swift.String]?
     let scaleDownNodeTypes: [Swift.String]?
 }
@@ -6974,7 +6974,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The Amazon Resource Name (ARN) of the resource for which you want the list of tags
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6987,7 +6987,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -7015,7 +7015,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// A list of tags as key-value pairs.
     public var tagList: [MemoryDBClientTypes.Tag]?
 
@@ -7027,7 +7027,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tagList: [MemoryDBClientTypes.Tag]?
 }
 
@@ -7112,7 +7112,7 @@ public struct NoOperationFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct NoOperationFaultBody: Swift.Equatable {
+struct NoOperationFaultBody {
     let message: Swift.String?
 }
 
@@ -7173,7 +7173,7 @@ extension MemoryDBClientTypes.Node: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents an individual node within a cluster. Each node runs its own instance of the cluster's protocol-compliant caching software.
-    public struct Node: Swift.Equatable {
+    public struct Node {
         /// The Availability Zone in which the node resides
         public var availabilityZone: Swift.String?
         /// The date and time when the node was created.
@@ -7242,7 +7242,7 @@ public struct NodeQuotaForClusterExceededFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct NodeQuotaForClusterExceededFaultBody: Swift.Equatable {
+struct NodeQuotaForClusterExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -7297,7 +7297,7 @@ public struct NodeQuotaForCustomerExceededFault: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct NodeQuotaForCustomerExceededFaultBody: Swift.Equatable {
+struct NodeQuotaForCustomerExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -7364,7 +7364,7 @@ extension MemoryDBClientTypes.Parameter: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Describes an individual setting that controls some aspect of MemoryDB behavior.
-    public struct Parameter: Swift.Equatable {
+    public struct Parameter {
         /// The valid range of values for the parameter.
         public var allowedValues: Swift.String?
         /// The parameter's data type
@@ -7437,7 +7437,7 @@ extension MemoryDBClientTypes.ParameterGroup: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents the output of a CreateParameterGroup operation. A parameter group represents a combination of specific values for the parameters that are passed to the engine software during startup.
-    public struct ParameterGroup: Swift.Equatable {
+    public struct ParameterGroup {
         /// The Amazon Resource Name (ARN) of the parameter group
         public var arn: Swift.String?
         /// A description of the parameter group
@@ -7502,7 +7502,7 @@ public struct ParameterGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ParameterGroupAlreadyExistsFaultBody: Swift.Equatable {
+struct ParameterGroupAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -7557,7 +7557,7 @@ public struct ParameterGroupNotFoundFault: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ParameterGroupNotFoundFaultBody: Swift.Equatable {
+struct ParameterGroupNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -7612,7 +7612,7 @@ public struct ParameterGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct ParameterGroupQuotaExceededFaultBody: Swift.Equatable {
+struct ParameterGroupQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -7655,7 +7655,7 @@ extension MemoryDBClientTypes.ParameterNameValue: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Describes a name-value pair that is used to update the value of a parameter.
-    public struct ParameterNameValue: Swift.Equatable {
+    public struct ParameterNameValue {
         /// The name of the parameter
         public var parameterName: Swift.String?
         /// The value of the parameter
@@ -7700,7 +7700,7 @@ extension MemoryDBClientTypes.PendingModifiedServiceUpdate: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Update action that has yet to be processed for the corresponding apply/stop request
-    public struct PendingModifiedServiceUpdate: Swift.Equatable {
+    public struct PendingModifiedServiceUpdate {
         /// The unique ID of the service update
         public var serviceUpdateName: Swift.String?
         /// The status of the service update
@@ -7753,7 +7753,7 @@ extension PurchaseReservedNodesOfferingInput {
     }
 }
 
-public struct PurchaseReservedNodesOfferingInput: Swift.Equatable {
+public struct PurchaseReservedNodesOfferingInput {
     /// The number of node instances to reserve.
     public var nodeCount: Swift.Int?
     /// A customer-specified identifier to track this reservation.
@@ -7778,7 +7778,7 @@ public struct PurchaseReservedNodesOfferingInput: Swift.Equatable {
     }
 }
 
-struct PurchaseReservedNodesOfferingInputBody: Swift.Equatable {
+struct PurchaseReservedNodesOfferingInputBody {
     let reservedNodesOfferingId: Swift.String?
     let reservationId: Swift.String?
     let nodeCount: Swift.Int?
@@ -7827,7 +7827,7 @@ extension PurchaseReservedNodesOfferingOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct PurchaseReservedNodesOfferingOutput: Swift.Equatable {
+public struct PurchaseReservedNodesOfferingOutput {
     /// Represents the output of a PurchaseReservedNodesOffering operation.
     public var reservedNode: MemoryDBClientTypes.ReservedNode?
 
@@ -7839,7 +7839,7 @@ public struct PurchaseReservedNodesOfferingOutput: Swift.Equatable {
     }
 }
 
-struct PurchaseReservedNodesOfferingOutputBody: Swift.Equatable {
+struct PurchaseReservedNodesOfferingOutputBody {
     let reservedNode: MemoryDBClientTypes.ReservedNode?
 }
 
@@ -7899,7 +7899,7 @@ extension MemoryDBClientTypes.RecurringCharge: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// The recurring charge to run this reserved node.
-    public struct RecurringCharge: Swift.Equatable {
+    public struct RecurringCharge {
         /// The amount of the recurring charge to run this reserved node.
         public var recurringChargeAmount: Swift.Double
         /// The frequency of the recurring price charged to run this reserved node.
@@ -7938,7 +7938,7 @@ extension MemoryDBClientTypes.ReplicaConfigurationRequest: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A request to configure the number of replicas in a shard
-    public struct ReplicaConfigurationRequest: Swift.Equatable {
+    public struct ReplicaConfigurationRequest {
         /// The number of replicas to scale up or down to
         public var replicaCount: Swift.Int
 
@@ -8045,7 +8045,7 @@ extension MemoryDBClientTypes.ReservedNode: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents the output of a PurchaseReservedNodesOffering operation.
-    public struct ReservedNode: Swift.Equatable {
+    public struct ReservedNode {
         /// The Amazon Resource Name (ARN) of the reserved node.
         public var arn: Swift.String?
         /// The duration of the reservation in seconds.
@@ -8138,7 +8138,7 @@ public struct ReservedNodeAlreadyExistsFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ReservedNodeAlreadyExistsFaultBody: Swift.Equatable {
+struct ReservedNodeAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -8193,7 +8193,7 @@ public struct ReservedNodeNotFoundFault: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ReservedNodeNotFoundFaultBody: Swift.Equatable {
+struct ReservedNodeNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -8248,7 +8248,7 @@ public struct ReservedNodeQuotaExceededFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ReservedNodeQuotaExceededFaultBody: Swift.Equatable {
+struct ReservedNodeQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -8327,7 +8327,7 @@ extension MemoryDBClientTypes.ReservedNodesOffering: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// The offering type of this node.
-    public struct ReservedNodesOffering: Swift.Equatable {
+    public struct ReservedNodesOffering {
         /// The duration of the reservation in seconds.
         public var duration: Swift.Int
         /// The fixed price charged for this reserved node.
@@ -8400,7 +8400,7 @@ public struct ReservedNodesOfferingNotFoundFault: ClientRuntime.ModeledError, AW
     }
 }
 
-struct ReservedNodesOfferingNotFoundFaultBody: Swift.Equatable {
+struct ReservedNodesOfferingNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -8447,7 +8447,7 @@ extension ResetParameterGroupInput {
     }
 }
 
-public struct ResetParameterGroupInput: Swift.Equatable {
+public struct ResetParameterGroupInput {
     /// If true, all parameters in the parameter group are reset to their default values. If false, only the parameters listed by ParameterNames are reset to their default values.
     public var allParameters: Swift.Bool?
     /// The name of the parameter group to reset.
@@ -8468,7 +8468,7 @@ public struct ResetParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct ResetParameterGroupInputBody: Swift.Equatable {
+struct ResetParameterGroupInputBody {
     let parameterGroupName: Swift.String?
     let allParameters: Swift.Bool?
     let parameterNames: [Swift.String]?
@@ -8513,7 +8513,7 @@ extension ResetParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ResetParameterGroupOutput: Swift.Equatable {
+public struct ResetParameterGroupOutput {
     /// The parameter group being reset.
     public var parameterGroup: MemoryDBClientTypes.ParameterGroup?
 
@@ -8525,7 +8525,7 @@ public struct ResetParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct ResetParameterGroupOutputBody: Swift.Equatable {
+struct ResetParameterGroupOutputBody {
     let parameterGroup: MemoryDBClientTypes.ParameterGroup?
 }
 
@@ -8577,7 +8577,7 @@ extension MemoryDBClientTypes.ReshardingStatus: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// The status of the online resharding
-    public struct ReshardingStatus: Swift.Equatable {
+    public struct ReshardingStatus {
         /// The status of the online resharding slot migration
         public var slotMigration: MemoryDBClientTypes.SlotMigration?
 
@@ -8618,7 +8618,7 @@ extension MemoryDBClientTypes.SecurityGroupMembership: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents a single security group and its status.
-    public struct SecurityGroupMembership: Swift.Equatable {
+    public struct SecurityGroupMembership {
         /// The identifier of the security group.
         public var securityGroupId: Swift.String?
         /// The status of the security group membership. The status changes whenever a security group is modified, or when the security groups assigned to a cluster are modified.
@@ -8675,7 +8675,7 @@ public struct ServiceLinkedRoleNotFoundFault: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ServiceLinkedRoleNotFoundFaultBody: Swift.Equatable {
+struct ServiceLinkedRoleNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -8754,7 +8754,7 @@ extension MemoryDBClientTypes.ServiceUpdate: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// An update that you can apply to your MemoryDB clusters.
-    public struct ServiceUpdate: Swift.Equatable {
+    public struct ServiceUpdate {
         /// The date at which the service update will be automatically applied
         public var autoUpdateStartDate: ClientRuntime.Date?
         /// The name of the cluster to which the service update applies
@@ -8835,7 +8835,7 @@ public struct ServiceUpdateNotFoundFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct ServiceUpdateNotFoundFaultBody: Swift.Equatable {
+struct ServiceUpdateNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -8872,7 +8872,7 @@ extension MemoryDBClientTypes.ServiceUpdateRequest: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A request to apply a service update
-    public struct ServiceUpdateRequest: Swift.Equatable {
+    public struct ServiceUpdateRequest {
         /// The unique ID of the service update
         public var serviceUpdateNameToApply: Swift.String?
 
@@ -9010,7 +9010,7 @@ extension MemoryDBClientTypes.Shard: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents a collection of nodes in a cluster. One node in the node group is the read/write primary node. All the other nodes are read-only Replica nodes.
-    public struct Shard: Swift.Equatable {
+    public struct Shard {
         /// The name of the shard
         public var name: Swift.String?
         /// A list containing information about individual nodes within the shard
@@ -9067,7 +9067,7 @@ extension MemoryDBClientTypes.ShardConfiguration: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Shard configuration options. Each shard configuration has the following: Slots and ReplicaCount.
-    public struct ShardConfiguration: Swift.Equatable {
+    public struct ShardConfiguration {
         /// The number of read replica nodes in this shard.
         public var replicaCount: Swift.Int?
         /// A string that specifies the keyspace for a particular node group. Keyspaces range from 0 to 16,383. The string is in the format startkey-endkey.
@@ -9106,7 +9106,7 @@ extension MemoryDBClientTypes.ShardConfigurationRequest: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A request to configure the sharding properties of a cluster
-    public struct ShardConfigurationRequest: Swift.Equatable {
+    public struct ShardConfigurationRequest {
         /// The number of shards in the cluster
         public var shardCount: Swift.Int
 
@@ -9159,7 +9159,7 @@ extension MemoryDBClientTypes.ShardDetail: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Provides details of a shard in a snapshot
-    public struct ShardDetail: Swift.Equatable {
+    public struct ShardDetail {
         /// The configuration details of the shard
         public var configuration: MemoryDBClientTypes.ShardConfiguration?
         /// The name of the shard
@@ -9224,7 +9224,7 @@ public struct ShardNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ShardNotFoundFaultBody: Swift.Equatable {
+struct ShardNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -9279,7 +9279,7 @@ public struct ShardsPerClusterQuotaExceededFault: ClientRuntime.ModeledError, AW
     }
 }
 
-struct ShardsPerClusterQuotaExceededFaultBody: Swift.Equatable {
+struct ShardsPerClusterQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -9316,7 +9316,7 @@ extension MemoryDBClientTypes.SlotMigration: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents the progress of an online resharding operation.
-    public struct SlotMigration: Swift.Equatable {
+    public struct SlotMigration {
         /// The percentage of the slot migration that is complete.
         public var progressPercentage: Swift.Double
 
@@ -9387,7 +9387,7 @@ extension MemoryDBClientTypes.Snapshot: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents a copy of an entire cluster as of the time when the snapshot was taken.
-    public struct Snapshot: Swift.Equatable {
+    public struct Snapshot {
         /// The ARN (Amazon Resource Name) of the snapshot.
         public var arn: Swift.String?
         /// The configuration of the cluster from which the snapshot was taken
@@ -9464,7 +9464,7 @@ public struct SnapshotAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct SnapshotAlreadyExistsFaultBody: Swift.Equatable {
+struct SnapshotAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -9519,7 +9519,7 @@ public struct SnapshotNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct SnapshotNotFoundFaultBody: Swift.Equatable {
+struct SnapshotNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -9574,7 +9574,7 @@ public struct SnapshotQuotaExceededFault: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct SnapshotQuotaExceededFaultBody: Swift.Equatable {
+struct SnapshotQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -9661,7 +9661,7 @@ extension MemoryDBClientTypes.Subnet: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// Represents the subnet associated with a cluster. This parameter refers to subnets defined in Amazon Virtual Private Cloud (Amazon VPC) and used with MemoryDB.
-    public struct Subnet: Swift.Equatable {
+    public struct Subnet {
         /// The Availability Zone where the subnet resides
         public var availabilityZone: MemoryDBClientTypes.AvailabilityZone?
         /// The unique identifier for the subnet.
@@ -9743,7 +9743,7 @@ extension MemoryDBClientTypes {
     ///
     ///
     /// A subnet group is a collection of subnets (typically private) that you can designate for your clusters running in an Amazon Virtual Private Cloud (VPC) environment.
-    public struct SubnetGroup: Swift.Equatable {
+    public struct SubnetGroup {
         /// The ARN (Amazon Resource Name) of the subnet group.
         public var arn: Swift.String?
         /// A description of the subnet group
@@ -9812,7 +9812,7 @@ public struct SubnetGroupAlreadyExistsFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct SubnetGroupAlreadyExistsFaultBody: Swift.Equatable {
+struct SubnetGroupAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -9867,7 +9867,7 @@ public struct SubnetGroupInUseFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct SubnetGroupInUseFaultBody: Swift.Equatable {
+struct SubnetGroupInUseFaultBody {
     let message: Swift.String?
 }
 
@@ -9922,7 +9922,7 @@ public struct SubnetGroupNotFoundFault: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct SubnetGroupNotFoundFaultBody: Swift.Equatable {
+struct SubnetGroupNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -9977,7 +9977,7 @@ public struct SubnetGroupQuotaExceededFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct SubnetGroupQuotaExceededFaultBody: Swift.Equatable {
+struct SubnetGroupQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -10032,7 +10032,7 @@ public struct SubnetInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSServi
     }
 }
 
-struct SubnetInUseBody: Swift.Equatable {
+struct SubnetInUseBody {
     let message: Swift.String?
 }
 
@@ -10087,7 +10087,7 @@ public struct SubnetNotAllowedFault: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct SubnetNotAllowedFaultBody: Swift.Equatable {
+struct SubnetNotAllowedFaultBody {
     let message: Swift.String?
 }
 
@@ -10142,7 +10142,7 @@ public struct SubnetQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct SubnetQuotaExceededFaultBody: Swift.Equatable {
+struct SubnetQuotaExceededFaultBody {
     let message: Swift.String?
 }
 
@@ -10185,7 +10185,7 @@ extension MemoryDBClientTypes.Tag: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A tag that can be added to an MemoryDB resource. Tags are composed of a Key/Value pair. You can use tags to categorize and track all your MemoryDB resources. When you add or remove tags on clusters, those actions will be replicated to all nodes in the cluster. A tag with a null Value is permitted. For more information, see [Tagging your MemoryDB resources](https://docs.aws.amazon.com/MemoryDB/latest/devguide/tagging-resources.html)
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key for the tag. May not be null.
         public var key: Swift.String?
         /// The tag's value. May be null.
@@ -10242,7 +10242,7 @@ public struct TagNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct TagNotFoundFaultBody: Swift.Equatable {
+struct TagNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -10297,7 +10297,7 @@ public struct TagQuotaPerResourceExceeded: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct TagQuotaPerResourceExceededBody: Swift.Equatable {
+struct TagQuotaPerResourceExceededBody {
     let message: Swift.String?
 }
 
@@ -10340,7 +10340,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which the tags are to be added
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10358,7 +10358,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [MemoryDBClientTypes.Tag]?
 }
@@ -10399,7 +10399,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
     /// A list of tags as key-value pairs.
     public var tagList: [MemoryDBClientTypes.Tag]?
 
@@ -10411,7 +10411,7 @@ public struct TagResourceOutput: Swift.Equatable {
     }
 }
 
-struct TagResourceOutputBody: Swift.Equatable {
+struct TagResourceOutputBody {
     let tagList: [MemoryDBClientTypes.Tag]?
 }
 
@@ -10495,7 +10495,7 @@ public struct TestFailoverNotAvailableFault: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct TestFailoverNotAvailableFaultBody: Swift.Equatable {
+struct TestFailoverNotAvailableFaultBody {
     let message: Swift.String?
 }
 
@@ -10544,7 +10544,7 @@ extension MemoryDBClientTypes.UnprocessedCluster: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// A cluster whose updates have failed
-    public struct UnprocessedCluster: Swift.Equatable {
+    public struct UnprocessedCluster {
         /// The name of the cluster
         public var clusterName: Swift.String?
         /// The error message associated with the update failure
@@ -10593,7 +10593,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which the tags are to be removed
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -10611,7 +10611,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -10652,7 +10652,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
     /// The list of tags removed
     public var tagList: [MemoryDBClientTypes.Tag]?
 
@@ -10664,7 +10664,7 @@ public struct UntagResourceOutput: Swift.Equatable {
     }
 }
 
-struct UntagResourceOutputBody: Swift.Equatable {
+struct UntagResourceOutputBody {
     let tagList: [MemoryDBClientTypes.Tag]?
 }
 
@@ -10743,7 +10743,7 @@ extension UpdateACLInput {
     }
 }
 
-public struct UpdateACLInput: Swift.Equatable {
+public struct UpdateACLInput {
     /// The name of the Access Control List
     /// This member is required.
     public var aclName: Swift.String?
@@ -10764,7 +10764,7 @@ public struct UpdateACLInput: Swift.Equatable {
     }
 }
 
-struct UpdateACLInputBody: Swift.Equatable {
+struct UpdateACLInputBody {
     let aclName: Swift.String?
     let userNamesToAdd: [Swift.String]?
     let userNamesToRemove: [Swift.String]?
@@ -10818,7 +10818,7 @@ extension UpdateACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateACLOutput: Swift.Equatable {
+public struct UpdateACLOutput {
     /// The updated Access Control List
     public var acl: MemoryDBClientTypes.ACL?
 
@@ -10830,7 +10830,7 @@ public struct UpdateACLOutput: Swift.Equatable {
     }
 }
 
-struct UpdateACLOutputBody: Swift.Equatable {
+struct UpdateACLOutputBody {
     let acl: MemoryDBClientTypes.ACL?
 }
 
@@ -10938,7 +10938,7 @@ extension UpdateClusterInput {
     }
 }
 
-public struct UpdateClusterInput: Swift.Equatable {
+public struct UpdateClusterInput {
     /// The Access Control List that is associated with the cluster
     public var aclName: Swift.String?
     /// The name of the cluster to update
@@ -11020,7 +11020,7 @@ public struct UpdateClusterInput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterInputBody: Swift.Equatable {
+struct UpdateClusterInputBody {
     let clusterName: Swift.String?
     let description: Swift.String?
     let securityGroupIds: [Swift.String]?
@@ -11109,7 +11109,7 @@ extension UpdateClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateClusterOutput: Swift.Equatable {
+public struct UpdateClusterOutput {
     /// The updated cluster
     public var cluster: MemoryDBClientTypes.Cluster?
 
@@ -11121,7 +11121,7 @@ public struct UpdateClusterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateClusterOutputBody: Swift.Equatable {
+struct UpdateClusterOutputBody {
     let cluster: MemoryDBClientTypes.Cluster?
 }
 
@@ -11190,7 +11190,7 @@ extension UpdateParameterGroupInput {
     }
 }
 
-public struct UpdateParameterGroupInput: Swift.Equatable {
+public struct UpdateParameterGroupInput {
     /// The name of the parameter group to update.
     /// This member is required.
     public var parameterGroupName: Swift.String?
@@ -11208,7 +11208,7 @@ public struct UpdateParameterGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateParameterGroupInputBody: Swift.Equatable {
+struct UpdateParameterGroupInputBody {
     let parameterGroupName: Swift.String?
     let parameterNameValues: [MemoryDBClientTypes.ParameterNameValue]?
 }
@@ -11249,7 +11249,7 @@ extension UpdateParameterGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateParameterGroupOutput: Swift.Equatable {
+public struct UpdateParameterGroupOutput {
     /// The updated parameter group
     public var parameterGroup: MemoryDBClientTypes.ParameterGroup?
 
@@ -11261,7 +11261,7 @@ public struct UpdateParameterGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateParameterGroupOutputBody: Swift.Equatable {
+struct UpdateParameterGroupOutputBody {
     let parameterGroup: MemoryDBClientTypes.ParameterGroup?
 }
 
@@ -11323,7 +11323,7 @@ extension UpdateSubnetGroupInput {
     }
 }
 
-public struct UpdateSubnetGroupInput: Swift.Equatable {
+public struct UpdateSubnetGroupInput {
     /// A description of the subnet group
     public var description: Swift.String?
     /// The name of the subnet group
@@ -11344,7 +11344,7 @@ public struct UpdateSubnetGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateSubnetGroupInputBody: Swift.Equatable {
+struct UpdateSubnetGroupInputBody {
     let subnetGroupName: Swift.String?
     let description: Swift.String?
     let subnetIds: [Swift.String]?
@@ -11389,7 +11389,7 @@ extension UpdateSubnetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSubnetGroupOutput: Swift.Equatable {
+public struct UpdateSubnetGroupOutput {
     /// The updated subnet group
     public var subnetGroup: MemoryDBClientTypes.SubnetGroup?
 
@@ -11401,7 +11401,7 @@ public struct UpdateSubnetGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSubnetGroupOutputBody: Swift.Equatable {
+struct UpdateSubnetGroupOutputBody {
     let subnetGroup: MemoryDBClientTypes.SubnetGroup?
 }
 
@@ -11461,7 +11461,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// Access permissions string used for this user.
     public var accessString: Swift.String?
     /// Denotes the user's authentication properties, such as whether it requires a password to authenticate.
@@ -11482,7 +11482,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let userName: Swift.String?
     let authenticationMode: MemoryDBClientTypes.AuthenticationMode?
     let accessString: Swift.String?
@@ -11518,7 +11518,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// The updated user
     public var user: MemoryDBClientTypes.User?
 
@@ -11530,7 +11530,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let user: MemoryDBClientTypes.User?
 }
 
@@ -11629,7 +11629,7 @@ extension MemoryDBClientTypes.User: Swift.Codable {
 
 extension MemoryDBClientTypes {
     /// You create users and assign them specific permissions by using an access string. You assign the users to Access Control Lists aligned with a specific role (administrators, human resources) that are then deployed to one or more MemoryDB clusters.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// Access permissions string used for this user.
         public var accessString: Swift.String?
         /// The names of the Access Control Lists to which the user belongs
@@ -11706,7 +11706,7 @@ public struct UserAlreadyExistsFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct UserAlreadyExistsFaultBody: Swift.Equatable {
+struct UserAlreadyExistsFaultBody {
     let message: Swift.String?
 }
 
@@ -11761,7 +11761,7 @@ public struct UserNotFoundFault: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct UserNotFoundFaultBody: Swift.Equatable {
+struct UserNotFoundFaultBody {
     let message: Swift.String?
 }
 
@@ -11816,7 +11816,7 @@ public struct UserQuotaExceededFault: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct UserQuotaExceededFaultBody: Swift.Equatable {
+struct UserQuotaExceededFaultBody {
     let message: Swift.String?
 }
 

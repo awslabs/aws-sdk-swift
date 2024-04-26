@@ -29,7 +29,7 @@ extension AppStreamClientTypes.AccessEndpoint: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an interface VPC endpoint (interface endpoint) that lets you create a private connection between the virtual private cloud (VPC) that you specify and AppStream 2.0. When you specify an interface endpoint for a stack, users of the stack can connect to AppStream 2.0 only through that endpoint. When you specify an interface endpoint for an image builder, administrators can connect to the image builder only through that endpoint.
-    public struct AccessEndpoint: Swift.Equatable {
+    public struct AccessEndpoint {
         /// The type of interface endpoint.
         /// This member is required.
         public var endpointType: AppStreamClientTypes.AccessEndpointType?
@@ -217,7 +217,7 @@ extension AppStreamClientTypes.AppBlock: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an app block. App blocks are an Amazon AppStream 2.0 resource that stores the details about the virtual hard disk in an S3 bucket. It also stores the setup script with details about how to mount the virtual hard disk. The virtual hard disk includes the application binaries and other files necessary to launch your applications. Multiple applications can be assigned to a single app block. This is only supported for Elastic fleets.
-    public struct AppBlock: Swift.Equatable {
+    public struct AppBlock {
         /// The errors of the app block.
         public var appBlockErrors: [AppStreamClientTypes.ErrorDetails]?
         /// The ARN of the app block.
@@ -396,7 +396,7 @@ extension AppStreamClientTypes.AppBlockBuilder: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an app block builder.
-    public struct AppBlockBuilder: Swift.Equatable {
+    public struct AppBlockBuilder {
         /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
         /// The app block builder errors.
@@ -495,7 +495,7 @@ extension AppStreamClientTypes.AppBlockBuilderAppBlockAssociation: Swift.Codable
 
 extension AppStreamClientTypes {
     /// Describes an association between an app block builder and app block.
-    public struct AppBlockBuilderAppBlockAssociation: Swift.Equatable {
+    public struct AppBlockBuilderAppBlockAssociation {
         /// The ARN of the app block.
         /// This member is required.
         public var appBlockArn: Swift.String?
@@ -644,7 +644,7 @@ extension AppStreamClientTypes.AppBlockBuilderStateChangeReason: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the reason why the last app block builder state change occurred.
-    public struct AppBlockBuilderStateChangeReason: Swift.Equatable {
+    public struct AppBlockBuilderStateChangeReason {
         /// The state change reason code.
         public var code: AppStreamClientTypes.AppBlockBuilderStateChangeReasonCode?
         /// The state change reason message.
@@ -898,7 +898,7 @@ extension AppStreamClientTypes.Application: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an application in the application catalog.
-    public struct Application: Swift.Equatable {
+    public struct Application {
         /// The app block ARN of the application.
         public var appBlockArn: Swift.String?
         /// The ARN of the application.
@@ -1027,7 +1027,7 @@ extension AppStreamClientTypes.ApplicationFleetAssociation: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the application fleet association.
-    public struct ApplicationFleetAssociation: Swift.Equatable {
+    public struct ApplicationFleetAssociation {
         /// The ARN of the application associated with the fleet.
         /// This member is required.
         public var applicationArn: Swift.String?
@@ -1074,7 +1074,7 @@ extension AppStreamClientTypes.ApplicationSettings: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// The persistent application settings for users of a stack.
-    public struct ApplicationSettings: Swift.Equatable {
+    public struct ApplicationSettings {
         /// Enables or disables persistent application settings for users during their streaming sessions.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -1126,7 +1126,7 @@ extension AppStreamClientTypes.ApplicationSettingsResponse: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the persistent application settings for users of a stack.
-    public struct ApplicationSettingsResponse: Swift.Equatable {
+    public struct ApplicationSettingsResponse {
         /// Specifies whether persistent application settings are enabled for users during their streaming sessions.
         public var enabled: Swift.Bool?
         /// The S3 bucket where users’ persistent application settings are stored. When persistent application settings are enabled for the first time for an account in an AWS Region, an S3 bucket is created. The bucket is unique to the AWS account and the Region.
@@ -1172,7 +1172,7 @@ extension AssociateAppBlockBuilderAppBlockInput {
     }
 }
 
-public struct AssociateAppBlockBuilderAppBlockInput: Swift.Equatable {
+public struct AssociateAppBlockBuilderAppBlockInput {
     /// The ARN of the app block.
     /// This member is required.
     public var appBlockArn: Swift.String?
@@ -1190,7 +1190,7 @@ public struct AssociateAppBlockBuilderAppBlockInput: Swift.Equatable {
     }
 }
 
-struct AssociateAppBlockBuilderAppBlockInputBody: Swift.Equatable {
+struct AssociateAppBlockBuilderAppBlockInputBody {
     let appBlockArn: Swift.String?
     let appBlockBuilderName: Swift.String?
 }
@@ -1222,7 +1222,7 @@ extension AssociateAppBlockBuilderAppBlockOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct AssociateAppBlockBuilderAppBlockOutput: Swift.Equatable {
+public struct AssociateAppBlockBuilderAppBlockOutput {
     /// The list of app block builders associated with app blocks.
     public var appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?
 
@@ -1234,7 +1234,7 @@ public struct AssociateAppBlockBuilderAppBlockOutput: Swift.Equatable {
     }
 }
 
-struct AssociateAppBlockBuilderAppBlockOutputBody: Swift.Equatable {
+struct AssociateAppBlockBuilderAppBlockOutputBody {
     let appBlockBuilderAppBlockAssociation: AppStreamClientTypes.AppBlockBuilderAppBlockAssociation?
 }
 
@@ -1289,7 +1289,7 @@ extension AssociateApplicationFleetInput {
     }
 }
 
-public struct AssociateApplicationFleetInput: Swift.Equatable {
+public struct AssociateApplicationFleetInput {
     /// The ARN of the application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -1307,7 +1307,7 @@ public struct AssociateApplicationFleetInput: Swift.Equatable {
     }
 }
 
-struct AssociateApplicationFleetInputBody: Swift.Equatable {
+struct AssociateApplicationFleetInputBody {
     let fleetName: Swift.String?
     let applicationArn: Swift.String?
 }
@@ -1339,7 +1339,7 @@ extension AssociateApplicationFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateApplicationFleetOutput: Swift.Equatable {
+public struct AssociateApplicationFleetOutput {
     /// If fleet name is specified, this returns the list of applications that are associated to it. If application ARN is specified, this returns the list of fleets to which it is associated.
     public var applicationFleetAssociation: AppStreamClientTypes.ApplicationFleetAssociation?
 
@@ -1351,7 +1351,7 @@ public struct AssociateApplicationFleetOutput: Swift.Equatable {
     }
 }
 
-struct AssociateApplicationFleetOutputBody: Swift.Equatable {
+struct AssociateApplicationFleetOutputBody {
     let applicationFleetAssociation: AppStreamClientTypes.ApplicationFleetAssociation?
 }
 
@@ -1410,7 +1410,7 @@ extension AssociateApplicationToEntitlementInput {
     }
 }
 
-public struct AssociateApplicationToEntitlementInput: Swift.Equatable {
+public struct AssociateApplicationToEntitlementInput {
     /// The identifier of the application.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
@@ -1433,7 +1433,7 @@ public struct AssociateApplicationToEntitlementInput: Swift.Equatable {
     }
 }
 
-struct AssociateApplicationToEntitlementInputBody: Swift.Equatable {
+struct AssociateApplicationToEntitlementInputBody {
     let stackName: Swift.String?
     let entitlementName: Swift.String?
     let applicationIdentifier: Swift.String?
@@ -1462,7 +1462,7 @@ extension AssociateApplicationToEntitlementOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct AssociateApplicationToEntitlementOutput: Swift.Equatable {
+public struct AssociateApplicationToEntitlementOutput {
 
     public init() { }
 }
@@ -1505,7 +1505,7 @@ extension AssociateFleetInput {
     }
 }
 
-public struct AssociateFleetInput: Swift.Equatable {
+public struct AssociateFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var fleetName: Swift.String?
@@ -1523,7 +1523,7 @@ public struct AssociateFleetInput: Swift.Equatable {
     }
 }
 
-struct AssociateFleetInputBody: Swift.Equatable {
+struct AssociateFleetInputBody {
     let fleetName: Swift.String?
     let stackName: Swift.String?
 }
@@ -1548,7 +1548,7 @@ extension AssociateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateFleetOutput: Swift.Equatable {
+public struct AssociateFleetOutput {
 
     public init() { }
 }
@@ -1630,7 +1630,7 @@ extension BatchAssociateUserStackInput {
     }
 }
 
-public struct BatchAssociateUserStackInput: Swift.Equatable {
+public struct BatchAssociateUserStackInput {
     /// The list of UserStackAssociation objects.
     /// This member is required.
     public var userStackAssociations: [AppStreamClientTypes.UserStackAssociation]?
@@ -1643,7 +1643,7 @@ public struct BatchAssociateUserStackInput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateUserStackInputBody: Swift.Equatable {
+struct BatchAssociateUserStackInputBody {
     let userStackAssociations: [AppStreamClientTypes.UserStackAssociation]?
 }
 
@@ -1680,7 +1680,7 @@ extension BatchAssociateUserStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchAssociateUserStackOutput: Swift.Equatable {
+public struct BatchAssociateUserStackOutput {
     /// The list of UserStackAssociationError objects.
     public var errors: [AppStreamClientTypes.UserStackAssociationError]?
 
@@ -1692,7 +1692,7 @@ public struct BatchAssociateUserStackOutput: Swift.Equatable {
     }
 }
 
-struct BatchAssociateUserStackOutputBody: Swift.Equatable {
+struct BatchAssociateUserStackOutputBody {
     let errors: [AppStreamClientTypes.UserStackAssociationError]?
 }
 
@@ -1752,7 +1752,7 @@ extension BatchDisassociateUserStackInput {
     }
 }
 
-public struct BatchDisassociateUserStackInput: Swift.Equatable {
+public struct BatchDisassociateUserStackInput {
     /// The list of UserStackAssociation objects.
     /// This member is required.
     public var userStackAssociations: [AppStreamClientTypes.UserStackAssociation]?
@@ -1765,7 +1765,7 @@ public struct BatchDisassociateUserStackInput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateUserStackInputBody: Swift.Equatable {
+struct BatchDisassociateUserStackInputBody {
     let userStackAssociations: [AppStreamClientTypes.UserStackAssociation]?
 }
 
@@ -1802,7 +1802,7 @@ extension BatchDisassociateUserStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDisassociateUserStackOutput: Swift.Equatable {
+public struct BatchDisassociateUserStackOutput {
     /// The list of UserStackAssociationError objects.
     public var errors: [AppStreamClientTypes.UserStackAssociationError]?
 
@@ -1814,7 +1814,7 @@ public struct BatchDisassociateUserStackOutput: Swift.Equatable {
     }
 }
 
-struct BatchDisassociateUserStackOutputBody: Swift.Equatable {
+struct BatchDisassociateUserStackOutputBody {
     let errors: [AppStreamClientTypes.UserStackAssociationError]?
 }
 
@@ -1878,7 +1878,7 @@ extension AppStreamClientTypes.CertificateBasedAuthProperties: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
-    public struct CertificateBasedAuthProperties: Swift.Equatable {
+    public struct CertificateBasedAuthProperties {
         /// The ARN of the AWS Certificate Manager Private CA resource.
         public var certificateAuthorityArn: Swift.String?
         /// The status of the certificate-based authentication properties.
@@ -1958,7 +1958,7 @@ extension AppStreamClientTypes.ComputeCapacity: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the capacity for a fleet.
-    public struct ComputeCapacity: Swift.Equatable {
+    public struct ComputeCapacity {
         /// The desired number of streaming instances.
         public var desiredInstances: Swift.Int?
         /// The desired number of user sessions for a multi-session fleet. This is not allowed for single-session fleets. When you create a fleet, you must set either the DesiredSessions or DesiredInstances attribute, based on the type of fleet you create. You can’t define both attributes or leave both attributes blank.
@@ -2039,7 +2039,7 @@ extension AppStreamClientTypes.ComputeCapacityStatus: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the capacity status for a fleet.
-    public struct ComputeCapacityStatus: Swift.Equatable {
+    public struct ComputeCapacityStatus {
         /// The number of user sessions currently being used for streaming sessions. This only applies to multi-session fleets.
         public var activeUserSessions: Swift.Int?
         /// The total number of session slots that are available for streaming or are currently streaming. ActualUserSessionCapacity = AvailableUserSessionCapacity + ActiveUserSessions This only applies to multi-session fleets.
@@ -2122,7 +2122,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -2170,7 +2170,7 @@ extension CopyImageInput {
     }
 }
 
-public struct CopyImageInput: Swift.Equatable {
+public struct CopyImageInput {
     /// The description that the image will have when it is copied to the destination.
     public var destinationImageDescription: Swift.String?
     /// The name that the image will have when it is copied to the destination.
@@ -2197,7 +2197,7 @@ public struct CopyImageInput: Swift.Equatable {
     }
 }
 
-struct CopyImageInputBody: Swift.Equatable {
+struct CopyImageInputBody {
     let sourceImageName: Swift.String?
     let destinationImageName: Swift.String?
     let destinationRegion: Swift.String?
@@ -2237,7 +2237,7 @@ extension CopyImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyImageOutput: Swift.Equatable {
+public struct CopyImageOutput {
     /// The name of the destination image.
     public var destinationImageName: Swift.String?
 
@@ -2249,7 +2249,7 @@ public struct CopyImageOutput: Swift.Equatable {
     }
 }
 
-struct CopyImageOutputBody: Swift.Equatable {
+struct CopyImageOutputBody {
     let destinationImageName: Swift.String?
 }
 
@@ -2343,7 +2343,7 @@ extension CreateAppBlockBuilderInput {
     }
 }
 
-public struct CreateAppBlockBuilderInput: Swift.Equatable {
+public struct CreateAppBlockBuilderInput {
     /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The description of the app block builder.
@@ -2405,7 +2405,7 @@ public struct CreateAppBlockBuilderInput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockBuilderInputBody: Swift.Equatable {
+struct CreateAppBlockBuilderInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let displayName: Swift.String?
@@ -2487,7 +2487,7 @@ extension CreateAppBlockBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppBlockBuilderOutput: Swift.Equatable {
+public struct CreateAppBlockBuilderOutput {
     /// Describes an app block builder.
     public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 
@@ -2499,7 +2499,7 @@ public struct CreateAppBlockBuilderOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockBuilderOutputBody: Swift.Equatable {
+struct CreateAppBlockBuilderOutputBody {
     let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 }
 
@@ -2559,7 +2559,7 @@ extension CreateAppBlockBuilderStreamingURLInput {
     }
 }
 
-public struct CreateAppBlockBuilderStreamingURLInput: Swift.Equatable {
+public struct CreateAppBlockBuilderStreamingURLInput {
     /// The name of the app block builder.
     /// This member is required.
     public var appBlockBuilderName: Swift.String?
@@ -2576,7 +2576,7 @@ public struct CreateAppBlockBuilderStreamingURLInput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockBuilderStreamingURLInputBody: Swift.Equatable {
+struct CreateAppBlockBuilderStreamingURLInputBody {
     let appBlockBuilderName: Swift.String?
     let validity: Swift.Int?
 }
@@ -2610,7 +2610,7 @@ extension CreateAppBlockBuilderStreamingURLOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateAppBlockBuilderStreamingURLOutput: Swift.Equatable {
+public struct CreateAppBlockBuilderStreamingURLOutput {
     /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
     public var expires: ClientRuntime.Date?
     /// The URL to start the streaming session.
@@ -2626,7 +2626,7 @@ public struct CreateAppBlockBuilderStreamingURLOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockBuilderStreamingURLOutputBody: Swift.Equatable {
+struct CreateAppBlockBuilderStreamingURLOutputBody {
     let streamingURL: Swift.String?
     let expires: ClientRuntime.Date?
 }
@@ -2709,7 +2709,7 @@ extension CreateAppBlockInput {
     }
 }
 
-public struct CreateAppBlockInput: Swift.Equatable {
+public struct CreateAppBlockInput {
     /// The description of the app block.
     public var description: Swift.String?
     /// The display name of the app block. This is not displayed to the user.
@@ -2751,7 +2751,7 @@ public struct CreateAppBlockInput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockInputBody: Swift.Equatable {
+struct CreateAppBlockInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let displayName: Swift.String?
@@ -2816,7 +2816,7 @@ extension CreateAppBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppBlockOutput: Swift.Equatable {
+public struct CreateAppBlockOutput {
     /// The app block.
     public var appBlock: AppStreamClientTypes.AppBlock?
 
@@ -2828,7 +2828,7 @@ public struct CreateAppBlockOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppBlockOutputBody: Swift.Equatable {
+struct CreateAppBlockOutputBody {
     let appBlock: AppStreamClientTypes.AppBlock?
 }
 
@@ -2927,7 +2927,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// The app block ARN to which the application should be associated
     /// This member is required.
     public var appBlockArn: Swift.String?
@@ -2985,7 +2985,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -3080,7 +3080,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// Describes an application in the application catalog.
     public var application: AppStreamClientTypes.Application?
 
@@ -3092,7 +3092,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let application: AppStreamClientTypes.Application?
 }
 
@@ -3158,7 +3158,7 @@ extension CreateDirectoryConfigInput {
     }
 }
 
-public struct CreateDirectoryConfigInput: Swift.Equatable {
+public struct CreateDirectoryConfigInput {
     /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
     public var certificateBasedAuthProperties: AppStreamClientTypes.CertificateBasedAuthProperties?
     /// The fully qualified name of the directory (for example, corp.example.com).
@@ -3184,7 +3184,7 @@ public struct CreateDirectoryConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateDirectoryConfigInputBody: Swift.Equatable {
+struct CreateDirectoryConfigInputBody {
     let directoryName: Swift.String?
     let organizationalUnitDistinguishedNames: [Swift.String]?
     let serviceAccountCredentials: AppStreamClientTypes.ServiceAccountCredentials?
@@ -3233,7 +3233,7 @@ extension CreateDirectoryConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDirectoryConfigOutput: Swift.Equatable {
+public struct CreateDirectoryConfigOutput {
     /// Information about the directory configuration.
     public var directoryConfig: AppStreamClientTypes.DirectoryConfig?
 
@@ -3245,7 +3245,7 @@ public struct CreateDirectoryConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateDirectoryConfigOutputBody: Swift.Equatable {
+struct CreateDirectoryConfigOutputBody {
     let directoryConfig: AppStreamClientTypes.DirectoryConfig?
 }
 
@@ -3316,7 +3316,7 @@ extension CreateEntitlementInput {
     }
 }
 
-public struct CreateEntitlementInput: Swift.Equatable {
+public struct CreateEntitlementInput {
     /// Specifies whether all or selected apps are entitled.
     /// This member is required.
     public var appVisibility: AppStreamClientTypes.AppVisibility?
@@ -3348,7 +3348,7 @@ public struct CreateEntitlementInput: Swift.Equatable {
     }
 }
 
-struct CreateEntitlementInputBody: Swift.Equatable {
+struct CreateEntitlementInputBody {
     let name: Swift.String?
     let stackName: Swift.String?
     let description: Swift.String?
@@ -3401,7 +3401,7 @@ extension CreateEntitlementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEntitlementOutput: Swift.Equatable {
+public struct CreateEntitlementOutput {
     /// The entitlement.
     public var entitlement: AppStreamClientTypes.Entitlement?
 
@@ -3413,7 +3413,7 @@ public struct CreateEntitlementOutput: Swift.Equatable {
     }
 }
 
-struct CreateEntitlementOutputBody: Swift.Equatable {
+struct CreateEntitlementOutputBody {
     let entitlement: AppStreamClientTypes.Entitlement?
 }
 
@@ -3553,7 +3553,7 @@ extension CreateFleetInput {
     }
 }
 
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// The desired capacity for the fleet. This is not allowed for Elastic fleets. For Elastic fleets, specify MaxConcurrentSessions instead.
     public var computeCapacity: AppStreamClientTypes.ComputeCapacity?
     /// The description to display.
@@ -3734,7 +3734,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let name: Swift.String?
     let imageName: Swift.String?
     let imageArn: Swift.String?
@@ -3864,7 +3864,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// Information about the fleet.
     public var fleet: AppStreamClientTypes.Fleet?
 
@@ -3876,7 +3876,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let fleet: AppStreamClientTypes.Fleet?
 }
 
@@ -3987,7 +3987,7 @@ extension CreateImageBuilderInput {
     }
 }
 
-public struct CreateImageBuilderInput: Swift.Equatable {
+public struct CreateImageBuilderInput {
     /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the image builder only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
@@ -4115,7 +4115,7 @@ public struct CreateImageBuilderInput: Swift.Equatable {
     }
 }
 
-struct CreateImageBuilderInputBody: Swift.Equatable {
+struct CreateImageBuilderInputBody {
     let name: Swift.String?
     let imageName: Swift.String?
     let imageArn: Swift.String?
@@ -4209,7 +4209,7 @@ extension CreateImageBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImageBuilderOutput: Swift.Equatable {
+public struct CreateImageBuilderOutput {
     /// Information about the image builder.
     public var imageBuilder: AppStreamClientTypes.ImageBuilder?
 
@@ -4221,7 +4221,7 @@ public struct CreateImageBuilderOutput: Swift.Equatable {
     }
 }
 
-struct CreateImageBuilderOutputBody: Swift.Equatable {
+struct CreateImageBuilderOutputBody {
     let imageBuilder: AppStreamClientTypes.ImageBuilder?
 }
 
@@ -4282,7 +4282,7 @@ extension CreateImageBuilderStreamingURLInput {
     }
 }
 
-public struct CreateImageBuilderStreamingURLInput: Swift.Equatable {
+public struct CreateImageBuilderStreamingURLInput {
     /// The name of the image builder.
     /// This member is required.
     public var name: Swift.String?
@@ -4299,7 +4299,7 @@ public struct CreateImageBuilderStreamingURLInput: Swift.Equatable {
     }
 }
 
-struct CreateImageBuilderStreamingURLInputBody: Swift.Equatable {
+struct CreateImageBuilderStreamingURLInputBody {
     let name: Swift.String?
     let validity: Swift.Int?
 }
@@ -4333,7 +4333,7 @@ extension CreateImageBuilderStreamingURLOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateImageBuilderStreamingURLOutput: Swift.Equatable {
+public struct CreateImageBuilderStreamingURLOutput {
     /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
     public var expires: ClientRuntime.Date?
     /// The URL to start the AppStream 2.0 streaming session.
@@ -4349,7 +4349,7 @@ public struct CreateImageBuilderStreamingURLOutput: Swift.Equatable {
     }
 }
 
-struct CreateImageBuilderStreamingURLOutputBody: Swift.Equatable {
+struct CreateImageBuilderStreamingURLOutputBody {
     let streamingURL: Swift.String?
     let expires: ClientRuntime.Date?
 }
@@ -4460,7 +4460,7 @@ extension CreateStackInput {
     }
 }
 
-public struct CreateStackInput: Swift.Equatable {
+public struct CreateStackInput {
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
@@ -4517,7 +4517,7 @@ public struct CreateStackInput: Swift.Equatable {
     }
 }
 
-struct CreateStackInputBody: Swift.Equatable {
+struct CreateStackInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let displayName: Swift.String?
@@ -4634,7 +4634,7 @@ extension CreateStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStackOutput: Swift.Equatable {
+public struct CreateStackOutput {
     /// Information about the stack.
     public var stack: AppStreamClientTypes.Stack?
 
@@ -4646,7 +4646,7 @@ public struct CreateStackOutput: Swift.Equatable {
     }
 }
 
-struct CreateStackOutputBody: Swift.Equatable {
+struct CreateStackOutputBody {
     let stack: AppStreamClientTypes.Stack?
 }
 
@@ -4720,7 +4720,7 @@ extension CreateStreamingURLInput {
     }
 }
 
-public struct CreateStreamingURLInput: Swift.Equatable {
+public struct CreateStreamingURLInput {
     /// The name of the application to launch after the session starts. This is the name that you specified as Name in the Image Assistant. If your fleet is enabled for the Desktop stream view, you can also choose to launch directly to the operating system desktop. To do so, specify Desktop.
     public var applicationId: Swift.String?
     /// The name of the fleet.
@@ -4755,7 +4755,7 @@ public struct CreateStreamingURLInput: Swift.Equatable {
     }
 }
 
-struct CreateStreamingURLInputBody: Swift.Equatable {
+struct CreateStreamingURLInputBody {
     let stackName: Swift.String?
     let fleetName: Swift.String?
     let userId: Swift.String?
@@ -4805,7 +4805,7 @@ extension CreateStreamingURLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStreamingURLOutput: Swift.Equatable {
+public struct CreateStreamingURLOutput {
     /// The elapsed time, in seconds after the Unix epoch, when this URL expires.
     public var expires: ClientRuntime.Date?
     /// The URL to start the AppStream 2.0 streaming session.
@@ -4821,7 +4821,7 @@ public struct CreateStreamingURLOutput: Swift.Equatable {
     }
 }
 
-struct CreateStreamingURLOutputBody: Swift.Equatable {
+struct CreateStreamingURLOutputBody {
     let streamingURL: Swift.String?
     let expires: ClientRuntime.Date?
 }
@@ -4898,7 +4898,7 @@ extension CreateUpdatedImageInput {
     }
 }
 
-public struct CreateUpdatedImageInput: Swift.Equatable {
+public struct CreateUpdatedImageInput {
     /// Indicates whether to display the status of image update availability before AppStream 2.0 initiates the process of creating a new updated image. If this value is set to true, AppStream 2.0 displays whether image updates are available. If this value is set to false, AppStream 2.0 initiates the process of creating a new updated image without displaying whether image updates are available.
     public var dryRun: Swift.Bool?
     /// The name of the image to update.
@@ -4932,7 +4932,7 @@ public struct CreateUpdatedImageInput: Swift.Equatable {
     }
 }
 
-struct CreateUpdatedImageInputBody: Swift.Equatable {
+struct CreateUpdatedImageInputBody {
     let existingImageName: Swift.String?
     let newImageName: Swift.String?
     let newImageDescription: Swift.String?
@@ -4991,7 +4991,7 @@ extension CreateUpdatedImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUpdatedImageOutput: Swift.Equatable {
+public struct CreateUpdatedImageOutput {
     /// Indicates whether a new image can be created.
     public var canUpdateImage: Swift.Bool?
     /// Describes an image.
@@ -5007,7 +5007,7 @@ public struct CreateUpdatedImageOutput: Swift.Equatable {
     }
 }
 
-struct CreateUpdatedImageOutputBody: Swift.Equatable {
+struct CreateUpdatedImageOutputBody {
     let image: AppStreamClientTypes.Image?
     let canUpdateImage: Swift.Bool?
 }
@@ -5059,12 +5059,12 @@ extension CreateUsageReportSubscriptionInput {
     }
 }
 
-public struct CreateUsageReportSubscriptionInput: Swift.Equatable {
+public struct CreateUsageReportSubscriptionInput {
 
     public init() { }
 }
 
-struct CreateUsageReportSubscriptionInputBody: Swift.Equatable {
+struct CreateUsageReportSubscriptionInputBody {
 }
 
 extension CreateUsageReportSubscriptionInputBody: Swift.Decodable {
@@ -5087,7 +5087,7 @@ extension CreateUsageReportSubscriptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateUsageReportSubscriptionOutput: Swift.Equatable {
+public struct CreateUsageReportSubscriptionOutput {
     /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
     public var s3BucketName: Swift.String?
     /// The schedule for generating usage reports.
@@ -5103,7 +5103,7 @@ public struct CreateUsageReportSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct CreateUsageReportSubscriptionOutputBody: Swift.Equatable {
+struct CreateUsageReportSubscriptionOutputBody {
     let s3BucketName: Swift.String?
     let schedule: AppStreamClientTypes.UsageReportSchedule?
 }
@@ -5177,7 +5177,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -5207,7 +5207,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let userName: Swift.String?
     let messageAction: AppStreamClientTypes.MessageAction?
     let firstName: Swift.String?
@@ -5244,7 +5244,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
 
     public init() { }
 }
@@ -5284,7 +5284,7 @@ extension DeleteAppBlockBuilderInput {
     }
 }
 
-public struct DeleteAppBlockBuilderInput: Swift.Equatable {
+public struct DeleteAppBlockBuilderInput {
     /// The name of the app block builder.
     /// This member is required.
     public var name: Swift.String?
@@ -5297,7 +5297,7 @@ public struct DeleteAppBlockBuilderInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppBlockBuilderInputBody: Swift.Equatable {
+struct DeleteAppBlockBuilderInputBody {
     let name: Swift.String?
 }
 
@@ -5318,7 +5318,7 @@ extension DeleteAppBlockBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppBlockBuilderOutput: Swift.Equatable {
+public struct DeleteAppBlockBuilderOutput {
 
     public init() { }
 }
@@ -5357,7 +5357,7 @@ extension DeleteAppBlockInput {
     }
 }
 
-public struct DeleteAppBlockInput: Swift.Equatable {
+public struct DeleteAppBlockInput {
     /// The name of the app block.
     /// This member is required.
     public var name: Swift.String?
@@ -5370,7 +5370,7 @@ public struct DeleteAppBlockInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppBlockInputBody: Swift.Equatable {
+struct DeleteAppBlockInputBody {
     let name: Swift.String?
 }
 
@@ -5391,7 +5391,7 @@ extension DeleteAppBlockOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppBlockOutput: Swift.Equatable {
+public struct DeleteAppBlockOutput {
 
     public init() { }
 }
@@ -5429,7 +5429,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The name of the application.
     /// This member is required.
     public var name: Swift.String?
@@ -5442,7 +5442,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
     let name: Swift.String?
 }
 
@@ -5463,7 +5463,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -5502,7 +5502,7 @@ extension DeleteDirectoryConfigInput {
     }
 }
 
-public struct DeleteDirectoryConfigInput: Swift.Equatable {
+public struct DeleteDirectoryConfigInput {
     /// The name of the directory configuration.
     /// This member is required.
     public var directoryName: Swift.String?
@@ -5515,7 +5515,7 @@ public struct DeleteDirectoryConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteDirectoryConfigInputBody: Swift.Equatable {
+struct DeleteDirectoryConfigInputBody {
     let directoryName: Swift.String?
 }
 
@@ -5536,7 +5536,7 @@ extension DeleteDirectoryConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDirectoryConfigOutput: Swift.Equatable {
+public struct DeleteDirectoryConfigOutput {
 
     public init() { }
 }
@@ -5577,7 +5577,7 @@ extension DeleteEntitlementInput {
     }
 }
 
-public struct DeleteEntitlementInput: Swift.Equatable {
+public struct DeleteEntitlementInput {
     /// The name of the entitlement.
     /// This member is required.
     public var name: Swift.String?
@@ -5595,7 +5595,7 @@ public struct DeleteEntitlementInput: Swift.Equatable {
     }
 }
 
-struct DeleteEntitlementInputBody: Swift.Equatable {
+struct DeleteEntitlementInputBody {
     let name: Swift.String?
     let stackName: Swift.String?
 }
@@ -5620,7 +5620,7 @@ extension DeleteEntitlementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEntitlementOutput: Swift.Equatable {
+public struct DeleteEntitlementOutput {
 
     public init() { }
 }
@@ -5659,7 +5659,7 @@ extension DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -5672,7 +5672,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
     let name: Swift.String?
 }
 
@@ -5693,7 +5693,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
 
     public init() { }
 }
@@ -5731,7 +5731,7 @@ extension DeleteImageBuilderInput {
     }
 }
 
-public struct DeleteImageBuilderInput: Swift.Equatable {
+public struct DeleteImageBuilderInput {
     /// The name of the image builder.
     /// This member is required.
     public var name: Swift.String?
@@ -5744,7 +5744,7 @@ public struct DeleteImageBuilderInput: Swift.Equatable {
     }
 }
 
-struct DeleteImageBuilderInputBody: Swift.Equatable {
+struct DeleteImageBuilderInputBody {
     let name: Swift.String?
 }
 
@@ -5772,7 +5772,7 @@ extension DeleteImageBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImageBuilderOutput: Swift.Equatable {
+public struct DeleteImageBuilderOutput {
     /// Information about the image builder.
     public var imageBuilder: AppStreamClientTypes.ImageBuilder?
 
@@ -5784,7 +5784,7 @@ public struct DeleteImageBuilderOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImageBuilderOutputBody: Swift.Equatable {
+struct DeleteImageBuilderOutputBody {
     let imageBuilder: AppStreamClientTypes.ImageBuilder?
 }
 
@@ -5833,7 +5833,7 @@ extension DeleteImageInput {
     }
 }
 
-public struct DeleteImageInput: Swift.Equatable {
+public struct DeleteImageInput {
     /// The name of the image.
     /// This member is required.
     public var name: Swift.String?
@@ -5846,7 +5846,7 @@ public struct DeleteImageInput: Swift.Equatable {
     }
 }
 
-struct DeleteImageInputBody: Swift.Equatable {
+struct DeleteImageInputBody {
     let name: Swift.String?
 }
 
@@ -5874,7 +5874,7 @@ extension DeleteImageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImageOutput: Swift.Equatable {
+public struct DeleteImageOutput {
     /// Information about the image.
     public var image: AppStreamClientTypes.Image?
 
@@ -5886,7 +5886,7 @@ public struct DeleteImageOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImageOutputBody: Swift.Equatable {
+struct DeleteImageOutputBody {
     let image: AppStreamClientTypes.Image?
 }
 
@@ -5940,7 +5940,7 @@ extension DeleteImagePermissionsInput {
     }
 }
 
-public struct DeleteImagePermissionsInput: Swift.Equatable {
+public struct DeleteImagePermissionsInput {
     /// The name of the private image.
     /// This member is required.
     public var name: Swift.String?
@@ -5958,7 +5958,7 @@ public struct DeleteImagePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DeleteImagePermissionsInputBody: Swift.Equatable {
+struct DeleteImagePermissionsInputBody {
     let name: Swift.String?
     let sharedAccountId: Swift.String?
 }
@@ -5983,7 +5983,7 @@ extension DeleteImagePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImagePermissionsOutput: Swift.Equatable {
+public struct DeleteImagePermissionsOutput {
 
     public init() { }
 }
@@ -6020,7 +6020,7 @@ extension DeleteStackInput {
     }
 }
 
-public struct DeleteStackInput: Swift.Equatable {
+public struct DeleteStackInput {
     /// The name of the stack.
     /// This member is required.
     public var name: Swift.String?
@@ -6033,7 +6033,7 @@ public struct DeleteStackInput: Swift.Equatable {
     }
 }
 
-struct DeleteStackInputBody: Swift.Equatable {
+struct DeleteStackInputBody {
     let name: Swift.String?
 }
 
@@ -6054,7 +6054,7 @@ extension DeleteStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStackOutput: Swift.Equatable {
+public struct DeleteStackOutput {
 
     public init() { }
 }
@@ -6088,12 +6088,12 @@ extension DeleteUsageReportSubscriptionInput {
     }
 }
 
-public struct DeleteUsageReportSubscriptionInput: Swift.Equatable {
+public struct DeleteUsageReportSubscriptionInput {
 
     public init() { }
 }
 
-struct DeleteUsageReportSubscriptionInputBody: Swift.Equatable {
+struct DeleteUsageReportSubscriptionInputBody {
 }
 
 extension DeleteUsageReportSubscriptionInputBody: Swift.Decodable {
@@ -6107,7 +6107,7 @@ extension DeleteUsageReportSubscriptionOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteUsageReportSubscriptionOutput: Swift.Equatable {
+public struct DeleteUsageReportSubscriptionOutput {
 
     public init() { }
 }
@@ -6153,7 +6153,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -6171,7 +6171,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let userName: Swift.String?
     let authenticationType: AppStreamClientTypes.AuthenticationType?
 }
@@ -6196,7 +6196,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -6244,7 +6244,7 @@ extension DescribeAppBlockBuilderAppBlockAssociationsInput {
     }
 }
 
-public struct DescribeAppBlockBuilderAppBlockAssociationsInput: Swift.Equatable {
+public struct DescribeAppBlockBuilderAppBlockAssociationsInput {
     /// The ARN of the app block.
     public var appBlockArn: Swift.String?
     /// The name of the app block builder.
@@ -6268,7 +6268,7 @@ public struct DescribeAppBlockBuilderAppBlockAssociationsInput: Swift.Equatable 
     }
 }
 
-struct DescribeAppBlockBuilderAppBlockAssociationsInputBody: Swift.Equatable {
+struct DescribeAppBlockBuilderAppBlockAssociationsInputBody {
     let appBlockArn: Swift.String?
     let appBlockBuilderName: Swift.String?
     let maxResults: Swift.Int?
@@ -6310,7 +6310,7 @@ extension DescribeAppBlockBuilderAppBlockAssociationsOutput: ClientRuntime.HttpR
     }
 }
 
-public struct DescribeAppBlockBuilderAppBlockAssociationsOutput: Swift.Equatable {
+public struct DescribeAppBlockBuilderAppBlockAssociationsOutput {
     /// This list of app block builders associated with app blocks.
     public var appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6326,7 +6326,7 @@ public struct DescribeAppBlockBuilderAppBlockAssociationsOutput: Swift.Equatable
     }
 }
 
-struct DescribeAppBlockBuilderAppBlockAssociationsOutputBody: Swift.Equatable {
+struct DescribeAppBlockBuilderAppBlockAssociationsOutputBody {
     let appBlockBuilderAppBlockAssociations: [AppStreamClientTypes.AppBlockBuilderAppBlockAssociation]?
     let nextToken: Swift.String?
 }
@@ -6398,7 +6398,7 @@ extension DescribeAppBlockBuildersInput {
     }
 }
 
-public struct DescribeAppBlockBuildersInput: Swift.Equatable {
+public struct DescribeAppBlockBuildersInput {
     /// The maximum size of each page of results. The maximum value is 25.
     public var maxResults: Swift.Int?
     /// The names of the app block builders.
@@ -6418,7 +6418,7 @@ public struct DescribeAppBlockBuildersInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppBlockBuildersInputBody: Swift.Equatable {
+struct DescribeAppBlockBuildersInputBody {
     let names: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6465,7 +6465,7 @@ extension DescribeAppBlockBuildersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppBlockBuildersOutput: Swift.Equatable {
+public struct DescribeAppBlockBuildersOutput {
     /// The list that describes one or more app block builders.
     public var appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6481,7 +6481,7 @@ public struct DescribeAppBlockBuildersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppBlockBuildersOutputBody: Swift.Equatable {
+struct DescribeAppBlockBuildersOutputBody {
     let appBlockBuilders: [AppStreamClientTypes.AppBlockBuilder]?
     let nextToken: Swift.String?
 }
@@ -6553,7 +6553,7 @@ extension DescribeAppBlocksInput {
     }
 }
 
-public struct DescribeAppBlocksInput: Swift.Equatable {
+public struct DescribeAppBlocksInput {
     /// The ARNs of the app blocks.
     public var arns: [Swift.String]?
     /// The maximum size of each page of results.
@@ -6573,7 +6573,7 @@ public struct DescribeAppBlocksInput: Swift.Equatable {
     }
 }
 
-struct DescribeAppBlocksInputBody: Swift.Equatable {
+struct DescribeAppBlocksInputBody {
     let arns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6620,7 +6620,7 @@ extension DescribeAppBlocksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAppBlocksOutput: Swift.Equatable {
+public struct DescribeAppBlocksOutput {
     /// The app blocks in the list.
     public var appBlocks: [AppStreamClientTypes.AppBlock]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6636,7 +6636,7 @@ public struct DescribeAppBlocksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAppBlocksOutputBody: Swift.Equatable {
+struct DescribeAppBlocksOutputBody {
     let appBlocks: [AppStreamClientTypes.AppBlock]?
     let nextToken: Swift.String?
 }
@@ -6709,7 +6709,7 @@ extension DescribeApplicationFleetAssociationsInput {
     }
 }
 
-public struct DescribeApplicationFleetAssociationsInput: Swift.Equatable {
+public struct DescribeApplicationFleetAssociationsInput {
     /// The ARN of the application.
     public var applicationArn: Swift.String?
     /// The name of the fleet.
@@ -6733,7 +6733,7 @@ public struct DescribeApplicationFleetAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationFleetAssociationsInputBody: Swift.Equatable {
+struct DescribeApplicationFleetAssociationsInputBody {
     let fleetName: Swift.String?
     let applicationArn: Swift.String?
     let maxResults: Swift.Int?
@@ -6775,7 +6775,7 @@ extension DescribeApplicationFleetAssociationsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeApplicationFleetAssociationsOutput: Swift.Equatable {
+public struct DescribeApplicationFleetAssociationsOutput {
     /// The application fleet associations in the list.
     public var applicationFleetAssociations: [AppStreamClientTypes.ApplicationFleetAssociation]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6791,7 +6791,7 @@ public struct DescribeApplicationFleetAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationFleetAssociationsOutputBody: Swift.Equatable {
+struct DescribeApplicationFleetAssociationsOutputBody {
     let applicationFleetAssociations: [AppStreamClientTypes.ApplicationFleetAssociation]?
     let nextToken: Swift.String?
 }
@@ -6863,7 +6863,7 @@ extension DescribeApplicationsInput {
     }
 }
 
-public struct DescribeApplicationsInput: Swift.Equatable {
+public struct DescribeApplicationsInput {
     /// The ARNs for the applications.
     public var arns: [Swift.String]?
     /// The maximum size of each page of results.
@@ -6883,7 +6883,7 @@ public struct DescribeApplicationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationsInputBody: Swift.Equatable {
+struct DescribeApplicationsInputBody {
     let arns: [Swift.String]?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6930,7 +6930,7 @@ extension DescribeApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeApplicationsOutput: Swift.Equatable {
+public struct DescribeApplicationsOutput {
     /// The applications in the list.
     public var applications: [AppStreamClientTypes.Application]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -6946,7 +6946,7 @@ public struct DescribeApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeApplicationsOutputBody: Swift.Equatable {
+struct DescribeApplicationsOutputBody {
     let applications: [AppStreamClientTypes.Application]?
     let nextToken: Swift.String?
 }
@@ -7018,7 +7018,7 @@ extension DescribeDirectoryConfigsInput {
     }
 }
 
-public struct DescribeDirectoryConfigsInput: Swift.Equatable {
+public struct DescribeDirectoryConfigsInput {
     /// The directory names.
     public var directoryNames: [Swift.String]?
     /// The maximum size of each page of results.
@@ -7038,7 +7038,7 @@ public struct DescribeDirectoryConfigsInput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectoryConfigsInputBody: Swift.Equatable {
+struct DescribeDirectoryConfigsInputBody {
     let directoryNames: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7085,7 +7085,7 @@ extension DescribeDirectoryConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDirectoryConfigsOutput: Swift.Equatable {
+public struct DescribeDirectoryConfigsOutput {
     /// Information about the directory configurations. Note that although the response syntax in this topic includes the account password, this password is not returned in the actual response.
     public var directoryConfigs: [AppStreamClientTypes.DirectoryConfig]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -7101,7 +7101,7 @@ public struct DescribeDirectoryConfigsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDirectoryConfigsOutputBody: Swift.Equatable {
+struct DescribeDirectoryConfigsOutputBody {
     let directoryConfigs: [AppStreamClientTypes.DirectoryConfig]?
     let nextToken: Swift.String?
 }
@@ -7173,7 +7173,7 @@ extension DescribeEntitlementsInput {
     }
 }
 
-public struct DescribeEntitlementsInput: Swift.Equatable {
+public struct DescribeEntitlementsInput {
     /// The maximum size of each page of results.
     public var maxResults: Swift.Int?
     /// The name of the entitlement.
@@ -7198,7 +7198,7 @@ public struct DescribeEntitlementsInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitlementsInputBody: Swift.Equatable {
+struct DescribeEntitlementsInputBody {
     let name: Swift.String?
     let stackName: Swift.String?
     let nextToken: Swift.String?
@@ -7240,7 +7240,7 @@ extension DescribeEntitlementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEntitlementsOutput: Swift.Equatable {
+public struct DescribeEntitlementsOutput {
     /// The entitlements.
     public var entitlements: [AppStreamClientTypes.Entitlement]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -7256,7 +7256,7 @@ public struct DescribeEntitlementsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitlementsOutputBody: Swift.Equatable {
+struct DescribeEntitlementsOutputBody {
     let entitlements: [AppStreamClientTypes.Entitlement]?
     let nextToken: Swift.String?
 }
@@ -7325,7 +7325,7 @@ extension DescribeFleetsInput {
     }
 }
 
-public struct DescribeFleetsInput: Swift.Equatable {
+public struct DescribeFleetsInput {
     /// The names of the fleets to describe.
     public var names: [Swift.String]?
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -7341,7 +7341,7 @@ public struct DescribeFleetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetsInputBody: Swift.Equatable {
+struct DescribeFleetsInputBody {
     let names: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7384,7 +7384,7 @@ extension DescribeFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFleetsOutput: Swift.Equatable {
+public struct DescribeFleetsOutput {
     /// Information about the fleets.
     public var fleets: [AppStreamClientTypes.Fleet]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -7400,7 +7400,7 @@ public struct DescribeFleetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFleetsOutputBody: Swift.Equatable {
+struct DescribeFleetsOutputBody {
     let fleets: [AppStreamClientTypes.Fleet]?
     let nextToken: Swift.String?
 }
@@ -7471,7 +7471,7 @@ extension DescribeImageBuildersInput {
     }
 }
 
-public struct DescribeImageBuildersInput: Swift.Equatable {
+public struct DescribeImageBuildersInput {
     /// The maximum size of each page of results.
     public var maxResults: Swift.Int?
     /// The names of the image builders to describe.
@@ -7491,7 +7491,7 @@ public struct DescribeImageBuildersInput: Swift.Equatable {
     }
 }
 
-struct DescribeImageBuildersInputBody: Swift.Equatable {
+struct DescribeImageBuildersInputBody {
     let names: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7538,7 +7538,7 @@ extension DescribeImageBuildersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImageBuildersOutput: Swift.Equatable {
+public struct DescribeImageBuildersOutput {
     /// Information about the image builders.
     public var imageBuilders: [AppStreamClientTypes.ImageBuilder]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -7554,7 +7554,7 @@ public struct DescribeImageBuildersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImageBuildersOutputBody: Swift.Equatable {
+struct DescribeImageBuildersOutputBody {
     let imageBuilders: [AppStreamClientTypes.ImageBuilder]?
     let nextToken: Swift.String?
 }
@@ -7629,7 +7629,7 @@ extension DescribeImagePermissionsInput {
     }
 }
 
-public struct DescribeImagePermissionsInput: Swift.Equatable {
+public struct DescribeImagePermissionsInput {
     /// The maximum size of each page of results.
     public var maxResults: Swift.Int?
     /// The name of the private image for which to describe permissions. The image must be one that you own.
@@ -7654,7 +7654,7 @@ public struct DescribeImagePermissionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeImagePermissionsInputBody: Swift.Equatable {
+struct DescribeImagePermissionsInputBody {
     let name: Swift.String?
     let maxResults: Swift.Int?
     let sharedAwsAccountIds: [Swift.String]?
@@ -7707,7 +7707,7 @@ extension DescribeImagePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImagePermissionsOutput: Swift.Equatable {
+public struct DescribeImagePermissionsOutput {
     /// The name of the private image.
     public var name: Swift.String?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -7727,7 +7727,7 @@ public struct DescribeImagePermissionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImagePermissionsOutputBody: Swift.Equatable {
+struct DescribeImagePermissionsOutputBody {
     let name: Swift.String?
     let sharedImagePermissionsList: [AppStreamClientTypes.SharedImagePermissions]?
     let nextToken: Swift.String?
@@ -7813,7 +7813,7 @@ extension DescribeImagesInput {
     }
 }
 
-public struct DescribeImagesInput: Swift.Equatable {
+public struct DescribeImagesInput {
     /// The ARNs of the public, private, and shared images to describe.
     public var arns: [Swift.String]?
     /// The maximum size of each page of results.
@@ -7841,7 +7841,7 @@ public struct DescribeImagesInput: Swift.Equatable {
     }
 }
 
-struct DescribeImagesInputBody: Swift.Equatable {
+struct DescribeImagesInputBody {
     let names: [Swift.String]?
     let arns: [Swift.String]?
     let type: AppStreamClientTypes.VisibilityType?
@@ -7905,7 +7905,7 @@ extension DescribeImagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImagesOutput: Swift.Equatable {
+public struct DescribeImagesOutput {
     /// Information about the images.
     public var images: [AppStreamClientTypes.Image]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -7921,7 +7921,7 @@ public struct DescribeImagesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImagesOutputBody: Swift.Equatable {
+struct DescribeImagesOutputBody {
     let images: [AppStreamClientTypes.Image]?
     let nextToken: Swift.String?
 }
@@ -8006,7 +8006,7 @@ extension DescribeSessionsInput {
     }
 }
 
-public struct DescribeSessionsInput: Swift.Equatable {
+public struct DescribeSessionsInput {
     /// The authentication method. Specify API for a user authenticated using a streaming URL or SAML for a SAML federated user. The default is to authenticate users using a streaming URL.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
     /// The name of the fleet. This value is case-sensitive.
@@ -8044,7 +8044,7 @@ public struct DescribeSessionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSessionsInputBody: Swift.Equatable {
+struct DescribeSessionsInputBody {
     let stackName: Swift.String?
     let fleetName: Swift.String?
     let userId: Swift.String?
@@ -8098,7 +8098,7 @@ extension DescribeSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSessionsOutput: Swift.Equatable {
+public struct DescribeSessionsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about the streaming sessions.
@@ -8114,7 +8114,7 @@ public struct DescribeSessionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSessionsOutputBody: Swift.Equatable {
+struct DescribeSessionsOutputBody {
     let sessions: [AppStreamClientTypes.Session]?
     let nextToken: Swift.String?
 }
@@ -8181,7 +8181,7 @@ extension DescribeStacksInput {
     }
 }
 
-public struct DescribeStacksInput: Swift.Equatable {
+public struct DescribeStacksInput {
     /// The names of the stacks to describe.
     public var names: [Swift.String]?
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -8197,7 +8197,7 @@ public struct DescribeStacksInput: Swift.Equatable {
     }
 }
 
-struct DescribeStacksInputBody: Swift.Equatable {
+struct DescribeStacksInputBody {
     let names: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8240,7 +8240,7 @@ extension DescribeStacksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeStacksOutput: Swift.Equatable {
+public struct DescribeStacksOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about the stacks.
@@ -8256,7 +8256,7 @@ public struct DescribeStacksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeStacksOutputBody: Swift.Equatable {
+struct DescribeStacksOutputBody {
     let stacks: [AppStreamClientTypes.Stack]?
     let nextToken: Swift.String?
 }
@@ -8320,7 +8320,7 @@ extension DescribeUsageReportSubscriptionsInput {
     }
 }
 
-public struct DescribeUsageReportSubscriptionsInput: Swift.Equatable {
+public struct DescribeUsageReportSubscriptionsInput {
     /// The maximum size of each page of results.
     public var maxResults: Swift.Int?
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
@@ -8336,7 +8336,7 @@ public struct DescribeUsageReportSubscriptionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeUsageReportSubscriptionsInputBody: Swift.Equatable {
+struct DescribeUsageReportSubscriptionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8370,7 +8370,7 @@ extension DescribeUsageReportSubscriptionsOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeUsageReportSubscriptionsOutput: Swift.Equatable {
+public struct DescribeUsageReportSubscriptionsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about the usage report subscription.
@@ -8386,7 +8386,7 @@ public struct DescribeUsageReportSubscriptionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUsageReportSubscriptionsOutputBody: Swift.Equatable {
+struct DescribeUsageReportSubscriptionsOutputBody {
     let usageReportSubscriptions: [AppStreamClientTypes.UsageReportSubscription]?
     let nextToken: Swift.String?
 }
@@ -8468,7 +8468,7 @@ extension DescribeUserStackAssociationsInput {
     }
 }
 
-public struct DescribeUserStackAssociationsInput: Swift.Equatable {
+public struct DescribeUserStackAssociationsInput {
     /// The authentication type for the user who is associated with the stack. You must specify USERPOOL.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
     /// The maximum size of each page of results.
@@ -8496,7 +8496,7 @@ public struct DescribeUserStackAssociationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserStackAssociationsInputBody: Swift.Equatable {
+struct DescribeUserStackAssociationsInputBody {
     let stackName: Swift.String?
     let userName: Swift.String?
     let authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -8542,7 +8542,7 @@ extension DescribeUserStackAssociationsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeUserStackAssociationsOutput: Swift.Equatable {
+public struct DescribeUserStackAssociationsOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// The UserStackAssociation objects.
@@ -8558,7 +8558,7 @@ public struct DescribeUserStackAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserStackAssociationsOutputBody: Swift.Equatable {
+struct DescribeUserStackAssociationsOutputBody {
     let userStackAssociations: [AppStreamClientTypes.UserStackAssociation]?
     let nextToken: Swift.String?
 }
@@ -8627,7 +8627,7 @@ extension DescribeUsersInput {
     }
 }
 
-public struct DescribeUsersInput: Swift.Equatable {
+public struct DescribeUsersInput {
     /// The authentication type for the users in the user pool to describe. You must specify USERPOOL.
     /// This member is required.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -8648,7 +8648,7 @@ public struct DescribeUsersInput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersInputBody: Swift.Equatable {
+struct DescribeUsersInputBody {
     let authenticationType: AppStreamClientTypes.AuthenticationType?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -8686,7 +8686,7 @@ extension DescribeUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUsersOutput: Swift.Equatable {
+public struct DescribeUsersOutput {
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
     public var nextToken: Swift.String?
     /// Information about users in the user pool.
@@ -8702,7 +8702,7 @@ public struct DescribeUsersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUsersOutputBody: Swift.Equatable {
+struct DescribeUsersOutputBody {
     let users: [AppStreamClientTypes.User]?
     let nextToken: Swift.String?
 }
@@ -8801,7 +8801,7 @@ extension AppStreamClientTypes.DirectoryConfig: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
-    public struct DirectoryConfig: Swift.Equatable {
+    public struct DirectoryConfig {
         /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
         public var certificateBasedAuthProperties: AppStreamClientTypes.CertificateBasedAuthProperties?
         /// The time the directory configuration was created.
@@ -8861,7 +8861,7 @@ extension DisableUserInput {
     }
 }
 
-public struct DisableUserInput: Swift.Equatable {
+public struct DisableUserInput {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -8879,7 +8879,7 @@ public struct DisableUserInput: Swift.Equatable {
     }
 }
 
-struct DisableUserInputBody: Swift.Equatable {
+struct DisableUserInputBody {
     let userName: Swift.String?
     let authenticationType: AppStreamClientTypes.AuthenticationType?
 }
@@ -8904,7 +8904,7 @@ extension DisableUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisableUserOutput: Swift.Equatable {
+public struct DisableUserOutput {
 
     public init() { }
 }
@@ -8944,7 +8944,7 @@ extension DisassociateAppBlockBuilderAppBlockInput {
     }
 }
 
-public struct DisassociateAppBlockBuilderAppBlockInput: Swift.Equatable {
+public struct DisassociateAppBlockBuilderAppBlockInput {
     /// The ARN of the app block.
     /// This member is required.
     public var appBlockArn: Swift.String?
@@ -8962,7 +8962,7 @@ public struct DisassociateAppBlockBuilderAppBlockInput: Swift.Equatable {
     }
 }
 
-struct DisassociateAppBlockBuilderAppBlockInputBody: Swift.Equatable {
+struct DisassociateAppBlockBuilderAppBlockInputBody {
     let appBlockArn: Swift.String?
     let appBlockBuilderName: Swift.String?
 }
@@ -8987,7 +8987,7 @@ extension DisassociateAppBlockBuilderAppBlockOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DisassociateAppBlockBuilderAppBlockOutput: Swift.Equatable {
+public struct DisassociateAppBlockBuilderAppBlockOutput {
 
     public init() { }
 }
@@ -9030,7 +9030,7 @@ extension DisassociateApplicationFleetInput {
     }
 }
 
-public struct DisassociateApplicationFleetInput: Swift.Equatable {
+public struct DisassociateApplicationFleetInput {
     /// The ARN of the application.
     /// This member is required.
     public var applicationArn: Swift.String?
@@ -9048,7 +9048,7 @@ public struct DisassociateApplicationFleetInput: Swift.Equatable {
     }
 }
 
-struct DisassociateApplicationFleetInputBody: Swift.Equatable {
+struct DisassociateApplicationFleetInputBody {
     let fleetName: Swift.String?
     let applicationArn: Swift.String?
 }
@@ -9073,7 +9073,7 @@ extension DisassociateApplicationFleetOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DisassociateApplicationFleetOutput: Swift.Equatable {
+public struct DisassociateApplicationFleetOutput {
 
     public init() { }
 }
@@ -9119,7 +9119,7 @@ extension DisassociateApplicationFromEntitlementInput {
     }
 }
 
-public struct DisassociateApplicationFromEntitlementInput: Swift.Equatable {
+public struct DisassociateApplicationFromEntitlementInput {
     /// The identifier of the application to remove from the entitlement.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
@@ -9142,7 +9142,7 @@ public struct DisassociateApplicationFromEntitlementInput: Swift.Equatable {
     }
 }
 
-struct DisassociateApplicationFromEntitlementInputBody: Swift.Equatable {
+struct DisassociateApplicationFromEntitlementInputBody {
     let stackName: Swift.String?
     let entitlementName: Swift.String?
     let applicationIdentifier: Swift.String?
@@ -9171,7 +9171,7 @@ extension DisassociateApplicationFromEntitlementOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DisassociateApplicationFromEntitlementOutput: Swift.Equatable {
+public struct DisassociateApplicationFromEntitlementOutput {
 
     public init() { }
 }
@@ -9213,7 +9213,7 @@ extension DisassociateFleetInput {
     }
 }
 
-public struct DisassociateFleetInput: Swift.Equatable {
+public struct DisassociateFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var fleetName: Swift.String?
@@ -9231,7 +9231,7 @@ public struct DisassociateFleetInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFleetInputBody: Swift.Equatable {
+struct DisassociateFleetInputBody {
     let fleetName: Swift.String?
     let stackName: Swift.String?
 }
@@ -9256,7 +9256,7 @@ extension DisassociateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateFleetOutput: Swift.Equatable {
+public struct DisassociateFleetOutput {
 
     public init() { }
 }
@@ -9302,7 +9302,7 @@ extension AppStreamClientTypes.DomainJoinInfo: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the configuration information required to join fleets and image builders to Microsoft Active Directory domains.
-    public struct DomainJoinInfo: Swift.Equatable {
+    public struct DomainJoinInfo {
         /// The fully qualified name of the directory (for example, corp.example.com).
         public var directoryName: Swift.String?
         /// The distinguished name of the organizational unit for computer accounts.
@@ -9349,7 +9349,7 @@ extension EnableUserInput {
     }
 }
 
-public struct EnableUserInput: Swift.Equatable {
+public struct EnableUserInput {
     /// The authentication type for the user. You must specify USERPOOL.
     /// This member is required.
     public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -9367,7 +9367,7 @@ public struct EnableUserInput: Swift.Equatable {
     }
 }
 
-struct EnableUserInputBody: Swift.Equatable {
+struct EnableUserInputBody {
     let userName: Swift.String?
     let authenticationType: AppStreamClientTypes.AuthenticationType?
 }
@@ -9392,7 +9392,7 @@ extension EnableUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct EnableUserOutput: Swift.Equatable {
+public struct EnableUserOutput {
 
     public init() { }
 }
@@ -9430,7 +9430,7 @@ extension AppStreamClientTypes.EntitledApplication: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// The application associated to an entitlement. Access is controlled based on user attributes.
-    public struct EntitledApplication: Swift.Equatable {
+    public struct EntitledApplication {
         /// The identifier of the application.
         /// This member is required.
         public var applicationIdentifier: Swift.String?
@@ -9514,7 +9514,7 @@ extension AppStreamClientTypes.Entitlement: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Specifies an entitlement. Entitlements control access to specific applications within a stack, based on user attributes. Entitlements apply to SAML 2.0 federated user identities. Amazon AppStream 2.0 user pool and streaming URL users are entitled to all applications in a stack. Entitlements don't apply to the desktop stream view application, or to applications managed by a dynamic app provider using the Dynamic Application Framework.
-    public struct Entitlement: Swift.Equatable {
+    public struct Entitlement {
         /// Specifies whether all or selected apps are entitled.
         /// This member is required.
         public var appVisibility: AppStreamClientTypes.AppVisibility?
@@ -9596,7 +9596,7 @@ public struct EntitlementAlreadyExistsException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct EntitlementAlreadyExistsExceptionBody: Swift.Equatable {
+struct EntitlementAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -9639,7 +9639,7 @@ extension AppStreamClientTypes.EntitlementAttribute: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// An attribute associated with an entitlement. Application entitlements work by matching a supported SAML 2.0 attribute name to a value when a user identity federates to an Amazon AppStream 2.0 SAML application.
-    public struct EntitlementAttribute: Swift.Equatable {
+    public struct EntitlementAttribute {
         /// A supported AWS IAM SAML PrincipalTag attribute that is matched to the associated value when a user identity federates into an Amazon AppStream 2.0 SAML application. The following are valid values:
         ///
         /// * roles
@@ -9713,7 +9713,7 @@ public struct EntitlementNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct EntitlementNotFoundExceptionBody: Swift.Equatable {
+struct EntitlementNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -9756,7 +9756,7 @@ extension AppStreamClientTypes.ErrorDetails: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// The error details.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -9794,7 +9794,7 @@ extension ExpireSessionInput {
     }
 }
 
-public struct ExpireSessionInput: Swift.Equatable {
+public struct ExpireSessionInput {
     /// The identifier of the streaming session.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -9807,7 +9807,7 @@ public struct ExpireSessionInput: Swift.Equatable {
     }
 }
 
-struct ExpireSessionInputBody: Swift.Equatable {
+struct ExpireSessionInputBody {
     let sessionId: Swift.String?
 }
 
@@ -9828,7 +9828,7 @@ extension ExpireSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExpireSessionOutput: Swift.Equatable {
+public struct ExpireSessionOutput {
 
     public init() { }
 }
@@ -10032,7 +10032,7 @@ extension AppStreamClientTypes.Fleet: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a fleet.
-    public struct Fleet: Swift.Equatable {
+    public struct Fleet {
         /// The Amazon Resource Name (ARN) for the fleet.
         /// This member is required.
         public var arn: Swift.String?
@@ -10288,7 +10288,7 @@ extension AppStreamClientTypes.FleetError: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a fleet error.
-    public struct FleetError: Swift.Equatable {
+    public struct FleetError {
         /// The error code.
         public var errorCode: AppStreamClientTypes.FleetErrorCode?
         /// The error message.
@@ -10636,7 +10636,7 @@ extension AppStreamClientTypes.Image: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an image.
-    public struct Image: Swift.Equatable {
+    public struct Image {
         /// The applications associated with the image.
         public var applications: [AppStreamClientTypes.Application]?
         /// The version of the AppStream 2.0 agent to use for instances that are launched from this image.
@@ -10862,7 +10862,7 @@ extension AppStreamClientTypes.ImageBuilder: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a virtual machine that is used to create an image.
-    public struct ImageBuilder: Swift.Equatable {
+    public struct ImageBuilder {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Administrators can connect to the image builder only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
         /// The version of the AppStream 2.0 agent that is currently being used by the image builder.
@@ -11097,7 +11097,7 @@ extension AppStreamClientTypes.ImageBuilderStateChangeReason: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the reason why the last image builder state change occurred.
-    public struct ImageBuilderStateChangeReason: Swift.Equatable {
+    public struct ImageBuilderStateChangeReason {
         /// The state change reason code.
         public var code: AppStreamClientTypes.ImageBuilderStateChangeReasonCode?
         /// The state change reason message.
@@ -11174,7 +11174,7 @@ extension AppStreamClientTypes.ImagePermissions: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the permissions for an image.
-    public struct ImagePermissions: Swift.Equatable {
+    public struct ImagePermissions {
         /// Indicates whether the image can be used for a fleet.
         public var allowFleet: Swift.Bool?
         /// Indicates whether the image can be used for an image builder.
@@ -11266,7 +11266,7 @@ extension AppStreamClientTypes.ImageStateChangeReason: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the reason why the last image state change occurred.
-    public struct ImageStateChangeReason: Swift.Equatable {
+    public struct ImageStateChangeReason {
         /// The state change reason code.
         public var code: AppStreamClientTypes.ImageStateChangeReasonCode?
         /// The state change reason message.
@@ -11359,7 +11359,7 @@ public struct IncompatibleImageException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct IncompatibleImageExceptionBody: Swift.Equatable {
+struct IncompatibleImageExceptionBody {
     let message: Swift.String?
 }
 
@@ -11415,7 +11415,7 @@ public struct InvalidAccountStatusException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidAccountStatusExceptionBody: Swift.Equatable {
+struct InvalidAccountStatusExceptionBody {
     let message: Swift.String?
 }
 
@@ -11471,7 +11471,7 @@ public struct InvalidParameterCombinationException: ClientRuntime.ModeledError, 
     }
 }
 
-struct InvalidParameterCombinationExceptionBody: Swift.Equatable {
+struct InvalidParameterCombinationExceptionBody {
     let message: Swift.String?
 }
 
@@ -11527,7 +11527,7 @@ public struct InvalidRoleException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidRoleExceptionBody: Swift.Equatable {
+struct InvalidRoleExceptionBody {
     let message: Swift.String?
 }
 
@@ -11570,7 +11570,7 @@ extension AppStreamClientTypes.LastReportGenerationExecutionError: Swift.Codable
 
 extension AppStreamClientTypes {
     /// Describes the error that is returned when a usage report can't be generated.
-    public struct LastReportGenerationExecutionError: Swift.Equatable {
+    public struct LastReportGenerationExecutionError {
         /// The error code for the error that is returned when a usage report can't be generated.
         public var errorCode: AppStreamClientTypes.UsageReportExecutionErrorCode?
         /// The error message for the error that is returned when a usage report can't be generated.
@@ -11628,7 +11628,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -11668,7 +11668,7 @@ extension ListAssociatedFleetsInput {
     }
 }
 
-public struct ListAssociatedFleetsInput: Swift.Equatable {
+public struct ListAssociatedFleetsInput {
     /// The pagination token to use to retrieve the next page of results for this operation. If this value is null, it retrieves the first page.
     public var nextToken: Swift.String?
     /// The name of the stack.
@@ -11685,7 +11685,7 @@ public struct ListAssociatedFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedFleetsInputBody: Swift.Equatable {
+struct ListAssociatedFleetsInputBody {
     let stackName: Swift.String?
     let nextToken: Swift.String?
 }
@@ -11719,7 +11719,7 @@ extension ListAssociatedFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedFleetsOutput: Swift.Equatable {
+public struct ListAssociatedFleetsOutput {
     /// The name of the fleet.
     public var names: [Swift.String]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -11735,7 +11735,7 @@ public struct ListAssociatedFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedFleetsOutputBody: Swift.Equatable {
+struct ListAssociatedFleetsOutputBody {
     let names: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -11798,7 +11798,7 @@ extension ListAssociatedStacksInput {
     }
 }
 
-public struct ListAssociatedStacksInput: Swift.Equatable {
+public struct ListAssociatedStacksInput {
     /// The name of the fleet.
     /// This member is required.
     public var fleetName: Swift.String?
@@ -11815,7 +11815,7 @@ public struct ListAssociatedStacksInput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedStacksInputBody: Swift.Equatable {
+struct ListAssociatedStacksInputBody {
     let fleetName: Swift.String?
     let nextToken: Swift.String?
 }
@@ -11849,7 +11849,7 @@ extension ListAssociatedStacksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAssociatedStacksOutput: Swift.Equatable {
+public struct ListAssociatedStacksOutput {
     /// The name of the stack.
     public var names: [Swift.String]?
     /// The pagination token to use to retrieve the next page of results for this operation. If there are no more pages, this value is null.
@@ -11865,7 +11865,7 @@ public struct ListAssociatedStacksOutput: Swift.Equatable {
     }
 }
 
-struct ListAssociatedStacksOutputBody: Swift.Equatable {
+struct ListAssociatedStacksOutputBody {
     let names: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -11936,7 +11936,7 @@ extension ListEntitledApplicationsInput {
     }
 }
 
-public struct ListEntitledApplicationsInput: Swift.Equatable {
+public struct ListEntitledApplicationsInput {
     /// The name of the entitlement.
     /// This member is required.
     public var entitlementName: Swift.String?
@@ -11962,7 +11962,7 @@ public struct ListEntitledApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListEntitledApplicationsInputBody: Swift.Equatable {
+struct ListEntitledApplicationsInputBody {
     let stackName: Swift.String?
     let entitlementName: Swift.String?
     let nextToken: Swift.String?
@@ -12004,7 +12004,7 @@ extension ListEntitledApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntitledApplicationsOutput: Swift.Equatable {
+public struct ListEntitledApplicationsOutput {
     /// The entitled applications.
     public var entitledApplications: [AppStreamClientTypes.EntitledApplication]?
     /// The pagination token used to retrieve the next page of results for this operation.
@@ -12020,7 +12020,7 @@ public struct ListEntitledApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListEntitledApplicationsOutputBody: Swift.Equatable {
+struct ListEntitledApplicationsOutputBody {
     let entitledApplications: [AppStreamClientTypes.EntitledApplication]?
     let nextToken: Swift.String?
 }
@@ -12082,7 +12082,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12095,7 +12095,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -12123,7 +12123,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -12135,7 +12135,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -12230,7 +12230,7 @@ extension AppStreamClientTypes.NetworkAccessConfiguration: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the network details of the fleet or image builder instance.
-    public struct NetworkAccessConfiguration: Swift.Equatable {
+    public struct NetworkAccessConfiguration {
         /// The resource identifier of the elastic network interface that is attached to instances in your VPC. All network interfaces have the eni-xxxxxxxx resource identifier.
         public var eniId: Swift.String?
         /// The private IP address of the elastic network interface that is attached to instances in your VPC.
@@ -12288,7 +12288,7 @@ public struct OperationNotPermittedException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct OperationNotPermittedExceptionBody: Swift.Equatable {
+struct OperationNotPermittedExceptionBody {
     let message: Swift.String?
 }
 
@@ -12481,7 +12481,7 @@ public struct RequestLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct RequestLimitExceededExceptionBody: Swift.Equatable {
+struct RequestLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -12537,7 +12537,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -12586,7 +12586,7 @@ extension AppStreamClientTypes.ResourceError: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a resource error.
-    public struct ResourceError: Swift.Equatable {
+    public struct ResourceError {
         /// The error code.
         public var errorCode: AppStreamClientTypes.FleetErrorCode?
         /// The error message.
@@ -12648,7 +12648,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -12704,7 +12704,7 @@ public struct ResourceNotAvailableException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ResourceNotAvailableExceptionBody: Swift.Equatable {
+struct ResourceNotAvailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -12760,7 +12760,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12803,7 +12803,7 @@ extension AppStreamClientTypes.S3Location: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the S3 location.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The S3 bucket of the S3 object.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -12871,7 +12871,7 @@ extension AppStreamClientTypes.ScriptDetails: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the details of the script.
-    public struct ScriptDetails: Swift.Equatable {
+    public struct ScriptDetails {
         /// The runtime parameters passed to the run path for the script.
         public var executableParameters: Swift.String?
         /// The run path for the script.
@@ -12932,7 +12932,7 @@ extension AppStreamClientTypes.ServiceAccountCredentials: Swift.CustomDebugStrin
 
 extension AppStreamClientTypes {
     /// Describes the credentials for the service account used by the fleet or image builder to connect to the directory.
-    public struct ServiceAccountCredentials: Swift.Equatable {
+    public struct ServiceAccountCredentials {
         /// The user name of the account. This account must have the following privileges: create computer objects, join computers to the domain, and change/reset the password on descendant computer objects for the organizational units specified.
         /// This member is required.
         public var accountName: Swift.String?
@@ -13033,7 +13033,7 @@ extension AppStreamClientTypes.Session: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a streaming session.
-    public struct Session: Swift.Equatable {
+    public struct Session {
         /// The authentication method. The user is authenticated using a streaming URL (API) or SAML 2.0 federation (SAML).
         public var authenticationType: AppStreamClientTypes.AuthenticationType?
         /// Specifies whether a user is connected to the streaming session.
@@ -13187,7 +13187,7 @@ extension AppStreamClientTypes.SharedImagePermissions: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the permissions that are available to the specified AWS account for a shared image.
-    public struct SharedImagePermissions: Swift.Equatable {
+    public struct SharedImagePermissions {
         /// Describes the permissions for a shared image.
         /// This member is required.
         public var imagePermissions: AppStreamClientTypes.ImagePermissions?
@@ -13366,7 +13366,7 @@ extension AppStreamClientTypes.Stack: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a stack.
-    public struct Stack: Swift.Equatable {
+    public struct Stack {
         /// The list of virtual private cloud (VPC) interface endpoint objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
         public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
         /// The persistent application settings for users of the stack.
@@ -13522,7 +13522,7 @@ extension AppStreamClientTypes.StackError: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a stack error.
-    public struct StackError: Swift.Equatable {
+    public struct StackError {
         /// The error code.
         public var errorCode: AppStreamClientTypes.StackErrorCode?
         /// The error message.
@@ -13592,7 +13592,7 @@ extension StartAppBlockBuilderInput {
     }
 }
 
-public struct StartAppBlockBuilderInput: Swift.Equatable {
+public struct StartAppBlockBuilderInput {
     /// The name of the app block builder.
     /// This member is required.
     public var name: Swift.String?
@@ -13605,7 +13605,7 @@ public struct StartAppBlockBuilderInput: Swift.Equatable {
     }
 }
 
-struct StartAppBlockBuilderInputBody: Swift.Equatable {
+struct StartAppBlockBuilderInputBody {
     let name: Swift.String?
 }
 
@@ -13633,7 +13633,7 @@ extension StartAppBlockBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartAppBlockBuilderOutput: Swift.Equatable {
+public struct StartAppBlockBuilderOutput {
     /// Describes an app block builder.
     public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 
@@ -13645,7 +13645,7 @@ public struct StartAppBlockBuilderOutput: Swift.Equatable {
     }
 }
 
-struct StartAppBlockBuilderOutputBody: Swift.Equatable {
+struct StartAppBlockBuilderOutputBody {
     let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 }
 
@@ -13698,7 +13698,7 @@ extension StartFleetInput {
     }
 }
 
-public struct StartFleetInput: Swift.Equatable {
+public struct StartFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -13711,7 +13711,7 @@ public struct StartFleetInput: Swift.Equatable {
     }
 }
 
-struct StartFleetInputBody: Swift.Equatable {
+struct StartFleetInputBody {
     let name: Swift.String?
 }
 
@@ -13732,7 +13732,7 @@ extension StartFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFleetOutput: Swift.Equatable {
+public struct StartFleetOutput {
 
     public init() { }
 }
@@ -13779,7 +13779,7 @@ extension StartImageBuilderInput {
     }
 }
 
-public struct StartImageBuilderInput: Swift.Equatable {
+public struct StartImageBuilderInput {
     /// The version of the AppStream 2.0 agent to use for this image builder. To use the latest version of the AppStream 2.0 agent, specify [LATEST].
     public var appstreamAgentVersion: Swift.String?
     /// The name of the image builder.
@@ -13796,7 +13796,7 @@ public struct StartImageBuilderInput: Swift.Equatable {
     }
 }
 
-struct StartImageBuilderInputBody: Swift.Equatable {
+struct StartImageBuilderInputBody {
     let name: Swift.String?
     let appstreamAgentVersion: Swift.String?
 }
@@ -13828,7 +13828,7 @@ extension StartImageBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImageBuilderOutput: Swift.Equatable {
+public struct StartImageBuilderOutput {
     /// Information about the image builder.
     public var imageBuilder: AppStreamClientTypes.ImageBuilder?
 
@@ -13840,7 +13840,7 @@ public struct StartImageBuilderOutput: Swift.Equatable {
     }
 }
 
-struct StartImageBuilderOutputBody: Swift.Equatable {
+struct StartImageBuilderOutputBody {
     let imageBuilder: AppStreamClientTypes.ImageBuilder?
 }
 
@@ -13891,7 +13891,7 @@ extension StopAppBlockBuilderInput {
     }
 }
 
-public struct StopAppBlockBuilderInput: Swift.Equatable {
+public struct StopAppBlockBuilderInput {
     /// The name of the app block builder.
     /// This member is required.
     public var name: Swift.String?
@@ -13904,7 +13904,7 @@ public struct StopAppBlockBuilderInput: Swift.Equatable {
     }
 }
 
-struct StopAppBlockBuilderInputBody: Swift.Equatable {
+struct StopAppBlockBuilderInputBody {
     let name: Swift.String?
 }
 
@@ -13932,7 +13932,7 @@ extension StopAppBlockBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopAppBlockBuilderOutput: Swift.Equatable {
+public struct StopAppBlockBuilderOutput {
     /// Describes an app block builder.
     public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 
@@ -13944,7 +13944,7 @@ public struct StopAppBlockBuilderOutput: Swift.Equatable {
     }
 }
 
-struct StopAppBlockBuilderOutputBody: Swift.Equatable {
+struct StopAppBlockBuilderOutputBody {
     let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 }
 
@@ -13993,7 +13993,7 @@ extension StopFleetInput {
     }
 }
 
-public struct StopFleetInput: Swift.Equatable {
+public struct StopFleetInput {
     /// The name of the fleet.
     /// This member is required.
     public var name: Swift.String?
@@ -14006,7 +14006,7 @@ public struct StopFleetInput: Swift.Equatable {
     }
 }
 
-struct StopFleetInputBody: Swift.Equatable {
+struct StopFleetInputBody {
     let name: Swift.String?
 }
 
@@ -14027,7 +14027,7 @@ extension StopFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopFleetOutput: Swift.Equatable {
+public struct StopFleetOutput {
 
     public init() { }
 }
@@ -14064,7 +14064,7 @@ extension StopImageBuilderInput {
     }
 }
 
-public struct StopImageBuilderInput: Swift.Equatable {
+public struct StopImageBuilderInput {
     /// The name of the image builder.
     /// This member is required.
     public var name: Swift.String?
@@ -14077,7 +14077,7 @@ public struct StopImageBuilderInput: Swift.Equatable {
     }
 }
 
-struct StopImageBuilderInputBody: Swift.Equatable {
+struct StopImageBuilderInputBody {
     let name: Swift.String?
 }
 
@@ -14105,7 +14105,7 @@ extension StopImageBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopImageBuilderOutput: Swift.Equatable {
+public struct StopImageBuilderOutput {
     /// Information about the image builder.
     public var imageBuilder: AppStreamClientTypes.ImageBuilder?
 
@@ -14117,7 +14117,7 @@ public struct StopImageBuilderOutput: Swift.Equatable {
     }
 }
 
-struct StopImageBuilderOutputBody: Swift.Equatable {
+struct StopImageBuilderOutputBody {
     let imageBuilder: AppStreamClientTypes.ImageBuilder?
 }
 
@@ -14191,7 +14191,7 @@ extension AppStreamClientTypes.StorageConnector: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes a connector that enables persistent storage for users.
-    public struct StorageConnector: Swift.Equatable {
+    public struct StorageConnector {
         /// The type of storage connector.
         /// This member is required.
         public var connectorType: AppStreamClientTypes.StorageConnectorType?
@@ -14303,7 +14303,7 @@ extension AppStreamClientTypes.StreamingExperienceSettings: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// The streaming protocol you want your stack to prefer. This can be UDP or TCP. Currently, UDP is only supported in the Windows native client.
-    public struct StreamingExperienceSettings: Swift.Equatable {
+    public struct StreamingExperienceSettings {
         /// The preferred protocol that you want to use while streaming your application.
         public var preferredProtocol: AppStreamClientTypes.PreferredProtocol?
 
@@ -14344,7 +14344,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14362,7 +14362,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -14396,7 +14396,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14441,7 +14441,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14459,7 +14459,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -14493,7 +14493,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14571,7 +14571,7 @@ extension UpdateAppBlockBuilderInput {
     }
 }
 
-public struct UpdateAppBlockBuilderInput: Swift.Equatable {
+public struct UpdateAppBlockBuilderInput {
     /// The list of interface VPC endpoint (interface endpoint) objects. Administrators can connect to the app block builder only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The attributes to delete from the app block builder.
@@ -14630,7 +14630,7 @@ public struct UpdateAppBlockBuilderInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppBlockBuilderInputBody: Swift.Equatable {
+struct UpdateAppBlockBuilderInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let displayName: Swift.String?
@@ -14712,7 +14712,7 @@ extension UpdateAppBlockBuilderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAppBlockBuilderOutput: Swift.Equatable {
+public struct UpdateAppBlockBuilderOutput {
     /// Describes an app block builder.
     public var appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 
@@ -14724,7 +14724,7 @@ public struct UpdateAppBlockBuilderOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppBlockBuilderOutputBody: Swift.Equatable {
+struct UpdateAppBlockBuilderOutputBody {
     let appBlockBuilder: AppStreamClientTypes.AppBlockBuilder?
 }
 
@@ -14815,7 +14815,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The ARN of the app block.
     public var appBlockArn: Swift.String?
     /// The attributes to delete for an application.
@@ -14860,7 +14860,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -14929,7 +14929,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// Describes an application in the application catalog.
     public var application: AppStreamClientTypes.Application?
 
@@ -14941,7 +14941,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let application: AppStreamClientTypes.Application?
 }
 
@@ -15005,7 +15005,7 @@ extension UpdateDirectoryConfigInput {
     }
 }
 
-public struct UpdateDirectoryConfigInput: Swift.Equatable {
+public struct UpdateDirectoryConfigInput {
     /// The certificate-based authentication properties used to authenticate SAML 2.0 Identity Provider (IdP) user identities to Active Directory domain-joined streaming instances. Fallback is turned on by default when certificate-based authentication is Enabled . Fallback allows users to log in using their AD domain password if certificate-based authentication is unsuccessful, or to unlock a desktop lock screen. Enabled_no_directory_login_fallback enables certificate-based authentication, but does not allow users to log in using their AD domain password. Users will be disconnected to re-authenticate using certificates.
     public var certificateBasedAuthProperties: AppStreamClientTypes.CertificateBasedAuthProperties?
     /// The name of the Directory Config object.
@@ -15030,7 +15030,7 @@ public struct UpdateDirectoryConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectoryConfigInputBody: Swift.Equatable {
+struct UpdateDirectoryConfigInputBody {
     let directoryName: Swift.String?
     let organizationalUnitDistinguishedNames: [Swift.String]?
     let serviceAccountCredentials: AppStreamClientTypes.ServiceAccountCredentials?
@@ -15079,7 +15079,7 @@ extension UpdateDirectoryConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDirectoryConfigOutput: Swift.Equatable {
+public struct UpdateDirectoryConfigOutput {
     /// Information about the Directory Config object.
     public var directoryConfig: AppStreamClientTypes.DirectoryConfig?
 
@@ -15091,7 +15091,7 @@ public struct UpdateDirectoryConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDirectoryConfigOutputBody: Swift.Equatable {
+struct UpdateDirectoryConfigOutputBody {
     let directoryConfig: AppStreamClientTypes.DirectoryConfig?
 }
 
@@ -15161,7 +15161,7 @@ extension UpdateEntitlementInput {
     }
 }
 
-public struct UpdateEntitlementInput: Swift.Equatable {
+public struct UpdateEntitlementInput {
     /// Specifies whether all or only selected apps are entitled.
     public var appVisibility: AppStreamClientTypes.AppVisibility?
     /// The attributes of the entitlement.
@@ -15191,7 +15191,7 @@ public struct UpdateEntitlementInput: Swift.Equatable {
     }
 }
 
-struct UpdateEntitlementInputBody: Swift.Equatable {
+struct UpdateEntitlementInputBody {
     let name: Swift.String?
     let stackName: Swift.String?
     let description: Swift.String?
@@ -15244,7 +15244,7 @@ extension UpdateEntitlementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEntitlementOutput: Swift.Equatable {
+public struct UpdateEntitlementOutput {
     /// The entitlement.
     public var entitlement: AppStreamClientTypes.Entitlement?
 
@@ -15256,7 +15256,7 @@ public struct UpdateEntitlementOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEntitlementOutputBody: Swift.Equatable {
+struct UpdateEntitlementOutputBody {
     let entitlement: AppStreamClientTypes.Entitlement?
 }
 
@@ -15396,7 +15396,7 @@ extension UpdateFleetInput {
     }
 }
 
-public struct UpdateFleetInput: Swift.Equatable {
+public struct UpdateFleetInput {
     /// The fleet attributes to delete.
     public var attributesToDelete: [AppStreamClientTypes.FleetAttribute]?
     /// The desired capacity for the fleet. This is not allowed for Elastic fleets.
@@ -15576,7 +15576,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetInputBody: Swift.Equatable {
+struct UpdateFleetInputBody {
     let imageName: Swift.String?
     let imageArn: Swift.String?
     let name: Swift.String?
@@ -15706,7 +15706,7 @@ extension UpdateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetOutput: Swift.Equatable {
+public struct UpdateFleetOutput {
     /// Information about the fleet.
     public var fleet: AppStreamClientTypes.Fleet?
 
@@ -15718,7 +15718,7 @@ public struct UpdateFleetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetOutputBody: Swift.Equatable {
+struct UpdateFleetOutputBody {
     let fleet: AppStreamClientTypes.Fleet?
 }
 
@@ -15783,7 +15783,7 @@ extension UpdateImagePermissionsInput {
     }
 }
 
-public struct UpdateImagePermissionsInput: Swift.Equatable {
+public struct UpdateImagePermissionsInput {
     /// The permissions for the image.
     /// This member is required.
     public var imagePermissions: AppStreamClientTypes.ImagePermissions?
@@ -15806,7 +15806,7 @@ public struct UpdateImagePermissionsInput: Swift.Equatable {
     }
 }
 
-struct UpdateImagePermissionsInputBody: Swift.Equatable {
+struct UpdateImagePermissionsInputBody {
     let name: Swift.String?
     let sharedAccountId: Swift.String?
     let imagePermissions: AppStreamClientTypes.ImagePermissions?
@@ -15835,7 +15835,7 @@ extension UpdateImagePermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateImagePermissionsOutput: Swift.Equatable {
+public struct UpdateImagePermissionsOutput {
 
     public init() { }
 }
@@ -15936,7 +15936,7 @@ extension UpdateStackInput {
     }
 }
 
-public struct UpdateStackInput: Swift.Equatable {
+public struct UpdateStackInput {
     /// The list of interface VPC endpoint (interface endpoint) objects. Users of the stack can connect to AppStream 2.0 only through the specified endpoints.
     public var accessEndpoints: [AppStreamClientTypes.AccessEndpoint]?
     /// The persistent application settings for users of a stack. When these settings are enabled, changes that users make to applications and Windows settings are automatically saved after each session and applied to the next session.
@@ -15998,7 +15998,7 @@ public struct UpdateStackInput: Swift.Equatable {
     }
 }
 
-struct UpdateStackInputBody: Swift.Equatable {
+struct UpdateStackInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let name: Swift.String?
@@ -16119,7 +16119,7 @@ extension UpdateStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStackOutput: Swift.Equatable {
+public struct UpdateStackOutput {
     /// Information about the stack.
     public var stack: AppStreamClientTypes.Stack?
 
@@ -16131,7 +16131,7 @@ public struct UpdateStackOutput: Swift.Equatable {
     }
 }
 
-struct UpdateStackOutputBody: Swift.Equatable {
+struct UpdateStackOutputBody {
     let stack: AppStreamClientTypes.Stack?
 }
 
@@ -16281,7 +16281,7 @@ extension AppStreamClientTypes.UsageReportSubscription: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes information about the usage report subscription.
-    public struct UsageReportSubscription: Swift.Equatable {
+    public struct UsageReportSubscription {
         /// The time when the last usage report was generated.
         public var lastGeneratedReportDate: ClientRuntime.Date?
         /// The Amazon S3 bucket where generated reports are stored. If you enabled on-instance session scripts and Amazon S3 logging for your session script configuration, AppStream 2.0 created an S3 bucket to store the script output. The bucket is unique to your account and Region. When you enable usage reporting in this case, AppStream 2.0 uses the same bucket to store your usage reports. If you haven't already enabled on-instance session scripts, when you enable usage reports, AppStream 2.0 creates a new S3 bucket.
@@ -16375,7 +16375,7 @@ extension AppStreamClientTypes.User: Swift.CustomDebugStringConvertible {
 
 extension AppStreamClientTypes {
     /// Describes a user in the user pool.
-    public struct User: Swift.Equatable {
+    public struct User {
         /// The ARN of the user.
         public var arn: Swift.String?
         /// The authentication type for the user.
@@ -16461,7 +16461,7 @@ extension AppStreamClientTypes.UserSetting: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes an action and whether the action is enabled or disabled for users during their streaming sessions.
-    public struct UserSetting: Swift.Equatable {
+    public struct UserSetting {
         /// The action that is enabled or disabled.
         /// This member is required.
         public var action: AppStreamClientTypes.Action?
@@ -16529,7 +16529,7 @@ extension AppStreamClientTypes.UserStackAssociation: Swift.CustomDebugStringConv
 
 extension AppStreamClientTypes {
     /// Describes a user in the user pool and the associated stack.
-    public struct UserStackAssociation: Swift.Equatable {
+    public struct UserStackAssociation {
         /// The authentication type for the user.
         /// This member is required.
         public var authenticationType: AppStreamClientTypes.AuthenticationType?
@@ -16591,7 +16591,7 @@ extension AppStreamClientTypes.UserStackAssociationError: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes the error that is returned when a user can’t be associated with or disassociated from a stack.
-    public struct UserStackAssociationError: Swift.Equatable {
+    public struct UserStackAssociationError {
         /// The error code for the error that is returned when a user can’t be associated with or disassociated from a stack.
         public var errorCode: AppStreamClientTypes.UserStackAssociationErrorCode?
         /// The error message for the error that is returned when a user can’t be associated with or disassociated from a stack.
@@ -16737,7 +16737,7 @@ extension AppStreamClientTypes.VpcConfig: Swift.Codable {
 
 extension AppStreamClientTypes {
     /// Describes VPC configuration information for fleets and image builders.
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// The identifiers of the security groups for the fleet or image builder.
         public var securityGroupIds: [Swift.String]?
         /// The identifiers of the subnets to which a network interface is attached from the fleet instance or image builder instance. Fleet instances use one or more subnets. Image builder instances use one subnet.

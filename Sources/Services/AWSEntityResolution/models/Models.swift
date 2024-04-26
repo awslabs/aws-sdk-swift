@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -101,7 +101,7 @@ extension AddPolicyStatementInput {
     }
 }
 
-public struct AddPolicyStatementInput: Swift.Equatable {
+public struct AddPolicyStatementInput {
     /// The action that the principal can use on the resource. For example, entityresolution:GetIdMappingJob, entityresolution:GetMatchingJob.
     /// This member is required.
     public var action: [Swift.String]?
@@ -138,7 +138,7 @@ public struct AddPolicyStatementInput: Swift.Equatable {
     }
 }
 
-struct AddPolicyStatementInputBody: Swift.Equatable {
+struct AddPolicyStatementInputBody {
     let effect: EntityResolutionClientTypes.StatementEffect?
     let action: [Swift.String]?
     let principal: [Swift.String]?
@@ -200,7 +200,7 @@ extension AddPolicyStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddPolicyStatementOutput: Swift.Equatable {
+public struct AddPolicyStatementOutput {
     /// The Amazon Resource Name (ARN) of the resource that will be accessed by the principal.
     /// This member is required.
     public var arn: Swift.String?
@@ -222,7 +222,7 @@ public struct AddPolicyStatementOutput: Swift.Equatable {
     }
 }
 
-struct AddPolicyStatementOutputBody: Swift.Equatable {
+struct AddPolicyStatementOutputBody {
     let arn: Swift.String?
     let token: Swift.String?
     let policy: Swift.String?
@@ -333,7 +333,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -402,7 +402,7 @@ extension CreateIdMappingWorkflowInput {
     }
 }
 
-public struct CreateIdMappingWorkflowInput: Swift.Equatable {
+public struct CreateIdMappingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines the idMappingType and the providerProperties.
@@ -442,7 +442,7 @@ public struct CreateIdMappingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateIdMappingWorkflowInputBody: Swift.Equatable {
+struct CreateIdMappingWorkflowInputBody {
     let workflowName: Swift.String?
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
@@ -533,7 +533,7 @@ extension CreateIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIdMappingWorkflowOutput: Swift.Equatable {
+public struct CreateIdMappingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines the idMappingType and the providerProperties.
@@ -574,7 +574,7 @@ public struct CreateIdMappingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateIdMappingWorkflowOutputBody: Swift.Equatable {
+struct CreateIdMappingWorkflowOutputBody {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -701,7 +701,7 @@ extension CreateIdNamespaceInput {
     }
 }
 
-public struct CreateIdNamespaceInput: Swift.Equatable {
+public struct CreateIdNamespaceInput {
     /// The description of the ID namespace.
     public var description: Swift.String?
     /// Determines the properties of IdMappingWorflow where this IdNamespace can be used as a Source or a Target.
@@ -739,7 +739,7 @@ public struct CreateIdNamespaceInput: Swift.Equatable {
     }
 }
 
-struct CreateIdNamespaceInputBody: Swift.Equatable {
+struct CreateIdNamespaceInputBody {
     let idNamespaceName: Swift.String?
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.IdNamespaceInputSource]?
@@ -836,7 +836,7 @@ extension CreateIdNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIdNamespaceOutput: Swift.Equatable {
+public struct CreateIdNamespaceOutput {
     /// The timestamp of when the ID namespace was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -889,7 +889,7 @@ public struct CreateIdNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateIdNamespaceOutputBody: Swift.Equatable {
+struct CreateIdNamespaceOutputBody {
     let idNamespaceName: Swift.String?
     let idNamespaceArn: Swift.String?
     let description: Swift.String?
@@ -1041,7 +1041,7 @@ extension CreateMatchingWorkflowInput {
     }
 }
 
-public struct CreateMatchingWorkflowInput: Swift.Equatable {
+public struct CreateMatchingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -1086,7 +1086,7 @@ public struct CreateMatchingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateMatchingWorkflowInputBody: Swift.Equatable {
+struct CreateMatchingWorkflowInputBody {
     let workflowName: Swift.String?
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.InputSource]?
@@ -1183,7 +1183,7 @@ extension CreateMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMatchingWorkflowOutput: Swift.Equatable {
+public struct CreateMatchingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -1229,7 +1229,7 @@ public struct CreateMatchingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateMatchingWorkflowOutputBody: Swift.Equatable {
+struct CreateMatchingWorkflowOutputBody {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -1345,7 +1345,7 @@ extension CreateSchemaMappingInput {
     }
 }
 
-public struct CreateSchemaMappingInput: Swift.Equatable {
+public struct CreateSchemaMappingInput {
     /// A description of the schema.
     public var description: Swift.String?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
@@ -1371,7 +1371,7 @@ public struct CreateSchemaMappingInput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaMappingInputBody: Swift.Equatable {
+struct CreateSchemaMappingInputBody {
     let schemaName: Swift.String?
     let description: Swift.String?
     let mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
@@ -1435,7 +1435,7 @@ extension CreateSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaMappingOutput: Swift.Equatable {
+public struct CreateSchemaMappingOutput {
     /// A description of the schema.
     /// This member is required.
     public var description: Swift.String?
@@ -1463,7 +1463,7 @@ public struct CreateSchemaMappingOutput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaMappingOutputBody: Swift.Equatable {
+struct CreateSchemaMappingOutputBody {
     let schemaName: Swift.String?
     let schemaArn: Swift.String?
     let description: Swift.String?
@@ -1526,7 +1526,7 @@ extension DeleteIdMappingWorkflowInput {
     }
 }
 
-public struct DeleteIdMappingWorkflowInput: Swift.Equatable {
+public struct DeleteIdMappingWorkflowInput {
     /// The name of the workflow to be deleted.
     /// This member is required.
     public var workflowName: Swift.String?
@@ -1539,7 +1539,7 @@ public struct DeleteIdMappingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdMappingWorkflowInputBody: Swift.Equatable {
+struct DeleteIdMappingWorkflowInputBody {
 }
 
 extension DeleteIdMappingWorkflowInputBody: Swift.Decodable {
@@ -1560,7 +1560,7 @@ extension DeleteIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIdMappingWorkflowOutput: Swift.Equatable {
+public struct DeleteIdMappingWorkflowOutput {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -1573,7 +1573,7 @@ public struct DeleteIdMappingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIdMappingWorkflowOutputBody: Swift.Equatable {
+struct DeleteIdMappingWorkflowOutputBody {
     let message: Swift.String?
 }
 
@@ -1614,7 +1614,7 @@ extension DeleteIdNamespaceInput {
     }
 }
 
-public struct DeleteIdNamespaceInput: Swift.Equatable {
+public struct DeleteIdNamespaceInput {
     /// The name of the ID namespace.
     /// This member is required.
     public var idNamespaceName: Swift.String?
@@ -1627,7 +1627,7 @@ public struct DeleteIdNamespaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteIdNamespaceInputBody: Swift.Equatable {
+struct DeleteIdNamespaceInputBody {
 }
 
 extension DeleteIdNamespaceInputBody: Swift.Decodable {
@@ -1648,7 +1648,7 @@ extension DeleteIdNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIdNamespaceOutput: Swift.Equatable {
+public struct DeleteIdNamespaceOutput {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -1661,7 +1661,7 @@ public struct DeleteIdNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteIdNamespaceOutputBody: Swift.Equatable {
+struct DeleteIdNamespaceOutputBody {
     let message: Swift.String?
 }
 
@@ -1701,7 +1701,7 @@ extension DeleteMatchingWorkflowInput {
     }
 }
 
-public struct DeleteMatchingWorkflowInput: Swift.Equatable {
+public struct DeleteMatchingWorkflowInput {
     /// The name of the workflow to be retrieved.
     /// This member is required.
     public var workflowName: Swift.String?
@@ -1714,7 +1714,7 @@ public struct DeleteMatchingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteMatchingWorkflowInputBody: Swift.Equatable {
+struct DeleteMatchingWorkflowInputBody {
 }
 
 extension DeleteMatchingWorkflowInputBody: Swift.Decodable {
@@ -1735,7 +1735,7 @@ extension DeleteMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMatchingWorkflowOutput: Swift.Equatable {
+public struct DeleteMatchingWorkflowOutput {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -1748,7 +1748,7 @@ public struct DeleteMatchingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMatchingWorkflowOutputBody: Swift.Equatable {
+struct DeleteMatchingWorkflowOutputBody {
     let message: Swift.String?
 }
 
@@ -1792,7 +1792,7 @@ extension DeletePolicyStatementInput {
     }
 }
 
-public struct DeletePolicyStatementInput: Swift.Equatable {
+public struct DeletePolicyStatementInput {
     /// The ARN of the resource for which the policy need to be deleted.
     /// This member is required.
     public var arn: Swift.String?
@@ -1810,7 +1810,7 @@ public struct DeletePolicyStatementInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyStatementInputBody: Swift.Equatable {
+struct DeletePolicyStatementInputBody {
 }
 
 extension DeletePolicyStatementInputBody: Swift.Decodable {
@@ -1835,7 +1835,7 @@ extension DeletePolicyStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyStatementOutput: Swift.Equatable {
+public struct DeletePolicyStatementOutput {
     /// The ARN of the resource for which the policy need to be deleted.
     /// This member is required.
     public var arn: Swift.String?
@@ -1857,7 +1857,7 @@ public struct DeletePolicyStatementOutput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyStatementOutputBody: Swift.Equatable {
+struct DeletePolicyStatementOutputBody {
     let arn: Swift.String?
     let token: Swift.String?
     let policy: Swift.String?
@@ -1907,7 +1907,7 @@ extension DeleteSchemaMappingInput {
     }
 }
 
-public struct DeleteSchemaMappingInput: Swift.Equatable {
+public struct DeleteSchemaMappingInput {
     /// The name of the schema to delete.
     /// This member is required.
     public var schemaName: Swift.String?
@@ -1920,7 +1920,7 @@ public struct DeleteSchemaMappingInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaMappingInputBody: Swift.Equatable {
+struct DeleteSchemaMappingInputBody {
 }
 
 extension DeleteSchemaMappingInputBody: Swift.Decodable {
@@ -1941,7 +1941,7 @@ extension DeleteSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaMappingOutput: Swift.Equatable {
+public struct DeleteSchemaMappingOutput {
     /// A successful operation message.
     /// This member is required.
     public var message: Swift.String?
@@ -1954,7 +1954,7 @@ public struct DeleteSchemaMappingOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaMappingOutputBody: Swift.Equatable {
+struct DeleteSchemaMappingOutputBody {
     let message: Swift.String?
 }
 
@@ -2008,7 +2008,7 @@ extension EntityResolutionClientTypes.ErrorDetails: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing an error message, if there was an error.
-    public struct ErrorDetails: Swift.Equatable {
+    public struct ErrorDetails {
         /// The error message from the job, if there is one.
         public var errorMessage: Swift.String?
 
@@ -2073,7 +2073,7 @@ public struct ExceedsLimitException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ExceedsLimitExceptionBody: Swift.Equatable {
+struct ExceedsLimitExceptionBody {
     let message: Swift.String?
     let quotaName: Swift.String?
     let quotaValue: Swift.Int?
@@ -2110,7 +2110,7 @@ extension GetIdMappingJobInput {
     }
 }
 
-public struct GetIdMappingJobInput: Swift.Equatable {
+public struct GetIdMappingJobInput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2128,7 +2128,7 @@ public struct GetIdMappingJobInput: Swift.Equatable {
     }
 }
 
-struct GetIdMappingJobInputBody: Swift.Equatable {
+struct GetIdMappingJobInputBody {
 }
 
 extension GetIdMappingJobInputBody: Swift.Decodable {
@@ -2161,7 +2161,7 @@ extension GetIdMappingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIdMappingJobOutput: Swift.Equatable {
+public struct GetIdMappingJobOutput {
     /// The time at which the job has finished.
     public var endTime: ClientRuntime.Date?
     /// An object containing an error message, if there was an error.
@@ -2200,7 +2200,7 @@ public struct GetIdMappingJobOutput: Swift.Equatable {
     }
 }
 
-struct GetIdMappingJobOutputBody: Swift.Equatable {
+struct GetIdMappingJobOutputBody {
     let jobId: Swift.String?
     let status: EntityResolutionClientTypes.JobStatus?
     let startTime: ClientRuntime.Date?
@@ -2274,7 +2274,7 @@ extension GetIdMappingWorkflowInput {
     }
 }
 
-public struct GetIdMappingWorkflowInput: Swift.Equatable {
+public struct GetIdMappingWorkflowInput {
     /// The name of the workflow.
     /// This member is required.
     public var workflowName: Swift.String?
@@ -2287,7 +2287,7 @@ public struct GetIdMappingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetIdMappingWorkflowInputBody: Swift.Equatable {
+struct GetIdMappingWorkflowInputBody {
 }
 
 extension GetIdMappingWorkflowInputBody: Swift.Decodable {
@@ -2326,7 +2326,7 @@ extension GetIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIdMappingWorkflowOutput: Swift.Equatable {
+public struct GetIdMappingWorkflowOutput {
     /// The timestamp of when the workflow was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -2381,7 +2381,7 @@ public struct GetIdMappingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetIdMappingWorkflowOutputBody: Swift.Equatable {
+struct GetIdMappingWorkflowOutputBody {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -2485,7 +2485,7 @@ extension GetIdNamespaceInput {
     }
 }
 
-public struct GetIdNamespaceInput: Swift.Equatable {
+public struct GetIdNamespaceInput {
     /// The name of the ID namespace.
     /// This member is required.
     public var idNamespaceName: Swift.String?
@@ -2498,7 +2498,7 @@ public struct GetIdNamespaceInput: Swift.Equatable {
     }
 }
 
-struct GetIdNamespaceInputBody: Swift.Equatable {
+struct GetIdNamespaceInputBody {
 }
 
 extension GetIdNamespaceInputBody: Swift.Decodable {
@@ -2537,7 +2537,7 @@ extension GetIdNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIdNamespaceOutput: Swift.Equatable {
+public struct GetIdNamespaceOutput {
     /// The timestamp of when the ID namespace was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -2590,7 +2590,7 @@ public struct GetIdNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct GetIdNamespaceOutputBody: Swift.Equatable {
+struct GetIdNamespaceOutputBody {
     let idNamespaceName: Swift.String?
     let idNamespaceArn: Swift.String?
     let description: Swift.String?
@@ -2719,7 +2719,7 @@ extension GetMatchIdInput {
     }
 }
 
-public struct GetMatchIdInput: Swift.Equatable {
+public struct GetMatchIdInput {
     /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
     public var applyNormalization: Swift.Bool?
     /// The record to fetch the Match ID for.
@@ -2741,7 +2741,7 @@ public struct GetMatchIdInput: Swift.Equatable {
     }
 }
 
-struct GetMatchIdInputBody: Swift.Equatable {
+struct GetMatchIdInputBody {
     let record: [Swift.String:Swift.String]?
     let applyNormalization: Swift.Bool?
 }
@@ -2784,7 +2784,7 @@ extension GetMatchIdOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchIdOutput: Swift.Equatable {
+public struct GetMatchIdOutput {
     /// The unique identifiers for this group of match records.
     public var matchId: Swift.String?
     /// The rule the record matched on.
@@ -2800,7 +2800,7 @@ public struct GetMatchIdOutput: Swift.Equatable {
     }
 }
 
-struct GetMatchIdOutputBody: Swift.Equatable {
+struct GetMatchIdOutputBody {
     let matchId: Swift.String?
     let matchRule: Swift.String?
 }
@@ -2848,7 +2848,7 @@ extension GetMatchingJobInput {
     }
 }
 
-public struct GetMatchingJobInput: Swift.Equatable {
+public struct GetMatchingJobInput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -2866,7 +2866,7 @@ public struct GetMatchingJobInput: Swift.Equatable {
     }
 }
 
-struct GetMatchingJobInputBody: Swift.Equatable {
+struct GetMatchingJobInputBody {
 }
 
 extension GetMatchingJobInputBody: Swift.Decodable {
@@ -2899,7 +2899,7 @@ extension GetMatchingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchingJobOutput: Swift.Equatable {
+public struct GetMatchingJobOutput {
     /// The time at which the job has finished.
     public var endTime: ClientRuntime.Date?
     /// An object containing an error message, if there was an error.
@@ -2938,7 +2938,7 @@ public struct GetMatchingJobOutput: Swift.Equatable {
     }
 }
 
-struct GetMatchingJobOutputBody: Swift.Equatable {
+struct GetMatchingJobOutputBody {
     let jobId: Swift.String?
     let status: EntityResolutionClientTypes.JobStatus?
     let startTime: ClientRuntime.Date?
@@ -3012,7 +3012,7 @@ extension GetMatchingWorkflowInput {
     }
 }
 
-public struct GetMatchingWorkflowInput: Swift.Equatable {
+public struct GetMatchingWorkflowInput {
     /// The name of the workflow.
     /// This member is required.
     public var workflowName: Swift.String?
@@ -3025,7 +3025,7 @@ public struct GetMatchingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetMatchingWorkflowInputBody: Swift.Equatable {
+struct GetMatchingWorkflowInputBody {
 }
 
 extension GetMatchingWorkflowInputBody: Swift.Decodable {
@@ -3066,7 +3066,7 @@ extension GetMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMatchingWorkflowOutput: Swift.Equatable {
+public struct GetMatchingWorkflowOutput {
     /// The timestamp of when the workflow was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -3126,7 +3126,7 @@ public struct GetMatchingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetMatchingWorkflowOutputBody: Swift.Equatable {
+struct GetMatchingWorkflowOutputBody {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -3234,7 +3234,7 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The Amazon Resource Name (ARN) of the resource for which the policy need to be returned.
     /// This member is required.
     public var arn: Swift.String?
@@ -3247,7 +3247,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
 }
 
 extension GetPolicyInputBody: Swift.Decodable {
@@ -3272,7 +3272,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// The Entity Resolution resource ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -3294,7 +3294,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let arn: Swift.String?
     let token: Swift.String?
     let policy: Swift.String?
@@ -3346,7 +3346,7 @@ extension GetProviderServiceInput {
     }
 }
 
-public struct GetProviderServiceInput: Swift.Equatable {
+public struct GetProviderServiceInput {
     /// The name of the provider. This name is typically the company name.
     /// This member is required.
     public var providerName: Swift.String?
@@ -3364,7 +3364,7 @@ public struct GetProviderServiceInput: Swift.Equatable {
     }
 }
 
-struct GetProviderServiceInputBody: Swift.Equatable {
+struct GetProviderServiceInputBody {
 }
 
 extension GetProviderServiceInputBody: Swift.Decodable {
@@ -3409,7 +3409,7 @@ extension GetProviderServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProviderServiceOutput: Swift.Equatable {
+public struct GetProviderServiceOutput {
     /// Specifies whether output data from the provider is anonymized. A value of TRUE means the output will be anonymized and you can't relate the data that comes back from the provider to the identifying input. A value of FALSE means the output won't be anonymized and you can relate the data that comes back from the provider to your source data.
     /// This member is required.
     public var anonymizedOutput: Swift.Bool?
@@ -3477,7 +3477,7 @@ public struct GetProviderServiceOutput: Swift.Equatable {
     }
 }
 
-struct GetProviderServiceOutputBody: Swift.Equatable {
+struct GetProviderServiceOutputBody {
     let providerName: Swift.String?
     let providerServiceName: Swift.String?
     let providerServiceDisplayName: Swift.String?
@@ -3566,7 +3566,7 @@ extension GetSchemaMappingInput {
     }
 }
 
-public struct GetSchemaMappingInput: Swift.Equatable {
+public struct GetSchemaMappingInput {
     /// The name of the schema to be retrieved.
     /// This member is required.
     public var schemaName: Swift.String?
@@ -3579,7 +3579,7 @@ public struct GetSchemaMappingInput: Swift.Equatable {
     }
 }
 
-struct GetSchemaMappingInputBody: Swift.Equatable {
+struct GetSchemaMappingInputBody {
 }
 
 extension GetSchemaMappingInputBody: Swift.Decodable {
@@ -3614,7 +3614,7 @@ extension GetSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSchemaMappingOutput: Swift.Equatable {
+public struct GetSchemaMappingOutput {
     /// The timestamp of when the SchemaMapping was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -3660,7 +3660,7 @@ public struct GetSchemaMappingOutput: Swift.Equatable {
     }
 }
 
-struct GetSchemaMappingOutputBody: Swift.Equatable {
+struct GetSchemaMappingOutputBody {
     let schemaName: Swift.String?
     let schemaArn: Swift.String?
     let description: Swift.String?
@@ -3770,7 +3770,7 @@ extension EntityResolutionClientTypes.IdMappingJobMetrics: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing InputRecords, TotalRecordsProcessed, MatchIDs, and RecordsNotProcessed.
-    public struct IdMappingJobMetrics: Swift.Equatable {
+    public struct IdMappingJobMetrics {
         /// The total number of input records.
         public var inputRecords: Swift.Int?
         /// The total number of records that did not get processed.
@@ -3825,7 +3825,7 @@ extension EntityResolutionClientTypes.IdMappingJobOutputSource: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing KMSArn, OutputS3Path, and RoleARN.
-    public struct IdMappingJobOutputSource: Swift.Equatable {
+    public struct IdMappingJobOutputSource {
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public var kmsArn: Swift.String?
         /// The S3 path to which Entity Resolution will write the output table.
@@ -3876,7 +3876,7 @@ extension EntityResolutionClientTypes.IdMappingTechniques: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object which defines the ID mapping techniques and provider configurations.
-    public struct IdMappingTechniques: Swift.Equatable {
+    public struct IdMappingTechniques {
         /// The type of ID mapping.
         /// This member is required.
         public var idMappingType: EntityResolutionClientTypes.IdMappingType?
@@ -3957,7 +3957,7 @@ extension EntityResolutionClientTypes.IdMappingWorkflowInputSource: Swift.Codabl
 
 extension EntityResolutionClientTypes {
     /// An object containing InputSourceARN, SchemaName, and Type.
-    public struct IdMappingWorkflowInputSource: Swift.Equatable {
+    public struct IdMappingWorkflowInputSource {
         /// An Glue table ARN for the input source table.
         /// This member is required.
         public var inputSourceARN: Swift.String?
@@ -4007,7 +4007,7 @@ extension EntityResolutionClientTypes.IdMappingWorkflowOutputSource: Swift.Codab
 
 extension EntityResolutionClientTypes {
     /// The output source for the ID mapping workflow.
-    public struct IdMappingWorkflowOutputSource: Swift.Equatable {
+    public struct IdMappingWorkflowOutputSource {
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public var kmsArn: Swift.String?
         /// The S3 path to which Entity Resolution will write the output table.
@@ -4065,7 +4065,7 @@ extension EntityResolutionClientTypes.IdMappingWorkflowSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A list of IdMappingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
-    public struct IdMappingWorkflowSummary: Swift.Equatable {
+    public struct IdMappingWorkflowSummary {
         /// The timestamp of when the workflow was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -4122,7 +4122,7 @@ extension EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties: Sw
 
 extension EntityResolutionClientTypes {
     /// An object containing IdMappingType and ProviderProperties.
-    public struct IdNamespaceIdMappingWorkflowProperties: Swift.Equatable {
+    public struct IdNamespaceIdMappingWorkflowProperties {
         /// The type of ID mapping.
         /// This member is required.
         public var idMappingType: EntityResolutionClientTypes.IdMappingType?
@@ -4168,7 +4168,7 @@ extension EntityResolutionClientTypes.IdNamespaceInputSource: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing InputSourceARN and SchemaName.
-    public struct IdNamespaceInputSource: Swift.Equatable {
+    public struct IdNamespaceInputSource {
         /// An Glue table ARN for the input source table.
         /// This member is required.
         public var inputSourceARN: Swift.String?
@@ -4238,7 +4238,7 @@ extension EntityResolutionClientTypes.IdNamespaceSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A summary of ID namespaces.
-    public struct IdNamespaceSummary: Swift.Equatable {
+    public struct IdNamespaceSummary {
         /// The timestamp of when the ID namespace was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -4330,7 +4330,7 @@ extension EntityResolutionClientTypes.IncrementalRunConfig: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
-    public struct IncrementalRunConfig: Swift.Equatable {
+    public struct IncrementalRunConfig {
         /// The type of incremental run. It takes only one value: IMMEDIATE.
         public var incrementalRunType: EntityResolutionClientTypes.IncrementalRunType?
 
@@ -4406,7 +4406,7 @@ extension EntityResolutionClientTypes.InputSource: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing InputSourceARN, SchemaName, and ApplyNormalization.
-    public struct InputSource: Swift.Equatable {
+    public struct InputSource {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public var applyNormalization: Swift.Bool?
         /// An Glue table ARN for the input source table.
@@ -4451,7 +4451,7 @@ extension EntityResolutionClientTypes.IntermediateSourceConfiguration: Swift.Cod
 
 extension EntityResolutionClientTypes {
     /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
-    public struct IntermediateSourceConfiguration: Swift.Equatable {
+    public struct IntermediateSourceConfiguration {
         /// The Amazon S3 location (bucket and prefix). For example: s3://provider_bucket/DOC-EXAMPLE-BUCKET
         /// This member is required.
         public var intermediateS3Path: Swift.String?
@@ -4505,7 +4505,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -4560,7 +4560,7 @@ extension EntityResolutionClientTypes.JobMetrics: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing InputRecords, TotalRecordsProcessed, MatchIDs, and RecordsNotProcessed.
-    public struct JobMetrics: Swift.Equatable {
+    public struct JobMetrics {
         /// The total number of input records.
         public var inputRecords: Swift.Int?
         /// The total number of matchIDs generated.
@@ -4619,7 +4619,7 @@ extension EntityResolutionClientTypes.JobOutputSource: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing KMSArn, OutputS3Path, and RoleArn.
-    public struct JobOutputSource: Swift.Equatable {
+    public struct JobOutputSource {
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
         public var kmsArn: Swift.String?
         /// The S3 path to which Entity Resolution will write the output table.
@@ -4720,7 +4720,7 @@ extension EntityResolutionClientTypes.JobSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing the JobId, Status, StartTime, and EndTime of a job.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The time at which the job has finished.
         public var endTime: ClientRuntime.Date?
         /// The ID of the job.
@@ -4775,7 +4775,7 @@ extension ListIdMappingJobsInput {
     }
 }
 
-public struct ListIdMappingJobsInput: Swift.Equatable {
+public struct ListIdMappingJobsInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -4796,7 +4796,7 @@ public struct ListIdMappingJobsInput: Swift.Equatable {
     }
 }
 
-struct ListIdMappingJobsInputBody: Swift.Equatable {
+struct ListIdMappingJobsInputBody {
 }
 
 extension ListIdMappingJobsInputBody: Swift.Decodable {
@@ -4819,7 +4819,7 @@ extension ListIdMappingJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdMappingJobsOutput: Swift.Equatable {
+public struct ListIdMappingJobsOutput {
     /// A list of JobSummary objects.
     public var jobs: [EntityResolutionClientTypes.JobSummary]?
     /// The pagination token from the previous API call.
@@ -4835,7 +4835,7 @@ public struct ListIdMappingJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListIdMappingJobsOutputBody: Swift.Equatable {
+struct ListIdMappingJobsOutputBody {
     let jobs: [EntityResolutionClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -4902,7 +4902,7 @@ extension ListIdMappingWorkflowsInput {
     }
 }
 
-public struct ListIdMappingWorkflowsInput: Swift.Equatable {
+public struct ListIdMappingWorkflowsInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -4918,7 +4918,7 @@ public struct ListIdMappingWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListIdMappingWorkflowsInputBody: Swift.Equatable {
+struct ListIdMappingWorkflowsInputBody {
 }
 
 extension ListIdMappingWorkflowsInputBody: Swift.Decodable {
@@ -4941,7 +4941,7 @@ extension ListIdMappingWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdMappingWorkflowsOutput: Swift.Equatable {
+public struct ListIdMappingWorkflowsOutput {
     /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of IdMappingWorkflowSummary objects.
@@ -4957,7 +4957,7 @@ public struct ListIdMappingWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListIdMappingWorkflowsOutputBody: Swift.Equatable {
+struct ListIdMappingWorkflowsOutputBody {
     let workflowSummaries: [EntityResolutionClientTypes.IdMappingWorkflowSummary]?
     let nextToken: Swift.String?
 }
@@ -5023,7 +5023,7 @@ extension ListIdNamespacesInput {
     }
 }
 
-public struct ListIdNamespacesInput: Swift.Equatable {
+public struct ListIdNamespacesInput {
     /// The maximum number of IdNamespace objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -5039,7 +5039,7 @@ public struct ListIdNamespacesInput: Swift.Equatable {
     }
 }
 
-struct ListIdNamespacesInputBody: Swift.Equatable {
+struct ListIdNamespacesInputBody {
 }
 
 extension ListIdNamespacesInputBody: Swift.Decodable {
@@ -5062,7 +5062,7 @@ extension ListIdNamespacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIdNamespacesOutput: Swift.Equatable {
+public struct ListIdNamespacesOutput {
     /// A list of IdNamespaceSummaries objects.
     public var idNamespaceSummaries: [EntityResolutionClientTypes.IdNamespaceSummary]?
     /// The pagination token from the previous API call.
@@ -5078,7 +5078,7 @@ public struct ListIdNamespacesOutput: Swift.Equatable {
     }
 }
 
-struct ListIdNamespacesOutputBody: Swift.Equatable {
+struct ListIdNamespacesOutputBody {
     let idNamespaceSummaries: [EntityResolutionClientTypes.IdNamespaceSummary]?
     let nextToken: Swift.String?
 }
@@ -5147,7 +5147,7 @@ extension ListMatchingJobsInput {
     }
 }
 
-public struct ListMatchingJobsInput: Swift.Equatable {
+public struct ListMatchingJobsInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -5168,7 +5168,7 @@ public struct ListMatchingJobsInput: Swift.Equatable {
     }
 }
 
-struct ListMatchingJobsInputBody: Swift.Equatable {
+struct ListMatchingJobsInputBody {
 }
 
 extension ListMatchingJobsInputBody: Swift.Decodable {
@@ -5191,7 +5191,7 @@ extension ListMatchingJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMatchingJobsOutput: Swift.Equatable {
+public struct ListMatchingJobsOutput {
     /// A list of JobSummary objects, each of which contain the ID, status, start time, and end time of a job.
     public var jobs: [EntityResolutionClientTypes.JobSummary]?
     /// The pagination token from the previous API call.
@@ -5207,7 +5207,7 @@ public struct ListMatchingJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListMatchingJobsOutputBody: Swift.Equatable {
+struct ListMatchingJobsOutputBody {
     let jobs: [EntityResolutionClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -5274,7 +5274,7 @@ extension ListMatchingWorkflowsInput {
     }
 }
 
-public struct ListMatchingWorkflowsInput: Swift.Equatable {
+public struct ListMatchingWorkflowsInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -5290,7 +5290,7 @@ public struct ListMatchingWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListMatchingWorkflowsInputBody: Swift.Equatable {
+struct ListMatchingWorkflowsInputBody {
 }
 
 extension ListMatchingWorkflowsInputBody: Swift.Decodable {
@@ -5313,7 +5313,7 @@ extension ListMatchingWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMatchingWorkflowsOutput: Swift.Equatable {
+public struct ListMatchingWorkflowsOutput {
     /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of MatchingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, and UpdatedAt.
@@ -5329,7 +5329,7 @@ public struct ListMatchingWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListMatchingWorkflowsOutputBody: Swift.Equatable {
+struct ListMatchingWorkflowsOutputBody {
     let workflowSummaries: [EntityResolutionClientTypes.MatchingWorkflowSummary]?
     let nextToken: Swift.String?
 }
@@ -5399,7 +5399,7 @@ extension ListProviderServicesInput {
     }
 }
 
-public struct ListProviderServicesInput: Swift.Equatable {
+public struct ListProviderServicesInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -5419,7 +5419,7 @@ public struct ListProviderServicesInput: Swift.Equatable {
     }
 }
 
-struct ListProviderServicesInputBody: Swift.Equatable {
+struct ListProviderServicesInputBody {
 }
 
 extension ListProviderServicesInputBody: Swift.Decodable {
@@ -5442,7 +5442,7 @@ extension ListProviderServicesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProviderServicesOutput: Swift.Equatable {
+public struct ListProviderServicesOutput {
     /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of ProviderServices objects.
@@ -5458,7 +5458,7 @@ public struct ListProviderServicesOutput: Swift.Equatable {
     }
 }
 
-struct ListProviderServicesOutputBody: Swift.Equatable {
+struct ListProviderServicesOutputBody {
     let providerServiceSummaries: [EntityResolutionClientTypes.ProviderServiceSummary]?
     let nextToken: Swift.String?
 }
@@ -5524,7 +5524,7 @@ extension ListSchemaMappingsInput {
     }
 }
 
-public struct ListSchemaMappingsInput: Swift.Equatable {
+public struct ListSchemaMappingsInput {
     /// The maximum number of objects returned per page.
     public var maxResults: Swift.Int?
     /// The pagination token from the previous API call.
@@ -5540,7 +5540,7 @@ public struct ListSchemaMappingsInput: Swift.Equatable {
     }
 }
 
-struct ListSchemaMappingsInputBody: Swift.Equatable {
+struct ListSchemaMappingsInputBody {
 }
 
 extension ListSchemaMappingsInputBody: Swift.Decodable {
@@ -5563,7 +5563,7 @@ extension ListSchemaMappingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemaMappingsOutput: Swift.Equatable {
+public struct ListSchemaMappingsOutput {
     /// The pagination token from the previous API call.
     public var nextToken: Swift.String?
     /// A list of SchemaMappingSummary objects, each of which contain the fields SchemaName, SchemaArn, CreatedAt, UpdatedAt.
@@ -5579,7 +5579,7 @@ public struct ListSchemaMappingsOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemaMappingsOutputBody: Swift.Equatable {
+struct ListSchemaMappingsOutputBody {
     let schemaList: [EntityResolutionClientTypes.SchemaMappingSummary]?
     let nextToken: Swift.String?
 }
@@ -5632,7 +5632,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource for which you want to view tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5645,7 +5645,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5666,7 +5666,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags used to organize, track, or control access for this resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -5679,7 +5679,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5762,7 +5762,7 @@ extension EntityResolutionClientTypes.MatchingWorkflowSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A list of MatchingWorkflowSummary objects, each of which contain the fields WorkflowName, WorkflowArn, CreatedAt, UpdatedAt.
-    public struct MatchingWorkflowSummary: Swift.Equatable {
+    public struct MatchingWorkflowSummary {
         /// The timestamp of when the workflow was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -5824,7 +5824,7 @@ extension EntityResolutionClientTypes.NamespaceProviderProperties: Swift.Codable
 
 extension EntityResolutionClientTypes {
     /// An object containing ProviderConfiguration and ProviderServiceArn.
-    public struct NamespaceProviderProperties: Swift.Equatable {
+    public struct NamespaceProviderProperties {
         /// An object which defines any additional configurations required by the provider service.
         public var providerConfiguration: ClientRuntime.Document?
         /// The Amazon Resource Name (ARN) of the provider service.
@@ -5870,7 +5870,7 @@ extension EntityResolutionClientTypes.OutputAttribute: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
-    public struct OutputAttribute: Swift.Equatable {
+    public struct OutputAttribute {
         /// Enables the ability to hash the column values in the output.
         public var hashed: Swift.Bool?
         /// A name of a column to be written to the output. This must be an InputField name in the schema mapping.
@@ -5940,7 +5940,7 @@ extension EntityResolutionClientTypes.OutputSource: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A list of OutputAttribute objects, each of which have the fields Name and Hashed. Each of these objects selects a column to be included in the output table, and whether the values of the column should be hashed.
-    public struct OutputSource: Swift.Equatable {
+    public struct OutputSource {
         /// Normalizes the attributes defined in the schema in the input data. For example, if an attribute has an AttributeType of PHONE_NUMBER, and the data in the input table is in a format of 1234567890, Entity Resolution will normalize this field in the output to (123)-456-7890.
         public var applyNormalization: Swift.Bool?
         /// Customer KMS ARN for encryption at rest. If not provided, system will use an Entity Resolution managed KMS key.
@@ -6031,7 +6031,7 @@ extension EntityResolutionClientTypes.ProviderComponentSchema: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// The input schema supported by provider service.
-    public struct ProviderComponentSchema: Swift.Equatable {
+    public struct ProviderComponentSchema {
         /// The provider schema attributes.
         public var providerSchemaAttributes: [EntityResolutionClientTypes.ProviderSchemaAttribute]?
         /// Input schema for the provider service.
@@ -6078,7 +6078,7 @@ extension EntityResolutionClientTypes.ProviderEndpointConfiguration: Swift.Codab
 
 extension EntityResolutionClientTypes {
     /// The required configuration fields to use with the provider service.
-    public enum ProviderEndpointConfiguration: Swift.Equatable {
+    public enum ProviderEndpointConfiguration {
         /// The identifiers of the provider service, from Data Exchange.
         case marketplaceconfiguration(EntityResolutionClientTypes.ProviderMarketplaceConfiguration)
         case sdkUnknown(Swift.String)
@@ -6119,7 +6119,7 @@ extension EntityResolutionClientTypes.ProviderIdNameSpaceConfiguration: Swift.Co
 
 extension EntityResolutionClientTypes {
     /// The provider configuration required for different ID namespace types.
-    public struct ProviderIdNameSpaceConfiguration: Swift.Equatable {
+    public struct ProviderIdNameSpaceConfiguration {
         /// The description of the ID namespace.
         public var description: Swift.String?
         /// Configurations required for the source ID namespace.
@@ -6192,7 +6192,7 @@ extension EntityResolutionClientTypes.ProviderIntermediateDataAccessConfiguratio
 
 extension EntityResolutionClientTypes {
     /// The required configuration fields to give intermediate access to a provider service.
-    public struct ProviderIntermediateDataAccessConfiguration: Swift.Equatable {
+    public struct ProviderIntermediateDataAccessConfiguration {
         /// The Amazon Web Services account that provider can use to read or write data into the customer's intermediate S3 bucket.
         public var awsAccountIds: [Swift.String]?
         /// The S3 bucket actions that the provider requires permission for.
@@ -6249,7 +6249,7 @@ extension EntityResolutionClientTypes.ProviderMarketplaceConfiguration: Swift.Co
 
 extension EntityResolutionClientTypes {
     /// The identifiers of the provider service, from Data Exchange.
-    public struct ProviderMarketplaceConfiguration: Swift.Equatable {
+    public struct ProviderMarketplaceConfiguration {
         /// The asset ID on Data Exchange.
         /// This member is required.
         public var assetId: Swift.String?
@@ -6312,7 +6312,7 @@ extension EntityResolutionClientTypes.ProviderProperties: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing the providerServiceARN, intermediateSourceConfiguration, and providerConfiguration.
-    public struct ProviderProperties: Swift.Equatable {
+    public struct ProviderProperties {
         /// The Amazon S3 location that temporarily stores your data while it processes. Your information won't be saved permanently.
         public var intermediateSourceConfiguration: EntityResolutionClientTypes.IntermediateSourceConfiguration?
         /// The required configuration fields to use with the provider service.
@@ -6374,7 +6374,7 @@ extension EntityResolutionClientTypes.ProviderSchemaAttribute: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// The provider schema attribute.
-    public struct ProviderSchemaAttribute: Swift.Equatable {
+    public struct ProviderSchemaAttribute {
         /// The field name.
         /// This member is required.
         public var fieldName: Swift.String?
@@ -6447,7 +6447,7 @@ extension EntityResolutionClientTypes.ProviderServiceSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// A list of ProviderService objects, each of which contain the fields providerName, providerServiceArn, providerServiceName, and providerServiceType.
-    public struct ProviderServiceSummary: Swift.Equatable {
+    public struct ProviderServiceSummary {
         /// The name of the provider. This name is typically the company name.
         /// This member is required.
         public var providerName: Swift.String?
@@ -6509,7 +6509,7 @@ extension PutPolicyInput {
     }
 }
 
-public struct PutPolicyInput: Swift.Equatable {
+public struct PutPolicyInput {
     /// The Amazon Resource Name (ARN) of the resource for which the policy needs to be updated.
     /// This member is required.
     public var arn: Swift.String?
@@ -6531,7 +6531,7 @@ public struct PutPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPolicyInputBody: Swift.Equatable {
+struct PutPolicyInputBody {
     let token: Swift.String?
     let policy: Swift.String?
 }
@@ -6567,7 +6567,7 @@ extension PutPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPolicyOutput: Swift.Equatable {
+public struct PutPolicyOutput {
     /// The Entity Resolution resource ARN.
     /// This member is required.
     public var arn: Swift.String?
@@ -6589,7 +6589,7 @@ public struct PutPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutPolicyOutputBody: Swift.Equatable {
+struct PutPolicyOutputBody {
     let arn: Swift.String?
     let token: Swift.String?
     let policy: Swift.String?
@@ -6662,7 +6662,7 @@ extension EntityResolutionClientTypes.ResolutionTechniques: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object which defines the resolutionType and the ruleBasedProperties.
-    public struct ResolutionTechniques: Swift.Equatable {
+    public struct ResolutionTechniques {
         /// The properties of the provider service.
         public var providerProperties: EntityResolutionClientTypes.ProviderProperties?
         /// The type of matching. There are three types of matching: RULE_MATCHING, ML_MATCHING, and PROVIDER.
@@ -6759,7 +6759,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6814,7 +6814,7 @@ extension EntityResolutionClientTypes.Rule: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing RuleName, and MatchingKeys.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// A list of MatchingKeys. The MatchingKeys must have been defined in the SchemaMapping. Two records are considered to match according to this rule if all of the MatchingKeys match.
         /// This member is required.
         public var matchingKeys: [Swift.String]?
@@ -6873,7 +6873,7 @@ extension EntityResolutionClientTypes.RuleBasedProperties: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object which defines the list of matching rules to run and has a field Rules, which is a list of rule objects.
-    public struct RuleBasedProperties: Swift.Equatable {
+    public struct RuleBasedProperties {
         /// The comparison type. You can either choose ONE_TO_ONE or MANY_TO_MANY as the AttributeMatchingModel. When choosing MANY_TO_MANY, the system can match attributes across the sub-types of an attribute type. For example, if the value of the Email field of Profile A and the value of BusinessEmail field of Profile B matches, the two profiles are matched on the Email type. When choosing ONE_TO_ONE ,the system can only match if the sub-types are exact matches. For example, only when the value of the Email field of Profile A and the value of the Email field of Profile B matches, the two profiles are matched on the Email type.
         /// This member is required.
         public var attributeMatchingModel: EntityResolutionClientTypes.AttributeMatchingModel?
@@ -7024,7 +7024,7 @@ extension EntityResolutionClientTypes.SchemaInputAttribute: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing FieldName, Type, GroupName, MatchKey, and SubType.
-    public struct SchemaInputAttribute: Swift.Equatable {
+    public struct SchemaInputAttribute {
         /// A string containing the field name.
         /// This member is required.
         public var fieldName: Swift.String?
@@ -7101,7 +7101,7 @@ extension EntityResolutionClientTypes.SchemaMappingSummary: Swift.Codable {
 
 extension EntityResolutionClientTypes {
     /// An object containing SchemaName, SchemaArn, CreatedAt, andUpdatedAt.
-    public struct SchemaMappingSummary: Swift.Equatable {
+    public struct SchemaMappingSummary {
         /// The timestamp of when the SchemaMapping was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -7194,7 +7194,7 @@ extension StartIdMappingJobInput {
     }
 }
 
-public struct StartIdMappingJobInput: Swift.Equatable {
+public struct StartIdMappingJobInput {
     /// A list of OutputSource objects.
     public var outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]?
     /// The name of the ID mapping job to be retrieved.
@@ -7211,7 +7211,7 @@ public struct StartIdMappingJobInput: Swift.Equatable {
     }
 }
 
-struct StartIdMappingJobInputBody: Swift.Equatable {
+struct StartIdMappingJobInputBody {
     let outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]?
 }
 
@@ -7250,7 +7250,7 @@ extension StartIdMappingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartIdMappingJobOutput: Swift.Equatable {
+public struct StartIdMappingJobOutput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7267,7 +7267,7 @@ public struct StartIdMappingJobOutput: Swift.Equatable {
     }
 }
 
-struct StartIdMappingJobOutputBody: Swift.Equatable {
+struct StartIdMappingJobOutputBody {
     let jobId: Swift.String?
     let outputSourceConfig: [EntityResolutionClientTypes.IdMappingJobOutputSource]?
 }
@@ -7323,7 +7323,7 @@ extension StartMatchingJobInput {
     }
 }
 
-public struct StartMatchingJobInput: Swift.Equatable {
+public struct StartMatchingJobInput {
     /// The name of the matching job to be retrieved.
     /// This member is required.
     public var workflowName: Swift.String?
@@ -7336,7 +7336,7 @@ public struct StartMatchingJobInput: Swift.Equatable {
     }
 }
 
-struct StartMatchingJobInputBody: Swift.Equatable {
+struct StartMatchingJobInputBody {
 }
 
 extension StartMatchingJobInputBody: Swift.Decodable {
@@ -7357,7 +7357,7 @@ extension StartMatchingJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMatchingJobOutput: Swift.Equatable {
+public struct StartMatchingJobOutput {
     /// The ID of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -7370,7 +7370,7 @@ public struct StartMatchingJobOutput: Swift.Equatable {
     }
 }
 
-struct StartMatchingJobOutputBody: Swift.Equatable {
+struct StartMatchingJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -7461,7 +7461,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource for which you want to view tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7479,7 +7479,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7509,7 +7509,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -7566,7 +7566,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -7608,7 +7608,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource for which you want to untag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7626,7 +7626,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7640,7 +7640,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7702,7 +7702,7 @@ extension UpdateIdMappingWorkflowInput {
     }
 }
 
-public struct UpdateIdMappingWorkflowInput: Swift.Equatable {
+public struct UpdateIdMappingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines the idMappingType and the providerProperties.
@@ -7738,7 +7738,7 @@ public struct UpdateIdMappingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdMappingWorkflowInputBody: Swift.Equatable {
+struct UpdateIdMappingWorkflowInputBody {
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowInputSource]?
     let outputSourceConfig: [EntityResolutionClientTypes.IdMappingWorkflowOutputSource]?
@@ -7812,7 +7812,7 @@ extension UpdateIdMappingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIdMappingWorkflowOutput: Swift.Equatable {
+public struct UpdateIdMappingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines the idMappingType and the providerProperties.
@@ -7853,7 +7853,7 @@ public struct UpdateIdMappingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdMappingWorkflowOutputBody: Swift.Equatable {
+struct UpdateIdMappingWorkflowOutputBody {
     let workflowName: Swift.String?
     let workflowArn: Swift.String?
     let description: Swift.String?
@@ -7967,7 +7967,7 @@ extension UpdateIdNamespaceInput {
     }
 }
 
-public struct UpdateIdNamespaceInput: Swift.Equatable {
+public struct UpdateIdNamespaceInput {
     /// The description of the ID namespace.
     public var description: Swift.String?
     /// Determines the properties of IdMappingWorkflow where this IdNamespace can be used as a Source or a Target.
@@ -7996,7 +7996,7 @@ public struct UpdateIdNamespaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateIdNamespaceInputBody: Swift.Equatable {
+struct UpdateIdNamespaceInputBody {
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.IdNamespaceInputSource]?
     let idMappingWorkflowProperties: [EntityResolutionClientTypes.IdNamespaceIdMappingWorkflowProperties]?
@@ -8070,7 +8070,7 @@ extension UpdateIdNamespaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIdNamespaceOutput: Swift.Equatable {
+public struct UpdateIdNamespaceOutput {
     /// The timestamp of when the ID namespace was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -8119,7 +8119,7 @@ public struct UpdateIdNamespaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIdNamespaceOutputBody: Swift.Equatable {
+struct UpdateIdNamespaceOutputBody {
     let idNamespaceName: Swift.String?
     let idNamespaceArn: Swift.String?
     let description: Swift.String?
@@ -8249,7 +8249,7 @@ extension UpdateMatchingWorkflowInput {
     }
 }
 
-public struct UpdateMatchingWorkflowInput: Swift.Equatable {
+public struct UpdateMatchingWorkflowInput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -8290,7 +8290,7 @@ public struct UpdateMatchingWorkflowInput: Swift.Equatable {
     }
 }
 
-struct UpdateMatchingWorkflowInputBody: Swift.Equatable {
+struct UpdateMatchingWorkflowInputBody {
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.InputSource]?
     let outputSourceConfig: [EntityResolutionClientTypes.OutputSource]?
@@ -8368,7 +8368,7 @@ extension UpdateMatchingWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMatchingWorkflowOutput: Swift.Equatable {
+public struct UpdateMatchingWorkflowOutput {
     /// A description of the workflow.
     public var description: Swift.String?
     /// An object which defines an incremental run type and has only incrementalRunType as a field.
@@ -8409,7 +8409,7 @@ public struct UpdateMatchingWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMatchingWorkflowOutputBody: Swift.Equatable {
+struct UpdateMatchingWorkflowOutputBody {
     let workflowName: Swift.String?
     let description: Swift.String?
     let inputSourceConfig: [EntityResolutionClientTypes.InputSource]?
@@ -8512,7 +8512,7 @@ extension UpdateSchemaMappingInput {
     }
 }
 
-public struct UpdateSchemaMappingInput: Swift.Equatable {
+public struct UpdateSchemaMappingInput {
     /// A description of the schema.
     public var description: Swift.String?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
@@ -8534,7 +8534,7 @@ public struct UpdateSchemaMappingInput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaMappingInputBody: Swift.Equatable {
+struct UpdateSchemaMappingInputBody {
     let description: Swift.String?
     let mappedInputFields: [EntityResolutionClientTypes.SchemaInputAttribute]?
 }
@@ -8581,7 +8581,7 @@ extension UpdateSchemaMappingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSchemaMappingOutput: Swift.Equatable {
+public struct UpdateSchemaMappingOutput {
     /// A description of the schema.
     public var description: Swift.String?
     /// A list of MappedInputFields. Each MappedInputField corresponds to a column the source data table, and contains column name plus additional information that Entity Resolution uses for matching.
@@ -8608,7 +8608,7 @@ public struct UpdateSchemaMappingOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSchemaMappingOutputBody: Swift.Equatable {
+struct UpdateSchemaMappingOutputBody {
     let schemaName: Swift.String?
     let schemaArn: Swift.String?
     let description: Swift.String?
@@ -8700,7 +8700,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

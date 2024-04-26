@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -84,7 +84,7 @@ extension ControlCatalogClientTypes.AssociatedDomainSummary: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// A summary of the domain that a common control or an objective belongs to.
-    public struct AssociatedDomainSummary: Swift.Equatable {
+    public struct AssociatedDomainSummary {
         /// The Amazon Resource Name (ARN) of the related domain.
         public var arn: Swift.String?
         /// The name of the related domain.
@@ -129,7 +129,7 @@ extension ControlCatalogClientTypes.AssociatedObjectiveSummary: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// A summary of the objective that a common control supports.
-    public struct AssociatedObjectiveSummary: Swift.Equatable {
+    public struct AssociatedObjectiveSummary {
         /// The Amazon Resource Name (ARN) of the related objective.
         public var arn: Swift.String?
         /// The name of the related objective.
@@ -180,7 +180,7 @@ extension ControlCatalogClientTypes.CommonControlFilter: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// An optional filter that narrows the results to a specific objective.
-    public struct CommonControlFilter: Swift.Equatable {
+    public struct CommonControlFilter {
         /// The objective that's used as filter criteria. You can use this parameter to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
         public var objectives: [ControlCatalogClientTypes.ObjectiveResourceFilter]?
 
@@ -251,7 +251,7 @@ extension ControlCatalogClientTypes.CommonControlSummary: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// A summary of metadata for a common control.
-    public struct CommonControlSummary: Swift.Equatable {
+    public struct CommonControlSummary {
         /// The Amazon Resource Name (ARN) that identifies the common control.
         /// This member is required.
         public var arn: Swift.String?
@@ -319,7 +319,7 @@ extension ControlCatalogClientTypes.DomainResourceFilter: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// The domain resource that's being used as a filter.
-    public struct DomainResourceFilter: Swift.Equatable {
+    public struct DomainResourceFilter {
         /// The Amazon Resource Name (ARN) of the domain.
         public var arn: Swift.String?
 
@@ -378,7 +378,7 @@ extension ControlCatalogClientTypes.DomainSummary: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// A summary of metadata for a domain.
-    public struct DomainSummary: Swift.Equatable {
+    public struct DomainSummary {
         /// The Amazon Resource Name (ARN) that identifies the domain.
         /// This member is required.
         public var arn: Swift.String?
@@ -452,7 +452,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -504,7 +504,7 @@ extension ListCommonControlsInput {
     }
 }
 
-public struct ListCommonControlsInput: Swift.Equatable {
+public struct ListCommonControlsInput {
     /// An optional filter that narrows the results to a specific objective. This filter allows you to specify one objective ARN at a time. Passing multiple ARNs in the CommonControlFilter isn’t currently supported.
     public var commonControlFilter: ControlCatalogClientTypes.CommonControlFilter?
     /// The maximum number of results on a page or for an API request call.
@@ -524,7 +524,7 @@ public struct ListCommonControlsInput: Swift.Equatable {
     }
 }
 
-struct ListCommonControlsInputBody: Swift.Equatable {
+struct ListCommonControlsInputBody {
     let commonControlFilter: ControlCatalogClientTypes.CommonControlFilter?
 }
 
@@ -554,7 +554,7 @@ extension ListCommonControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCommonControlsOutput: Swift.Equatable {
+public struct ListCommonControlsOutput {
     /// The list of common controls that the ListCommonControls API returns.
     /// This member is required.
     public var commonControls: [ControlCatalogClientTypes.CommonControlSummary]?
@@ -571,7 +571,7 @@ public struct ListCommonControlsOutput: Swift.Equatable {
     }
 }
 
-struct ListCommonControlsOutputBody: Swift.Equatable {
+struct ListCommonControlsOutputBody {
     let commonControls: [ControlCatalogClientTypes.CommonControlSummary]?
     let nextToken: Swift.String?
 }
@@ -637,7 +637,7 @@ extension ListDomainsInput {
     }
 }
 
-public struct ListDomainsInput: Swift.Equatable {
+public struct ListDomainsInput {
     /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -653,7 +653,7 @@ public struct ListDomainsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainsInputBody: Swift.Equatable {
+struct ListDomainsInputBody {
 }
 
 extension ListDomainsInputBody: Swift.Decodable {
@@ -676,7 +676,7 @@ extension ListDomainsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDomainsOutput: Swift.Equatable {
+public struct ListDomainsOutput {
     /// The list of domains that the ListDomains API returns.
     /// This member is required.
     public var domains: [ControlCatalogClientTypes.DomainSummary]?
@@ -693,7 +693,7 @@ public struct ListDomainsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainsOutputBody: Swift.Equatable {
+struct ListDomainsOutputBody {
     let domains: [ControlCatalogClientTypes.DomainSummary]?
     let nextToken: Swift.String?
 }
@@ -772,7 +772,7 @@ extension ListObjectivesInput {
     }
 }
 
-public struct ListObjectivesInput: Swift.Equatable {
+public struct ListObjectivesInput {
     /// The maximum number of results on a page or for an API request call.
     public var maxResults: Swift.Int?
     /// The pagination token that's used to fetch the next set of results.
@@ -792,7 +792,7 @@ public struct ListObjectivesInput: Swift.Equatable {
     }
 }
 
-struct ListObjectivesInputBody: Swift.Equatable {
+struct ListObjectivesInputBody {
     let objectiveFilter: ControlCatalogClientTypes.ObjectiveFilter?
 }
 
@@ -822,7 +822,7 @@ extension ListObjectivesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListObjectivesOutput: Swift.Equatable {
+public struct ListObjectivesOutput {
     /// The pagination token that's used to fetch the next set of results.
     public var nextToken: Swift.String?
     /// The list of objectives that the ListObjectives API returns.
@@ -839,7 +839,7 @@ public struct ListObjectivesOutput: Swift.Equatable {
     }
 }
 
-struct ListObjectivesOutputBody: Swift.Equatable {
+struct ListObjectivesOutputBody {
     let objectives: [ControlCatalogClientTypes.ObjectiveSummary]?
     let nextToken: Swift.String?
 }
@@ -915,7 +915,7 @@ extension ControlCatalogClientTypes.ObjectiveFilter: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// An optional filter that narrows the list of objectives to a specific domain.
-    public struct ObjectiveFilter: Swift.Equatable {
+    public struct ObjectiveFilter {
         /// The domain that's used as filter criteria. You can use this parameter to specify one domain ARN at a time. Passing multiple ARNs in the ObjectiveFilter isn’t currently supported.
         public var domains: [ControlCatalogClientTypes.DomainResourceFilter]?
 
@@ -950,7 +950,7 @@ extension ControlCatalogClientTypes.ObjectiveResourceFilter: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// The objective resource that's being used as a filter.
-    public struct ObjectiveResourceFilter: Swift.Equatable {
+    public struct ObjectiveResourceFilter {
         /// The Amazon Resource Name (ARN) of the objective.
         public var arn: Swift.String?
 
@@ -1015,7 +1015,7 @@ extension ControlCatalogClientTypes.ObjectiveSummary: Swift.Codable {
 
 extension ControlCatalogClientTypes {
     /// A summary of metadata for an objective.
-    public struct ObjectiveSummary: Swift.Equatable {
+    public struct ObjectiveSummary {
         /// The Amazon Resource Name (ARN) that identifies the objective.
         /// This member is required.
         public var arn: Swift.String?
@@ -1094,7 +1094,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1149,7 +1149,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

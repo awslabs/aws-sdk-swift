@@ -41,7 +41,7 @@ extension FraudDetectorClientTypes.ATIMetricDataPoint: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Account Takeover Insights (ATI) model performance metrics data points.
-    public struct ATIMetricDataPoint: Swift.Equatable {
+    public struct ATIMetricDataPoint {
         /// The anomaly discovery rate. This metric quantifies the percentage of anomalies that can be detected by the model at the selected score threshold. A lower score threshold increases the percentage of anomalies captured by the model, but would also require challenging a larger percentage of login events, leading to a higher customer friction.
         public var adr: Swift.Float?
         /// The account takeover discovery rate. This metric quantifies the percentage of account compromise events that can be detected by the model at the selected score threshold. This metric is only available if 50 or more entities with at-least one labeled account takeover event is present in the ingested dataset.
@@ -88,7 +88,7 @@ extension FraudDetectorClientTypes.ATIModelPerformance: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Account Takeover Insights (ATI) model performance score.
-    public struct ATIModelPerformance: Swift.Equatable {
+    public struct ATIModelPerformance {
         /// The anomaly separation index (ASI) score. This metric summarizes the overall ability of the model to separate anomalous activities from the normal behavior. Depending on the business, a large fraction of these anomalous activities can be malicious and correspond to the account takeover attacks. A model with no separability power will have the lowest possible ASI score of 0.5, whereas the a model with a high separability power will have the highest possible ASI score of 1.0
         public var asi: Swift.Float?
 
@@ -141,7 +141,7 @@ extension FraudDetectorClientTypes.ATITrainingMetricsValue: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Account Takeover Insights (ATI) model training metric details.
-    public struct ATITrainingMetricsValue: Swift.Equatable {
+    public struct ATITrainingMetricsValue {
         /// The model's performance metrics data points.
         public var metricDataPoints: [FraudDetectorClientTypes.ATIMetricDataPoint]?
         /// The model's overall performance scores.
@@ -199,7 +199,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -254,7 +254,7 @@ extension FraudDetectorClientTypes.AggregatedLogOddsMetric: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The log odds metric details. Account Takeover Insights (ATI) model uses event variables from the login data you provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address. In this case, event variables used to derive the aggregated variables are IP address and user.
-    public struct AggregatedLogOddsMetric: Swift.Equatable {
+    public struct AggregatedLogOddsMetric {
         /// The relative importance of the variables in the list to the other event variable.
         /// This member is required.
         public var aggregatedVariablesImportance: Swift.Float?
@@ -319,7 +319,7 @@ extension FraudDetectorClientTypes.AggregatedVariablesImpactExplanation: Swift.C
 
 extension FraudDetectorClientTypes {
     /// The details of the impact of aggregated variables on the prediction score. Account Takeover Insights (ATI) model uses the login data you provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, the model might calculate the number of times an user has logged in using the same IP address. In this case, event variables used to derive the aggregated variables are IP address and user.
-    public struct AggregatedVariablesImpactExplanation: Swift.Equatable {
+    public struct AggregatedVariablesImpactExplanation {
         /// The names of all the event variables that were used to derive the aggregated variables.
         public var eventVariableNames: [Swift.String]?
         /// The raw, uninterpreted value represented as log-odds of the fraud. These values are usually between -10 to +10, but range from -infinity to +infinity.
@@ -378,7 +378,7 @@ extension FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics: Swift.C
 
 extension FraudDetectorClientTypes {
     /// The details of the relative importance of the aggregated variables. Account Takeover Insights (ATI) model uses event variables from the login data you provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address. In this case, event variables used to derive the aggregated variables are IP address and user.
-    public struct AggregatedVariablesImportanceMetrics: Swift.Equatable {
+    public struct AggregatedVariablesImportanceMetrics {
         /// List of variables' metrics.
         public var logOddsMetrics: [FraudDetectorClientTypes.AggregatedLogOddsMetric]?
 
@@ -443,7 +443,7 @@ extension FraudDetectorClientTypes.AllowDenyList: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The metadata of a list.
-    public struct AllowDenyList: Swift.Equatable {
+    public struct AllowDenyList {
         /// The ARN of the list.
         public var arn: Swift.String?
         /// The time the list was created.
@@ -555,7 +555,7 @@ extension FraudDetectorClientTypes.BatchCreateVariableError: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Provides the error of the batch create variable API.
-    public struct BatchCreateVariableError: Swift.Equatable {
+    public struct BatchCreateVariableError {
         /// The error code.
         public var code: Swift.Int
         /// The error message.
@@ -607,7 +607,7 @@ extension BatchCreateVariableInput {
     }
 }
 
-public struct BatchCreateVariableInput: Swift.Equatable {
+public struct BatchCreateVariableInput {
     /// A collection of key and value pairs.
     public var tags: [FraudDetectorClientTypes.Tag]?
     /// The list of variables for the batch create variable request.
@@ -624,7 +624,7 @@ public struct BatchCreateVariableInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateVariableInputBody: Swift.Equatable {
+struct BatchCreateVariableInputBody {
     let variableEntries: [FraudDetectorClientTypes.VariableEntry]?
     let tags: [FraudDetectorClientTypes.Tag]?
 }
@@ -674,7 +674,7 @@ extension BatchCreateVariableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreateVariableOutput: Swift.Equatable {
+public struct BatchCreateVariableOutput {
     /// Provides the errors for the BatchCreateVariable request.
     public var errors: [FraudDetectorClientTypes.BatchCreateVariableError]?
 
@@ -686,7 +686,7 @@ public struct BatchCreateVariableOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateVariableOutputBody: Swift.Equatable {
+struct BatchCreateVariableOutputBody {
     let errors: [FraudDetectorClientTypes.BatchCreateVariableError]?
 }
 
@@ -758,7 +758,7 @@ extension FraudDetectorClientTypes.BatchGetVariableError: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Provides the error of the batch get variable API.
-    public struct BatchGetVariableError: Swift.Equatable {
+    public struct BatchGetVariableError {
         /// The error code.
         public var code: Swift.Int
         /// The error message.
@@ -803,7 +803,7 @@ extension BatchGetVariableInput {
     }
 }
 
-public struct BatchGetVariableInput: Swift.Equatable {
+public struct BatchGetVariableInput {
     /// The list of variable names to get.
     /// This member is required.
     public var names: [Swift.String]?
@@ -816,7 +816,7 @@ public struct BatchGetVariableInput: Swift.Equatable {
     }
 }
 
-struct BatchGetVariableInputBody: Swift.Equatable {
+struct BatchGetVariableInputBody {
     let names: [Swift.String]?
 }
 
@@ -855,7 +855,7 @@ extension BatchGetVariableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetVariableOutput: Swift.Equatable {
+public struct BatchGetVariableOutput {
     /// The errors from the request.
     public var errors: [FraudDetectorClientTypes.BatchGetVariableError]?
     /// The returned variables.
@@ -871,7 +871,7 @@ public struct BatchGetVariableOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetVariableOutputBody: Swift.Equatable {
+struct BatchGetVariableOutputBody {
     let variables: [FraudDetectorClientTypes.Variable]?
     let errors: [FraudDetectorClientTypes.BatchGetVariableError]?
 }
@@ -1016,7 +1016,7 @@ extension FraudDetectorClientTypes.BatchImport: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The batch import job details.
-    public struct BatchImport: Swift.Equatable {
+    public struct BatchImport {
         /// The ARN of the batch import job.
         public var arn: Swift.String?
         /// Timestamp of when batch import job completed.
@@ -1183,7 +1183,7 @@ extension FraudDetectorClientTypes.BatchPrediction: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The batch prediction details.
-    public struct BatchPrediction: Swift.Equatable {
+    public struct BatchPrediction {
         /// The ARN of batch prediction job.
         public var arn: Swift.String?
         /// Timestamp of when the batch prediction job completed.
@@ -1273,7 +1273,7 @@ extension CancelBatchImportJobInput {
     }
 }
 
-public struct CancelBatchImportJobInput: Swift.Equatable {
+public struct CancelBatchImportJobInput {
     /// The ID of an in-progress batch import job to cancel. Amazon Fraud Detector will throw an error if the batch import job is in FAILED, CANCELED, or COMPLETED state.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1286,7 +1286,7 @@ public struct CancelBatchImportJobInput: Swift.Equatable {
     }
 }
 
-struct CancelBatchImportJobInputBody: Swift.Equatable {
+struct CancelBatchImportJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -1307,7 +1307,7 @@ extension CancelBatchImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelBatchImportJobOutput: Swift.Equatable {
+public struct CancelBatchImportJobOutput {
 
     public init() { }
 }
@@ -1347,7 +1347,7 @@ extension CancelBatchPredictionJobInput {
     }
 }
 
-public struct CancelBatchPredictionJobInput: Swift.Equatable {
+public struct CancelBatchPredictionJobInput {
     /// The ID of the batch prediction job to cancel.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1360,7 +1360,7 @@ public struct CancelBatchPredictionJobInput: Swift.Equatable {
     }
 }
 
-struct CancelBatchPredictionJobInputBody: Swift.Equatable {
+struct CancelBatchPredictionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -1381,7 +1381,7 @@ extension CancelBatchPredictionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelBatchPredictionJobOutput: Swift.Equatable {
+public struct CancelBatchPredictionJobOutput {
 
     public init() { }
 }
@@ -1441,7 +1441,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -1500,7 +1500,7 @@ extension CreateBatchImportJobInput {
     }
 }
 
-public struct CreateBatchImportJobInput: Swift.Equatable {
+public struct CreateBatchImportJobInput {
     /// The name of the event type.
     /// This member is required.
     public var eventTypeName: Swift.String?
@@ -1537,7 +1537,7 @@ public struct CreateBatchImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBatchImportJobInputBody: Swift.Equatable {
+struct CreateBatchImportJobInputBody {
     let jobId: Swift.String?
     let inputPath: Swift.String?
     let outputPath: Swift.String?
@@ -1587,7 +1587,7 @@ extension CreateBatchImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBatchImportJobOutput: Swift.Equatable {
+public struct CreateBatchImportJobOutput {
 
     public init() { }
 }
@@ -1658,7 +1658,7 @@ extension CreateBatchPredictionJobInput {
     }
 }
 
-public struct CreateBatchPredictionJobInput: Swift.Equatable {
+public struct CreateBatchPredictionJobInput {
     /// The name of the detector.
     /// This member is required.
     public var detectorName: Swift.String?
@@ -1704,7 +1704,7 @@ public struct CreateBatchPredictionJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBatchPredictionJobInputBody: Swift.Equatable {
+struct CreateBatchPredictionJobInputBody {
     let jobId: Swift.String?
     let inputPath: Swift.String?
     let outputPath: Swift.String?
@@ -1762,7 +1762,7 @@ extension CreateBatchPredictionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBatchPredictionJobOutput: Swift.Equatable {
+public struct CreateBatchPredictionJobOutput {
 
     public init() { }
 }
@@ -1838,7 +1838,7 @@ extension CreateDetectorVersionInput {
     }
 }
 
-public struct CreateDetectorVersionInput: Swift.Equatable {
+public struct CreateDetectorVersionInput {
     /// The description of the detector version.
     public var description: Swift.String?
     /// The ID of the detector under which you want to create a new version.
@@ -1876,7 +1876,7 @@ public struct CreateDetectorVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateDetectorVersionInputBody: Swift.Equatable {
+struct CreateDetectorVersionInputBody {
     let detectorId: Swift.String?
     let description: Swift.String?
     let externalModelEndpoints: [Swift.String]?
@@ -1968,7 +1968,7 @@ extension CreateDetectorVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDetectorVersionOutput: Swift.Equatable {
+public struct CreateDetectorVersionOutput {
     /// The ID for the created version's parent detector.
     public var detectorId: Swift.String?
     /// The ID for the created detector.
@@ -1988,7 +1988,7 @@ public struct CreateDetectorVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateDetectorVersionOutputBody: Swift.Equatable {
+struct CreateDetectorVersionOutputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let status: FraudDetectorClientTypes.DetectorVersionStatus?
@@ -2069,7 +2069,7 @@ extension CreateListInput {
     }
 }
 
-public struct CreateListInput: Swift.Equatable {
+public struct CreateListInput {
     /// The description of the list.
     public var description: Swift.String?
     /// The names of the elements, if providing. You can also create an empty list and add elements later using the [UpdateList](https://docs.aws.amazon.com/frauddetector/latest/api/API_Updatelist.html) API.
@@ -2098,7 +2098,7 @@ public struct CreateListInput: Swift.Equatable {
     }
 }
 
-struct CreateListInputBody: Swift.Equatable {
+struct CreateListInputBody {
     let name: Swift.String?
     let elements: [Swift.String]?
     let variableType: Swift.String?
@@ -2153,7 +2153,7 @@ extension CreateListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateListOutput: Swift.Equatable {
+public struct CreateListOutput {
 
     public init() { }
 }
@@ -2211,7 +2211,7 @@ extension CreateModelInput {
     }
 }
 
-public struct CreateModelInput: Swift.Equatable {
+public struct CreateModelInput {
     /// The model description.
     public var description: Swift.String?
     /// The name of the event type.
@@ -2242,7 +2242,7 @@ public struct CreateModelInput: Swift.Equatable {
     }
 }
 
-struct CreateModelInputBody: Swift.Equatable {
+struct CreateModelInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let description: Swift.String?
@@ -2288,7 +2288,7 @@ extension CreateModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateModelOutput: Swift.Equatable {
+public struct CreateModelOutput {
 
     public init() { }
 }
@@ -2354,7 +2354,7 @@ extension CreateModelVersionInput {
     }
 }
 
-public struct CreateModelVersionInput: Swift.Equatable {
+public struct CreateModelVersionInput {
     /// Details of the external events data used for model version training. Required if trainingDataSource is EXTERNAL_EVENTS.
     public var externalEventsDetail: FraudDetectorClientTypes.ExternalEventsDetail?
     /// Details of the ingested events data used for model version training. Required if trainingDataSource is INGESTED_EVENTS.
@@ -2394,7 +2394,7 @@ public struct CreateModelVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateModelVersionInputBody: Swift.Equatable {
+struct CreateModelVersionInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let trainingDataSource: FraudDetectorClientTypes.TrainingDataSourceEnum?
@@ -2461,7 +2461,7 @@ extension CreateModelVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateModelVersionOutput: Swift.Equatable {
+public struct CreateModelVersionOutput {
     /// The model ID.
     public var modelId: Swift.String?
     /// The model type.
@@ -2485,7 +2485,7 @@ public struct CreateModelVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateModelVersionOutputBody: Swift.Equatable {
+struct CreateModelVersionOutputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -2583,7 +2583,7 @@ extension CreateRuleInput {
     }
 }
 
-public struct CreateRuleInput: Swift.Equatable {
+public struct CreateRuleInput {
     /// The rule description.
     public var description: Swift.String?
     /// The detector ID for the rule's parent detector.
@@ -2624,7 +2624,7 @@ public struct CreateRuleInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleInputBody: Swift.Equatable {
+struct CreateRuleInputBody {
     let ruleId: Swift.String?
     let detectorId: Swift.String?
     let description: Swift.String?
@@ -2694,7 +2694,7 @@ extension CreateRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleOutput: Swift.Equatable {
+public struct CreateRuleOutput {
     /// The created rule.
     public var rule: FraudDetectorClientTypes.Rule?
 
@@ -2706,7 +2706,7 @@ public struct CreateRuleOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleOutputBody: Swift.Equatable {
+struct CreateRuleOutputBody {
     let rule: FraudDetectorClientTypes.Rule?
 }
 
@@ -2783,7 +2783,7 @@ extension CreateVariableInput {
     }
 }
 
-public struct CreateVariableInput: Swift.Equatable {
+public struct CreateVariableInput {
     /// The source of the data.
     /// This member is required.
     public var dataSource: FraudDetectorClientTypes.DataSource?
@@ -2823,7 +2823,7 @@ public struct CreateVariableInput: Swift.Equatable {
     }
 }
 
-struct CreateVariableInputBody: Swift.Equatable {
+struct CreateVariableInputBody {
     let name: Swift.String?
     let dataType: FraudDetectorClientTypes.DataType?
     let dataSource: FraudDetectorClientTypes.DataSource?
@@ -2877,7 +2877,7 @@ extension CreateVariableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVariableOutput: Swift.Equatable {
+public struct CreateVariableOutput {
 
     public init() { }
 }
@@ -3023,7 +3023,7 @@ extension FraudDetectorClientTypes.DataValidationMetrics: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The model training data validation metrics.
-    public struct DataValidationMetrics: Swift.Equatable {
+    public struct DataValidationMetrics {
         /// The field-specific model training validation messages.
         public var fieldLevelMessages: [FraudDetectorClientTypes.FieldValidationMessage]?
         /// The file-specific model training data validation messages.
@@ -3061,7 +3061,7 @@ extension DeleteBatchImportJobInput {
     }
 }
 
-public struct DeleteBatchImportJobInput: Swift.Equatable {
+public struct DeleteBatchImportJobInput {
     /// The ID of the batch import job to delete.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3074,7 +3074,7 @@ public struct DeleteBatchImportJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteBatchImportJobInputBody: Swift.Equatable {
+struct DeleteBatchImportJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -3095,7 +3095,7 @@ extension DeleteBatchImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBatchImportJobOutput: Swift.Equatable {
+public struct DeleteBatchImportJobOutput {
 
     public init() { }
 }
@@ -3134,7 +3134,7 @@ extension DeleteBatchPredictionJobInput {
     }
 }
 
-public struct DeleteBatchPredictionJobInput: Swift.Equatable {
+public struct DeleteBatchPredictionJobInput {
     /// The ID of the batch prediction job to delete.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3147,7 +3147,7 @@ public struct DeleteBatchPredictionJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteBatchPredictionJobInputBody: Swift.Equatable {
+struct DeleteBatchPredictionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -3168,7 +3168,7 @@ extension DeleteBatchPredictionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBatchPredictionJobOutput: Swift.Equatable {
+public struct DeleteBatchPredictionJobOutput {
 
     public init() { }
 }
@@ -3207,7 +3207,7 @@ extension DeleteDetectorInput {
     }
 }
 
-public struct DeleteDetectorInput: Swift.Equatable {
+public struct DeleteDetectorInput {
     /// The ID of the detector to delete.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -3220,7 +3220,7 @@ public struct DeleteDetectorInput: Swift.Equatable {
     }
 }
 
-struct DeleteDetectorInputBody: Swift.Equatable {
+struct DeleteDetectorInputBody {
     let detectorId: Swift.String?
 }
 
@@ -3241,7 +3241,7 @@ extension DeleteDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDetectorOutput: Swift.Equatable {
+public struct DeleteDetectorOutput {
 
     public init() { }
 }
@@ -3285,7 +3285,7 @@ extension DeleteDetectorVersionInput {
     }
 }
 
-public struct DeleteDetectorVersionInput: Swift.Equatable {
+public struct DeleteDetectorVersionInput {
     /// The ID of the parent detector for the detector version to delete.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -3303,7 +3303,7 @@ public struct DeleteDetectorVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteDetectorVersionInputBody: Swift.Equatable {
+struct DeleteDetectorVersionInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
 }
@@ -3328,7 +3328,7 @@ extension DeleteDetectorVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDetectorVersionOutput: Swift.Equatable {
+public struct DeleteDetectorVersionOutput {
 
     public init() { }
 }
@@ -3369,7 +3369,7 @@ extension DeleteEntityTypeInput {
     }
 }
 
-public struct DeleteEntityTypeInput: Swift.Equatable {
+public struct DeleteEntityTypeInput {
     /// The name of the entity type to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3382,7 +3382,7 @@ public struct DeleteEntityTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteEntityTypeInputBody: Swift.Equatable {
+struct DeleteEntityTypeInputBody {
     let name: Swift.String?
 }
 
@@ -3403,7 +3403,7 @@ extension DeleteEntityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEntityTypeOutput: Swift.Equatable {
+public struct DeleteEntityTypeOutput {
 
     public init() { }
 }
@@ -3451,7 +3451,7 @@ extension DeleteEventInput {
     }
 }
 
-public struct DeleteEventInput: Swift.Equatable {
+public struct DeleteEventInput {
     /// Specifies whether or not to delete any predictions associated with the event. If set to True,
     public var deleteAuditHistory: Swift.Bool?
     /// The ID of the event to delete.
@@ -3473,7 +3473,7 @@ public struct DeleteEventInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventInputBody: Swift.Equatable {
+struct DeleteEventInputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
     let deleteAuditHistory: Swift.Bool?
@@ -3502,7 +3502,7 @@ extension DeleteEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventOutput: Swift.Equatable {
+public struct DeleteEventOutput {
 
     public init() { }
 }
@@ -3541,7 +3541,7 @@ extension DeleteEventTypeInput {
     }
 }
 
-public struct DeleteEventTypeInput: Swift.Equatable {
+public struct DeleteEventTypeInput {
     /// The name of the event type to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3554,7 +3554,7 @@ public struct DeleteEventTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventTypeInputBody: Swift.Equatable {
+struct DeleteEventTypeInputBody {
     let name: Swift.String?
 }
 
@@ -3575,7 +3575,7 @@ extension DeleteEventTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventTypeOutput: Swift.Equatable {
+public struct DeleteEventTypeOutput {
 
     public init() { }
 }
@@ -3615,7 +3615,7 @@ extension DeleteEventsByEventTypeInput {
     }
 }
 
-public struct DeleteEventsByEventTypeInput: Swift.Equatable {
+public struct DeleteEventsByEventTypeInput {
     /// The name of the event type.
     /// This member is required.
     public var eventTypeName: Swift.String?
@@ -3628,7 +3628,7 @@ public struct DeleteEventsByEventTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventsByEventTypeInputBody: Swift.Equatable {
+struct DeleteEventsByEventTypeInputBody {
     let eventTypeName: Swift.String?
 }
 
@@ -3658,7 +3658,7 @@ extension DeleteEventsByEventTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventsByEventTypeOutput: Swift.Equatable {
+public struct DeleteEventsByEventTypeOutput {
     /// Name of event type for which to delete the events.
     public var eventTypeName: Swift.String?
     /// The status of the delete request.
@@ -3674,7 +3674,7 @@ public struct DeleteEventsByEventTypeOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEventsByEventTypeOutputBody: Swift.Equatable {
+struct DeleteEventsByEventTypeOutputBody {
     let eventTypeName: Swift.String?
     let eventsDeletionStatus: Swift.String?
 }
@@ -3730,7 +3730,7 @@ extension DeleteExternalModelInput {
     }
 }
 
-public struct DeleteExternalModelInput: Swift.Equatable {
+public struct DeleteExternalModelInput {
     /// The endpoint of the Amazon Sagemaker model to delete.
     /// This member is required.
     public var modelEndpoint: Swift.String?
@@ -3743,7 +3743,7 @@ public struct DeleteExternalModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteExternalModelInputBody: Swift.Equatable {
+struct DeleteExternalModelInputBody {
     let modelEndpoint: Swift.String?
 }
 
@@ -3764,7 +3764,7 @@ extension DeleteExternalModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExternalModelOutput: Swift.Equatable {
+public struct DeleteExternalModelOutput {
 
     public init() { }
 }
@@ -3804,7 +3804,7 @@ extension DeleteLabelInput {
     }
 }
 
-public struct DeleteLabelInput: Swift.Equatable {
+public struct DeleteLabelInput {
     /// The name of the label to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3817,7 +3817,7 @@ public struct DeleteLabelInput: Swift.Equatable {
     }
 }
 
-struct DeleteLabelInputBody: Swift.Equatable {
+struct DeleteLabelInputBody {
     let name: Swift.String?
 }
 
@@ -3838,7 +3838,7 @@ extension DeleteLabelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLabelOutput: Swift.Equatable {
+public struct DeleteLabelOutput {
 
     public init() { }
 }
@@ -3877,7 +3877,7 @@ extension DeleteListInput {
     }
 }
 
-public struct DeleteListInput: Swift.Equatable {
+public struct DeleteListInput {
     /// The name of the list to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -3890,7 +3890,7 @@ public struct DeleteListInput: Swift.Equatable {
     }
 }
 
-struct DeleteListInputBody: Swift.Equatable {
+struct DeleteListInputBody {
     let name: Swift.String?
 }
 
@@ -3911,7 +3911,7 @@ extension DeleteListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteListOutput: Swift.Equatable {
+public struct DeleteListOutput {
 
     public init() { }
 }
@@ -3955,7 +3955,7 @@ extension DeleteModelInput {
     }
 }
 
-public struct DeleteModelInput: Swift.Equatable {
+public struct DeleteModelInput {
     /// The model ID of the model to delete.
     /// This member is required.
     public var modelId: Swift.String?
@@ -3973,7 +3973,7 @@ public struct DeleteModelInput: Swift.Equatable {
     }
 }
 
-struct DeleteModelInputBody: Swift.Equatable {
+struct DeleteModelInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
 }
@@ -3998,7 +3998,7 @@ extension DeleteModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteModelOutput: Swift.Equatable {
+public struct DeleteModelOutput {
 
     public init() { }
 }
@@ -4046,7 +4046,7 @@ extension DeleteModelVersionInput {
     }
 }
 
-public struct DeleteModelVersionInput: Swift.Equatable {
+public struct DeleteModelVersionInput {
     /// The model ID of the model version to delete.
     /// This member is required.
     public var modelId: Swift.String?
@@ -4069,7 +4069,7 @@ public struct DeleteModelVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteModelVersionInputBody: Swift.Equatable {
+struct DeleteModelVersionInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -4098,7 +4098,7 @@ extension DeleteModelVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteModelVersionOutput: Swift.Equatable {
+public struct DeleteModelVersionOutput {
 
     public init() { }
 }
@@ -4138,7 +4138,7 @@ extension DeleteOutcomeInput {
     }
 }
 
-public struct DeleteOutcomeInput: Swift.Equatable {
+public struct DeleteOutcomeInput {
     /// The name of the outcome to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4151,7 +4151,7 @@ public struct DeleteOutcomeInput: Swift.Equatable {
     }
 }
 
-struct DeleteOutcomeInputBody: Swift.Equatable {
+struct DeleteOutcomeInputBody {
     let name: Swift.String?
 }
 
@@ -4172,7 +4172,7 @@ extension DeleteOutcomeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteOutcomeOutput: Swift.Equatable {
+public struct DeleteOutcomeOutput {
 
     public init() { }
 }
@@ -4212,7 +4212,7 @@ extension DeleteRuleInput {
     }
 }
 
-public struct DeleteRuleInput: Swift.Equatable {
+public struct DeleteRuleInput {
     /// A rule.
     /// This member is required.
     public var rule: FraudDetectorClientTypes.Rule?
@@ -4225,7 +4225,7 @@ public struct DeleteRuleInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleInputBody: Swift.Equatable {
+struct DeleteRuleInputBody {
     let rule: FraudDetectorClientTypes.Rule?
 }
 
@@ -4246,7 +4246,7 @@ extension DeleteRuleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleOutput: Swift.Equatable {
+public struct DeleteRuleOutput {
 
     public init() { }
 }
@@ -4286,7 +4286,7 @@ extension DeleteVariableInput {
     }
 }
 
-public struct DeleteVariableInput: Swift.Equatable {
+public struct DeleteVariableInput {
     /// The name of the variable to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -4299,7 +4299,7 @@ public struct DeleteVariableInput: Swift.Equatable {
     }
 }
 
-struct DeleteVariableInputBody: Swift.Equatable {
+struct DeleteVariableInputBody {
     let name: Swift.String?
 }
 
@@ -4320,7 +4320,7 @@ extension DeleteVariableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVariableOutput: Swift.Equatable {
+public struct DeleteVariableOutput {
 
     public init() { }
 }
@@ -4368,7 +4368,7 @@ extension DescribeDetectorInput {
     }
 }
 
-public struct DescribeDetectorInput: Swift.Equatable {
+public struct DescribeDetectorInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -4389,7 +4389,7 @@ public struct DescribeDetectorInput: Swift.Equatable {
     }
 }
 
-struct DescribeDetectorInputBody: Swift.Equatable {
+struct DescribeDetectorInputBody {
     let detectorId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4431,7 +4431,7 @@ extension DescribeDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDetectorOutput: Swift.Equatable {
+public struct DescribeDetectorOutput {
     /// The detector ARN.
     public var arn: Swift.String?
     /// The detector ID.
@@ -4455,7 +4455,7 @@ public struct DescribeDetectorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDetectorOutputBody: Swift.Equatable {
+struct DescribeDetectorOutputBody {
     let detectorId: Swift.String?
     let detectorVersionSummaries: [FraudDetectorClientTypes.DetectorVersionSummary]?
     let nextToken: Swift.String?
@@ -4543,7 +4543,7 @@ extension DescribeModelVersionsInput {
     }
 }
 
-public struct DescribeModelVersionsInput: Swift.Equatable {
+public struct DescribeModelVersionsInput {
     /// The maximum number of results to return.
     public var maxResults: Swift.Int?
     /// The model ID.
@@ -4571,7 +4571,7 @@ public struct DescribeModelVersionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeModelVersionsInputBody: Swift.Equatable {
+struct DescribeModelVersionsInputBody {
     let modelId: Swift.String?
     let modelVersionNumber: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
@@ -4617,7 +4617,7 @@ extension DescribeModelVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeModelVersionsOutput: Swift.Equatable {
+public struct DescribeModelVersionsOutput {
     /// The model version details.
     public var modelVersionDetails: [FraudDetectorClientTypes.ModelVersionDetail]?
     /// The next token.
@@ -4633,7 +4633,7 @@ public struct DescribeModelVersionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeModelVersionsOutputBody: Swift.Equatable {
+struct DescribeModelVersionsOutputBody {
     let modelVersionDetails: [FraudDetectorClientTypes.ModelVersionDetail]?
     let nextToken: Swift.String?
 }
@@ -4728,7 +4728,7 @@ extension FraudDetectorClientTypes.Detector: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The detector.
-    public struct Detector: Swift.Equatable {
+    public struct Detector {
         /// The detector ARN.
         public var arn: Swift.String?
         /// Timestamp of when the detector was created.
@@ -4836,7 +4836,7 @@ extension FraudDetectorClientTypes.DetectorVersionSummary: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The summary of the detector version.
-    public struct DetectorVersionSummary: Swift.Equatable {
+    public struct DetectorVersionSummary {
         /// The detector version description.
         public var description: Swift.String?
         /// The detector version ID.
@@ -4895,7 +4895,7 @@ extension FraudDetectorClientTypes.Entity: Swift.CustomDebugStringConvertible {
 
 extension FraudDetectorClientTypes {
     /// The entity details.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The entity ID. If you do not know the entityId, you can pass unknown, which is areserved string literal.
         /// This member is required.
         public var entityId: Swift.String?
@@ -4960,7 +4960,7 @@ extension FraudDetectorClientTypes.EntityType: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The entity type details.
-    public struct EntityType: Swift.Equatable {
+    public struct EntityType {
         /// The entity type ARN.
         public var arn: Swift.String?
         /// Timestamp of when the entity type was created.
@@ -5058,7 +5058,7 @@ extension FraudDetectorClientTypes.EvaluatedExternalModel: Swift.CustomDebugStri
 
 extension FraudDetectorClientTypes {
     /// The details of the external (Amazon Sagemaker) model evaluated for generating predictions.
-    public struct EvaluatedExternalModel: Swift.Equatable {
+    public struct EvaluatedExternalModel {
         /// Input variables use for generating predictions.
         public var inputVariables: [Swift.String:Swift.String]?
         /// The endpoint of the external (Amazon Sagemaker) model.
@@ -5135,7 +5135,7 @@ extension FraudDetectorClientTypes.EvaluatedModelVersion: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The model version evaluated for generating prediction.
-    public struct EvaluatedModelVersion: Swift.Equatable {
+    public struct EvaluatedModelVersion {
         /// Evaluations generated for the model version.
         public var evaluations: [FraudDetectorClientTypes.ModelVersionEvaluation]?
         /// The model ID.
@@ -5235,7 +5235,7 @@ extension FraudDetectorClientTypes.EvaluatedRule: Swift.CustomDebugStringConvert
 
 extension FraudDetectorClientTypes {
     /// The details of the rule used for evaluating variable values.
-    public struct EvaluatedRule: Swift.Equatable {
+    public struct EvaluatedRule {
         /// Indicates whether the rule was evaluated.
         public var evaluated: Swift.Bool?
         /// The rule expression.
@@ -5354,7 +5354,7 @@ extension FraudDetectorClientTypes.Event: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The event details.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The label associated with the event.
         public var currentLabel: Swift.String?
         /// The event entities.
@@ -5445,7 +5445,7 @@ extension FraudDetectorClientTypes.EventOrchestration: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The event orchestration status.
-    public struct EventOrchestration: Swift.Equatable {
+    public struct EventOrchestration {
         /// Specifies if event orchestration is enabled through Amazon EventBridge.
         /// This member is required.
         public var eventBridgeEnabled: Swift.Bool?
@@ -5511,7 +5511,7 @@ extension FraudDetectorClientTypes.EventPredictionSummary: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Information about the summary of an event prediction.
-    public struct EventPredictionSummary: Swift.Equatable {
+    public struct EventPredictionSummary {
         /// The detector ID.
         public var detectorId: Swift.String?
         /// The detector version ID.
@@ -5668,7 +5668,7 @@ extension FraudDetectorClientTypes.EventType: Swift.CustomDebugStringConvertible
 
 extension FraudDetectorClientTypes {
     /// The event type details.
-    public struct EventType: Swift.Equatable {
+    public struct EventType {
         /// The entity type ARN.
         public var arn: Swift.String?
         /// Timestamp of when the event type was created.
@@ -5760,7 +5760,7 @@ extension FraudDetectorClientTypes.EventVariableSummary: Swift.CustomDebugString
 
 extension FraudDetectorClientTypes {
     /// Information about the summary of an event variable that was evaluated for generating prediction.
-    public struct EventVariableSummary: Swift.Equatable {
+    public struct EventVariableSummary {
         /// The event variable name.
         public var name: Swift.String?
         /// The event variable source.
@@ -5809,7 +5809,7 @@ extension FraudDetectorClientTypes.ExternalEventsDetail: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Details for the external events data used for model version training.
-    public struct ExternalEventsDetail: Swift.Equatable {
+    public struct ExternalEventsDetail {
         /// The ARN of the role that provides Amazon Fraud Detector access to the data location.
         /// This member is required.
         public var dataAccessRoleArn: Swift.String?
@@ -5898,7 +5898,7 @@ extension FraudDetectorClientTypes.ExternalModel: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Amazon SageMaker model.
-    public struct ExternalModel: Swift.Equatable {
+    public struct ExternalModel {
         /// The model ARN.
         public var arn: Swift.String?
         /// Timestamp of when the model was last created.
@@ -5983,7 +5983,7 @@ extension FraudDetectorClientTypes.ExternalModelOutputs: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The fraud prediction scores from Amazon SageMaker model.
-    public struct ExternalModelOutputs: Swift.Equatable {
+    public struct ExternalModelOutputs {
         /// The Amazon SageMaker model.
         public var externalModel: FraudDetectorClientTypes.ExternalModelSummary?
         /// The fraud prediction scores from Amazon SageMaker model.
@@ -6028,7 +6028,7 @@ extension FraudDetectorClientTypes.ExternalModelSummary: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Amazon SageMaker model.
-    public struct ExternalModelSummary: Swift.Equatable {
+    public struct ExternalModelSummary {
         /// The endpoint of the Amazon SageMaker model.
         public var modelEndpoint: Swift.String?
         /// The source of the model.
@@ -6091,7 +6091,7 @@ extension FraudDetectorClientTypes.FieldValidationMessage: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The message details.
-    public struct FieldValidationMessage: Swift.Equatable {
+    public struct FieldValidationMessage {
         /// The message content.
         public var content: Swift.String?
         /// The field name.
@@ -6154,7 +6154,7 @@ extension FraudDetectorClientTypes.FileValidationMessage: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The message details.
-    public struct FileValidationMessage: Swift.Equatable {
+    public struct FileValidationMessage {
         /// The message content.
         public var content: Swift.String?
         /// The message title.
@@ -6197,7 +6197,7 @@ extension FraudDetectorClientTypes.FilterCondition: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// A conditional statement for filtering a list of past predictions.
-    public struct FilterCondition: Swift.Equatable {
+    public struct FilterCondition {
         /// A statement containing a resource property and a value to specify filter condition.
         public var value: Swift.String?
 
@@ -6241,7 +6241,7 @@ extension GetBatchImportJobsInput {
     }
 }
 
-public struct GetBatchImportJobsInput: Swift.Equatable {
+public struct GetBatchImportJobsInput {
     /// The ID of the batch import job to get.
     public var jobId: Swift.String?
     /// The maximum number of objects to return for request.
@@ -6261,7 +6261,7 @@ public struct GetBatchImportJobsInput: Swift.Equatable {
     }
 }
 
-struct GetBatchImportJobsInputBody: Swift.Equatable {
+struct GetBatchImportJobsInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -6299,7 +6299,7 @@ extension GetBatchImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBatchImportJobsOutput: Swift.Equatable {
+public struct GetBatchImportJobsOutput {
     /// An array containing the details of each batch import job.
     public var batchImports: [FraudDetectorClientTypes.BatchImport]?
     /// The next token for the subsequent resquest.
@@ -6315,7 +6315,7 @@ public struct GetBatchImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetBatchImportJobsOutputBody: Swift.Equatable {
+struct GetBatchImportJobsOutputBody {
     let batchImports: [FraudDetectorClientTypes.BatchImport]?
     let nextToken: Swift.String?
 }
@@ -6387,7 +6387,7 @@ extension GetBatchPredictionJobsInput {
     }
 }
 
-public struct GetBatchPredictionJobsInput: Swift.Equatable {
+public struct GetBatchPredictionJobsInput {
     /// The batch prediction job for which to get the details.
     public var jobId: Swift.String?
     /// The maximum number of objects to return for the request.
@@ -6407,7 +6407,7 @@ public struct GetBatchPredictionJobsInput: Swift.Equatable {
     }
 }
 
-struct GetBatchPredictionJobsInputBody: Swift.Equatable {
+struct GetBatchPredictionJobsInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -6445,7 +6445,7 @@ extension GetBatchPredictionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBatchPredictionJobsOutput: Swift.Equatable {
+public struct GetBatchPredictionJobsOutput {
     /// An array containing the details of each batch prediction job.
     public var batchPredictions: [FraudDetectorClientTypes.BatchPrediction]?
     /// The next token for the subsequent request.
@@ -6461,7 +6461,7 @@ public struct GetBatchPredictionJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetBatchPredictionJobsOutputBody: Swift.Equatable {
+struct GetBatchPredictionJobsOutputBody {
     let batchPredictions: [FraudDetectorClientTypes.BatchPrediction]?
     let nextToken: Swift.String?
 }
@@ -6525,7 +6525,7 @@ extension GetDeleteEventsByEventTypeStatusInput {
     }
 }
 
-public struct GetDeleteEventsByEventTypeStatusInput: Swift.Equatable {
+public struct GetDeleteEventsByEventTypeStatusInput {
     /// Name of event type for which to get the deletion status.
     /// This member is required.
     public var eventTypeName: Swift.String?
@@ -6538,7 +6538,7 @@ public struct GetDeleteEventsByEventTypeStatusInput: Swift.Equatable {
     }
 }
 
-struct GetDeleteEventsByEventTypeStatusInputBody: Swift.Equatable {
+struct GetDeleteEventsByEventTypeStatusInputBody {
     let eventTypeName: Swift.String?
 }
 
@@ -6568,7 +6568,7 @@ extension GetDeleteEventsByEventTypeStatusOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetDeleteEventsByEventTypeStatusOutput: Swift.Equatable {
+public struct GetDeleteEventsByEventTypeStatusOutput {
     /// The event type name.
     public var eventTypeName: Swift.String?
     /// The deletion status.
@@ -6584,7 +6584,7 @@ public struct GetDeleteEventsByEventTypeStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetDeleteEventsByEventTypeStatusOutputBody: Swift.Equatable {
+struct GetDeleteEventsByEventTypeStatusOutputBody {
     let eventTypeName: Swift.String?
     let eventsDeletionStatus: FraudDetectorClientTypes.AsyncJobStatus?
 }
@@ -6643,7 +6643,7 @@ extension GetDetectorVersionInput {
     }
 }
 
-public struct GetDetectorVersionInput: Swift.Equatable {
+public struct GetDetectorVersionInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -6661,7 +6661,7 @@ public struct GetDetectorVersionInput: Swift.Equatable {
     }
 }
 
-struct GetDetectorVersionInputBody: Swift.Equatable {
+struct GetDetectorVersionInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
 }
@@ -6713,7 +6713,7 @@ extension GetDetectorVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDetectorVersionOutput: Swift.Equatable {
+public struct GetDetectorVersionOutput {
     /// The detector version ARN.
     public var arn: Swift.String?
     /// The timestamp when the detector version was created.
@@ -6765,7 +6765,7 @@ public struct GetDetectorVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetDetectorVersionOutputBody: Swift.Equatable {
+struct GetDetectorVersionOutputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let description: Swift.String?
@@ -6891,7 +6891,7 @@ extension GetDetectorsInput {
     }
 }
 
-public struct GetDetectorsInput: Swift.Equatable {
+public struct GetDetectorsInput {
     /// The detector ID.
     public var detectorId: Swift.String?
     /// The maximum number of objects to return for the request.
@@ -6911,7 +6911,7 @@ public struct GetDetectorsInput: Swift.Equatable {
     }
 }
 
-struct GetDetectorsInputBody: Swift.Equatable {
+struct GetDetectorsInputBody {
     let detectorId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6949,7 +6949,7 @@ extension GetDetectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDetectorsOutput: Swift.Equatable {
+public struct GetDetectorsOutput {
     /// The detectors.
     public var detectors: [FraudDetectorClientTypes.Detector]?
     /// The next page token.
@@ -6965,7 +6965,7 @@ public struct GetDetectorsOutput: Swift.Equatable {
     }
 }
 
-struct GetDetectorsOutputBody: Swift.Equatable {
+struct GetDetectorsOutputBody {
     let detectors: [FraudDetectorClientTypes.Detector]?
     let nextToken: Swift.String?
 }
@@ -7037,7 +7037,7 @@ extension GetEntityTypesInput {
     }
 }
 
-public struct GetEntityTypesInput: Swift.Equatable {
+public struct GetEntityTypesInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name.
@@ -7057,7 +7057,7 @@ public struct GetEntityTypesInput: Swift.Equatable {
     }
 }
 
-struct GetEntityTypesInputBody: Swift.Equatable {
+struct GetEntityTypesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7095,7 +7095,7 @@ extension GetEntityTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEntityTypesOutput: Swift.Equatable {
+public struct GetEntityTypesOutput {
     /// An array of entity types.
     public var entityTypes: [FraudDetectorClientTypes.EntityType]?
     /// The next page token.
@@ -7111,7 +7111,7 @@ public struct GetEntityTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetEntityTypesOutputBody: Swift.Equatable {
+struct GetEntityTypesOutputBody {
     let entityTypes: [FraudDetectorClientTypes.EntityType]?
     let nextToken: Swift.String?
 }
@@ -7179,7 +7179,7 @@ extension GetEventInput {
     }
 }
 
-public struct GetEventInput: Swift.Equatable {
+public struct GetEventInput {
     /// The ID of the event to retrieve.
     /// This member is required.
     public var eventId: Swift.String?
@@ -7197,7 +7197,7 @@ public struct GetEventInput: Swift.Equatable {
     }
 }
 
-struct GetEventInputBody: Swift.Equatable {
+struct GetEventInputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
 }
@@ -7229,7 +7229,7 @@ extension GetEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventOutput: Swift.Equatable {
+public struct GetEventOutput {
     /// The details of the event.
     public var event: FraudDetectorClientTypes.Event?
 
@@ -7241,7 +7241,7 @@ public struct GetEventOutput: Swift.Equatable {
     }
 }
 
-struct GetEventOutputBody: Swift.Equatable {
+struct GetEventOutputBody {
     let event: FraudDetectorClientTypes.Event?
 }
 
@@ -7334,7 +7334,7 @@ extension GetEventPredictionInput {
     }
 }
 
-public struct GetEventPredictionInput: Swift.Equatable {
+public struct GetEventPredictionInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -7380,7 +7380,7 @@ public struct GetEventPredictionInput: Swift.Equatable {
     }
 }
 
-struct GetEventPredictionInputBody: Swift.Equatable {
+struct GetEventPredictionInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let eventId: Swift.String?
@@ -7487,7 +7487,7 @@ extension GetEventPredictionMetadataInput {
     }
 }
 
-public struct GetEventPredictionMetadataInput: Swift.Equatable {
+public struct GetEventPredictionMetadataInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -7520,7 +7520,7 @@ public struct GetEventPredictionMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetEventPredictionMetadataInputBody: Swift.Equatable {
+struct GetEventPredictionMetadataInputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
     let detectorId: Swift.String?
@@ -7592,7 +7592,7 @@ extension GetEventPredictionMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventPredictionMetadataOutput: Swift.Equatable {
+public struct GetEventPredictionMetadataOutput {
     /// The detector ID.
     public var detectorId: Swift.String?
     /// The detector version ID.
@@ -7660,7 +7660,7 @@ public struct GetEventPredictionMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetEventPredictionMetadataOutputBody: Swift.Equatable {
+struct GetEventPredictionMetadataOutputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
     let entityId: Swift.String?
@@ -7808,7 +7808,7 @@ extension GetEventPredictionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventPredictionOutput: Swift.Equatable {
+public struct GetEventPredictionOutput {
     /// The model scores for Amazon SageMaker models.
     public var externalModelOutputs: [FraudDetectorClientTypes.ExternalModelOutputs]?
     /// The model scores. Amazon Fraud Detector generates model scores between 0 and 1000, where 0 is low fraud risk and 1000 is high fraud risk. Model scores are directly related to the false positive rate (FPR). For example, a score of 600 corresponds to an estimated 10% false positive rate whereas a score of 900 corresponds to an estimated 2% false positive rate.
@@ -7828,7 +7828,7 @@ public struct GetEventPredictionOutput: Swift.Equatable {
     }
 }
 
-struct GetEventPredictionOutputBody: Swift.Equatable {
+struct GetEventPredictionOutputBody {
     let modelScores: [FraudDetectorClientTypes.ModelScores]?
     let ruleResults: [FraudDetectorClientTypes.RuleResult]?
     let externalModelOutputs: [FraudDetectorClientTypes.ExternalModelOutputs]?
@@ -7924,7 +7924,7 @@ extension GetEventTypesInput {
     }
 }
 
-public struct GetEventTypesInput: Swift.Equatable {
+public struct GetEventTypesInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name.
@@ -7944,7 +7944,7 @@ public struct GetEventTypesInput: Swift.Equatable {
     }
 }
 
-struct GetEventTypesInputBody: Swift.Equatable {
+struct GetEventTypesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7982,7 +7982,7 @@ extension GetEventTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventTypesOutput: Swift.Equatable {
+public struct GetEventTypesOutput {
     /// An array of event types.
     public var eventTypes: [FraudDetectorClientTypes.EventType]?
     /// The next page token.
@@ -7998,7 +7998,7 @@ public struct GetEventTypesOutput: Swift.Equatable {
     }
 }
 
-struct GetEventTypesOutputBody: Swift.Equatable {
+struct GetEventTypesOutputBody {
     let eventTypes: [FraudDetectorClientTypes.EventType]?
     let nextToken: Swift.String?
 }
@@ -8070,7 +8070,7 @@ extension GetExternalModelsInput {
     }
 }
 
-public struct GetExternalModelsInput: Swift.Equatable {
+public struct GetExternalModelsInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The Amazon SageMaker model endpoint.
@@ -8090,7 +8090,7 @@ public struct GetExternalModelsInput: Swift.Equatable {
     }
 }
 
-struct GetExternalModelsInputBody: Swift.Equatable {
+struct GetExternalModelsInputBody {
     let modelEndpoint: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8128,7 +8128,7 @@ extension GetExternalModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExternalModelsOutput: Swift.Equatable {
+public struct GetExternalModelsOutput {
     /// Gets the Amazon SageMaker models.
     public var externalModels: [FraudDetectorClientTypes.ExternalModel]?
     /// The next page token to be used in subsequent requests.
@@ -8144,7 +8144,7 @@ public struct GetExternalModelsOutput: Swift.Equatable {
     }
 }
 
-struct GetExternalModelsOutputBody: Swift.Equatable {
+struct GetExternalModelsOutputBody {
     let externalModels: [FraudDetectorClientTypes.ExternalModel]?
     let nextToken: Swift.String?
 }
@@ -8203,12 +8203,12 @@ extension GetKMSEncryptionKeyInput {
     }
 }
 
-public struct GetKMSEncryptionKeyInput: Swift.Equatable {
+public struct GetKMSEncryptionKeyInput {
 
     public init() { }
 }
 
-struct GetKMSEncryptionKeyInputBody: Swift.Equatable {
+struct GetKMSEncryptionKeyInputBody {
 }
 
 extension GetKMSEncryptionKeyInputBody: Swift.Decodable {
@@ -8229,7 +8229,7 @@ extension GetKMSEncryptionKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKMSEncryptionKeyOutput: Swift.Equatable {
+public struct GetKMSEncryptionKeyOutput {
     /// The KMS encryption key.
     public var kmsKey: FraudDetectorClientTypes.KMSKey?
 
@@ -8241,7 +8241,7 @@ public struct GetKMSEncryptionKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetKMSEncryptionKeyOutputBody: Swift.Equatable {
+struct GetKMSEncryptionKeyOutputBody {
     let kmsKey: FraudDetectorClientTypes.KMSKey?
 }
 
@@ -8299,7 +8299,7 @@ extension GetLabelsInput {
     }
 }
 
-public struct GetLabelsInput: Swift.Equatable {
+public struct GetLabelsInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name of the label or labels to get.
@@ -8319,7 +8319,7 @@ public struct GetLabelsInput: Swift.Equatable {
     }
 }
 
-struct GetLabelsInputBody: Swift.Equatable {
+struct GetLabelsInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8357,7 +8357,7 @@ extension GetLabelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLabelsOutput: Swift.Equatable {
+public struct GetLabelsOutput {
     /// An array of labels.
     public var labels: [FraudDetectorClientTypes.Label]?
     /// The next page token.
@@ -8373,7 +8373,7 @@ public struct GetLabelsOutput: Swift.Equatable {
     }
 }
 
-struct GetLabelsOutputBody: Swift.Equatable {
+struct GetLabelsOutputBody {
     let labels: [FraudDetectorClientTypes.Label]?
     let nextToken: Swift.String?
 }
@@ -8445,7 +8445,7 @@ extension GetListElementsInput {
     }
 }
 
-public struct GetListElementsInput: Swift.Equatable {
+public struct GetListElementsInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name of the list.
@@ -8466,7 +8466,7 @@ public struct GetListElementsInput: Swift.Equatable {
     }
 }
 
-struct GetListElementsInputBody: Swift.Equatable {
+struct GetListElementsInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8504,7 +8504,7 @@ extension GetListElementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetListElementsOutput: Swift.Equatable {
+public struct GetListElementsOutput {
     /// The list elements.
     public var elements: [Swift.String]?
     /// The next page token.
@@ -8520,7 +8520,7 @@ public struct GetListElementsOutput: Swift.Equatable {
     }
 }
 
-struct GetListElementsOutputBody: Swift.Equatable {
+struct GetListElementsOutputBody {
     let elements: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -8592,7 +8592,7 @@ extension GetListsMetadataInput {
     }
 }
 
-public struct GetListsMetadataInput: Swift.Equatable {
+public struct GetListsMetadataInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name of the list.
@@ -8612,7 +8612,7 @@ public struct GetListsMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetListsMetadataInputBody: Swift.Equatable {
+struct GetListsMetadataInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8650,7 +8650,7 @@ extension GetListsMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetListsMetadataOutput: Swift.Equatable {
+public struct GetListsMetadataOutput {
     /// The metadata of the specified list or all lists under the account.
     public var lists: [FraudDetectorClientTypes.AllowDenyList]?
     /// The next page token.
@@ -8666,7 +8666,7 @@ public struct GetListsMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetListsMetadataOutputBody: Swift.Equatable {
+struct GetListsMetadataOutputBody {
     let lists: [FraudDetectorClientTypes.AllowDenyList]?
     let nextToken: Swift.String?
 }
@@ -8738,7 +8738,7 @@ extension GetModelVersionInput {
     }
 }
 
-public struct GetModelVersionInput: Swift.Equatable {
+public struct GetModelVersionInput {
     /// The model ID.
     /// This member is required.
     public var modelId: Swift.String?
@@ -8761,7 +8761,7 @@ public struct GetModelVersionInput: Swift.Equatable {
     }
 }
 
-struct GetModelVersionInputBody: Swift.Equatable {
+struct GetModelVersionInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -8813,7 +8813,7 @@ extension GetModelVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetModelVersionOutput: Swift.Equatable {
+public struct GetModelVersionOutput {
     /// The model version ARN.
     public var arn: Swift.String?
     /// The details of the external events data used for training the model version. This will be populated if the trainingDataSource is EXTERNAL_EVENTS
@@ -8875,7 +8875,7 @@ public struct GetModelVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetModelVersionOutputBody: Swift.Equatable {
+struct GetModelVersionOutputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -8970,7 +8970,7 @@ extension GetModelsInput {
     }
 }
 
-public struct GetModelsInput: Swift.Equatable {
+public struct GetModelsInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The model ID.
@@ -8994,7 +8994,7 @@ public struct GetModelsInput: Swift.Equatable {
     }
 }
 
-struct GetModelsInputBody: Swift.Equatable {
+struct GetModelsInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let nextToken: Swift.String?
@@ -9036,7 +9036,7 @@ extension GetModelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetModelsOutput: Swift.Equatable {
+public struct GetModelsOutput {
     /// The array of models.
     public var models: [FraudDetectorClientTypes.Model]?
     /// The next page token to be used in subsequent requests.
@@ -9052,7 +9052,7 @@ public struct GetModelsOutput: Swift.Equatable {
     }
 }
 
-struct GetModelsOutputBody: Swift.Equatable {
+struct GetModelsOutputBody {
     let nextToken: Swift.String?
     let models: [FraudDetectorClientTypes.Model]?
 }
@@ -9124,7 +9124,7 @@ extension GetOutcomesInput {
     }
 }
 
-public struct GetOutcomesInput: Swift.Equatable {
+public struct GetOutcomesInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The name of the outcome or outcomes to get.
@@ -9144,7 +9144,7 @@ public struct GetOutcomesInput: Swift.Equatable {
     }
 }
 
-struct GetOutcomesInputBody: Swift.Equatable {
+struct GetOutcomesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9182,7 +9182,7 @@ extension GetOutcomesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOutcomesOutput: Swift.Equatable {
+public struct GetOutcomesOutput {
     /// The next page token for subsequent requests.
     public var nextToken: Swift.String?
     /// The outcomes.
@@ -9198,7 +9198,7 @@ public struct GetOutcomesOutput: Swift.Equatable {
     }
 }
 
-struct GetOutcomesOutputBody: Swift.Equatable {
+struct GetOutcomesOutputBody {
     let outcomes: [FraudDetectorClientTypes.Outcome]?
     let nextToken: Swift.String?
 }
@@ -9278,7 +9278,7 @@ extension GetRulesInput {
     }
 }
 
-public struct GetRulesInput: Swift.Equatable {
+public struct GetRulesInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9307,7 +9307,7 @@ public struct GetRulesInput: Swift.Equatable {
     }
 }
 
-struct GetRulesInputBody: Swift.Equatable {
+struct GetRulesInputBody {
     let ruleId: Swift.String?
     let detectorId: Swift.String?
     let ruleVersion: Swift.String?
@@ -9353,7 +9353,7 @@ extension GetRulesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRulesOutput: Swift.Equatable {
+public struct GetRulesOutput {
     /// The next page token to be used in subsequent requests.
     public var nextToken: Swift.String?
     /// The details of the requested rule.
@@ -9369,7 +9369,7 @@ public struct GetRulesOutput: Swift.Equatable {
     }
 }
 
-struct GetRulesOutputBody: Swift.Equatable {
+struct GetRulesOutputBody {
     let ruleDetails: [FraudDetectorClientTypes.RuleDetail]?
     let nextToken: Swift.String?
 }
@@ -9441,7 +9441,7 @@ extension GetVariablesInput {
     }
 }
 
-public struct GetVariablesInput: Swift.Equatable {
+public struct GetVariablesInput {
     /// The max size per page determined for the get variable request.
     public var maxResults: Swift.Int?
     /// The name of the variable.
@@ -9461,7 +9461,7 @@ public struct GetVariablesInput: Swift.Equatable {
     }
 }
 
-struct GetVariablesInputBody: Swift.Equatable {
+struct GetVariablesInputBody {
     let name: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9499,7 +9499,7 @@ extension GetVariablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVariablesOutput: Swift.Equatable {
+public struct GetVariablesOutput {
     /// The next page token to be used in subsequent requests.
     public var nextToken: Swift.String?
     /// The names of the variables returned.
@@ -9515,7 +9515,7 @@ public struct GetVariablesOutput: Swift.Equatable {
     }
 }
 
-struct GetVariablesOutputBody: Swift.Equatable {
+struct GetVariablesOutputBody {
     let variables: [FraudDetectorClientTypes.Variable]?
     let nextToken: Swift.String?
 }
@@ -9604,7 +9604,7 @@ extension FraudDetectorClientTypes.IngestedEventStatistics: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Data about the stored events.
-    public struct IngestedEventStatistics: Swift.Equatable {
+    public struct IngestedEventStatistics {
         /// The total size of the stored events.
         public var eventDataSizeInBytes: Swift.Int?
         /// Timestamp of when the stored event was last updated.
@@ -9655,7 +9655,7 @@ extension FraudDetectorClientTypes.IngestedEventsDetail: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The details of the ingested event.
-    public struct IngestedEventsDetail: Swift.Equatable {
+    public struct IngestedEventsDetail {
         /// The start and stop time of the ingested events.
         /// This member is required.
         public var ingestedEventsTimeWindow: FraudDetectorClientTypes.IngestedEventsTimeWindow?
@@ -9697,7 +9697,7 @@ extension FraudDetectorClientTypes.IngestedEventsTimeWindow: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The start and stop time of the ingested events.
-    public struct IngestedEventsTimeWindow: Swift.Equatable {
+    public struct IngestedEventsTimeWindow {
         /// Timestamp of the final ingested event.
         /// This member is required.
         public var endTime: Swift.String?
@@ -9757,7 +9757,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -9794,7 +9794,7 @@ extension FraudDetectorClientTypes.KMSKey: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The KMS key details.
-    public struct KMSKey: Swift.Equatable {
+    public struct KMSKey {
         /// The encryption key ARN.
         public var kmsEncryptionKeyArn: Swift.String?
 
@@ -9853,7 +9853,7 @@ extension FraudDetectorClientTypes.Label: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The label details.
-    public struct Label: Swift.Equatable {
+    public struct Label {
         /// The label ARN.
         public var arn: Swift.String?
         /// Timestamp of when the event type was created.
@@ -9932,7 +9932,7 @@ extension FraudDetectorClientTypes.LabelSchema: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The label schema.
-    public struct LabelSchema: Swift.Equatable {
+    public struct LabelSchema {
         /// The label mapper maps the Amazon Fraud Detector supported model classification labels (FRAUD, LEGIT) to the appropriate event type labels. For example, if "FRAUD" and "LEGIT" are Amazon Fraud Detector supported labels, this mapper could be: {"FRAUD" => ["0"], "LEGIT" => ["1"]} or {"FRAUD" => ["false"], "LEGIT" => ["true"]} or {"FRAUD" => ["fraud", "abuse"], "LEGIT" => ["legit", "safe"]}. The value part of the mapper is a list, because you may have multiple label variants from your event type for a single Amazon Fraud Detector label.
         public var labelMapper: [Swift.String:[Swift.String]]?
         /// The action to take for unlabeled events.
@@ -10034,7 +10034,7 @@ extension ListEventPredictionsInput {
     }
 }
 
-public struct ListEventPredictionsInput: Swift.Equatable {
+public struct ListEventPredictionsInput {
     /// The detector ID.
     public var detectorId: FraudDetectorClientTypes.FilterCondition?
     /// The detector version ID.
@@ -10070,7 +10070,7 @@ public struct ListEventPredictionsInput: Swift.Equatable {
     }
 }
 
-struct ListEventPredictionsInputBody: Swift.Equatable {
+struct ListEventPredictionsInputBody {
     let eventId: FraudDetectorClientTypes.FilterCondition?
     let eventType: FraudDetectorClientTypes.FilterCondition?
     let detectorId: FraudDetectorClientTypes.FilterCondition?
@@ -10124,7 +10124,7 @@ extension ListEventPredictionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventPredictionsOutput: Swift.Equatable {
+public struct ListEventPredictionsOutput {
     /// The summary of the past predictions.
     public var eventPredictionSummaries: [FraudDetectorClientTypes.EventPredictionSummary]?
     /// Identifies the next page of results to return. Use the token to make the call again to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours.
@@ -10140,7 +10140,7 @@ public struct ListEventPredictionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventPredictionsOutputBody: Swift.Equatable {
+struct ListEventPredictionsOutputBody {
     let eventPredictionSummaries: [FraudDetectorClientTypes.EventPredictionSummary]?
     let nextToken: Swift.String?
 }
@@ -10211,7 +10211,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of objects to return for the request.
     public var maxResults: Swift.Int?
     /// The next token from the previous results.
@@ -10232,7 +10232,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10270,7 +10270,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The next token for subsequent requests.
     public var nextToken: Swift.String?
     /// A collection of key and value pairs.
@@ -10286,7 +10286,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [FraudDetectorClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -10397,7 +10397,7 @@ extension FraudDetectorClientTypes.LogOddsMetric: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The log odds metric details.
-    public struct LogOddsMetric: Swift.Equatable {
+    public struct LogOddsMetric {
         /// The relative importance of the variable. For more information, see [Model variable importance](https://docs.aws.amazon.com/frauddetector/latest/ug/model-variable-importance.html).
         /// This member is required.
         public var variableImportance: Swift.Float?
@@ -10461,7 +10461,7 @@ extension FraudDetectorClientTypes.MetricDataPoint: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Model performance metrics data points.
-    public struct MetricDataPoint: Swift.Equatable {
+    public struct MetricDataPoint {
         /// The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
         public var fpr: Swift.Float?
         /// The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
@@ -10544,7 +10544,7 @@ extension FraudDetectorClientTypes.Model: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The model.
-    public struct Model: Swift.Equatable {
+    public struct Model {
         /// The ARN of the model.
         public var arn: Swift.String?
         /// Timestamp of when the model was created.
@@ -10609,7 +10609,7 @@ extension FraudDetectorClientTypes.ModelEndpointDataBlob: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// A pre-formed Amazon SageMaker model input you can include if your detector version includes an imported Amazon SageMaker model endpoint with pass-through input configuration.
-    public struct ModelEndpointDataBlob: Swift.Equatable {
+    public struct ModelEndpointDataBlob {
         /// The byte buffer of the Amazon SageMaker model endpoint input data blob.
         public var byteBuffer: ClientRuntime.Data?
         /// The content type of the Amazon SageMaker model endpoint input data blob.
@@ -10704,7 +10704,7 @@ extension FraudDetectorClientTypes.ModelInputConfiguration: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Amazon SageMaker model input configuration.
-    public struct ModelInputConfiguration: Swift.Equatable {
+    public struct ModelInputConfiguration {
         /// Template for constructing the CSV input-data sent to SageMaker. At event-evaluation, the placeholders for variable-names in the template will be replaced with the variable values before being sent to SageMaker.
         public var csvInputTemplate: Swift.String?
         /// The event type name.
@@ -10824,7 +10824,7 @@ extension FraudDetectorClientTypes.ModelOutputConfiguration: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Provides the Amazon Sagemaker model output configuration.
-    public struct ModelOutputConfiguration: Swift.Equatable {
+    public struct ModelOutputConfiguration {
         /// A map of CSV index values in the SageMaker response to the Amazon Fraud Detector variables.
         public var csvIndexToVariableMap: [Swift.String:Swift.String]?
         /// The format of the model output configuration.
@@ -10918,7 +10918,7 @@ extension FraudDetectorClientTypes.ModelScores: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The fraud prediction scores.
-    public struct ModelScores: Swift.Equatable {
+    public struct ModelScores {
         /// The model version.
         public var modelVersion: FraudDetectorClientTypes.ModelVersion?
         /// The model's fraud prediction scores.
@@ -11039,7 +11039,7 @@ extension FraudDetectorClientTypes.ModelVersion: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The model version.
-    public struct ModelVersion: Swift.Equatable {
+    public struct ModelVersion {
         /// The model version ARN.
         public var arn: Swift.String?
         /// The model ID.
@@ -11161,7 +11161,7 @@ extension FraudDetectorClientTypes.ModelVersionDetail: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The details of the model version.
-    public struct ModelVersionDetail: Swift.Equatable {
+    public struct ModelVersionDetail {
         /// The model version ARN.
         public var arn: Swift.String?
         /// The timestamp when the model was created.
@@ -11256,7 +11256,7 @@ extension FraudDetectorClientTypes.ModelVersionEvaluation: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The model version evalutions.
-    public struct ModelVersionEvaluation: Swift.Equatable {
+    public struct ModelVersionEvaluation {
         /// The evaluation score generated for the model version.
         public var evaluationScore: Swift.String?
         /// The output variable name.
@@ -11352,7 +11352,7 @@ extension FraudDetectorClientTypes.OFIMetricDataPoint: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Online Fraud Insights (OFI) model performance metrics data points.
-    public struct OFIMetricDataPoint: Swift.Equatable {
+    public struct OFIMetricDataPoint {
         /// The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
         public var fpr: Swift.Float?
         /// The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
@@ -11405,7 +11405,7 @@ extension FraudDetectorClientTypes.OFIModelPerformance: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Online Fraud Insights (OFI) model performance score.
-    public struct OFIModelPerformance: Swift.Equatable {
+    public struct OFIModelPerformance {
         /// The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public var auc: Swift.Float?
         /// Indicates the range of area under curve (auc) expected from the OFI model. A range greater than 0.1 indicates higher model uncertainity.
@@ -11462,7 +11462,7 @@ extension FraudDetectorClientTypes.OFITrainingMetricsValue: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Online Fraud Insights (OFI) model training metric details.
-    public struct OFITrainingMetricsValue: Swift.Equatable {
+    public struct OFITrainingMetricsValue {
         /// The model's performance metrics data points.
         public var metricDataPoints: [FraudDetectorClientTypes.OFIMetricDataPoint]?
         /// The model's overall performance score.
@@ -11525,7 +11525,7 @@ extension FraudDetectorClientTypes.Outcome: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The outcome.
-    public struct Outcome: Swift.Equatable {
+    public struct Outcome {
         /// The outcome ARN.
         public var arn: Swift.String?
         /// The timestamp when the outcome was created.
@@ -11606,7 +11606,7 @@ extension FraudDetectorClientTypes.PredictionExplanations: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The prediction explanations that provide insight into how each event variable impacted the model version's fraud prediction score.
-    public struct PredictionExplanations: Swift.Equatable {
+    public struct PredictionExplanations {
         /// The details of the aggregated variables impact on the prediction score. Account Takeover Insights (ATI) model uses event variables from the login data you provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address. In this case, event variables used to derive the aggregated variables are IP address and user.
         public var aggregatedVariablesImpactExplanations: [FraudDetectorClientTypes.AggregatedVariablesImpactExplanation]?
         /// The details of the event variable's impact on the prediction score.
@@ -11651,7 +11651,7 @@ extension FraudDetectorClientTypes.PredictionTimeRange: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The time period for when the predictions were generated.
-    public struct PredictionTimeRange: Swift.Equatable {
+    public struct PredictionTimeRange {
         /// The end time of the time period for when the predictions were generated.
         /// This member is required.
         public var endTime: Swift.String?
@@ -11706,7 +11706,7 @@ extension PutDetectorInput {
     }
 }
 
-public struct PutDetectorInput: Swift.Equatable {
+public struct PutDetectorInput {
     /// The description of the detector.
     public var description: Swift.String?
     /// The detector ID.
@@ -11732,7 +11732,7 @@ public struct PutDetectorInput: Swift.Equatable {
     }
 }
 
-struct PutDetectorInputBody: Swift.Equatable {
+struct PutDetectorInputBody {
     let detectorId: Swift.String?
     let description: Swift.String?
     let eventTypeName: Swift.String?
@@ -11774,7 +11774,7 @@ extension PutDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutDetectorOutput: Swift.Equatable {
+public struct PutDetectorOutput {
 
     public init() { }
 }
@@ -11825,7 +11825,7 @@ extension PutEntityTypeInput {
     }
 }
 
-public struct PutEntityTypeInput: Swift.Equatable {
+public struct PutEntityTypeInput {
     /// The description.
     public var description: Swift.String?
     /// The name of the entity type.
@@ -11846,7 +11846,7 @@ public struct PutEntityTypeInput: Swift.Equatable {
     }
 }
 
-struct PutEntityTypeInputBody: Swift.Equatable {
+struct PutEntityTypeInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [FraudDetectorClientTypes.Tag]?
@@ -11884,7 +11884,7 @@ extension PutEntityTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEntityTypeOutput: Swift.Equatable {
+public struct PutEntityTypeOutput {
 
     public init() { }
 }
@@ -11964,7 +11964,7 @@ extension PutEventTypeInput {
     }
 }
 
-public struct PutEventTypeInput: Swift.Equatable {
+public struct PutEventTypeInput {
     /// The description of the event type.
     public var description: Swift.String?
     /// The entity type for the event type. Example entity types: customer, merchant, account.
@@ -12007,7 +12007,7 @@ public struct PutEventTypeInput: Swift.Equatable {
     }
 }
 
-struct PutEventTypeInputBody: Swift.Equatable {
+struct PutEventTypeInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let eventVariables: [Swift.String]?
@@ -12092,7 +12092,7 @@ extension PutEventTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventTypeOutput: Swift.Equatable {
+public struct PutEventTypeOutput {
 
     public init() { }
 }
@@ -12159,7 +12159,7 @@ extension PutExternalModelInput {
     }
 }
 
-public struct PutExternalModelInput: Swift.Equatable {
+public struct PutExternalModelInput {
     /// The model endpoint input configuration.
     /// This member is required.
     public var inputConfiguration: FraudDetectorClientTypes.ModelInputConfiguration?
@@ -12201,7 +12201,7 @@ public struct PutExternalModelInput: Swift.Equatable {
     }
 }
 
-struct PutExternalModelInputBody: Swift.Equatable {
+struct PutExternalModelInputBody {
     let modelEndpoint: Swift.String?
     let modelSource: FraudDetectorClientTypes.ModelSource?
     let invokeModelEndpointRoleArn: Swift.String?
@@ -12255,7 +12255,7 @@ extension PutExternalModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutExternalModelOutput: Swift.Equatable {
+public struct PutExternalModelOutput {
 
     public init() { }
 }
@@ -12295,7 +12295,7 @@ extension PutKMSEncryptionKeyInput {
     }
 }
 
-public struct PutKMSEncryptionKeyInput: Swift.Equatable {
+public struct PutKMSEncryptionKeyInput {
     /// The KMS encryption key ARN. The KMS key must be single-Region key. Amazon Fraud Detector does not support multi-Region KMS key.
     /// This member is required.
     public var kmsEncryptionKeyArn: Swift.String?
@@ -12308,7 +12308,7 @@ public struct PutKMSEncryptionKeyInput: Swift.Equatable {
     }
 }
 
-struct PutKMSEncryptionKeyInputBody: Swift.Equatable {
+struct PutKMSEncryptionKeyInputBody {
     let kmsEncryptionKeyArn: Swift.String?
 }
 
@@ -12329,7 +12329,7 @@ extension PutKMSEncryptionKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutKMSEncryptionKeyOutput: Swift.Equatable {
+public struct PutKMSEncryptionKeyOutput {
 
     public init() { }
 }
@@ -12381,7 +12381,7 @@ extension PutLabelInput {
     }
 }
 
-public struct PutLabelInput: Swift.Equatable {
+public struct PutLabelInput {
     /// The label description.
     public var description: Swift.String?
     /// The label name.
@@ -12402,7 +12402,7 @@ public struct PutLabelInput: Swift.Equatable {
     }
 }
 
-struct PutLabelInputBody: Swift.Equatable {
+struct PutLabelInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [FraudDetectorClientTypes.Tag]?
@@ -12440,7 +12440,7 @@ extension PutLabelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLabelOutput: Swift.Equatable {
+public struct PutLabelOutput {
 
     public init() { }
 }
@@ -12491,7 +12491,7 @@ extension PutOutcomeInput {
     }
 }
 
-public struct PutOutcomeInput: Swift.Equatable {
+public struct PutOutcomeInput {
     /// The outcome description.
     public var description: Swift.String?
     /// The name of the outcome.
@@ -12512,7 +12512,7 @@ public struct PutOutcomeInput: Swift.Equatable {
     }
 }
 
-struct PutOutcomeInputBody: Swift.Equatable {
+struct PutOutcomeInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let tags: [FraudDetectorClientTypes.Tag]?
@@ -12550,7 +12550,7 @@ extension PutOutcomeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutOutcomeOutput: Swift.Equatable {
+public struct PutOutcomeOutput {
 
     public init() { }
 }
@@ -12610,7 +12610,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12665,7 +12665,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -12714,7 +12714,7 @@ extension FraudDetectorClientTypes.Rule: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// A rule.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The detector for which the rule is associated.
         /// This member is required.
         public var detectorId: Swift.String?
@@ -12831,7 +12831,7 @@ extension FraudDetectorClientTypes.RuleDetail: Swift.CustomDebugStringConvertibl
 
 extension FraudDetectorClientTypes {
     /// The details of the rule.
-    public struct RuleDetail: Swift.Equatable {
+    public struct RuleDetail {
         /// The rule ARN.
         public var arn: Swift.String?
         /// The timestamp of when the rule was created.
@@ -12952,7 +12952,7 @@ extension FraudDetectorClientTypes.RuleResult: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The rule results.
-    public struct RuleResult: Swift.Equatable {
+    public struct RuleResult {
         /// The outcomes of the matched rule, based on the rule execution mode.
         public var outcomes: [Swift.String]?
         /// The rule ID that was matched, based on the rule execution mode.
@@ -13020,7 +13020,7 @@ extension SendEventInput {
     }
 }
 
-public struct SendEventInput: Swift.Equatable {
+public struct SendEventInput {
     /// The label to associate with the event. Required if specifying labelTimestamp.
     public var assignedLabel: Swift.String?
     /// An array of entities.
@@ -13061,7 +13061,7 @@ public struct SendEventInput: Swift.Equatable {
     }
 }
 
-struct SendEventInputBody: Swift.Equatable {
+struct SendEventInputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
     let eventTimestamp: Swift.String?
@@ -13124,7 +13124,7 @@ extension SendEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendEventOutput: Swift.Equatable {
+public struct SendEventOutput {
 
     public init() { }
 }
@@ -13184,7 +13184,7 @@ extension FraudDetectorClientTypes.TFIMetricDataPoint: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The performance metrics data points for Transaction Fraud Insights (TFI) model.
-    public struct TFIMetricDataPoint: Swift.Equatable {
+    public struct TFIMetricDataPoint {
         /// The false positive rate. This is the percentage of total legitimate events that are incorrectly predicted as fraud.
         public var fpr: Swift.Float?
         /// The percentage of fraud events correctly predicted as fraudulent as compared to all events predicted as fraudulent.
@@ -13237,7 +13237,7 @@ extension FraudDetectorClientTypes.TFIModelPerformance: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Transaction Fraud Insights (TFI) model performance score.
-    public struct TFIModelPerformance: Swift.Equatable {
+    public struct TFIModelPerformance {
         /// The area under the curve (auc). This summarizes the total positive rate (tpr) and false positive rate (FPR) across all possible model score thresholds.
         public var auc: Swift.Float?
         /// Indicates the range of area under curve (auc) expected from the TFI model. A range greater than 0.1 indicates higher model uncertainity.
@@ -13294,7 +13294,7 @@ extension FraudDetectorClientTypes.TFITrainingMetricsValue: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The Transaction Fraud Insights (TFI) model training metric details.
-    public struct TFITrainingMetricsValue: Swift.Equatable {
+    public struct TFITrainingMetricsValue {
         /// The model's performance metrics data points.
         public var metricDataPoints: [FraudDetectorClientTypes.TFIMetricDataPoint]?
         /// The model performance score.
@@ -13339,7 +13339,7 @@ extension FraudDetectorClientTypes.Tag: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// A key and value pair.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A tag key.
         /// This member is required.
         public var key: Swift.String?
@@ -13386,7 +13386,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource ARN.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -13404,7 +13404,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [FraudDetectorClientTypes.Tag]?
 }
@@ -13438,7 +13438,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13497,7 +13497,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -13552,7 +13552,7 @@ extension FraudDetectorClientTypes.TrainingDataSchema: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The training data schema.
-    public struct TrainingDataSchema: Swift.Equatable {
+    public struct TrainingDataSchema {
         /// The label schema.
         public var labelSchema: FraudDetectorClientTypes.LabelSchema?
         /// The training data schema variables.
@@ -13642,7 +13642,7 @@ extension FraudDetectorClientTypes.TrainingMetrics: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The training metric details.
-    public struct TrainingMetrics: Swift.Equatable {
+    public struct TrainingMetrics {
         /// The area under the curve. This summarizes true positive rate (TPR) and false positive rate (FPR) across all possible model score thresholds. A model with no predictive power has an AUC of 0.5, whereas a perfect model has a score of 1.0.
         public var auc: Swift.Float?
         /// The data points details.
@@ -13693,7 +13693,7 @@ extension FraudDetectorClientTypes.TrainingMetricsV2: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The training metrics details.
-    public struct TrainingMetricsV2: Swift.Equatable {
+    public struct TrainingMetricsV2 {
         /// The Account Takeover Insights (ATI) model training metric details.
         public var ati: FraudDetectorClientTypes.ATITrainingMetricsValue?
         /// The Online Fraud Insights (OFI) model training metric details.
@@ -13748,7 +13748,7 @@ extension FraudDetectorClientTypes.TrainingResult: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The training result details.
-    public struct TrainingResult: Swift.Equatable {
+    public struct TrainingResult {
         /// The validation metrics.
         public var dataValidationMetrics: FraudDetectorClientTypes.DataValidationMetrics?
         /// The training metric details.
@@ -13809,7 +13809,7 @@ extension FraudDetectorClientTypes.TrainingResultV2: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The training result details.
-    public struct TrainingResultV2: Swift.Equatable {
+    public struct TrainingResultV2 {
         /// The variable importance metrics of the aggregated variables. Account Takeover Insights (ATI) model uses event variables from the login data you provide to continuously calculate a set of variables (aggregated variables) based on historical events. For example, your ATI model might calculate the number of times an user has logged in using the same IP address. In this case, event variables used to derive the aggregated variables are IP address and user.
         public var aggregatedVariablesImportanceMetrics: FraudDetectorClientTypes.AggregatedVariablesImportanceMetrics?
         /// The model training data validation metrics.
@@ -13862,7 +13862,7 @@ extension FraudDetectorClientTypes.UncertaintyRange: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// Range of area under curve (auc) expected from the model. A range greater than 0.1 indicates higher model uncertainity. A range is the difference between upper and lower bound of auc.
-    public struct UncertaintyRange: Swift.Equatable {
+    public struct UncertaintyRange {
         /// The lower bound value of the area under curve (auc).
         /// This member is required.
         public var lowerBoundValue: Swift.Float?
@@ -13947,7 +13947,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource from which to remove the tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -13965,7 +13965,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -13999,7 +13999,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14071,7 +14071,7 @@ extension UpdateDetectorVersionInput {
     }
 }
 
-public struct UpdateDetectorVersionInput: Swift.Equatable {
+public struct UpdateDetectorVersionInput {
     /// The detector version description.
     public var description: Swift.String?
     /// The parent detector ID for the detector version you want to update.
@@ -14111,7 +14111,7 @@ public struct UpdateDetectorVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDetectorVersionInputBody: Swift.Equatable {
+struct UpdateDetectorVersionInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let externalModelEndpoints: [Swift.String]?
@@ -14206,7 +14206,7 @@ extension UpdateDetectorVersionMetadataInput {
     }
 }
 
-public struct UpdateDetectorVersionMetadataInput: Swift.Equatable {
+public struct UpdateDetectorVersionMetadataInput {
     /// The description.
     /// This member is required.
     public var description: Swift.String?
@@ -14229,7 +14229,7 @@ public struct UpdateDetectorVersionMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateDetectorVersionMetadataInputBody: Swift.Equatable {
+struct UpdateDetectorVersionMetadataInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let description: Swift.String?
@@ -14258,7 +14258,7 @@ extension UpdateDetectorVersionMetadataOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateDetectorVersionMetadataOutput: Swift.Equatable {
+public struct UpdateDetectorVersionMetadataOutput {
 
     public init() { }
 }
@@ -14283,7 +14283,7 @@ extension UpdateDetectorVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDetectorVersionOutput: Swift.Equatable {
+public struct UpdateDetectorVersionOutput {
 
     public init() { }
 }
@@ -14332,7 +14332,7 @@ extension UpdateDetectorVersionStatusInput {
     }
 }
 
-public struct UpdateDetectorVersionStatusInput: Swift.Equatable {
+public struct UpdateDetectorVersionStatusInput {
     /// The detector ID.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -14355,7 +14355,7 @@ public struct UpdateDetectorVersionStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateDetectorVersionStatusInputBody: Swift.Equatable {
+struct UpdateDetectorVersionStatusInputBody {
     let detectorId: Swift.String?
     let detectorVersionId: Swift.String?
     let status: FraudDetectorClientTypes.DetectorVersionStatus?
@@ -14384,7 +14384,7 @@ extension UpdateDetectorVersionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDetectorVersionStatusOutput: Swift.Equatable {
+public struct UpdateDetectorVersionStatusOutput {
 
     public init() { }
 }
@@ -14437,7 +14437,7 @@ extension UpdateEventLabelInput {
     }
 }
 
-public struct UpdateEventLabelInput: Swift.Equatable {
+public struct UpdateEventLabelInput {
     /// The new label to assign to the event.
     /// This member is required.
     public var assignedLabel: Swift.String?
@@ -14465,7 +14465,7 @@ public struct UpdateEventLabelInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventLabelInputBody: Swift.Equatable {
+struct UpdateEventLabelInputBody {
     let eventId: Swift.String?
     let eventTypeName: Swift.String?
     let assignedLabel: Swift.String?
@@ -14498,7 +14498,7 @@ extension UpdateEventLabelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEventLabelOutput: Swift.Equatable {
+public struct UpdateEventLabelOutput {
 
     public init() { }
 }
@@ -14558,7 +14558,7 @@ extension UpdateListInput {
     }
 }
 
-public struct UpdateListInput: Swift.Equatable {
+public struct UpdateListInput {
     /// The new description.
     public var description: Swift.String?
     /// One or more list elements to add or replace. If you are providing the elements, make sure to specify the updateMode to use. If you are deleting all elements from the list, use REPLACE for the updateMode and provide an empty list (0 elements).
@@ -14593,7 +14593,7 @@ public struct UpdateListInput: Swift.Equatable {
     }
 }
 
-struct UpdateListInputBody: Swift.Equatable {
+struct UpdateListInputBody {
     let name: Swift.String?
     let elements: [Swift.String]?
     let description: Swift.String?
@@ -14639,7 +14639,7 @@ extension UpdateListOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateListOutput: Swift.Equatable {
+public struct UpdateListOutput {
 
     public init() { }
 }
@@ -14688,7 +14688,7 @@ extension UpdateModelInput {
     }
 }
 
-public struct UpdateModelInput: Swift.Equatable {
+public struct UpdateModelInput {
     /// The new model description.
     public var description: Swift.String?
     /// The model ID.
@@ -14710,7 +14710,7 @@ public struct UpdateModelInput: Swift.Equatable {
     }
 }
 
-struct UpdateModelInputBody: Swift.Equatable {
+struct UpdateModelInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let description: Swift.String?
@@ -14739,7 +14739,7 @@ extension UpdateModelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateModelOutput: Swift.Equatable {
+public struct UpdateModelOutput {
 
     public init() { }
 }
@@ -14803,7 +14803,7 @@ extension UpdateModelVersionInput {
     }
 }
 
-public struct UpdateModelVersionInput: Swift.Equatable {
+public struct UpdateModelVersionInput {
     /// The details of the external events data used for training the model version. Required if trainingDataSource is EXTERNAL_EVENTS.
     public var externalEventsDetail: FraudDetectorClientTypes.ExternalEventsDetail?
     /// The details of the ingested event used for training the model version. Required if your trainingDataSource is INGESTED_EVENTS.
@@ -14838,7 +14838,7 @@ public struct UpdateModelVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateModelVersionInputBody: Swift.Equatable {
+struct UpdateModelVersionInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let majorVersionNumber: Swift.String?
@@ -14901,7 +14901,7 @@ extension UpdateModelVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateModelVersionOutput: Swift.Equatable {
+public struct UpdateModelVersionOutput {
     /// The model ID.
     public var modelId: Swift.String?
     /// The model type.
@@ -14925,7 +14925,7 @@ public struct UpdateModelVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateModelVersionOutputBody: Swift.Equatable {
+struct UpdateModelVersionOutputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -15001,7 +15001,7 @@ extension UpdateModelVersionStatusInput {
     }
 }
 
-public struct UpdateModelVersionStatusInput: Swift.Equatable {
+public struct UpdateModelVersionStatusInput {
     /// The model ID of the model version to update.
     /// This member is required.
     public var modelId: Swift.String?
@@ -15029,7 +15029,7 @@ public struct UpdateModelVersionStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateModelVersionStatusInputBody: Swift.Equatable {
+struct UpdateModelVersionStatusInputBody {
     let modelId: Swift.String?
     let modelType: FraudDetectorClientTypes.ModelTypeEnum?
     let modelVersionNumber: Swift.String?
@@ -15062,7 +15062,7 @@ extension UpdateModelVersionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateModelVersionStatusOutput: Swift.Equatable {
+public struct UpdateModelVersionStatusOutput {
 
     public init() { }
 }
@@ -15107,7 +15107,7 @@ extension UpdateRuleMetadataInput {
     }
 }
 
-public struct UpdateRuleMetadataInput: Swift.Equatable {
+public struct UpdateRuleMetadataInput {
     /// The rule description.
     /// This member is required.
     public var description: Swift.String?
@@ -15125,7 +15125,7 @@ public struct UpdateRuleMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleMetadataInputBody: Swift.Equatable {
+struct UpdateRuleMetadataInputBody {
     let rule: FraudDetectorClientTypes.Rule?
     let description: Swift.String?
 }
@@ -15150,7 +15150,7 @@ extension UpdateRuleMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleMetadataOutput: Swift.Equatable {
+public struct UpdateRuleMetadataOutput {
 
     public init() { }
 }
@@ -15222,7 +15222,7 @@ extension UpdateRuleVersionInput {
     }
 }
 
-public struct UpdateRuleVersionInput: Swift.Equatable {
+public struct UpdateRuleVersionInput {
     /// The description.
     public var description: Swift.String?
     /// The rule expression.
@@ -15258,7 +15258,7 @@ public struct UpdateRuleVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleVersionInputBody: Swift.Equatable {
+struct UpdateRuleVersionInputBody {
     let rule: FraudDetectorClientTypes.Rule?
     let description: Swift.String?
     let expression: Swift.String?
@@ -15324,7 +15324,7 @@ extension UpdateRuleVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleVersionOutput: Swift.Equatable {
+public struct UpdateRuleVersionOutput {
     /// The new rule version that was created.
     public var rule: FraudDetectorClientTypes.Rule?
 
@@ -15336,7 +15336,7 @@ public struct UpdateRuleVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleVersionOutputBody: Swift.Equatable {
+struct UpdateRuleVersionOutputBody {
     let rule: FraudDetectorClientTypes.Rule?
 }
 
@@ -15400,7 +15400,7 @@ extension UpdateVariableInput {
     }
 }
 
-public struct UpdateVariableInput: Swift.Equatable {
+public struct UpdateVariableInput {
     /// The new default value of the variable.
     public var defaultValue: Swift.String?
     /// The new description.
@@ -15425,7 +15425,7 @@ public struct UpdateVariableInput: Swift.Equatable {
     }
 }
 
-struct UpdateVariableInputBody: Swift.Equatable {
+struct UpdateVariableInputBody {
     let name: Swift.String?
     let defaultValue: Swift.String?
     let description: Swift.String?
@@ -15458,7 +15458,7 @@ extension UpdateVariableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVariableOutput: Swift.Equatable {
+public struct UpdateVariableOutput {
 
     public init() { }
 }
@@ -15519,7 +15519,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -15604,7 +15604,7 @@ extension FraudDetectorClientTypes.Variable: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The variable.
-    public struct Variable: Swift.Equatable {
+    public struct Variable {
         /// The ARN of the variable.
         public var arn: Swift.String?
         /// The time when the variable was created.
@@ -15701,7 +15701,7 @@ extension FraudDetectorClientTypes.VariableEntry: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// A variable in the list of variables for the batch create variable request.
-    public struct VariableEntry: Swift.Equatable {
+    public struct VariableEntry {
         /// The data source of the variable.
         public var dataSource: Swift.String?
         /// The data type of the variable.
@@ -15768,7 +15768,7 @@ extension FraudDetectorClientTypes.VariableImpactExplanation: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The details of the event variable's impact on the prediction score.
-    public struct VariableImpactExplanation: Swift.Equatable {
+    public struct VariableImpactExplanation {
         /// The event variable name.
         public var eventVariableName: Swift.String?
         /// The raw, uninterpreted value represented as log-odds of the fraud. These values are usually between -10 to +10, but range from - infinity to + infinity.
@@ -15827,7 +15827,7 @@ extension FraudDetectorClientTypes.VariableImportanceMetrics: Swift.Codable {
 
 extension FraudDetectorClientTypes {
     /// The variable importance metrics details.
-    public struct VariableImportanceMetrics: Swift.Equatable {
+    public struct VariableImportanceMetrics {
         /// List of variable metrics.
         public var logOddsMetrics: [FraudDetectorClientTypes.LogOddsMetric]?
 

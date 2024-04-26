@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -158,7 +158,7 @@ extension TransferClientTypes.As2ConnectorConfig: Swift.Codable {
 
 extension TransferClientTypes {
     /// Contains the details for an AS2 connector object. The connector object is used for AS2 outbound processes, to connect the Transfer Family customer with the trading partner.
-    public struct As2ConnectorConfig: Swift.Equatable {
+    public struct As2ConnectorConfig {
         /// Provides Basic authentication support to the AS2 Connectors API. To use Basic authentication, you must provide the name or Amazon Resource Name (ARN) of a secret in Secrets Manager. The default value for this parameter is null, which indicates that Basic authentication is not enabled for the connector. If the connector should use Basic authentication, the secret needs to be in the following format: { "Username": "user-name", "Password": "user-password" } Replace user-name and user-password with the credentials for the actual user that is being authenticated. Note the following:
         ///
         /// * You are storing these credentials in Secrets Manager, not passing them directly into this API.
@@ -422,7 +422,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -477,7 +477,7 @@ extension TransferClientTypes.CopyStepDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
-    public struct CopyStepDetails: Swift.Equatable {
+    public struct CopyStepDetails {
         /// Specifies the location for the file being copied. Use ${Transfer:UserName} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
         ///
         /// * Set the value of DestinationFileLocation to ${Transfer:UserName} to copy uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
@@ -566,7 +566,7 @@ extension CreateAccessInput {
     }
 }
 
-public struct CreateAccessInput: Swift.Equatable {
+public struct CreateAccessInput {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
@@ -609,7 +609,7 @@ public struct CreateAccessInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessInputBody: Swift.Equatable {
+struct CreateAccessInputBody {
     let homeDirectory: Swift.String?
     let homeDirectoryType: TransferClientTypes.HomeDirectoryType?
     let homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -676,7 +676,7 @@ extension CreateAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessOutput: Swift.Equatable {
+public struct CreateAccessOutput {
     /// The external identifier of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family.
     /// This member is required.
     public var externalId: Swift.String?
@@ -694,7 +694,7 @@ public struct CreateAccessOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessOutputBody: Swift.Equatable {
+struct CreateAccessOutputBody {
     let serverId: Swift.String?
     let externalId: Swift.String?
 }
@@ -780,7 +780,7 @@ extension CreateAgreementInput {
     }
 }
 
-public struct CreateAgreementInput: Swift.Equatable {
+public struct CreateAgreementInput {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     /// This member is required.
     public var accessRole: Swift.String?
@@ -825,7 +825,7 @@ public struct CreateAgreementInput: Swift.Equatable {
     }
 }
 
-struct CreateAgreementInputBody: Swift.Equatable {
+struct CreateAgreementInputBody {
     let description: Swift.String?
     let serverId: Swift.String?
     let localProfileId: Swift.String?
@@ -890,7 +890,7 @@ extension CreateAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAgreementOutput: Swift.Equatable {
+public struct CreateAgreementOutput {
     /// The unique identifier for the agreement. Use this ID for deleting, or updating an agreement, as well as in any other API calls that require that you specify the agreement ID.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -903,7 +903,7 @@ public struct CreateAgreementOutput: Swift.Equatable {
     }
 }
 
-struct CreateAgreementOutputBody: Swift.Equatable {
+struct CreateAgreementOutputBody {
     let agreementId: Swift.String?
 }
 
@@ -982,7 +982,7 @@ extension CreateConnectorInput {
     }
 }
 
-public struct CreateConnectorInput: Swift.Equatable {
+public struct CreateConnectorInput {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     /// This member is required.
     public var accessRole: Swift.String?
@@ -1020,7 +1020,7 @@ public struct CreateConnectorInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorInputBody: Swift.Equatable {
+struct CreateConnectorInputBody {
     let url: Swift.String?
     let as2Config: TransferClientTypes.As2ConnectorConfig?
     let accessRole: Swift.String?
@@ -1081,7 +1081,7 @@ extension CreateConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectorOutput: Swift.Equatable {
+public struct CreateConnectorOutput {
     /// The unique identifier for the connector, returned after the API call succeeds.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -1094,7 +1094,7 @@ public struct CreateConnectorOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectorOutputBody: Swift.Equatable {
+struct CreateConnectorOutputBody {
     let connectorId: Swift.String?
 }
 
@@ -1164,7 +1164,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// The As2Id is the AS2-name, as defined in the [RFC 4130](https://datatracker.ietf.org/doc/html/rfc4130). For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
     /// This member is required.
     public var as2Id: Swift.String?
@@ -1194,7 +1194,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let as2Id: Swift.String?
     let profileType: TransferClientTypes.ProfileType?
     let certificateIds: [Swift.String]?
@@ -1252,7 +1252,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// The unique identifier for the AS2 profile, returned after the API call succeeds.
     /// This member is required.
     public var profileId: Swift.String?
@@ -1265,7 +1265,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profileId: Swift.String?
 }
 
@@ -1394,7 +1394,7 @@ extension CreateServerInput {
     }
 }
 
-public struct CreateServerInput: Swift.Equatable {
+public struct CreateServerInput {
     /// The Amazon Resource Name (ARN) of the Certificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see [Request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) in the Certificate Manager User Guide. To import an existing certificate into ACM, see [Importing certificates into ACM](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Certificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see [Request a private certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html) in the Certificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:
     ///
     /// * 2048-bit RSA (RSA_2048)
@@ -1512,7 +1512,7 @@ public struct CreateServerInput: Swift.Equatable {
     }
 }
 
-struct CreateServerInputBody: Swift.Equatable {
+struct CreateServerInputBody {
     let certificate: Swift.String?
     let domain: TransferClientTypes.Domain?
     let endpointDetails: TransferClientTypes.EndpointDetails?
@@ -1631,7 +1631,7 @@ extension CreateServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateServerOutput: Swift.Equatable {
+public struct CreateServerOutput {
     /// The service-assigned identifier of the server that is created.
     /// This member is required.
     public var serverId: Swift.String?
@@ -1644,7 +1644,7 @@ public struct CreateServerOutput: Swift.Equatable {
     }
 }
 
-struct CreateServerOutputBody: Swift.Equatable {
+struct CreateServerOutputBody {
     let serverId: Swift.String?
 }
 
@@ -1739,7 +1739,7 @@ extension CreateUserInput {
     }
 }
 
-public struct CreateUserInput: Swift.Equatable {
+public struct CreateUserInput {
     /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock your user down to the designated home directory ("chroot"). To do this, you can set Entry to / and set Target to the value the user should see for their home directory when they log in. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
@@ -1796,7 +1796,7 @@ public struct CreateUserInput: Swift.Equatable {
     }
 }
 
-struct CreateUserInputBody: Swift.Equatable {
+struct CreateUserInputBody {
     let homeDirectory: Swift.String?
     let homeDirectoryType: TransferClientTypes.HomeDirectoryType?
     let homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -1880,7 +1880,7 @@ extension CreateUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUserOutput: Swift.Equatable {
+public struct CreateUserOutput {
     /// The identifier of the server that the user is attached to.
     /// This member is required.
     public var serverId: Swift.String?
@@ -1898,7 +1898,7 @@ public struct CreateUserOutput: Swift.Equatable {
     }
 }
 
-struct CreateUserOutputBody: Swift.Equatable {
+struct CreateUserOutputBody {
     let serverId: Swift.String?
     let userName: Swift.String?
 }
@@ -1974,7 +1974,7 @@ extension CreateWorkflowInput {
     }
 }
 
-public struct CreateWorkflowInput: Swift.Equatable {
+public struct CreateWorkflowInput {
     /// A textual description for the workflow.
     public var description: Swift.String?
     /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow. For custom steps, the Lambda function needs to send FAILURE to the call back API to kick off the exception steps. Additionally, if the Lambda does not send SUCCESS before it times out, the exception steps are executed.
@@ -2012,7 +2012,7 @@ public struct CreateWorkflowInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowInputBody: Swift.Equatable {
+struct CreateWorkflowInputBody {
     let description: Swift.String?
     let steps: [TransferClientTypes.WorkflowStep]?
     let onExceptionSteps: [TransferClientTypes.WorkflowStep]?
@@ -2079,7 +2079,7 @@ extension CreateWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkflowOutput: Swift.Equatable {
+public struct CreateWorkflowOutput {
     /// A unique identifier for the workflow.
     /// This member is required.
     public var workflowId: Swift.String?
@@ -2092,7 +2092,7 @@ public struct CreateWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkflowOutputBody: Swift.Equatable {
+struct CreateWorkflowOutputBody {
     let workflowId: Swift.String?
 }
 
@@ -2163,7 +2163,7 @@ extension TransferClientTypes.CustomStepDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
-    public struct CustomStepDetails: Swift.Equatable {
+    public struct CustomStepDetails {
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
@@ -2270,7 +2270,7 @@ extension TransferClientTypes.DecryptStepDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure.
-    public struct DecryptStepDetails: Swift.Equatable {
+    public struct DecryptStepDetails {
         /// Specifies the location for the file being decrypted. Use ${Transfer:UserName} or ${Transfer:UploadDate} in this field to parametrize the destination prefix by username or uploaded date.
         ///
         /// * Set the value of DestinationFileLocation to ${Transfer:UserName} to decrypt uploaded files to an Amazon S3 bucket that is prefixed with the name of the Transfer Family user that uploaded the file.
@@ -2338,7 +2338,7 @@ extension DeleteAccessInput {
     }
 }
 
-public struct DeleteAccessInput: Swift.Equatable {
+public struct DeleteAccessInput {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
@@ -2356,7 +2356,7 @@ public struct DeleteAccessInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessInputBody: Swift.Equatable {
+struct DeleteAccessInputBody {
     let serverId: Swift.String?
     let externalId: Swift.String?
 }
@@ -2381,7 +2381,7 @@ extension DeleteAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessOutput: Swift.Equatable {
+public struct DeleteAccessOutput {
 
     public init() { }
 }
@@ -2424,7 +2424,7 @@ extension DeleteAgreementInput {
     }
 }
 
-public struct DeleteAgreementInput: Swift.Equatable {
+public struct DeleteAgreementInput {
     /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -2442,7 +2442,7 @@ public struct DeleteAgreementInput: Swift.Equatable {
     }
 }
 
-struct DeleteAgreementInputBody: Swift.Equatable {
+struct DeleteAgreementInputBody {
     let agreementId: Swift.String?
     let serverId: Swift.String?
 }
@@ -2467,7 +2467,7 @@ extension DeleteAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAgreementOutput: Swift.Equatable {
+public struct DeleteAgreementOutput {
 
     public init() { }
 }
@@ -2506,7 +2506,7 @@ extension DeleteCertificateInput {
     }
 }
 
-public struct DeleteCertificateInput: Swift.Equatable {
+public struct DeleteCertificateInput {
     /// The identifier of the certificate object that you are deleting.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -2519,7 +2519,7 @@ public struct DeleteCertificateInput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateInputBody: Swift.Equatable {
+struct DeleteCertificateInputBody {
     let certificateId: Swift.String?
 }
 
@@ -2540,7 +2540,7 @@ extension DeleteCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCertificateOutput: Swift.Equatable {
+public struct DeleteCertificateOutput {
 
     public init() { }
 }
@@ -2579,7 +2579,7 @@ extension DeleteConnectorInput {
     }
 }
 
-public struct DeleteConnectorInput: Swift.Equatable {
+public struct DeleteConnectorInput {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -2592,7 +2592,7 @@ public struct DeleteConnectorInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectorInputBody: Swift.Equatable {
+struct DeleteConnectorInputBody {
     let connectorId: Swift.String?
 }
 
@@ -2613,7 +2613,7 @@ extension DeleteConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectorOutput: Swift.Equatable {
+public struct DeleteConnectorOutput {
 
     public init() { }
 }
@@ -2656,7 +2656,7 @@ extension DeleteHostKeyInput {
     }
 }
 
-public struct DeleteHostKeyInput: Swift.Equatable {
+public struct DeleteHostKeyInput {
     /// The identifier of the host key that you are deleting.
     /// This member is required.
     public var hostKeyId: Swift.String?
@@ -2674,7 +2674,7 @@ public struct DeleteHostKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteHostKeyInputBody: Swift.Equatable {
+struct DeleteHostKeyInputBody {
     let serverId: Swift.String?
     let hostKeyId: Swift.String?
 }
@@ -2699,7 +2699,7 @@ extension DeleteHostKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHostKeyOutput: Swift.Equatable {
+public struct DeleteHostKeyOutput {
 
     public init() { }
 }
@@ -2739,7 +2739,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// The identifier of the profile that you are deleting.
     /// This member is required.
     public var profileId: Swift.String?
@@ -2752,7 +2752,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
     let profileId: Swift.String?
 }
 
@@ -2773,7 +2773,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
 
     public init() { }
 }
@@ -2812,7 +2812,7 @@ extension DeleteServerInput {
     }
 }
 
-public struct DeleteServerInput: Swift.Equatable {
+public struct DeleteServerInput {
     /// A unique system-assigned identifier for a server instance.
     /// This member is required.
     public var serverId: Swift.String?
@@ -2825,7 +2825,7 @@ public struct DeleteServerInput: Swift.Equatable {
     }
 }
 
-struct DeleteServerInputBody: Swift.Equatable {
+struct DeleteServerInputBody {
     let serverId: Swift.String?
 }
 
@@ -2846,7 +2846,7 @@ extension DeleteServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteServerOutput: Swift.Equatable {
+public struct DeleteServerOutput {
 
     public init() { }
 }
@@ -2894,7 +2894,7 @@ extension DeleteSshPublicKeyInput {
     }
 }
 
-public struct DeleteSshPublicKeyInput: Swift.Equatable {
+public struct DeleteSshPublicKeyInput {
     /// A system-assigned unique identifier for a file transfer protocol-enabled server instance that has the user assigned to it.
     /// This member is required.
     public var serverId: Swift.String?
@@ -2917,7 +2917,7 @@ public struct DeleteSshPublicKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteSshPublicKeyInputBody: Swift.Equatable {
+struct DeleteSshPublicKeyInputBody {
     let serverId: Swift.String?
     let sshPublicKeyId: Swift.String?
     let userName: Swift.String?
@@ -2946,7 +2946,7 @@ extension DeleteSshPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSshPublicKeyOutput: Swift.Equatable {
+public struct DeleteSshPublicKeyOutput {
 
     public init() { }
 }
@@ -2993,7 +2993,7 @@ extension TransferClientTypes.DeleteStepDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// The name of the step, used to identify the delete step.
-    public struct DeleteStepDetails: Swift.Equatable {
+    public struct DeleteStepDetails {
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
@@ -3039,7 +3039,7 @@ extension DeleteUserInput {
     }
 }
 
-public struct DeleteUserInput: Swift.Equatable {
+public struct DeleteUserInput {
     /// A system-assigned unique identifier for a server instance that has the user assigned to it.
     /// This member is required.
     public var serverId: Swift.String?
@@ -3057,7 +3057,7 @@ public struct DeleteUserInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserInputBody: Swift.Equatable {
+struct DeleteUserInputBody {
     let serverId: Swift.String?
     let userName: Swift.String?
 }
@@ -3082,7 +3082,7 @@ extension DeleteUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserOutput: Swift.Equatable {
+public struct DeleteUserOutput {
 
     public init() { }
 }
@@ -3121,7 +3121,7 @@ extension DeleteWorkflowInput {
     }
 }
 
-public struct DeleteWorkflowInput: Swift.Equatable {
+public struct DeleteWorkflowInput {
     /// A unique identifier for the workflow.
     /// This member is required.
     public var workflowId: Swift.String?
@@ -3134,7 +3134,7 @@ public struct DeleteWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkflowInputBody: Swift.Equatable {
+struct DeleteWorkflowInputBody {
     let workflowId: Swift.String?
 }
 
@@ -3155,7 +3155,7 @@ extension DeleteWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkflowOutput: Swift.Equatable {
+public struct DeleteWorkflowOutput {
 
     public init() { }
 }
@@ -3199,7 +3199,7 @@ extension DescribeAccessInput {
     }
 }
 
-public struct DescribeAccessInput: Swift.Equatable {
+public struct DescribeAccessInput {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
@@ -3217,7 +3217,7 @@ public struct DescribeAccessInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessInputBody: Swift.Equatable {
+struct DescribeAccessInputBody {
     let serverId: Swift.String?
     let externalId: Swift.String?
 }
@@ -3251,7 +3251,7 @@ extension DescribeAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccessOutput: Swift.Equatable {
+public struct DescribeAccessOutput {
     /// The external identifier of the server that the access is attached to.
     /// This member is required.
     public var access: TransferClientTypes.DescribedAccess?
@@ -3269,7 +3269,7 @@ public struct DescribeAccessOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessOutputBody: Swift.Equatable {
+struct DescribeAccessOutputBody {
     let serverId: Swift.String?
     let access: TransferClientTypes.DescribedAccess?
 }
@@ -3327,7 +3327,7 @@ extension DescribeAgreementInput {
     }
 }
 
-public struct DescribeAgreementInput: Swift.Equatable {
+public struct DescribeAgreementInput {
     /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -3345,7 +3345,7 @@ public struct DescribeAgreementInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgreementInputBody: Swift.Equatable {
+struct DescribeAgreementInputBody {
     let agreementId: Swift.String?
     let serverId: Swift.String?
 }
@@ -3377,7 +3377,7 @@ extension DescribeAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAgreementOutput: Swift.Equatable {
+public struct DescribeAgreementOutput {
     /// The details for the specified agreement, returned as a DescribedAgreement object.
     /// This member is required.
     public var agreement: TransferClientTypes.DescribedAgreement?
@@ -3390,7 +3390,7 @@ public struct DescribeAgreementOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgreementOutputBody: Swift.Equatable {
+struct DescribeAgreementOutputBody {
     let agreement: TransferClientTypes.DescribedAgreement?
 }
 
@@ -3440,7 +3440,7 @@ extension DescribeCertificateInput {
     }
 }
 
-public struct DescribeCertificateInput: Swift.Equatable {
+public struct DescribeCertificateInput {
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -3453,7 +3453,7 @@ public struct DescribeCertificateInput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateInputBody: Swift.Equatable {
+struct DescribeCertificateInputBody {
     let certificateId: Swift.String?
 }
 
@@ -3481,7 +3481,7 @@ extension DescribeCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCertificateOutput: Swift.Equatable {
+public struct DescribeCertificateOutput {
     /// The details for the specified certificate, returned as an object.
     /// This member is required.
     public var certificate: TransferClientTypes.DescribedCertificate?
@@ -3494,7 +3494,7 @@ public struct DescribeCertificateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateOutputBody: Swift.Equatable {
+struct DescribeCertificateOutputBody {
     let certificate: TransferClientTypes.DescribedCertificate?
 }
 
@@ -3544,7 +3544,7 @@ extension DescribeConnectorInput {
     }
 }
 
-public struct DescribeConnectorInput: Swift.Equatable {
+public struct DescribeConnectorInput {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -3557,7 +3557,7 @@ public struct DescribeConnectorInput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorInputBody: Swift.Equatable {
+struct DescribeConnectorInputBody {
     let connectorId: Swift.String?
 }
 
@@ -3585,7 +3585,7 @@ extension DescribeConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeConnectorOutput: Swift.Equatable {
+public struct DescribeConnectorOutput {
     /// The structure that contains the details of the connector.
     /// This member is required.
     public var connector: TransferClientTypes.DescribedConnector?
@@ -3598,7 +3598,7 @@ public struct DescribeConnectorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeConnectorOutputBody: Swift.Equatable {
+struct DescribeConnectorOutputBody {
     let connector: TransferClientTypes.DescribedConnector?
 }
 
@@ -3652,7 +3652,7 @@ extension DescribeExecutionInput {
     }
 }
 
-public struct DescribeExecutionInput: Swift.Equatable {
+public struct DescribeExecutionInput {
     /// A unique identifier for the execution of a workflow.
     /// This member is required.
     public var executionId: Swift.String?
@@ -3670,7 +3670,7 @@ public struct DescribeExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeExecutionInputBody: Swift.Equatable {
+struct DescribeExecutionInputBody {
     let executionId: Swift.String?
     let workflowId: Swift.String?
 }
@@ -3704,7 +3704,7 @@ extension DescribeExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExecutionOutput: Swift.Equatable {
+public struct DescribeExecutionOutput {
     /// The structure that contains the details of the workflow' execution.
     /// This member is required.
     public var execution: TransferClientTypes.DescribedExecution?
@@ -3722,7 +3722,7 @@ public struct DescribeExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExecutionOutputBody: Swift.Equatable {
+struct DescribeExecutionOutputBody {
     let workflowId: Swift.String?
     let execution: TransferClientTypes.DescribedExecution?
 }
@@ -3780,7 +3780,7 @@ extension DescribeHostKeyInput {
     }
 }
 
-public struct DescribeHostKeyInput: Swift.Equatable {
+public struct DescribeHostKeyInput {
     /// The identifier of the host key that you want described.
     /// This member is required.
     public var hostKeyId: Swift.String?
@@ -3798,7 +3798,7 @@ public struct DescribeHostKeyInput: Swift.Equatable {
     }
 }
 
-struct DescribeHostKeyInputBody: Swift.Equatable {
+struct DescribeHostKeyInputBody {
     let serverId: Swift.String?
     let hostKeyId: Swift.String?
 }
@@ -3830,7 +3830,7 @@ extension DescribeHostKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeHostKeyOutput: Swift.Equatable {
+public struct DescribeHostKeyOutput {
     /// Returns the details for the specified host key.
     /// This member is required.
     public var hostKey: TransferClientTypes.DescribedHostKey?
@@ -3843,7 +3843,7 @@ public struct DescribeHostKeyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeHostKeyOutputBody: Swift.Equatable {
+struct DescribeHostKeyOutputBody {
     let hostKey: TransferClientTypes.DescribedHostKey?
 }
 
@@ -3893,7 +3893,7 @@ extension DescribeProfileInput {
     }
 }
 
-public struct DescribeProfileInput: Swift.Equatable {
+public struct DescribeProfileInput {
     /// The identifier of the profile that you want described.
     /// This member is required.
     public var profileId: Swift.String?
@@ -3906,7 +3906,7 @@ public struct DescribeProfileInput: Swift.Equatable {
     }
 }
 
-struct DescribeProfileInputBody: Swift.Equatable {
+struct DescribeProfileInputBody {
     let profileId: Swift.String?
 }
 
@@ -3934,7 +3934,7 @@ extension DescribeProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeProfileOutput: Swift.Equatable {
+public struct DescribeProfileOutput {
     /// The details of the specified profile, returned as an object.
     /// This member is required.
     public var profile: TransferClientTypes.DescribedProfile?
@@ -3947,7 +3947,7 @@ public struct DescribeProfileOutput: Swift.Equatable {
     }
 }
 
-struct DescribeProfileOutputBody: Swift.Equatable {
+struct DescribeProfileOutputBody {
     let profile: TransferClientTypes.DescribedProfile?
 }
 
@@ -3997,7 +3997,7 @@ extension DescribeSecurityPolicyInput {
     }
 }
 
-public struct DescribeSecurityPolicyInput: Swift.Equatable {
+public struct DescribeSecurityPolicyInput {
     /// Specify the text name of the security policy for which you want the details.
     /// This member is required.
     public var securityPolicyName: Swift.String?
@@ -4010,7 +4010,7 @@ public struct DescribeSecurityPolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityPolicyInputBody: Swift.Equatable {
+struct DescribeSecurityPolicyInputBody {
     let securityPolicyName: Swift.String?
 }
 
@@ -4038,7 +4038,7 @@ extension DescribeSecurityPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSecurityPolicyOutput: Swift.Equatable {
+public struct DescribeSecurityPolicyOutput {
     /// An array containing the properties of the security policy.
     /// This member is required.
     public var securityPolicy: TransferClientTypes.DescribedSecurityPolicy?
@@ -4051,7 +4051,7 @@ public struct DescribeSecurityPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSecurityPolicyOutputBody: Swift.Equatable {
+struct DescribeSecurityPolicyOutputBody {
     let securityPolicy: TransferClientTypes.DescribedSecurityPolicy?
 }
 
@@ -4101,7 +4101,7 @@ extension DescribeServerInput {
     }
 }
 
-public struct DescribeServerInput: Swift.Equatable {
+public struct DescribeServerInput {
     /// A system-assigned unique identifier for a server.
     /// This member is required.
     public var serverId: Swift.String?
@@ -4114,7 +4114,7 @@ public struct DescribeServerInput: Swift.Equatable {
     }
 }
 
-struct DescribeServerInputBody: Swift.Equatable {
+struct DescribeServerInputBody {
     let serverId: Swift.String?
 }
 
@@ -4142,7 +4142,7 @@ extension DescribeServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeServerOutput: Swift.Equatable {
+public struct DescribeServerOutput {
     /// An array containing the properties of a server with the ServerID you specified.
     /// This member is required.
     public var server: TransferClientTypes.DescribedServer?
@@ -4155,7 +4155,7 @@ public struct DescribeServerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeServerOutputBody: Swift.Equatable {
+struct DescribeServerOutputBody {
     let server: TransferClientTypes.DescribedServer?
 }
 
@@ -4209,7 +4209,7 @@ extension DescribeUserInput {
     }
 }
 
-public struct DescribeUserInput: Swift.Equatable {
+public struct DescribeUserInput {
     /// A system-assigned unique identifier for a server that has this user assigned.
     /// This member is required.
     public var serverId: Swift.String?
@@ -4227,7 +4227,7 @@ public struct DescribeUserInput: Swift.Equatable {
     }
 }
 
-struct DescribeUserInputBody: Swift.Equatable {
+struct DescribeUserInputBody {
     let serverId: Swift.String?
     let userName: Swift.String?
 }
@@ -4261,7 +4261,7 @@ extension DescribeUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeUserOutput: Swift.Equatable {
+public struct DescribeUserOutput {
     /// A system-assigned unique identifier for a server that has this user assigned.
     /// This member is required.
     public var serverId: Swift.String?
@@ -4279,7 +4279,7 @@ public struct DescribeUserOutput: Swift.Equatable {
     }
 }
 
-struct DescribeUserOutputBody: Swift.Equatable {
+struct DescribeUserOutputBody {
     let serverId: Swift.String?
     let user: TransferClientTypes.DescribedUser?
 }
@@ -4333,7 +4333,7 @@ extension DescribeWorkflowInput {
     }
 }
 
-public struct DescribeWorkflowInput: Swift.Equatable {
+public struct DescribeWorkflowInput {
     /// A unique identifier for the workflow.
     /// This member is required.
     public var workflowId: Swift.String?
@@ -4346,7 +4346,7 @@ public struct DescribeWorkflowInput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowInputBody: Swift.Equatable {
+struct DescribeWorkflowInputBody {
     let workflowId: Swift.String?
 }
 
@@ -4374,7 +4374,7 @@ extension DescribeWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeWorkflowOutput: Swift.Equatable {
+public struct DescribeWorkflowOutput {
     /// The structure that contains the details of the workflow.
     /// This member is required.
     public var workflow: TransferClientTypes.DescribedWorkflow?
@@ -4387,7 +4387,7 @@ public struct DescribeWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct DescribeWorkflowOutputBody: Swift.Equatable {
+struct DescribeWorkflowOutputBody {
     let workflow: TransferClientTypes.DescribedWorkflow?
 }
 
@@ -4486,7 +4486,7 @@ extension TransferClientTypes.DescribedAccess: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of the access that was specified.
-    public struct DescribedAccess: Swift.Equatable {
+    public struct DescribedAccess {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
@@ -4611,7 +4611,7 @@ extension TransferClientTypes.DescribedAgreement: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of an agreement.
-    public struct DescribedAgreement: Swift.Equatable {
+    public struct DescribedAgreement {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public var accessRole: Swift.String?
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
@@ -4778,7 +4778,7 @@ extension TransferClientTypes.DescribedCertificate: Swift.CustomDebugStringConve
 
 extension TransferClientTypes {
     /// Describes the properties of a certificate.
-    public struct DescribedCertificate: Swift.Equatable {
+    public struct DescribedCertificate {
         /// An optional date that specifies when the certificate becomes active.
         public var activeDate: ClientRuntime.Date?
         /// The unique Amazon Resource Name (ARN) for the certificate.
@@ -4944,7 +4944,7 @@ extension TransferClientTypes.DescribedConnector: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the parameters for the connector, as identified by the ConnectorId.
-    public struct DescribedConnector: Swift.Equatable {
+    public struct DescribedConnector {
         /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
         public var accessRole: Swift.String?
         /// The unique Amazon Resource Name (ARN) for the connector.
@@ -5058,7 +5058,7 @@ extension TransferClientTypes.DescribedExecution: Swift.Codable {
 
 extension TransferClientTypes {
     /// The details for an execution object.
-    public struct DescribedExecution: Swift.Equatable {
+    public struct DescribedExecution {
         /// A unique identifier for the execution of a workflow.
         public var executionId: Swift.String?
         /// The IAM role associated with the execution.
@@ -5169,7 +5169,7 @@ extension TransferClientTypes.DescribedHostKey: Swift.Codable {
 
 extension TransferClientTypes {
     /// The details for a server host key.
-    public struct DescribedHostKey: Swift.Equatable {
+    public struct DescribedHostKey {
         /// The unique Amazon Resource Name (ARN) for the host key.
         /// This member is required.
         public var arn: Swift.String?
@@ -5293,7 +5293,7 @@ extension TransferClientTypes.DescribedProfile: Swift.Codable {
 
 extension TransferClientTypes {
     /// The details for a local or partner AS2 profile.
-    public struct DescribedProfile: Swift.Equatable {
+    public struct DescribedProfile {
         /// The unique Amazon Resource Name (ARN) for the profile.
         /// This member is required.
         public var arn: Swift.String?
@@ -5469,7 +5469,7 @@ extension TransferClientTypes.DescribedSecurityPolicy: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of a security policy that you specify. For more information about security policies, see [Working with security policies for servers](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies.html) or [Working with security policies for SFTP connectors](https://docs.aws.amazon.com/transfer/latest/userguide/security-policies-connectors.html).
-    public struct DescribedSecurityPolicy: Swift.Equatable {
+    public struct DescribedSecurityPolicy {
         /// Specifies whether this policy enables Federal Information Processing Standards (FIPS). This parameter applies to both server and connector security policies.
         public var fips: Swift.Bool?
         /// Lists the file transfer protocols that the security policy applies to.
@@ -5711,7 +5711,7 @@ extension TransferClientTypes.DescribedServer: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of a file transfer protocol-enabled server that was specified.
-    public struct DescribedServer: Swift.Equatable {
+    public struct DescribedServer {
         /// Specifies the unique Amazon Resource Name (ARN) of the server.
         /// This member is required.
         public var arn: Swift.String?
@@ -5950,7 +5950,7 @@ extension TransferClientTypes.DescribedUser: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of a user that was specified.
-    public struct DescribedUser: Swift.Equatable {
+    public struct DescribedUser {
         /// Specifies the unique Amazon Resource Name (ARN) for the user that was requested to be described.
         /// This member is required.
         public var arn: Swift.String?
@@ -6088,7 +6088,7 @@ extension TransferClientTypes.DescribedWorkflow: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of the specified workflow
-    public struct DescribedWorkflow: Swift.Equatable {
+    public struct DescribedWorkflow {
         /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
         /// This member is required.
         public var arn: Swift.String?
@@ -6215,7 +6215,7 @@ extension TransferClientTypes.EfsFileLocation: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the details for the file location for the file that's being used in the workflow. Only applicable if you are using Amazon Elastic File Systems (Amazon EFS) for storage.
-    public struct EfsFileLocation: Swift.Equatable {
+    public struct EfsFileLocation {
         /// The identifier of the file system, assigned by Amazon EFS.
         public var fileSystemId: Swift.String?
         /// The pathname for the folder being used by a workflow.
@@ -6384,7 +6384,7 @@ extension TransferClientTypes.EndpointDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// The virtual private cloud (VPC) endpoint settings that are configured for your file transfer protocol-enabled server. With a VPC endpoint, you can restrict access to your server and resources only within your VPC. To control incoming internet traffic, invoke the UpdateServer API and attach an Elastic IP address to your server's endpoint. After May 19, 2021, you won't be able to create a server using EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount if your account hasn't already done so before May 19, 2021. If you have already created servers with EndpointType=VPC_ENDPOINT in your Amazon Web Servicesaccount on or before May 19, 2021, you will not be affected. After this date, use EndpointType=VPC. For more information, see https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#deprecate-vpc-endpoint.
-    public struct EndpointDetails: Swift.Equatable {
+    public struct EndpointDetails {
         /// A list of address allocation IDs that are required to attach an Elastic IP address to your server's endpoint. An address allocation ID corresponds to the allocation ID of an Elastic IP address. This value can be retrieved from the allocationId field from the Amazon EC2 [Address](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_Address.html) data type. One way to retrieve this value is by calling the EC2 [DescribeAddresses](https://docs.aws.amazon.com/AWSEC2/latest/APIReference/API_DescribeAddresses.html) API. This parameter is optional. Set this parameter if you want to make your VPC endpoint public-facing. For details, see [Create an internet-facing endpoint for your server](https://docs.aws.amazon.com/transfer/latest/userguide/create-server-in-vpc.html#create-internet-facing-endpoint). This property can only be set as follows:
         ///
         /// * EndpointType must be set to VPC
@@ -6488,7 +6488,7 @@ extension TransferClientTypes.ExecutionError: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the error message and type, for an error that occurs during the execution of the workflow.
-    public struct ExecutionError: Swift.Equatable {
+    public struct ExecutionError {
         /// Specifies the descriptive message that corresponds to the ErrorType.
         /// This member is required.
         public var message: Swift.String?
@@ -6625,7 +6625,7 @@ extension TransferClientTypes.ExecutionResults: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the steps in the workflow, as well as the steps to execute in case of any errors during workflow execution.
-    public struct ExecutionResults: Swift.Equatable {
+    public struct ExecutionResults {
         /// Specifies the steps (actions) to take if errors are encountered during execution of the workflow.
         public var onExceptionSteps: [TransferClientTypes.ExecutionStepResult]?
         /// Specifies the details for the steps that are in the specified workflow.
@@ -6714,7 +6714,7 @@ extension TransferClientTypes.ExecutionStepResult: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the following details for the step: error (if any), outputs (if any), and the step type.
-    public struct ExecutionStepResult: Swift.Equatable {
+    public struct ExecutionStepResult {
         /// Specifies the details for an error, if it occurred during execution of the specified workflow step.
         public var error: TransferClientTypes.ExecutionError?
         /// The values for the key/value pair applied as a tag to the file. Only applicable if the step type is TAG.
@@ -6773,7 +6773,7 @@ extension TransferClientTypes.FileLocation: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the Amazon S3 or EFS file details to be used in the step.
-    public struct FileLocation: Swift.Equatable {
+    public struct FileLocation {
         /// Specifies the Amazon EFS identifier and the path for the file being used.
         public var efsFileLocation: TransferClientTypes.EfsFileLocation?
         /// Specifies the S3 details for the file being used, such as bucket, ETag, and so forth.
@@ -6824,7 +6824,7 @@ extension TransferClientTypes.HomeDirectoryMapEntry: Swift.Codable {
 
 extension TransferClientTypes {
     /// Represents an object that contains entries and targets for HomeDirectoryMappings. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
-    public struct HomeDirectoryMapEntry: Swift.Equatable {
+    public struct HomeDirectoryMapEntry {
         /// Represents an entry for HomeDirectoryMappings.
         /// This member is required.
         public var entry: Swift.String?
@@ -6925,7 +6925,7 @@ extension TransferClientTypes.IdentityProviderDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns information related to the type of user authentication that is in use for a file transfer protocol-enabled server's users. A server can have only one method of authentication.
-    public struct IdentityProviderDetails: Swift.Equatable {
+    public struct IdentityProviderDetails {
         /// The identifier of the Directory Service directory that you want to use as your identity provider.
         public var directoryId: Swift.String?
         /// The ARN for a Lambda function to use for the Identity provider.
@@ -7058,7 +7058,7 @@ extension ImportCertificateInput {
     }
 }
 
-public struct ImportCertificateInput: Swift.Equatable {
+public struct ImportCertificateInput {
     /// An optional date that specifies when the certificate becomes active.
     public var activeDate: ClientRuntime.Date?
     /// * For the CLI, provide a file path for a certificate in URI format. For example, --certificate file://encryption-cert.pem. Alternatively, you can provide the raw content.
@@ -7104,7 +7104,7 @@ public struct ImportCertificateInput: Swift.Equatable {
     }
 }
 
-struct ImportCertificateInputBody: Swift.Equatable {
+struct ImportCertificateInputBody {
     let usage: TransferClientTypes.CertificateUsageType?
     let certificate: Swift.String?
     let certificateChain: Swift.String?
@@ -7169,7 +7169,7 @@ extension ImportCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportCertificateOutput: Swift.Equatable {
+public struct ImportCertificateOutput {
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -7182,7 +7182,7 @@ public struct ImportCertificateOutput: Swift.Equatable {
     }
 }
 
-struct ImportCertificateOutputBody: Swift.Equatable {
+struct ImportCertificateOutputBody {
     let certificateId: Swift.String?
 }
 
@@ -7252,7 +7252,7 @@ extension ImportHostKeyInput {
     }
 }
 
-public struct ImportHostKeyInput: Swift.Equatable {
+public struct ImportHostKeyInput {
     /// The text description that identifies this host key.
     public var description: Swift.String?
     /// The private key portion of an SSH key pair. Transfer Family accepts RSA, ECDSA, and ED25519 keys.
@@ -7278,7 +7278,7 @@ public struct ImportHostKeyInput: Swift.Equatable {
     }
 }
 
-struct ImportHostKeyInputBody: Swift.Equatable {
+struct ImportHostKeyInputBody {
     let serverId: Swift.String?
     let hostKeyBody: Swift.String?
     let description: Swift.String?
@@ -7329,7 +7329,7 @@ extension ImportHostKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportHostKeyOutput: Swift.Equatable {
+public struct ImportHostKeyOutput {
     /// Returns the host key identifier for the imported key.
     /// This member is required.
     public var hostKeyId: Swift.String?
@@ -7347,7 +7347,7 @@ public struct ImportHostKeyOutput: Swift.Equatable {
     }
 }
 
-struct ImportHostKeyOutputBody: Swift.Equatable {
+struct ImportHostKeyOutputBody {
     let serverId: Swift.String?
     let hostKeyId: Swift.String?
 }
@@ -7411,7 +7411,7 @@ extension ImportSshPublicKeyInput {
     }
 }
 
-public struct ImportSshPublicKeyInput: Swift.Equatable {
+public struct ImportSshPublicKeyInput {
     /// A system-assigned unique identifier for a server.
     /// This member is required.
     public var serverId: Swift.String?
@@ -7434,7 +7434,7 @@ public struct ImportSshPublicKeyInput: Swift.Equatable {
     }
 }
 
-struct ImportSshPublicKeyInputBody: Swift.Equatable {
+struct ImportSshPublicKeyInputBody {
     let serverId: Swift.String?
     let sshPublicKeyBody: Swift.String?
     let userName: Swift.String?
@@ -7475,7 +7475,7 @@ extension ImportSshPublicKeyOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Identifies the user, the server they belong to, and the identifier of the SSH public key associated with that user. A user can have more than one key on each server that they are associated with.
-public struct ImportSshPublicKeyOutput: Swift.Equatable {
+public struct ImportSshPublicKeyOutput {
     /// A system-assigned unique identifier for a server.
     /// This member is required.
     public var serverId: Swift.String?
@@ -7498,7 +7498,7 @@ public struct ImportSshPublicKeyOutput: Swift.Equatable {
     }
 }
 
-struct ImportSshPublicKeyOutputBody: Swift.Equatable {
+struct ImportSshPublicKeyOutputBody {
     let serverId: Swift.String?
     let sshPublicKeyId: Swift.String?
     let userName: Swift.String?
@@ -7565,7 +7565,7 @@ extension TransferClientTypes.InputFileLocation: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the location for the file that's being processed.
-    public struct InputFileLocation: Swift.Equatable {
+    public struct InputFileLocation {
         /// Specifies the details for the Amazon Elastic File System (Amazon EFS) file that's being decrypted.
         public var efsFileLocation: TransferClientTypes.EfsFileLocation?
         /// Specifies the details for the Amazon S3 file that's being copied or decrypted.
@@ -7623,7 +7623,7 @@ public struct InternalServiceError: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InternalServiceErrorBody: Swift.Equatable {
+struct InternalServiceErrorBody {
     let message: Swift.String?
 }
 
@@ -7679,7 +7679,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -7735,7 +7735,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -7779,7 +7779,7 @@ extension ListAccessesInput {
     }
 }
 
-public struct ListAccessesInput: Swift.Equatable {
+public struct ListAccessesInput {
     /// Specifies the maximum number of access SIDs to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListAccesses call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional accesses.
@@ -7800,7 +7800,7 @@ public struct ListAccessesInput: Swift.Equatable {
     }
 }
 
-struct ListAccessesInputBody: Swift.Equatable {
+struct ListAccessesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let serverId: Swift.String?
@@ -7840,7 +7840,7 @@ extension ListAccessesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessesOutput: Swift.Equatable {
+public struct ListAccessesOutput {
     /// Returns the accesses and their properties for the ServerId value that you specify.
     /// This member is required.
     public var accesses: [TransferClientTypes.ListedAccess]?
@@ -7862,7 +7862,7 @@ public struct ListAccessesOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessesOutputBody: Swift.Equatable {
+struct ListAccessesOutputBody {
     let nextToken: Swift.String?
     let serverId: Swift.String?
     let accesses: [TransferClientTypes.ListedAccess]?
@@ -7938,7 +7938,7 @@ extension ListAgreementsInput {
     }
 }
 
-public struct ListAgreementsInput: Swift.Equatable {
+public struct ListAgreementsInput {
     /// The maximum number of agreements to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListAgreements call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional agreements.
@@ -7959,7 +7959,7 @@ public struct ListAgreementsInput: Swift.Equatable {
     }
 }
 
-struct ListAgreementsInputBody: Swift.Equatable {
+struct ListAgreementsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let serverId: Swift.String?
@@ -7997,7 +7997,7 @@ extension ListAgreementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAgreementsOutput: Swift.Equatable {
+public struct ListAgreementsOutput {
     /// Returns an array, where each item contains the details of an agreement.
     /// This member is required.
     public var agreements: [TransferClientTypes.ListedAgreement]?
@@ -8014,7 +8014,7 @@ public struct ListAgreementsOutput: Swift.Equatable {
     }
 }
 
-struct ListAgreementsOutputBody: Swift.Equatable {
+struct ListAgreementsOutputBody {
     let nextToken: Swift.String?
     let agreements: [TransferClientTypes.ListedAgreement]?
 }
@@ -8082,7 +8082,7 @@ extension ListCertificatesInput {
     }
 }
 
-public struct ListCertificatesInput: Swift.Equatable {
+public struct ListCertificatesInput {
     /// The maximum number of certificates to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListCertificates call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional certificates.
@@ -8098,7 +8098,7 @@ public struct ListCertificatesInput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesInputBody: Swift.Equatable {
+struct ListCertificatesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8132,7 +8132,7 @@ extension ListCertificatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCertificatesOutput: Swift.Equatable {
+public struct ListCertificatesOutput {
     /// Returns an array of the certificates that are specified in the ListCertificates call.
     /// This member is required.
     public var certificates: [TransferClientTypes.ListedCertificate]?
@@ -8149,7 +8149,7 @@ public struct ListCertificatesOutput: Swift.Equatable {
     }
 }
 
-struct ListCertificatesOutputBody: Swift.Equatable {
+struct ListCertificatesOutputBody {
     let nextToken: Swift.String?
     let certificates: [TransferClientTypes.ListedCertificate]?
 }
@@ -8217,7 +8217,7 @@ extension ListConnectorsInput {
     }
 }
 
-public struct ListConnectorsInput: Swift.Equatable {
+public struct ListConnectorsInput {
     /// The maximum number of connectors to return.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListConnectors call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional connectors.
@@ -8233,7 +8233,7 @@ public struct ListConnectorsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsInputBody: Swift.Equatable {
+struct ListConnectorsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8267,7 +8267,7 @@ extension ListConnectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectorsOutput: Swift.Equatable {
+public struct ListConnectorsOutput {
     /// Returns an array, where each item contains the details of a connector.
     /// This member is required.
     public var connectors: [TransferClientTypes.ListedConnector]?
@@ -8284,7 +8284,7 @@ public struct ListConnectorsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectorsOutputBody: Swift.Equatable {
+struct ListConnectorsOutputBody {
     let nextToken: Swift.String?
     let connectors: [TransferClientTypes.ListedConnector]?
 }
@@ -8356,7 +8356,7 @@ extension ListExecutionsInput {
     }
 }
 
-public struct ListExecutionsInput: Swift.Equatable {
+public struct ListExecutionsInput {
     /// Specifies the maximum number of executions to return.
     public var maxResults: Swift.Int?
     /// ListExecutions returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional executions. This is useful for pagination, for instance. If you have 100 executions for a workflow, you might only want to list first 10. If so, call the API by specifying the max-results: aws transfer list-executions --max-results 10 This returns details for the first 10 executions, as well as the pointer (NextToken) to the eleventh execution. You can now call the API again, supplying the NextToken value you received: aws transfer list-executions --max-results 10 --next-token $somePointerReturnedFromPreviousListResult This call returns the next 10 executions, the 11th through the 20th. You can then repeat the call until the details for all 100 executions have been returned.
@@ -8377,7 +8377,7 @@ public struct ListExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsInputBody: Swift.Equatable {
+struct ListExecutionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let workflowId: Swift.String?
@@ -8417,7 +8417,7 @@ extension ListExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExecutionsOutput: Swift.Equatable {
+public struct ListExecutionsOutput {
     /// Returns the details for each execution, in a ListedExecution array.
     /// This member is required.
     public var executions: [TransferClientTypes.ListedExecution]?
@@ -8439,7 +8439,7 @@ public struct ListExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListExecutionsOutputBody: Swift.Equatable {
+struct ListExecutionsOutputBody {
     let nextToken: Swift.String?
     let workflowId: Swift.String?
     let executions: [TransferClientTypes.ListedExecution]?
@@ -8515,7 +8515,7 @@ extension ListHostKeysInput {
     }
 }
 
-public struct ListHostKeysInput: Swift.Equatable {
+public struct ListHostKeysInput {
     /// The maximum number of host keys to return.
     public var maxResults: Swift.Int?
     /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListHostKeys to continue listing results.
@@ -8536,7 +8536,7 @@ public struct ListHostKeysInput: Swift.Equatable {
     }
 }
 
-struct ListHostKeysInputBody: Swift.Equatable {
+struct ListHostKeysInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let serverId: Swift.String?
@@ -8576,7 +8576,7 @@ extension ListHostKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHostKeysOutput: Swift.Equatable {
+public struct ListHostKeysOutput {
     /// Returns an array, where each item contains the details of a host key.
     /// This member is required.
     public var hostKeys: [TransferClientTypes.ListedHostKey]?
@@ -8598,7 +8598,7 @@ public struct ListHostKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListHostKeysOutputBody: Swift.Equatable {
+struct ListHostKeysOutputBody {
     let nextToken: Swift.String?
     let serverId: Swift.String?
     let hostKeys: [TransferClientTypes.ListedHostKey]?
@@ -8674,7 +8674,7 @@ extension ListProfilesInput {
     }
 }
 
-public struct ListProfilesInput: Swift.Equatable {
+public struct ListProfilesInput {
     /// The maximum number of profiles to return.
     public var maxResults: Swift.Int?
     /// When there are additional results that were not returned, a NextToken parameter is returned. You can use that value for a subsequent call to ListProfiles to continue listing results.
@@ -8694,7 +8694,7 @@ public struct ListProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListProfilesInputBody: Swift.Equatable {
+struct ListProfilesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let profileType: TransferClientTypes.ProfileType?
@@ -8732,7 +8732,7 @@ extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutput: Swift.Equatable {
+public struct ListProfilesOutput {
     /// Returns a token that you can use to call ListProfiles again and receive additional results, if there are any.
     public var nextToken: Swift.String?
     /// Returns an array, where each item contains the details of a profile.
@@ -8749,7 +8749,7 @@ public struct ListProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputBody: Swift.Equatable {
+struct ListProfilesOutputBody {
     let nextToken: Swift.String?
     let profiles: [TransferClientTypes.ListedProfile]?
 }
@@ -8817,7 +8817,7 @@ extension ListSecurityPoliciesInput {
     }
 }
 
-public struct ListSecurityPoliciesInput: Swift.Equatable {
+public struct ListSecurityPoliciesInput {
     /// Specifies the number of security policies to return as a response to the ListSecurityPolicies query.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the ListSecurityPolicies command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional security policies.
@@ -8833,7 +8833,7 @@ public struct ListSecurityPoliciesInput: Swift.Equatable {
     }
 }
 
-struct ListSecurityPoliciesInputBody: Swift.Equatable {
+struct ListSecurityPoliciesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -8867,7 +8867,7 @@ extension ListSecurityPoliciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSecurityPoliciesOutput: Swift.Equatable {
+public struct ListSecurityPoliciesOutput {
     /// When you can get additional results from the ListSecurityPolicies operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing security policies.
     public var nextToken: Swift.String?
     /// An array of security policies that were listed.
@@ -8884,7 +8884,7 @@ public struct ListSecurityPoliciesOutput: Swift.Equatable {
     }
 }
 
-struct ListSecurityPoliciesOutputBody: Swift.Equatable {
+struct ListSecurityPoliciesOutputBody {
     let nextToken: Swift.String?
     let securityPolicyNames: [Swift.String]?
 }
@@ -8951,7 +8951,7 @@ extension ListServersInput {
     }
 }
 
-public struct ListServersInput: Swift.Equatable {
+public struct ListServersInput {
     /// Specifies the number of servers to return as a response to the ListServers query.
     public var maxResults: Swift.Int?
     /// When additional results are obtained from the ListServers command, a NextToken parameter is returned in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional servers.
@@ -8967,7 +8967,7 @@ public struct ListServersInput: Swift.Equatable {
     }
 }
 
-struct ListServersInputBody: Swift.Equatable {
+struct ListServersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -9001,7 +9001,7 @@ extension ListServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListServersOutput: Swift.Equatable {
+public struct ListServersOutput {
     /// When you can get additional results from the ListServers operation, a NextToken parameter is returned in the output. In a following command, you can pass in the NextToken parameter to continue listing additional servers.
     public var nextToken: Swift.String?
     /// An array of servers that were listed.
@@ -9018,7 +9018,7 @@ public struct ListServersOutput: Swift.Equatable {
     }
 }
 
-struct ListServersOutputBody: Swift.Equatable {
+struct ListServersOutputBody {
     let nextToken: Swift.String?
     let servers: [TransferClientTypes.ListedServer]?
 }
@@ -9089,7 +9089,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// Requests the tags associated with a particular Amazon Resource Name (ARN). An ARN is an identifier for a specific Amazon Web Services resource, such as a server, user, or role.
     /// This member is required.
     public var arn: Swift.String?
@@ -9110,7 +9110,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let arn: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -9150,7 +9150,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The ARN you specified to list the tags of.
     public var arn: Swift.String?
     /// When you can get additional results from the ListTagsForResource call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional tags.
@@ -9170,7 +9170,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let arn: Swift.String?
     let nextToken: Swift.String?
     let tags: [TransferClientTypes.Tag]?
@@ -9245,7 +9245,7 @@ extension ListUsersInput {
     }
 }
 
-public struct ListUsersInput: Swift.Equatable {
+public struct ListUsersInput {
     /// Specifies the number of users to return as a response to the ListUsers request.
     public var maxResults: Swift.Int?
     /// If there are additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass the NextToken to a subsequent ListUsers command, to continue listing additional users.
@@ -9266,7 +9266,7 @@ public struct ListUsersInput: Swift.Equatable {
     }
 }
 
-struct ListUsersInputBody: Swift.Equatable {
+struct ListUsersInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let serverId: Swift.String?
@@ -9306,7 +9306,7 @@ extension ListUsersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUsersOutput: Swift.Equatable {
+public struct ListUsersOutput {
     /// When you can get additional results from the ListUsers call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional users.
     public var nextToken: Swift.String?
     /// A system-assigned unique identifier for a server that the users are assigned to.
@@ -9328,7 +9328,7 @@ public struct ListUsersOutput: Swift.Equatable {
     }
 }
 
-struct ListUsersOutputBody: Swift.Equatable {
+struct ListUsersOutputBody {
     let nextToken: Swift.String?
     let serverId: Swift.String?
     let users: [TransferClientTypes.ListedUser]?
@@ -9400,7 +9400,7 @@ extension ListWorkflowsInput {
     }
 }
 
-public struct ListWorkflowsInput: Swift.Equatable {
+public struct ListWorkflowsInput {
     /// Specifies the maximum number of workflows to return.
     public var maxResults: Swift.Int?
     /// ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
@@ -9416,7 +9416,7 @@ public struct ListWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsInputBody: Swift.Equatable {
+struct ListWorkflowsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -9450,7 +9450,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowsOutput: Swift.Equatable {
+public struct ListWorkflowsOutput {
     /// ListWorkflows returns the NextToken parameter in the output. You can then pass the NextToken parameter in a subsequent command to continue listing additional workflows.
     public var nextToken: Swift.String?
     /// Returns the Arn, WorkflowId, and Description for each workflow.
@@ -9467,7 +9467,7 @@ public struct ListWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsOutputBody: Swift.Equatable {
+struct ListWorkflowsOutputBody {
     let nextToken: Swift.String?
     let workflows: [TransferClientTypes.ListedWorkflow]?
 }
@@ -9549,7 +9549,7 @@ extension TransferClientTypes.ListedAccess: Swift.Codable {
 
 extension TransferClientTypes {
     /// Lists the properties for one or more specified associated accesses.
-    public struct ListedAccess: Swift.Equatable {
+    public struct ListedAccess {
         /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
         public var externalId: Swift.String?
         /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
@@ -9632,7 +9632,7 @@ extension TransferClientTypes.ListedAgreement: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of an agreement.
-    public struct ListedAgreement: Swift.Equatable {
+    public struct ListedAgreement {
         /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
         public var agreementId: Swift.String?
         /// The Amazon Resource Name (ARN) of the specified agreement.
@@ -9733,7 +9733,7 @@ extension TransferClientTypes.ListedCertificate: Swift.Codable {
 
 extension TransferClientTypes {
     /// Describes the properties of a certificate.
-    public struct ListedCertificate: Swift.Equatable {
+    public struct ListedCertificate {
         /// An optional date that specifies when the certificate becomes active.
         public var activeDate: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the specified certificate.
@@ -9808,7 +9808,7 @@ extension TransferClientTypes.ListedConnector: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns details of the connector that is specified.
-    public struct ListedConnector: Swift.Equatable {
+    public struct ListedConnector {
         /// The Amazon Resource Name (ARN) of the specified connector.
         public var arn: Swift.String?
         /// The unique identifier for the connector.
@@ -9869,7 +9869,7 @@ extension TransferClientTypes.ListedExecution: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns properties of the execution that is specified.
-    public struct ListedExecution: Swift.Equatable {
+    public struct ListedExecution {
         /// A unique identifier for the execution of a workflow.
         public var executionId: Swift.String?
         /// A structure that describes the Amazon S3 or EFS file location. This is the file location when the execution begins: if the file is being copied, this is the initial (as opposed to destination) file location.
@@ -9946,7 +9946,7 @@ extension TransferClientTypes.ListedHostKey: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns properties of the host key that's specified.
-    public struct ListedHostKey: Swift.Equatable {
+    public struct ListedHostKey {
         /// The unique Amazon Resource Name (ARN) of the host key.
         /// This member is required.
         public var arn: Swift.String?
@@ -10030,7 +10030,7 @@ extension TransferClientTypes.ListedProfile: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns the properties of the profile that was specified.
-    public struct ListedProfile: Swift.Equatable {
+    public struct ListedProfile {
         /// The Amazon Resource Name (ARN) of the specified profile.
         public var arn: Swift.String?
         /// The As2Id is the AS2-name, as defined in the [RFC 4130](https://datatracker.ietf.org/doc/html/rfc4130). For inbound transfers, this is the AS2-From header for the AS2 messages sent from the partner. For outbound connectors, this is the AS2-To header for the AS2 messages sent to the partner using the StartFileTransfer API operation. This ID cannot include spaces.
@@ -10119,7 +10119,7 @@ extension TransferClientTypes.ListedServer: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns properties of a file transfer protocol-enabled server that was specified.
-    public struct ListedServer: Swift.Equatable {
+    public struct ListedServer {
         /// Specifies the unique Amazon Resource Name (ARN) for a server to be listed.
         /// This member is required.
         public var arn: Swift.String?
@@ -10213,7 +10213,7 @@ extension TransferClientTypes.ListedUser: Swift.Codable {
 
 extension TransferClientTypes {
     /// Returns properties of the user that you specify.
-    public struct ListedUser: Swift.Equatable {
+    public struct ListedUser {
         /// Provides the unique Amazon Resource Name (ARN) for the user that you want to learn about.
         /// This member is required.
         public var arn: Swift.String?
@@ -10281,7 +10281,7 @@ extension TransferClientTypes.ListedWorkflow: Swift.Codable {
 
 extension TransferClientTypes {
     /// Contains the identifier, text description, and Amazon Resource Name (ARN) for the workflow.
-    public struct ListedWorkflow: Swift.Equatable {
+    public struct ListedWorkflow {
         /// Specifies the unique Amazon Resource Name (ARN) for the workflow.
         public var arn: Swift.String?
         /// Specifies the text description for the workflow.
@@ -10330,7 +10330,7 @@ extension TransferClientTypes.LoggingConfiguration: Swift.Codable {
 
 extension TransferClientTypes {
     /// Consists of the logging role and the log group name.
-    public struct LoggingConfiguration: Swift.Equatable {
+    public struct LoggingConfiguration {
         /// The name of the CloudWatch logging group for the Transfer Family server to which this workflow belongs.
         public var logGroupName: Swift.String?
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role that allows a server to turn on Amazon CloudWatch logging for Amazon S3 or Amazon EFSevents. When set, you can view user activity in your CloudWatch logs.
@@ -10533,7 +10533,7 @@ extension TransferClientTypes.PosixProfile: Swift.Codable {
 
 extension TransferClientTypes {
     /// The full POSIX identity, including user ID (Uid), group ID (Gid), and any secondary groups IDs (SecondaryGids), that controls your users' access to your Amazon EFS file systems. The POSIX permissions that are set on files and directories in your file system determine the level of access your users get when transferring files into and out of your Amazon EFS file systems.
-    public struct PosixProfile: Swift.Equatable {
+    public struct PosixProfile {
         /// The POSIX group ID used for all EFS operations by this user.
         /// This member is required.
         public var gid: Swift.Int?
@@ -10678,7 +10678,7 @@ extension TransferClientTypes.ProtocolDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// The protocol settings that are configured for your server.
-    public struct ProtocolDetails: Swift.Equatable {
+    public struct ProtocolDetails {
         /// Indicates the transport method for the AS2 messages. Currently, only HTTP is supported.
         public var as2Transports: [TransferClientTypes.As2Transport]?
         /// Indicates passive mode, for FTP and FTPS protocols. Enter a single IPv4 address, such as the public IP address of a firewall, router, or load balancer. For example: aws transfer update-server --protocol-details PassiveIp=0.0.0.0 Replace 0.0.0.0 in the example above with the actual IP address you want to use. If you change the PassiveIp value, you must stop and then restart your Transfer Family server for the change to take effect. For details on using passive mode (PASV) in a NAT environment, see [Configuring your FTPS server behind a firewall or NAT with Transfer Family](http://aws.amazon.com/blogs/storage/configuring-your-ftps-server-behind-a-firewall-or-nat-with-aws-transfer-family/). Special values The AUTO and 0.0.0.0 are special values for the PassiveIp parameter. The value PassiveIp=AUTO is assigned by default to FTP and FTPS type servers. In this case, the server automatically responds with one of the endpoint IPs within the PASV response. PassiveIp=0.0.0.0 has a more unique application for its usage. For example, if you have a High Availability (HA) Network Load Balancer (NLB) environment, where you have 3 subnets, you can only specify a single IP address using the PassiveIp parameter. This reduces the effectiveness of having High Availability. In this case, you can specify PassiveIp=0.0.0.0. This tells the client to use the same IP address as the Control connection and utilize all AZs for their connections. Note, however, that not all FTP clients support the PassiveIp=0.0.0.0 response. FileZilla and WinSCP do support it. If you are using other clients, check to see if your client supports the PassiveIp=0.0.0.0 response.
@@ -10762,7 +10762,7 @@ public struct ResourceExistsException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ResourceExistsExceptionBody: Swift.Equatable {
+struct ResourceExistsExceptionBody {
     let message: Swift.String?
     let resource: Swift.String?
     let resourceType: Swift.String?
@@ -10838,7 +10838,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resource: Swift.String?
     let resourceType: Swift.String?
@@ -10901,7 +10901,7 @@ extension TransferClientTypes.S3FileLocation: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the details for the file location for the file that's being used in the workflow. Only applicable if you are using S3 storage.
-    public struct S3FileLocation: Swift.Equatable {
+    public struct S3FileLocation {
         /// Specifies the S3 bucket that contains the file being used.
         public var bucket: Swift.String?
         /// The entity tag is a hash of the object. The ETag reflects changes only to the contents of an object, not its metadata.
@@ -10954,7 +10954,7 @@ extension TransferClientTypes.S3InputFileLocation: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the customer input Amazon S3 file location. If it is used inside copyStepDetails.DestinationFileLocation, it should be the S3 copy destination. You need to provide the bucket and key. The key can represent either a path or a file. This is determined by whether or not you end the key value with the forward slash (/) character. If the final character is "/", then your file is copied to the folder, and its name does not change. If, rather, the final character is alphanumeric, your uploaded file is renamed to the path value. In this case, if a file with that name already exists, it is overwritten. For example, if your path is shared-files/bob/, your uploaded files are copied to the shared-files/bob/, folder. If your path is shared-files/today, each uploaded file is copied to the shared-files folder and named today: each upload overwrites the previous version of the bob file.
-    public struct S3InputFileLocation: Swift.Equatable {
+    public struct S3InputFileLocation {
         /// Specifies the S3 bucket for the customer input file.
         public var bucket: Swift.String?
         /// The name assigned to the file when it was created in Amazon S3. You use the object key to retrieve the object.
@@ -10993,7 +10993,7 @@ extension TransferClientTypes.S3StorageOptions: Swift.Codable {
 
 extension TransferClientTypes {
     /// The Amazon S3 storage options that are configured for your server.
-    public struct S3StorageOptions: Swift.Equatable {
+    public struct S3StorageOptions {
         /// Specifies whether or not performance for your Amazon S3 directories is optimized. This is disabled by default. By default, home directory mappings have a TYPE of DIRECTORY. If you enable this option, you would then need to explicitly set the HomeDirectoryMapEntryType to FILE if you want a mapping to have a file target.
         public var directoryListingOptimization: TransferClientTypes.DirectoryListingOptimization?
 
@@ -11034,7 +11034,7 @@ extension TransferClientTypes.S3Tag: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the key-value pair that are assigned to a file during the execution of a Tagging step.
-    public struct S3Tag: Swift.Equatable {
+    public struct S3Tag {
         /// The name assigned to the tag that you create.
         /// This member is required.
         public var key: Swift.String?
@@ -11150,7 +11150,7 @@ extension SendWorkflowStepStateInput {
     }
 }
 
-public struct SendWorkflowStepStateInput: Swift.Equatable {
+public struct SendWorkflowStepStateInput {
     /// A unique identifier for the execution of a workflow.
     /// This member is required.
     public var executionId: Swift.String?
@@ -11178,7 +11178,7 @@ public struct SendWorkflowStepStateInput: Swift.Equatable {
     }
 }
 
-struct SendWorkflowStepStateInputBody: Swift.Equatable {
+struct SendWorkflowStepStateInputBody {
     let workflowId: Swift.String?
     let executionId: Swift.String?
     let token: Swift.String?
@@ -11211,7 +11211,7 @@ extension SendWorkflowStepStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendWorkflowStepStateOutput: Swift.Equatable {
+public struct SendWorkflowStepStateOutput {
 
     public init() { }
 }
@@ -11253,7 +11253,7 @@ extension TransferClientTypes.ServiceMetadata: Swift.Codable {
 
 extension TransferClientTypes {
     /// A container object for the session details that are associated with a workflow.
-    public struct ServiceMetadata: Swift.Equatable {
+    public struct ServiceMetadata {
         /// The Server ID (ServerId), Session ID (SessionId) and user (UserName) make up the UserDetails.
         /// This member is required.
         public var userDetails: TransferClientTypes.UserDetails?
@@ -11307,7 +11307,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -11432,7 +11432,7 @@ extension TransferClientTypes.SftpConnectorConfig: Swift.Codable {
 
 extension TransferClientTypes {
     /// Contains the details for an SFTP connector object. The connector object is used for transferring files to and from a partner's SFTP server. Because the SftpConnectorConfig data type is used for both creating and updating SFTP connectors, its parameters, TrustedHostKeys and UserSecretId are marked as not required. This is a bit misleading, as they are not required when you are updating an existing SFTP connector, but are required when you are creating a new SFTP connector.
-    public struct SftpConnectorConfig: Swift.Equatable {
+    public struct SftpConnectorConfig {
         /// The public portion of the host key, or keys, that are used to identify the external server to which you are connecting. You can use the ssh-keyscan command against the SFTP server to retrieve the necessary key. The three standard SSH public key format elements are <key type>, <body base64>, and an optional <comment>, with spaces between each element. Specify only the <key type> and <body base64>: do not enter the <comment> portion of the key. For the trusted host key, Transfer Family accepts RSA and ECDSA keys.
         ///
         /// * For RSA keys, the <key type> string is ssh-rsa.
@@ -11531,7 +11531,7 @@ extension TransferClientTypes.SshPublicKey: Swift.Codable {
 
 extension TransferClientTypes {
     /// Provides information about the public Secure Shell (SSH) key that is associated with a Transfer Family user for the specific file transfer protocol-enabled server (as identified by ServerId). The information returned includes the date the key was imported, the public key contents, and the public key ID. A user can store more than one SSH public key associated with their user name on a specific server.
-    public struct SshPublicKey: Swift.Equatable {
+    public struct SshPublicKey {
         /// Specifies the date that the public key was added to the Transfer Family user.
         /// This member is required.
         public var dateImported: ClientRuntime.Date?
@@ -11588,7 +11588,7 @@ extension StartDirectoryListingInput {
     }
 }
 
-public struct StartDirectoryListingInput: Swift.Equatable {
+public struct StartDirectoryListingInput {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -11615,7 +11615,7 @@ public struct StartDirectoryListingInput: Swift.Equatable {
     }
 }
 
-struct StartDirectoryListingInputBody: Swift.Equatable {
+struct StartDirectoryListingInputBody {
     let connectorId: Swift.String?
     let remoteDirectoryPath: Swift.String?
     let maxItems: Swift.Int?
@@ -11657,7 +11657,7 @@ extension StartDirectoryListingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDirectoryListingOutput: Swift.Equatable {
+public struct StartDirectoryListingOutput {
     /// Returns a unique identifier for the directory listing call.
     /// This member is required.
     public var listingId: Swift.String?
@@ -11675,7 +11675,7 @@ public struct StartDirectoryListingOutput: Swift.Equatable {
     }
 }
 
-struct StartDirectoryListingOutputBody: Swift.Equatable {
+struct StartDirectoryListingOutputBody {
     let listingId: Swift.String?
     let outputFileName: Swift.String?
 }
@@ -11752,7 +11752,7 @@ extension StartFileTransferInput {
     }
 }
 
-public struct StartFileTransferInput: Swift.Equatable {
+public struct StartFileTransferInput {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -11781,7 +11781,7 @@ public struct StartFileTransferInput: Swift.Equatable {
     }
 }
 
-struct StartFileTransferInputBody: Swift.Equatable {
+struct StartFileTransferInputBody {
     let connectorId: Swift.String?
     let sendFilePaths: [Swift.String]?
     let retrieveFilePaths: [Swift.String]?
@@ -11843,7 +11843,7 @@ extension StartFileTransferOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFileTransferOutput: Swift.Equatable {
+public struct StartFileTransferOutput {
     /// Returns the unique identifier for the file transfer.
     /// This member is required.
     public var transferId: Swift.String?
@@ -11856,7 +11856,7 @@ public struct StartFileTransferOutput: Swift.Equatable {
     }
 }
 
-struct StartFileTransferOutputBody: Swift.Equatable {
+struct StartFileTransferOutputBody {
     let transferId: Swift.String?
 }
 
@@ -11907,7 +11907,7 @@ extension StartServerInput {
     }
 }
 
-public struct StartServerInput: Swift.Equatable {
+public struct StartServerInput {
     /// A system-assigned unique identifier for a server that you start.
     /// This member is required.
     public var serverId: Swift.String?
@@ -11920,7 +11920,7 @@ public struct StartServerInput: Swift.Equatable {
     }
 }
 
-struct StartServerInputBody: Swift.Equatable {
+struct StartServerInputBody {
     let serverId: Swift.String?
 }
 
@@ -11941,7 +11941,7 @@ extension StartServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartServerOutput: Swift.Equatable {
+public struct StartServerOutput {
 
     public init() { }
 }
@@ -12026,7 +12026,7 @@ extension StopServerInput {
     }
 }
 
-public struct StopServerInput: Swift.Equatable {
+public struct StopServerInput {
     /// A system-assigned unique identifier for a server that you stopped.
     /// This member is required.
     public var serverId: Swift.String?
@@ -12039,7 +12039,7 @@ public struct StopServerInput: Swift.Equatable {
     }
 }
 
-struct StopServerInputBody: Swift.Equatable {
+struct StopServerInputBody {
     let serverId: Swift.String?
 }
 
@@ -12060,7 +12060,7 @@ extension StopServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopServerOutput: Swift.Equatable {
+public struct StopServerOutput {
 
     public init() { }
 }
@@ -12107,7 +12107,7 @@ extension TransferClientTypes.Tag: Swift.Codable {
 
 extension TransferClientTypes {
     /// Creates a key-value pair for a specific resource. Tags are metadata that you can use to search for and group a resource for various purposes. You can apply tags to servers, users, and roles. A tag key can take more than one value. For example, to group servers for accounting purposes, you might create a tag called Group and assign the values Research and Accounting to that group.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The name assigned to the tag that you create.
         /// This member is required.
         public var key: Swift.String?
@@ -12154,7 +12154,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// An Amazon Resource Name (ARN) for a specific Amazon Web Services resource, such as a server, user, or role.
     /// This member is required.
     public var arn: Swift.String?
@@ -12172,7 +12172,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let arn: Swift.String?
     let tags: [TransferClientTypes.Tag]?
 }
@@ -12206,7 +12206,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -12270,7 +12270,7 @@ extension TransferClientTypes.TagStepDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Each step type has its own StepDetails structure. The key/value pairs used to tag a file during the execution of a workflow step.
-    public struct TagStepDetails: Swift.Equatable {
+    public struct TagStepDetails {
         /// The name of the step, used as an identifier.
         public var name: Swift.String?
         /// Specifies which file to use as input to the workflow step: either the output from the previous step, or the originally uploaded file for the workflow.
@@ -12316,7 +12316,7 @@ extension TestConnectionInput {
     }
 }
 
-public struct TestConnectionInput: Swift.Equatable {
+public struct TestConnectionInput {
     /// The unique identifier for the connector.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -12329,7 +12329,7 @@ public struct TestConnectionInput: Swift.Equatable {
     }
 }
 
-struct TestConnectionInputBody: Swift.Equatable {
+struct TestConnectionInputBody {
     let connectorId: Swift.String?
 }
 
@@ -12361,7 +12361,7 @@ extension TestConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestConnectionOutput: Swift.Equatable {
+public struct TestConnectionOutput {
     /// Returns the identifier of the connector object that you are testing.
     public var connectorId: Swift.String?
     /// Returns OK for successful test, or ERROR if the test fails.
@@ -12389,7 +12389,7 @@ public struct TestConnectionOutput: Swift.Equatable {
     }
 }
 
-struct TestConnectionOutputBody: Swift.Equatable {
+struct TestConnectionOutputBody {
     let connectorId: Swift.String?
     let status: Swift.String?
     let statusMessage: Swift.String?
@@ -12468,7 +12468,7 @@ extension TestIdentityProviderInput {
     }
 }
 
-public struct TestIdentityProviderInput: Swift.Equatable {
+public struct TestIdentityProviderInput {
     /// A system-assigned identifier for a specific server. That server's user authentication method is tested with a user name and password.
     /// This member is required.
     public var serverId: Swift.String?
@@ -12506,7 +12506,7 @@ public struct TestIdentityProviderInput: Swift.Equatable {
     }
 }
 
-struct TestIdentityProviderInputBody: Swift.Equatable {
+struct TestIdentityProviderInputBody {
     let serverId: Swift.String?
     let serverProtocol: TransferClientTypes.ModelProtocol?
     let sourceIp: Swift.String?
@@ -12556,7 +12556,7 @@ extension TestIdentityProviderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TestIdentityProviderOutput: Swift.Equatable {
+public struct TestIdentityProviderOutput {
     /// A message that indicates whether the test was successful or not. If an empty string is returned, the most likely cause is that the authentication failed due to an incorrect username or password.
     public var message: Swift.String?
     /// The response that is returned from your API Gateway or your Lambda function.
@@ -12582,7 +12582,7 @@ public struct TestIdentityProviderOutput: Swift.Equatable {
     }
 }
 
-struct TestIdentityProviderOutputBody: Swift.Equatable {
+struct TestIdentityProviderOutputBody {
     let response: Swift.String?
     let statusCode: Swift.Int
     let message: Swift.String?
@@ -12725,7 +12725,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The value of the resource that will have the tag removed. An Amazon Resource Name (ARN) is an identifier for a specific Amazon Web Services resource, such as a server, user, or role.
     /// This member is required.
     public var arn: Swift.String?
@@ -12743,7 +12743,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let arn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12777,7 +12777,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12847,7 +12847,7 @@ extension UpdateAccessInput {
     }
 }
 
-public struct UpdateAccessInput: Swift.Equatable {
+public struct UpdateAccessInput {
     /// A unique identifier that is required to identify specific groups within your directory. The users of the group that you associate have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Transfer Family. If you know the group name, you can view the SID values by running the following command using Windows PowerShell. Get-ADGroup -Filter {samAccountName -like "YourGroupName*"} -Properties * | Select SamAccountName,ObjectSid In that command, replace YourGroupName with the name of your Active Directory group. The regular expression used to validate this parameter is a string of characters consisting of uppercase and lowercase alphanumeric characters with no spaces. You can also include underscores or any of the following characters: =,.@:/-
     /// This member is required.
     public var externalId: Swift.String?
@@ -12889,7 +12889,7 @@ public struct UpdateAccessInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessInputBody: Swift.Equatable {
+struct UpdateAccessInputBody {
     let homeDirectory: Swift.String?
     let homeDirectoryType: TransferClientTypes.HomeDirectoryType?
     let homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -12956,7 +12956,7 @@ extension UpdateAccessOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccessOutput: Swift.Equatable {
+public struct UpdateAccessOutput {
     /// The external identifier of the group whose users have access to your Amazon S3 or Amazon EFS resources over the enabled protocols using Amazon Web ServicesTransfer Family.
     /// This member is required.
     public var externalId: Swift.String?
@@ -12974,7 +12974,7 @@ public struct UpdateAccessOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccessOutputBody: Swift.Equatable {
+struct UpdateAccessOutputBody {
     let serverId: Swift.String?
     let externalId: Swift.String?
 }
@@ -13058,7 +13058,7 @@ extension UpdateAgreementInput {
     }
 }
 
-public struct UpdateAgreementInput: Swift.Equatable {
+public struct UpdateAgreementInput {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     public var accessRole: Swift.String?
     /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
@@ -13100,7 +13100,7 @@ public struct UpdateAgreementInput: Swift.Equatable {
     }
 }
 
-struct UpdateAgreementInputBody: Swift.Equatable {
+struct UpdateAgreementInputBody {
     let agreementId: Swift.String?
     let serverId: Swift.String?
     let description: Swift.String?
@@ -13156,7 +13156,7 @@ extension UpdateAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAgreementOutput: Swift.Equatable {
+public struct UpdateAgreementOutput {
     /// A unique identifier for the agreement. This identifier is returned when you create an agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -13169,7 +13169,7 @@ public struct UpdateAgreementOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAgreementOutputBody: Swift.Equatable {
+struct UpdateAgreementOutputBody {
     let agreementId: Swift.String?
 }
 
@@ -13233,7 +13233,7 @@ extension UpdateCertificateInput {
     }
 }
 
-public struct UpdateCertificateInput: Swift.Equatable {
+public struct UpdateCertificateInput {
     /// An optional date that specifies when the certificate becomes active.
     public var activeDate: ClientRuntime.Date?
     /// The identifier of the certificate object that you are updating.
@@ -13258,7 +13258,7 @@ public struct UpdateCertificateInput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateInputBody: Swift.Equatable {
+struct UpdateCertificateInputBody {
     let certificateId: Swift.String?
     let activeDate: ClientRuntime.Date?
     let inactiveDate: ClientRuntime.Date?
@@ -13298,7 +13298,7 @@ extension UpdateCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCertificateOutput: Swift.Equatable {
+public struct UpdateCertificateOutput {
     /// Returns the identifier of the certificate object that you are updating.
     /// This member is required.
     public var certificateId: Swift.String?
@@ -13311,7 +13311,7 @@ public struct UpdateCertificateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateOutputBody: Swift.Equatable {
+struct UpdateCertificateOutputBody {
     let certificateId: Swift.String?
 }
 
@@ -13386,7 +13386,7 @@ extension UpdateConnectorInput {
     }
 }
 
-public struct UpdateConnectorInput: Swift.Equatable {
+public struct UpdateConnectorInput {
     /// Connectors are used to send files using either the AS2 or SFTP protocol. For the access role, provide the Amazon Resource Name (ARN) of the Identity and Access Management role to use. For AS2 connectors With AS2, you can send files by calling StartFileTransfer and specifying the file paths in the request parameter, SendFilePaths. We use the file’s parent directory (for example, for --send-file-paths /bucket/dir/file.txt, parent directory is /bucket/dir/) to temporarily store a processed AS2 message file, store the MDN when we receive them from the partner, and write a final JSON file containing relevant metadata of the transmission. So, the AccessRole needs to provide read and write access to the parent directory of the file location used in the StartFileTransfer request. Additionally, you need to provide read and write access to the parent directory of the files that you intend to send with StartFileTransfer. If you are using Basic authentication for your AS2 connector, the access role requires the secretsmanager:GetSecretValue permission for the secret. If the secret is encrypted using a customer-managed key instead of the Amazon Web Services managed key in Secrets Manager, then the role also needs the kms:Decrypt permission for that key. For SFTP connectors Make sure that the access role provides read and write access to the parent directory of the file location that's used in the StartFileTransfer request. Additionally, make sure that the role provides secretsmanager:GetSecretValue permission to Secrets Manager.
     public var accessRole: Swift.String?
     /// A structure that contains the parameters for an AS2 connector object.
@@ -13423,7 +13423,7 @@ public struct UpdateConnectorInput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorInputBody: Swift.Equatable {
+struct UpdateConnectorInputBody {
     let connectorId: Swift.String?
     let url: Swift.String?
     let as2Config: TransferClientTypes.As2ConnectorConfig?
@@ -13475,7 +13475,7 @@ extension UpdateConnectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateConnectorOutput: Swift.Equatable {
+public struct UpdateConnectorOutput {
     /// Returns the identifier of the connector object that you are updating.
     /// This member is required.
     public var connectorId: Swift.String?
@@ -13488,7 +13488,7 @@ public struct UpdateConnectorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateConnectorOutputBody: Swift.Equatable {
+struct UpdateConnectorOutputBody {
     let connectorId: Swift.String?
 }
 
@@ -13548,7 +13548,7 @@ extension UpdateHostKeyInput {
     }
 }
 
-public struct UpdateHostKeyInput: Swift.Equatable {
+public struct UpdateHostKeyInput {
     /// An updated description for the host key.
     /// This member is required.
     public var description: Swift.String?
@@ -13571,7 +13571,7 @@ public struct UpdateHostKeyInput: Swift.Equatable {
     }
 }
 
-struct UpdateHostKeyInputBody: Swift.Equatable {
+struct UpdateHostKeyInputBody {
     let serverId: Swift.String?
     let hostKeyId: Swift.String?
     let description: Swift.String?
@@ -13609,7 +13609,7 @@ extension UpdateHostKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHostKeyOutput: Swift.Equatable {
+public struct UpdateHostKeyOutput {
     /// Returns the host key identifier for the updated host key.
     /// This member is required.
     public var hostKeyId: Swift.String?
@@ -13627,7 +13627,7 @@ public struct UpdateHostKeyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateHostKeyOutputBody: Swift.Equatable {
+struct UpdateHostKeyOutputBody {
     let serverId: Swift.String?
     let hostKeyId: Swift.String?
 }
@@ -13689,7 +13689,7 @@ extension UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileInput: Swift.Equatable {
+public struct UpdateProfileInput {
     /// An array of identifiers for the imported certificates. You use this identifier for working with profiles and partner profiles.
     public var certificateIds: [Swift.String]?
     /// The identifier of the profile object that you are updating.
@@ -13706,7 +13706,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileInputBody: Swift.Equatable {
+struct UpdateProfileInputBody {
     let profileId: Swift.String?
     let certificateIds: [Swift.String]?
 }
@@ -13747,7 +13747,7 @@ extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileOutput: Swift.Equatable {
+public struct UpdateProfileOutput {
     /// Returns the identifier for the profile that's being updated.
     /// This member is required.
     public var profileId: Swift.String?
@@ -13760,7 +13760,7 @@ public struct UpdateProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileOutputBody: Swift.Equatable {
+struct UpdateProfileOutputBody {
     let profileId: Swift.String?
 }
 
@@ -13878,7 +13878,7 @@ extension UpdateServerInput {
     }
 }
 
-public struct UpdateServerInput: Swift.Equatable {
+public struct UpdateServerInput {
     /// The Amazon Resource Name (ARN) of the Amazon Web ServicesCertificate Manager (ACM) certificate. Required when Protocols is set to FTPS. To request a new public certificate, see [Request a public certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-public.html) in the Amazon Web ServicesCertificate Manager User Guide. To import an existing certificate into ACM, see [Importing certificates into ACM](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the Amazon Web ServicesCertificate Manager User Guide. To request a private certificate to use FTPS through private IP addresses, see [Request a private certificate](https://docs.aws.amazon.com/acm/latest/userguide/gs-acm-request-private.html) in the Amazon Web ServicesCertificate Manager User Guide. Certificates with the following cryptographic algorithms and key sizes are supported:
     ///
     /// * 2048-bit RSA (RSA_2048)
@@ -13989,7 +13989,7 @@ public struct UpdateServerInput: Swift.Equatable {
     }
 }
 
-struct UpdateServerInputBody: Swift.Equatable {
+struct UpdateServerInputBody {
     let certificate: Swift.String?
     let protocolDetails: TransferClientTypes.ProtocolDetails?
     let endpointDetails: TransferClientTypes.EndpointDetails?
@@ -14091,7 +14091,7 @@ extension UpdateServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateServerOutput: Swift.Equatable {
+public struct UpdateServerOutput {
     /// A system-assigned unique identifier for a server that the Transfer Family user is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
@@ -14104,7 +14104,7 @@ public struct UpdateServerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateServerOutputBody: Swift.Equatable {
+struct UpdateServerOutputBody {
     let serverId: Swift.String?
 }
 
@@ -14189,7 +14189,7 @@ extension UpdateUserInput {
     }
 }
 
-public struct UpdateUserInput: Swift.Equatable {
+public struct UpdateUserInput {
     /// The landing directory (folder) for a user when they log in to the server using the client. A HomeDirectory example is /bucket_name/home/mydirectory. The HomeDirectory parameter is only used if HomeDirectoryType is set to PATH.
     public var homeDirectory: Swift.String?
     /// Logical directory mappings that specify what Amazon S3 or Amazon EFS paths and keys should be visible to your user and how you want to make them visible. You must specify the Entry and Target pair, where Entry shows how the path is made visible and Target is the actual Amazon S3 or Amazon EFS path. If you only specify a target, it is displayed as is. You also must ensure that your Identity and Access Management (IAM) role provides access to paths in Target. This value can be set only when HomeDirectoryType is set to LOGICAL. The following is an Entry and Target pair example. [ { "Entry": "/directory1", "Target": "/bucket_name/home/mydirectory" } ] In most cases, you can use this value instead of the session policy to lock down your user to the designated home directory ("chroot"). To do this, you can set Entry to '/' and set Target to the HomeDirectory parameter value. The following is an Entry and Target pair example for chroot. [ { "Entry": "/", "Target": "/bucket_name/home/mydirectory" } ]
@@ -14231,7 +14231,7 @@ public struct UpdateUserInput: Swift.Equatable {
     }
 }
 
-struct UpdateUserInputBody: Swift.Equatable {
+struct UpdateUserInputBody {
     let homeDirectory: Swift.String?
     let homeDirectoryType: TransferClientTypes.HomeDirectoryType?
     let homeDirectoryMappings: [TransferClientTypes.HomeDirectoryMapEntry]?
@@ -14299,7 +14299,7 @@ extension UpdateUserOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// UpdateUserResponse returns the user name and identifier for the request to update a user's properties.
-public struct UpdateUserOutput: Swift.Equatable {
+public struct UpdateUserOutput {
     /// A system-assigned unique identifier for a Transfer Family server instance that the account is assigned to.
     /// This member is required.
     public var serverId: Swift.String?
@@ -14317,7 +14317,7 @@ public struct UpdateUserOutput: Swift.Equatable {
     }
 }
 
-struct UpdateUserOutputBody: Swift.Equatable {
+struct UpdateUserOutputBody {
     let serverId: Swift.String?
     let userName: Swift.String?
 }
@@ -14385,7 +14385,7 @@ extension TransferClientTypes.UserDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the user name, server ID, and session ID for a workflow.
-    public struct UserDetails: Swift.Equatable {
+    public struct UserDetails {
         /// The system-assigned unique identifier for a Transfer server instance.
         /// This member is required.
         public var serverId: Swift.String?
@@ -14436,7 +14436,7 @@ extension TransferClientTypes.WorkflowDetail: Swift.Codable {
 
 extension TransferClientTypes {
     /// Specifies the workflow ID for the workflow to assign and the execution role that's used for executing the workflow. In addition to a workflow to execute when a file is uploaded completely, WorkflowDetails can also contain a workflow ID (and execution role) for a workflow to execute on partial upload. A partial upload occurs when the server session disconnects while the file is still being uploaded.
-    public struct WorkflowDetail: Swift.Equatable {
+    public struct WorkflowDetail {
         /// Includes the necessary permissions for S3, EFS, and Lambda operations that Transfer can assume, so that all workflow steps can operate on the required resources
         /// This member is required.
         public var executionRole: Swift.String?
@@ -14507,7 +14507,7 @@ extension TransferClientTypes.WorkflowDetails: Swift.Codable {
 
 extension TransferClientTypes {
     /// Container for the WorkflowDetail data type. It is used by actions that trigger a workflow to begin execution.
-    public struct WorkflowDetails: Swift.Equatable {
+    public struct WorkflowDetails {
         /// A trigger that starts a workflow if a file is only partially uploaded. You can attach a workflow to a server that executes whenever there is a partial upload. A partial upload occurs when a file is open when the session disconnects.
         public var onPartialUpload: [TransferClientTypes.WorkflowDetail]?
         /// A trigger that starts a workflow: the workflow begins to execute after a file is uploaded. To remove an associated workflow from a server, you can provide an empty OnUpload object, as in the following example. aws transfer update-server --server-id s-01234567890abcdef --workflow-details '{"OnUpload":[]}'
@@ -14576,7 +14576,7 @@ extension TransferClientTypes.WorkflowStep: Swift.Codable {
 
 extension TransferClientTypes {
     /// The basic building block of a workflow.
-    public struct WorkflowStep: Swift.Equatable {
+    public struct WorkflowStep {
         /// Details for a step that performs a file copy. Consists of the following values:
         ///
         /// * A description

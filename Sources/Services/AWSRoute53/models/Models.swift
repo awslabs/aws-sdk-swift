@@ -25,7 +25,7 @@ extension Route53ClientTypes.AccountLimit {
 
 extension Route53ClientTypes {
     /// A complex type that contains the type of limit that you specified in the request and the current value for that limit.
-    public struct AccountLimit: Swift.Equatable {
+    public struct AccountLimit {
         /// The limit that you requested. Valid values include the following:
         ///
         /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
@@ -109,7 +109,7 @@ extension ActivateKeySigningKeyInput {
     }
 }
 
-public struct ActivateKeySigningKeyInput: Swift.Equatable {
+public struct ActivateKeySigningKeyInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -140,7 +140,7 @@ extension ActivateKeySigningKeyOutput {
     }
 }
 
-public struct ActivateKeySigningKeyOutput: Swift.Equatable {
+public struct ActivateKeySigningKeyOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -194,7 +194,7 @@ extension Route53ClientTypes.AlarmIdentifier {
 
 extension Route53ClientTypes {
     /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
-    public struct AlarmIdentifier: Swift.Equatable {
+    public struct AlarmIdentifier {
         /// The name of the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether this health check is healthy. Route 53 supports CloudWatch alarms with the following features:
         ///
         /// * Standard-resolution metrics. High-resolution metrics aren't supported. For more information, see [High-Resolution Metrics](https://docs.aws.amazon.com/AmazonCloudWatch/latest/DeveloperGuide/publishingMetrics.html#high-resolution-metrics) in the Amazon CloudWatch User Guide.
@@ -243,7 +243,7 @@ extension Route53ClientTypes {
     /// Alias resource record sets only: Information about the Amazon Web Services resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to. When creating resource record sets for a private hosted zone, note the following:
     ///
     /// * For information about creating failover resource record sets in a private hosted zone, see [Configuring Failover in a Private Hosted Zone](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/dns-failover-private-hosted-zones.html).
-    public struct AliasTarget: Swift.Equatable {
+    public struct AliasTarget {
         /// Alias resource record sets only: The value that you specify depends on where you want to route queries: Amazon API Gateway custom regional APIs and edge-optimized APIs Specify the applicable domain name for your API. You can get the applicable value using the CLI command [get-domain-names](https://docs.aws.amazon.com/cli/latest/reference/apigateway/get-domain-names.html):
         ///
         /// * For regional APIs, specify the value of regionalDomainName.
@@ -379,7 +379,7 @@ extension AssociateVPCWithHostedZoneInput {
 }
 
 /// A complex type that contains information about the request to associate a VPC with a private hosted zone.
-public struct AssociateVPCWithHostedZoneInput: Swift.Equatable {
+public struct AssociateVPCWithHostedZoneInput {
     /// Optional: A comment about the association request.
     public var comment: Swift.String?
     /// The ID of the private hosted zone that you want to associate an Amazon VPC with. Note that you can't associate a VPC with a hosted zone that doesn't have an existing VPC association.
@@ -415,7 +415,7 @@ extension AssociateVPCWithHostedZoneOutput {
 }
 
 /// A complex type that contains the response information for the AssociateVPCWithHostedZone request.
-public struct AssociateVPCWithHostedZoneOutput: Swift.Equatable {
+public struct AssociateVPCWithHostedZoneOutput {
     /// A complex type that describes the changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -471,7 +471,7 @@ extension Route53ClientTypes.Change {
 
 extension Route53ClientTypes {
     /// The information for each resource record set that you want to change.
-    public struct Change: Swift.Equatable {
+    public struct Change {
         /// The action to perform:
         ///
         /// * CREATE: Creates a resource record set that has the specified values.
@@ -553,7 +553,7 @@ extension Route53ClientTypes.ChangeBatch {
 
 extension Route53ClientTypes {
     /// The information for a change request.
-    public struct ChangeBatch: Swift.Equatable {
+    public struct ChangeBatch {
         /// Information about the changes to make to the record sets.
         /// This member is required.
         public var changes: [Route53ClientTypes.Change]?
@@ -590,7 +590,7 @@ extension ChangeCidrCollectionInput {
     }
 }
 
-public struct ChangeCidrCollectionInput: Swift.Equatable {
+public struct ChangeCidrCollectionInput {
     /// Information about changes to a CIDR collection.
     /// This member is required.
     public var changes: [Route53ClientTypes.CidrCollectionChange]?
@@ -629,7 +629,7 @@ extension ChangeCidrCollectionOutput {
     }
 }
 
-public struct ChangeCidrCollectionOutput: Swift.Equatable {
+public struct ChangeCidrCollectionOutput {
     /// The ID that is returned by ChangeCidrCollection. You can use it as input to GetChange to see if a CIDR collection change has propagated or not.
     /// This member is required.
     public var id: Swift.String?
@@ -687,7 +687,7 @@ extension Route53ClientTypes.ChangeInfo {
 
 extension Route53ClientTypes {
     /// A complex type that describes change information about changes made to your hosted zone.
-    public struct ChangeInfo: Swift.Equatable {
+    public struct ChangeInfo {
         /// A comment you can provide.
         public var comment: Swift.String?
         /// This element contains an ID that you use when performing a [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html) action to get detailed information about the change.
@@ -734,7 +734,7 @@ extension ChangeResourceRecordSetsInput {
 }
 
 /// A complex type that contains change information for the resource record set.
-public struct ChangeResourceRecordSetsInput: Swift.Equatable {
+public struct ChangeResourceRecordSetsInput {
     /// A complex type that contains an optional comment and the Changes element.
     /// This member is required.
     public var changeBatch: Route53ClientTypes.ChangeBatch?
@@ -766,7 +766,7 @@ extension ChangeResourceRecordSetsOutput {
 }
 
 /// A complex type containing the response for the request.
-public struct ChangeResourceRecordSetsOutput: Swift.Equatable {
+public struct ChangeResourceRecordSetsOutput {
     /// A complex type that contains information about changes made to your hosted zone. This element contains an ID that you use when performing a [GetChange](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetChange.html) action to get detailed information about the change.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -904,7 +904,7 @@ extension ChangeTagsForResourceInput {
 }
 
 /// A complex type that contains information about the tags that you want to add, edit, or delete.
-public struct ChangeTagsForResourceInput: Swift.Equatable {
+public struct ChangeTagsForResourceInput {
     /// A complex type that contains a list of the tags that you want to add to the specified health check or hosted zone and/or the tags that you want to edit Value for. You can add a maximum of 10 tags to a health check or a hosted zone.
     public var addTags: [Route53ClientTypes.Tag]?
     /// A complex type that contains a list of the tags that you want to delete from the specified health check or hosted zone. You can specify up to 10 keys.
@@ -944,7 +944,7 @@ extension ChangeTagsForResourceOutput {
 }
 
 /// Empty response for the request.
-public struct ChangeTagsForResourceOutput: Swift.Equatable {
+public struct ChangeTagsForResourceOutput {
 
     public init() { }
 }
@@ -1037,7 +1037,7 @@ extension Route53ClientTypes.CidrBlockSummary {
 
 extension Route53ClientTypes {
     /// A complex type that lists the CIDR blocks.
-    public struct CidrBlockSummary: Swift.Equatable {
+    public struct CidrBlockSummary {
         /// Value for the CIDR block.
         public var cidrBlock: Swift.String?
         /// The location name of the CIDR block.
@@ -1080,7 +1080,7 @@ extension Route53ClientTypes.CidrCollection {
 
 extension Route53ClientTypes {
     /// A complex type that identifies a CIDR collection.
-    public struct CidrCollection: Swift.Equatable {
+    public struct CidrCollection {
         /// The ARN of the collection. Can be used to reference the collection in IAM policy or in another Amazon Web Services account.
         public var arn: Swift.String?
         /// The unique ID of the CIDR collection.
@@ -1177,7 +1177,7 @@ extension Route53ClientTypes.CidrCollectionChange {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about the CIDR collection change.
-    public struct CidrCollectionChange: Swift.Equatable {
+    public struct CidrCollectionChange {
         /// CIDR collection change action.
         /// This member is required.
         public var action: Route53ClientTypes.CidrCollectionChangeAction?
@@ -1351,7 +1351,7 @@ extension Route53ClientTypes.CidrRoutingConfig {
 
 extension Route53ClientTypes {
     /// The object that is specified in resource record set object when you are linking a resource record set to a CIDR location. A LocationName with an asterisk “*” can be used to create a default CIDR record. CollectionId is still required for default record.
-    public struct CidrRoutingConfig: Swift.Equatable {
+    public struct CidrRoutingConfig {
         /// The CIDR collection ID.
         /// This member is required.
         public var collectionId: Swift.String?
@@ -1404,7 +1404,7 @@ extension Route53ClientTypes.CloudWatchAlarmConfiguration {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about the CloudWatch alarm that Amazon Route 53 is monitoring for this health check.
-    public struct CloudWatchAlarmConfiguration: Swift.Equatable {
+    public struct CloudWatchAlarmConfiguration {
         /// For the metric that the CloudWatch alarm is associated with, the arithmetic operation that is used for the comparison.
         /// This member is required.
         public var comparisonOperator: Route53ClientTypes.ComparisonOperator?
@@ -1612,7 +1612,7 @@ extension Route53ClientTypes.CollectionSummary {
 
 extension Route53ClientTypes {
     /// A complex type that is an entry in an [CidrCollection](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CidrCollection.html) array.
-    public struct CollectionSummary: Swift.Equatable {
+    public struct CollectionSummary {
         /// The ARN of the collection summary. Can be used to reference the collection in IAM policy or cross-account.
         public var arn: Swift.String?
         /// Unique ID for the CIDR collection.
@@ -1849,7 +1849,7 @@ extension Route53ClientTypes.Coordinates {
 
 extension Route53ClientTypes {
     /// A complex type that lists the coordinates for a geoproximity resource record.
-    public struct Coordinates: Swift.Equatable {
+    public struct Coordinates {
         /// Specifies a coordinate of the north–south position of a geographic point on the surface of the Earth (-90 - 90).
         /// This member is required.
         public var latitude: Swift.String?
@@ -1884,7 +1884,7 @@ extension CreateCidrCollectionInput {
     }
 }
 
-public struct CreateCidrCollectionInput: Swift.Equatable {
+public struct CreateCidrCollectionInput {
     /// A client-specific token that allows requests to be securely retried so that the intended outcome will only occur once, retries receive a similar response, and there are no additional edge cases to handle.
     /// This member is required.
     public var callerReference: Swift.String?
@@ -1918,7 +1918,7 @@ extension CreateCidrCollectionOutput {
     }
 }
 
-public struct CreateCidrCollectionOutput: Swift.Equatable {
+public struct CreateCidrCollectionOutput {
     /// A complex type that contains information about the CIDR collection.
     public var collection: Route53ClientTypes.CidrCollection?
     /// A unique URL that represents the location for the CIDR collection.
@@ -1968,7 +1968,7 @@ extension CreateHealthCheckInput {
 }
 
 /// A complex type that contains the health check request information.
-public struct CreateHealthCheckInput: Swift.Equatable {
+public struct CreateHealthCheckInput {
     /// A unique string that identifies the request and that allows you to retry a failed CreateHealthCheck request without the risk of creating two identical health checks:
     ///
     /// * If you send a CreateHealthCheck request with the same CallerReference and settings as a previous request, and if the health check doesn't exist, Amazon Route 53 creates the health check. If the health check does exist, Route 53 returns the settings for the existing health check.
@@ -2014,7 +2014,7 @@ extension CreateHealthCheckOutput {
 }
 
 /// A complex type containing the response information for the new health check.
-public struct CreateHealthCheckOutput: Swift.Equatable {
+public struct CreateHealthCheckOutput {
     /// A complex type that contains identifying information about the health check.
     /// This member is required.
     public var healthCheck: Route53ClientTypes.HealthCheck?
@@ -2068,7 +2068,7 @@ extension CreateHostedZoneInput {
 }
 
 /// A complex type that contains information about the request to create a public or private hosted zone.
-public struct CreateHostedZoneInput: Swift.Equatable {
+public struct CreateHostedZoneInput {
     /// A unique string that identifies the request and that allows failed CreateHostedZone requests to be retried without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateHostedZone request. CallerReference can be any unique string, for example, a date/time stamp.
     /// This member is required.
     public var callerReference: Swift.String?
@@ -2125,7 +2125,7 @@ extension CreateHostedZoneOutput {
 }
 
 /// A complex type containing the response information for the hosted zone.
-public struct CreateHostedZoneOutput: Swift.Equatable {
+public struct CreateHostedZoneOutput {
     /// A complex type that contains information about the CreateHostedZone request.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -2198,7 +2198,7 @@ extension CreateKeySigningKeyInput {
     }
 }
 
-public struct CreateKeySigningKeyInput: Swift.Equatable {
+public struct CreateKeySigningKeyInput {
     /// A unique string that identifies the request.
     /// This member is required.
     public var callerReference: Swift.String?
@@ -2262,7 +2262,7 @@ extension CreateKeySigningKeyOutput {
     }
 }
 
-public struct CreateKeySigningKeyOutput: Swift.Equatable {
+public struct CreateKeySigningKeyOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -2324,7 +2324,7 @@ extension CreateQueryLoggingConfigInput {
     }
 }
 
-public struct CreateQueryLoggingConfigInput: Swift.Equatable {
+public struct CreateQueryLoggingConfigInput {
     /// The Amazon Resource Name (ARN) for the log group that you want to Amazon Route 53 to send query logs to. This is the format of the ARN: arn:aws:logs:region:account-id:log-group:log_group_name To get the ARN for a log group, you can use the CloudWatch console, the [DescribeLogGroups](https://docs.aws.amazon.com/AmazonCloudWatchLogs/latest/APIReference/API_DescribeLogGroups.html) API action, the [describe-log-groups](https://docs.aws.amazon.com/cli/latest/reference/logs/describe-log-groups.html) command, or the applicable command in one of the Amazon Web Services SDKs.
     /// This member is required.
     public var cloudWatchLogsLogGroupArn: Swift.String?
@@ -2358,7 +2358,7 @@ extension CreateQueryLoggingConfigOutput {
     }
 }
 
-public struct CreateQueryLoggingConfigOutput: Swift.Equatable {
+public struct CreateQueryLoggingConfigOutput {
     /// The unique URL representing the new query logging configuration.
     /// This member is required.
     public var location: Swift.String?
@@ -2411,7 +2411,7 @@ extension CreateReusableDelegationSetInput {
     }
 }
 
-public struct CreateReusableDelegationSetInput: Swift.Equatable {
+public struct CreateReusableDelegationSetInput {
     /// A unique string that identifies the request, and that allows you to retry failed CreateReusableDelegationSet requests without the risk of executing the operation twice. You must use a unique CallerReference string every time you submit a CreateReusableDelegationSet request. CallerReference can be any unique string, for example a date/time stamp.
     /// This member is required.
     public var callerReference: Swift.String?
@@ -2444,7 +2444,7 @@ extension CreateReusableDelegationSetOutput {
     }
 }
 
-public struct CreateReusableDelegationSetOutput: Swift.Equatable {
+public struct CreateReusableDelegationSetOutput {
     /// A complex type that contains name server information.
     /// This member is required.
     public var delegationSet: Route53ClientTypes.DelegationSet?
@@ -2500,7 +2500,7 @@ extension CreateTrafficPolicyInput {
 }
 
 /// A complex type that contains information about the traffic policy that you want to create.
-public struct CreateTrafficPolicyInput: Swift.Equatable {
+public struct CreateTrafficPolicyInput {
     /// (Optional) Any comments that you want to include about the traffic policy.
     public var comment: Swift.String?
     /// The definition of this traffic policy in JSON format. For more information, see [Traffic Policy Document Format](https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html).
@@ -2541,7 +2541,7 @@ extension CreateTrafficPolicyInstanceInput {
 }
 
 /// A complex type that contains information about the resource record sets that you want to create based on a specified traffic policy.
-public struct CreateTrafficPolicyInstanceInput: Swift.Equatable {
+public struct CreateTrafficPolicyInstanceInput {
     /// The ID of the hosted zone that you want Amazon Route 53 to create resource record sets in by using the configuration in a traffic policy.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -2591,7 +2591,7 @@ extension CreateTrafficPolicyInstanceOutput {
 }
 
 /// A complex type that contains the response information for the CreateTrafficPolicyInstance request.
-public struct CreateTrafficPolicyInstanceOutput: Swift.Equatable {
+public struct CreateTrafficPolicyInstanceOutput {
     /// A unique URL that represents a new traffic policy instance.
     /// This member is required.
     public var location: Swift.String?
@@ -2645,7 +2645,7 @@ extension CreateTrafficPolicyOutput {
 }
 
 /// A complex type that contains the response information for the CreateTrafficPolicy request.
-public struct CreateTrafficPolicyOutput: Swift.Equatable {
+public struct CreateTrafficPolicyOutput {
     /// A unique URL that represents a new traffic policy.
     /// This member is required.
     public var location: Swift.String?
@@ -2700,7 +2700,7 @@ extension CreateTrafficPolicyVersionInput {
 }
 
 /// A complex type that contains information about the traffic policy that you want to create a new version for.
-public struct CreateTrafficPolicyVersionInput: Swift.Equatable {
+public struct CreateTrafficPolicyVersionInput {
     /// The comment that you specified in the CreateTrafficPolicyVersion request, if any.
     public var comment: Swift.String?
     /// The definition of this version of the traffic policy, in JSON format. You specified the JSON in the CreateTrafficPolicyVersion request. For more information about the JSON format, see [CreateTrafficPolicy](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateTrafficPolicy.html).
@@ -2739,7 +2739,7 @@ extension CreateTrafficPolicyVersionOutput {
 }
 
 /// A complex type that contains the response information for the CreateTrafficPolicyVersion request.
-public struct CreateTrafficPolicyVersionOutput: Swift.Equatable {
+public struct CreateTrafficPolicyVersionOutput {
     /// A unique URL that represents a new traffic policy version.
     /// This member is required.
     public var location: Swift.String?
@@ -2794,7 +2794,7 @@ extension CreateVPCAssociationAuthorizationInput {
 }
 
 /// A complex type that contains information about the request to authorize associating a VPC with your private hosted zone. Authorization is only required when a private hosted zone and a VPC were created by using different accounts.
-public struct CreateVPCAssociationAuthorizationInput: Swift.Equatable {
+public struct CreateVPCAssociationAuthorizationInput {
     /// The ID of the private hosted zone that you want to authorize associating a VPC with.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -2827,7 +2827,7 @@ extension CreateVPCAssociationAuthorizationOutput {
 }
 
 /// A complex type that contains the response information from a CreateVPCAssociationAuthorization request.
-public struct CreateVPCAssociationAuthorizationOutput: Swift.Equatable {
+public struct CreateVPCAssociationAuthorizationOutput {
     /// The ID of the hosted zone that you authorized associating a VPC with.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -2933,7 +2933,7 @@ extension Route53ClientTypes.DNSSECStatus {
 
 extension Route53ClientTypes {
     /// A string representing the status of DNSSEC signing.
-    public struct DNSSECStatus: Swift.Equatable {
+    public struct DNSSECStatus {
         /// A string that represents the current hosted zone signing status. Status can have one of the following values: SIGNING DNSSEC signing is enabled for the hosted zone. NOT_SIGNING DNSSEC signing is not enabled for the hosted zone. DELETING DNSSEC signing is in the process of being removed for the hosted zone. ACTION_NEEDED There is a problem with signing in the hosted zone that requires you to take action to resolve. For example, the customer managed key might have been deleted, or the permissions for the customer managed key might have been changed. INTERNAL_FAILURE There was an error during a request. Before you can continue to work with DNSSEC signing, including with key-signing keys (KSKs), you must correct the problem by enabling or disabling DNSSEC signing for the hosted zone.
         public var serveSignature: Swift.String?
         /// The status message provided for the following DNSSEC signing status: INTERNAL_FAILURE. The status message includes information about what the problem might be and steps that you can take to correct the issue.
@@ -2964,7 +2964,7 @@ extension DeactivateKeySigningKeyInput {
     }
 }
 
-public struct DeactivateKeySigningKeyInput: Swift.Equatable {
+public struct DeactivateKeySigningKeyInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -2995,7 +2995,7 @@ extension DeactivateKeySigningKeyOutput {
     }
 }
 
-public struct DeactivateKeySigningKeyOutput: Swift.Equatable {
+public struct DeactivateKeySigningKeyOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -3052,7 +3052,7 @@ extension Route53ClientTypes.DelegationSet {
 
 extension Route53ClientTypes {
     /// A complex type that lists the name servers in a delegation set, as well as the CallerReference and the ID for the delegation set.
-    public struct DelegationSet: Swift.Equatable {
+    public struct DelegationSet {
         /// The value that you specified for CallerReference when you created the reusable delegation set.
         public var callerReference: Swift.String?
         /// The ID that Amazon Route 53 assigns to a reusable delegation set.
@@ -3330,7 +3330,7 @@ extension DeleteCidrCollectionInput {
     }
 }
 
-public struct DeleteCidrCollectionInput: Swift.Equatable {
+public struct DeleteCidrCollectionInput {
     /// The UUID of the collection to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3352,7 +3352,7 @@ extension DeleteCidrCollectionOutput {
     }
 }
 
-public struct DeleteCidrCollectionOutput: Swift.Equatable {
+public struct DeleteCidrCollectionOutput {
 
     public init() { }
 }
@@ -3386,7 +3386,7 @@ extension DeleteHealthCheckInput {
 }
 
 /// This action deletes a health check.
-public struct DeleteHealthCheckInput: Swift.Equatable {
+public struct DeleteHealthCheckInput {
     /// The ID of the health check that you want to delete.
     /// This member is required.
     public var healthCheckId: Swift.String?
@@ -3409,7 +3409,7 @@ extension DeleteHealthCheckOutput {
 }
 
 /// An empty element.
-public struct DeleteHealthCheckOutput: Swift.Equatable {
+public struct DeleteHealthCheckOutput {
 
     public init() { }
 }
@@ -3442,7 +3442,7 @@ extension DeleteHostedZoneInput {
 }
 
 /// A request to delete a hosted zone.
-public struct DeleteHostedZoneInput: Swift.Equatable {
+public struct DeleteHostedZoneInput {
     /// The ID of the hosted zone you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3469,7 +3469,7 @@ extension DeleteHostedZoneOutput {
 }
 
 /// A complex type that contains the response to a DeleteHostedZone request.
-public struct DeleteHostedZoneOutput: Swift.Equatable {
+public struct DeleteHostedZoneOutput {
     /// A complex type that contains the ID, the status, and the date and time of a request to delete a hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -3514,7 +3514,7 @@ extension DeleteKeySigningKeyInput {
     }
 }
 
-public struct DeleteKeySigningKeyInput: Swift.Equatable {
+public struct DeleteKeySigningKeyInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -3545,7 +3545,7 @@ extension DeleteKeySigningKeyOutput {
     }
 }
 
-public struct DeleteKeySigningKeyOutput: Swift.Equatable {
+public struct DeleteKeySigningKeyOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -3588,7 +3588,7 @@ extension DeleteQueryLoggingConfigInput {
     }
 }
 
-public struct DeleteQueryLoggingConfigInput: Swift.Equatable {
+public struct DeleteQueryLoggingConfigInput {
     /// The ID of the configuration that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3610,7 +3610,7 @@ extension DeleteQueryLoggingConfigOutput {
     }
 }
 
-public struct DeleteQueryLoggingConfigOutput: Swift.Equatable {
+public struct DeleteQueryLoggingConfigOutput {
 
     public init() { }
 }
@@ -3643,7 +3643,7 @@ extension DeleteReusableDelegationSetInput {
 }
 
 /// A request to delete a reusable delegation set.
-public struct DeleteReusableDelegationSetInput: Swift.Equatable {
+public struct DeleteReusableDelegationSetInput {
     /// The ID of the reusable delegation set that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3666,7 +3666,7 @@ extension DeleteReusableDelegationSetOutput {
 }
 
 /// An empty element.
-public struct DeleteReusableDelegationSetOutput: Swift.Equatable {
+public struct DeleteReusableDelegationSetOutput {
 
     public init() { }
 }
@@ -3703,7 +3703,7 @@ extension DeleteTrafficPolicyInput {
 }
 
 /// A request to delete a specified traffic policy version.
-public struct DeleteTrafficPolicyInput: Swift.Equatable {
+public struct DeleteTrafficPolicyInput {
     /// The ID of the traffic policy that you want to delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3732,7 +3732,7 @@ extension DeleteTrafficPolicyInstanceInput {
 }
 
 /// A request to delete a specified traffic policy instance.
-public struct DeleteTrafficPolicyInstanceInput: Swift.Equatable {
+public struct DeleteTrafficPolicyInstanceInput {
     /// The ID of the traffic policy instance that you want to delete. When you delete a traffic policy instance, Amazon Route 53 also deletes all of the resource record sets that were created when you created the traffic policy instance.
     /// This member is required.
     public var id: Swift.String?
@@ -3755,7 +3755,7 @@ extension DeleteTrafficPolicyInstanceOutput {
 }
 
 /// An empty element.
-public struct DeleteTrafficPolicyInstanceOutput: Swift.Equatable {
+public struct DeleteTrafficPolicyInstanceOutput {
 
     public init() { }
 }
@@ -3787,7 +3787,7 @@ extension DeleteTrafficPolicyOutput {
 }
 
 /// An empty element.
-public struct DeleteTrafficPolicyOutput: Swift.Equatable {
+public struct DeleteTrafficPolicyOutput {
 
     public init() { }
 }
@@ -3828,7 +3828,7 @@ extension DeleteVPCAssociationAuthorizationInput {
 }
 
 /// A complex type that contains information about the request to remove authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account.
-public struct DeleteVPCAssociationAuthorizationInput: Swift.Equatable {
+public struct DeleteVPCAssociationAuthorizationInput {
     /// When removing authorization to associate a VPC that was created by one Amazon Web Services account with a hosted zone that was created with a different Amazon Web Services account, the ID of the hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -3856,7 +3856,7 @@ extension DeleteVPCAssociationAuthorizationOutput {
 }
 
 /// Empty response for the request.
-public struct DeleteVPCAssociationAuthorizationOutput: Swift.Equatable {
+public struct DeleteVPCAssociationAuthorizationOutput {
 
     public init() { }
 }
@@ -3901,7 +3901,7 @@ extension Route53ClientTypes.Dimension {
 
 extension Route53ClientTypes {
     /// For the metric that the CloudWatch alarm is associated with, a complex type that contains information about one dimension.
-    public struct Dimension: Swift.Equatable {
+    public struct Dimension {
         /// For the metric that the CloudWatch alarm is associated with, the name of one dimension.
         /// This member is required.
         public var name: Swift.String?
@@ -3931,7 +3931,7 @@ extension DisableHostedZoneDNSSECInput {
     }
 }
 
-public struct DisableHostedZoneDNSSECInput: Swift.Equatable {
+public struct DisableHostedZoneDNSSECInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -3957,7 +3957,7 @@ extension DisableHostedZoneDNSSECOutput {
     }
 }
 
-public struct DisableHostedZoneDNSSECOutput: Swift.Equatable {
+public struct DisableHostedZoneDNSSECOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -4011,7 +4011,7 @@ extension DisassociateVPCFromHostedZoneInput {
 }
 
 /// A complex type that contains information about the VPC that you want to disassociate from a specified private hosted zone.
-public struct DisassociateVPCFromHostedZoneInput: Swift.Equatable {
+public struct DisassociateVPCFromHostedZoneInput {
     /// Optional: A comment about the disassociation request.
     public var comment: Swift.String?
     /// The ID of the private hosted zone that you want to disassociate a VPC from.
@@ -4047,7 +4047,7 @@ extension DisassociateVPCFromHostedZoneOutput {
 }
 
 /// A complex type that contains the response information for the disassociate request.
-public struct DisassociateVPCFromHostedZoneOutput: Swift.Equatable {
+public struct DisassociateVPCFromHostedZoneOutput {
     /// A complex type that describes the changes made to the specified private hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -4089,7 +4089,7 @@ extension EnableHostedZoneDNSSECInput {
     }
 }
 
-public struct EnableHostedZoneDNSSECInput: Swift.Equatable {
+public struct EnableHostedZoneDNSSECInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -4115,7 +4115,7 @@ extension EnableHostedZoneDNSSECOutput {
     }
 }
 
-public struct EnableHostedZoneDNSSECOutput: Swift.Equatable {
+public struct EnableHostedZoneDNSSECOutput {
     /// A complex type that describes change information about changes made to your hosted zone.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -4174,7 +4174,7 @@ extension Route53ClientTypes.GeoLocation {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about a geographic location.
-    public struct GeoLocation: Swift.Equatable {
+    public struct GeoLocation {
         /// The two-letter code for the continent. Amazon Route 53 supports the following continent codes:
         ///
         /// * AF: Africa
@@ -4242,7 +4242,7 @@ extension Route53ClientTypes.GeoLocationDetails {
 
 extension Route53ClientTypes {
     /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
-    public struct GeoLocationDetails: Swift.Equatable {
+    public struct GeoLocationDetails {
         /// The two-letter code for the continent.
         public var continentCode: Swift.String?
         /// The full name of the continent.
@@ -4301,7 +4301,7 @@ extension Route53ClientTypes.GeoProximityLocation {
 
 extension Route53ClientTypes {
     /// (Resource record sets only): A complex type that lets you specify where your resources are located. Only one of LocalZoneGroup, Coordinates, or Amazon Web ServicesRegion is allowed per request at a time. For more information about geoproximity routing, see [Geoproximity routing](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/routing-policy-geoproximity.html) in the Amazon Route 53 Developer Guide.
-    public struct GeoProximityLocation: Swift.Equatable {
+    public struct GeoProximityLocation {
         /// The Amazon Web Services Region the resource you are directing DNS traffic to, is in.
         public var awsRegion: Swift.String?
         /// The bias increases or decreases the size of the geographic region from which Route 53 routes traffic to a resource. To use Bias to change the size of the geographic region, specify the applicable value for the bias:
@@ -4342,7 +4342,7 @@ extension GetAccountLimitInput {
 }
 
 /// A complex type that contains information about the request to create a hosted zone.
-public struct GetAccountLimitInput: Swift.Equatable {
+public struct GetAccountLimitInput {
     /// The limit that you want to get. Valid values include the following:
     ///
     /// * MAX_HEALTH_CHECKS_BY_OWNER: The maximum number of health checks that you can create using the current account.
@@ -4380,7 +4380,7 @@ extension GetAccountLimitOutput {
 }
 
 /// A complex type that contains the requested limit.
-public struct GetAccountLimitOutput: Swift.Equatable {
+public struct GetAccountLimitOutput {
     /// The current number of entities that you have created of the specified type. For example, if you specified MAX_HEALTH_CHECKS_BY_OWNER for the value of Type in the request, the value of Count is the current number of health checks that you have created using the current account.
     /// This member is required.
     public var count: Swift.Int
@@ -4424,7 +4424,7 @@ extension GetChangeInput {
 }
 
 /// The input for a GetChange request.
-public struct GetChangeInput: Swift.Equatable {
+public struct GetChangeInput {
     /// The ID of the change batch request. The value that you specify here is the value that ChangeResourceRecordSets returned in the Id element when you submitted the request.
     /// This member is required.
     public var id: Swift.String?
@@ -4451,7 +4451,7 @@ extension GetChangeOutput {
 }
 
 /// A complex type that contains the ChangeInfo element.
-public struct GetChangeOutput: Swift.Equatable {
+public struct GetChangeOutput {
     /// A complex type that contains information about the specified change batch.
     /// This member is required.
     public var changeInfo: Route53ClientTypes.ChangeInfo?
@@ -4488,7 +4488,7 @@ extension GetCheckerIpRangesInput {
 }
 
 /// Empty request.
-public struct GetCheckerIpRangesInput: Swift.Equatable {
+public struct GetCheckerIpRangesInput {
 
     public init() { }
 }
@@ -4507,7 +4507,7 @@ extension GetCheckerIpRangesOutput {
 }
 
 /// A complex type that contains the CheckerIpRanges element.
-public struct GetCheckerIpRangesOutput: Swift.Equatable {
+public struct GetCheckerIpRangesOutput {
     /// A complex type that contains sorted list of IP ranges in CIDR format for Amazon Route 53 health checkers.
     /// This member is required.
     public var checkerIpRanges: [Swift.String]?
@@ -4543,7 +4543,7 @@ extension GetDNSSECInput {
     }
 }
 
-public struct GetDNSSECInput: Swift.Equatable {
+public struct GetDNSSECInput {
     /// A unique string used to identify a hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -4570,7 +4570,7 @@ extension GetDNSSECOutput {
     }
 }
 
-public struct GetDNSSECOutput: Swift.Equatable {
+public struct GetDNSSECOutput {
     /// The key-signing keys (KSKs) in your account.
     /// This member is required.
     public var keySigningKeys: [Route53ClientTypes.KeySigningKey]?
@@ -4633,7 +4633,7 @@ extension GetGeoLocationInput {
 }
 
 /// A request for information about whether a specified geographic location is supported for Amazon Route 53 geolocation resource record sets.
-public struct GetGeoLocationInput: Swift.Equatable {
+public struct GetGeoLocationInput {
     /// For geolocation resource record sets, a two-letter abbreviation that identifies a continent. Amazon Route 53 supports the following continent codes:
     ///
     /// * AF: Africa
@@ -4681,7 +4681,7 @@ extension GetGeoLocationOutput {
 }
 
 /// A complex type that contains the response information for the specified geolocation code.
-public struct GetGeoLocationOutput: Swift.Equatable {
+public struct GetGeoLocationOutput {
     /// A complex type that contains the codes and full continent, country, and subdivision names for the specified geolocation code.
     /// This member is required.
     public var geoLocationDetails: Route53ClientTypes.GeoLocationDetails?
@@ -4718,7 +4718,7 @@ extension GetHealthCheckCountInput {
 }
 
 /// A request for the number of health checks that are associated with the current Amazon Web Services account.
-public struct GetHealthCheckCountInput: Swift.Equatable {
+public struct GetHealthCheckCountInput {
 
     public init() { }
 }
@@ -4737,7 +4737,7 @@ extension GetHealthCheckCountOutput {
 }
 
 /// A complex type that contains the response to a GetHealthCheckCount request.
-public struct GetHealthCheckCountOutput: Swift.Equatable {
+public struct GetHealthCheckCountOutput {
     /// The number of health checks associated with the current Amazon Web Services account.
     /// This member is required.
     public var healthCheckCount: Swift.Int?
@@ -4774,7 +4774,7 @@ extension GetHealthCheckInput {
 }
 
 /// A request to get information about a specified health check.
-public struct GetHealthCheckInput: Swift.Equatable {
+public struct GetHealthCheckInput {
     /// The identifier that Amazon Route 53 assigned to the health check when you created it. When you add or update a resource record set, you use this value to specify which health check to use. The value can be up to 64 characters long.
     /// This member is required.
     public var healthCheckId: Swift.String?
@@ -4798,7 +4798,7 @@ extension GetHealthCheckLastFailureReasonInput {
 }
 
 /// A request for the reason that a health check failed most recently.
-public struct GetHealthCheckLastFailureReasonInput: Swift.Equatable {
+public struct GetHealthCheckLastFailureReasonInput {
     /// The ID for the health check for which you want the last failure reason. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. If you want to get the last failure reason for a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckLastFailureReason for a calculated health check.
     /// This member is required.
     public var healthCheckId: Swift.String?
@@ -4825,7 +4825,7 @@ extension GetHealthCheckLastFailureReasonOutput {
 }
 
 /// A complex type that contains the response to a GetHealthCheckLastFailureReason request.
-public struct GetHealthCheckLastFailureReasonOutput: Swift.Equatable {
+public struct GetHealthCheckLastFailureReasonOutput {
     /// A list that contains one Observation element for each Amazon Route 53 health checker that is reporting a last failure reason.
     /// This member is required.
     public var healthCheckObservations: [Route53ClientTypes.HealthCheckObservation]?
@@ -4868,7 +4868,7 @@ extension GetHealthCheckOutput {
 }
 
 /// A complex type that contains the response to a GetHealthCheck request.
-public struct GetHealthCheckOutput: Swift.Equatable {
+public struct GetHealthCheckOutput {
     /// A complex type that contains information about one health check that is associated with the current Amazon Web Services account.
     /// This member is required.
     public var healthCheck: Route53ClientTypes.HealthCheck?
@@ -4909,7 +4909,7 @@ extension GetHealthCheckStatusInput {
 }
 
 /// A request to get the status for a health check.
-public struct GetHealthCheckStatusInput: Swift.Equatable {
+public struct GetHealthCheckStatusInput {
     /// The ID for the health check that you want the current status for. When you created the health check, CreateHealthCheck returned the ID in the response, in the HealthCheckId element. If you want to check the status of a calculated health check, you must use the Amazon Route 53 console or the CloudWatch console. You can't use GetHealthCheckStatus to get the status of a calculated health check.
     /// This member is required.
     public var healthCheckId: Swift.String?
@@ -4936,7 +4936,7 @@ extension GetHealthCheckStatusOutput {
 }
 
 /// A complex type that contains the response to a GetHealthCheck request.
-public struct GetHealthCheckStatusOutput: Swift.Equatable {
+public struct GetHealthCheckStatusOutput {
     /// A list that contains one HealthCheckObservation element for each Amazon Route 53 health checker that is reporting a status about the health check endpoint.
     /// This member is required.
     public var healthCheckObservations: [Route53ClientTypes.HealthCheckObservation]?
@@ -4973,7 +4973,7 @@ extension GetHostedZoneCountInput {
 }
 
 /// A request to retrieve a count of all the hosted zones that are associated with the current Amazon Web Services account.
-public struct GetHostedZoneCountInput: Swift.Equatable {
+public struct GetHostedZoneCountInput {
 
     public init() { }
 }
@@ -4992,7 +4992,7 @@ extension GetHostedZoneCountOutput {
 }
 
 /// A complex type that contains the response to a GetHostedZoneCount request.
-public struct GetHostedZoneCountOutput: Swift.Equatable {
+public struct GetHostedZoneCountOutput {
     /// The total number of public and private hosted zones that are associated with the current Amazon Web Services account.
     /// This member is required.
     public var hostedZoneCount: Swift.Int?
@@ -5031,7 +5031,7 @@ extension GetHostedZoneInput {
 }
 
 /// A request to get information about a specified hosted zone.
-public struct GetHostedZoneInput: Swift.Equatable {
+public struct GetHostedZoneInput {
     /// The ID of the hosted zone that you want to get information about.
     /// This member is required.
     public var id: Swift.String?
@@ -5058,7 +5058,7 @@ extension GetHostedZoneLimitInput {
 }
 
 /// A complex type that contains information about the request to create a hosted zone.
-public struct GetHostedZoneLimitInput: Swift.Equatable {
+public struct GetHostedZoneLimitInput {
     /// The ID of the hosted zone that you want to get a limit for.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -5095,7 +5095,7 @@ extension GetHostedZoneLimitOutput {
 }
 
 /// A complex type that contains the requested limit.
-public struct GetHostedZoneLimitOutput: Swift.Equatable {
+public struct GetHostedZoneLimitOutput {
     /// The current number of entities that you have created of the specified type. For example, if you specified MAX_RRSETS_BY_ZONE for the value of Type in the request, the value of Count is the current number of records that you have created in the specified hosted zone.
     /// This member is required.
     public var count: Swift.Int
@@ -5146,7 +5146,7 @@ extension GetHostedZoneOutput {
 }
 
 /// A complex type that contain the response to a GetHostedZone request.
-public struct GetHostedZoneOutput: Swift.Equatable {
+public struct GetHostedZoneOutput {
     /// A complex type that lists the Amazon Route 53 name servers for the specified hosted zone.
     public var delegationSet: Route53ClientTypes.DelegationSet?
     /// A complex type that contains general information about the specified hosted zone.
@@ -5193,7 +5193,7 @@ extension GetQueryLoggingConfigInput {
     }
 }
 
-public struct GetQueryLoggingConfigInput: Swift.Equatable {
+public struct GetQueryLoggingConfigInput {
     /// The ID of the configuration for DNS query logging that you want to get information about.
     /// This member is required.
     public var id: Swift.String?
@@ -5219,7 +5219,7 @@ extension GetQueryLoggingConfigOutput {
     }
 }
 
-public struct GetQueryLoggingConfigOutput: Swift.Equatable {
+public struct GetQueryLoggingConfigOutput {
     /// A complex type that contains information about the query logging configuration that you specified in a [GetQueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_GetQueryLoggingConfig.html) request.
     /// This member is required.
     public var queryLoggingConfig: Route53ClientTypes.QueryLoggingConfig?
@@ -5259,7 +5259,7 @@ extension GetReusableDelegationSetInput {
 }
 
 /// A request to get information about a specified reusable delegation set.
-public struct GetReusableDelegationSetInput: Swift.Equatable {
+public struct GetReusableDelegationSetInput {
     /// The ID of the reusable delegation set that you want to get a list of name servers for.
     /// This member is required.
     public var id: Swift.String?
@@ -5286,7 +5286,7 @@ extension GetReusableDelegationSetLimitInput {
 }
 
 /// A complex type that contains information about the request to create a hosted zone.
-public struct GetReusableDelegationSetLimitInput: Swift.Equatable {
+public struct GetReusableDelegationSetLimitInput {
     /// The ID of the delegation set that you want to get the limit for.
     /// This member is required.
     public var delegationSetId: Swift.String?
@@ -5319,7 +5319,7 @@ extension GetReusableDelegationSetLimitOutput {
 }
 
 /// A complex type that contains the requested limit.
-public struct GetReusableDelegationSetLimitOutput: Swift.Equatable {
+public struct GetReusableDelegationSetLimitOutput {
     /// The current number of hosted zones that you can associate with the specified reusable delegation set.
     /// This member is required.
     public var count: Swift.Int
@@ -5367,7 +5367,7 @@ extension GetReusableDelegationSetOutput {
 }
 
 /// A complex type that contains the response to the GetReusableDelegationSet request.
-public struct GetReusableDelegationSetOutput: Swift.Equatable {
+public struct GetReusableDelegationSetOutput {
     /// A complex type that contains information about the reusable delegation set.
     /// This member is required.
     public var delegationSet: Route53ClientTypes.DelegationSet?
@@ -5411,7 +5411,7 @@ extension GetTrafficPolicyInput {
 }
 
 /// Gets information about a specific traffic policy version.
-public struct GetTrafficPolicyInput: Swift.Equatable {
+public struct GetTrafficPolicyInput {
     /// The ID of the traffic policy that you want to get information about.
     /// This member is required.
     public var id: Swift.String?
@@ -5437,7 +5437,7 @@ extension GetTrafficPolicyInstanceCountInput {
 }
 
 /// Request to get the number of traffic policy instances that are associated with the current Amazon Web Services account.
-public struct GetTrafficPolicyInstanceCountInput: Swift.Equatable {
+public struct GetTrafficPolicyInstanceCountInput {
 
     public init() { }
 }
@@ -5456,7 +5456,7 @@ extension GetTrafficPolicyInstanceCountOutput {
 }
 
 /// A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
-public struct GetTrafficPolicyInstanceCountOutput: Swift.Equatable {
+public struct GetTrafficPolicyInstanceCountOutput {
     /// The number of traffic policy instances that are associated with the current Amazon Web Services account.
     /// This member is required.
     public var trafficPolicyInstanceCount: Swift.Int?
@@ -5493,7 +5493,7 @@ extension GetTrafficPolicyInstanceInput {
 }
 
 /// Gets information about a specified traffic policy instance.
-public struct GetTrafficPolicyInstanceInput: Swift.Equatable {
+public struct GetTrafficPolicyInstanceInput {
     /// The ID of the traffic policy instance that you want to get information about.
     /// This member is required.
     public var id: Swift.String?
@@ -5520,7 +5520,7 @@ extension GetTrafficPolicyInstanceOutput {
 }
 
 /// A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
-public struct GetTrafficPolicyInstanceOutput: Swift.Equatable {
+public struct GetTrafficPolicyInstanceOutput {
     /// A complex type that contains settings for the traffic policy instance.
     /// This member is required.
     public var trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance?
@@ -5563,7 +5563,7 @@ extension GetTrafficPolicyOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct GetTrafficPolicyOutput: Swift.Equatable {
+public struct GetTrafficPolicyOutput {
     /// A complex type that contains settings for the specified traffic policy.
     /// This member is required.
     public var trafficPolicy: Route53ClientTypes.TrafficPolicy?
@@ -5621,7 +5621,7 @@ extension Route53ClientTypes.HealthCheck {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about one health check that is associated with the current Amazon Web Services account.
-    public struct HealthCheck: Swift.Equatable {
+    public struct HealthCheck {
         /// A unique string that you specified when you created the health check.
         /// This member is required.
         public var callerReference: Swift.String?
@@ -5765,7 +5765,7 @@ extension Route53ClientTypes.HealthCheckConfig {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about the health check.
-    public struct HealthCheckConfig: Swift.Equatable {
+    public struct HealthCheckConfig {
         /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
         public var alarmIdentifier: Route53ClientTypes.AlarmIdentifier?
         /// (CALCULATED Health Checks Only) A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -5984,7 +5984,7 @@ extension Route53ClientTypes.HealthCheckObservation {
 
 extension Route53ClientTypes {
     /// A complex type that contains the last failure reason as reported by one Amazon Route 53 health checker.
-    public struct HealthCheckObservation: Swift.Equatable {
+    public struct HealthCheckObservation {
         /// The IP address of the Amazon Route 53 health checker that provided the failure reason in StatusReport.
         public var ipAddress: Swift.String?
         /// The region of the Amazon Route 53 health checker that provided the status in StatusReport.
@@ -6183,7 +6183,7 @@ extension Route53ClientTypes.HostedZone {
 
 extension Route53ClientTypes {
     /// A complex type that contains general information about the hosted zone.
-    public struct HostedZone: Swift.Equatable {
+    public struct HostedZone {
         /// The value that you specified for CallerReference when you created the hosted zone.
         /// This member is required.
         public var callerReference: Swift.String?
@@ -6290,7 +6290,7 @@ extension Route53ClientTypes.HostedZoneConfig {
 
 extension Route53ClientTypes {
     /// A complex type that contains an optional comment about your hosted zone. If you don't want to specify a comment, omit both the HostedZoneConfig and Comment elements.
-    public struct HostedZoneConfig: Swift.Equatable {
+    public struct HostedZoneConfig {
         /// Any comments that you want to include about the hosted zone.
         public var comment: Swift.String?
         /// A value that indicates whether this is a private hosted zone.
@@ -6329,7 +6329,7 @@ extension Route53ClientTypes.HostedZoneLimit {
 
 extension Route53ClientTypes {
     /// A complex type that contains the type of limit that you specified in the request and the current value for that limit.
-    public struct HostedZoneLimit: Swift.Equatable {
+    public struct HostedZoneLimit {
         /// The limit that you requested. Valid values include the following:
         ///
         /// * MAX_RRSETS_BY_ZONE: The maximum number of records that you can create in the specified hosted zone.
@@ -6553,7 +6553,7 @@ extension Route53ClientTypes.HostedZoneOwner {
 
 extension Route53ClientTypes {
     /// A complex type that identifies a hosted zone that a specified Amazon VPC is associated with and the owner of the hosted zone. If there is a value for OwningAccount, there is no value for OwningService, and vice versa.
-    public struct HostedZoneOwner: Swift.Equatable {
+    public struct HostedZoneOwner {
         /// If the hosted zone was created by an Amazon Web Services account, or was created by an Amazon Web Services service that creates hosted zones using the current account, OwningAccount contains the account ID of that account. For example, when you use Cloud Map to create a hosted zone, Cloud Map creates the hosted zone using the current Amazon Web Services account.
         public var owningAccount: Swift.String?
         /// If an Amazon Web Services service uses its own account to create a hosted zone and associate the specified VPC with that hosted zone, OwningService contains an abbreviation that identifies the service. For example, if Amazon Elastic File System (Amazon EFS) created a hosted zone and associated a VPC with the hosted zone, the value of OwningService is efs.amazonaws.com.
@@ -6642,7 +6642,7 @@ extension Route53ClientTypes.HostedZoneSummary {
 
 extension Route53ClientTypes {
     /// In the response to a ListHostedZonesByVPC request, the HostedZoneSummaries element contains one HostedZoneSummary element for each hosted zone that the specified Amazon VPC is associated with. Each HostedZoneSummary element contains the hosted zone name and ID, and information about who owns the hosted zone.
-    public struct HostedZoneSummary: Swift.Equatable {
+    public struct HostedZoneSummary {
         /// The Route 53 hosted zone ID of a private hosted zone that the specified VPC is associated with.
         /// This member is required.
         public var hostedZoneId: Swift.String?
@@ -7425,7 +7425,7 @@ extension Route53ClientTypes.KeySigningKey {
 
 extension Route53ClientTypes {
     /// A key-signing key (KSK) is a complex type that represents a public/private key pair. The private key is used to generate a digital signature for the zone signing key (ZSK). The public key is stored in the DNS and is used to authenticate the ZSK. A KSK is always associated with a hosted zone; it cannot exist by itself.
-    public struct KeySigningKey: Swift.Equatable {
+    public struct KeySigningKey {
         /// The date when the key-signing key (KSK) was created.
         public var createdDate: ClientRuntime.Date?
         /// A string used to represent the delegation signer digest algorithm. This value must follow the guidelines provided by [RFC-8624 Section 3.3](https://tools.ietf.org/html/rfc8624#section-3.3).
@@ -7824,7 +7824,7 @@ extension Route53ClientTypes.LinkedService {
 
 extension Route53ClientTypes {
     /// If a health check or hosted zone was created by another service, LinkedService is a complex type that describes the service that created the resource. When a resource is created by another service, you can't edit or delete it using Amazon Route 53.
-    public struct LinkedService: Swift.Equatable {
+    public struct LinkedService {
         /// If the health check or hosted zone was created by another service, an optional description that can be provided by the other service. When a resource is created by another service, you can't edit or delete it using Amazon Route 53.
         public var description: Swift.String?
         /// If the health check or hosted zone was created by another service, the service that created the resource. When a resource is created by another service, you can't edit or delete it using Amazon Route 53.
@@ -7872,7 +7872,7 @@ extension ListCidrBlocksInput {
     }
 }
 
-public struct ListCidrBlocksInput: Swift.Equatable {
+public struct ListCidrBlocksInput {
     /// The UUID of the CIDR collection.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -7911,7 +7911,7 @@ extension ListCidrBlocksOutput {
     }
 }
 
-public struct ListCidrBlocksOutput: Swift.Equatable {
+public struct ListCidrBlocksOutput {
     /// A complex type that contains information about the CIDR blocks.
     public var cidrBlocks: [Route53ClientTypes.CidrBlockSummary]?
     /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
@@ -7967,7 +7967,7 @@ extension ListCidrCollectionsInput {
     }
 }
 
-public struct ListCidrCollectionsInput: Swift.Equatable {
+public struct ListCidrCollectionsInput {
     /// The maximum number of CIDR collections to return in the response.
     public var maxResults: Swift.Int?
     /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
@@ -7997,7 +7997,7 @@ extension ListCidrCollectionsOutput {
     }
 }
 
-public struct ListCidrCollectionsOutput: Swift.Equatable {
+public struct ListCidrCollectionsOutput {
     /// A complex type with information about the CIDR collection.
     public var cidrCollections: [Route53ClientTypes.CollectionSummary]?
     /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
@@ -8054,7 +8054,7 @@ extension ListCidrLocationsInput {
     }
 }
 
-public struct ListCidrLocationsInput: Swift.Equatable {
+public struct ListCidrLocationsInput {
     /// The CIDR collection ID.
     /// This member is required.
     public var collectionId: Swift.String?
@@ -8089,7 +8089,7 @@ extension ListCidrLocationsOutput {
     }
 }
 
-public struct ListCidrLocationsOutput: Swift.Equatable {
+public struct ListCidrLocationsOutput {
     /// A complex type that contains information about the list of CIDR locations.
     public var cidrLocations: [Route53ClientTypes.LocationSummary]?
     /// An opaque pagination token to indicate where the service is to begin enumerating results. If no value is provided, the listing of results starts from the beginning.
@@ -8153,7 +8153,7 @@ extension ListGeoLocationsInput {
 }
 
 /// A request to get a list of geographic locations that Amazon Route 53 supports for geolocation resource record sets.
-public struct ListGeoLocationsInput: Swift.Equatable {
+public struct ListGeoLocationsInput {
     /// (Optional) The maximum number of geolocations to be included in the response body for this request. If more than maxitems geolocations remain to be listed, then the value of the IsTruncated element in the response is true.
     public var maxItems: Swift.Int?
     /// The code for the continent with which you want to start listing locations that Amazon Route 53 supports for geolocation. If Route 53 has already returned a page or more of results, if IsTruncated is true, and if NextContinentCode from the previous response has a value, enter that value in startcontinentcode to return the next page of results. Include startcontinentcode only if you want to list continents. Don't include startcontinentcode when you're listing countries or countries with their subdivisions.
@@ -8196,7 +8196,7 @@ extension ListGeoLocationsOutput {
 }
 
 /// A complex type containing the response information for the request.
-public struct ListGeoLocationsOutput: Swift.Equatable {
+public struct ListGeoLocationsOutput {
     /// A complex type that contains one GeoLocationDetails element for each location that Amazon Route 53 supports for geolocation.
     /// This member is required.
     public var geoLocationDetailsList: [Route53ClientTypes.GeoLocationDetails]?
@@ -8270,7 +8270,7 @@ extension ListHealthChecksInput {
 }
 
 /// A request to retrieve a list of the health checks that are associated with the current Amazon Web Services account.
-public struct ListHealthChecksInput: Swift.Equatable {
+public struct ListHealthChecksInput {
     /// If the value of IsTruncated in the previous response was true, you have more health checks. To get another group, submit another ListHealthChecks request. For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first health check that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more health checks to get.
     public var marker: Swift.String?
     /// The maximum number of health checks that you want ListHealthChecks to return in response to the current request. Amazon Route 53 returns a maximum of 1000 items. If you set MaxItems to a value greater than 1000, Route 53 returns only the first 1000 health checks.
@@ -8304,7 +8304,7 @@ extension ListHealthChecksOutput {
 }
 
 /// A complex type that contains the response to a ListHealthChecks request.
-public struct ListHealthChecksOutput: Swift.Equatable {
+public struct ListHealthChecksOutput {
     /// A complex type that contains one HealthCheck element for each health check that is associated with the current Amazon Web Services account.
     /// This member is required.
     public var healthChecks: [Route53ClientTypes.HealthCheck]?
@@ -8380,7 +8380,7 @@ extension ListHostedZonesByNameInput {
 }
 
 /// Retrieves a list of the public and private hosted zones that are associated with the current Amazon Web Services account in ASCII order by domain name.
-public struct ListHostedZonesByNameInput: Swift.Equatable {
+public struct ListHostedZonesByNameInput {
     /// (Optional) For your first request to ListHostedZonesByName, include the dnsname parameter only if you want to specify the name of the first hosted zone in the response. If you don't include the dnsname parameter, Amazon Route 53 returns all of the hosted zones that were created by the current Amazon Web Services account, in ASCII order. For subsequent requests, include both dnsname and hostedzoneid parameters. For dnsname, specify the value of NextDNSName from the previous response.
     public var dnsName: Swift.String?
     /// (Optional) For your first request to ListHostedZonesByName, do not include the hostedzoneid parameter. If you have more hosted zones than the value of maxitems, ListHostedZonesByName returns only the first maxitems hosted zones. To get the next group of maxitems hosted zones, submit another request to ListHostedZonesByName and include both dnsname and hostedzoneid parameters. For the value of hostedzoneid, specify the value of the NextHostedZoneId element from the previous response.
@@ -8420,7 +8420,7 @@ extension ListHostedZonesByNameOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListHostedZonesByNameOutput: Swift.Equatable {
+public struct ListHostedZonesByNameOutput {
     /// For the second and subsequent calls to ListHostedZonesByName, DNSName is the value that you specified for the dnsname parameter in the request that produced the current response.
     public var dnsName: Swift.String?
     /// The ID that Amazon Route 53 assigned to the hosted zone when you created it.
@@ -8511,7 +8511,7 @@ extension ListHostedZonesByVPCInput {
 }
 
 /// Lists all the private hosted zones that a specified VPC is associated with, regardless of which Amazon Web Services account created the hosted zones.
-public struct ListHostedZonesByVPCInput: Swift.Equatable {
+public struct ListHostedZonesByVPCInput {
     /// (Optional) The maximum number of hosted zones that you want Amazon Route 53 to return. If the specified VPC is associated with more than MaxItems hosted zones, the response includes a NextToken element. NextToken contains an encrypted token that identifies the first hosted zone that Route 53 will return if you submit another request.
     public var maxItems: Swift.Int?
     /// If the previous response included a NextToken element, the specified VPC is associated with more hosted zones. To get more hosted zones, submit another ListHostedZonesByVPC request. For the value of NextToken, specify the value of NextToken from the previous response. If the previous response didn't include a NextToken element, there are no more hosted zones to get.
@@ -8552,7 +8552,7 @@ extension ListHostedZonesByVPCOutput {
     }
 }
 
-public struct ListHostedZonesByVPCOutput: Swift.Equatable {
+public struct ListHostedZonesByVPCOutput {
     /// A list that contains one HostedZoneSummary element for each hosted zone that the specified Amazon VPC is associated with. Each HostedZoneSummary element contains the hosted zone name and ID, and information about who owns the hosted zone.
     /// This member is required.
     public var hostedZoneSummaries: [Route53ClientTypes.HostedZoneSummary]?
@@ -8622,7 +8622,7 @@ extension ListHostedZonesInput {
 }
 
 /// A request to retrieve a list of the public and private hosted zones that are associated with the current Amazon Web Services account.
-public struct ListHostedZonesInput: Swift.Equatable {
+public struct ListHostedZonesInput {
     /// If you're using reusable delegation sets and you want to list all of the hosted zones that are associated with a reusable delegation set, specify the ID of that reusable delegation set.
     public var delegationSetId: Swift.String?
     /// (Optional) Specifies if the hosted zone is private.
@@ -8663,7 +8663,7 @@ extension ListHostedZonesOutput {
     }
 }
 
-public struct ListHostedZonesOutput: Swift.Equatable {
+public struct ListHostedZonesOutput {
     /// A complex type that contains general information about the hosted zone.
     /// This member is required.
     public var hostedZones: [Route53ClientTypes.HostedZone]?
@@ -8739,7 +8739,7 @@ extension ListQueryLoggingConfigsInput {
     }
 }
 
-public struct ListQueryLoggingConfigsInput: Swift.Equatable {
+public struct ListQueryLoggingConfigsInput {
     /// (Optional) If you want to list the query logging configuration that is associated with a hosted zone, specify the ID in HostedZoneId. If you don't specify a hosted zone ID, ListQueryLoggingConfigs returns all of the configurations that are associated with the current Amazon Web Services account.
     public var hostedZoneId: Swift.String?
     /// (Optional) The maximum number of query logging configurations that you want Amazon Route 53 to return in response to the current request. If the current Amazon Web Services account has more than MaxResults configurations, use the value of [NextToken](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html#API_ListQueryLoggingConfigs_RequestSyntax) in the response to get the next page of results. If you don't specify a value for MaxResults, Route 53 returns up to 100 configurations.
@@ -8773,7 +8773,7 @@ extension ListQueryLoggingConfigsOutput {
     }
 }
 
-public struct ListQueryLoggingConfigsOutput: Swift.Equatable {
+public struct ListQueryLoggingConfigsOutput {
     /// If a response includes the last of the query logging configurations that are associated with the current Amazon Web Services account, NextToken doesn't appear in the response. If a response doesn't include the last of the configurations, you can get more configurations by submitting another [ListQueryLoggingConfigs](https://docs.aws.amazon.com/Route53/latest/APIReference/API_ListQueryLoggingConfigs.html) request. Get the value of NextToken that Amazon Route 53 returned in the previous response and include it in NextToken in the next request.
     public var nextToken: Swift.String?
     /// An array that contains one [QueryLoggingConfig](https://docs.aws.amazon.com/Route53/latest/APIReference/API_QueryLoggingConfig.html) element for each configuration for DNS query logging that is associated with the current Amazon Web Services account.
@@ -8842,7 +8842,7 @@ extension ListResourceRecordSetsInput {
 }
 
 /// A request for the resource record sets that are associated with a specified hosted zone.
-public struct ListResourceRecordSetsInput: Swift.Equatable {
+public struct ListResourceRecordSetsInput {
     /// The ID of the hosted zone that contains the resource record sets that you want to list.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -8907,7 +8907,7 @@ extension ListResourceRecordSetsOutput {
 }
 
 /// A complex type that contains list information for the resource record set.
-public struct ListResourceRecordSetsOutput: Swift.Equatable {
+public struct ListResourceRecordSetsOutput {
     /// A flag that indicates whether more resource record sets remain to be listed. If your results were truncated, you can make a follow-up pagination request by using the NextRecordName element.
     /// This member is required.
     public var isTruncated: Swift.Bool
@@ -8982,7 +8982,7 @@ extension ListReusableDelegationSetsInput {
 }
 
 /// A request to get a list of the reusable delegation sets that are associated with the current Amazon Web Services account.
-public struct ListReusableDelegationSetsInput: Swift.Equatable {
+public struct ListReusableDelegationSetsInput {
     /// If the value of IsTruncated in the previous response was true, you have more reusable delegation sets. To get another group, submit another ListReusableDelegationSets request. For the value of marker, specify the value of NextMarker from the previous response, which is the ID of the first reusable delegation set that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more reusable delegation sets to get.
     public var marker: Swift.String?
     /// The number of reusable delegation sets that you want Amazon Route 53 to return in the response to this request. If you specify a value greater than 100, Route 53 returns only the first 100 reusable delegation sets.
@@ -9016,7 +9016,7 @@ extension ListReusableDelegationSetsOutput {
 }
 
 /// A complex type that contains information about the reusable delegation sets that are associated with the current Amazon Web Services account.
-public struct ListReusableDelegationSetsOutput: Swift.Equatable {
+public struct ListReusableDelegationSetsOutput {
     /// A complex type that contains one DelegationSet element for each reusable delegation set that was created by the current Amazon Web Services account.
     /// This member is required.
     public var delegationSets: [Route53ClientTypes.DelegationSet]?
@@ -9077,7 +9077,7 @@ extension ListTagsForResourceInput {
 }
 
 /// A complex type containing information about a request for a list of the tags that are associated with an individual resource.
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ID of the resource for which you want to retrieve tags.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -9113,7 +9113,7 @@ extension ListTagsForResourceOutput {
 }
 
 /// A complex type that contains information about the health checks or hosted zones for which you want to list tags.
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A ResourceTagSet containing tags associated with the specified resource.
     /// This member is required.
     public var resourceTagSet: Route53ClientTypes.ResourceTagSet?
@@ -9163,7 +9163,7 @@ extension ListTagsForResourcesInput {
 }
 
 /// A complex type that contains information about the health checks or hosted zones for which you want to list tags.
-public struct ListTagsForResourcesInput: Swift.Equatable {
+public struct ListTagsForResourcesInput {
     /// A complex type that contains the ResourceId element for each resource for which you want to get a list of tags.
     /// This member is required.
     public var resourceIds: [Swift.String]?
@@ -9199,7 +9199,7 @@ extension ListTagsForResourcesOutput {
 }
 
 /// A complex type containing tags for the specified resources.
-public struct ListTagsForResourcesOutput: Swift.Equatable {
+public struct ListTagsForResourcesOutput {
     /// A list of ResourceTagSets containing tags associated with the specified resources.
     /// This member is required.
     public var resourceTagSets: [Route53ClientTypes.ResourceTagSet]?
@@ -9255,7 +9255,7 @@ extension ListTrafficPoliciesInput {
 }
 
 /// A complex type that contains the information about the request to list the traffic policies that are associated with the current Amazon Web Services account.
-public struct ListTrafficPoliciesInput: Swift.Equatable {
+public struct ListTrafficPoliciesInput {
     /// (Optional) The maximum number of traffic policies that you want Amazon Route 53 to return in response to this request. If you have more than MaxItems traffic policies, the value of IsTruncated in the response is true, and the value of TrafficPolicyIdMarker is the ID of the first traffic policy that Route 53 will return if you submit another request.
     public var maxItems: Swift.Int?
     /// (Conditional) For your first request to ListTrafficPolicies, don't include the TrafficPolicyIdMarker parameter. If you have more traffic policies than the value of MaxItems, ListTrafficPolicies returns only the first MaxItems traffic policies. To get the next group of policies, submit another request to ListTrafficPolicies. For the value of TrafficPolicyIdMarker, specify the value of TrafficPolicyIdMarker that was returned in the previous response.
@@ -9288,7 +9288,7 @@ extension ListTrafficPoliciesOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListTrafficPoliciesOutput: Swift.Equatable {
+public struct ListTrafficPoliciesOutput {
     /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicies request and specifying the value of TrafficPolicyIdMarker in the TrafficPolicyIdMarker request parameter.
     /// This member is required.
     public var isTruncated: Swift.Bool
@@ -9365,7 +9365,7 @@ extension ListTrafficPolicyInstancesByHostedZoneInput {
 }
 
 /// A request for the traffic policy instances that you created in a specified hosted zone.
-public struct ListTrafficPolicyInstancesByHostedZoneInput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesByHostedZoneInput {
     /// The ID of the hosted zone that you want to list traffic policy instances for.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -9408,7 +9408,7 @@ extension ListTrafficPolicyInstancesByHostedZoneOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListTrafficPolicyInstancesByHostedZoneOutput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesByHostedZoneOutput {
     /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by submitting another ListTrafficPolicyInstancesByHostedZone request and specifying the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
     /// This member is required.
     public var isTruncated: Swift.Bool
@@ -9500,7 +9500,7 @@ extension ListTrafficPolicyInstancesByPolicyInput {
 }
 
 /// A complex type that contains the information about the request to list your traffic policy instances.
-public struct ListTrafficPolicyInstancesByPolicyInput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesByPolicyInput {
     /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstancesByPolicy request. For the value of hostedzoneid, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance that Amazon Route 53 will return if you submit another request. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
     public var hostedZoneIdMarker: Swift.String?
     /// The maximum number of traffic policy instances to be included in the response body for this request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance that Amazon Route 53 will return if you submit another request.
@@ -9553,7 +9553,7 @@ extension ListTrafficPolicyInstancesByPolicyOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListTrafficPolicyInstancesByPolicyOutput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesByPolicyOutput {
     /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance in the next group of traffic policy instances.
     public var hostedZoneIdMarker: Swift.String?
     /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get the next group of traffic policy instances by calling ListTrafficPolicyInstancesByPolicy again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker elements in the corresponding request parameters.
@@ -9637,7 +9637,7 @@ extension ListTrafficPolicyInstancesInput {
 }
 
 /// A request to get information about the traffic policy instances that you created by using the current Amazon Web Services account.
-public struct ListTrafficPolicyInstancesInput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesInput {
     /// If the value of IsTruncated in the previous response was true, you have more traffic policy instances. To get more traffic policy instances, submit another ListTrafficPolicyInstances request. For the value of HostedZoneId, specify the value of HostedZoneIdMarker from the previous response, which is the hosted zone ID of the first traffic policy instance in the next group of traffic policy instances. If the value of IsTruncated in the previous response was false, there are no more traffic policy instances to get.
     public var hostedZoneIdMarker: Swift.String?
     /// The maximum number of traffic policy instances that you want Amazon Route 53 to return in response to a ListTrafficPolicyInstances request. If you have more than MaxItems traffic policy instances, the value of the IsTruncated element in the response is true, and the values of HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker represent the first traffic policy instance in the next group of MaxItems traffic policy instances.
@@ -9680,7 +9680,7 @@ extension ListTrafficPolicyInstancesOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListTrafficPolicyInstancesOutput: Swift.Equatable {
+public struct ListTrafficPolicyInstancesOutput {
     /// If IsTruncated is true, HostedZoneIdMarker is the ID of the hosted zone of the first traffic policy instance that Route 53 will return if you submit another ListTrafficPolicyInstances request.
     public var hostedZoneIdMarker: Swift.String?
     /// A flag that indicates whether there are more traffic policy instances to be listed. If the response was truncated, you can get more traffic policy instances by calling ListTrafficPolicyInstances again and specifying the values of the HostedZoneIdMarker, TrafficPolicyInstanceNameMarker, and TrafficPolicyInstanceTypeMarker in the corresponding request parameters.
@@ -9758,7 +9758,7 @@ extension ListTrafficPolicyVersionsInput {
 }
 
 /// A complex type that contains the information about the request to list your traffic policies.
-public struct ListTrafficPolicyVersionsInput: Swift.Equatable {
+public struct ListTrafficPolicyVersionsInput {
     /// Specify the value of Id of the traffic policy for which you want to list all versions.
     /// This member is required.
     public var id: Swift.String?
@@ -9796,7 +9796,7 @@ extension ListTrafficPolicyVersionsOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListTrafficPolicyVersionsOutput: Swift.Equatable {
+public struct ListTrafficPolicyVersionsOutput {
     /// A flag that indicates whether there are more traffic policies to be listed. If the response was truncated, you can get the next group of traffic policies by submitting another ListTrafficPolicyVersions request and specifying the value of NextMarker in the marker parameter.
     /// This member is required.
     public var isTruncated: Swift.Bool
@@ -9867,7 +9867,7 @@ extension ListVPCAssociationAuthorizationsInput {
 }
 
 /// A complex type that contains information about that can be associated with your hosted zone.
-public struct ListVPCAssociationAuthorizationsInput: Swift.Equatable {
+public struct ListVPCAssociationAuthorizationsInput {
     /// The ID of the hosted zone for which you want a list of VPCs that can be associated with the hosted zone.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -9904,7 +9904,7 @@ extension ListVPCAssociationAuthorizationsOutput {
 }
 
 /// A complex type that contains the response information for the request.
-public struct ListVPCAssociationAuthorizationsOutput: Swift.Equatable {
+public struct ListVPCAssociationAuthorizationsOutput {
     /// The ID of the hosted zone that you can associate the listed VPCs with.
     /// This member is required.
     public var hostedZoneId: Swift.String?
@@ -9962,7 +9962,7 @@ extension Route53ClientTypes.LocationSummary {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about the CIDR location.
-    public struct LocationSummary: Swift.Equatable {
+    public struct LocationSummary {
         /// A string that specifies a location name.
         public var locationName: Swift.String?
 
@@ -10727,7 +10727,7 @@ extension Route53ClientTypes.QueryLoggingConfig {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about a configuration for DNS query logging.
-    public struct QueryLoggingConfig: Swift.Equatable {
+    public struct QueryLoggingConfig {
         /// The Amazon Resource Name (ARN) of the CloudWatch Logs log group that Amazon Route 53 is publishing logs to.
         /// This member is required.
         public var cloudWatchLogsLogGroupArn: Swift.String?
@@ -10922,7 +10922,7 @@ extension Route53ClientTypes.ResourceRecord {
 
 extension Route53ClientTypes {
     /// Information specific to the resource record. If you're creating an alias resource record set, omit ResourceRecord.
-    public struct ResourceRecord: Swift.Equatable {
+    public struct ResourceRecord {
         /// The current or new DNS record value, not to exceed 4,000 characters. In the case of a DELETE action, if the current value does not match the actual value, an error is returned. For descriptions about how to format Value for different record types, see [Supported DNS Resource Record Types](https://docs.aws.amazon.com/Route53/latest/DeveloperGuide/ResourceRecordTypes.html) in the Amazon Route 53 Developer Guide. You can specify more than one value for all record types except CNAME and SOA. If you're creating an alias resource record set, omit Value.
         /// This member is required.
         public var value: Swift.String?
@@ -10984,7 +10984,7 @@ extension Route53ClientTypes.ResourceRecordSet {
 
 extension Route53ClientTypes {
     /// Information about the resource record set to create or delete.
-    public struct ResourceRecordSet: Swift.Equatable {
+    public struct ResourceRecordSet {
         /// Alias resource record sets only: Information about the Amazon Web Services resource, such as a CloudFront distribution or an Amazon S3 bucket, that you want to route traffic to. If you're creating resource records sets for a private hosted zone, note the following:
         ///
         /// * You can't create an alias resource record set in a private hosted zone to route traffic to a CloudFront distribution.
@@ -11357,7 +11357,7 @@ extension Route53ClientTypes.ResourceTagSet {
 
 extension Route53ClientTypes {
     /// A complex type containing a resource and its associated tags.
-    public struct ResourceTagSet: Swift.Equatable {
+    public struct ResourceTagSet {
         /// The ID for the specified resource.
         public var resourceId: Swift.String?
         /// The type of the resource.
@@ -11404,7 +11404,7 @@ extension Route53ClientTypes.ReusableDelegationSetLimit {
 
 extension Route53ClientTypes {
     /// A complex type that contains the type of limit that you specified in the request and the current value for that limit.
-    public struct ReusableDelegationSetLimit: Swift.Equatable {
+    public struct ReusableDelegationSetLimit {
         /// The limit that you requested: MAX_ZONES_BY_REUSABLE_DELEGATION_SET, the maximum number of hosted zones that you can associate with the specified reusable delegation set.
         /// This member is required.
         public var type: Route53ClientTypes.ReusableDelegationSetLimitType?
@@ -11517,7 +11517,7 @@ extension Route53ClientTypes.StatusReport {
 
 extension Route53ClientTypes {
     /// A complex type that contains the status that one Amazon Route 53 health checker reports and the time of the health check.
-    public struct StatusReport: Swift.Equatable {
+    public struct StatusReport {
         /// The date and time that the health checker performed the health check in [ISO 8601 format](https://en.wikipedia.org/wiki/ISO_8601) and Coordinated Universal Time (UTC). For example, the value 2017-03-27T17:48:16.751Z represents March 27, 2017 at 17:48:16.751 UTC.
         public var checkedTime: ClientRuntime.Date?
         /// A description of the status of the health check endpoint as reported by one of the Amazon Route 53 health checkers.
@@ -11556,7 +11556,7 @@ extension Route53ClientTypes.Tag {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about a tag that you want to add or edit for the specified health check or hosted zone.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The value of Key depends on the operation that you want to perform:
         ///
         /// * Add a tag to a health check or hosted zone: Key is the name that you want to give the new tag.
@@ -11664,7 +11664,7 @@ extension TestDNSAnswerInput {
 }
 
 /// Gets the value that Amazon Route 53 returns in response to a DNS request for a specified record name and type. You can optionally specify the IP address of a DNS resolver, an EDNS0 client subnet IP address, and a subnet mask.
-public struct TestDNSAnswerInput: Swift.Equatable {
+public struct TestDNSAnswerInput {
     /// If the resolver that you specified for resolverip supports EDNS0, specify the IPv4 or IPv6 address of a client in the applicable location, for example, 192.0.2.44 or 2001:db8:85a3::8a2e:370:7334.
     public var edns0ClientSubnetIP: Swift.String?
     /// If you specify an IP address for edns0clientsubnetip, you can optionally specify the number of bits of the IP address that you want the checking tool to include in the DNS query. For example, if you specify 192.0.2.44 for edns0clientsubnetip and 24 for edns0clientsubnetmask, the checking tool will simulate a request from 192.0.2.0/24. The default value is 24 bits for IPv4 addresses and 64 bits for IPv6 addresses. The range of valid values depends on whether edns0clientsubnetip is an IPv4 or an IPv6 address:
@@ -11722,7 +11722,7 @@ extension TestDNSAnswerOutput {
 }
 
 /// A complex type that contains the response to a TestDNSAnswer request.
-public struct TestDNSAnswerOutput: Swift.Equatable {
+public struct TestDNSAnswerOutput {
     /// The Amazon Route 53 name server used to respond to the request.
     /// This member is required.
     public var nameserver: Swift.String?
@@ -12194,7 +12194,7 @@ extension Route53ClientTypes.TrafficPolicy {
 
 extension Route53ClientTypes {
     /// A complex type that contains settings for a traffic policy.
-    public struct TrafficPolicy: Swift.Equatable {
+    public struct TrafficPolicy {
         /// The comment that you specify in the CreateTrafficPolicy request, if any.
         public var comment: Swift.String?
         /// The definition of a traffic policy in JSON format. You specify the JSON document to use for a new traffic policy in the CreateTrafficPolicy request. For more information about the JSON format, see [Traffic Policy Document Format](https://docs.aws.amazon.com/Route53/latest/APIReference/api-policies-traffic-policy-document-format.html).
@@ -12366,7 +12366,7 @@ extension Route53ClientTypes.TrafficPolicyInstance {
 
 extension Route53ClientTypes {
     /// A complex type that contains settings for the new traffic policy instance.
-    public struct TrafficPolicyInstance: Swift.Equatable {
+    public struct TrafficPolicyInstance {
         /// The ID of the hosted zone that Amazon Route 53 created resource record sets in.
         /// This member is required.
         public var hostedZoneId: Swift.String?
@@ -12497,7 +12497,7 @@ extension Route53ClientTypes.TrafficPolicySummary {
 
 extension Route53ClientTypes {
     /// A complex type that contains information about the latest version of one traffic policy that is associated with the current Amazon Web Services account.
-    public struct TrafficPolicySummary: Swift.Equatable {
+    public struct TrafficPolicySummary {
         /// The ID that Amazon Route 53 assigned to the traffic policy when you created it.
         /// This member is required.
         public var id: Swift.String?
@@ -12565,7 +12565,7 @@ extension UpdateHealthCheckInput {
 }
 
 /// A complex type that contains information about a request to update a health check.
-public struct UpdateHealthCheckInput: Swift.Equatable {
+public struct UpdateHealthCheckInput {
     /// A complex type that identifies the CloudWatch alarm that you want Amazon Route 53 health checkers to use to determine whether the specified health check is healthy.
     public var alarmIdentifier: Route53ClientTypes.AlarmIdentifier?
     /// A complex type that contains one ChildHealthCheck element for each health check that you want to associate with a CALCULATED health check.
@@ -12716,7 +12716,7 @@ extension UpdateHealthCheckOutput {
 }
 
 /// A complex type that contains the response to the UpdateHealthCheck request.
-public struct UpdateHealthCheckOutput: Swift.Equatable {
+public struct UpdateHealthCheckOutput {
     /// A complex type that contains the response to an UpdateHealthCheck request.
     /// This member is required.
     public var healthCheck: Route53ClientTypes.HealthCheck?
@@ -12764,7 +12764,7 @@ extension UpdateHostedZoneCommentInput {
 }
 
 /// A request to update the comment for a hosted zone.
-public struct UpdateHostedZoneCommentInput: Swift.Equatable {
+public struct UpdateHostedZoneCommentInput {
     /// The new comment for the hosted zone. If you don't specify a value for Comment, Amazon Route 53 deletes the existing value of the Comment element, if any.
     public var comment: Swift.String?
     /// The ID for the hosted zone that you want to update the comment for.
@@ -12795,7 +12795,7 @@ extension UpdateHostedZoneCommentOutput {
 }
 
 /// A complex type that contains the response to the UpdateHostedZoneComment request.
-public struct UpdateHostedZoneCommentOutput: Swift.Equatable {
+public struct UpdateHostedZoneCommentOutput {
     /// A complex type that contains the response to the UpdateHostedZoneComment request.
     /// This member is required.
     public var hostedZone: Route53ClientTypes.HostedZone?
@@ -12846,7 +12846,7 @@ extension UpdateTrafficPolicyCommentInput {
 }
 
 /// A complex type that contains information about the traffic policy that you want to update the comment for.
-public struct UpdateTrafficPolicyCommentInput: Swift.Equatable {
+public struct UpdateTrafficPolicyCommentInput {
     /// The new comment for the specified traffic policy and version.
     /// This member is required.
     public var comment: Swift.String?
@@ -12883,7 +12883,7 @@ extension UpdateTrafficPolicyCommentOutput {
 }
 
 /// A complex type that contains the response information for the traffic policy.
-public struct UpdateTrafficPolicyCommentOutput: Swift.Equatable {
+public struct UpdateTrafficPolicyCommentOutput {
     /// A complex type that contains settings for the specified traffic policy.
     /// This member is required.
     public var trafficPolicy: Route53ClientTypes.TrafficPolicy?
@@ -12933,7 +12933,7 @@ extension UpdateTrafficPolicyInstanceInput {
 }
 
 /// A complex type that contains information about the resource record sets that you want to update based on a specified traffic policy instance.
-public struct UpdateTrafficPolicyInstanceInput: Swift.Equatable {
+public struct UpdateTrafficPolicyInstanceInput {
     /// The ID of the traffic policy instance that you want to update.
     /// This member is required.
     public var id: Swift.String?
@@ -12975,7 +12975,7 @@ extension UpdateTrafficPolicyInstanceOutput {
 }
 
 /// A complex type that contains information about the resource record sets that Amazon Route 53 created based on a specified traffic policy.
-public struct UpdateTrafficPolicyInstanceOutput: Swift.Equatable {
+public struct UpdateTrafficPolicyInstanceOutput {
     /// A complex type that contains settings for the updated traffic policy instance.
     /// This member is required.
     public var trafficPolicyInstance: Route53ClientTypes.TrafficPolicyInstance?
@@ -13028,7 +13028,7 @@ extension Route53ClientTypes.VPC {
 
 extension Route53ClientTypes {
     /// (Private hosted zones only) A complex type that contains information about an Amazon VPC. If you associate a private hosted zone with an Amazon VPC when you make a [CreateHostedZone](https://docs.aws.amazon.com/Route53/latest/APIReference/API_CreateHostedZone.html) request, the following parameters are also required.
-    public struct VPC: Swift.Equatable {
+    public struct VPC {
         /// (Private hosted zones only) The ID of an Amazon VPC.
         public var vpcId: Swift.String?
         /// (Private hosted zones only) The region that an Amazon VPC was created in.

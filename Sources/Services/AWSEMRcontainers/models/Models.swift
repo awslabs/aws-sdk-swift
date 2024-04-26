@@ -15,7 +15,7 @@ extension CancelJobRunInput {
     }
 }
 
-public struct CancelJobRunInput: Swift.Equatable {
+public struct CancelJobRunInput {
     /// The ID of the job run to cancel.
     /// This member is required.
     public var id: Swift.String?
@@ -33,7 +33,7 @@ public struct CancelJobRunInput: Swift.Equatable {
     }
 }
 
-struct CancelJobRunInputBody: Swift.Equatable {
+struct CancelJobRunInputBody {
 }
 
 extension CancelJobRunInputBody: Swift.Decodable {
@@ -56,7 +56,7 @@ extension CancelJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelJobRunOutput: Swift.Equatable {
+public struct CancelJobRunOutput {
     /// The output contains the ID of the cancelled job run.
     public var id: Swift.String?
     /// The output contains the virtual cluster ID for which the job run is cancelled.
@@ -72,7 +72,7 @@ public struct CancelJobRunOutput: Swift.Equatable {
     }
 }
 
-struct CancelJobRunOutputBody: Swift.Equatable {
+struct CancelJobRunOutputBody {
     let id: Swift.String?
     let virtualClusterId: Swift.String?
 }
@@ -131,7 +131,7 @@ extension EMRcontainersClientTypes.Certificate: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The entity representing certificate data generated for managed endpoint.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The ARN of the certificate generated for managed endpoint.
         public var certificateArn: Swift.String?
         /// The base64 encoded PEM certificate data generated for managed endpoint.
@@ -176,7 +176,7 @@ extension EMRcontainersClientTypes.CloudWatchMonitoringConfiguration: Swift.Coda
 
 extension EMRcontainersClientTypes {
     /// A configuration for CloudWatch monitoring. You can configure your jobs to send log information to CloudWatch Logs.
-    public struct CloudWatchMonitoringConfiguration: Swift.Equatable {
+    public struct CloudWatchMonitoringConfiguration {
         /// The name of the log group for log publishing.
         /// This member is required.
         public var logGroupName: Swift.String?
@@ -257,7 +257,7 @@ extension EMRcontainersClientTypes.Configuration: Swift.CustomDebugStringConvert
 
 extension EMRcontainersClientTypes {
     /// A configuration specification to be used when provisioning virtual clusters, which can include configurations for applications and software bundled with Amazon EMR on EKS. A configuration consists of a classification, properties, and optional nested configurations. A classification refers to an application-specific configuration file. Properties are the settings you want to change in that file.
-    public struct Configuration: Swift.Equatable {
+    public struct Configuration {
         /// The classification within a configuration.
         /// This member is required.
         public var classification: Swift.String?
@@ -319,7 +319,7 @@ extension EMRcontainersClientTypes.ConfigurationOverrides: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// A configuration specification to be used to override existing configurations.
-    public struct ConfigurationOverrides: Swift.Equatable {
+    public struct ConfigurationOverrides {
         /// The configurations for the application running by the job run.
         public var applicationConfiguration: [EMRcontainersClientTypes.Configuration]?
         /// The configurations for monitoring.
@@ -366,7 +366,7 @@ extension EMRcontainersClientTypes.ContainerInfo: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The information about the container used for a job run or a managed endpoint.
-    public enum ContainerInfo: Swift.Equatable {
+    public enum ContainerInfo {
         /// The information about the Amazon EKS cluster.
         case eksinfo(EMRcontainersClientTypes.EksInfo)
         case sdkUnknown(Swift.String)
@@ -401,7 +401,7 @@ extension EMRcontainersClientTypes.ContainerLogRotationConfiguration: Swift.Coda
 
 extension EMRcontainersClientTypes {
     /// The settings for container log rotation.
-    public struct ContainerLogRotationConfiguration: Swift.Equatable {
+    public struct ContainerLogRotationConfiguration {
         /// The number of files to keep in container after rotation.
         /// This member is required.
         public var maxFilesToKeep: Swift.Int?
@@ -454,7 +454,7 @@ extension EMRcontainersClientTypes.ContainerProvider: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The information about the container provider.
-    public struct ContainerProvider: Swift.Equatable {
+    public struct ContainerProvider {
         /// The ID of the container cluster.
         /// This member is required.
         public var id: Swift.String?
@@ -546,7 +546,7 @@ extension CreateJobTemplateInput {
     }
 }
 
-public struct CreateJobTemplateInput: Swift.Equatable {
+public struct CreateJobTemplateInput {
     /// The client token of the job template.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -577,7 +577,7 @@ public struct CreateJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateInputBody: Swift.Equatable {
+struct CreateJobTemplateInputBody {
     let name: Swift.String?
     let clientToken: Swift.String?
     let jobTemplateData: EMRcontainersClientTypes.JobTemplateData?
@@ -636,7 +636,7 @@ extension CreateJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobTemplateOutput: Swift.Equatable {
+public struct CreateJobTemplateOutput {
     /// This output display the ARN of the created job template.
     public var arn: Swift.String?
     /// This output displays the date and time when the job template was created.
@@ -660,7 +660,7 @@ public struct CreateJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobTemplateOutputBody: Swift.Equatable {
+struct CreateJobTemplateOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -755,7 +755,7 @@ extension CreateManagedEndpointInput {
     }
 }
 
-public struct CreateManagedEndpointInput: Swift.Equatable {
+public struct CreateManagedEndpointInput {
     /// The certificate ARN provided by users for the managed endpoint. This field is under deprecation and will be removed in future releases.
     @available(*, deprecated, message: "Customer provided certificate-arn is deprecated and would be removed in future.")
     public var certificateArn: Swift.String?
@@ -806,7 +806,7 @@ public struct CreateManagedEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateManagedEndpointInputBody: Swift.Equatable {
+struct CreateManagedEndpointInputBody {
     let name: Swift.String?
     let type: Swift.String?
     let releaseLabel: Swift.String?
@@ -877,7 +877,7 @@ extension CreateManagedEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateManagedEndpointOutput: Swift.Equatable {
+public struct CreateManagedEndpointOutput {
     /// The output contains the ARN of the managed endpoint.
     public var arn: Swift.String?
     /// The output contains the ID of the managed endpoint.
@@ -901,7 +901,7 @@ public struct CreateManagedEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateManagedEndpointOutputBody: Swift.Equatable {
+struct CreateManagedEndpointOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -977,7 +977,7 @@ extension CreateVirtualClusterInput {
     }
 }
 
-public struct CreateVirtualClusterInput: Swift.Equatable {
+public struct CreateVirtualClusterInput {
     /// The client token of the virtual cluster.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -1004,7 +1004,7 @@ public struct CreateVirtualClusterInput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualClusterInputBody: Swift.Equatable {
+struct CreateVirtualClusterInputBody {
     let name: Swift.String?
     let containerProvider: EMRcontainersClientTypes.ContainerProvider?
     let clientToken: Swift.String?
@@ -1057,7 +1057,7 @@ extension CreateVirtualClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVirtualClusterOutput: Swift.Equatable {
+public struct CreateVirtualClusterOutput {
     /// This output contains the ARN of virtual cluster.
     public var arn: Swift.String?
     /// This output contains the virtual cluster ID.
@@ -1077,7 +1077,7 @@ public struct CreateVirtualClusterOutput: Swift.Equatable {
     }
 }
 
-struct CreateVirtualClusterOutputBody: Swift.Equatable {
+struct CreateVirtualClusterOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -1144,7 +1144,7 @@ extension EMRcontainersClientTypes.Credentials: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The structure containing the session token being returned.
-    public enum Credentials: Swift.Equatable {
+    public enum Credentials {
         /// The actual session token being returned.
         case token(Swift.String)
         case sdkUnknown(Swift.String)
@@ -1162,7 +1162,7 @@ extension DeleteJobTemplateInput {
     }
 }
 
-public struct DeleteJobTemplateInput: Swift.Equatable {
+public struct DeleteJobTemplateInput {
     /// The ID of the job template that will be deleted.
     /// This member is required.
     public var id: Swift.String?
@@ -1175,7 +1175,7 @@ public struct DeleteJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobTemplateInputBody: Swift.Equatable {
+struct DeleteJobTemplateInputBody {
 }
 
 extension DeleteJobTemplateInputBody: Swift.Decodable {
@@ -1196,7 +1196,7 @@ extension DeleteJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobTemplateOutput: Swift.Equatable {
+public struct DeleteJobTemplateOutput {
     /// This output contains the ID of the job template that was deleted.
     public var id: Swift.String?
 
@@ -1208,7 +1208,7 @@ public struct DeleteJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteJobTemplateOutputBody: Swift.Equatable {
+struct DeleteJobTemplateOutputBody {
     let id: Swift.String?
 }
 
@@ -1249,7 +1249,7 @@ extension DeleteManagedEndpointInput {
     }
 }
 
-public struct DeleteManagedEndpointInput: Swift.Equatable {
+public struct DeleteManagedEndpointInput {
     /// The ID of the managed endpoint.
     /// This member is required.
     public var id: Swift.String?
@@ -1267,7 +1267,7 @@ public struct DeleteManagedEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteManagedEndpointInputBody: Swift.Equatable {
+struct DeleteManagedEndpointInputBody {
 }
 
 extension DeleteManagedEndpointInputBody: Swift.Decodable {
@@ -1290,7 +1290,7 @@ extension DeleteManagedEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteManagedEndpointOutput: Swift.Equatable {
+public struct DeleteManagedEndpointOutput {
     /// The output displays the ID of the managed endpoint.
     public var id: Swift.String?
     /// The output displays the ID of the endpoint's virtual cluster.
@@ -1306,7 +1306,7 @@ public struct DeleteManagedEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteManagedEndpointOutputBody: Swift.Equatable {
+struct DeleteManagedEndpointOutputBody {
     let id: Swift.String?
     let virtualClusterId: Swift.String?
 }
@@ -1348,7 +1348,7 @@ extension DeleteVirtualClusterInput {
     }
 }
 
-public struct DeleteVirtualClusterInput: Swift.Equatable {
+public struct DeleteVirtualClusterInput {
     /// The ID of the virtual cluster that will be deleted.
     /// This member is required.
     public var id: Swift.String?
@@ -1361,7 +1361,7 @@ public struct DeleteVirtualClusterInput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualClusterInputBody: Swift.Equatable {
+struct DeleteVirtualClusterInputBody {
 }
 
 extension DeleteVirtualClusterInputBody: Swift.Decodable {
@@ -1382,7 +1382,7 @@ extension DeleteVirtualClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVirtualClusterOutput: Swift.Equatable {
+public struct DeleteVirtualClusterOutput {
     /// This output contains the ID of the virtual cluster that will be deleted.
     public var id: Swift.String?
 
@@ -1394,7 +1394,7 @@ public struct DeleteVirtualClusterOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVirtualClusterOutputBody: Swift.Equatable {
+struct DeleteVirtualClusterOutputBody {
     let id: Swift.String?
 }
 
@@ -1435,7 +1435,7 @@ extension DescribeJobRunInput {
     }
 }
 
-public struct DescribeJobRunInput: Swift.Equatable {
+public struct DescribeJobRunInput {
     /// The ID of the job run request.
     /// This member is required.
     public var id: Swift.String?
@@ -1453,7 +1453,7 @@ public struct DescribeJobRunInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobRunInputBody: Swift.Equatable {
+struct DescribeJobRunInputBody {
 }
 
 extension DescribeJobRunInputBody: Swift.Decodable {
@@ -1474,7 +1474,7 @@ extension DescribeJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobRunOutput: Swift.Equatable {
+public struct DescribeJobRunOutput {
     /// The output displays information about a job run.
     public var jobRun: EMRcontainersClientTypes.JobRun?
 
@@ -1486,7 +1486,7 @@ public struct DescribeJobRunOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobRunOutputBody: Swift.Equatable {
+struct DescribeJobRunOutputBody {
     let jobRun: EMRcontainersClientTypes.JobRun?
 }
 
@@ -1525,7 +1525,7 @@ extension DescribeJobTemplateInput {
     }
 }
 
-public struct DescribeJobTemplateInput: Swift.Equatable {
+public struct DescribeJobTemplateInput {
     /// The ID of the job template that will be described.
     /// This member is required.
     public var id: Swift.String?
@@ -1538,7 +1538,7 @@ public struct DescribeJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobTemplateInputBody: Swift.Equatable {
+struct DescribeJobTemplateInputBody {
 }
 
 extension DescribeJobTemplateInputBody: Swift.Decodable {
@@ -1559,7 +1559,7 @@ extension DescribeJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobTemplateOutput: Swift.Equatable {
+public struct DescribeJobTemplateOutput {
     /// This output displays information about the specified job template.
     public var jobTemplate: EMRcontainersClientTypes.JobTemplate?
 
@@ -1571,7 +1571,7 @@ public struct DescribeJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobTemplateOutputBody: Swift.Equatable {
+struct DescribeJobTemplateOutputBody {
     let jobTemplate: EMRcontainersClientTypes.JobTemplate?
 }
 
@@ -1613,7 +1613,7 @@ extension DescribeManagedEndpointInput {
     }
 }
 
-public struct DescribeManagedEndpointInput: Swift.Equatable {
+public struct DescribeManagedEndpointInput {
     /// This output displays ID of the managed endpoint.
     /// This member is required.
     public var id: Swift.String?
@@ -1631,7 +1631,7 @@ public struct DescribeManagedEndpointInput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedEndpointInputBody: Swift.Equatable {
+struct DescribeManagedEndpointInputBody {
 }
 
 extension DescribeManagedEndpointInputBody: Swift.Decodable {
@@ -1652,7 +1652,7 @@ extension DescribeManagedEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeManagedEndpointOutput: Swift.Equatable {
+public struct DescribeManagedEndpointOutput {
     /// This output displays information about a managed endpoint.
     public var endpoint: EMRcontainersClientTypes.Endpoint?
 
@@ -1664,7 +1664,7 @@ public struct DescribeManagedEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedEndpointOutputBody: Swift.Equatable {
+struct DescribeManagedEndpointOutputBody {
     let endpoint: EMRcontainersClientTypes.Endpoint?
 }
 
@@ -1703,7 +1703,7 @@ extension DescribeVirtualClusterInput {
     }
 }
 
-public struct DescribeVirtualClusterInput: Swift.Equatable {
+public struct DescribeVirtualClusterInput {
     /// The ID of the virtual cluster that will be described.
     /// This member is required.
     public var id: Swift.String?
@@ -1716,7 +1716,7 @@ public struct DescribeVirtualClusterInput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualClusterInputBody: Swift.Equatable {
+struct DescribeVirtualClusterInputBody {
 }
 
 extension DescribeVirtualClusterInputBody: Swift.Decodable {
@@ -1737,7 +1737,7 @@ extension DescribeVirtualClusterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeVirtualClusterOutput: Swift.Equatable {
+public struct DescribeVirtualClusterOutput {
     /// This output displays information about the specified virtual cluster.
     public var virtualCluster: EMRcontainersClientTypes.VirtualCluster?
 
@@ -1749,7 +1749,7 @@ public struct DescribeVirtualClusterOutput: Swift.Equatable {
     }
 }
 
-struct DescribeVirtualClusterOutputBody: Swift.Equatable {
+struct DescribeVirtualClusterOutputBody {
     let virtualCluster: EMRcontainersClientTypes.VirtualCluster?
 }
 
@@ -1817,7 +1817,7 @@ public struct EKSRequestThrottledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct EKSRequestThrottledExceptionBody: Swift.Equatable {
+struct EKSRequestThrottledExceptionBody {
     let message: Swift.String?
 }
 
@@ -1856,7 +1856,7 @@ extension EMRcontainersClientTypes.EksInfo: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The information about the Amazon EKS cluster.
-    public struct EksInfo: Swift.Equatable {
+    public struct EksInfo {
         /// The namespaces of the Amazon EKS cluster.
         public var namespace: Swift.String?
 
@@ -2017,7 +2017,7 @@ extension EMRcontainersClientTypes.Endpoint: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// This entity represents the endpoint that is managed by Amazon EMR on EKS.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The ARN of the endpoint.
         public var arn: Swift.String?
         /// The certificate ARN of the endpoint. This field is under deprecation and will be removed in future.
@@ -2221,7 +2221,7 @@ extension GetManagedEndpointSessionCredentialsInput {
     }
 }
 
-public struct GetManagedEndpointSessionCredentialsInput: Swift.Equatable {
+public struct GetManagedEndpointSessionCredentialsInput {
     /// The client idempotency token of the job run request.
     public var clientToken: Swift.String?
     /// Type of the token requested. Currently supported and default value of this field is “TOKEN.”
@@ -2261,7 +2261,7 @@ public struct GetManagedEndpointSessionCredentialsInput: Swift.Equatable {
     }
 }
 
-struct GetManagedEndpointSessionCredentialsInputBody: Swift.Equatable {
+struct GetManagedEndpointSessionCredentialsInputBody {
     let executionRoleArn: Swift.String?
     let credentialType: Swift.String?
     let durationInSeconds: Swift.Int?
@@ -2309,7 +2309,7 @@ extension GetManagedEndpointSessionCredentialsOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetManagedEndpointSessionCredentialsOutput: Swift.Equatable {
+public struct GetManagedEndpointSessionCredentialsOutput {
     /// The structure containing the session credentials.
     public var credentials: EMRcontainersClientTypes.Credentials?
     /// The date and time when the session token will expire.
@@ -2329,7 +2329,7 @@ public struct GetManagedEndpointSessionCredentialsOutput: Swift.Equatable {
     }
 }
 
-struct GetManagedEndpointSessionCredentialsOutputBody: Swift.Equatable {
+struct GetManagedEndpointSessionCredentialsOutputBody {
     let id: Swift.String?
     let credentials: EMRcontainersClientTypes.Credentials?
     let expiresAt: ClientRuntime.Date?
@@ -2406,7 +2406,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2449,7 +2449,7 @@ extension EMRcontainersClientTypes.JobDriver: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// Specify the driver that the job runs on. Exactly one of the two available job drivers is required, either sparkSqlJobDriver or sparkSubmitJobDriver.
-    public struct JobDriver: Swift.Equatable {
+    public struct JobDriver {
         /// The job driver for job type.
         public var sparkSqlJobDriver: EMRcontainersClientTypes.SparkSqlJobDriver?
         /// The job driver parameters specified for spark submit.
@@ -2602,7 +2602,7 @@ extension EMRcontainersClientTypes.JobRun: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// This entity describes a job run. A job run is a unit of work, such as a Spark jar, PySpark script, or SparkSQL query, that you submit to Amazon EMR on EKS.
-    public struct JobRun: Swift.Equatable {
+    public struct JobRun {
         /// The ARN of job run.
         public var arn: Swift.String?
         /// The client token used to start a job run.
@@ -2812,7 +2812,7 @@ extension EMRcontainersClientTypes.JobTemplate: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// This entity describes a job template. Job template stores values of StartJobRun API request in a template and can be used to start a job run. Job template allows two use cases: avoid repeating recurring StartJobRun API request values, enforcing certain values in StartJobRun API request.
-    public struct JobTemplate: Swift.Equatable {
+    public struct JobTemplate {
         /// The ARN of the job template.
         public var arn: Swift.String?
         /// The date and time when the job template was created.
@@ -2934,7 +2934,7 @@ extension EMRcontainersClientTypes.JobTemplateData: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The values of StartJobRun API requests used in job runs started using the job template.
-    public struct JobTemplateData: Swift.Equatable {
+    public struct JobTemplateData {
         /// The configuration settings that are used to override defaults configuration.
         public var configurationOverrides: EMRcontainersClientTypes.ParametricConfigurationOverrides?
         /// The execution role ARN of the job run.
@@ -3015,7 +3015,7 @@ extension ListJobRunsInput {
     }
 }
 
-public struct ListJobRunsInput: Swift.Equatable {
+public struct ListJobRunsInput {
     /// The date and time after which the job runs were submitted.
     public var createdAfter: ClientRuntime.Date?
     /// The date and time before which the job runs were submitted.
@@ -3052,7 +3052,7 @@ public struct ListJobRunsInput: Swift.Equatable {
     }
 }
 
-struct ListJobRunsInputBody: Swift.Equatable {
+struct ListJobRunsInputBody {
 }
 
 extension ListJobRunsInputBody: Swift.Decodable {
@@ -3075,7 +3075,7 @@ extension ListJobRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobRunsOutput: Swift.Equatable {
+public struct ListJobRunsOutput {
     /// This output lists information about the specified job runs.
     public var jobRuns: [EMRcontainersClientTypes.JobRun]?
     /// This output displays the token for the next set of job runs.
@@ -3091,7 +3091,7 @@ public struct ListJobRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobRunsOutputBody: Swift.Equatable {
+struct ListJobRunsOutputBody {
     let jobRuns: [EMRcontainersClientTypes.JobRun]?
     let nextToken: Swift.String?
 }
@@ -3163,7 +3163,7 @@ extension ListJobTemplatesInput {
     }
 }
 
-public struct ListJobTemplatesInput: Swift.Equatable {
+public struct ListJobTemplatesInput {
     /// The date and time after which the job templates were created.
     public var createdAfter: ClientRuntime.Date?
     /// The date and time before which the job templates were created.
@@ -3187,7 +3187,7 @@ public struct ListJobTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesInputBody: Swift.Equatable {
+struct ListJobTemplatesInputBody {
 }
 
 extension ListJobTemplatesInputBody: Swift.Decodable {
@@ -3210,7 +3210,7 @@ extension ListJobTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobTemplatesOutput: Swift.Equatable {
+public struct ListJobTemplatesOutput {
     /// This output displays the token for the next set of job templates.
     public var nextToken: Swift.String?
     /// This output lists information about the specified job templates.
@@ -3226,7 +3226,7 @@ public struct ListJobTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListJobTemplatesOutputBody: Swift.Equatable {
+struct ListJobTemplatesOutputBody {
     let templates: [EMRcontainersClientTypes.JobTemplate]?
     let nextToken: Swift.String?
 }
@@ -3313,7 +3313,7 @@ extension ListManagedEndpointsInput {
     }
 }
 
-public struct ListManagedEndpointsInput: Swift.Equatable {
+public struct ListManagedEndpointsInput {
     /// The date and time after which the endpoints are created.
     public var createdAfter: ClientRuntime.Date?
     /// The date and time before which the endpoints are created.
@@ -3350,7 +3350,7 @@ public struct ListManagedEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListManagedEndpointsInputBody: Swift.Equatable {
+struct ListManagedEndpointsInputBody {
 }
 
 extension ListManagedEndpointsInputBody: Swift.Decodable {
@@ -3373,7 +3373,7 @@ extension ListManagedEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListManagedEndpointsOutput: Swift.Equatable {
+public struct ListManagedEndpointsOutput {
     /// The managed endpoints to be listed.
     public var endpoints: [EMRcontainersClientTypes.Endpoint]?
     /// The token for the next set of endpoints to return.
@@ -3389,7 +3389,7 @@ public struct ListManagedEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedEndpointsOutputBody: Swift.Equatable {
+struct ListManagedEndpointsOutputBody {
     let endpoints: [EMRcontainersClientTypes.Endpoint]?
     let nextToken: Swift.String?
 }
@@ -3440,7 +3440,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of tagged resources.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3453,7 +3453,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -3474,7 +3474,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags assigned to resources.
     public var tags: [Swift.String:Swift.String]?
 
@@ -3486,7 +3486,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3573,7 +3573,7 @@ extension ListVirtualClustersInput {
     }
 }
 
-public struct ListVirtualClustersInput: Swift.Equatable {
+public struct ListVirtualClustersInput {
     /// The container provider ID of the virtual cluster.
     public var containerProviderId: Swift.String?
     /// The container provider type of the virtual cluster. Amazon EKS is the only supported type as of now.
@@ -3613,7 +3613,7 @@ public struct ListVirtualClustersInput: Swift.Equatable {
     }
 }
 
-struct ListVirtualClustersInputBody: Swift.Equatable {
+struct ListVirtualClustersInputBody {
 }
 
 extension ListVirtualClustersInputBody: Swift.Decodable {
@@ -3636,7 +3636,7 @@ extension ListVirtualClustersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVirtualClustersOutput: Swift.Equatable {
+public struct ListVirtualClustersOutput {
     /// This output displays the token for the next set of virtual clusters.
     public var nextToken: Swift.String?
     /// This output lists the specified virtual clusters.
@@ -3652,7 +3652,7 @@ public struct ListVirtualClustersOutput: Swift.Equatable {
     }
 }
 
-struct ListVirtualClustersOutputBody: Swift.Equatable {
+struct ListVirtualClustersOutputBody {
     let virtualClusters: [EMRcontainersClientTypes.VirtualCluster]?
     let nextToken: Swift.String?
 }
@@ -3732,7 +3732,7 @@ extension EMRcontainersClientTypes.MonitoringConfiguration: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// Configuration setting for monitoring.
-    public struct MonitoringConfiguration: Swift.Equatable {
+    public struct MonitoringConfiguration {
         /// Monitoring configurations for CloudWatch.
         public var cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.CloudWatchMonitoringConfiguration?
         /// Enable or disable container log rotation.
@@ -3785,7 +3785,7 @@ extension EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration: 
 
 extension EMRcontainersClientTypes {
     /// A configuration for CloudWatch monitoring. You can configure your jobs to send log information to CloudWatch Logs. This data type allows job template parameters to be specified within.
-    public struct ParametricCloudWatchMonitoringConfiguration: Swift.Equatable {
+    public struct ParametricCloudWatchMonitoringConfiguration {
         /// The name of the log group for log publishing.
         public var logGroupName: Swift.String?
         /// The specified name prefix for log streams.
@@ -3842,7 +3842,7 @@ extension EMRcontainersClientTypes.ParametricConfigurationOverrides: Swift.Codab
 
 extension EMRcontainersClientTypes {
     /// A configuration specification to be used to override existing configurations. This data type allows job template parameters to be specified within.
-    public struct ParametricConfigurationOverrides: Swift.Equatable {
+    public struct ParametricConfigurationOverrides {
         /// The configurations for the application running by the job run.
         public var applicationConfiguration: [EMRcontainersClientTypes.Configuration]?
         /// The configurations for monitoring.
@@ -3893,7 +3893,7 @@ extension EMRcontainersClientTypes.ParametricMonitoringConfiguration: Swift.Coda
 
 extension EMRcontainersClientTypes {
     /// Configuration setting for monitoring. This data type allows job template parameters to be specified within.
-    public struct ParametricMonitoringConfiguration: Swift.Equatable {
+    public struct ParametricMonitoringConfiguration {
         /// Monitoring configurations for CloudWatch.
         public var cloudWatchMonitoringConfiguration: EMRcontainersClientTypes.ParametricCloudWatchMonitoringConfiguration?
         /// Monitoring configurations for the persistent application UI.
@@ -3936,7 +3936,7 @@ extension EMRcontainersClientTypes.ParametricS3MonitoringConfiguration: Swift.Co
 
 extension EMRcontainersClientTypes {
     /// Amazon S3 configuration for monitoring log publishing. You can configure your jobs to send log information to Amazon S3. This data type allows job template parameters to be specified within.
-    public struct ParametricS3MonitoringConfiguration: Swift.Equatable {
+    public struct ParametricS3MonitoringConfiguration {
         /// Amazon S3 destination URI for log publishing.
         public var logUri: Swift.String?
 
@@ -4021,7 +4021,7 @@ public struct RequestThrottledException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct RequestThrottledExceptionBody: Swift.Equatable {
+struct RequestThrottledExceptionBody {
     let message: Swift.String?
 }
 
@@ -4076,7 +4076,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4113,7 +4113,7 @@ extension EMRcontainersClientTypes.RetryPolicyConfiguration: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The configuration of the retry policy that the job runs on.
-    public struct RetryPolicyConfiguration: Swift.Equatable {
+    public struct RetryPolicyConfiguration {
         /// The maximum number of attempts on the job's driver.
         /// This member is required.
         public var maxAttempts: Swift.Int?
@@ -4149,7 +4149,7 @@ extension EMRcontainersClientTypes.RetryPolicyExecution: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// The current status of the retry policy executed on the job.
-    public struct RetryPolicyExecution: Swift.Equatable {
+    public struct RetryPolicyExecution {
         /// The current number of attempts made on the driver of the job.
         /// This member is required.
         public var currentAttemptCount: Swift.Int?
@@ -4185,7 +4185,7 @@ extension EMRcontainersClientTypes.S3MonitoringConfiguration: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// Amazon S3 configuration for monitoring log publishing. You can configure your jobs to send log information to Amazon S3.
-    public struct S3MonitoringConfiguration: Swift.Equatable {
+    public struct S3MonitoringConfiguration {
         /// Amazon S3 destination URI for log publishing.
         /// This member is required.
         public var logUri: Swift.String?
@@ -4232,7 +4232,7 @@ extension EMRcontainersClientTypes.SparkSqlJobDriver: Swift.CustomDebugStringCon
 
 extension EMRcontainersClientTypes {
     /// The job driver for job type.
-    public struct SparkSqlJobDriver: Swift.Equatable {
+    public struct SparkSqlJobDriver {
         /// The SQL file to be executed.
         public var entryPoint: Swift.String?
         /// The Spark parameters to be included in the Spark SQL command.
@@ -4300,7 +4300,7 @@ extension EMRcontainersClientTypes.SparkSubmitJobDriver: Swift.CustomDebugString
 
 extension EMRcontainersClientTypes {
     /// The information about job driver for Spark submit.
-    public struct SparkSubmitJobDriver: Swift.Equatable {
+    public struct SparkSubmitJobDriver {
         /// The entry point of job application.
         /// This member is required.
         public var entryPoint: Swift.String?
@@ -4388,7 +4388,7 @@ extension StartJobRunInput {
     }
 }
 
-public struct StartJobRunInput: Swift.Equatable {
+public struct StartJobRunInput {
     /// The client idempotency token of the job run request.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -4442,7 +4442,7 @@ public struct StartJobRunInput: Swift.Equatable {
     }
 }
 
-struct StartJobRunInputBody: Swift.Equatable {
+struct StartJobRunInputBody {
     let name: Swift.String?
     let clientToken: Swift.String?
     let executionRoleArn: Swift.String?
@@ -4530,7 +4530,7 @@ extension StartJobRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartJobRunOutput: Swift.Equatable {
+public struct StartJobRunOutput {
     /// This output lists the ARN of job run.
     public var arn: Swift.String?
     /// This output displays the started job run ID.
@@ -4554,7 +4554,7 @@ public struct StartJobRunOutput: Swift.Equatable {
     }
 }
 
-struct StartJobRunOutputBody: Swift.Equatable {
+struct StartJobRunOutputBody {
     let id: Swift.String?
     let name: Swift.String?
     let arn: Swift.String?
@@ -4621,7 +4621,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of resources.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4639,7 +4639,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4669,7 +4669,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4714,7 +4714,7 @@ extension EMRcontainersClientTypes.TemplateParameterConfiguration: Swift.Codable
 
 extension EMRcontainersClientTypes {
     /// The configuration of a job template parameter.
-    public struct TemplateParameterConfiguration: Swift.Equatable {
+    public struct TemplateParameterConfiguration {
         /// The default value for the job template parameter.
         public var defaultValue: Swift.String?
         /// The type of the job template parameter. Allowed values are: ‘STRING’, ‘NUMBER’.
@@ -4790,7 +4790,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of resources.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4808,7 +4808,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4822,7 +4822,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4879,7 +4879,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4964,7 +4964,7 @@ extension EMRcontainersClientTypes.VirtualCluster: Swift.Codable {
 
 extension EMRcontainersClientTypes {
     /// This entity describes a virtual cluster. A virtual cluster is a Kubernetes namespace that Amazon EMR is registered with. Amazon EMR uses virtual clusters to run jobs and host endpoints. Multiple virtual clusters can be backed by the same physical cluster. However, each virtual cluster maps to one namespace on an Amazon EKS cluster. Virtual clusters do not create any active resources that contribute to your bill or that require lifecycle management outside the service.
-    public struct VirtualCluster: Swift.Equatable {
+    public struct VirtualCluster {
         /// The ARN of the virtual cluster.
         public var arn: Swift.String?
         /// The container provider of the virtual cluster.

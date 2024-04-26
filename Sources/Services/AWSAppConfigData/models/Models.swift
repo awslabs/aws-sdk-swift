@@ -45,7 +45,7 @@ extension AppConfigDataClientTypes.BadRequestDetails: Swift.Codable {
 
 extension AppConfigDataClientTypes {
     /// Detailed information about the input that failed to satisfy the constraints specified by a call.
-    public enum BadRequestDetails: Swift.Equatable {
+    public enum BadRequestDetails {
         /// One or more specified parameters are not valid for the call.
         case invalidparameters([Swift.String:AppConfigDataClientTypes.InvalidParameterDetail])
         case sdkUnknown(Swift.String)
@@ -104,7 +104,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let reason: AppConfigDataClientTypes.BadRequestReason?
     let details: AppConfigDataClientTypes.BadRequestDetails?
@@ -179,7 +179,7 @@ extension GetLatestConfigurationInput {
     }
 }
 
-public struct GetLatestConfigurationInput: Swift.Equatable {
+public struct GetLatestConfigurationInput {
     /// Token describing the current state of the configuration session. To obtain a token, first call the [StartConfigurationSession] API. Note that every call to GetLatestConfiguration will return a new ConfigurationToken (NextPollConfigurationToken in the response) and must be provided to subsequent GetLatestConfiguration API calls. This token should only be used once. To support long poll use cases, the token is valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     /// This member is required.
     public var configurationToken: Swift.String?
@@ -192,7 +192,7 @@ public struct GetLatestConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLatestConfigurationInputBody: Swift.Equatable {
+struct GetLatestConfigurationInputBody {
 }
 
 extension GetLatestConfigurationInputBody: Swift.Decodable {
@@ -239,7 +239,7 @@ extension GetLatestConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLatestConfigurationOutput: Swift.Equatable {
+public struct GetLatestConfigurationOutput {
     /// The data of the configuration. This may be empty if the client already has the latest version of configuration.
     public var configuration: ClientRuntime.Data?
     /// A standard MIME type describing the format of the configuration content.
@@ -267,7 +267,7 @@ public struct GetLatestConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLatestConfigurationOutputBody: Swift.Equatable {
+struct GetLatestConfigurationOutputBody {
     let configuration: ClientRuntime.Data?
 }
 
@@ -336,7 +336,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -373,7 +373,7 @@ extension AppConfigDataClientTypes.InvalidParameterDetail: Swift.Codable {
 
 extension AppConfigDataClientTypes {
     /// Information about an invalid parameter.
-    public struct InvalidParameterDetail: Swift.Equatable {
+    public struct InvalidParameterDetail {
         /// The reason the parameter is invalid.
         public var problem: AppConfigDataClientTypes.InvalidParameterProblem?
 
@@ -476,7 +476,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceType: AppConfigDataClientTypes.ResourceType?
     let referencedBy: [Swift.String:Swift.String]?
@@ -587,7 +587,7 @@ extension StartConfigurationSessionInput {
     }
 }
 
-public struct StartConfigurationSessionInput: Swift.Equatable {
+public struct StartConfigurationSessionInput {
     /// The application ID or the application name.
     /// This member is required.
     public var applicationIdentifier: Swift.String?
@@ -614,7 +614,7 @@ public struct StartConfigurationSessionInput: Swift.Equatable {
     }
 }
 
-struct StartConfigurationSessionInputBody: Swift.Equatable {
+struct StartConfigurationSessionInputBody {
     let applicationIdentifier: Swift.String?
     let environmentIdentifier: Swift.String?
     let configurationProfileIdentifier: Swift.String?
@@ -654,7 +654,7 @@ extension StartConfigurationSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartConfigurationSessionOutput: Swift.Equatable {
+public struct StartConfigurationSessionOutput {
     /// Token encapsulating state about the configuration session. Provide this token to the GetLatestConfiguration API to retrieve configuration data. This token should only be used once in your first call to GetLatestConfiguration. You must use the new token in the GetLatestConfiguration response (NextPollConfigurationToken) in each subsequent call to GetLatestConfiguration. The InitialConfigurationToken and NextPollConfigurationToken should only be used once. To support long poll use cases, the tokens are valid for up to 24 hours. If a GetLatestConfiguration call uses an expired token, the system returns BadRequestException.
     public var initialConfigurationToken: Swift.String?
 
@@ -666,7 +666,7 @@ public struct StartConfigurationSessionOutput: Swift.Equatable {
     }
 }
 
-struct StartConfigurationSessionOutputBody: Swift.Equatable {
+struct StartConfigurationSessionOutputBody {
     let initialConfigurationToken: Swift.String?
 }
 
@@ -735,7 +735,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 

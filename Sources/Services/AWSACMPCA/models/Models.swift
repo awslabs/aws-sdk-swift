@@ -121,7 +121,7 @@ extension ACMPCAClientTypes.ASN1Subject: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains information about the certificate subject. The Subject field in the certificate identifies the entity that owns or controls the public key in the certificate. The entity can be a user, computer, device, or service. The Subject must contain an X.500 distinguished name (DN). A DN is a sequence of relative distinguished names (RDNs). The RDNs are separated by commas in the certificate.
-    public struct ASN1Subject: Swift.Equatable {
+    public struct ASN1Subject {
         /// For CA and end-entity certificates in a private PKI, the common name (CN) can be any string within the length limit. Note: In publicly trusted certificates, the common name must be a fully qualified domain name (FQDN) associated with the certificate subject.
         public var commonName: Swift.String?
         /// Two-digit code that specifies the country in which the certificate subject located.
@@ -218,7 +218,7 @@ extension ACMPCAClientTypes.AccessDescription: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Provides access information used by the authorityInfoAccess and subjectInfoAccess extensions described in [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280).
-    public struct AccessDescription: Swift.Equatable {
+    public struct AccessDescription {
         /// The location of AccessDescription information.
         /// This member is required.
         public var accessLocation: ACMPCAClientTypes.GeneralName?
@@ -265,7 +265,7 @@ extension ACMPCAClientTypes.AccessMethod: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Describes the type and format of extension access. Only one of CustomObjectIdentifier or AccessMethodType may be provided. Providing both results in InvalidArgsException.
-    public struct AccessMethod: Swift.Equatable {
+    public struct AccessMethod {
         /// Specifies the AccessMethod.
         public var accessMethodType: ACMPCAClientTypes.AccessMethodType?
         /// An object identifier (OID) specifying the AccessMethod. The OID must satisfy the regular expression shown below. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier).
@@ -380,7 +380,7 @@ extension ACMPCAClientTypes.ApiPassthrough: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains X.509 certificate information to be placed in an issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. If conflicting or duplicate certificate information is supplied from other sources, Amazon Web Services Private CA applies [order of operation rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
-    public struct ApiPassthrough: Swift.Equatable {
+    public struct ApiPassthrough {
         /// Specifies X.509 extension information for a certificate.
         public var extensions: ACMPCAClientTypes.Extensions?
         /// Contains information about the certificate subject. The Subject field in the certificate identifies the entity that owns or controls the public key in the certificate. The entity can be a user, computer, device, or service. The Subject must contain an X.500 distinguished name (DN). A DN is a sequence of relative distinguished names (RDNs). The RDNs are separated by commas in the certificate.
@@ -570,7 +570,7 @@ extension ACMPCAClientTypes.CertificateAuthority: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains information about your private certificate authority (CA). Your private CA can issue and revoke X.509 digital certificates. Digital certificates verify that the entity named in the certificate Subject field owns or controls the public key contained in the Subject Public Key Info field. Call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action to create your private CA. You must then call the [GetCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_GetCertificateAuthorityCertificate.html) action to retrieve a private CA certificate signing request (CSR). Sign the CSR with your Amazon Web Services Private CA-hosted or on-premises root or subordinate CA certificate. Call the [ImportCertificateAuthorityCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ImportCertificateAuthorityCertificate.html) action to import the signed certificate into Certificate Manager (ACM).
-    public struct CertificateAuthority: Swift.Equatable {
+    public struct CertificateAuthority {
         /// Amazon Resource Name (ARN) for your private certificate authority (CA). The format is  12345678-1234-1234-1234-123456789012 .
         public var arn: Swift.String?
         /// Your private CA configuration.
@@ -679,7 +679,7 @@ extension ACMPCAClientTypes.CertificateAuthorityConfiguration: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains configuration information for your private certificate authority (CA). This includes information about the class of public key algorithm and the key pair that your private CA creates when it issues a certificate. It also includes the signature algorithm that it uses when issuing certificates, and its X.500 distinguished name. You must specify this information when you call the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action.
-    public struct CertificateAuthorityConfiguration: Swift.Equatable {
+    public struct CertificateAuthorityConfiguration {
         /// Specifies information to be added to the extension section of the certificate signing request (CSR).
         public var csrExtensions: ACMPCAClientTypes.CsrExtensions?
         /// Type of the public key algorithm and size, in bits, of the key pair that your CA creates when it issues a certificate. When you create a subordinate CA, you must use a key algorithm supported by the parent CA.
@@ -858,7 +858,7 @@ public struct CertificateMismatchException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct CertificateMismatchExceptionBody: Swift.Equatable {
+struct CertificateMismatchExceptionBody {
     let message: Swift.String?
 }
 
@@ -913,7 +913,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -957,7 +957,7 @@ extension CreateCertificateAuthorityAuditReportInput {
     }
 }
 
-public struct CreateCertificateAuthorityAuditReportInput: Swift.Equatable {
+public struct CreateCertificateAuthorityAuditReportInput {
     /// The format in which to create the report. This can be either JSON or CSV.
     /// This member is required.
     public var auditReportResponseFormat: ACMPCAClientTypes.AuditReportResponseFormat?
@@ -980,7 +980,7 @@ public struct CreateCertificateAuthorityAuditReportInput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateAuthorityAuditReportInputBody: Swift.Equatable {
+struct CreateCertificateAuthorityAuditReportInputBody {
     let certificateAuthorityArn: Swift.String?
     let s3BucketName: Swift.String?
     let auditReportResponseFormat: ACMPCAClientTypes.AuditReportResponseFormat?
@@ -1018,7 +1018,7 @@ extension CreateCertificateAuthorityAuditReportOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct CreateCertificateAuthorityAuditReportOutput: Swift.Equatable {
+public struct CreateCertificateAuthorityAuditReportOutput {
     /// An alphanumeric string that contains a report identifier.
     public var auditReportId: Swift.String?
     /// The key that uniquely identifies the report file in your S3 bucket.
@@ -1034,7 +1034,7 @@ public struct CreateCertificateAuthorityAuditReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateAuthorityAuditReportOutputBody: Swift.Equatable {
+struct CreateCertificateAuthorityAuditReportOutputBody {
     let auditReportId: Swift.String?
     let s3Key: Swift.String?
 }
@@ -1117,7 +1117,7 @@ extension CreateCertificateAuthorityInput {
     }
 }
 
-public struct CreateCertificateAuthorityInput: Swift.Equatable {
+public struct CreateCertificateAuthorityInput {
     /// Name and bit size of the private key algorithm, the name of the signing algorithm, and X.500 certificate subject information.
     /// This member is required.
     public var certificateAuthorityConfiguration: ACMPCAClientTypes.CertificateAuthorityConfiguration?
@@ -1166,7 +1166,7 @@ public struct CreateCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateAuthorityInputBody: Swift.Equatable {
+struct CreateCertificateAuthorityInputBody {
     let certificateAuthorityConfiguration: ACMPCAClientTypes.CertificateAuthorityConfiguration?
     let revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
     let certificateAuthorityType: ACMPCAClientTypes.CertificateAuthorityType?
@@ -1227,7 +1227,7 @@ extension CreateCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCertificateAuthorityOutput: Swift.Equatable {
+public struct CreateCertificateAuthorityOutput {
     /// If successful, the Amazon Resource Name (ARN) of the certificate authority (CA). This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     public var certificateAuthorityArn: Swift.String?
 
@@ -1239,7 +1239,7 @@ public struct CreateCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct CreateCertificateAuthorityOutputBody: Swift.Equatable {
+struct CreateCertificateAuthorityOutputBody {
     let certificateAuthorityArn: Swift.String?
 }
 
@@ -1304,7 +1304,7 @@ extension CreatePermissionInput {
     }
 }
 
-public struct CreatePermissionInput: Swift.Equatable {
+public struct CreatePermissionInput {
     /// The actions that the specified Amazon Web Services service principal can use. These include IssueCertificate, GetCertificate, and ListPermissions.
     /// This member is required.
     public var actions: [ACMPCAClientTypes.ActionType]?
@@ -1331,7 +1331,7 @@ public struct CreatePermissionInput: Swift.Equatable {
     }
 }
 
-struct CreatePermissionInputBody: Swift.Equatable {
+struct CreatePermissionInputBody {
     let certificateAuthorityArn: Swift.String?
     let principal: Swift.String?
     let sourceAccount: Swift.String?
@@ -1373,7 +1373,7 @@ extension CreatePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePermissionOutput: Swift.Equatable {
+public struct CreatePermissionOutput {
 
     public init() { }
 }
@@ -1487,7 +1487,7 @@ extension ACMPCAClientTypes {
     ///
     ///
     /// Certificate revocation lists created by Amazon Web Services Private CA are DER-encoded. You can use the following OpenSSL command to list a CRL. openssl crl -inform DER -text -in crl_path -noout For more information, see [Planning a certificate revocation list (CRL)](https://docs.aws.amazon.com/privateca/latest/userguide/crl-planning.html) in the Amazon Web Services Private Certificate Authority User Guide
-    public struct CrlConfiguration: Swift.Equatable {
+    public struct CrlConfiguration {
         /// Configures the behavior of the CRL Distribution Point extension for certificates issued by your certificate authority. If this field is not provided, then the CRl Distribution Point Extension will be present and contain the default CRL URL.
         public var crlDistributionPointExtensionConfiguration: ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration?
         /// Name inserted into the certificate CRL Distribution Points extension that enables the use of an alias for the CRL distribution point. Use this value if you don't want the name of your S3 bucket to be public. The content of a Canonical Name (CNAME) record must conform to [RFC2396](https://www.ietf.org/rfc/rfc2396.txt) restrictions on the use of special characters in URIs. Additionally, the value of the CNAME must not include a protocol prefix such as "http://" or "https://".
@@ -1543,7 +1543,7 @@ extension ACMPCAClientTypes.CrlDistributionPointExtensionConfiguration: Swift.Co
 
 extension ACMPCAClientTypes {
     /// Contains configuration information for the default behavior of the CRL Distribution Point (CDP) extension in certificates issued by your CA. This extension contains a link to download the CRL, so you can check whether a certificate has been revoked. To choose whether you want this extension omitted or not in certificates issued by your CA, you can set the OmitExtension parameter.
-    public struct CrlDistributionPointExtensionConfiguration: Swift.Equatable {
+    public struct CrlDistributionPointExtensionConfiguration {
         /// Configures whether the CRL Distribution Point extension should be populated with the default URL to the CRL. If set to true, then the CDP extension will not be present in any certificates issued by that CA unless otherwise specified through CSR or API passthrough. Only set this if you have another way to distribute the CRL Distribution Points ffor certificates issued by your CA, such as the Matter Distributed Compliance Ledger This configuration cannot be enabled with a custom CNAME set.
         /// This member is required.
         public var omitExtension: Swift.Bool?
@@ -1597,7 +1597,7 @@ extension ACMPCAClientTypes.CsrExtensions: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Describes the certificate extensions to be added to the certificate signing request (CSR).
-    public struct CsrExtensions: Swift.Equatable {
+    public struct CsrExtensions {
         /// Indicates the purpose of the certificate and of the key contained in the certificate.
         public var keyUsage: ACMPCAClientTypes.KeyUsage?
         /// For CA certificates, provides a path to additional information pertaining to the CA, such as revocation and policy. For more information, see [Subject Information Access](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.2.2) in RFC 5280.
@@ -1642,7 +1642,7 @@ extension ACMPCAClientTypes.CustomAttribute: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Defines the X.500 relative distinguished name (RDN).
-    public struct CustomAttribute: Swift.Equatable {
+    public struct CustomAttribute {
         /// Specifies the object identifier (OID) of the attribute type of the relative distinguished name (RDN).
         /// This member is required.
         public var objectIdentifier: Swift.String?
@@ -1695,7 +1695,7 @@ extension ACMPCAClientTypes.CustomExtension: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Specifies the X.509 extension information for a certificate. Extensions present in CustomExtensions follow the ApiPassthrough[template rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations).
-    public struct CustomExtension: Swift.Equatable {
+    public struct CustomExtension {
         /// Specifies the critical flag of the X.509 extension.
         public var critical: Swift.Bool?
         /// Specifies the object identifier (OID) of the X.509 extension. For more information, see the [Global OID reference database.](https://oidref.com/2.5.29)
@@ -1743,7 +1743,7 @@ extension DeleteCertificateAuthorityInput {
     }
 }
 
-public struct DeleteCertificateAuthorityInput: Swift.Equatable {
+public struct DeleteCertificateAuthorityInput {
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -1760,7 +1760,7 @@ public struct DeleteCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct DeleteCertificateAuthorityInputBody: Swift.Equatable {
+struct DeleteCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
     let permanentDeletionTimeInDays: Swift.Int?
 }
@@ -1785,7 +1785,7 @@ extension DeleteCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCertificateAuthorityOutput: Swift.Equatable {
+public struct DeleteCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -1832,7 +1832,7 @@ extension DeletePermissionInput {
     }
 }
 
-public struct DeletePermissionInput: Swift.Equatable {
+public struct DeletePermissionInput {
     /// The Amazon Resource Number (ARN) of the private CA that issued the permissions. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must have the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -1854,7 +1854,7 @@ public struct DeletePermissionInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionInputBody: Swift.Equatable {
+struct DeletePermissionInputBody {
     let certificateAuthorityArn: Swift.String?
     let principal: Swift.String?
     let sourceAccount: Swift.String?
@@ -1883,7 +1883,7 @@ extension DeletePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionOutput: Swift.Equatable {
+public struct DeletePermissionOutput {
 
     public init() { }
 }
@@ -1922,7 +1922,7 @@ extension DeletePolicyInput {
     }
 }
 
-public struct DeletePolicyInput: Swift.Equatable {
+public struct DeletePolicyInput {
     /// The Amazon Resource Number (ARN) of the private CA that will have its policy deleted. You can find the CA's ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. The ARN value must have the form arn:aws:acm-pca:region:account:certificate-authority/01234567-89ab-cdef-0123-0123456789ab.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1935,7 +1935,7 @@ public struct DeletePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePolicyInputBody: Swift.Equatable {
+struct DeletePolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -1956,7 +1956,7 @@ extension DeletePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePolicyOutput: Swift.Equatable {
+public struct DeletePolicyOutput {
 
     public init() { }
 }
@@ -2001,7 +2001,7 @@ extension DescribeCertificateAuthorityAuditReportInput {
     }
 }
 
-public struct DescribeCertificateAuthorityAuditReportInput: Swift.Equatable {
+public struct DescribeCertificateAuthorityAuditReportInput {
     /// The report ID returned by calling the [CreateCertificateAuthorityAuditReport](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthorityAuditReport.html) action.
     /// This member is required.
     public var auditReportId: Swift.String?
@@ -2019,7 +2019,7 @@ public struct DescribeCertificateAuthorityAuditReportInput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateAuthorityAuditReportInputBody: Swift.Equatable {
+struct DescribeCertificateAuthorityAuditReportInputBody {
     let certificateAuthorityArn: Swift.String?
     let auditReportId: Swift.String?
 }
@@ -2057,7 +2057,7 @@ extension DescribeCertificateAuthorityAuditReportOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DescribeCertificateAuthorityAuditReportOutput: Swift.Equatable {
+public struct DescribeCertificateAuthorityAuditReportOutput {
     /// Specifies whether report creation is in progress, has succeeded, or has failed.
     public var auditReportStatus: ACMPCAClientTypes.AuditReportStatus?
     /// The date and time at which the report was created.
@@ -2081,7 +2081,7 @@ public struct DescribeCertificateAuthorityAuditReportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateAuthorityAuditReportOutputBody: Swift.Equatable {
+struct DescribeCertificateAuthorityAuditReportOutputBody {
     let auditReportStatus: ACMPCAClientTypes.AuditReportStatus?
     let s3BucketName: Swift.String?
     let s3Key: Swift.String?
@@ -2142,7 +2142,7 @@ extension DescribeCertificateAuthorityInput {
     }
 }
 
-public struct DescribeCertificateAuthorityInput: Swift.Equatable {
+public struct DescribeCertificateAuthorityInput {
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -2155,7 +2155,7 @@ public struct DescribeCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateAuthorityInputBody: Swift.Equatable {
+struct DescribeCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
 }
 
@@ -2183,7 +2183,7 @@ extension DescribeCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeCertificateAuthorityOutput: Swift.Equatable {
+public struct DescribeCertificateAuthorityOutput {
     /// A [CertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CertificateAuthority.html) structure that contains information about your private CA.
     public var certificateAuthority: ACMPCAClientTypes.CertificateAuthority?
 
@@ -2195,7 +2195,7 @@ public struct DescribeCertificateAuthorityOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCertificateAuthorityOutputBody: Swift.Equatable {
+struct DescribeCertificateAuthorityOutputBody {
     let certificateAuthority: ACMPCAClientTypes.CertificateAuthority?
 }
 
@@ -2250,7 +2250,7 @@ extension ACMPCAClientTypes.EdiPartyName: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Describes an Electronic Data Interchange (EDI) entity as described in as defined in [Subject Alternative Name](https://datatracker.ietf.org/doc/html/rfc5280) in RFC 5280.
-    public struct EdiPartyName: Swift.Equatable {
+    public struct EdiPartyName {
         /// Specifies the name assigner.
         public var nameAssigner: Swift.String?
         /// Specifies the party name.
@@ -2296,7 +2296,7 @@ extension ACMPCAClientTypes.ExtendedKeyUsage: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Specifies additional purposes for which the certified public key may be used other than basic purposes indicated in the KeyUsage extension.
-    public struct ExtendedKeyUsage: Swift.Equatable {
+    public struct ExtendedKeyUsage {
         /// Specifies a custom ExtendedKeyUsage with an object identifier (OID).
         public var extendedKeyUsageObjectIdentifier: Swift.String?
         /// Specifies a standard ExtendedKeyUsage as defined as in [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.12).
@@ -2460,7 +2460,7 @@ extension ACMPCAClientTypes.Extensions: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains X.509 extension information for a certificate.
-    public struct Extensions: Swift.Equatable {
+    public struct Extensions {
         /// Contains a sequence of one or more policy information terms, each of which consists of an object identifier (OID) and optional qualifiers. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier). In an end-entity certificate, these terms indicate the policy under which the certificate was issued and the purposes for which it may be used. In a CA certificate, these terms limit the set of policies for certification paths that include this certificate.
         public var certificatePolicies: [ACMPCAClientTypes.PolicyInformation]?
         /// Contains a sequence of one or more X.509 extensions, each of which consists of an object identifier (OID), a base64-encoded value, and the critical flag. For more information, see the [Global OID reference database.](https://oidref.com/2.5.29)
@@ -2588,7 +2588,7 @@ extension ACMPCAClientTypes.GeneralName: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Describes an ASN.1 X.400 GeneralName as defined in [RFC 5280](https://datatracker.ietf.org/doc/html/rfc5280). Only one of the following naming options should be provided. Providing more than one option results in an InvalidArgsException error.
-    public struct GeneralName: Swift.Equatable {
+    public struct GeneralName {
         /// Contains information about the certificate subject. The Subject field in the certificate identifies the entity that owns or controls the public key in the certificate. The entity can be a user, computer, device, or service. The Subject must contain an X.500 distinguished name (DN). A DN is a sequence of relative distinguished names (RDNs). The RDNs are separated by commas in the certificate.
         public var directoryName: ACMPCAClientTypes.ASN1Subject?
         /// Represents GeneralName as a DNS name.
@@ -2650,7 +2650,7 @@ extension GetCertificateAuthorityCertificateInput {
     }
 }
 
-public struct GetCertificateAuthorityCertificateInput: Swift.Equatable {
+public struct GetCertificateAuthorityCertificateInput {
     /// The Amazon Resource Name (ARN) of your private CA. This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 .
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -2663,7 +2663,7 @@ public struct GetCertificateAuthorityCertificateInput: Swift.Equatable {
     }
 }
 
-struct GetCertificateAuthorityCertificateInputBody: Swift.Equatable {
+struct GetCertificateAuthorityCertificateInputBody {
     let certificateAuthorityArn: Swift.String?
 }
 
@@ -2693,7 +2693,7 @@ extension GetCertificateAuthorityCertificateOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetCertificateAuthorityCertificateOutput: Swift.Equatable {
+public struct GetCertificateAuthorityCertificateOutput {
     /// Base64-encoded certificate authority (CA) certificate.
     public var certificate: Swift.String?
     /// Base64-encoded certificate chain that includes any intermediate certificates and chains up to root certificate that you used to sign your private CA certificate. The chain does not include your private CA certificate. If this is a root CA, the value will be null.
@@ -2709,7 +2709,7 @@ public struct GetCertificateAuthorityCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GetCertificateAuthorityCertificateOutputBody: Swift.Equatable {
+struct GetCertificateAuthorityCertificateOutputBody {
     let certificate: Swift.String?
     let certificateChain: Swift.String?
 }
@@ -2762,7 +2762,7 @@ extension GetCertificateAuthorityCsrInput {
     }
 }
 
-public struct GetCertificateAuthorityCsrInput: Swift.Equatable {
+public struct GetCertificateAuthorityCsrInput {
     /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -2775,7 +2775,7 @@ public struct GetCertificateAuthorityCsrInput: Swift.Equatable {
     }
 }
 
-struct GetCertificateAuthorityCsrInputBody: Swift.Equatable {
+struct GetCertificateAuthorityCsrInputBody {
     let certificateAuthorityArn: Swift.String?
 }
 
@@ -2803,7 +2803,7 @@ extension GetCertificateAuthorityCsrOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCertificateAuthorityCsrOutput: Swift.Equatable {
+public struct GetCertificateAuthorityCsrOutput {
     /// The base64 PEM-encoded certificate signing request (CSR) for your private CA certificate.
     public var csr: Swift.String?
 
@@ -2815,7 +2815,7 @@ public struct GetCertificateAuthorityCsrOutput: Swift.Equatable {
     }
 }
 
-struct GetCertificateAuthorityCsrOutputBody: Swift.Equatable {
+struct GetCertificateAuthorityCsrOutputBody {
     let csr: Swift.String?
 }
 
@@ -2870,7 +2870,7 @@ extension GetCertificateInput {
     }
 }
 
-public struct GetCertificateInput: Swift.Equatable {
+public struct GetCertificateInput {
     /// The ARN of the issued certificate. The ARN contains the certificate serial number and must be in the following form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
     /// This member is required.
     public var certificateArn: Swift.String?
@@ -2888,7 +2888,7 @@ public struct GetCertificateInput: Swift.Equatable {
     }
 }
 
-struct GetCertificateInputBody: Swift.Equatable {
+struct GetCertificateInputBody {
     let certificateAuthorityArn: Swift.String?
     let certificateArn: Swift.String?
 }
@@ -2922,7 +2922,7 @@ extension GetCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCertificateOutput: Swift.Equatable {
+public struct GetCertificateOutput {
     /// The base64 PEM-encoded certificate specified by the CertificateArn parameter.
     public var certificate: Swift.String?
     /// The base64 PEM-encoded certificate chain that chains up to the root CA certificate that you used to sign your private CA certificate.
@@ -2938,7 +2938,7 @@ public struct GetCertificateOutput: Swift.Equatable {
     }
 }
 
-struct GetCertificateOutputBody: Swift.Equatable {
+struct GetCertificateOutputBody {
     let certificate: Swift.String?
     let certificateChain: Swift.String?
 }
@@ -2993,7 +2993,7 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The Amazon Resource Number (ARN) of the private CA that will have its policy retrieved. You can find the CA's ARN by calling the ListCertificateAuthorities action.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3006,7 +3006,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3034,7 +3034,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// The policy attached to the private CA as a JSON document.
     public var policy: Swift.String?
 
@@ -3046,7 +3046,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -3104,7 +3104,7 @@ extension ImportCertificateAuthorityCertificateInput {
     }
 }
 
-public struct ImportCertificateAuthorityCertificateInput: Swift.Equatable {
+public struct ImportCertificateAuthorityCertificateInput {
     /// The PEM-encoded certificate for a private CA. This may be a self-signed certificate in the case of a root CA, or it may be signed by another CA that you control.
     /// This member is required.
     public var certificate: ClientRuntime.Data?
@@ -3126,7 +3126,7 @@ public struct ImportCertificateAuthorityCertificateInput: Swift.Equatable {
     }
 }
 
-struct ImportCertificateAuthorityCertificateInputBody: Swift.Equatable {
+struct ImportCertificateAuthorityCertificateInputBody {
     let certificateAuthorityArn: Swift.String?
     let certificate: ClientRuntime.Data?
     let certificateChain: ClientRuntime.Data?
@@ -3155,7 +3155,7 @@ extension ImportCertificateAuthorityCertificateOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ImportCertificateAuthorityCertificateOutput: Swift.Equatable {
+public struct ImportCertificateAuthorityCertificateOutput {
 
     public init() { }
 }
@@ -3218,7 +3218,7 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidArgsExceptionBody: Swift.Equatable {
+struct InvalidArgsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3273,7 +3273,7 @@ public struct InvalidArnException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidArnExceptionBody: Swift.Equatable {
+struct InvalidArnExceptionBody {
     let message: Swift.String?
 }
 
@@ -3328,7 +3328,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -3383,7 +3383,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidPolicyExceptionBody: Swift.Equatable {
+struct InvalidPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -3438,7 +3438,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -3493,7 +3493,7 @@ public struct InvalidStateException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidStateExceptionBody: Swift.Equatable {
+struct InvalidStateExceptionBody {
     let message: Swift.String?
 }
 
@@ -3548,7 +3548,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidTagExceptionBody: Swift.Equatable {
+struct InvalidTagExceptionBody {
     let message: Swift.String?
 }
 
@@ -3612,7 +3612,7 @@ extension IssueCertificateInput {
     }
 }
 
-public struct IssueCertificateInput: Swift.Equatable {
+public struct IssueCertificateInput {
     /// Specifies X.509 certificate information to be included in the issued certificate. An APIPassthrough or APICSRPassthrough template variant must be selected, or else this parameter is ignored. For more information about using these templates, see [Understanding Certificate Templates](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html). If conflicting or duplicate certificate information is supplied during certificate issuance, Amazon Web Services Private CA applies [order of operation rules](https://docs.aws.amazon.com/privateca/latest/userguide/UsingTemplates.html#template-order-of-operations) to determine what information is used.
     public var apiPassthrough: ACMPCAClientTypes.ApiPassthrough?
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
@@ -3656,7 +3656,7 @@ public struct IssueCertificateInput: Swift.Equatable {
     }
 }
 
-struct IssueCertificateInputBody: Swift.Equatable {
+struct IssueCertificateInputBody {
     let apiPassthrough: ACMPCAClientTypes.ApiPassthrough?
     let certificateAuthorityArn: Swift.String?
     let csr: ClientRuntime.Data?
@@ -3712,7 +3712,7 @@ extension IssueCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct IssueCertificateOutput: Swift.Equatable {
+public struct IssueCertificateOutput {
     /// The Amazon Resource Name (ARN) of the issued certificate and the certificate serial number. This is of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012/certificate/286535153982981100925020015808220737245
     public var certificateArn: Swift.String?
 
@@ -3724,7 +3724,7 @@ public struct IssueCertificateOutput: Swift.Equatable {
     }
 }
 
-struct IssueCertificateOutputBody: Swift.Equatable {
+struct IssueCertificateOutputBody {
     let certificateArn: Swift.String?
 }
 
@@ -3895,7 +3895,7 @@ extension ACMPCAClientTypes.KeyUsage: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Defines one or more purposes for which the key contained in the certificate can be used. Default value for each option is false.
-    public struct KeyUsage: Swift.Equatable {
+    public struct KeyUsage {
         /// Key can be used to sign CRLs.
         public var crlSign: Swift.Bool
         /// Key can be used to decipher data.
@@ -3980,7 +3980,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4024,7 +4024,7 @@ extension ListCertificateAuthoritiesInput {
     }
 }
 
-public struct ListCertificateAuthoritiesInput: Swift.Equatable {
+public struct ListCertificateAuthoritiesInput {
     /// Use this parameter when paginating results to specify the maximum number of items to return in the response on each page. If additional items exist beyond the number you specify, the NextToken element is sent in the response. Use this NextToken value in a subsequent request to retrieve additional items. Although the maximum value is 1000, the action only returns a maximum of 100 items.
     public var maxResults: Swift.Int?
     /// Use this parameter when paginating results in a subsequent request after you receive a response with truncated results. Set it to the value of the NextToken parameter from the response you just received.
@@ -4044,7 +4044,7 @@ public struct ListCertificateAuthoritiesInput: Swift.Equatable {
     }
 }
 
-struct ListCertificateAuthoritiesInputBody: Swift.Equatable {
+struct ListCertificateAuthoritiesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let resourceOwner: ACMPCAClientTypes.ResourceOwner?
@@ -4082,7 +4082,7 @@ extension ListCertificateAuthoritiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCertificateAuthoritiesOutput: Swift.Equatable {
+public struct ListCertificateAuthoritiesOutput {
     /// Summary information about each certificate authority you have created.
     public var certificateAuthorities: [ACMPCAClientTypes.CertificateAuthority]?
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
@@ -4098,7 +4098,7 @@ public struct ListCertificateAuthoritiesOutput: Swift.Equatable {
     }
 }
 
-struct ListCertificateAuthoritiesOutputBody: Swift.Equatable {
+struct ListCertificateAuthoritiesOutputBody {
     let certificateAuthorities: [ACMPCAClientTypes.CertificateAuthority]?
     let nextToken: Swift.String?
 }
@@ -4166,7 +4166,7 @@ extension ListPermissionsInput {
     }
 }
 
-public struct ListPermissionsInput: Swift.Equatable {
+public struct ListPermissionsInput {
     /// The Amazon Resource Number (ARN) of the private CA to inspect. You can find the ARN by calling the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012 You can get a private CA's ARN by running the [ListCertificateAuthorities](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListCertificateAuthorities.html) action.
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -4187,7 +4187,7 @@ public struct ListPermissionsInput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsInputBody: Swift.Equatable {
+struct ListPermissionsInputBody {
     let certificateAuthorityArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4225,7 +4225,7 @@ extension ListPermissionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPermissionsOutput: Swift.Equatable {
+public struct ListPermissionsOutput {
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
     public var nextToken: Swift.String?
     /// Summary information about each permission assigned by the specified private CA, including the action enabled, the policy provided, and the time of creation.
@@ -4241,7 +4241,7 @@ public struct ListPermissionsOutput: Swift.Equatable {
     }
 }
 
-struct ListPermissionsOutputBody: Swift.Equatable {
+struct ListPermissionsOutputBody {
     let permissions: [ACMPCAClientTypes.Permission]?
     let nextToken: Swift.String?
 }
@@ -4313,7 +4313,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -4334,7 +4334,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
     let certificateAuthorityArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -4372,7 +4372,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// When the list is truncated, this value is present and should be used for the NextToken parameter in a subsequent pagination request.
     public var nextToken: Swift.String?
     /// The tags associated with your private CA.
@@ -4388,7 +4388,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tags: [ACMPCAClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -4469,7 +4469,7 @@ public struct LockoutPreventedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct LockoutPreventedExceptionBody: Swift.Equatable {
+struct LockoutPreventedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4524,7 +4524,7 @@ public struct MalformedCSRException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct MalformedCSRExceptionBody: Swift.Equatable {
+struct MalformedCSRExceptionBody {
     let message: Swift.String?
 }
 
@@ -4579,7 +4579,7 @@ public struct MalformedCertificateException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct MalformedCertificateExceptionBody: Swift.Equatable {
+struct MalformedCertificateExceptionBody {
     let message: Swift.String?
 }
 
@@ -4622,7 +4622,7 @@ extension ACMPCAClientTypes.OcspConfiguration: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Contains information to enable and configure Online Certificate Status Protocol (OCSP) for validating certificate revocation status. When you revoke a certificate, OCSP responses may take up to 60 minutes to reflect the new status.
-    public struct OcspConfiguration: Swift.Equatable {
+    public struct OcspConfiguration {
         /// Flag enabling use of the Online Certificate Status Protocol (OCSP) for validating certificate revocation status.
         /// This member is required.
         public var enabled: Swift.Bool?
@@ -4668,7 +4668,7 @@ extension ACMPCAClientTypes.OtherName: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Defines a custom ASN.1 X.400 GeneralName using an object identifier (OID) and value. The OID must satisfy the regular expression shown below. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier).
-    public struct OtherName: Swift.Equatable {
+    public struct OtherName {
         /// Specifies an OID.
         /// This member is required.
         public var typeId: Swift.String?
@@ -4751,7 +4751,7 @@ extension ACMPCAClientTypes.Permission: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Permissions designate which private CA actions can be performed by an Amazon Web Services service or entity. In order for ACM to automatically renew private certificates, you must give the ACM service principal all available permissions (IssueCertificate, GetCertificate, and ListPermissions). Permissions can be assigned with the [CreatePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreatePermission.html) action, removed with the [DeletePermission](https://docs.aws.amazon.com/privateca/latest/APIReference/API_DeletePermission.html) action, and listed with the [ListPermissions](https://docs.aws.amazon.com/privateca/latest/APIReference/API_ListPermissions.html) action.
-    public struct Permission: Swift.Equatable {
+    public struct Permission {
         /// The private CA actions that can be performed by the designated Amazon Web Services service.
         public var actions: [ACMPCAClientTypes.ActionType]?
         /// The Amazon Resource Number (ARN) of the private CA from which the permission was issued.
@@ -4824,7 +4824,7 @@ public struct PermissionAlreadyExistsException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct PermissionAlreadyExistsExceptionBody: Swift.Equatable {
+struct PermissionAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4879,7 +4879,7 @@ extension ACMPCAClientTypes.PolicyInformation: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Defines the X.509 CertificatePolicies extension.
-    public struct PolicyInformation: Swift.Equatable {
+    public struct PolicyInformation {
         /// Specifies the object identifier (OID) of the certificate policy under which the certificate was issued. For more information, see NIST's definition of [Object Identifier (OID)](https://csrc.nist.gov/glossary/term/Object_Identifier).
         /// This member is required.
         public var certPolicyId: Swift.String?
@@ -4954,7 +4954,7 @@ extension ACMPCAClientTypes.PolicyQualifierInfo: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Modifies the CertPolicyId of a PolicyInformation object with a qualifier. Amazon Web Services Private CA supports the certification practice statement (CPS) qualifier.
-    public struct PolicyQualifierInfo: Swift.Equatable {
+    public struct PolicyQualifierInfo {
         /// Identifies the qualifier modifying a CertPolicyId.
         /// This member is required.
         public var policyQualifierId: ACMPCAClientTypes.PolicyQualifierId?
@@ -4998,7 +4998,7 @@ extension PutPolicyInput {
     }
 }
 
-public struct PutPolicyInput: Swift.Equatable {
+public struct PutPolicyInput {
     /// The path and file name of a JSON-formatted IAM policy to attach to the specified private CA resource. If this policy does not contain all required statements or if it includes any statement that is not allowed, the PutPolicy action returns an InvalidPolicyException. For information about IAM policy and statement structure, see [Overview of JSON Policies](https://docs.aws.amazon.com/IAM/latest/UserGuide/access_policies.html#access_policies-json).
     /// This member is required.
     public var policy: Swift.String?
@@ -5016,7 +5016,7 @@ public struct PutPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPolicyInputBody: Swift.Equatable {
+struct PutPolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
 }
@@ -5041,7 +5041,7 @@ extension PutPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPolicyOutput: Swift.Equatable {
+public struct PutPolicyOutput {
 
     public init() { }
 }
@@ -5084,7 +5084,7 @@ extension ACMPCAClientTypes.Qualifier: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Defines a PolicyInformation qualifier. Amazon Web Services Private CA supports the [certification practice statement (CPS) qualifier](https://datatracker.ietf.org/doc/html/rfc5280#section-4.2.1.4) defined in RFC 5280.
-    public struct Qualifier: Swift.Equatable {
+    public struct Qualifier {
         /// Contains a pointer to a certification practice statement (CPS) published by the CA.
         /// This member is required.
         public var cpsUri: Swift.String?
@@ -5138,7 +5138,7 @@ public struct RequestAlreadyProcessedException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct RequestAlreadyProcessedExceptionBody: Swift.Equatable {
+struct RequestAlreadyProcessedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5193,7 +5193,7 @@ public struct RequestFailedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct RequestFailedExceptionBody: Swift.Equatable {
+struct RequestFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -5248,7 +5248,7 @@ public struct RequestInProgressException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct RequestInProgressExceptionBody: Swift.Equatable {
+struct RequestInProgressExceptionBody {
     let message: Swift.String?
 }
 
@@ -5303,7 +5303,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5371,7 +5371,7 @@ extension RestoreCertificateAuthorityInput {
     }
 }
 
-public struct RestoreCertificateAuthorityInput: Swift.Equatable {
+public struct RestoreCertificateAuthorityInput {
     /// The Amazon Resource Name (ARN) that was returned when you called the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) action. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -5384,7 +5384,7 @@ public struct RestoreCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct RestoreCertificateAuthorityInputBody: Swift.Equatable {
+struct RestoreCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
 }
 
@@ -5405,7 +5405,7 @@ extension RestoreCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreCertificateAuthorityOutput: Swift.Equatable {
+public struct RestoreCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -5450,7 +5450,7 @@ extension ACMPCAClientTypes.RevocationConfiguration: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Certificate revocation information used by the [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html) and [UpdateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UpdateCertificateAuthority.html) actions. Your private certificate authority (CA) can configure Online Certificate Status Protocol (OCSP) support and/or maintain a certificate revocation list (CRL). OCSP returns validation information about certificates as requested by clients, and a CRL contains an updated list of certificates revoked by your CA. For more information, see [RevokeCertificate](https://docs.aws.amazon.com/privateca/latest/APIReference/API_RevokeCertificate.html) and [Setting up a certificate revocation method](https://docs.aws.amazon.com/privateca/latest/userguide/revocation-setup.html) in the Amazon Web Services Private Certificate Authority User Guide.
-    public struct RevocationConfiguration: Swift.Equatable {
+    public struct RevocationConfiguration {
         /// Configuration of the certificate revocation list (CRL), if any, maintained by your private CA. A CRL is typically updated approximately 30 minutes after a certificate is revoked. If for any reason a CRL update fails, Amazon Web Services Private CA makes further attempts every 15 minutes.
         public var crlConfiguration: ACMPCAClientTypes.CrlConfiguration?
         /// Configuration of Online Certificate Status Protocol (OCSP) support, if any, maintained by your private CA. When you revoke a certificate, OCSP responses may take up to 60 minutes to reflect the new status.
@@ -5546,7 +5546,7 @@ extension RevokeCertificateInput {
     }
 }
 
-public struct RevokeCertificateInput: Swift.Equatable {
+public struct RevokeCertificateInput {
     /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -5569,7 +5569,7 @@ public struct RevokeCertificateInput: Swift.Equatable {
     }
 }
 
-struct RevokeCertificateInputBody: Swift.Equatable {
+struct RevokeCertificateInputBody {
     let certificateAuthorityArn: Swift.String?
     let certificateSerial: Swift.String?
     let revocationReason: ACMPCAClientTypes.RevocationReason?
@@ -5598,7 +5598,7 @@ extension RevokeCertificateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RevokeCertificateOutput: Swift.Equatable {
+public struct RevokeCertificateOutput {
 
     public init() { }
 }
@@ -5725,7 +5725,7 @@ extension ACMPCAClientTypes.Tag: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Tags are labels that you can use to identify and organize your private CAs. Each tag consists of a key and an optional value. You can associate up to 50 tags with a private CA. To add one or more tags to a private CA, call the [TagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_TagCertificateAuthority.html) action. To remove a tag, call the [UntagCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_UntagCertificateAuthority.html) action.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Key (name) of the tag.
         /// This member is required.
         public var key: Swift.String?
@@ -5771,7 +5771,7 @@ extension TagCertificateAuthorityInput {
     }
 }
 
-public struct TagCertificateAuthorityInput: Swift.Equatable {
+public struct TagCertificateAuthorityInput {
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -5789,7 +5789,7 @@ public struct TagCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct TagCertificateAuthorityInputBody: Swift.Equatable {
+struct TagCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
     let tags: [ACMPCAClientTypes.Tag]?
 }
@@ -5823,7 +5823,7 @@ extension TagCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagCertificateAuthorityOutput: Swift.Equatable {
+public struct TagCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -5882,7 +5882,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -5925,7 +5925,7 @@ extension UntagCertificateAuthorityInput {
     }
 }
 
-public struct UntagCertificateAuthorityInput: Swift.Equatable {
+public struct UntagCertificateAuthorityInput {
     /// The Amazon Resource Name (ARN) that was returned when you called [CreateCertificateAuthority](https://docs.aws.amazon.com/privateca/latest/APIReference/API_CreateCertificateAuthority.html). This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -5943,7 +5943,7 @@ public struct UntagCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct UntagCertificateAuthorityInputBody: Swift.Equatable {
+struct UntagCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
     let tags: [ACMPCAClientTypes.Tag]?
 }
@@ -5977,7 +5977,7 @@ extension UntagCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagCertificateAuthorityOutput: Swift.Equatable {
+public struct UntagCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -6024,7 +6024,7 @@ extension UpdateCertificateAuthorityInput {
     }
 }
 
-public struct UpdateCertificateAuthorityInput: Swift.Equatable {
+public struct UpdateCertificateAuthorityInput {
     /// Amazon Resource Name (ARN) of the private CA that issued the certificate to be revoked. This must be of the form: arn:aws:acm-pca:region:account:certificate-authority/12345678-1234-1234-1234-123456789012
     /// This member is required.
     public var certificateAuthorityArn: Swift.String?
@@ -6053,7 +6053,7 @@ public struct UpdateCertificateAuthorityInput: Swift.Equatable {
     }
 }
 
-struct UpdateCertificateAuthorityInputBody: Swift.Equatable {
+struct UpdateCertificateAuthorityInputBody {
     let certificateAuthorityArn: Swift.String?
     let revocationConfiguration: ACMPCAClientTypes.RevocationConfiguration?
     let status: ACMPCAClientTypes.CertificateAuthorityStatus?
@@ -6082,7 +6082,7 @@ extension UpdateCertificateAuthorityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCertificateAuthorityOutput: Swift.Equatable {
+public struct UpdateCertificateAuthorityOutput {
 
     public init() { }
 }
@@ -6130,7 +6130,7 @@ extension ACMPCAClientTypes.Validity: Swift.Codable {
 
 extension ACMPCAClientTypes {
     /// Validity specifies the period of time during which a certificate is valid. Validity can be expressed as an explicit date and time when the validity of a certificate starts or expires, or as a span of time after issuance, stated in days, months, or years. For more information, see [Validity](https://tools.ietf.org/html/rfc5280#section-4.1.2.5) in RFC 5280. Amazon Web Services Private CA API consumes the Validity data type differently in two distinct parameters of the IssueCertificate action. The required parameter IssueCertificate:Validity specifies the end of a certificate's validity period. The optional parameter IssueCertificate:ValidityNotBefore specifies a customized starting time for the validity period.
-    public struct Validity: Swift.Equatable {
+    public struct Validity {
         /// Determines how Amazon Web Services Private CA interprets the Value parameter, an integer. Supported validity types include those listed below. Type definitions with values include a sample input value and the resulting output. END_DATE: The specific date and time when the certificate will expire, expressed using UTCTime (YYMMDDHHMMSS) or GeneralizedTime (YYYYMMDDHHMMSS) format. When UTCTime is used, if the year field (YY) is greater than or equal to 50, the year is interpreted as 19YY. If the year field is less than 50, the year is interpreted as 20YY.
         ///
         /// * Sample input value: 491231235959 (UTCTime format)

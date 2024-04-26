@@ -42,7 +42,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -81,7 +81,7 @@ extension DeleteThingShadowInput {
 }
 
 /// The input for the DeleteThingShadow operation.
-public struct DeleteThingShadowInput: Swift.Equatable {
+public struct DeleteThingShadowInput {
     /// The name of the shadow.
     public var shadowName: Swift.String?
     /// The name of the thing.
@@ -98,7 +98,7 @@ public struct DeleteThingShadowInput: Swift.Equatable {
     }
 }
 
-struct DeleteThingShadowInputBody: Swift.Equatable {
+struct DeleteThingShadowInputBody {
 }
 
 extension DeleteThingShadowInputBody: Swift.Decodable {
@@ -121,7 +121,7 @@ extension DeleteThingShadowOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the DeleteThingShadow operation.
-public struct DeleteThingShadowOutput: Swift.Equatable {
+public struct DeleteThingShadowOutput {
     /// The state information, in JSON format.
     /// This member is required.
     public var payload: ClientRuntime.Data?
@@ -134,7 +134,7 @@ public struct DeleteThingShadowOutput: Swift.Equatable {
     }
 }
 
-struct DeleteThingShadowOutputBody: Swift.Equatable {
+struct DeleteThingShadowOutputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -179,7 +179,7 @@ extension GetRetainedMessageInput {
 }
 
 /// The input for the GetRetainedMessage operation.
-public struct GetRetainedMessageInput: Swift.Equatable {
+public struct GetRetainedMessageInput {
     /// The topic name of the retained message to retrieve.
     /// This member is required.
     public var topic: Swift.String?
@@ -192,7 +192,7 @@ public struct GetRetainedMessageInput: Swift.Equatable {
     }
 }
 
-struct GetRetainedMessageInputBody: Swift.Equatable {
+struct GetRetainedMessageInputBody {
 }
 
 extension GetRetainedMessageInputBody: Swift.Decodable {
@@ -222,7 +222,7 @@ extension GetRetainedMessageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetRetainedMessage operation.
-public struct GetRetainedMessageOutput: Swift.Equatable {
+public struct GetRetainedMessageOutput {
     /// The Epoch date and time, in milliseconds, when the retained message was stored by IoT.
     public var lastModifiedTime: Swift.Int
     /// The Base64-encoded message payload of the retained message body.
@@ -250,7 +250,7 @@ public struct GetRetainedMessageOutput: Swift.Equatable {
     }
 }
 
-struct GetRetainedMessageOutputBody: Swift.Equatable {
+struct GetRetainedMessageOutputBody {
     let topic: Swift.String?
     let payload: ClientRuntime.Data?
     let qos: Swift.Int
@@ -322,7 +322,7 @@ extension GetThingShadowInput {
 }
 
 /// The input for the GetThingShadow operation.
-public struct GetThingShadowInput: Swift.Equatable {
+public struct GetThingShadowInput {
     /// The name of the shadow.
     public var shadowName: Swift.String?
     /// The name of the thing.
@@ -339,7 +339,7 @@ public struct GetThingShadowInput: Swift.Equatable {
     }
 }
 
-struct GetThingShadowInputBody: Swift.Equatable {
+struct GetThingShadowInputBody {
 }
 
 extension GetThingShadowInputBody: Swift.Decodable {
@@ -362,7 +362,7 @@ extension GetThingShadowOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the GetThingShadow operation.
-public struct GetThingShadowOutput: Swift.Equatable {
+public struct GetThingShadowOutput {
     /// The state information, in JSON format.
     public var payload: ClientRuntime.Data?
 
@@ -374,7 +374,7 @@ public struct GetThingShadowOutput: Swift.Equatable {
     }
 }
 
-struct GetThingShadowOutputBody: Swift.Equatable {
+struct GetThingShadowOutputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -448,7 +448,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -504,7 +504,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -548,7 +548,7 @@ extension ListNamedShadowsForThingInput {
     }
 }
 
-public struct ListNamedShadowsForThingInput: Swift.Equatable {
+public struct ListNamedShadowsForThingInput {
     /// The token to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The result page size.
@@ -569,7 +569,7 @@ public struct ListNamedShadowsForThingInput: Swift.Equatable {
     }
 }
 
-struct ListNamedShadowsForThingInputBody: Swift.Equatable {
+struct ListNamedShadowsForThingInputBody {
 }
 
 extension ListNamedShadowsForThingInputBody: Swift.Decodable {
@@ -594,7 +594,7 @@ extension ListNamedShadowsForThingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamedShadowsForThingOutput: Swift.Equatable {
+public struct ListNamedShadowsForThingOutput {
     /// The token to use to get the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// The list of shadows for the specified thing.
@@ -614,7 +614,7 @@ public struct ListNamedShadowsForThingOutput: Swift.Equatable {
     }
 }
 
-struct ListNamedShadowsForThingOutputBody: Swift.Equatable {
+struct ListNamedShadowsForThingOutputBody {
     let results: [Swift.String]?
     let nextToken: Swift.String?
     let timestamp: Swift.Int
@@ -687,7 +687,7 @@ extension ListRetainedMessagesInput {
     }
 }
 
-public struct ListRetainedMessagesInput: Swift.Equatable {
+public struct ListRetainedMessagesInput {
     /// The maximum number of results to return at one time.
     public var maxResults: Swift.Int?
     /// To retrieve the next set of results, the nextToken value from a previous response; otherwise null to receive the first set of results.
@@ -703,7 +703,7 @@ public struct ListRetainedMessagesInput: Swift.Equatable {
     }
 }
 
-struct ListRetainedMessagesInputBody: Swift.Equatable {
+struct ListRetainedMessagesInputBody {
 }
 
 extension ListRetainedMessagesInputBody: Swift.Decodable {
@@ -726,7 +726,7 @@ extension ListRetainedMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRetainedMessagesOutput: Swift.Equatable {
+public struct ListRetainedMessagesOutput {
     /// The token for the next set of results, or null if there are no additional results.
     public var nextToken: Swift.String?
     /// A summary list the account's retained messages. The information returned doesn't include the message payloads of the retained messages.
@@ -742,7 +742,7 @@ public struct ListRetainedMessagesOutput: Swift.Equatable {
     }
 }
 
-struct ListRetainedMessagesOutputBody: Swift.Equatable {
+struct ListRetainedMessagesOutputBody {
     let retainedTopics: [IoTDataPlaneClientTypes.RetainedMessageSummary]?
     let nextToken: Swift.String?
 }
@@ -827,7 +827,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct MethodNotAllowedExceptionBody: Swift.Equatable {
+struct MethodNotAllowedExceptionBody {
     let message: Swift.String?
 }
 
@@ -948,7 +948,7 @@ extension PublishInput {
 }
 
 /// The input for the Publish operation.
-public struct PublishInput: Swift.Equatable {
+public struct PublishInput {
     /// A UTF-8 encoded string that describes the content of the publishing message.
     public var contentType: Swift.String?
     /// The base64-encoded binary data used by the sender of the request message to identify which request the response message is for when it's received. correlationData is an HTTP header value in the API.
@@ -997,7 +997,7 @@ public struct PublishInput: Swift.Equatable {
     }
 }
 
-struct PublishInputBody: Swift.Equatable {
+struct PublishInputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -1018,7 +1018,7 @@ extension PublishOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishOutput: Swift.Equatable {
+public struct PublishOutput {
 
     public init() { }
 }
@@ -1078,7 +1078,7 @@ public struct RequestEntityTooLargeException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct RequestEntityTooLargeExceptionBody: Swift.Equatable {
+struct RequestEntityTooLargeExceptionBody {
     let message: Swift.String?
 }
 
@@ -1134,7 +1134,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1189,7 +1189,7 @@ extension IoTDataPlaneClientTypes.RetainedMessageSummary: Swift.Codable {
 
 extension IoTDataPlaneClientTypes {
     /// Information about a single retained message.
-    public struct RetainedMessageSummary: Swift.Equatable {
+    public struct RetainedMessageSummary {
         /// The Epoch date and time, in milliseconds, when the retained message was stored by IoT.
         public var lastModifiedTime: Swift.Int
         /// The size of the retained message's payload in bytes.
@@ -1255,7 +1255,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -1311,7 +1311,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1367,7 +1367,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1423,7 +1423,7 @@ public struct UnsupportedDocumentEncodingException: ClientRuntime.ModeledError, 
     }
 }
 
-struct UnsupportedDocumentEncodingExceptionBody: Swift.Equatable {
+struct UnsupportedDocumentEncodingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1475,7 +1475,7 @@ extension UpdateThingShadowInput {
 }
 
 /// The input for the UpdateThingShadow operation.
-public struct UpdateThingShadowInput: Swift.Equatable {
+public struct UpdateThingShadowInput {
     /// The state information, in JSON format.
     /// This member is required.
     public var payload: ClientRuntime.Data?
@@ -1497,7 +1497,7 @@ public struct UpdateThingShadowInput: Swift.Equatable {
     }
 }
 
-struct UpdateThingShadowInputBody: Swift.Equatable {
+struct UpdateThingShadowInputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -1527,7 +1527,7 @@ extension UpdateThingShadowOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The output from the UpdateThingShadow operation.
-public struct UpdateThingShadowOutput: Swift.Equatable {
+public struct UpdateThingShadowOutput {
     /// The state information, in JSON format.
     public var payload: ClientRuntime.Data?
 
@@ -1539,7 +1539,7 @@ public struct UpdateThingShadowOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThingShadowOutputBody: Swift.Equatable {
+struct UpdateThingShadowOutputBody {
     let payload: ClientRuntime.Data?
 }
 

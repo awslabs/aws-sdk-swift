@@ -101,7 +101,7 @@ extension PersonalizeClientTypes.Algorithm: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes a custom algorithm.
-    public struct Algorithm: Swift.Equatable {
+    public struct Algorithm {
         /// The Amazon Resource Name (ARN) of the algorithm.
         public var algorithmArn: Swift.String?
         /// The URI of the Docker container for the algorithm image.
@@ -178,7 +178,7 @@ extension PersonalizeClientTypes.AlgorithmImage: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes an algorithm image.
-    public struct AlgorithmImage: Swift.Equatable {
+    public struct AlgorithmImage {
         /// The URI of the Docker container for the algorithm image.
         /// This member is required.
         public var dockerURI: Swift.String?
@@ -236,7 +236,7 @@ extension PersonalizeClientTypes.AutoMLConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// When the solution performs AutoML (performAutoML is true in [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)), Amazon Personalize determines which recipe, from the specified list, optimizes the given metric. Amazon Personalize then uses that recipe for the solution.
-    public struct AutoMLConfig: Swift.Equatable {
+    public struct AutoMLConfig {
         /// The metric to optimize.
         public var metricName: Swift.String?
         /// The list of candidate recipes.
@@ -275,7 +275,7 @@ extension PersonalizeClientTypes.AutoMLResult: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// When the solution performs AutoML (performAutoML is true in [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html)), specifies the recipe that best optimized the specified metric.
-    public struct AutoMLResult: Swift.Equatable {
+    public struct AutoMLResult {
         /// The Amazon Resource Name (ARN) of the best recipe.
         public var bestRecipeArn: Swift.String?
 
@@ -310,7 +310,7 @@ extension PersonalizeClientTypes.AutoTrainingConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The automatic training configuration to use when performAutoTraining is true.
-    public struct AutoTrainingConfig: Swift.Equatable {
+    public struct AutoTrainingConfig {
         /// Specifies how often to automatically train new solution versions. Specify a rate expression in rate(value unit) format. For value, specify a number between 1 and 30. For unit, specify day or days. For example, to automatically create a new solution version every 5 days, specify rate(5 days). The default is every 7 days. For more information about auto training, see [Creating and configuring a solution](https://docs.aws.amazon.com/personalize/latest/dg/customizing-solution-config.html).
         public var schedulingExpression: Swift.String?
 
@@ -429,7 +429,7 @@ extension PersonalizeClientTypes.BatchInferenceJob: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Contains information on a batch inference job.
-    public struct BatchInferenceJob: Swift.Equatable {
+    public struct BatchInferenceJob {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public var batchInferenceJobArn: Swift.String?
         /// A string to string map of the configuration details of a batch inference job.
@@ -540,7 +540,7 @@ extension PersonalizeClientTypes.BatchInferenceJobConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The configuration details of a batch inference job.
-    public struct BatchInferenceJobConfig: Swift.Equatable {
+    public struct BatchInferenceJobConfig {
         /// A string to string map specifying the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. See [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html).
         public var itemExplorationConfig: [Swift.String:Swift.String]?
 
@@ -575,7 +575,7 @@ extension PersonalizeClientTypes.BatchInferenceJobInput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The input configuration of a batch inference job.
-    public struct BatchInferenceJobInput: Swift.Equatable {
+    public struct BatchInferenceJobInput {
         /// The URI of the Amazon S3 location that contains your input data. The Amazon S3 bucket must be in the same region as the API endpoint you are calling.
         /// This member is required.
         public var s3DataSource: PersonalizeClientTypes.S3DataConfig?
@@ -643,7 +643,7 @@ extension PersonalizeClientTypes.BatchInferenceJobOutput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The output configuration parameters of a batch inference job.
-    public struct BatchInferenceJobOutput: Swift.Equatable {
+    public struct BatchInferenceJobOutput {
         /// Information on the Amazon S3 bucket in which the batch inference job's output is stored.
         /// This member is required.
         public var s3DataDestination: PersonalizeClientTypes.S3DataConfig?
@@ -721,7 +721,7 @@ extension PersonalizeClientTypes.BatchInferenceJobSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// A truncated version of the [BatchInferenceJob](https://docs.aws.amazon.com/personalize/latest/dg/API_BatchInferenceJob.html). The [ListBatchInferenceJobs](https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchInferenceJobs.html) operation returns a list of batch inference job summaries.
-    public struct BatchInferenceJobSummary: Swift.Equatable {
+    public struct BatchInferenceJobSummary {
         /// The Amazon Resource Name (ARN) of the batch inference job.
         public var batchInferenceJobArn: Swift.String?
         /// The job's mode.
@@ -858,7 +858,7 @@ extension PersonalizeClientTypes.BatchSegmentJob: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Contains information on a batch segment job.
-    public struct BatchSegmentJob: Swift.Equatable {
+    public struct BatchSegmentJob {
         /// The Amazon Resource Name (ARN) of the batch segment job.
         public var batchSegmentJobArn: Swift.String?
         /// The time at which the batch segment job was created.
@@ -945,7 +945,7 @@ extension PersonalizeClientTypes.BatchSegmentJobInput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The input configuration of a batch segment job.
-    public struct BatchSegmentJobInput: Swift.Equatable {
+    public struct BatchSegmentJobInput {
         /// The configuration details of an Amazon S3 input or output bucket.
         /// This member is required.
         public var s3DataSource: PersonalizeClientTypes.S3DataConfig?
@@ -981,7 +981,7 @@ extension PersonalizeClientTypes.BatchSegmentJobOutput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The output configuration parameters of a batch segment job.
-    public struct BatchSegmentJobOutput: Swift.Equatable {
+    public struct BatchSegmentJobOutput {
         /// The configuration details of an Amazon S3 input or output bucket.
         /// This member is required.
         public var s3DataDestination: PersonalizeClientTypes.S3DataConfig?
@@ -1053,7 +1053,7 @@ extension PersonalizeClientTypes.BatchSegmentJobSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// A truncated version of the [BatchSegmentJob](https://docs.aws.amazon.com/personalize/latest/dg/API_BatchSegmentJob.html) datatype. [ListBatchSegmentJobs](https://docs.aws.amazon.com/personalize/latest/dg/API_ListBatchSegmentJobs.html) operation returns a list of batch segment job summaries.
-    public struct BatchSegmentJobSummary: Swift.Equatable {
+    public struct BatchSegmentJobSummary {
         /// The Amazon Resource Name (ARN) of the batch segment job.
         public var batchSegmentJobArn: Swift.String?
         /// The time at which the batch segment job was created.
@@ -1174,7 +1174,7 @@ extension PersonalizeClientTypes.Campaign: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// An object that describes the deployment of a solution version. For more information on campaigns, see [CreateCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateCampaign.html).
-    public struct Campaign: Swift.Equatable {
+    public struct Campaign {
         /// The Amazon Resource Name (ARN) of the campaign.
         public var campaignArn: Swift.String?
         /// The configuration details of a campaign.
@@ -1273,7 +1273,7 @@ extension PersonalizeClientTypes.CampaignConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The configuration details of a campaign.
-    public struct CampaignConfig: Swift.Equatable {
+    public struct CampaignConfig {
         /// Whether metadata with recommendations is enabled for the campaign. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a campaign, see [Enabling metadata in recommendations for a campaign](https://docs.aws.amazon.com/personalize/latest/dg/campaigns.html#create-campaign-return-metadata). If you enable metadata in recommendations, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
         public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your solution uses the [User-Personalization](https://docs.aws.amazon.com/personalize/latest/dg/native-recipe-new-item-USER_PERSONALIZATION.html) recipe.
@@ -1346,7 +1346,7 @@ extension PersonalizeClientTypes.CampaignSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a campaign. For a complete listing, call the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) API.
-    public struct CampaignSummary: Swift.Equatable {
+    public struct CampaignSummary {
         /// The Amazon Resource Name (ARN) of the campaign.
         public var campaignArn: Swift.String?
         /// The date and time (in Unix time) that the campaign was created.
@@ -1441,7 +1441,7 @@ extension PersonalizeClientTypes.CampaignUpdateSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a campaign update. For a complete listing, call the [DescribeCampaign](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeCampaign.html) API.
-    public struct CampaignUpdateSummary: Swift.Equatable {
+    public struct CampaignUpdateSummary {
         /// The configuration details of a campaign.
         public var campaignConfig: PersonalizeClientTypes.CampaignConfig?
         /// The date and time (in Unix time) that the campaign update was created.
@@ -1522,7 +1522,7 @@ extension PersonalizeClientTypes.CategoricalHyperParameterRange: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides the name and range of a categorical hyperparameter.
-    public struct CategoricalHyperParameterRange: Swift.Equatable {
+    public struct CategoricalHyperParameterRange {
         /// The name of the hyperparameter.
         public var name: Swift.String?
         /// A list of the categories for the hyperparameter.
@@ -1573,7 +1573,7 @@ extension PersonalizeClientTypes.ContinuousHyperParameterRange: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides the name and range of a continuous hyperparameter.
-    public struct ContinuousHyperParameterRange: Swift.Equatable {
+    public struct ContinuousHyperParameterRange {
         /// The maximum allowable value for the hyperparameter.
         public var maxValue: Swift.Double
         /// The minimum allowable value for the hyperparameter.
@@ -1658,7 +1658,7 @@ extension CreateBatchInferenceJobInput {
     }
 }
 
-public struct CreateBatchInferenceJobInput: Swift.Equatable {
+public struct CreateBatchInferenceJobInput {
     /// The configuration details of a batch inference job.
     public var batchInferenceJobConfig: PersonalizeClientTypes.BatchInferenceJobConfig?
     /// The mode of the batch inference job. To generate descriptive themes for groups of similar items, set the job mode to THEME_GENERATION. If you don't want to generate themes, use the default BATCH_INFERENCE. When you get batch recommendations with themes, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
@@ -1715,7 +1715,7 @@ public struct CreateBatchInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBatchInferenceJobInputBody: Swift.Equatable {
+struct CreateBatchInferenceJobInputBody {
     let jobName: Swift.String?
     let solutionVersionArn: Swift.String?
     let filterArn: Swift.String?
@@ -1792,7 +1792,7 @@ extension CreateBatchInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBatchInferenceJobOutput: Swift.Equatable {
+public struct CreateBatchInferenceJobOutput {
     /// The ARN of the batch inference job.
     public var batchInferenceJobArn: Swift.String?
 
@@ -1804,7 +1804,7 @@ public struct CreateBatchInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateBatchInferenceJobOutputBody: Swift.Equatable {
+struct CreateBatchInferenceJobOutputBody {
     let batchInferenceJobArn: Swift.String?
 }
 
@@ -1887,7 +1887,7 @@ extension CreateBatchSegmentJobInput {
     }
 }
 
-public struct CreateBatchSegmentJobInput: Swift.Equatable {
+public struct CreateBatchSegmentJobInput {
     /// The ARN of the filter to apply to the batch segment job. For more information on using filters, see [Filtering batch recommendations](https://docs.aws.amazon.com/personalize/latest/dg/filter-batch.html).
     public var filterArn: Swift.String?
     /// The Amazon S3 path for the input data used to generate the batch segment job.
@@ -1932,7 +1932,7 @@ public struct CreateBatchSegmentJobInput: Swift.Equatable {
     }
 }
 
-struct CreateBatchSegmentJobInputBody: Swift.Equatable {
+struct CreateBatchSegmentJobInputBody {
     let jobName: Swift.String?
     let solutionVersionArn: Swift.String?
     let filterArn: Swift.String?
@@ -1997,7 +1997,7 @@ extension CreateBatchSegmentJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBatchSegmentJobOutput: Swift.Equatable {
+public struct CreateBatchSegmentJobOutput {
     /// The ARN of the batch segment job.
     public var batchSegmentJobArn: Swift.String?
 
@@ -2009,7 +2009,7 @@ public struct CreateBatchSegmentJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateBatchSegmentJobOutputBody: Swift.Equatable {
+struct CreateBatchSegmentJobOutputBody {
     let batchSegmentJobArn: Swift.String?
 }
 
@@ -2080,7 +2080,7 @@ extension CreateCampaignInput {
     }
 }
 
-public struct CreateCampaignInput: Swift.Equatable {
+public struct CreateCampaignInput {
     /// The configuration details of a campaign.
     public var campaignConfig: PersonalizeClientTypes.CampaignConfig?
     /// Specifies the requested minimum provisioned transactions (recommendations) per second that Amazon Personalize will support. A high minProvisionedTPS will increase your bill. We recommend starting with 1 for minProvisionedTPS (the default). Track your usage using Amazon CloudWatch metrics, and increase the minProvisionedTPS as necessary.
@@ -2110,7 +2110,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignInputBody: Swift.Equatable {
+struct CreateCampaignInputBody {
     let name: Swift.String?
     let solutionVersionArn: Swift.String?
     let minProvisionedTPS: Swift.Int?
@@ -2163,7 +2163,7 @@ extension CreateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCampaignOutput: Swift.Equatable {
+public struct CreateCampaignOutput {
     /// The Amazon Resource Name (ARN) of the campaign.
     public var campaignArn: Swift.String?
 
@@ -2175,7 +2175,7 @@ public struct CreateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignOutputBody: Swift.Equatable {
+struct CreateCampaignOutputBody {
     let campaignArn: Swift.String?
 }
 
@@ -2250,7 +2250,7 @@ extension CreateDatasetExportJobInput {
     }
 }
 
-public struct CreateDatasetExportJobInput: Swift.Equatable {
+public struct CreateDatasetExportJobInput {
     /// The Amazon Resource Name (ARN) of the dataset that contains the data to export.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -2286,7 +2286,7 @@ public struct CreateDatasetExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetExportJobInputBody: Swift.Equatable {
+struct CreateDatasetExportJobInputBody {
     let jobName: Swift.String?
     let datasetArn: Swift.String?
     let ingestionMode: PersonalizeClientTypes.IngestionMode?
@@ -2343,7 +2343,7 @@ extension CreateDatasetExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetExportJobOutput: Swift.Equatable {
+public struct CreateDatasetExportJobOutput {
     /// The Amazon Resource Name (ARN) of the dataset export job.
     public var datasetExportJobArn: Swift.String?
 
@@ -2355,7 +2355,7 @@ public struct CreateDatasetExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetExportJobOutputBody: Swift.Equatable {
+struct CreateDatasetExportJobOutputBody {
     let datasetExportJobArn: Swift.String?
 }
 
@@ -2426,7 +2426,7 @@ extension CreateDatasetGroupInput {
     }
 }
 
-public struct CreateDatasetGroupInput: Swift.Equatable {
+public struct CreateDatasetGroupInput {
     /// The domain of the dataset group. Specify a domain to create a Domain dataset group. The domain you specify determines the default schemas for datasets and the use cases available for recommenders. If you don't specify a domain, you create a Custom dataset group with solution versions that you deploy with a campaign.
     public var domain: PersonalizeClientTypes.Domain?
     /// The Amazon Resource Name (ARN) of a Key Management Service (KMS) key used to encrypt the datasets.
@@ -2455,7 +2455,7 @@ public struct CreateDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetGroupInputBody: Swift.Equatable {
+struct CreateDatasetGroupInputBody {
     let name: Swift.String?
     let roleArn: Swift.String?
     let kmsKeyArn: Swift.String?
@@ -2510,7 +2510,7 @@ extension CreateDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetGroupOutput: Swift.Equatable {
+public struct CreateDatasetGroupOutput {
     /// The Amazon Resource Name (ARN) of the new dataset group.
     public var datasetGroupArn: Swift.String?
     /// The domain for the new Domain dataset group.
@@ -2526,7 +2526,7 @@ public struct CreateDatasetGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetGroupOutputBody: Swift.Equatable {
+struct CreateDatasetGroupOutputBody {
     let datasetGroupArn: Swift.String?
     let domain: PersonalizeClientTypes.Domain?
 }
@@ -2607,7 +2607,7 @@ extension CreateDatasetImportJobInput {
     }
 }
 
-public struct CreateDatasetImportJobInput: Swift.Equatable {
+public struct CreateDatasetImportJobInput {
     /// The Amazon S3 bucket that contains the training data to import.
     /// This member is required.
     public var dataSource: PersonalizeClientTypes.DataSource?
@@ -2651,7 +2651,7 @@ public struct CreateDatasetImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetImportJobInputBody: Swift.Equatable {
+struct CreateDatasetImportJobInputBody {
     let jobName: Swift.String?
     let datasetArn: Swift.String?
     let dataSource: PersonalizeClientTypes.DataSource?
@@ -2712,7 +2712,7 @@ extension CreateDatasetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetImportJobOutput: Swift.Equatable {
+public struct CreateDatasetImportJobOutput {
     /// The ARN of the dataset import job.
     public var datasetImportJobArn: Swift.String?
 
@@ -2724,7 +2724,7 @@ public struct CreateDatasetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetImportJobOutputBody: Swift.Equatable {
+struct CreateDatasetImportJobOutputBody {
     let datasetImportJobArn: Swift.String?
 }
 
@@ -2795,7 +2795,7 @@ extension CreateDatasetInput {
     }
 }
 
-public struct CreateDatasetInput: Swift.Equatable {
+public struct CreateDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset group to add the dataset to.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -2837,7 +2837,7 @@ public struct CreateDatasetInput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetInputBody: Swift.Equatable {
+struct CreateDatasetInputBody {
     let name: Swift.String?
     let schemaArn: Swift.String?
     let datasetGroupArn: Swift.String?
@@ -2890,7 +2890,7 @@ extension CreateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDatasetOutput: Swift.Equatable {
+public struct CreateDatasetOutput {
     /// The ARN of the dataset.
     public var datasetArn: Swift.String?
 
@@ -2902,7 +2902,7 @@ public struct CreateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct CreateDatasetOutputBody: Swift.Equatable {
+struct CreateDatasetOutputBody {
     let datasetArn: Swift.String?
 }
 
@@ -2965,7 +2965,7 @@ extension CreateEventTrackerInput {
     }
 }
 
-public struct CreateEventTrackerInput: Swift.Equatable {
+public struct CreateEventTrackerInput {
     /// The Amazon Resource Name (ARN) of the dataset group that receives the event data.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -2987,7 +2987,7 @@ public struct CreateEventTrackerInput: Swift.Equatable {
     }
 }
 
-struct CreateEventTrackerInputBody: Swift.Equatable {
+struct CreateEventTrackerInputBody {
     let name: Swift.String?
     let datasetGroupArn: Swift.String?
     let tags: [PersonalizeClientTypes.Tag]?
@@ -3034,7 +3034,7 @@ extension CreateEventTrackerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEventTrackerOutput: Swift.Equatable {
+public struct CreateEventTrackerOutput {
     /// The ARN of the event tracker.
     public var eventTrackerArn: Swift.String?
     /// The ID of the event tracker. Include this ID in requests to the [PutEvents](https://docs.aws.amazon.com/personalize/latest/dg/API_UBS_PutEvents.html) API.
@@ -3050,7 +3050,7 @@ public struct CreateEventTrackerOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventTrackerOutputBody: Swift.Equatable {
+struct CreateEventTrackerOutputBody {
     let eventTrackerArn: Swift.String?
     let trackingId: Swift.String?
 }
@@ -3126,7 +3126,7 @@ extension CreateFilterInput {
     }
 }
 
-public struct CreateFilterInput: Swift.Equatable {
+public struct CreateFilterInput {
     /// The ARN of the dataset group that the filter will belong to.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -3153,7 +3153,7 @@ public struct CreateFilterInput: Swift.Equatable {
     }
 }
 
-struct CreateFilterInputBody: Swift.Equatable {
+struct CreateFilterInputBody {
     let name: Swift.String?
     let datasetGroupArn: Swift.String?
     let filterExpression: Swift.String?
@@ -3202,7 +3202,7 @@ extension CreateFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFilterOutput: Swift.Equatable {
+public struct CreateFilterOutput {
     /// The ARN of the new filter.
     public var filterArn: Swift.String?
 
@@ -3214,7 +3214,7 @@ public struct CreateFilterOutput: Swift.Equatable {
     }
 }
 
-struct CreateFilterOutputBody: Swift.Equatable {
+struct CreateFilterOutputBody {
     let filterArn: Swift.String?
 }
 
@@ -3280,7 +3280,7 @@ extension CreateMetricAttributionInput {
     }
 }
 
-public struct CreateMetricAttributionInput: Swift.Equatable {
+public struct CreateMetricAttributionInput {
     /// The Amazon Resource Name (ARN) of the destination dataset group for the metric attribution.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -3308,7 +3308,7 @@ public struct CreateMetricAttributionInput: Swift.Equatable {
     }
 }
 
-struct CreateMetricAttributionInputBody: Swift.Equatable {
+struct CreateMetricAttributionInputBody {
     let name: Swift.String?
     let datasetGroupArn: Swift.String?
     let metrics: [PersonalizeClientTypes.MetricAttribute]?
@@ -3357,7 +3357,7 @@ extension CreateMetricAttributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMetricAttributionOutput: Swift.Equatable {
+public struct CreateMetricAttributionOutput {
     /// The Amazon Resource Name (ARN) for the new metric attribution.
     public var metricAttributionArn: Swift.String?
 
@@ -3369,7 +3369,7 @@ public struct CreateMetricAttributionOutput: Swift.Equatable {
     }
 }
 
-struct CreateMetricAttributionOutputBody: Swift.Equatable {
+struct CreateMetricAttributionOutputBody {
     let metricAttributionArn: Swift.String?
 }
 
@@ -3439,7 +3439,7 @@ extension CreateRecommenderInput {
     }
 }
 
-public struct CreateRecommenderInput: Swift.Equatable {
+public struct CreateRecommenderInput {
     /// The Amazon Resource Name (ARN) of the destination domain dataset group for the recommender.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -3470,7 +3470,7 @@ public struct CreateRecommenderInput: Swift.Equatable {
     }
 }
 
-struct CreateRecommenderInputBody: Swift.Equatable {
+struct CreateRecommenderInputBody {
     let name: Swift.String?
     let datasetGroupArn: Swift.String?
     let recipeArn: Swift.String?
@@ -3523,7 +3523,7 @@ extension CreateRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRecommenderOutput: Swift.Equatable {
+public struct CreateRecommenderOutput {
     /// The Amazon Resource Name (ARN) of the recommender.
     public var recommenderArn: Swift.String?
 
@@ -3535,7 +3535,7 @@ public struct CreateRecommenderOutput: Swift.Equatable {
     }
 }
 
-struct CreateRecommenderOutputBody: Swift.Equatable {
+struct CreateRecommenderOutputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -3595,7 +3595,7 @@ extension CreateSchemaInput {
     }
 }
 
-public struct CreateSchemaInput: Swift.Equatable {
+public struct CreateSchemaInput {
     /// The domain for the schema. If you are creating a schema for a dataset in a Domain dataset group, specify the domain you chose when you created the Domain dataset group.
     public var domain: PersonalizeClientTypes.Domain?
     /// The name for the schema.
@@ -3617,7 +3617,7 @@ public struct CreateSchemaInput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaInputBody: Swift.Equatable {
+struct CreateSchemaInputBody {
     let name: Swift.String?
     let schema: Swift.String?
     let domain: PersonalizeClientTypes.Domain?
@@ -3653,7 +3653,7 @@ extension CreateSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSchemaOutput: Swift.Equatable {
+public struct CreateSchemaOutput {
     /// The Amazon Resource Name (ARN) of the created schema.
     public var schemaArn: Swift.String?
 
@@ -3665,7 +3665,7 @@ public struct CreateSchemaOutput: Swift.Equatable {
     }
 }
 
-struct CreateSchemaOutputBody: Swift.Equatable {
+struct CreateSchemaOutputBody {
     let schemaArn: Swift.String?
 }
 
@@ -3749,7 +3749,7 @@ extension CreateSolutionInput {
     }
 }
 
-public struct CreateSolutionInput: Swift.Equatable {
+public struct CreateSolutionInput {
     /// The Amazon Resource Name (ARN) of the dataset group that provides the training data.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -3795,7 +3795,7 @@ public struct CreateSolutionInput: Swift.Equatable {
     }
 }
 
-struct CreateSolutionInputBody: Swift.Equatable {
+struct CreateSolutionInputBody {
     let name: Swift.String?
     let performHPO: Swift.Bool?
     let performAutoML: Swift.Bool?
@@ -3864,7 +3864,7 @@ extension CreateSolutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSolutionOutput: Swift.Equatable {
+public struct CreateSolutionOutput {
     /// The ARN of the solution.
     public var solutionArn: Swift.String?
 
@@ -3876,7 +3876,7 @@ public struct CreateSolutionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSolutionOutputBody: Swift.Equatable {
+struct CreateSolutionOutputBody {
     let solutionArn: Swift.String?
 }
 
@@ -3943,7 +3943,7 @@ extension CreateSolutionVersionInput {
     }
 }
 
-public struct CreateSolutionVersionInput: Swift.Equatable {
+public struct CreateSolutionVersionInput {
     /// The name of the solution version.
     public var name: Swift.String?
     /// The Amazon Resource Name (ARN) of the solution containing the training configuration information.
@@ -3968,7 +3968,7 @@ public struct CreateSolutionVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateSolutionVersionInputBody: Swift.Equatable {
+struct CreateSolutionVersionInputBody {
     let name: Swift.String?
     let solutionArn: Swift.String?
     let trainingMode: PersonalizeClientTypes.TrainingMode?
@@ -4017,7 +4017,7 @@ extension CreateSolutionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSolutionVersionOutput: Swift.Equatable {
+public struct CreateSolutionVersionOutput {
     /// The ARN of the new solution version.
     public var solutionVersionArn: Swift.String?
 
@@ -4029,7 +4029,7 @@ public struct CreateSolutionVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateSolutionVersionOutputBody: Swift.Equatable {
+struct CreateSolutionVersionOutputBody {
     let solutionVersionArn: Swift.String?
 }
 
@@ -4082,7 +4082,7 @@ extension PersonalizeClientTypes.DataSource: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the data source that contains the data to upload to a dataset.
-    public struct DataSource: Swift.Equatable {
+    public struct DataSource {
         /// The path to the Amazon S3 bucket where the data that you want to upload to your dataset is stored. For example: s3://bucket-name/folder-name/
         public var dataLocation: Swift.String?
 
@@ -4171,7 +4171,7 @@ extension PersonalizeClientTypes.Dataset: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides metadata for a dataset.
-    public struct Dataset: Swift.Equatable {
+    public struct Dataset {
         /// The creation date and time (in Unix time) of the dataset.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset that you want metadata for.
@@ -4312,7 +4312,7 @@ extension PersonalizeClientTypes {
     /// Describes a job that exports a dataset to an Amazon S3 bucket. For more information, see [CreateDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetExportJob.html). A dataset export job can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
-    public struct DatasetExportJob: Swift.Equatable {
+    public struct DatasetExportJob {
         /// The creation date and time (in Unix time) of the dataset export job.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset to export.
@@ -4385,7 +4385,7 @@ extension PersonalizeClientTypes.DatasetExportJobOutput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The output configuration parameters of a dataset export job.
-    public struct DatasetExportJobOutput: Swift.Equatable {
+    public struct DatasetExportJobOutput {
         /// The configuration details of an Amazon S3 input or output bucket.
         /// This member is required.
         public var s3DataDestination: PersonalizeClientTypes.S3DataConfig?
@@ -4451,7 +4451,7 @@ extension PersonalizeClientTypes.DatasetExportJobSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a dataset export job. For a complete listing, call the [DescribeDatasetExportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetExportJob.html) API.
-    public struct DatasetExportJobSummary: Swift.Equatable {
+    public struct DatasetExportJobSummary {
         /// The date and time (in Unix time) that the dataset export job was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset export job.
@@ -4556,7 +4556,7 @@ extension PersonalizeClientTypes.DatasetGroup: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// A dataset group is a collection of related datasets (Item interactions, Users, Items, Actions, Action interactions). You create a dataset group by calling [CreateDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetGroup.html). You then create a dataset and add it to a dataset group by calling [CreateDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDataset.html). The dataset group is used to create and train a solution by calling [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html). A dataset group can contain only one of each type of dataset. You can specify an Key Management Service (KMS) key to encrypt the datasets in the group.
-    public struct DatasetGroup: Swift.Equatable {
+    public struct DatasetGroup {
         /// The creation date and time (in Unix time) of the dataset group.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -4663,7 +4663,7 @@ extension PersonalizeClientTypes.DatasetGroupSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a dataset group. For a complete listing, call the [DescribeDatasetGroup](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetGroup.html) API.
-    public struct DatasetGroupSummary: Swift.Equatable {
+    public struct DatasetGroupSummary {
         /// The date and time (in Unix time) that the dataset group was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset group.
@@ -4788,7 +4788,7 @@ extension PersonalizeClientTypes {
     /// Describes a job that imports training data from a data source (Amazon S3 bucket) to an Amazon Personalize dataset. For more information, see [CreateDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateDatasetImportJob.html). A dataset import job can be in one of the following states:
     ///
     /// * CREATE PENDING > CREATE IN_PROGRESS > ACTIVE -or- CREATE FAILED
-    public struct DatasetImportJob: Swift.Equatable {
+    public struct DatasetImportJob {
         /// The creation date and time (in Unix time) of the dataset import job.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon S3 bucket that contains the training data to import.
@@ -4901,7 +4901,7 @@ extension PersonalizeClientTypes.DatasetImportJobSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a dataset import job. For a complete listing, call the [DescribeDatasetImportJob](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDatasetImportJob.html) API.
-    public struct DatasetImportJobSummary: Swift.Equatable {
+    public struct DatasetImportJobSummary {
         /// The date and time (in Unix time) that the dataset import job was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset import job.
@@ -4992,7 +4992,7 @@ extension PersonalizeClientTypes.DatasetSchema: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the schema for a dataset. For more information on schemas, see [CreateSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSchema.html).
-    public struct DatasetSchema: Swift.Equatable {
+    public struct DatasetSchema {
         /// The date and time (in Unix time) that the schema was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The domain of a schema that you created for a dataset in a Domain dataset group.
@@ -5071,7 +5071,7 @@ extension PersonalizeClientTypes.DatasetSchemaSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a dataset schema. For a complete listing, call the [DescribeSchema](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSchema.html) API.
-    public struct DatasetSchemaSummary: Swift.Equatable {
+    public struct DatasetSchemaSummary {
         /// The date and time (in Unix time) that the schema was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The domain of a schema that you created for a dataset in a Domain dataset group.
@@ -5152,7 +5152,7 @@ extension PersonalizeClientTypes.DatasetSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a dataset. For a complete listing, call the [DescribeDataset](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeDataset.html) API.
-    public struct DatasetSummary: Swift.Equatable {
+    public struct DatasetSummary {
         /// The date and time (in Unix time) that the dataset was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset.
@@ -5243,7 +5243,7 @@ extension PersonalizeClientTypes.DatasetUpdateSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes an update to a dataset.
-    public struct DatasetUpdateSummary: Swift.Equatable {
+    public struct DatasetUpdateSummary {
         /// The creation date and time (in Unix time) of the dataset update.
         public var creationDateTime: ClientRuntime.Date?
         /// If updating a dataset fails, provides the reason why.
@@ -5318,7 +5318,7 @@ extension PersonalizeClientTypes.DefaultCategoricalHyperParameterRange: Swift.Co
 
 extension PersonalizeClientTypes {
     /// Provides the name and default range of a categorical hyperparameter and whether the hyperparameter is tunable. A tunable hyperparameter can have its value determined during hyperparameter optimization (HPO).
-    public struct DefaultCategoricalHyperParameterRange: Swift.Equatable {
+    public struct DefaultCategoricalHyperParameterRange {
         /// Whether the hyperparameter is tunable.
         public var isTunable: Swift.Bool
         /// The name of the hyperparameter.
@@ -5379,7 +5379,7 @@ extension PersonalizeClientTypes.DefaultContinuousHyperParameterRange: Swift.Cod
 
 extension PersonalizeClientTypes {
     /// Provides the name and default range of a continuous hyperparameter and whether the hyperparameter is tunable. A tunable hyperparameter can have its value determined during hyperparameter optimization (HPO).
-    public struct DefaultContinuousHyperParameterRange: Swift.Equatable {
+    public struct DefaultContinuousHyperParameterRange {
         /// Whether the hyperparameter is tunable.
         public var isTunable: Swift.Bool
         /// The maximum allowable value for the hyperparameter.
@@ -5474,7 +5474,7 @@ extension PersonalizeClientTypes.DefaultHyperParameterRanges: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Specifies the hyperparameters and their default ranges. Hyperparameters can be categorical, continuous, or integer-valued.
-    public struct DefaultHyperParameterRanges: Swift.Equatable {
+    public struct DefaultHyperParameterRanges {
         /// The categorical hyperparameters and their default ranges.
         public var categoricalHyperParameterRanges: [PersonalizeClientTypes.DefaultCategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their default ranges.
@@ -5535,7 +5535,7 @@ extension PersonalizeClientTypes.DefaultIntegerHyperParameterRange: Swift.Codabl
 
 extension PersonalizeClientTypes {
     /// Provides the name and default range of a integer-valued hyperparameter and whether the hyperparameter is tunable. A tunable hyperparameter can have its value determined during hyperparameter optimization (HPO).
-    public struct DefaultIntegerHyperParameterRange: Swift.Equatable {
+    public struct DefaultIntegerHyperParameterRange {
         /// Indicates whether the hyperparameter is tunable.
         public var isTunable: Swift.Bool
         /// The maximum allowable value for the hyperparameter.
@@ -5581,7 +5581,7 @@ extension DeleteCampaignInput {
     }
 }
 
-public struct DeleteCampaignInput: Swift.Equatable {
+public struct DeleteCampaignInput {
     /// The Amazon Resource Name (ARN) of the campaign to delete.
     /// This member is required.
     public var campaignArn: Swift.String?
@@ -5594,7 +5594,7 @@ public struct DeleteCampaignInput: Swift.Equatable {
     }
 }
 
-struct DeleteCampaignInputBody: Swift.Equatable {
+struct DeleteCampaignInputBody {
     let campaignArn: Swift.String?
 }
 
@@ -5615,7 +5615,7 @@ extension DeleteCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCampaignOutput: Swift.Equatable {
+public struct DeleteCampaignOutput {
 
     public init() { }
 }
@@ -5653,7 +5653,7 @@ extension DeleteDatasetGroupInput {
     }
 }
 
-public struct DeleteDatasetGroupInput: Swift.Equatable {
+public struct DeleteDatasetGroupInput {
     /// The ARN of the dataset group to delete.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -5666,7 +5666,7 @@ public struct DeleteDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetGroupInputBody: Swift.Equatable {
+struct DeleteDatasetGroupInputBody {
     let datasetGroupArn: Swift.String?
 }
 
@@ -5687,7 +5687,7 @@ extension DeleteDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetGroupOutput: Swift.Equatable {
+public struct DeleteDatasetGroupOutput {
 
     public init() { }
 }
@@ -5725,7 +5725,7 @@ extension DeleteDatasetInput {
     }
 }
 
-public struct DeleteDatasetInput: Swift.Equatable {
+public struct DeleteDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset to delete.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -5738,7 +5738,7 @@ public struct DeleteDatasetInput: Swift.Equatable {
     }
 }
 
-struct DeleteDatasetInputBody: Swift.Equatable {
+struct DeleteDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -5759,7 +5759,7 @@ extension DeleteDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDatasetOutput: Swift.Equatable {
+public struct DeleteDatasetOutput {
 
     public init() { }
 }
@@ -5797,7 +5797,7 @@ extension DeleteEventTrackerInput {
     }
 }
 
-public struct DeleteEventTrackerInput: Swift.Equatable {
+public struct DeleteEventTrackerInput {
     /// The Amazon Resource Name (ARN) of the event tracker to delete.
     /// This member is required.
     public var eventTrackerArn: Swift.String?
@@ -5810,7 +5810,7 @@ public struct DeleteEventTrackerInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventTrackerInputBody: Swift.Equatable {
+struct DeleteEventTrackerInputBody {
     let eventTrackerArn: Swift.String?
 }
 
@@ -5831,7 +5831,7 @@ extension DeleteEventTrackerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventTrackerOutput: Swift.Equatable {
+public struct DeleteEventTrackerOutput {
 
     public init() { }
 }
@@ -5869,7 +5869,7 @@ extension DeleteFilterInput {
     }
 }
 
-public struct DeleteFilterInput: Swift.Equatable {
+public struct DeleteFilterInput {
     /// The ARN of the filter to delete.
     /// This member is required.
     public var filterArn: Swift.String?
@@ -5882,7 +5882,7 @@ public struct DeleteFilterInput: Swift.Equatable {
     }
 }
 
-struct DeleteFilterInputBody: Swift.Equatable {
+struct DeleteFilterInputBody {
     let filterArn: Swift.String?
 }
 
@@ -5903,7 +5903,7 @@ extension DeleteFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFilterOutput: Swift.Equatable {
+public struct DeleteFilterOutput {
 
     public init() { }
 }
@@ -5941,7 +5941,7 @@ extension DeleteMetricAttributionInput {
     }
 }
 
-public struct DeleteMetricAttributionInput: Swift.Equatable {
+public struct DeleteMetricAttributionInput {
     /// The metric attribution's Amazon Resource Name (ARN).
     /// This member is required.
     public var metricAttributionArn: Swift.String?
@@ -5954,7 +5954,7 @@ public struct DeleteMetricAttributionInput: Swift.Equatable {
     }
 }
 
-struct DeleteMetricAttributionInputBody: Swift.Equatable {
+struct DeleteMetricAttributionInputBody {
     let metricAttributionArn: Swift.String?
 }
 
@@ -5975,7 +5975,7 @@ extension DeleteMetricAttributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMetricAttributionOutput: Swift.Equatable {
+public struct DeleteMetricAttributionOutput {
 
     public init() { }
 }
@@ -6013,7 +6013,7 @@ extension DeleteRecommenderInput {
     }
 }
 
-public struct DeleteRecommenderInput: Swift.Equatable {
+public struct DeleteRecommenderInput {
     /// The Amazon Resource Name (ARN) of the recommender to delete.
     /// This member is required.
     public var recommenderArn: Swift.String?
@@ -6026,7 +6026,7 @@ public struct DeleteRecommenderInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecommenderInputBody: Swift.Equatable {
+struct DeleteRecommenderInputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -6047,7 +6047,7 @@ extension DeleteRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRecommenderOutput: Swift.Equatable {
+public struct DeleteRecommenderOutput {
 
     public init() { }
 }
@@ -6085,7 +6085,7 @@ extension DeleteSchemaInput {
     }
 }
 
-public struct DeleteSchemaInput: Swift.Equatable {
+public struct DeleteSchemaInput {
     /// The Amazon Resource Name (ARN) of the schema to delete.
     /// This member is required.
     public var schemaArn: Swift.String?
@@ -6098,7 +6098,7 @@ public struct DeleteSchemaInput: Swift.Equatable {
     }
 }
 
-struct DeleteSchemaInputBody: Swift.Equatable {
+struct DeleteSchemaInputBody {
     let schemaArn: Swift.String?
 }
 
@@ -6119,7 +6119,7 @@ extension DeleteSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSchemaOutput: Swift.Equatable {
+public struct DeleteSchemaOutput {
 
     public init() { }
 }
@@ -6157,7 +6157,7 @@ extension DeleteSolutionInput {
     }
 }
 
-public struct DeleteSolutionInput: Swift.Equatable {
+public struct DeleteSolutionInput {
     /// The ARN of the solution to delete.
     /// This member is required.
     public var solutionArn: Swift.String?
@@ -6170,7 +6170,7 @@ public struct DeleteSolutionInput: Swift.Equatable {
     }
 }
 
-struct DeleteSolutionInputBody: Swift.Equatable {
+struct DeleteSolutionInputBody {
     let solutionArn: Swift.String?
 }
 
@@ -6191,7 +6191,7 @@ extension DeleteSolutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSolutionOutput: Swift.Equatable {
+public struct DeleteSolutionOutput {
 
     public init() { }
 }
@@ -6229,7 +6229,7 @@ extension DescribeAlgorithmInput {
     }
 }
 
-public struct DescribeAlgorithmInput: Swift.Equatable {
+public struct DescribeAlgorithmInput {
     /// The Amazon Resource Name (ARN) of the algorithm to describe.
     /// This member is required.
     public var algorithmArn: Swift.String?
@@ -6242,7 +6242,7 @@ public struct DescribeAlgorithmInput: Swift.Equatable {
     }
 }
 
-struct DescribeAlgorithmInputBody: Swift.Equatable {
+struct DescribeAlgorithmInputBody {
     let algorithmArn: Swift.String?
 }
 
@@ -6270,7 +6270,7 @@ extension DescribeAlgorithmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAlgorithmOutput: Swift.Equatable {
+public struct DescribeAlgorithmOutput {
     /// A listing of the properties of the algorithm.
     public var algorithm: PersonalizeClientTypes.Algorithm?
 
@@ -6282,7 +6282,7 @@ public struct DescribeAlgorithmOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAlgorithmOutputBody: Swift.Equatable {
+struct DescribeAlgorithmOutputBody {
     let algorithm: PersonalizeClientTypes.Algorithm?
 }
 
@@ -6330,7 +6330,7 @@ extension DescribeBatchInferenceJobInput {
     }
 }
 
-public struct DescribeBatchInferenceJobInput: Swift.Equatable {
+public struct DescribeBatchInferenceJobInput {
     /// The ARN of the batch inference job to describe.
     /// This member is required.
     public var batchInferenceJobArn: Swift.String?
@@ -6343,7 +6343,7 @@ public struct DescribeBatchInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchInferenceJobInputBody: Swift.Equatable {
+struct DescribeBatchInferenceJobInputBody {
     let batchInferenceJobArn: Swift.String?
 }
 
@@ -6371,7 +6371,7 @@ extension DescribeBatchInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBatchInferenceJobOutput: Swift.Equatable {
+public struct DescribeBatchInferenceJobOutput {
     /// Information on the specified batch inference job.
     public var batchInferenceJob: PersonalizeClientTypes.BatchInferenceJob?
 
@@ -6383,7 +6383,7 @@ public struct DescribeBatchInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchInferenceJobOutputBody: Swift.Equatable {
+struct DescribeBatchInferenceJobOutputBody {
     let batchInferenceJob: PersonalizeClientTypes.BatchInferenceJob?
 }
 
@@ -6431,7 +6431,7 @@ extension DescribeBatchSegmentJobInput {
     }
 }
 
-public struct DescribeBatchSegmentJobInput: Swift.Equatable {
+public struct DescribeBatchSegmentJobInput {
     /// The ARN of the batch segment job to describe.
     /// This member is required.
     public var batchSegmentJobArn: Swift.String?
@@ -6444,7 +6444,7 @@ public struct DescribeBatchSegmentJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchSegmentJobInputBody: Swift.Equatable {
+struct DescribeBatchSegmentJobInputBody {
     let batchSegmentJobArn: Swift.String?
 }
 
@@ -6472,7 +6472,7 @@ extension DescribeBatchSegmentJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBatchSegmentJobOutput: Swift.Equatable {
+public struct DescribeBatchSegmentJobOutput {
     /// Information on the specified batch segment job.
     public var batchSegmentJob: PersonalizeClientTypes.BatchSegmentJob?
 
@@ -6484,7 +6484,7 @@ public struct DescribeBatchSegmentJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBatchSegmentJobOutputBody: Swift.Equatable {
+struct DescribeBatchSegmentJobOutputBody {
     let batchSegmentJob: PersonalizeClientTypes.BatchSegmentJob?
 }
 
@@ -6532,7 +6532,7 @@ extension DescribeCampaignInput {
     }
 }
 
-public struct DescribeCampaignInput: Swift.Equatable {
+public struct DescribeCampaignInput {
     /// The Amazon Resource Name (ARN) of the campaign.
     /// This member is required.
     public var campaignArn: Swift.String?
@@ -6545,7 +6545,7 @@ public struct DescribeCampaignInput: Swift.Equatable {
     }
 }
 
-struct DescribeCampaignInputBody: Swift.Equatable {
+struct DescribeCampaignInputBody {
     let campaignArn: Swift.String?
 }
 
@@ -6573,7 +6573,7 @@ extension DescribeCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeCampaignOutput: Swift.Equatable {
+public struct DescribeCampaignOutput {
     /// The properties of the campaign.
     public var campaign: PersonalizeClientTypes.Campaign?
 
@@ -6585,7 +6585,7 @@ public struct DescribeCampaignOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCampaignOutputBody: Swift.Equatable {
+struct DescribeCampaignOutputBody {
     let campaign: PersonalizeClientTypes.Campaign?
 }
 
@@ -6633,7 +6633,7 @@ extension DescribeDatasetExportJobInput {
     }
 }
 
-public struct DescribeDatasetExportJobInput: Swift.Equatable {
+public struct DescribeDatasetExportJobInput {
     /// The Amazon Resource Name (ARN) of the dataset export job to describe.
     /// This member is required.
     public var datasetExportJobArn: Swift.String?
@@ -6646,7 +6646,7 @@ public struct DescribeDatasetExportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetExportJobInputBody: Swift.Equatable {
+struct DescribeDatasetExportJobInputBody {
     let datasetExportJobArn: Swift.String?
 }
 
@@ -6674,7 +6674,7 @@ extension DescribeDatasetExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetExportJobOutput: Swift.Equatable {
+public struct DescribeDatasetExportJobOutput {
     /// Information about the dataset export job, including the status. The status is one of the following values:
     ///
     /// * CREATE PENDING
@@ -6694,7 +6694,7 @@ public struct DescribeDatasetExportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetExportJobOutputBody: Swift.Equatable {
+struct DescribeDatasetExportJobOutputBody {
     let datasetExportJob: PersonalizeClientTypes.DatasetExportJob?
 }
 
@@ -6742,7 +6742,7 @@ extension DescribeDatasetGroupInput {
     }
 }
 
-public struct DescribeDatasetGroupInput: Swift.Equatable {
+public struct DescribeDatasetGroupInput {
     /// The Amazon Resource Name (ARN) of the dataset group to describe.
     /// This member is required.
     public var datasetGroupArn: Swift.String?
@@ -6755,7 +6755,7 @@ public struct DescribeDatasetGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetGroupInputBody: Swift.Equatable {
+struct DescribeDatasetGroupInputBody {
     let datasetGroupArn: Swift.String?
 }
 
@@ -6783,7 +6783,7 @@ extension DescribeDatasetGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetGroupOutput: Swift.Equatable {
+public struct DescribeDatasetGroupOutput {
     /// A listing of the dataset group's properties.
     public var datasetGroup: PersonalizeClientTypes.DatasetGroup?
 
@@ -6795,7 +6795,7 @@ public struct DescribeDatasetGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetGroupOutputBody: Swift.Equatable {
+struct DescribeDatasetGroupOutputBody {
     let datasetGroup: PersonalizeClientTypes.DatasetGroup?
 }
 
@@ -6843,7 +6843,7 @@ extension DescribeDatasetImportJobInput {
     }
 }
 
-public struct DescribeDatasetImportJobInput: Swift.Equatable {
+public struct DescribeDatasetImportJobInput {
     /// The Amazon Resource Name (ARN) of the dataset import job to describe.
     /// This member is required.
     public var datasetImportJobArn: Swift.String?
@@ -6856,7 +6856,7 @@ public struct DescribeDatasetImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetImportJobInputBody: Swift.Equatable {
+struct DescribeDatasetImportJobInputBody {
     let datasetImportJobArn: Swift.String?
 }
 
@@ -6884,7 +6884,7 @@ extension DescribeDatasetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetImportJobOutput: Swift.Equatable {
+public struct DescribeDatasetImportJobOutput {
     /// Information about the dataset import job, including the status. The status is one of the following values:
     ///
     /// * CREATE PENDING
@@ -6904,7 +6904,7 @@ public struct DescribeDatasetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetImportJobOutputBody: Swift.Equatable {
+struct DescribeDatasetImportJobOutputBody {
     let datasetImportJob: PersonalizeClientTypes.DatasetImportJob?
 }
 
@@ -6952,7 +6952,7 @@ extension DescribeDatasetInput {
     }
 }
 
-public struct DescribeDatasetInput: Swift.Equatable {
+public struct DescribeDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset to describe.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -6965,7 +6965,7 @@ public struct DescribeDatasetInput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetInputBody: Swift.Equatable {
+struct DescribeDatasetInputBody {
     let datasetArn: Swift.String?
 }
 
@@ -6993,7 +6993,7 @@ extension DescribeDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeDatasetOutput: Swift.Equatable {
+public struct DescribeDatasetOutput {
     /// A listing of the dataset's properties.
     public var dataset: PersonalizeClientTypes.Dataset?
 
@@ -7005,7 +7005,7 @@ public struct DescribeDatasetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeDatasetOutputBody: Swift.Equatable {
+struct DescribeDatasetOutputBody {
     let dataset: PersonalizeClientTypes.Dataset?
 }
 
@@ -7053,7 +7053,7 @@ extension DescribeEventTrackerInput {
     }
 }
 
-public struct DescribeEventTrackerInput: Swift.Equatable {
+public struct DescribeEventTrackerInput {
     /// The Amazon Resource Name (ARN) of the event tracker to describe.
     /// This member is required.
     public var eventTrackerArn: Swift.String?
@@ -7066,7 +7066,7 @@ public struct DescribeEventTrackerInput: Swift.Equatable {
     }
 }
 
-struct DescribeEventTrackerInputBody: Swift.Equatable {
+struct DescribeEventTrackerInputBody {
     let eventTrackerArn: Swift.String?
 }
 
@@ -7094,7 +7094,7 @@ extension DescribeEventTrackerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeEventTrackerOutput: Swift.Equatable {
+public struct DescribeEventTrackerOutput {
     /// An object that describes the event tracker.
     public var eventTracker: PersonalizeClientTypes.EventTracker?
 
@@ -7106,7 +7106,7 @@ public struct DescribeEventTrackerOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEventTrackerOutputBody: Swift.Equatable {
+struct DescribeEventTrackerOutputBody {
     let eventTracker: PersonalizeClientTypes.EventTracker?
 }
 
@@ -7154,7 +7154,7 @@ extension DescribeFeatureTransformationInput {
     }
 }
 
-public struct DescribeFeatureTransformationInput: Swift.Equatable {
+public struct DescribeFeatureTransformationInput {
     /// The Amazon Resource Name (ARN) of the feature transformation to describe.
     /// This member is required.
     public var featureTransformationArn: Swift.String?
@@ -7167,7 +7167,7 @@ public struct DescribeFeatureTransformationInput: Swift.Equatable {
     }
 }
 
-struct DescribeFeatureTransformationInputBody: Swift.Equatable {
+struct DescribeFeatureTransformationInputBody {
     let featureTransformationArn: Swift.String?
 }
 
@@ -7195,7 +7195,7 @@ extension DescribeFeatureTransformationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeFeatureTransformationOutput: Swift.Equatable {
+public struct DescribeFeatureTransformationOutput {
     /// A listing of the FeatureTransformation properties.
     public var featureTransformation: PersonalizeClientTypes.FeatureTransformation?
 
@@ -7207,7 +7207,7 @@ public struct DescribeFeatureTransformationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFeatureTransformationOutputBody: Swift.Equatable {
+struct DescribeFeatureTransformationOutputBody {
     let featureTransformation: PersonalizeClientTypes.FeatureTransformation?
 }
 
@@ -7255,7 +7255,7 @@ extension DescribeFilterInput {
     }
 }
 
-public struct DescribeFilterInput: Swift.Equatable {
+public struct DescribeFilterInput {
     /// The ARN of the filter to describe.
     /// This member is required.
     public var filterArn: Swift.String?
@@ -7268,7 +7268,7 @@ public struct DescribeFilterInput: Swift.Equatable {
     }
 }
 
-struct DescribeFilterInputBody: Swift.Equatable {
+struct DescribeFilterInputBody {
     let filterArn: Swift.String?
 }
 
@@ -7296,7 +7296,7 @@ extension DescribeFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFilterOutput: Swift.Equatable {
+public struct DescribeFilterOutput {
     /// The filter's details.
     public var filter: PersonalizeClientTypes.Filter?
 
@@ -7308,7 +7308,7 @@ public struct DescribeFilterOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFilterOutputBody: Swift.Equatable {
+struct DescribeFilterOutputBody {
     let filter: PersonalizeClientTypes.Filter?
 }
 
@@ -7356,7 +7356,7 @@ extension DescribeMetricAttributionInput {
     }
 }
 
-public struct DescribeMetricAttributionInput: Swift.Equatable {
+public struct DescribeMetricAttributionInput {
     /// The metric attribution's Amazon Resource Name (ARN).
     /// This member is required.
     public var metricAttributionArn: Swift.String?
@@ -7369,7 +7369,7 @@ public struct DescribeMetricAttributionInput: Swift.Equatable {
     }
 }
 
-struct DescribeMetricAttributionInputBody: Swift.Equatable {
+struct DescribeMetricAttributionInputBody {
     let metricAttributionArn: Swift.String?
 }
 
@@ -7397,7 +7397,7 @@ extension DescribeMetricAttributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMetricAttributionOutput: Swift.Equatable {
+public struct DescribeMetricAttributionOutput {
     /// The details of the metric attribution.
     public var metricAttribution: PersonalizeClientTypes.MetricAttribution?
 
@@ -7409,7 +7409,7 @@ public struct DescribeMetricAttributionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMetricAttributionOutputBody: Swift.Equatable {
+struct DescribeMetricAttributionOutputBody {
     let metricAttribution: PersonalizeClientTypes.MetricAttribution?
 }
 
@@ -7457,7 +7457,7 @@ extension DescribeRecipeInput {
     }
 }
 
-public struct DescribeRecipeInput: Swift.Equatable {
+public struct DescribeRecipeInput {
     /// The Amazon Resource Name (ARN) of the recipe to describe.
     /// This member is required.
     public var recipeArn: Swift.String?
@@ -7470,7 +7470,7 @@ public struct DescribeRecipeInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecipeInputBody: Swift.Equatable {
+struct DescribeRecipeInputBody {
     let recipeArn: Swift.String?
 }
 
@@ -7498,7 +7498,7 @@ extension DescribeRecipeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecipeOutput: Swift.Equatable {
+public struct DescribeRecipeOutput {
     /// An object that describes the recipe.
     public var recipe: PersonalizeClientTypes.Recipe?
 
@@ -7510,7 +7510,7 @@ public struct DescribeRecipeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecipeOutputBody: Swift.Equatable {
+struct DescribeRecipeOutputBody {
     let recipe: PersonalizeClientTypes.Recipe?
 }
 
@@ -7558,7 +7558,7 @@ extension DescribeRecommenderInput {
     }
 }
 
-public struct DescribeRecommenderInput: Swift.Equatable {
+public struct DescribeRecommenderInput {
     /// The Amazon Resource Name (ARN) of the recommender to describe.
     /// This member is required.
     public var recommenderArn: Swift.String?
@@ -7571,7 +7571,7 @@ public struct DescribeRecommenderInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommenderInputBody: Swift.Equatable {
+struct DescribeRecommenderInputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -7599,7 +7599,7 @@ extension DescribeRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecommenderOutput: Swift.Equatable {
+public struct DescribeRecommenderOutput {
     /// The properties of the recommender.
     public var recommender: PersonalizeClientTypes.Recommender?
 
@@ -7611,7 +7611,7 @@ public struct DescribeRecommenderOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecommenderOutputBody: Swift.Equatable {
+struct DescribeRecommenderOutputBody {
     let recommender: PersonalizeClientTypes.Recommender?
 }
 
@@ -7659,7 +7659,7 @@ extension DescribeSchemaInput {
     }
 }
 
-public struct DescribeSchemaInput: Swift.Equatable {
+public struct DescribeSchemaInput {
     /// The Amazon Resource Name (ARN) of the schema to retrieve.
     /// This member is required.
     public var schemaArn: Swift.String?
@@ -7672,7 +7672,7 @@ public struct DescribeSchemaInput: Swift.Equatable {
     }
 }
 
-struct DescribeSchemaInputBody: Swift.Equatable {
+struct DescribeSchemaInputBody {
     let schemaArn: Swift.String?
 }
 
@@ -7700,7 +7700,7 @@ extension DescribeSchemaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSchemaOutput: Swift.Equatable {
+public struct DescribeSchemaOutput {
     /// The requested schema.
     public var schema: PersonalizeClientTypes.DatasetSchema?
 
@@ -7712,7 +7712,7 @@ public struct DescribeSchemaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSchemaOutputBody: Swift.Equatable {
+struct DescribeSchemaOutputBody {
     let schema: PersonalizeClientTypes.DatasetSchema?
 }
 
@@ -7760,7 +7760,7 @@ extension DescribeSolutionInput {
     }
 }
 
-public struct DescribeSolutionInput: Swift.Equatable {
+public struct DescribeSolutionInput {
     /// The Amazon Resource Name (ARN) of the solution to describe.
     /// This member is required.
     public var solutionArn: Swift.String?
@@ -7773,7 +7773,7 @@ public struct DescribeSolutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeSolutionInputBody: Swift.Equatable {
+struct DescribeSolutionInputBody {
     let solutionArn: Swift.String?
 }
 
@@ -7801,7 +7801,7 @@ extension DescribeSolutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSolutionOutput: Swift.Equatable {
+public struct DescribeSolutionOutput {
     /// An object that describes the solution.
     public var solution: PersonalizeClientTypes.Solution?
 
@@ -7813,7 +7813,7 @@ public struct DescribeSolutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSolutionOutputBody: Swift.Equatable {
+struct DescribeSolutionOutputBody {
     let solution: PersonalizeClientTypes.Solution?
 }
 
@@ -7861,7 +7861,7 @@ extension DescribeSolutionVersionInput {
     }
 }
 
-public struct DescribeSolutionVersionInput: Swift.Equatable {
+public struct DescribeSolutionVersionInput {
     /// The Amazon Resource Name (ARN) of the solution version.
     /// This member is required.
     public var solutionVersionArn: Swift.String?
@@ -7874,7 +7874,7 @@ public struct DescribeSolutionVersionInput: Swift.Equatable {
     }
 }
 
-struct DescribeSolutionVersionInputBody: Swift.Equatable {
+struct DescribeSolutionVersionInputBody {
     let solutionVersionArn: Swift.String?
 }
 
@@ -7902,7 +7902,7 @@ extension DescribeSolutionVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSolutionVersionOutput: Swift.Equatable {
+public struct DescribeSolutionVersionOutput {
     /// The solution version.
     public var solutionVersion: PersonalizeClientTypes.SolutionVersion?
 
@@ -7914,7 +7914,7 @@ public struct DescribeSolutionVersionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSolutionVersionOutputBody: Swift.Equatable {
+struct DescribeSolutionVersionOutputBody {
     let solutionVersion: PersonalizeClientTypes.SolutionVersion?
 }
 
@@ -8037,7 +8037,7 @@ extension PersonalizeClientTypes.EventTracker: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides information about an event tracker.
-    public struct EventTracker: Swift.Equatable {
+    public struct EventTracker {
         /// The Amazon Web Services account that owns the event tracker.
         public var accountId: Swift.String?
         /// The date and time (in Unix format) that the event tracker was created.
@@ -8128,7 +8128,7 @@ extension PersonalizeClientTypes.EventTrackerSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of an event tracker. For a complete listing, call the [DescribeEventTracker](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeEventTracker.html) API.
-    public struct EventTrackerSummary: Swift.Equatable {
+    public struct EventTrackerSummary {
         /// The date and time (in Unix time) that the event tracker was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the event tracker.
@@ -8225,7 +8225,7 @@ extension PersonalizeClientTypes.FeatureTransformation: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides feature transformation information. Feature transformation is the process of modifying raw input data into a form more suitable for model training.
-    public struct FeatureTransformation: Swift.Equatable {
+    public struct FeatureTransformation {
         /// The creation date and time (in Unix time) of the feature transformation.
         public var creationDateTime: ClientRuntime.Date?
         /// Provides the default parameters for feature transformation.
@@ -8282,7 +8282,7 @@ extension PersonalizeClientTypes.FieldsForThemeGeneration: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// A string to string map of the configuration details for theme generation.
-    public struct FieldsForThemeGeneration: Swift.Equatable {
+    public struct FieldsForThemeGeneration {
         /// The name of the Items dataset column that stores the name of each item in the dataset.
         /// This member is required.
         public var itemName: Swift.String?
@@ -8365,7 +8365,7 @@ extension PersonalizeClientTypes.Filter: Swift.CustomDebugStringConvertible {
 
 extension PersonalizeClientTypes {
     /// Contains information on a recommendation filter, including its ARN, status, and filter expression.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The time at which the filter was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The ARN of the dataset group to which the filter belongs.
@@ -8464,7 +8464,7 @@ extension PersonalizeClientTypes.FilterSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// A short summary of a filter's attributes.
-    public struct FilterSummary: Swift.Equatable {
+    public struct FilterSummary {
         /// The time at which the filter was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The ARN of the dataset group to which the filter belongs.
@@ -8522,7 +8522,7 @@ extension GetSolutionMetricsInput {
     }
 }
 
-public struct GetSolutionMetricsInput: Swift.Equatable {
+public struct GetSolutionMetricsInput {
     /// The Amazon Resource Name (ARN) of the solution version for which to get metrics.
     /// This member is required.
     public var solutionVersionArn: Swift.String?
@@ -8535,7 +8535,7 @@ public struct GetSolutionMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetSolutionMetricsInputBody: Swift.Equatable {
+struct GetSolutionMetricsInputBody {
     let solutionVersionArn: Swift.String?
 }
 
@@ -8565,7 +8565,7 @@ extension GetSolutionMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSolutionMetricsOutput: Swift.Equatable {
+public struct GetSolutionMetricsOutput {
     /// The metrics for the solution version. For more information, see [ Evaluating a solution version with metrics ](https://docs.aws.amazon.com/personalize/latest/dg/working-with-training-metrics.html).
     public var metrics: [Swift.String:Swift.Double]?
     /// The same solution version ARN as specified in the request.
@@ -8581,7 +8581,7 @@ public struct GetSolutionMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetSolutionMetricsOutputBody: Swift.Equatable {
+struct GetSolutionMetricsOutputBody {
     let solutionVersionArn: Swift.String?
     let metrics: [Swift.String:Swift.Double]?
 }
@@ -8656,7 +8656,7 @@ extension PersonalizeClientTypes.HPOConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the properties for hyperparameter optimization (HPO).
-    public struct HPOConfig: Swift.Equatable {
+    public struct HPOConfig {
         /// The hyperparameters and their allowable ranges.
         public var algorithmHyperParameterRanges: PersonalizeClientTypes.HyperParameterRanges?
         /// The metric to optimize during HPO. Amazon Personalize doesn't support configuring the hpoObjective at this time.
@@ -8711,7 +8711,7 @@ extension PersonalizeClientTypes.HPOObjective: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The metric to optimize during hyperparameter optimization (HPO). Amazon Personalize doesn't support configuring the hpoObjective at this time.
-    public struct HPOObjective: Swift.Equatable {
+    public struct HPOObjective {
         /// The name of the metric.
         public var metricName: Swift.String?
         /// A regular expression for finding the metric in the training job logs.
@@ -8760,7 +8760,7 @@ extension PersonalizeClientTypes.HPOResourceConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the resource configuration for hyperparameter optimization (HPO).
-    public struct HPOResourceConfig: Swift.Equatable {
+    public struct HPOResourceConfig {
         /// The maximum number of training jobs when you create a solution version. The maximum value for maxNumberOfTrainingJobs is 40.
         public var maxNumberOfTrainingJobs: Swift.String?
         /// The maximum number of parallel training jobs when you create a solution version. The maximum value for maxParallelTrainingJobs is 10.
@@ -8847,7 +8847,7 @@ extension PersonalizeClientTypes.HyperParameterRanges: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Specifies the hyperparameters and their ranges. Hyperparameters can be categorical, continuous, or integer-valued.
-    public struct HyperParameterRanges: Swift.Equatable {
+    public struct HyperParameterRanges {
         /// The categorical hyperparameters and their ranges.
         public var categoricalHyperParameterRanges: [PersonalizeClientTypes.CategoricalHyperParameterRange]?
         /// The continuous hyperparameters and their ranges.
@@ -8969,7 +8969,7 @@ extension PersonalizeClientTypes.IntegerHyperParameterRange: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides the name and range of an integer-valued hyperparameter.
-    public struct IntegerHyperParameterRange: Swift.Equatable {
+    public struct IntegerHyperParameterRange {
         /// The maximum allowable value for the hyperparameter.
         public var maxValue: Swift.Int
         /// The minimum allowable value for the hyperparameter.
@@ -9030,7 +9030,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -9085,7 +9085,7 @@ public struct InvalidNextTokenException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidNextTokenExceptionBody: Swift.Equatable {
+struct InvalidNextTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -9140,7 +9140,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -9184,7 +9184,7 @@ extension ListBatchInferenceJobsInput {
     }
 }
 
-public struct ListBatchInferenceJobsInput: Swift.Equatable {
+public struct ListBatchInferenceJobsInput {
     /// The maximum number of batch inference job results to return in each page. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -9204,7 +9204,7 @@ public struct ListBatchInferenceJobsInput: Swift.Equatable {
     }
 }
 
-struct ListBatchInferenceJobsInputBody: Swift.Equatable {
+struct ListBatchInferenceJobsInputBody {
     let solutionVersionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9242,7 +9242,7 @@ extension ListBatchInferenceJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBatchInferenceJobsOutput: Swift.Equatable {
+public struct ListBatchInferenceJobsOutput {
     /// A list containing information on each job that is returned.
     public var batchInferenceJobs: [PersonalizeClientTypes.BatchInferenceJobSummary]?
     /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -9258,7 +9258,7 @@ public struct ListBatchInferenceJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListBatchInferenceJobsOutputBody: Swift.Equatable {
+struct ListBatchInferenceJobsOutputBody {
     let batchInferenceJobs: [PersonalizeClientTypes.BatchInferenceJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9327,7 +9327,7 @@ extension ListBatchSegmentJobsInput {
     }
 }
 
-public struct ListBatchSegmentJobsInput: Swift.Equatable {
+public struct ListBatchSegmentJobsInput {
     /// The maximum number of batch segment job results to return in each page. The default value is 100.
     public var maxResults: Swift.Int?
     /// The token to request the next page of results.
@@ -9347,7 +9347,7 @@ public struct ListBatchSegmentJobsInput: Swift.Equatable {
     }
 }
 
-struct ListBatchSegmentJobsInputBody: Swift.Equatable {
+struct ListBatchSegmentJobsInputBody {
     let solutionVersionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9385,7 +9385,7 @@ extension ListBatchSegmentJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBatchSegmentJobsOutput: Swift.Equatable {
+public struct ListBatchSegmentJobsOutput {
     /// A list containing information on each job that is returned.
     public var batchSegmentJobs: [PersonalizeClientTypes.BatchSegmentJobSummary]?
     /// The token to use to retrieve the next page of results. The value is null when there are no more results to return.
@@ -9401,7 +9401,7 @@ public struct ListBatchSegmentJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListBatchSegmentJobsOutputBody: Swift.Equatable {
+struct ListBatchSegmentJobsOutputBody {
     let batchSegmentJobs: [PersonalizeClientTypes.BatchSegmentJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9470,7 +9470,7 @@ extension ListCampaignsInput {
     }
 }
 
-public struct ListCampaignsInput: Swift.Equatable {
+public struct ListCampaignsInput {
     /// The maximum number of campaigns to return.
     public var maxResults: Swift.Int?
     /// A token returned from the previous call to [ListCampaigns](https://docs.aws.amazon.com/personalize/latest/dg/API_ListCampaigns.html) for getting the next set of campaigns (if they exist).
@@ -9490,7 +9490,7 @@ public struct ListCampaignsInput: Swift.Equatable {
     }
 }
 
-struct ListCampaignsInputBody: Swift.Equatable {
+struct ListCampaignsInputBody {
     let solutionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9528,7 +9528,7 @@ extension ListCampaignsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCampaignsOutput: Swift.Equatable {
+public struct ListCampaignsOutput {
     /// A list of the campaigns.
     public var campaigns: [PersonalizeClientTypes.CampaignSummary]?
     /// A token for getting the next set of campaigns (if they exist).
@@ -9544,7 +9544,7 @@ public struct ListCampaignsOutput: Swift.Equatable {
     }
 }
 
-struct ListCampaignsOutputBody: Swift.Equatable {
+struct ListCampaignsOutputBody {
     let campaigns: [PersonalizeClientTypes.CampaignSummary]?
     let nextToken: Swift.String?
 }
@@ -9613,7 +9613,7 @@ extension ListDatasetExportJobsInput {
     }
 }
 
-public struct ListDatasetExportJobsInput: Swift.Equatable {
+public struct ListDatasetExportJobsInput {
     /// The Amazon Resource Name (ARN) of the dataset to list the dataset export jobs for.
     public var datasetArn: Swift.String?
     /// The maximum number of dataset export jobs to return.
@@ -9633,7 +9633,7 @@ public struct ListDatasetExportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetExportJobsInputBody: Swift.Equatable {
+struct ListDatasetExportJobsInputBody {
     let datasetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9671,7 +9671,7 @@ extension ListDatasetExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetExportJobsOutput: Swift.Equatable {
+public struct ListDatasetExportJobsOutput {
     /// The list of dataset export jobs.
     public var datasetExportJobs: [PersonalizeClientTypes.DatasetExportJobSummary]?
     /// A token for getting the next set of dataset export jobs (if they exist).
@@ -9687,7 +9687,7 @@ public struct ListDatasetExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetExportJobsOutputBody: Swift.Equatable {
+struct ListDatasetExportJobsOutputBody {
     let datasetExportJobs: [PersonalizeClientTypes.DatasetExportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -9752,7 +9752,7 @@ extension ListDatasetGroupsInput {
     }
 }
 
-public struct ListDatasetGroupsInput: Swift.Equatable {
+public struct ListDatasetGroupsInput {
     /// The maximum number of dataset groups to return.
     public var maxResults: Swift.Int?
     /// A token returned from the previous call to ListDatasetGroups for getting the next set of dataset groups (if they exist).
@@ -9768,7 +9768,7 @@ public struct ListDatasetGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetGroupsInputBody: Swift.Equatable {
+struct ListDatasetGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -9802,7 +9802,7 @@ extension ListDatasetGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetGroupsOutput: Swift.Equatable {
+public struct ListDatasetGroupsOutput {
     /// The list of your dataset groups.
     public var datasetGroups: [PersonalizeClientTypes.DatasetGroupSummary]?
     /// A token for getting the next set of dataset groups (if they exist).
@@ -9818,7 +9818,7 @@ public struct ListDatasetGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetGroupsOutputBody: Swift.Equatable {
+struct ListDatasetGroupsOutputBody {
     let datasetGroups: [PersonalizeClientTypes.DatasetGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -9886,7 +9886,7 @@ extension ListDatasetImportJobsInput {
     }
 }
 
-public struct ListDatasetImportJobsInput: Swift.Equatable {
+public struct ListDatasetImportJobsInput {
     /// The Amazon Resource Name (ARN) of the dataset to list the dataset import jobs for.
     public var datasetArn: Swift.String?
     /// The maximum number of dataset import jobs to return.
@@ -9906,7 +9906,7 @@ public struct ListDatasetImportJobsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetImportJobsInputBody: Swift.Equatable {
+struct ListDatasetImportJobsInputBody {
     let datasetArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9944,7 +9944,7 @@ extension ListDatasetImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetImportJobsOutput: Swift.Equatable {
+public struct ListDatasetImportJobsOutput {
     /// The list of dataset import jobs.
     public var datasetImportJobs: [PersonalizeClientTypes.DatasetImportJobSummary]?
     /// A token for getting the next set of dataset import jobs (if they exist).
@@ -9960,7 +9960,7 @@ public struct ListDatasetImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetImportJobsOutputBody: Swift.Equatable {
+struct ListDatasetImportJobsOutputBody {
     let datasetImportJobs: [PersonalizeClientTypes.DatasetImportJobSummary]?
     let nextToken: Swift.String?
 }
@@ -10029,7 +10029,7 @@ extension ListDatasetsInput {
     }
 }
 
-public struct ListDatasetsInput: Swift.Equatable {
+public struct ListDatasetsInput {
     /// The Amazon Resource Name (ARN) of the dataset group that contains the datasets to list.
     public var datasetGroupArn: Swift.String?
     /// The maximum number of datasets to return.
@@ -10049,7 +10049,7 @@ public struct ListDatasetsInput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsInputBody: Swift.Equatable {
+struct ListDatasetsInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10087,7 +10087,7 @@ extension ListDatasetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatasetsOutput: Swift.Equatable {
+public struct ListDatasetsOutput {
     /// An array of Dataset objects. Each object provides metadata information.
     public var datasets: [PersonalizeClientTypes.DatasetSummary]?
     /// A token for getting the next set of datasets (if they exist).
@@ -10103,7 +10103,7 @@ public struct ListDatasetsOutput: Swift.Equatable {
     }
 }
 
-struct ListDatasetsOutputBody: Swift.Equatable {
+struct ListDatasetsOutputBody {
     let datasets: [PersonalizeClientTypes.DatasetSummary]?
     let nextToken: Swift.String?
 }
@@ -10172,7 +10172,7 @@ extension ListEventTrackersInput {
     }
 }
 
-public struct ListEventTrackersInput: Swift.Equatable {
+public struct ListEventTrackersInput {
     /// The ARN of a dataset group used to filter the response.
     public var datasetGroupArn: Swift.String?
     /// The maximum number of event trackers to return.
@@ -10192,7 +10192,7 @@ public struct ListEventTrackersInput: Swift.Equatable {
     }
 }
 
-struct ListEventTrackersInputBody: Swift.Equatable {
+struct ListEventTrackersInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10230,7 +10230,7 @@ extension ListEventTrackersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventTrackersOutput: Swift.Equatable {
+public struct ListEventTrackersOutput {
     /// A list of event trackers.
     public var eventTrackers: [PersonalizeClientTypes.EventTrackerSummary]?
     /// A token for getting the next set of event trackers (if they exist).
@@ -10246,7 +10246,7 @@ public struct ListEventTrackersOutput: Swift.Equatable {
     }
 }
 
-struct ListEventTrackersOutputBody: Swift.Equatable {
+struct ListEventTrackersOutputBody {
     let eventTrackers: [PersonalizeClientTypes.EventTrackerSummary]?
     let nextToken: Swift.String?
 }
@@ -10315,7 +10315,7 @@ extension ListFiltersInput {
     }
 }
 
-public struct ListFiltersInput: Swift.Equatable {
+public struct ListFiltersInput {
     /// The ARN of the dataset group that contains the filters.
     public var datasetGroupArn: Swift.String?
     /// The maximum number of filters to return.
@@ -10335,7 +10335,7 @@ public struct ListFiltersInput: Swift.Equatable {
     }
 }
 
-struct ListFiltersInputBody: Swift.Equatable {
+struct ListFiltersInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10373,7 +10373,7 @@ extension ListFiltersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFiltersOutput: Swift.Equatable {
+public struct ListFiltersOutput {
     /// A list of returned filters.
     public var filters: [PersonalizeClientTypes.FilterSummary]?
     /// A token for getting the next set of filters (if they exist).
@@ -10389,7 +10389,7 @@ public struct ListFiltersOutput: Swift.Equatable {
     }
 }
 
-struct ListFiltersOutputBody: Swift.Equatable {
+struct ListFiltersOutputBody {
     let filters: [PersonalizeClientTypes.FilterSummary]?
     let nextToken: Swift.String?
 }
@@ -10458,7 +10458,7 @@ extension ListMetricAttributionMetricsInput {
     }
 }
 
-public struct ListMetricAttributionMetricsInput: Swift.Equatable {
+public struct ListMetricAttributionMetricsInput {
     /// The maximum number of metrics to return in one page of results.
     public var maxResults: Swift.Int?
     /// The Amazon Resource Name (ARN) of the metric attribution to retrieve attributes for.
@@ -10478,7 +10478,7 @@ public struct ListMetricAttributionMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListMetricAttributionMetricsInputBody: Swift.Equatable {
+struct ListMetricAttributionMetricsInputBody {
     let metricAttributionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10516,7 +10516,7 @@ extension ListMetricAttributionMetricsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListMetricAttributionMetricsOutput: Swift.Equatable {
+public struct ListMetricAttributionMetricsOutput {
     /// The metrics for the specified metric attribution.
     public var metrics: [PersonalizeClientTypes.MetricAttribute]?
     /// Specify the pagination token from a previous ListMetricAttributionMetricsResponse request to retrieve the next page of results.
@@ -10532,7 +10532,7 @@ public struct ListMetricAttributionMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListMetricAttributionMetricsOutputBody: Swift.Equatable {
+struct ListMetricAttributionMetricsOutputBody {
     let metrics: [PersonalizeClientTypes.MetricAttribute]?
     let nextToken: Swift.String?
 }
@@ -10601,7 +10601,7 @@ extension ListMetricAttributionsInput {
     }
 }
 
-public struct ListMetricAttributionsInput: Swift.Equatable {
+public struct ListMetricAttributionsInput {
     /// The metric attributions' dataset group Amazon Resource Name (ARN).
     public var datasetGroupArn: Swift.String?
     /// The maximum number of metric attributions to return in one page of results.
@@ -10621,7 +10621,7 @@ public struct ListMetricAttributionsInput: Swift.Equatable {
     }
 }
 
-struct ListMetricAttributionsInputBody: Swift.Equatable {
+struct ListMetricAttributionsInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10659,7 +10659,7 @@ extension ListMetricAttributionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMetricAttributionsOutput: Swift.Equatable {
+public struct ListMetricAttributionsOutput {
     /// The list of metric attributions.
     public var metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]?
     /// Specify the pagination token from a previous request to retrieve the next page of results.
@@ -10675,7 +10675,7 @@ public struct ListMetricAttributionsOutput: Swift.Equatable {
     }
 }
 
-struct ListMetricAttributionsOutputBody: Swift.Equatable {
+struct ListMetricAttributionsOutputBody {
     let metricAttributions: [PersonalizeClientTypes.MetricAttributionSummary]?
     let nextToken: Swift.String?
 }
@@ -10748,7 +10748,7 @@ extension ListRecipesInput {
     }
 }
 
-public struct ListRecipesInput: Swift.Equatable {
+public struct ListRecipesInput {
     /// Filters returned recipes by domain for a Domain dataset group. Only recipes (Domain dataset group use cases) for this domain are included in the response. If you don't specify a domain, all recipes are returned.
     public var domain: PersonalizeClientTypes.Domain?
     /// The maximum number of recipes to return.
@@ -10772,7 +10772,7 @@ public struct ListRecipesInput: Swift.Equatable {
     }
 }
 
-struct ListRecipesInputBody: Swift.Equatable {
+struct ListRecipesInputBody {
     let recipeProvider: PersonalizeClientTypes.RecipeProvider?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10814,7 +10814,7 @@ extension ListRecipesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecipesOutput: Swift.Equatable {
+public struct ListRecipesOutput {
     /// A token for getting the next set of recipes.
     public var nextToken: Swift.String?
     /// The list of available recipes.
@@ -10830,7 +10830,7 @@ public struct ListRecipesOutput: Swift.Equatable {
     }
 }
 
-struct ListRecipesOutputBody: Swift.Equatable {
+struct ListRecipesOutputBody {
     let recipes: [PersonalizeClientTypes.RecipeSummary]?
     let nextToken: Swift.String?
 }
@@ -10899,7 +10899,7 @@ extension ListRecommendersInput {
     }
 }
 
-public struct ListRecommendersInput: Swift.Equatable {
+public struct ListRecommendersInput {
     /// The Amazon Resource Name (ARN) of the Domain dataset group to list the recommenders for. When a Domain dataset group is not specified, all the recommenders associated with the account are listed.
     public var datasetGroupArn: Swift.String?
     /// The maximum number of recommenders to return.
@@ -10919,7 +10919,7 @@ public struct ListRecommendersInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendersInputBody: Swift.Equatable {
+struct ListRecommendersInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10957,7 +10957,7 @@ extension ListRecommendersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendersOutput: Swift.Equatable {
+public struct ListRecommendersOutput {
     /// A token for getting the next set of recommenders (if they exist).
     public var nextToken: Swift.String?
     /// A list of the recommenders.
@@ -10973,7 +10973,7 @@ public struct ListRecommendersOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendersOutputBody: Swift.Equatable {
+struct ListRecommendersOutputBody {
     let recommenders: [PersonalizeClientTypes.RecommenderSummary]?
     let nextToken: Swift.String?
 }
@@ -11038,7 +11038,7 @@ extension ListSchemasInput {
     }
 }
 
-public struct ListSchemasInput: Swift.Equatable {
+public struct ListSchemasInput {
     /// The maximum number of schemas to return.
     public var maxResults: Swift.Int?
     /// A token returned from the previous call to ListSchemas for getting the next set of schemas (if they exist).
@@ -11054,7 +11054,7 @@ public struct ListSchemasInput: Swift.Equatable {
     }
 }
 
-struct ListSchemasInputBody: Swift.Equatable {
+struct ListSchemasInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -11088,7 +11088,7 @@ extension ListSchemasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSchemasOutput: Swift.Equatable {
+public struct ListSchemasOutput {
     /// A token used to get the next set of schemas (if they exist).
     public var nextToken: Swift.String?
     /// A list of schemas.
@@ -11104,7 +11104,7 @@ public struct ListSchemasOutput: Swift.Equatable {
     }
 }
 
-struct ListSchemasOutputBody: Swift.Equatable {
+struct ListSchemasOutputBody {
     let schemas: [PersonalizeClientTypes.DatasetSchemaSummary]?
     let nextToken: Swift.String?
 }
@@ -11172,7 +11172,7 @@ extension ListSolutionVersionsInput {
     }
 }
 
-public struct ListSolutionVersionsInput: Swift.Equatable {
+public struct ListSolutionVersionsInput {
     /// The maximum number of solution versions to return.
     public var maxResults: Swift.Int?
     /// A token returned from the previous call to ListSolutionVersions for getting the next set of solution versions (if they exist).
@@ -11192,7 +11192,7 @@ public struct ListSolutionVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListSolutionVersionsInputBody: Swift.Equatable {
+struct ListSolutionVersionsInputBody {
     let solutionArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11230,7 +11230,7 @@ extension ListSolutionVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSolutionVersionsOutput: Swift.Equatable {
+public struct ListSolutionVersionsOutput {
     /// A token for getting the next set of solution versions (if they exist).
     public var nextToken: Swift.String?
     /// A list of solution versions describing the version properties.
@@ -11246,7 +11246,7 @@ public struct ListSolutionVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSolutionVersionsOutputBody: Swift.Equatable {
+struct ListSolutionVersionsOutputBody {
     let solutionVersions: [PersonalizeClientTypes.SolutionVersionSummary]?
     let nextToken: Swift.String?
 }
@@ -11316,7 +11316,7 @@ extension ListSolutionsInput {
     }
 }
 
-public struct ListSolutionsInput: Swift.Equatable {
+public struct ListSolutionsInput {
     /// The Amazon Resource Name (ARN) of the dataset group.
     public var datasetGroupArn: Swift.String?
     /// The maximum number of solutions to return.
@@ -11336,7 +11336,7 @@ public struct ListSolutionsInput: Swift.Equatable {
     }
 }
 
-struct ListSolutionsInputBody: Swift.Equatable {
+struct ListSolutionsInputBody {
     let datasetGroupArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -11374,7 +11374,7 @@ extension ListSolutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSolutionsOutput: Swift.Equatable {
+public struct ListSolutionsOutput {
     /// A token for getting the next set of solutions (if they exist).
     public var nextToken: Swift.String?
     /// A list of the current solutions.
@@ -11390,7 +11390,7 @@ public struct ListSolutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSolutionsOutputBody: Swift.Equatable {
+struct ListSolutionsOutputBody {
     let solutions: [PersonalizeClientTypes.SolutionSummary]?
     let nextToken: Swift.String?
 }
@@ -11451,7 +11451,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -11464,7 +11464,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -11492,7 +11492,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The resource's tags.
     public var tags: [PersonalizeClientTypes.Tag]?
 
@@ -11504,7 +11504,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [PersonalizeClientTypes.Tag]?
 }
 
@@ -11575,7 +11575,7 @@ extension PersonalizeClientTypes.MetricAttribute: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Contains information on a metric that a metric attribution reports on. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
-    public struct MetricAttribute: Swift.Equatable {
+    public struct MetricAttribute {
         /// The metric's event type.
         /// This member is required.
         public var eventType: Swift.String?
@@ -11663,7 +11663,7 @@ extension PersonalizeClientTypes.MetricAttribution: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Contains information on a metric attribution. A metric attribution creates reports on the data that you import into Amazon Personalize. Depending on how you import the data, you can view reports in Amazon CloudWatch or Amazon S3. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
-    public struct MetricAttribution: Swift.Equatable {
+    public struct MetricAttribution {
         /// The metric attribution's creation date time.
         public var creationDateTime: ClientRuntime.Date?
         /// The metric attribution's dataset group Amazon Resource Name (ARN).
@@ -11732,7 +11732,7 @@ extension PersonalizeClientTypes.MetricAttributionOutput: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The output configuration details for a metric attribution.
-    public struct MetricAttributionOutput: Swift.Equatable {
+    public struct MetricAttributionOutput {
         /// The Amazon Resource Name (ARN) of the IAM service role that has permissions to add data to your output Amazon S3 bucket and add metrics to Amazon CloudWatch. For more information, see [Measuring impact of recommendations](https://docs.aws.amazon.com/personalize/latest/dg/measuring-recommendation-impact.html).
         /// This member is required.
         public var roleArn: Swift.String?
@@ -11802,7 +11802,7 @@ extension PersonalizeClientTypes.MetricAttributionSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a metric attribution. For a complete listing, call the [DescribeMetricAttribution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeMetricAttribution.html).
-    public struct MetricAttributionSummary: Swift.Equatable {
+    public struct MetricAttributionSummary {
         /// The metric attribution's creation date time.
         public var creationDateTime: ClientRuntime.Date?
         /// The metric attribution's failure reason.
@@ -11901,7 +11901,7 @@ extension PersonalizeClientTypes.OptimizationObjective: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the additional objective for the solution, such as maximizing streaming minutes or increasing revenue. For more information see [Optimizing a solution](https://docs.aws.amazon.com/personalize/latest/dg/optimizing-solution-for-objective.html).
-    public struct OptimizationObjective: Swift.Equatable {
+    public struct OptimizationObjective {
         /// The numerical metadata column in an Items dataset related to the optimization objective. For example, VIDEO_LENGTH (to maximize streaming minutes), or PRICE (to maximize revenue).
         public var itemAttribute: Swift.String?
         /// Specifies how Amazon Personalize balances the importance of your optimization objective versus relevance.
@@ -11990,7 +11990,7 @@ extension PersonalizeClientTypes.Recipe: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides information about a recipe. Each recipe provides an algorithm that Amazon Personalize uses in model training when you use the [CreateSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_CreateSolution.html) operation.
-    public struct Recipe: Swift.Equatable {
+    public struct Recipe {
         /// The Amazon Resource Name (ARN) of the algorithm that Amazon Personalize uses to train the model.
         public var algorithmArn: Swift.String?
         /// The date and time (in Unix format) that the recipe was created.
@@ -12122,7 +12122,7 @@ extension PersonalizeClientTypes.RecipeSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a recipe. For a complete listing, call the [DescribeRecipe](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecipe.html) API.
-    public struct RecipeSummary: Swift.Equatable {
+    public struct RecipeSummary {
         /// The date and time (in Unix time) that the recipe was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The domain of the recipe (if the recipe is a Domain dataset group use case).
@@ -12249,7 +12249,7 @@ extension PersonalizeClientTypes.Recommender: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes a recommendation generator for a Domain dataset group. You create a recommender in a Domain dataset group for a specific domain use case (domain recipe), and specify the recommender in a [GetRecommendations](https://docs.aws.amazon.com/personalize/latest/dg/API_RS_GetRecommendations.html) request.
-    public struct Recommender: Swift.Equatable {
+    public struct Recommender {
         /// The date and time (in Unix format) that the recommender was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the recommender.
@@ -12360,7 +12360,7 @@ extension PersonalizeClientTypes.RecommenderConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The configuration details of the recommender.
-    public struct RecommenderConfig: Swift.Equatable {
+    public struct RecommenderConfig {
         /// Whether metadata with recommendations is enabled for the recommender. If enabled, you can specify the columns from your Items dataset in your request for recommendations. Amazon Personalize returns this data for each item in the recommendation response. For information about enabling metadata for a recommender, see [Enabling metadata in recommendations for a recommender](https://docs.aws.amazon.com/personalize/latest/dg/creating-recommenders.html#create-recommender-return-metadata). If you enable metadata in recommendations, you will incur additional costs. For more information, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/).
         public var enableMetadataWithRecommendations: Swift.Bool?
         /// Specifies the exploration configuration hyperparameters, including explorationWeight and explorationItemAgeCutOff, you want to use to configure the amount of item exploration Amazon Personalize uses when recommending items. Provide itemExplorationConfig data only if your recommenders generate personalized recommendations for a user (not popular items or similar items).
@@ -12449,7 +12449,7 @@ extension PersonalizeClientTypes.RecommenderSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of the recommender.
-    public struct RecommenderSummary: Swift.Equatable {
+    public struct RecommenderSummary {
         /// The date and time (in Unix format) that the recommender was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the Domain dataset group that contains the recommender.
@@ -12542,7 +12542,7 @@ extension PersonalizeClientTypes.RecommenderUpdateSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a recommender update. For a complete listing, call the [DescribeRecommender](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeRecommender.html) API.
-    public struct RecommenderUpdateSummary: Swift.Equatable {
+    public struct RecommenderUpdateSummary {
         /// The date and time (in Unix format) that the recommender update was created.
         public var creationDateTime: ClientRuntime.Date?
         /// If a recommender update fails, the reason behind the failure.
@@ -12617,7 +12617,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -12672,7 +12672,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let message: Swift.String?
 }
 
@@ -12727,7 +12727,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -12770,7 +12770,7 @@ extension PersonalizeClientTypes.S3DataConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The configuration details of an Amazon S3 input or output bucket.
-    public struct S3DataConfig: Swift.Equatable {
+    public struct S3DataConfig {
         /// The Amazon Resource Name (ARN) of the Key Management Service (KMS) key that Amazon Personalize uses to encrypt or decrypt the input and output files.
         public var kmsKeyArn: Swift.String?
         /// The file path of the Amazon S3 bucket.
@@ -12888,7 +12888,7 @@ extension PersonalizeClientTypes.Solution: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// After you create a solution, you can’t change its configuration. By default, all new solutions use automatic training. With automatic training, you incur training costs while your solution is active. You can't stop automatic training for a solution. To avoid unnecessary costs, make sure to delete the solution when you are finished. For information about training costs, see [Amazon Personalize pricing](https://aws.amazon.com/personalize/pricing/). An object that provides information about a solution. A solution includes the custom recipe, customized parameters, and trained models (Solution Versions) that Amazon Personalize uses to generate recommendations. After you create a solution, you can’t change its configuration. If you need to make changes, you can [clone the solution](https://docs.aws.amazon.com/personalize/latest/dg/cloning-solution.html) with the Amazon Personalize console or create a new one.
-    public struct Solution: Swift.Equatable {
+    public struct Solution {
         /// When performAutoML is true, specifies the best recipe found.
         public var autoMLResult: PersonalizeClientTypes.AutoMLResult?
         /// The creation date and time (in Unix time) of the solution.
@@ -13045,7 +13045,7 @@ extension PersonalizeClientTypes.SolutionConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Describes the configuration properties for the solution.
-    public struct SolutionConfig: Swift.Equatable {
+    public struct SolutionConfig {
         /// Lists the algorithm hyperparameters and their values.
         public var algorithmHyperParameters: [Swift.String:Swift.String]?
         /// The [AutoMLConfig](https://docs.aws.amazon.com/personalize/latest/dg/API_AutoMLConfig.html) object containing a list of recipes to search when AutoML is performed.
@@ -13138,7 +13138,7 @@ extension PersonalizeClientTypes.SolutionSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a solution. For a complete listing, call the [DescribeSolution](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolution.html) API.
-    public struct SolutionSummary: Swift.Equatable {
+    public struct SolutionSummary {
         /// The date and time (in Unix time) that the solution was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The date and time (in Unix time) that the solution was last updated.
@@ -13293,7 +13293,7 @@ extension PersonalizeClientTypes.SolutionVersion: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// An object that provides information about a specific version of a [Solution](https://docs.aws.amazon.com/personalize/latest/dg/API_Solution.html) in a Custom dataset group.
-    public struct SolutionVersion: Swift.Equatable {
+    public struct SolutionVersion {
         /// The date and time (in Unix time) that this version of the solution was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The Amazon Resource Name (ARN) of the dataset group providing the training data.
@@ -13440,7 +13440,7 @@ extension PersonalizeClientTypes.SolutionVersionSummary: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// Provides a summary of the properties of a solution version. For a complete listing, call the [DescribeSolutionVersion](https://docs.aws.amazon.com/personalize/latest/dg/API_DescribeSolutionVersion.html) API.
-    public struct SolutionVersionSummary: Swift.Equatable {
+    public struct SolutionVersionSummary {
         /// The date and time (in Unix time) that this version of a solution was created.
         public var creationDateTime: ClientRuntime.Date?
         /// If a solution version fails, the reason behind the failure.
@@ -13500,7 +13500,7 @@ extension StartRecommenderInput {
     }
 }
 
-public struct StartRecommenderInput: Swift.Equatable {
+public struct StartRecommenderInput {
     /// The Amazon Resource Name (ARN) of the recommender to start.
     /// This member is required.
     public var recommenderArn: Swift.String?
@@ -13513,7 +13513,7 @@ public struct StartRecommenderInput: Swift.Equatable {
     }
 }
 
-struct StartRecommenderInputBody: Swift.Equatable {
+struct StartRecommenderInputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -13541,7 +13541,7 @@ extension StartRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRecommenderOutput: Swift.Equatable {
+public struct StartRecommenderOutput {
     /// The Amazon Resource Name (ARN) of the recommender you started.
     public var recommenderArn: Swift.String?
 
@@ -13553,7 +13553,7 @@ public struct StartRecommenderOutput: Swift.Equatable {
     }
 }
 
-struct StartRecommenderOutputBody: Swift.Equatable {
+struct StartRecommenderOutputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -13602,7 +13602,7 @@ extension StopRecommenderInput {
     }
 }
 
-public struct StopRecommenderInput: Swift.Equatable {
+public struct StopRecommenderInput {
     /// The Amazon Resource Name (ARN) of the recommender to stop.
     /// This member is required.
     public var recommenderArn: Swift.String?
@@ -13615,7 +13615,7 @@ public struct StopRecommenderInput: Swift.Equatable {
     }
 }
 
-struct StopRecommenderInputBody: Swift.Equatable {
+struct StopRecommenderInputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -13643,7 +13643,7 @@ extension StopRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopRecommenderOutput: Swift.Equatable {
+public struct StopRecommenderOutput {
     /// The Amazon Resource Name (ARN) of the recommender you stopped.
     public var recommenderArn: Swift.String?
 
@@ -13655,7 +13655,7 @@ public struct StopRecommenderOutput: Swift.Equatable {
     }
 }
 
-struct StopRecommenderOutputBody: Swift.Equatable {
+struct StopRecommenderOutputBody {
     let recommenderArn: Swift.String?
 }
 
@@ -13704,7 +13704,7 @@ extension StopSolutionVersionCreationInput {
     }
 }
 
-public struct StopSolutionVersionCreationInput: Swift.Equatable {
+public struct StopSolutionVersionCreationInput {
     /// The Amazon Resource Name (ARN) of the solution version you want to stop creating.
     /// This member is required.
     public var solutionVersionArn: Swift.String?
@@ -13717,7 +13717,7 @@ public struct StopSolutionVersionCreationInput: Swift.Equatable {
     }
 }
 
-struct StopSolutionVersionCreationInputBody: Swift.Equatable {
+struct StopSolutionVersionCreationInputBody {
     let solutionVersionArn: Swift.String?
 }
 
@@ -13738,7 +13738,7 @@ extension StopSolutionVersionCreationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSolutionVersionCreationOutput: Swift.Equatable {
+public struct StopSolutionVersionCreationOutput {
 
     public init() { }
 }
@@ -13783,7 +13783,7 @@ extension PersonalizeClientTypes.Tag: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The optional metadata that you apply to resources to help you categorize and organize them. Each tag consists of a key and an optional value, both of which you define. For more information see [Tagging Amazon Personalize resources](https://docs.aws.amazon.com/personalize/latest/dg/tagging-resources.html).
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a general label that acts like a category for more specific tag values.
         /// This member is required.
         public var tagKey: Swift.String?
@@ -13830,7 +13830,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13848,7 +13848,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [PersonalizeClientTypes.Tag]?
 }
@@ -13882,7 +13882,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13923,7 +13923,7 @@ extension PersonalizeClientTypes.ThemeGenerationConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The configuration details for generating themes with a batch inference job.
-    public struct ThemeGenerationConfig: Swift.Equatable {
+    public struct ThemeGenerationConfig {
         /// Fields used to generate descriptive themes for a batch inference job.
         /// This member is required.
         public var fieldsForThemeGeneration: PersonalizeClientTypes.FieldsForThemeGeneration?
@@ -13977,7 +13977,7 @@ public struct TooManyTagKeysException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct TooManyTagKeysExceptionBody: Swift.Equatable {
+struct TooManyTagKeysExceptionBody {
     let message: Swift.String?
 }
 
@@ -14032,7 +14032,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let message: Swift.String?
 }
 
@@ -14091,7 +14091,7 @@ extension PersonalizeClientTypes.TrainingDataConfig: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// The training data configuration to use when creating a domain recommender or custom solution version (trained model).
-    public struct TrainingDataConfig: Swift.Equatable {
+    public struct TrainingDataConfig {
         /// Specifies the columns to exclude from training. Each key is a dataset type, and each value is a list of columns. Exclude columns to control what data Amazon Personalize uses to generate recommendations. For example, you might have a column that you want to use only to filter recommendations. You can exclude this column from training and Amazon Personalize considers it only when filtering.
         public var excludedDatasetColumns: [Swift.String:[Swift.String]]?
 
@@ -14205,7 +14205,7 @@ extension PersonalizeClientTypes.TunedHPOParams: Swift.Codable {
 
 extension PersonalizeClientTypes {
     /// If hyperparameter optimization (HPO) was performed, contains the hyperparameter values of the best performing model.
-    public struct TunedHPOParams: Swift.Equatable {
+    public struct TunedHPOParams {
         /// A list of the hyperparameter values of the best performing model.
         public var algorithmHyperParameters: [Swift.String:Swift.String]?
 
@@ -14246,7 +14246,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -14264,7 +14264,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -14298,7 +14298,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14349,7 +14349,7 @@ extension UpdateCampaignInput {
     }
 }
 
-public struct UpdateCampaignInput: Swift.Equatable {
+public struct UpdateCampaignInput {
     /// The Amazon Resource Name (ARN) of the campaign.
     /// This member is required.
     public var campaignArn: Swift.String?
@@ -14374,7 +14374,7 @@ public struct UpdateCampaignInput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignInputBody: Swift.Equatable {
+struct UpdateCampaignInputBody {
     let campaignArn: Swift.String?
     let solutionVersionArn: Swift.String?
     let minProvisionedTPS: Swift.Int?
@@ -14414,7 +14414,7 @@ extension UpdateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCampaignOutput: Swift.Equatable {
+public struct UpdateCampaignOutput {
     /// The same campaign ARN as given in the request.
     public var campaignArn: Swift.String?
 
@@ -14426,7 +14426,7 @@ public struct UpdateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignOutputBody: Swift.Equatable {
+struct UpdateCampaignOutputBody {
     let campaignArn: Swift.String?
 }
 
@@ -14479,7 +14479,7 @@ extension UpdateDatasetInput {
     }
 }
 
-public struct UpdateDatasetInput: Swift.Equatable {
+public struct UpdateDatasetInput {
     /// The Amazon Resource Name (ARN) of the dataset that you want to update.
     /// This member is required.
     public var datasetArn: Swift.String?
@@ -14497,7 +14497,7 @@ public struct UpdateDatasetInput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetInputBody: Swift.Equatable {
+struct UpdateDatasetInputBody {
     let datasetArn: Swift.String?
     let schemaArn: Swift.String?
 }
@@ -14529,7 +14529,7 @@ extension UpdateDatasetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDatasetOutput: Swift.Equatable {
+public struct UpdateDatasetOutput {
     /// The Amazon Resource Name (ARN) of the dataset you updated.
     public var datasetArn: Swift.String?
 
@@ -14541,7 +14541,7 @@ public struct UpdateDatasetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDatasetOutputBody: Swift.Equatable {
+struct UpdateDatasetOutputBody {
     let datasetArn: Swift.String?
 }
 
@@ -14608,7 +14608,7 @@ extension UpdateMetricAttributionInput {
     }
 }
 
-public struct UpdateMetricAttributionInput: Swift.Equatable {
+public struct UpdateMetricAttributionInput {
     /// Add new metric attributes to the metric attribution.
     public var addMetrics: [PersonalizeClientTypes.MetricAttribute]?
     /// The Amazon Resource Name (ARN) for the metric attribution to update.
@@ -14632,7 +14632,7 @@ public struct UpdateMetricAttributionInput: Swift.Equatable {
     }
 }
 
-struct UpdateMetricAttributionInputBody: Swift.Equatable {
+struct UpdateMetricAttributionInputBody {
     let addMetrics: [PersonalizeClientTypes.MetricAttribute]?
     let removeMetrics: [Swift.String]?
     let metricsOutputConfig: PersonalizeClientTypes.MetricAttributionOutput?
@@ -14690,7 +14690,7 @@ extension UpdateMetricAttributionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMetricAttributionOutput: Swift.Equatable {
+public struct UpdateMetricAttributionOutput {
     /// The Amazon Resource Name (ARN) for the metric attribution that you updated.
     public var metricAttributionArn: Swift.String?
 
@@ -14702,7 +14702,7 @@ public struct UpdateMetricAttributionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMetricAttributionOutputBody: Swift.Equatable {
+struct UpdateMetricAttributionOutputBody {
     let metricAttributionArn: Swift.String?
 }
 
@@ -14756,7 +14756,7 @@ extension UpdateRecommenderInput {
     }
 }
 
-public struct UpdateRecommenderInput: Swift.Equatable {
+public struct UpdateRecommenderInput {
     /// The Amazon Resource Name (ARN) of the recommender to modify.
     /// This member is required.
     public var recommenderArn: Swift.String?
@@ -14774,7 +14774,7 @@ public struct UpdateRecommenderInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecommenderInputBody: Swift.Equatable {
+struct UpdateRecommenderInputBody {
     let recommenderArn: Swift.String?
     let recommenderConfig: PersonalizeClientTypes.RecommenderConfig?
 }
@@ -14806,7 +14806,7 @@ extension UpdateRecommenderOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRecommenderOutput: Swift.Equatable {
+public struct UpdateRecommenderOutput {
     /// The same recommender Amazon Resource Name (ARN) as given in the request.
     public var recommenderArn: Swift.String?
 
@@ -14818,7 +14818,7 @@ public struct UpdateRecommenderOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecommenderOutputBody: Swift.Equatable {
+struct UpdateRecommenderOutputBody {
     let recommenderArn: Swift.String?
 }
 

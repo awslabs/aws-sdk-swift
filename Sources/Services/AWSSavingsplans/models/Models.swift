@@ -45,7 +45,7 @@ extension CreateSavingsPlanInput {
     }
 }
 
-public struct CreateSavingsPlanInput: Swift.Equatable {
+public struct CreateSavingsPlanInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The hourly commitment, in the same currency of the savingsPlanOfferingId. This is a value between 0.001 and 1 million. You cannot specify more than five digits after the decimal point.
@@ -79,7 +79,7 @@ public struct CreateSavingsPlanInput: Swift.Equatable {
     }
 }
 
-struct CreateSavingsPlanInputBody: Swift.Equatable {
+struct CreateSavingsPlanInputBody {
     let savingsPlanOfferingId: Swift.String?
     let commitment: Swift.String?
     let upfrontPaymentAmount: Swift.String?
@@ -136,7 +136,7 @@ extension CreateSavingsPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSavingsPlanOutput: Swift.Equatable {
+public struct CreateSavingsPlanOutput {
     /// The ID of the Savings Plan.
     public var savingsPlanId: Swift.String?
 
@@ -148,7 +148,7 @@ public struct CreateSavingsPlanOutput: Swift.Equatable {
     }
 }
 
-struct CreateSavingsPlanOutputBody: Swift.Equatable {
+struct CreateSavingsPlanOutputBody {
     let savingsPlanId: Swift.String?
 }
 
@@ -230,7 +230,7 @@ extension DeleteQueuedSavingsPlanInput {
     }
 }
 
-public struct DeleteQueuedSavingsPlanInput: Swift.Equatable {
+public struct DeleteQueuedSavingsPlanInput {
     /// The ID of the Savings Plan.
     /// This member is required.
     public var savingsPlanId: Swift.String?
@@ -243,7 +243,7 @@ public struct DeleteQueuedSavingsPlanInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueuedSavingsPlanInputBody: Swift.Equatable {
+struct DeleteQueuedSavingsPlanInputBody {
     let savingsPlanId: Swift.String?
 }
 
@@ -264,7 +264,7 @@ extension DeleteQueuedSavingsPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueuedSavingsPlanOutput: Swift.Equatable {
+public struct DeleteQueuedSavingsPlanOutput {
 
     public init() { }
 }
@@ -318,7 +318,7 @@ extension DescribeSavingsPlanRatesInput {
     }
 }
 
-public struct DescribeSavingsPlanRatesInput: Swift.Equatable {
+public struct DescribeSavingsPlanRatesInput {
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanRateFilter]?
     /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
@@ -343,7 +343,7 @@ public struct DescribeSavingsPlanRatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlanRatesInputBody: Swift.Equatable {
+struct DescribeSavingsPlanRatesInputBody {
     let savingsPlanId: Swift.String?
     let filters: [SavingsplansClientTypes.SavingsPlanRateFilter]?
     let nextToken: Swift.String?
@@ -396,7 +396,7 @@ extension DescribeSavingsPlanRatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSavingsPlanRatesOutput: Swift.Equatable {
+public struct DescribeSavingsPlanRatesOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// The ID of the Savings Plan.
@@ -416,7 +416,7 @@ public struct DescribeSavingsPlanRatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlanRatesOutputBody: Swift.Equatable {
+struct DescribeSavingsPlanRatesOutputBody {
     let savingsPlanId: Swift.String?
     let searchResults: [SavingsplansClientTypes.SavingsPlanRate]?
     let nextToken: Swift.String?
@@ -513,7 +513,7 @@ extension DescribeSavingsPlansInput {
     }
 }
 
-public struct DescribeSavingsPlansInput: Swift.Equatable {
+public struct DescribeSavingsPlansInput {
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanFilter]?
     /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
@@ -545,7 +545,7 @@ public struct DescribeSavingsPlansInput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansInputBody: Swift.Equatable {
+struct DescribeSavingsPlansInputBody {
     let savingsPlanArns: [Swift.String]?
     let savingsPlanIds: [Swift.String]?
     let nextToken: Swift.String?
@@ -697,7 +697,7 @@ extension DescribeSavingsPlansOfferingRatesInput {
     }
 }
 
-public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
+public struct DescribeSavingsPlansOfferingRatesInput {
     /// The filters.
     public var filters: [SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement]?
     /// The maximum number of results to return with a single call. To retrieve additional results, make another call with the returned token value.
@@ -745,7 +745,7 @@ public struct DescribeSavingsPlansOfferingRatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansOfferingRatesInputBody: Swift.Equatable {
+struct DescribeSavingsPlansOfferingRatesInputBody {
     let savingsPlanOfferingIds: [Swift.String]?
     let savingsPlanPaymentOptions: [SavingsplansClientTypes.SavingsPlanPaymentOption]?
     let savingsPlanTypes: [SavingsplansClientTypes.SavingsPlanType]?
@@ -883,7 +883,7 @@ extension DescribeSavingsPlansOfferingRatesOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeSavingsPlansOfferingRatesOutput: Swift.Equatable {
+public struct DescribeSavingsPlansOfferingRatesOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the Savings Plans offering rates.
@@ -899,7 +899,7 @@ public struct DescribeSavingsPlansOfferingRatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansOfferingRatesOutputBody: Swift.Equatable {
+struct DescribeSavingsPlansOfferingRatesOutputBody {
     let searchResults: [SavingsplansClientTypes.SavingsPlanOfferingRate]?
     let nextToken: Swift.String?
 }
@@ -1038,7 +1038,7 @@ extension DescribeSavingsPlansOfferingsInput {
     }
 }
 
-public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
+public struct DescribeSavingsPlansOfferingsInput {
     /// The currencies.
     public var currencies: [SavingsplansClientTypes.CurrencyCode]?
     /// The descriptions.
@@ -1098,7 +1098,7 @@ public struct DescribeSavingsPlansOfferingsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansOfferingsInputBody: Swift.Equatable {
+struct DescribeSavingsPlansOfferingsInputBody {
     let offeringIds: [Swift.String]?
     let paymentOptions: [SavingsplansClientTypes.SavingsPlanPaymentOption]?
     let productType: SavingsplansClientTypes.SavingsPlanProductType?
@@ -1266,7 +1266,7 @@ extension DescribeSavingsPlansOfferingsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeSavingsPlansOfferingsOutput: Swift.Equatable {
+public struct DescribeSavingsPlansOfferingsOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the Savings Plans offerings.
@@ -1282,7 +1282,7 @@ public struct DescribeSavingsPlansOfferingsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansOfferingsOutputBody: Swift.Equatable {
+struct DescribeSavingsPlansOfferingsOutputBody {
     let searchResults: [SavingsplansClientTypes.SavingsPlanOffering]?
     let nextToken: Swift.String?
 }
@@ -1337,7 +1337,7 @@ extension DescribeSavingsPlansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSavingsPlansOutput: Swift.Equatable {
+public struct DescribeSavingsPlansOutput {
     /// The token to use to retrieve the next page of results. This value is null when there are no more results to return.
     public var nextToken: Swift.String?
     /// Information about the Savings Plans.
@@ -1353,7 +1353,7 @@ public struct DescribeSavingsPlansOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSavingsPlansOutputBody: Swift.Equatable {
+struct DescribeSavingsPlansOutputBody {
     let savingsPlans: [SavingsplansClientTypes.SavingsPlan]?
     let nextToken: Swift.String?
 }
@@ -1434,7 +1434,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -1470,7 +1470,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1483,7 +1483,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -1511,7 +1511,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Information about the tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -1523,7 +1523,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -1612,7 +1612,7 @@ extension SavingsplansClientTypes.ParentSavingsPlanOffering: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering.
-    public struct ParentSavingsPlanOffering: Swift.Equatable {
+    public struct ParentSavingsPlanOffering {
         /// The currency.
         public var currency: SavingsplansClientTypes.CurrencyCode?
         /// The duration, in seconds.
@@ -1686,7 +1686,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1726,7 +1726,7 @@ extension ReturnSavingsPlanInput {
     }
 }
 
-public struct ReturnSavingsPlanInput: Swift.Equatable {
+public struct ReturnSavingsPlanInput {
     /// A unique, case-sensitive identifier that you provide to ensure the idempotency of the request.
     public var clientToken: Swift.String?
     /// The ID of the Savings Plan.
@@ -1743,7 +1743,7 @@ public struct ReturnSavingsPlanInput: Swift.Equatable {
     }
 }
 
-struct ReturnSavingsPlanInputBody: Swift.Equatable {
+struct ReturnSavingsPlanInputBody {
     let savingsPlanId: Swift.String?
     let clientToken: Swift.String?
 }
@@ -1775,7 +1775,7 @@ extension ReturnSavingsPlanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReturnSavingsPlanOutput: Swift.Equatable {
+public struct ReturnSavingsPlanOutput {
     /// The ID of the Savings Plan.
     public var savingsPlanId: Swift.String?
 
@@ -1787,7 +1787,7 @@ public struct ReturnSavingsPlanOutput: Swift.Equatable {
     }
 }
 
-struct ReturnSavingsPlanOutputBody: Swift.Equatable {
+struct ReturnSavingsPlanOutputBody {
     let savingsPlanId: Swift.String?
 }
 
@@ -1970,7 +1970,7 @@ extension SavingsplansClientTypes.SavingsPlan: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan.
-    public struct SavingsPlan: Swift.Equatable {
+    public struct SavingsPlan {
         /// The hourly commitment amount in the specified currency.
         public var commitment: Swift.String?
         /// The currency.
@@ -2095,7 +2095,7 @@ extension SavingsplansClientTypes.SavingsPlanFilter: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan filter.
-    public struct SavingsPlanFilter: Swift.Equatable {
+    public struct SavingsPlanFilter {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlansFilterName?
         /// The filter value.
@@ -2218,7 +2218,7 @@ extension SavingsplansClientTypes.SavingsPlanOffering: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering.
-    public struct SavingsPlanOffering: Swift.Equatable {
+    public struct SavingsPlanOffering {
         /// The currency.
         public var currency: SavingsplansClientTypes.CurrencyCode?
         /// The description.
@@ -2343,7 +2343,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingFilterElement: Swift.Codabl
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering filter.
-    public struct SavingsPlanOfferingFilterElement: Swift.Equatable {
+    public struct SavingsPlanOfferingFilterElement {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanOfferingFilterAttribute?
         /// The filter values.
@@ -2388,7 +2388,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingProperty: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering property.
-    public struct SavingsPlanOfferingProperty: Swift.Equatable {
+    public struct SavingsPlanOfferingProperty {
         /// The property name.
         public var name: SavingsplansClientTypes.SavingsPlanOfferingPropertyKey?
         /// The property value.
@@ -2513,7 +2513,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRate: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering rate.
-    public struct SavingsPlanOfferingRate: Swift.Equatable {
+    public struct SavingsPlanOfferingRate {
         /// The specific Amazon Web Services operation for the line item in the billing report.
         public var operation: Swift.String?
         /// The product type.
@@ -2594,7 +2594,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateFilterElement: Swift.Co
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering rate filter.
-    public struct SavingsPlanOfferingRateFilterElement: Swift.Equatable {
+    public struct SavingsPlanOfferingRateFilterElement {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanRateFilterAttribute?
         /// The filter values.
@@ -2639,7 +2639,7 @@ extension SavingsplansClientTypes.SavingsPlanOfferingRateProperty: Swift.Codable
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan offering rate property.
-    public struct SavingsPlanOfferingRateProperty: Swift.Equatable {
+    public struct SavingsPlanOfferingRateProperty {
         /// The property name.
         public var name: Swift.String?
         /// The property value.
@@ -2805,7 +2805,7 @@ extension SavingsplansClientTypes.SavingsPlanRate: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan rate.
-    public struct SavingsPlanRate: Swift.Equatable {
+    public struct SavingsPlanRate {
         /// The currency.
         public var currency: SavingsplansClientTypes.CurrencyCode?
         /// The specific Amazon Web Services operation for the line item in the billing report.
@@ -2886,7 +2886,7 @@ extension SavingsplansClientTypes.SavingsPlanRateFilter: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan rate filter.
-    public struct SavingsPlanRateFilter: Swift.Equatable {
+    public struct SavingsPlanRateFilter {
         /// The filter name.
         public var name: SavingsplansClientTypes.SavingsPlanRateFilterName?
         /// The filter values.
@@ -3025,7 +3025,7 @@ extension SavingsplansClientTypes.SavingsPlanRateProperty: Swift.Codable {
 
 extension SavingsplansClientTypes {
     /// Information about a Savings Plan rate property.
-    public struct SavingsPlanRateProperty: Swift.Equatable {
+    public struct SavingsPlanRateProperty {
         /// The property name.
         public var name: SavingsplansClientTypes.SavingsPlanRatePropertyKey?
         /// The property value.
@@ -3340,7 +3340,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3383,7 +3383,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3401,7 +3401,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -3435,7 +3435,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3481,7 +3481,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3499,7 +3499,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -3533,7 +3533,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3591,7 +3591,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

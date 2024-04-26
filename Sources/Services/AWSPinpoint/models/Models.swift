@@ -35,7 +35,7 @@ extension PinpointClientTypes.ADMChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the ADM (Amazon Device Messaging) channel for an application.
-    public struct ADMChannelRequest: Swift.Equatable {
+    public struct ADMChannelRequest {
         /// The Client ID that you received from Amazon to send messages by using ADM.
         /// This member is required.
         public var clientId: Swift.String?
@@ -134,7 +134,7 @@ extension PinpointClientTypes.ADMChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
-    public struct ADMChannelResponse: Swift.Equatable {
+    public struct ADMChannelResponse {
         /// The unique identifier for the application that the ADM channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the ADM channel was enabled.
@@ -330,7 +330,7 @@ extension PinpointClientTypes.ADMMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a one-time message that's sent directly to an endpoint through the ADM (Amazon Device Messaging) channel.
-    public struct ADMMessage: Swift.Equatable {
+    public struct ADMMessage {
         /// The action to occur if the recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -473,7 +473,7 @@ extension PinpointClientTypes.APNSChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) channel for an application.
-    public struct APNSChannelRequest: Swift.Equatable {
+    public struct APNSChannelRequest {
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public var bundleId: Swift.String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -602,7 +602,7 @@ extension PinpointClientTypes.APNSChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
-    public struct APNSChannelResponse: Swift.Equatable {
+    public struct APNSChannelResponse {
         /// The unique identifier for the application that the APNs channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the APNs channel was enabled.
@@ -818,7 +818,7 @@ extension PinpointClientTypes.APNSMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a one-time message that's sent directly to an endpoint through the APNs (Apple Push Notification service) channel.
-    public struct APNSMessage: Swift.Equatable {
+    public struct APNSMessage {
         /// The action to occur if the recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -980,7 +980,7 @@ extension PinpointClientTypes.APNSPushNotificationTemplate: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies channel-specific content and settings for a message template that can be used in push notifications that are sent through the APNs (Apple Push Notification service) channel.
-    public struct APNSPushNotificationTemplate: Swift.Equatable {
+    public struct APNSPushNotificationTemplate {
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -1087,7 +1087,7 @@ extension PinpointClientTypes.APNSSandboxChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
-    public struct APNSSandboxChannelRequest: Swift.Equatable {
+    public struct APNSSandboxChannelRequest {
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public var bundleId: Swift.String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -1216,7 +1216,7 @@ extension PinpointClientTypes.APNSSandboxChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
-    public struct APNSSandboxChannelResponse: Swift.Equatable {
+    public struct APNSSandboxChannelResponse {
         /// The unique identifier for the application that the APNs sandbox channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the APNs sandbox channel was enabled.
@@ -1338,7 +1338,7 @@ extension PinpointClientTypes.APNSVoipChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
-    public struct APNSVoipChannelRequest: Swift.Equatable {
+    public struct APNSVoipChannelRequest {
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public var bundleId: Swift.String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with APNs by using an APNs certificate.
@@ -1467,7 +1467,7 @@ extension PinpointClientTypes.APNSVoipChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
-    public struct APNSVoipChannelResponse: Swift.Equatable {
+    public struct APNSVoipChannelResponse {
         /// The unique identifier for the application that the APNs VoIP channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the APNs VoIP channel was enabled.
@@ -1589,7 +1589,7 @@ extension PinpointClientTypes.APNSVoipSandboxChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
-    public struct APNSVoipSandboxChannelRequest: Swift.Equatable {
+    public struct APNSVoipSandboxChannelRequest {
         /// The bundle identifier that's assigned to your iOS app. This identifier is used for APNs tokens.
         public var bundleId: Swift.String?
         /// The APNs client certificate that you received from Apple, if you want Amazon Pinpoint to communicate with the APNs sandbox environment by using an APNs certificate.
@@ -1718,7 +1718,7 @@ extension PinpointClientTypes.APNSVoipSandboxChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
-    public struct APNSVoipSandboxChannelResponse: Swift.Equatable {
+    public struct APNSVoipSandboxChannelResponse {
         /// The unique identifier for the application that the APNs VoIP sandbox channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the APNs VoIP sandbox channel was enabled.
@@ -1851,7 +1851,7 @@ extension PinpointClientTypes.ActivitiesResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the activities that were performed by a campaign.
-    public struct ActivitiesResponse: Swift.Equatable {
+    public struct ActivitiesResponse {
         /// An array of responses, one for each activity that was performed by the campaign.
         /// This member is required.
         public var item: [PinpointClientTypes.ActivityResponse]?
@@ -1951,7 +1951,7 @@ extension PinpointClientTypes.Activity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration and other settings for an activity in a journey.
-    public struct Activity: Swift.Equatable {
+    public struct Activity {
         /// The settings for a yes/no split activity. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify.
         public var conditionalSplit: PinpointClientTypes.ConditionalSplitActivity?
         /// The settings for a connect activity. This type of activity initiates a contact center call to participants.
@@ -2116,7 +2116,7 @@ extension PinpointClientTypes.ActivityResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about an activity that was performed by a campaign.
-    public struct ActivityResponse: Swift.Equatable {
+    public struct ActivityResponse {
         /// The unique identifier for the application that the campaign applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -2270,7 +2270,7 @@ extension PinpointClientTypes.AddressConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies address-based configuration settings for a message that's sent directly to an endpoint.
-    public struct AddressConfiguration: Swift.Equatable {
+    public struct AddressConfiguration {
         /// The message body to use instead of the default message body. This value overrides the default message body.
         public var bodyOverride: Swift.String?
         /// The channel to use when sending the message.
@@ -2408,7 +2408,7 @@ extension PinpointClientTypes.AndroidPushNotificationTemplate: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies channel-specific content and settings for a message template that can be used in push notifications that are sent through the ADM (Amazon Device Messaging), Baidu (Baidu Cloud Push), or GCM (Firebase Cloud Messaging, formerly Google Cloud Messaging) channel.
-    public struct AndroidPushNotificationTemplate: Swift.Equatable {
+    public struct AndroidPushNotificationTemplate {
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -2511,7 +2511,7 @@ extension PinpointClientTypes.ApplicationDateRangeKpiResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, and provides information about that query.
-    public struct ApplicationDateRangeKpiResponse: Swift.Equatable {
+    public struct ApplicationDateRangeKpiResponse {
         /// The unique identifier for the application that the metric applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -2607,7 +2607,7 @@ extension PinpointClientTypes.ApplicationResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about an application.
-    public struct ApplicationResponse: Swift.Equatable {
+    public struct ApplicationResponse {
         /// The Amazon Resource Name (ARN) of the application.
         /// This member is required.
         public var arn: Swift.String?
@@ -2673,7 +2673,7 @@ extension PinpointClientTypes.ApplicationSettingsJourneyLimits: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The default sending limits for journeys in the application. To override these limits and define custom limits for a specific journey, use the Journey resource.
-    public struct ApplicationSettingsJourneyLimits: Swift.Equatable {
+    public struct ApplicationSettingsJourneyLimits {
         /// The daily number of messages that an endpoint can receive from all journeys. The maximum value is 100. If set to 0, this limit will not apply.
         public var dailyCap: Swift.Int?
         /// The default maximum number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
@@ -2746,7 +2746,7 @@ extension PinpointClientTypes.ApplicationSettingsResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about an application, including the default settings for an application.
-    public struct ApplicationSettingsResource: Swift.Equatable {
+    public struct ApplicationSettingsResource {
         /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -2829,7 +2829,7 @@ extension PinpointClientTypes.ApplicationsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all of your applications.
-    public struct ApplicationsResponse: Swift.Equatable {
+    public struct ApplicationsResponse {
         /// An array of responses, one for each application that was returned.
         public var item: [PinpointClientTypes.ApplicationResponse]?
         /// The string to use in a subsequent request to get the next page of results in a paginated response. This value is null if there are no additional pages.
@@ -2886,7 +2886,7 @@ extension PinpointClientTypes.AttributeDimension: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies attribute-based criteria for including or excluding endpoints from a segment.
-    public struct AttributeDimension: Swift.Equatable {
+    public struct AttributeDimension {
         /// The type of segment dimension to use. Valid values are:
         ///
         /// * INCLUSIVE - endpoints that have attributes matching the values are included in the segment.
@@ -3011,7 +3011,7 @@ extension PinpointClientTypes.AttributesResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the type and the names of attributes that were removed from all the endpoints that are associated with an application.
-    public struct AttributesResource: Swift.Equatable {
+    public struct AttributesResource {
         /// The unique identifier for the application.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -3087,7 +3087,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -3140,7 +3140,7 @@ extension PinpointClientTypes.BaiduChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
-    public struct BaiduChannelRequest: Swift.Equatable {
+    public struct BaiduChannelRequest {
         /// The API key that you received from the Baidu Cloud Push service to communicate with the service.
         /// This member is required.
         public var apiKey: Swift.String?
@@ -3245,7 +3245,7 @@ extension PinpointClientTypes.BaiduChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
-    public struct BaiduChannelResponse: Swift.Equatable {
+    public struct BaiduChannelResponse {
         /// The unique identifier for the application that the Baidu channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the Baidu channel was enabled.
@@ -3434,7 +3434,7 @@ extension PinpointClientTypes.BaiduMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a one-time message that's sent directly to an endpoint through the Baidu (Baidu Cloud Push) channel.
-    public struct BaiduMessage: Swift.Equatable {
+    public struct BaiduMessage {
         /// The action to occur if the recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -3539,7 +3539,7 @@ extension PinpointClientTypes.BaseKpiResult: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
-    public struct BaseKpiResult: Swift.Equatable {
+    public struct BaseKpiResult {
         /// An array of objects that provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
         /// This member is required.
         public var rows: [PinpointClientTypes.ResultRow]?
@@ -3610,7 +3610,7 @@ extension PinpointClientTypes.CampaignCustomMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the contents of a message that's sent through a custom channel to recipients of a campaign.
-    public struct CampaignCustomMessage: Swift.Equatable {
+    public struct CampaignCustomMessage {
         /// The raw, JSON-formatted string to use as the payload for the message. The maximum size is 5 KB.
         public var data: Swift.String?
 
@@ -3681,7 +3681,7 @@ extension PinpointClientTypes.CampaignDateRangeKpiResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to a campaign, and provides information about that query.
-    public struct CampaignDateRangeKpiResponse: Swift.Equatable {
+    public struct CampaignDateRangeKpiResponse {
         /// The unique identifier for the application that the metric applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -3764,7 +3764,7 @@ extension PinpointClientTypes.CampaignEmailMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and "From" address for an email message that's sent to recipients of a campaign.
-    public struct CampaignEmailMessage: Swift.Equatable {
+    public struct CampaignEmailMessage {
         /// The body of the email for recipients whose email clients don't render HTML content.
         public var body: Swift.String?
         /// The verified email address to send the email from. The default address is the FromAddress specified for the email channel for the application.
@@ -3817,7 +3817,7 @@ extension PinpointClientTypes.CampaignEventFilter: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for events that cause a campaign to be sent.
-    public struct CampaignEventFilter: Swift.Equatable {
+    public struct CampaignEventFilter {
         /// The dimension settings of the event filter for the campaign.
         /// This member is required.
         public var dimensions: PinpointClientTypes.EventDimensions?
@@ -3870,7 +3870,7 @@ extension PinpointClientTypes.CampaignHook: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies settings for invoking an AWS Lambda function that customizes a segment for a campaign.
-    public struct CampaignHook: Swift.Equatable {
+    public struct CampaignHook {
         /// The name or Amazon Resource Name (ARN) of the AWS Lambda function that Amazon Pinpoint invokes to customize a segment for a campaign.
         public var lambdaFunctionName: Swift.String?
         /// The mode that Amazon Pinpoint uses to invoke the AWS Lambda function. Possible values are:
@@ -3959,7 +3959,7 @@ extension PinpointClientTypes.CampaignInAppMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// In-app message configuration.
-    public struct CampaignInAppMessage: Swift.Equatable {
+    public struct CampaignInAppMessage {
         /// The message body of the notification, the email body or the text message.
         public var body: Swift.String?
         /// In-app message content.
@@ -4030,7 +4030,7 @@ extension PinpointClientTypes.CampaignLimits: Swift.Codable {
 
 extension PinpointClientTypes {
     /// For a campaign, specifies limits on the messages that the campaign can send. For an application, specifies the default limits for messages that campaigns in the application can send.
-    public struct CampaignLimits: Swift.Equatable {
+    public struct CampaignLimits {
         /// The maximum number of messages that a campaign can send to a single endpoint during a 24-hour period. For an application, this value specifies the default limit for the number of messages that campaigns and journeys can send to a single endpoint during a 24-hour period. The maximum value is 100.
         public var daily: Swift.Int?
         /// The maximum amount of time, in seconds, that a campaign can attempt to deliver a message after the scheduled start time for the campaign. The minimum value is 60 seconds.
@@ -4249,7 +4249,7 @@ extension PinpointClientTypes.CampaignResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status, configuration, and other settings for a campaign.
-    public struct CampaignResponse: Swift.Equatable {
+    public struct CampaignResponse {
         /// An array of responses, one for each treatment that you defined for the campaign, in addition to the default treatment.
         public var additionalTreatments: [PinpointClientTypes.TreatmentResource]?
         /// The unique identifier for the application that the campaign applies to.
@@ -4417,7 +4417,7 @@ extension PinpointClientTypes.CampaignSmsMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for an SMS message that's sent to recipients of a campaign.
-    public struct CampaignSmsMessage: Swift.Equatable {
+    public struct CampaignSmsMessage {
         /// The body of the SMS message.
         public var body: Swift.String?
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
@@ -4472,7 +4472,7 @@ extension PinpointClientTypes.CampaignState: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status of a campaign.
-    public struct CampaignState: Swift.Equatable {
+    public struct CampaignState {
         /// The current status of the campaign, or the current status of a treatment that belongs to an A/B test campaign. If a campaign uses A/B testing, the campaign has a status of COMPLETED only if all campaign treatments have a status of COMPLETED. If you delete the segment that's associated with a campaign, the campaign fails and has a status of DELETED.
         public var campaignStatus: PinpointClientTypes.CampaignStatus?
 
@@ -4572,7 +4572,7 @@ extension PinpointClientTypes.CampaignsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
-    public struct CampaignsResponse: Swift.Equatable {
+    public struct CampaignsResponse {
         /// An array of responses, one for each campaign that's associated with the application.
         /// This member is required.
         public var item: [PinpointClientTypes.CampaignResponse]?
@@ -4660,7 +4660,7 @@ extension PinpointClientTypes.ChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the general settings and status of a channel for an application.
-    public struct ChannelResponse: Swift.Equatable {
+    public struct ChannelResponse {
         /// The unique identifier for the application.
         public var applicationId: Swift.String?
         /// The date and time, in ISO 8601 format, when the channel was enabled.
@@ -4804,7 +4804,7 @@ extension PinpointClientTypes.ChannelsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the general settings and status of all channels for an application, including channels that aren't enabled for the application.
-    public struct ChannelsResponse: Swift.Equatable {
+    public struct ChannelsResponse {
         /// A map that contains a multipart response for each channel. For each item in this object, the ChannelType is the key and the Channel is the value.
         /// This member is required.
         public var channels: [Swift.String:PinpointClientTypes.ChannelResponse]?
@@ -4924,7 +4924,7 @@ extension PinpointClientTypes.ClosedDays: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The time when a journey will not send messages. QuietTime should be configured first and SendingSchedule should be set to true.
-    public struct ClosedDays: Swift.Equatable {
+    public struct ClosedDays {
         /// Rules for the Custom channel.
         public var custom: [PinpointClientTypes.ClosedDaysRule]?
         /// Rules for the Email channel.
@@ -4987,7 +4987,7 @@ extension PinpointClientTypes.ClosedDaysRule: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the rule settings for when messages can't be sent.
-    public struct ClosedDaysRule: Swift.Equatable {
+    public struct ClosedDaysRule {
         /// End DateTime ISO 8601 format
         public var endDateTime: Swift.String?
         /// The name of the closed day rule.
@@ -5048,7 +5048,7 @@ extension PinpointClientTypes.Condition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the conditions to evaluate for an activity in a journey, and how to evaluate those conditions.
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// The conditions to evaluate for the activity.
         public var conditions: [PinpointClientTypes.SimpleCondition]?
         /// Specifies how to handle multiple conditions for the activity. For example, if you specify two conditions for an activity, whether both or only one of the conditions must be met for the activity to be performed.
@@ -5105,7 +5105,7 @@ extension PinpointClientTypes.ConditionalSplitActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a yes/no split activity in a journey. This type of activity sends participants down one of two paths in a journey, based on conditions that you specify. To create yes/no split activities that send participants down different paths based on push notification events (such as Open or Received events), your mobile app has to specify the User ID and Endpoint ID values. For more information, see [Integrating Amazon Pinpoint with your application](https://docs.aws.amazon.com/pinpoint/latest/developerguide/integrate.html) in the Amazon Pinpoint Developer Guide.
-    public struct ConditionalSplitActivity: Swift.Equatable {
+    public struct ConditionalSplitActivity {
         /// The conditions that define the paths for the activity, and the relationship between the conditions.
         public var condition: PinpointClientTypes.Condition?
         /// The amount of time to wait before determining whether the conditions are met, or the date and time when Amazon Pinpoint determines whether the conditions are met.
@@ -5177,7 +5177,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -5217,7 +5217,7 @@ extension PinpointClientTypes.ContactCenterActivity: Swift.Codable {
 }
 
 extension PinpointClientTypes {
-    public struct ContactCenterActivity: Swift.Equatable {
+    public struct ContactCenterActivity {
         /// The unique identifier for the next activity to perform after the this activity.
         public var nextActivity: Swift.String?
 
@@ -5251,7 +5251,7 @@ extension CreateAppInput {
     }
 }
 
-public struct CreateAppInput: Swift.Equatable {
+public struct CreateAppInput {
     /// Specifies the display name of an application and the tags to associate with the application.
     /// This member is required.
     public var createApplicationRequest: PinpointClientTypes.CreateApplicationRequest?
@@ -5264,7 +5264,7 @@ public struct CreateAppInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInputBody: Swift.Equatable {
+struct CreateAppInputBody {
     let createApplicationRequest: PinpointClientTypes.CreateApplicationRequest?
 }
 
@@ -5291,7 +5291,7 @@ extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppOutput: Swift.Equatable {
+public struct CreateAppOutput {
     /// Provides information about an application.
     /// This member is required.
     public var applicationResponse: PinpointClientTypes.ApplicationResponse?
@@ -5304,7 +5304,7 @@ public struct CreateAppOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputBody: Swift.Equatable {
+struct CreateAppOutputBody {
     let applicationResponse: PinpointClientTypes.ApplicationResponse?
 }
 
@@ -5376,7 +5376,7 @@ extension PinpointClientTypes.CreateApplicationRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the display name of an application and the tags to associate with the application.
-    public struct CreateApplicationRequest: Swift.Equatable {
+    public struct CreateApplicationRequest {
         /// The display name of the application. This name is displayed as the Project name on the Amazon Pinpoint console.
         /// This member is required.
         public var name: Swift.String?
@@ -5418,7 +5418,7 @@ extension CreateCampaignInput {
     }
 }
 
-public struct CreateCampaignInput: Swift.Equatable {
+public struct CreateCampaignInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5436,7 +5436,7 @@ public struct CreateCampaignInput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignInputBody: Swift.Equatable {
+struct CreateCampaignInputBody {
     let writeCampaignRequest: PinpointClientTypes.WriteCampaignRequest?
 }
 
@@ -5463,7 +5463,7 @@ extension CreateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCampaignOutput: Swift.Equatable {
+public struct CreateCampaignOutput {
     /// Provides information about the status, configuration, and other settings for a campaign.
     /// This member is required.
     public var campaignResponse: PinpointClientTypes.CampaignResponse?
@@ -5476,7 +5476,7 @@ public struct CreateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct CreateCampaignOutputBody: Swift.Equatable {
+struct CreateCampaignOutputBody {
     let campaignResponse: PinpointClientTypes.CampaignResponse?
 }
 
@@ -5532,7 +5532,7 @@ extension CreateEmailTemplateInput {
     }
 }
 
-public struct CreateEmailTemplateInput: Swift.Equatable {
+public struct CreateEmailTemplateInput {
     /// Specifies the content and settings for a message template that can be used in messages that are sent through the email channel.
     /// This member is required.
     public var emailTemplateRequest: PinpointClientTypes.EmailTemplateRequest?
@@ -5550,7 +5550,7 @@ public struct CreateEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateEmailTemplateInputBody: Swift.Equatable {
+struct CreateEmailTemplateInputBody {
     let emailTemplateRequest: PinpointClientTypes.EmailTemplateRequest?
 }
 
@@ -5577,7 +5577,7 @@ extension CreateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEmailTemplateOutput: Swift.Equatable {
+public struct CreateEmailTemplateOutput {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -5590,7 +5590,7 @@ public struct CreateEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateEmailTemplateOutputBody: Swift.Equatable {
+struct CreateEmailTemplateOutputBody {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
@@ -5644,7 +5644,7 @@ extension CreateExportJobInput {
     }
 }
 
-public struct CreateExportJobInput: Swift.Equatable {
+public struct CreateExportJobInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5662,7 +5662,7 @@ public struct CreateExportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateExportJobInputBody: Swift.Equatable {
+struct CreateExportJobInputBody {
     let exportJobRequest: PinpointClientTypes.ExportJobRequest?
 }
 
@@ -5689,7 +5689,7 @@ extension CreateExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExportJobOutput: Swift.Equatable {
+public struct CreateExportJobOutput {
     /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
     /// This member is required.
     public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
@@ -5702,7 +5702,7 @@ public struct CreateExportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateExportJobOutputBody: Swift.Equatable {
+struct CreateExportJobOutputBody {
     let exportJobResponse: PinpointClientTypes.ExportJobResponse?
 }
 
@@ -5758,7 +5758,7 @@ extension CreateImportJobInput {
     }
 }
 
-public struct CreateImportJobInput: Swift.Equatable {
+public struct CreateImportJobInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -5776,7 +5776,7 @@ public struct CreateImportJobInput: Swift.Equatable {
     }
 }
 
-struct CreateImportJobInputBody: Swift.Equatable {
+struct CreateImportJobInputBody {
     let importJobRequest: PinpointClientTypes.ImportJobRequest?
 }
 
@@ -5803,7 +5803,7 @@ extension CreateImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateImportJobOutput: Swift.Equatable {
+public struct CreateImportJobOutput {
     /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
     /// This member is required.
     public var importJobResponse: PinpointClientTypes.ImportJobResponse?
@@ -5816,7 +5816,7 @@ public struct CreateImportJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateImportJobOutputBody: Swift.Equatable {
+struct CreateImportJobOutputBody {
     let importJobResponse: PinpointClientTypes.ImportJobResponse?
 }
 
@@ -5872,7 +5872,7 @@ extension CreateInAppTemplateInput {
     }
 }
 
-public struct CreateInAppTemplateInput: Swift.Equatable {
+public struct CreateInAppTemplateInput {
     /// InApp Template Request.
     /// This member is required.
     public var inAppTemplateRequest: PinpointClientTypes.InAppTemplateRequest?
@@ -5890,7 +5890,7 @@ public struct CreateInAppTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateInAppTemplateInputBody: Swift.Equatable {
+struct CreateInAppTemplateInputBody {
     let inAppTemplateRequest: PinpointClientTypes.InAppTemplateRequest?
 }
 
@@ -5917,7 +5917,7 @@ extension CreateInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateInAppTemplateOutput: Swift.Equatable {
+public struct CreateInAppTemplateOutput {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
@@ -5930,7 +5930,7 @@ public struct CreateInAppTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateInAppTemplateOutputBody: Swift.Equatable {
+struct CreateInAppTemplateOutputBody {
     let templateCreateMessageBody: PinpointClientTypes.TemplateCreateMessageBody?
 }
 
@@ -5984,7 +5984,7 @@ extension CreateJourneyInput {
     }
 }
 
-public struct CreateJourneyInput: Swift.Equatable {
+public struct CreateJourneyInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6002,7 +6002,7 @@ public struct CreateJourneyInput: Swift.Equatable {
     }
 }
 
-struct CreateJourneyInputBody: Swift.Equatable {
+struct CreateJourneyInputBody {
     let writeJourneyRequest: PinpointClientTypes.WriteJourneyRequest?
 }
 
@@ -6029,7 +6029,7 @@ extension CreateJourneyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJourneyOutput: Swift.Equatable {
+public struct CreateJourneyOutput {
     /// Provides information about the status, configuration, and other settings for a journey.
     /// This member is required.
     public var journeyResponse: PinpointClientTypes.JourneyResponse?
@@ -6042,7 +6042,7 @@ public struct CreateJourneyOutput: Swift.Equatable {
     }
 }
 
-struct CreateJourneyOutputBody: Swift.Equatable {
+struct CreateJourneyOutputBody {
     let journeyResponse: PinpointClientTypes.JourneyResponse?
 }
 
@@ -6098,7 +6098,7 @@ extension CreatePushTemplateInput {
     }
 }
 
-public struct CreatePushTemplateInput: Swift.Equatable {
+public struct CreatePushTemplateInput {
     /// Specifies the content and settings for a message template that can be used in messages that are sent through a push notification channel.
     /// This member is required.
     public var pushNotificationTemplateRequest: PinpointClientTypes.PushNotificationTemplateRequest?
@@ -6116,7 +6116,7 @@ public struct CreatePushTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreatePushTemplateInputBody: Swift.Equatable {
+struct CreatePushTemplateInputBody {
     let pushNotificationTemplateRequest: PinpointClientTypes.PushNotificationTemplateRequest?
 }
 
@@ -6143,7 +6143,7 @@ extension CreatePushTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePushTemplateOutput: Swift.Equatable {
+public struct CreatePushTemplateOutput {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -6156,7 +6156,7 @@ public struct CreatePushTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreatePushTemplateOutputBody: Swift.Equatable {
+struct CreatePushTemplateOutputBody {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
@@ -6207,7 +6207,7 @@ extension CreateRecommenderConfigurationInput {
     }
 }
 
-public struct CreateRecommenderConfigurationInput: Swift.Equatable {
+public struct CreateRecommenderConfigurationInput {
     /// Specifies Amazon Pinpoint configuration settings for retrieving and processing recommendation data from a recommender model.
     /// This member is required.
     public var createRecommenderConfiguration: PinpointClientTypes.CreateRecommenderConfigurationShape?
@@ -6220,7 +6220,7 @@ public struct CreateRecommenderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateRecommenderConfigurationInputBody: Swift.Equatable {
+struct CreateRecommenderConfigurationInputBody {
     let createRecommenderConfiguration: PinpointClientTypes.CreateRecommenderConfigurationShape?
 }
 
@@ -6247,7 +6247,7 @@ extension CreateRecommenderConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateRecommenderConfigurationOutput: Swift.Equatable {
+public struct CreateRecommenderConfigurationOutput {
     /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
     /// This member is required.
     public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
@@ -6260,7 +6260,7 @@ public struct CreateRecommenderConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateRecommenderConfigurationOutputBody: Swift.Equatable {
+struct CreateRecommenderConfigurationOutputBody {
     let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
 }
 
@@ -6374,7 +6374,7 @@ extension PinpointClientTypes.CreateRecommenderConfigurationShape: Swift.Codable
 
 extension PinpointClientTypes {
     /// Specifies Amazon Pinpoint configuration settings for retrieving and processing recommendation data from a recommender model.
-    public struct CreateRecommenderConfigurationShape: Swift.Equatable {
+    public struct CreateRecommenderConfigurationShape {
         /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names:
         ///
         /// * An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique.
@@ -6456,7 +6456,7 @@ extension CreateSegmentInput {
     }
 }
 
-public struct CreateSegmentInput: Swift.Equatable {
+public struct CreateSegmentInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -6474,7 +6474,7 @@ public struct CreateSegmentInput: Swift.Equatable {
     }
 }
 
-struct CreateSegmentInputBody: Swift.Equatable {
+struct CreateSegmentInputBody {
     let writeSegmentRequest: PinpointClientTypes.WriteSegmentRequest?
 }
 
@@ -6501,7 +6501,7 @@ extension CreateSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSegmentOutput: Swift.Equatable {
+public struct CreateSegmentOutput {
     /// Provides information about the configuration, dimension, and other settings for a segment.
     /// This member is required.
     public var segmentResponse: PinpointClientTypes.SegmentResponse?
@@ -6514,7 +6514,7 @@ public struct CreateSegmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateSegmentOutputBody: Swift.Equatable {
+struct CreateSegmentOutputBody {
     let segmentResponse: PinpointClientTypes.SegmentResponse?
 }
 
@@ -6570,7 +6570,7 @@ extension CreateSmsTemplateInput {
     }
 }
 
-public struct CreateSmsTemplateInput: Swift.Equatable {
+public struct CreateSmsTemplateInput {
     /// Specifies the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
     /// This member is required.
     public var smsTemplateRequest: PinpointClientTypes.SMSTemplateRequest?
@@ -6588,7 +6588,7 @@ public struct CreateSmsTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateSmsTemplateInputBody: Swift.Equatable {
+struct CreateSmsTemplateInputBody {
     let smsTemplateRequest: PinpointClientTypes.SMSTemplateRequest?
 }
 
@@ -6615,7 +6615,7 @@ extension CreateSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSmsTemplateOutput: Swift.Equatable {
+public struct CreateSmsTemplateOutput {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -6628,7 +6628,7 @@ public struct CreateSmsTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateSmsTemplateOutputBody: Swift.Equatable {
+struct CreateSmsTemplateOutputBody {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
@@ -6692,7 +6692,7 @@ extension PinpointClientTypes.CreateTemplateMessageBody: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a request to create a message template.
-    public struct CreateTemplateMessageBody: Swift.Equatable {
+    public struct CreateTemplateMessageBody {
         /// The Amazon Resource Name (ARN) of the message template that was created.
         public var arn: Swift.String?
         /// The message that's returned from the API for the request to create the message template.
@@ -6737,7 +6737,7 @@ extension CreateVoiceTemplateInput {
     }
 }
 
-public struct CreateVoiceTemplateInput: Swift.Equatable {
+public struct CreateVoiceTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -6755,7 +6755,7 @@ public struct CreateVoiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateVoiceTemplateInputBody: Swift.Equatable {
+struct CreateVoiceTemplateInputBody {
     let voiceTemplateRequest: PinpointClientTypes.VoiceTemplateRequest?
 }
 
@@ -6782,7 +6782,7 @@ extension CreateVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateVoiceTemplateOutput: Swift.Equatable {
+public struct CreateVoiceTemplateOutput {
     /// Provides information about a request to create a message template.
     /// This member is required.
     public var createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
@@ -6795,7 +6795,7 @@ public struct CreateVoiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateVoiceTemplateOutputBody: Swift.Equatable {
+struct CreateVoiceTemplateOutputBody {
     let createTemplateMessageBody: PinpointClientTypes.CreateTemplateMessageBody?
 }
 
@@ -6865,7 +6865,7 @@ extension PinpointClientTypes.CustomDeliveryConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the delivery configuration settings for sending a campaign or campaign treatment through a custom channel. This object is required if you use the CampaignCustomMessage object to define the message to send for the campaign or campaign treatment.
-    public struct CustomDeliveryConfiguration: Swift.Equatable {
+    public struct CustomDeliveryConfiguration {
         /// The destination to send the campaign or treatment to. This value can be one of the following:
         ///
         /// * The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment.
@@ -6951,7 +6951,7 @@ extension PinpointClientTypes.CustomMessageActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The settings for a custom message activity. This type of activity calls an AWS Lambda function or web hook that sends messages to participants.
-    public struct CustomMessageActivity: Swift.Equatable {
+    public struct CustomMessageActivity {
         /// The destination to send the campaign or treatment to. This value can be one of the following:
         ///
         /// * The name or Amazon Resource Name (ARN) of an AWS Lambda function to invoke to handle delivery of the campaign or treatment.
@@ -7087,7 +7087,7 @@ extension PinpointClientTypes.DefaultButtonConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Default button configuration.
-    public struct DefaultButtonConfiguration: Swift.Equatable {
+    public struct DefaultButtonConfiguration {
         /// The background color of the button.
         public var backgroundColor: Swift.String?
         /// The border radius of the button.
@@ -7172,7 +7172,7 @@ extension PinpointClientTypes.DefaultMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default message for all channels.
-    public struct DefaultMessage: Swift.Equatable {
+    public struct DefaultMessage {
         /// The default body of the message.
         public var body: Swift.String?
         /// The default message variables to use in the message. You can override these default variables with individual address variables.
@@ -7281,7 +7281,7 @@ extension PinpointClientTypes.DefaultPushNotificationMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default settings and content for a push notification that's sent directly to an endpoint.
-    public struct DefaultPushNotificationMessage: Swift.Equatable {
+    public struct DefaultPushNotificationMessage {
         /// The default action to occur if a recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -7370,7 +7370,7 @@ extension PinpointClientTypes.DefaultPushNotificationTemplate: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default settings and content for a message template that can be used in messages that are sent through a push notification channel.
-    public struct DefaultPushNotificationTemplate: Swift.Equatable {
+    public struct DefaultPushNotificationTemplate {
         /// The action to occur if a recipient taps a push notification that's based on the message template. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -7416,7 +7416,7 @@ extension DeleteAdmChannelInput {
     }
 }
 
-public struct DeleteAdmChannelInput: Swift.Equatable {
+public struct DeleteAdmChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7429,7 +7429,7 @@ public struct DeleteAdmChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteAdmChannelInputBody: Swift.Equatable {
+struct DeleteAdmChannelInputBody {
 }
 
 extension DeleteAdmChannelInputBody: Swift.Decodable {
@@ -7449,7 +7449,7 @@ extension DeleteAdmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAdmChannelOutput: Swift.Equatable {
+public struct DeleteAdmChannelOutput {
     /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
     /// This member is required.
     public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
@@ -7462,7 +7462,7 @@ public struct DeleteAdmChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAdmChannelOutputBody: Swift.Equatable {
+struct DeleteAdmChannelOutputBody {
     let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
 }
 
@@ -7505,7 +7505,7 @@ extension DeleteApnsChannelInput {
     }
 }
 
-public struct DeleteApnsChannelInput: Swift.Equatable {
+public struct DeleteApnsChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7518,7 +7518,7 @@ public struct DeleteApnsChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsChannelInputBody: Swift.Equatable {
+struct DeleteApnsChannelInputBody {
 }
 
 extension DeleteApnsChannelInputBody: Swift.Decodable {
@@ -7538,7 +7538,7 @@ extension DeleteApnsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApnsChannelOutput: Swift.Equatable {
+public struct DeleteApnsChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
     /// This member is required.
     public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
@@ -7551,7 +7551,7 @@ public struct DeleteApnsChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsChannelOutputBody: Swift.Equatable {
+struct DeleteApnsChannelOutputBody {
     let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
 }
 
@@ -7594,7 +7594,7 @@ extension DeleteApnsSandboxChannelInput {
     }
 }
 
-public struct DeleteApnsSandboxChannelInput: Swift.Equatable {
+public struct DeleteApnsSandboxChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7607,7 +7607,7 @@ public struct DeleteApnsSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsSandboxChannelInputBody: Swift.Equatable {
+struct DeleteApnsSandboxChannelInputBody {
 }
 
 extension DeleteApnsSandboxChannelInputBody: Swift.Decodable {
@@ -7627,7 +7627,7 @@ extension DeleteApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApnsSandboxChannelOutput: Swift.Equatable {
+public struct DeleteApnsSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
     /// This member is required.
     public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
@@ -7640,7 +7640,7 @@ public struct DeleteApnsSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsSandboxChannelOutputBody: Swift.Equatable {
+struct DeleteApnsSandboxChannelOutputBody {
     let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
 }
 
@@ -7683,7 +7683,7 @@ extension DeleteApnsVoipChannelInput {
     }
 }
 
-public struct DeleteApnsVoipChannelInput: Swift.Equatable {
+public struct DeleteApnsVoipChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7696,7 +7696,7 @@ public struct DeleteApnsVoipChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsVoipChannelInputBody: Swift.Equatable {
+struct DeleteApnsVoipChannelInputBody {
 }
 
 extension DeleteApnsVoipChannelInputBody: Swift.Decodable {
@@ -7716,7 +7716,7 @@ extension DeleteApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApnsVoipChannelOutput: Swift.Equatable {
+public struct DeleteApnsVoipChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
     /// This member is required.
     public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
@@ -7729,7 +7729,7 @@ public struct DeleteApnsVoipChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsVoipChannelOutputBody: Swift.Equatable {
+struct DeleteApnsVoipChannelOutputBody {
     let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
 }
 
@@ -7772,7 +7772,7 @@ extension DeleteApnsVoipSandboxChannelInput {
     }
 }
 
-public struct DeleteApnsVoipSandboxChannelInput: Swift.Equatable {
+public struct DeleteApnsVoipSandboxChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7785,7 +7785,7 @@ public struct DeleteApnsVoipSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsVoipSandboxChannelInputBody: Swift.Equatable {
+struct DeleteApnsVoipSandboxChannelInputBody {
 }
 
 extension DeleteApnsVoipSandboxChannelInputBody: Swift.Decodable {
@@ -7805,7 +7805,7 @@ extension DeleteApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteApnsVoipSandboxChannelOutput: Swift.Equatable {
+public struct DeleteApnsVoipSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
     /// This member is required.
     public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
@@ -7818,7 +7818,7 @@ public struct DeleteApnsVoipSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+struct DeleteApnsVoipSandboxChannelOutputBody {
     let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
 }
 
@@ -7861,7 +7861,7 @@ extension DeleteAppInput {
     }
 }
 
-public struct DeleteAppInput: Swift.Equatable {
+public struct DeleteAppInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7874,7 +7874,7 @@ public struct DeleteAppInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputBody: Swift.Equatable {
+struct DeleteAppInputBody {
 }
 
 extension DeleteAppInputBody: Swift.Decodable {
@@ -7894,7 +7894,7 @@ extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAppOutput: Swift.Equatable {
+public struct DeleteAppOutput {
     /// Provides information about an application.
     /// This member is required.
     public var applicationResponse: PinpointClientTypes.ApplicationResponse?
@@ -7907,7 +7907,7 @@ public struct DeleteAppOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAppOutputBody: Swift.Equatable {
+struct DeleteAppOutputBody {
     let applicationResponse: PinpointClientTypes.ApplicationResponse?
 }
 
@@ -7950,7 +7950,7 @@ extension DeleteBaiduChannelInput {
     }
 }
 
-public struct DeleteBaiduChannelInput: Swift.Equatable {
+public struct DeleteBaiduChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -7963,7 +7963,7 @@ public struct DeleteBaiduChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteBaiduChannelInputBody: Swift.Equatable {
+struct DeleteBaiduChannelInputBody {
 }
 
 extension DeleteBaiduChannelInputBody: Swift.Decodable {
@@ -7983,7 +7983,7 @@ extension DeleteBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBaiduChannelOutput: Swift.Equatable {
+public struct DeleteBaiduChannelOutput {
     /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
     /// This member is required.
     public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
@@ -7996,7 +7996,7 @@ public struct DeleteBaiduChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBaiduChannelOutputBody: Swift.Equatable {
+struct DeleteBaiduChannelOutputBody {
     let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
 }
 
@@ -8042,7 +8042,7 @@ extension DeleteCampaignInput {
     }
 }
 
-public struct DeleteCampaignInput: Swift.Equatable {
+public struct DeleteCampaignInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8060,7 +8060,7 @@ public struct DeleteCampaignInput: Swift.Equatable {
     }
 }
 
-struct DeleteCampaignInputBody: Swift.Equatable {
+struct DeleteCampaignInputBody {
 }
 
 extension DeleteCampaignInputBody: Swift.Decodable {
@@ -8080,7 +8080,7 @@ extension DeleteCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCampaignOutput: Swift.Equatable {
+public struct DeleteCampaignOutput {
     /// Provides information about the status, configuration, and other settings for a campaign.
     /// This member is required.
     public var campaignResponse: PinpointClientTypes.CampaignResponse?
@@ -8093,7 +8093,7 @@ public struct DeleteCampaignOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCampaignOutputBody: Swift.Equatable {
+struct DeleteCampaignOutputBody {
     let campaignResponse: PinpointClientTypes.CampaignResponse?
 }
 
@@ -8136,7 +8136,7 @@ extension DeleteEmailChannelInput {
     }
 }
 
-public struct DeleteEmailChannelInput: Swift.Equatable {
+public struct DeleteEmailChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8149,7 +8149,7 @@ public struct DeleteEmailChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailChannelInputBody: Swift.Equatable {
+struct DeleteEmailChannelInputBody {
 }
 
 extension DeleteEmailChannelInputBody: Swift.Decodable {
@@ -8169,7 +8169,7 @@ extension DeleteEmailChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEmailChannelOutput: Swift.Equatable {
+public struct DeleteEmailChannelOutput {
     /// Provides information about the status and settings of the email channel for an application.
     /// This member is required.
     public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
@@ -8182,7 +8182,7 @@ public struct DeleteEmailChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailChannelOutputBody: Swift.Equatable {
+struct DeleteEmailChannelOutputBody {
     let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
 }
 
@@ -8237,7 +8237,7 @@ extension DeleteEmailTemplateInput {
     }
 }
 
-public struct DeleteEmailTemplateInput: Swift.Equatable {
+public struct DeleteEmailTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -8260,7 +8260,7 @@ public struct DeleteEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailTemplateInputBody: Swift.Equatable {
+struct DeleteEmailTemplateInputBody {
 }
 
 extension DeleteEmailTemplateInputBody: Swift.Decodable {
@@ -8280,7 +8280,7 @@ extension DeleteEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEmailTemplateOutput: Swift.Equatable {
+public struct DeleteEmailTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -8293,7 +8293,7 @@ public struct DeleteEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEmailTemplateOutputBody: Swift.Equatable {
+struct DeleteEmailTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -8339,7 +8339,7 @@ extension DeleteEndpointInput {
     }
 }
 
-public struct DeleteEndpointInput: Swift.Equatable {
+public struct DeleteEndpointInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8357,7 +8357,7 @@ public struct DeleteEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointInputBody: Swift.Equatable {
+struct DeleteEndpointInputBody {
 }
 
 extension DeleteEndpointInputBody: Swift.Decodable {
@@ -8377,7 +8377,7 @@ extension DeleteEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEndpointOutput: Swift.Equatable {
+public struct DeleteEndpointOutput {
     /// Provides information about the channel type and other settings for an endpoint.
     /// This member is required.
     public var endpointResponse: PinpointClientTypes.EndpointResponse?
@@ -8390,7 +8390,7 @@ public struct DeleteEndpointOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointOutputBody: Swift.Equatable {
+struct DeleteEndpointOutputBody {
     let endpointResponse: PinpointClientTypes.EndpointResponse?
 }
 
@@ -8433,7 +8433,7 @@ extension DeleteEventStreamInput {
     }
 }
 
-public struct DeleteEventStreamInput: Swift.Equatable {
+public struct DeleteEventStreamInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8446,7 +8446,7 @@ public struct DeleteEventStreamInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventStreamInputBody: Swift.Equatable {
+struct DeleteEventStreamInputBody {
 }
 
 extension DeleteEventStreamInputBody: Swift.Decodable {
@@ -8466,7 +8466,7 @@ extension DeleteEventStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEventStreamOutput: Swift.Equatable {
+public struct DeleteEventStreamOutput {
     /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
     /// This member is required.
     public var eventStream: PinpointClientTypes.EventStream?
@@ -8479,7 +8479,7 @@ public struct DeleteEventStreamOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEventStreamOutputBody: Swift.Equatable {
+struct DeleteEventStreamOutputBody {
     let eventStream: PinpointClientTypes.EventStream?
 }
 
@@ -8522,7 +8522,7 @@ extension DeleteGcmChannelInput {
     }
 }
 
-public struct DeleteGcmChannelInput: Swift.Equatable {
+public struct DeleteGcmChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8535,7 +8535,7 @@ public struct DeleteGcmChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteGcmChannelInputBody: Swift.Equatable {
+struct DeleteGcmChannelInputBody {
 }
 
 extension DeleteGcmChannelInputBody: Swift.Decodable {
@@ -8555,7 +8555,7 @@ extension DeleteGcmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteGcmChannelOutput: Swift.Equatable {
+public struct DeleteGcmChannelOutput {
     /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
     /// This member is required.
     public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
@@ -8568,7 +8568,7 @@ public struct DeleteGcmChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteGcmChannelOutputBody: Swift.Equatable {
+struct DeleteGcmChannelOutputBody {
     let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
 }
 
@@ -8623,7 +8623,7 @@ extension DeleteInAppTemplateInput {
     }
 }
 
-public struct DeleteInAppTemplateInput: Swift.Equatable {
+public struct DeleteInAppTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -8646,7 +8646,7 @@ public struct DeleteInAppTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteInAppTemplateInputBody: Swift.Equatable {
+struct DeleteInAppTemplateInputBody {
 }
 
 extension DeleteInAppTemplateInputBody: Swift.Decodable {
@@ -8666,7 +8666,7 @@ extension DeleteInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInAppTemplateOutput: Swift.Equatable {
+public struct DeleteInAppTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -8679,7 +8679,7 @@ public struct DeleteInAppTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInAppTemplateOutputBody: Swift.Equatable {
+struct DeleteInAppTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -8725,7 +8725,7 @@ extension DeleteJourneyInput {
     }
 }
 
-public struct DeleteJourneyInput: Swift.Equatable {
+public struct DeleteJourneyInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -8743,7 +8743,7 @@ public struct DeleteJourneyInput: Swift.Equatable {
     }
 }
 
-struct DeleteJourneyInputBody: Swift.Equatable {
+struct DeleteJourneyInputBody {
 }
 
 extension DeleteJourneyInputBody: Swift.Decodable {
@@ -8763,7 +8763,7 @@ extension DeleteJourneyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJourneyOutput: Swift.Equatable {
+public struct DeleteJourneyOutput {
     /// Provides information about the status, configuration, and other settings for a journey.
     /// This member is required.
     public var journeyResponse: PinpointClientTypes.JourneyResponse?
@@ -8776,7 +8776,7 @@ public struct DeleteJourneyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteJourneyOutputBody: Swift.Equatable {
+struct DeleteJourneyOutputBody {
     let journeyResponse: PinpointClientTypes.JourneyResponse?
 }
 
@@ -8831,7 +8831,7 @@ extension DeletePushTemplateInput {
     }
 }
 
-public struct DeletePushTemplateInput: Swift.Equatable {
+public struct DeletePushTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -8854,7 +8854,7 @@ public struct DeletePushTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeletePushTemplateInputBody: Swift.Equatable {
+struct DeletePushTemplateInputBody {
 }
 
 extension DeletePushTemplateInputBody: Swift.Decodable {
@@ -8874,7 +8874,7 @@ extension DeletePushTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePushTemplateOutput: Swift.Equatable {
+public struct DeletePushTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -8887,7 +8887,7 @@ public struct DeletePushTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeletePushTemplateOutputBody: Swift.Equatable {
+struct DeletePushTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -8930,7 +8930,7 @@ extension DeleteRecommenderConfigurationInput {
     }
 }
 
-public struct DeleteRecommenderConfigurationInput: Swift.Equatable {
+public struct DeleteRecommenderConfigurationInput {
     /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
     /// This member is required.
     public var recommenderId: Swift.String?
@@ -8943,7 +8943,7 @@ public struct DeleteRecommenderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecommenderConfigurationInputBody: Swift.Equatable {
+struct DeleteRecommenderConfigurationInputBody {
 }
 
 extension DeleteRecommenderConfigurationInputBody: Swift.Decodable {
@@ -8963,7 +8963,7 @@ extension DeleteRecommenderConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteRecommenderConfigurationOutput: Swift.Equatable {
+public struct DeleteRecommenderConfigurationOutput {
     /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
     /// This member is required.
     public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
@@ -8976,7 +8976,7 @@ public struct DeleteRecommenderConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteRecommenderConfigurationOutputBody: Swift.Equatable {
+struct DeleteRecommenderConfigurationOutputBody {
     let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
 }
 
@@ -9022,7 +9022,7 @@ extension DeleteSegmentInput {
     }
 }
 
-public struct DeleteSegmentInput: Swift.Equatable {
+public struct DeleteSegmentInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9040,7 +9040,7 @@ public struct DeleteSegmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteSegmentInputBody: Swift.Equatable {
+struct DeleteSegmentInputBody {
 }
 
 extension DeleteSegmentInputBody: Swift.Decodable {
@@ -9060,7 +9060,7 @@ extension DeleteSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSegmentOutput: Swift.Equatable {
+public struct DeleteSegmentOutput {
     /// Provides information about the configuration, dimension, and other settings for a segment.
     /// This member is required.
     public var segmentResponse: PinpointClientTypes.SegmentResponse?
@@ -9073,7 +9073,7 @@ public struct DeleteSegmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSegmentOutputBody: Swift.Equatable {
+struct DeleteSegmentOutputBody {
     let segmentResponse: PinpointClientTypes.SegmentResponse?
 }
 
@@ -9116,7 +9116,7 @@ extension DeleteSmsChannelInput {
     }
 }
 
-public struct DeleteSmsChannelInput: Swift.Equatable {
+public struct DeleteSmsChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9129,7 +9129,7 @@ public struct DeleteSmsChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteSmsChannelInputBody: Swift.Equatable {
+struct DeleteSmsChannelInputBody {
 }
 
 extension DeleteSmsChannelInputBody: Swift.Decodable {
@@ -9149,7 +9149,7 @@ extension DeleteSmsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSmsChannelOutput: Swift.Equatable {
+public struct DeleteSmsChannelOutput {
     /// Provides information about the status and settings of the SMS channel for an application.
     /// This member is required.
     public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
@@ -9162,7 +9162,7 @@ public struct DeleteSmsChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSmsChannelOutputBody: Swift.Equatable {
+struct DeleteSmsChannelOutputBody {
     let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
 }
 
@@ -9217,7 +9217,7 @@ extension DeleteSmsTemplateInput {
     }
 }
 
-public struct DeleteSmsTemplateInput: Swift.Equatable {
+public struct DeleteSmsTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -9240,7 +9240,7 @@ public struct DeleteSmsTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteSmsTemplateInputBody: Swift.Equatable {
+struct DeleteSmsTemplateInputBody {
 }
 
 extension DeleteSmsTemplateInputBody: Swift.Decodable {
@@ -9260,7 +9260,7 @@ extension DeleteSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSmsTemplateOutput: Swift.Equatable {
+public struct DeleteSmsTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -9273,7 +9273,7 @@ public struct DeleteSmsTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSmsTemplateOutputBody: Swift.Equatable {
+struct DeleteSmsTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -9319,7 +9319,7 @@ extension DeleteUserEndpointsInput {
     }
 }
 
-public struct DeleteUserEndpointsInput: Swift.Equatable {
+public struct DeleteUserEndpointsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9337,7 +9337,7 @@ public struct DeleteUserEndpointsInput: Swift.Equatable {
     }
 }
 
-struct DeleteUserEndpointsInputBody: Swift.Equatable {
+struct DeleteUserEndpointsInputBody {
 }
 
 extension DeleteUserEndpointsInputBody: Swift.Decodable {
@@ -9357,7 +9357,7 @@ extension DeleteUserEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUserEndpointsOutput: Swift.Equatable {
+public struct DeleteUserEndpointsOutput {
     /// Provides information about all the endpoints that are associated with a user ID.
     /// This member is required.
     public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
@@ -9370,7 +9370,7 @@ public struct DeleteUserEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteUserEndpointsOutputBody: Swift.Equatable {
+struct DeleteUserEndpointsOutputBody {
     let endpointsResponse: PinpointClientTypes.EndpointsResponse?
 }
 
@@ -9413,7 +9413,7 @@ extension DeleteVoiceChannelInput {
     }
 }
 
-public struct DeleteVoiceChannelInput: Swift.Equatable {
+public struct DeleteVoiceChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -9426,7 +9426,7 @@ public struct DeleteVoiceChannelInput: Swift.Equatable {
     }
 }
 
-struct DeleteVoiceChannelInputBody: Swift.Equatable {
+struct DeleteVoiceChannelInputBody {
 }
 
 extension DeleteVoiceChannelInputBody: Swift.Decodable {
@@ -9446,7 +9446,7 @@ extension DeleteVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVoiceChannelOutput: Swift.Equatable {
+public struct DeleteVoiceChannelOutput {
     /// Provides information about the status and settings of the voice channel for an application.
     /// This member is required.
     public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
@@ -9459,7 +9459,7 @@ public struct DeleteVoiceChannelOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVoiceChannelOutputBody: Swift.Equatable {
+struct DeleteVoiceChannelOutputBody {
     let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
 }
 
@@ -9514,7 +9514,7 @@ extension DeleteVoiceTemplateInput {
     }
 }
 
-public struct DeleteVoiceTemplateInput: Swift.Equatable {
+public struct DeleteVoiceTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -9537,7 +9537,7 @@ public struct DeleteVoiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteVoiceTemplateInputBody: Swift.Equatable {
+struct DeleteVoiceTemplateInputBody {
 }
 
 extension DeleteVoiceTemplateInputBody: Swift.Decodable {
@@ -9557,7 +9557,7 @@ extension DeleteVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteVoiceTemplateOutput: Swift.Equatable {
+public struct DeleteVoiceTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -9570,7 +9570,7 @@ public struct DeleteVoiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct DeleteVoiceTemplateOutputBody: Swift.Equatable {
+struct DeleteVoiceTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -9751,7 +9751,7 @@ extension PinpointClientTypes.DirectMessageConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings and content for the default message and any default messages that you tailored for specific channels.
-    public struct DirectMessageConfiguration: Swift.Equatable {
+    public struct DirectMessageConfiguration {
         /// The default push notification message for the ADM (Amazon Device Messaging) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
         public var admMessage: PinpointClientTypes.ADMMessage?
         /// The default push notification message for the APNs (Apple Push Notification service) channel. This message overrides the default push notification message (DefaultPushNotificationMessage).
@@ -9886,7 +9886,7 @@ extension PinpointClientTypes.EmailChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the email channel for an application.
-    public struct EmailChannelRequest: Swift.Equatable {
+    public struct EmailChannelRequest {
         /// The [Amazon SES configuration set](https://docs.aws.amazon.com/ses/latest/APIReference/API_ConfigurationSet.html) that you want to apply to messages that you send through the channel.
         public var configurationSet: Swift.String?
         /// Specifies whether to enable the email channel for the application.
@@ -10033,7 +10033,7 @@ extension PinpointClientTypes.EmailChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the email channel for an application.
-    public struct EmailChannelResponse: Swift.Equatable {
+    public struct EmailChannelResponse {
         /// The unique identifier for the application that the email channel applies to.
         public var applicationId: Swift.String?
         /// The [Amazon SES configuration set](https://docs.aws.amazon.com/ses/latest/APIReference/API_ConfigurationSet.html) that's applied to messages that are sent through the channel.
@@ -10199,7 +10199,7 @@ extension PinpointClientTypes.EmailMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default settings and content for a one-time email message that's sent directly to an endpoint.
-    public struct EmailMessage: Swift.Equatable {
+    public struct EmailMessage {
         /// The body of the email message.
         public var body: Swift.String?
         /// The email address to forward bounces and complaints to, if feedback forwarding is enabled.
@@ -10276,7 +10276,7 @@ extension PinpointClientTypes.EmailMessageActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for an email activity in a journey. This type of activity sends an email message to participants.
-    public struct EmailMessageActivity: Swift.Equatable {
+    public struct EmailMessageActivity {
         /// Specifies the sender address for an email message that's sent to participants in the journey.
         public var messageConfig: PinpointClientTypes.JourneyEmailMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -10371,7 +10371,7 @@ extension PinpointClientTypes.EmailTemplateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for a message template that can be used in messages that are sent through the email channel.
-    public struct EmailTemplateRequest: Swift.Equatable {
+    public struct EmailTemplateRequest {
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
         public var defaultSubstitutions: Swift.String?
         /// The message body, in HTML format, to use in email messages that are based on the message template. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
@@ -10514,7 +10514,7 @@ extension PinpointClientTypes.EmailTemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through the email channel.
-    public struct EmailTemplateResponse: Swift.Equatable {
+    public struct EmailTemplateResponse {
         /// The Amazon Resource Name (ARN) of the message template.
         public var arn: Swift.String?
         /// The date, in ISO 8601 format, when the message template was created.
@@ -10701,7 +10701,7 @@ extension PinpointClientTypes.EndpointBatchItem: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies an endpoint to create or update and the settings and attributes to set or change for the endpoint.
-    public struct EndpointBatchItem: Swift.Equatable {
+    public struct EndpointBatchItem {
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public var address: Swift.String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
@@ -10792,7 +10792,7 @@ extension PinpointClientTypes.EndpointBatchRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a batch of endpoints to create or update and the settings and attributes to set or change for each endpoint.
-    public struct EndpointBatchRequest: Swift.Equatable {
+    public struct EndpointBatchRequest {
         /// An array that defines the endpoints to create or update and, for each endpoint, the property values to set or change. An array can contain a maximum of 100 items.
         /// This member is required.
         public var item: [PinpointClientTypes.EndpointBatchItem]?
@@ -10870,7 +10870,7 @@ extension PinpointClientTypes.EndpointDemographic: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies demographic information about an endpoint, such as the applicable time zone and platform.
-    public struct EndpointDemographic: Swift.Equatable {
+    public struct EndpointDemographic {
         /// The version of the app that's associated with the endpoint.
         public var appVersion: Swift.String?
         /// The locale of the endpoint, in the following format: the ISO 639-1 alpha-2 code, followed by an underscore (_), followed by an ISO 3166-1 alpha-2 value.
@@ -10939,7 +10939,7 @@ extension PinpointClientTypes.EndpointItemResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the status code and message that result from processing data for an endpoint.
-    public struct EndpointItemResponse: Swift.Equatable {
+    public struct EndpointItemResponse {
         /// The custom message that's returned in the response as a result of processing the endpoint data.
         public var message: Swift.String?
         /// The status code that's returned in the response as a result of processing the endpoint data.
@@ -11008,7 +11008,7 @@ extension PinpointClientTypes.EndpointLocation: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies geographic information about an endpoint.
-    public struct EndpointLocation: Swift.Equatable {
+    public struct EndpointLocation {
         /// The name of the city where the endpoint is located.
         public var city: Swift.String?
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the endpoint is located. For example, US for the United States.
@@ -11093,7 +11093,7 @@ extension PinpointClientTypes.EndpointMessageResult: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the delivery status and results of sending a message directly to an endpoint.
-    public struct EndpointMessageResult: Swift.Equatable {
+    public struct EndpointMessageResult {
         /// The endpoint address that the message was delivered to.
         public var address: Swift.String?
         /// The delivery status of the message. Possible values are:
@@ -11258,7 +11258,7 @@ extension PinpointClientTypes.EndpointRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the channel type and other settings for an endpoint.
-    public struct EndpointRequest: Swift.Equatable {
+    public struct EndpointRequest {
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For a push-notification channel, use the token provided by the push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. For the SMS channel, use a phone number in E.164 format, such as +12065550100. For the email channel, use an email address.
         public var address: Swift.String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. For example, the value of a custom attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
@@ -11451,7 +11451,7 @@ extension PinpointClientTypes.EndpointResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the channel type and other settings for an endpoint.
-    public struct EndpointResponse: Swift.Equatable {
+    public struct EndpointResponse {
         /// The destination address for messages or push notifications that you send to the endpoint. The address varies by channel. For example, the address for a push-notification channel is typically the token provided by a push notification service, such as an Apple Push Notification service (APNs) device token or a Firebase Cloud Messaging (FCM) registration token. The address for the SMS channel is a phone number in E.164 format, such as +12065550100. The address for the email channel is an email address.
         public var address: Swift.String?
         /// The unique identifier for the application that's associated with the endpoint.
@@ -11600,7 +11600,7 @@ extension PinpointClientTypes.EndpointSendConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content, including message variables and attributes, to use in a message that's sent directly to an endpoint.
-    public struct EndpointSendConfiguration: Swift.Equatable {
+    public struct EndpointSendConfiguration {
         /// The body of the message. If specified, this value overrides the default message body.
         public var bodyOverride: Swift.String?
         /// A map of custom attributes to attach to the message for the address. Attribute names are case sensitive. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -11679,7 +11679,7 @@ extension PinpointClientTypes.EndpointUser: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies data for one or more attributes that describe the user who's associated with an endpoint.
-    public struct EndpointUser: Swift.Equatable {
+    public struct EndpointUser {
         /// One or more custom attributes that describe the user by associating a name with an array of values. For example, the value of an attribute named Interests might be: ["Science", "Music", "Travel"]. You can use these attributes as filter criteria when you create segments. Attribute names are case sensitive. An attribute name can contain up to 50 characters. An attribute value can contain up to 100 characters. When you define the name of a custom attribute, avoid using the following characters: number sign (#), colon (:), question mark (?), backslash (\), and slash (/). The Amazon Pinpoint console can't display attribute names that contain these characters. This restriction doesn't apply to attribute values.
         public var userAttributes: [Swift.String:[Swift.String]]?
         /// The unique identifier for the user.
@@ -11730,7 +11730,7 @@ extension PinpointClientTypes.EndpointsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all the endpoints that are associated with a user ID.
-    public struct EndpointsResponse: Swift.Equatable {
+    public struct EndpointsResponse {
         /// An array of responses, one for each endpoint that's associated with the user ID.
         /// This member is required.
         public var item: [PinpointClientTypes.EndpointResponse]?
@@ -11844,7 +11844,7 @@ extension PinpointClientTypes.Event: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies information about an event that reports data to Amazon Pinpoint.
-    public struct Event: Swift.Equatable {
+    public struct Event {
         /// The package name of the app that's recording the event.
         public var appPackageName: Swift.String?
         /// The title of the app that's recording the event.
@@ -11923,7 +11923,7 @@ extension PinpointClientTypes.EventCondition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the conditions to evaluate for an event that applies to an activity in a journey.
-    public struct EventCondition: Swift.Equatable {
+    public struct EventCondition {
         /// The dimensions for the event filter to use for the activity.
         public var dimensions: PinpointClientTypes.EventDimensions?
         /// The message identifier (message_id) for the message to use when determining whether message events meet the condition.
@@ -11998,7 +11998,7 @@ extension PinpointClientTypes.EventDimensions: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the dimensions for an event filter that determines when a campaign is sent or a journey activity is performed.
-    public struct EventDimensions: Swift.Equatable {
+    public struct EventDimensions {
         /// One or more custom attributes that your application reports to Amazon Pinpoint. You can use these attributes as selection criteria when you create an event filter.
         public var attributes: [Swift.String:PinpointClientTypes.AttributeDimension]?
         /// The name of the event that causes the campaign to be sent or the journey activity to be performed. This can be a standard event that Amazon Pinpoint generates, such as _email.delivered. For campaigns, this can also be a custom event that's specific to your application. For information about standard events, see [Streaming Amazon Pinpoint Events](https://docs.aws.amazon.com/pinpoint/latest/developerguide/event-streams.html) in the Amazon Pinpoint Developer Guide.
@@ -12047,7 +12047,7 @@ extension PinpointClientTypes.EventFilter: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for an event that causes a campaign to be sent or a journey activity to be performed.
-    public struct EventFilter: Swift.Equatable {
+    public struct EventFilter {
         /// The dimensions for the event filter to use for the campaign or the journey activity.
         /// This member is required.
         public var dimensions: PinpointClientTypes.EventDimensions?
@@ -12094,7 +12094,7 @@ extension PinpointClientTypes.EventItemResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the status code and message that result from processing an event.
-    public struct EventItemResponse: Swift.Equatable {
+    public struct EventItemResponse {
         /// A custom message that's returned in the response as a result of processing the event.
         public var message: Swift.String?
         /// The status code that's returned in the response as a result of processing the event. Possible values are: 202, for events that were accepted; and, 400, for events that weren't valid.
@@ -12139,7 +12139,7 @@ extension PinpointClientTypes.EventStartCondition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for an event that causes a journey activity to start.
-    public struct EventStartCondition: Swift.Equatable {
+    public struct EventStartCondition {
         /// Specifies the settings for an event that causes a campaign to be sent or a journey activity to be performed.
         public var eventFilter: PinpointClientTypes.EventFilter?
         public var segmentId: Swift.String?
@@ -12207,7 +12207,7 @@ extension PinpointClientTypes.EventStream: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
-    public struct EventStream: Swift.Equatable {
+    public struct EventStream {
         /// The unique identifier for the application to publish event data for.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -12283,7 +12283,7 @@ extension PinpointClientTypes.EventsBatch: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a batch of endpoints and events to process.
-    public struct EventsBatch: Swift.Equatable {
+    public struct EventsBatch {
         /// A set of properties and attributes that are associated with the endpoint.
         /// This member is required.
         public var endpoint: PinpointClientTypes.PublicEndpoint?
@@ -12336,7 +12336,7 @@ extension PinpointClientTypes.EventsRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a batch of events to process.
-    public struct EventsRequest: Swift.Equatable {
+    public struct EventsRequest {
         /// The batch of events to process. For each item in a batch, the endpoint ID acts as a key that has an EventsBatch object as its value.
         /// This member is required.
         public var batchItem: [Swift.String:PinpointClientTypes.EventsBatch]?
@@ -12384,7 +12384,7 @@ extension PinpointClientTypes.EventsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about endpoints and the events that they're associated with.
-    public struct EventsResponse: Swift.Equatable {
+    public struct EventsResponse {
         /// A map that contains a multipart response for each endpoint. For each item in this object, the endpoint ID is the key and the item response is the value. If no item response exists, the value can also be one of the following: 202, the request was processed successfully; or 400, the payload wasn't valid or required fields were missing.
         public var results: [Swift.String:PinpointClientTypes.ItemResponse]?
 
@@ -12437,7 +12437,7 @@ extension PinpointClientTypes.ExportJobRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a job that exports endpoint definitions to an Amazon Simple Storage Service (Amazon S3) bucket.
-    public struct ExportJobRequest: Swift.Equatable {
+    public struct ExportJobRequest {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorizes Amazon Pinpoint to access the Amazon S3 location where you want to export endpoint definitions to.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -12504,7 +12504,7 @@ extension PinpointClientTypes.ExportJobResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the resource settings for a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
-    public struct ExportJobResource: Swift.Equatable {
+    public struct ExportJobResource {
         /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that authorized Amazon Pinpoint to access the Amazon S3 location where the endpoint definitions were exported to.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -12637,7 +12637,7 @@ extension PinpointClientTypes.ExportJobResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
-    public struct ExportJobResponse: Swift.Equatable {
+    public struct ExportJobResponse {
         /// The unique identifier for the application that's associated with the export job.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -12744,7 +12744,7 @@ extension PinpointClientTypes.ExportJobsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
-    public struct ExportJobsResponse: Swift.Equatable {
+    public struct ExportJobsResponse {
         /// An array of responses, one for each export job that's associated with the application (Export Jobs resource) or segment (Segment Export Jobs resource).
         /// This member is required.
         public var item: [PinpointClientTypes.ExportJobResponse]?
@@ -12841,7 +12841,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -12979,7 +12979,7 @@ extension PinpointClientTypes.GCMChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the GCM channel for an application. This channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    public struct GCMChannelRequest: Swift.Equatable {
+    public struct GCMChannelRequest {
         /// The Web API Key, also referred to as an API_KEY or server key, that you received from Google to communicate with Google services.
         public var apiKey: Swift.String?
         /// The default authentication method used for GCM. Values are either "TOKEN" or "KEY". Defaults to "KEY".
@@ -13098,7 +13098,7 @@ extension PinpointClientTypes.GCMChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    public struct GCMChannelResponse: Swift.Equatable {
+    public struct GCMChannelResponse {
         /// The unique identifier for the application that the GCM channel applies to.
         public var applicationId: Swift.String?
         /// The date and time when the GCM channel was enabled.
@@ -13318,7 +13318,7 @@ extension PinpointClientTypes.GCMMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a one-time message that's sent directly to an endpoint through the GCM channel. The GCM channel enables Amazon Pinpoint to send messages to the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
-    public struct GCMMessage: Swift.Equatable {
+    public struct GCMMessage {
         /// The action to occur if the recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -13435,7 +13435,7 @@ extension PinpointClientTypes.GPSCoordinates: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the GPS coordinates of a location.
-    public struct GPSCoordinates: Swift.Equatable {
+    public struct GPSCoordinates {
         /// The latitude coordinate of the location.
         /// This member is required.
         public var latitude: Swift.Double?
@@ -13482,7 +13482,7 @@ extension PinpointClientTypes.GPSPointDimension: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies GPS-based criteria for including or excluding endpoints from a segment.
-    public struct GPSPointDimension: Swift.Equatable {
+    public struct GPSPointDimension {
         /// The GPS coordinates to measure distance from.
         /// This member is required.
         public var coordinates: PinpointClientTypes.GPSCoordinates?
@@ -13511,7 +13511,7 @@ extension GetAdmChannelInput {
     }
 }
 
-public struct GetAdmChannelInput: Swift.Equatable {
+public struct GetAdmChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13524,7 +13524,7 @@ public struct GetAdmChannelInput: Swift.Equatable {
     }
 }
 
-struct GetAdmChannelInputBody: Swift.Equatable {
+struct GetAdmChannelInputBody {
 }
 
 extension GetAdmChannelInputBody: Swift.Decodable {
@@ -13544,7 +13544,7 @@ extension GetAdmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdmChannelOutput: Swift.Equatable {
+public struct GetAdmChannelOutput {
     /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
     /// This member is required.
     public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
@@ -13557,7 +13557,7 @@ public struct GetAdmChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetAdmChannelOutputBody: Swift.Equatable {
+struct GetAdmChannelOutputBody {
     let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
 }
 
@@ -13600,7 +13600,7 @@ extension GetApnsChannelInput {
     }
 }
 
-public struct GetApnsChannelInput: Swift.Equatable {
+public struct GetApnsChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13613,7 +13613,7 @@ public struct GetApnsChannelInput: Swift.Equatable {
     }
 }
 
-struct GetApnsChannelInputBody: Swift.Equatable {
+struct GetApnsChannelInputBody {
 }
 
 extension GetApnsChannelInputBody: Swift.Decodable {
@@ -13633,7 +13633,7 @@ extension GetApnsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApnsChannelOutput: Swift.Equatable {
+public struct GetApnsChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
     /// This member is required.
     public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
@@ -13646,7 +13646,7 @@ public struct GetApnsChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetApnsChannelOutputBody: Swift.Equatable {
+struct GetApnsChannelOutputBody {
     let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
 }
 
@@ -13689,7 +13689,7 @@ extension GetApnsSandboxChannelInput {
     }
 }
 
-public struct GetApnsSandboxChannelInput: Swift.Equatable {
+public struct GetApnsSandboxChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13702,7 +13702,7 @@ public struct GetApnsSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct GetApnsSandboxChannelInputBody: Swift.Equatable {
+struct GetApnsSandboxChannelInputBody {
 }
 
 extension GetApnsSandboxChannelInputBody: Swift.Decodable {
@@ -13722,7 +13722,7 @@ extension GetApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApnsSandboxChannelOutput: Swift.Equatable {
+public struct GetApnsSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
     /// This member is required.
     public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
@@ -13735,7 +13735,7 @@ public struct GetApnsSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetApnsSandboxChannelOutputBody: Swift.Equatable {
+struct GetApnsSandboxChannelOutputBody {
     let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
 }
 
@@ -13778,7 +13778,7 @@ extension GetApnsVoipChannelInput {
     }
 }
 
-public struct GetApnsVoipChannelInput: Swift.Equatable {
+public struct GetApnsVoipChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13791,7 +13791,7 @@ public struct GetApnsVoipChannelInput: Swift.Equatable {
     }
 }
 
-struct GetApnsVoipChannelInputBody: Swift.Equatable {
+struct GetApnsVoipChannelInputBody {
 }
 
 extension GetApnsVoipChannelInputBody: Swift.Decodable {
@@ -13811,7 +13811,7 @@ extension GetApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApnsVoipChannelOutput: Swift.Equatable {
+public struct GetApnsVoipChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
     /// This member is required.
     public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
@@ -13824,7 +13824,7 @@ public struct GetApnsVoipChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetApnsVoipChannelOutputBody: Swift.Equatable {
+struct GetApnsVoipChannelOutputBody {
     let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
 }
 
@@ -13867,7 +13867,7 @@ extension GetApnsVoipSandboxChannelInput {
     }
 }
 
-public struct GetApnsVoipSandboxChannelInput: Swift.Equatable {
+public struct GetApnsVoipSandboxChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13880,7 +13880,7 @@ public struct GetApnsVoipSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct GetApnsVoipSandboxChannelInputBody: Swift.Equatable {
+struct GetApnsVoipSandboxChannelInputBody {
 }
 
 extension GetApnsVoipSandboxChannelInputBody: Swift.Decodable {
@@ -13900,7 +13900,7 @@ extension GetApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApnsVoipSandboxChannelOutput: Swift.Equatable {
+public struct GetApnsVoipSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
     /// This member is required.
     public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
@@ -13913,7 +13913,7 @@ public struct GetApnsVoipSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+struct GetApnsVoipSandboxChannelOutputBody {
     let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
 }
 
@@ -13956,7 +13956,7 @@ extension GetAppInput {
     }
 }
 
-public struct GetAppInput: Swift.Equatable {
+public struct GetAppInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -13969,7 +13969,7 @@ public struct GetAppInput: Swift.Equatable {
     }
 }
 
-struct GetAppInputBody: Swift.Equatable {
+struct GetAppInputBody {
 }
 
 extension GetAppInputBody: Swift.Decodable {
@@ -13989,7 +13989,7 @@ extension GetAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppOutput: Swift.Equatable {
+public struct GetAppOutput {
     /// Provides information about an application.
     /// This member is required.
     public var applicationResponse: PinpointClientTypes.ApplicationResponse?
@@ -14002,7 +14002,7 @@ public struct GetAppOutput: Swift.Equatable {
     }
 }
 
-struct GetAppOutputBody: Swift.Equatable {
+struct GetAppOutputBody {
     let applicationResponse: PinpointClientTypes.ApplicationResponse?
 }
 
@@ -14072,7 +14072,7 @@ extension GetApplicationDateRangeKpiInput {
     }
 }
 
-public struct GetApplicationDateRangeKpiInput: Swift.Equatable {
+public struct GetApplicationDateRangeKpiInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14106,7 +14106,7 @@ public struct GetApplicationDateRangeKpiInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationDateRangeKpiInputBody: Swift.Equatable {
+struct GetApplicationDateRangeKpiInputBody {
 }
 
 extension GetApplicationDateRangeKpiInputBody: Swift.Decodable {
@@ -14126,7 +14126,7 @@ extension GetApplicationDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationDateRangeKpiOutput: Swift.Equatable {
+public struct GetApplicationDateRangeKpiOutput {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, and provides information about that query.
     /// This member is required.
     public var applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
@@ -14139,7 +14139,7 @@ public struct GetApplicationDateRangeKpiOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationDateRangeKpiOutputBody: Swift.Equatable {
+struct GetApplicationDateRangeKpiOutputBody {
     let applicationDateRangeKpiResponse: PinpointClientTypes.ApplicationDateRangeKpiResponse?
 }
 
@@ -14182,7 +14182,7 @@ extension GetApplicationSettingsInput {
     }
 }
 
-public struct GetApplicationSettingsInput: Swift.Equatable {
+public struct GetApplicationSettingsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14195,7 +14195,7 @@ public struct GetApplicationSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationSettingsInputBody: Swift.Equatable {
+struct GetApplicationSettingsInputBody {
 }
 
 extension GetApplicationSettingsInputBody: Swift.Decodable {
@@ -14215,7 +14215,7 @@ extension GetApplicationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationSettingsOutput: Swift.Equatable {
+public struct GetApplicationSettingsOutput {
     /// Provides information about an application, including the default settings for an application.
     /// This member is required.
     public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
@@ -14228,7 +14228,7 @@ public struct GetApplicationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationSettingsOutputBody: Swift.Equatable {
+struct GetApplicationSettingsOutputBody {
     let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
 }
 
@@ -14284,7 +14284,7 @@ extension GetAppsInput {
     }
 }
 
-public struct GetAppsInput: Swift.Equatable {
+public struct GetAppsInput {
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var pageSize: Swift.String?
     /// The NextToken string that specifies which page of results to return in a paginated response.
@@ -14300,7 +14300,7 @@ public struct GetAppsInput: Swift.Equatable {
     }
 }
 
-struct GetAppsInputBody: Swift.Equatable {
+struct GetAppsInputBody {
 }
 
 extension GetAppsInputBody: Swift.Decodable {
@@ -14320,7 +14320,7 @@ extension GetAppsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppsOutput: Swift.Equatable {
+public struct GetAppsOutput {
     /// Provides information about all of your applications.
     /// This member is required.
     public var applicationsResponse: PinpointClientTypes.ApplicationsResponse?
@@ -14333,7 +14333,7 @@ public struct GetAppsOutput: Swift.Equatable {
     }
 }
 
-struct GetAppsOutputBody: Swift.Equatable {
+struct GetAppsOutputBody {
     let applicationsResponse: PinpointClientTypes.ApplicationsResponse?
 }
 
@@ -14376,7 +14376,7 @@ extension GetBaiduChannelInput {
     }
 }
 
-public struct GetBaiduChannelInput: Swift.Equatable {
+public struct GetBaiduChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14389,7 +14389,7 @@ public struct GetBaiduChannelInput: Swift.Equatable {
     }
 }
 
-struct GetBaiduChannelInputBody: Swift.Equatable {
+struct GetBaiduChannelInputBody {
 }
 
 extension GetBaiduChannelInputBody: Swift.Decodable {
@@ -14409,7 +14409,7 @@ extension GetBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBaiduChannelOutput: Swift.Equatable {
+public struct GetBaiduChannelOutput {
     /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
     /// This member is required.
     public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
@@ -14422,7 +14422,7 @@ public struct GetBaiduChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetBaiduChannelOutputBody: Swift.Equatable {
+struct GetBaiduChannelOutputBody {
     let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
 }
 
@@ -14484,7 +14484,7 @@ extension GetCampaignActivitiesInput {
     }
 }
 
-public struct GetCampaignActivitiesInput: Swift.Equatable {
+public struct GetCampaignActivitiesInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14510,7 +14510,7 @@ public struct GetCampaignActivitiesInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignActivitiesInputBody: Swift.Equatable {
+struct GetCampaignActivitiesInputBody {
 }
 
 extension GetCampaignActivitiesInputBody: Swift.Decodable {
@@ -14530,7 +14530,7 @@ extension GetCampaignActivitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignActivitiesOutput: Swift.Equatable {
+public struct GetCampaignActivitiesOutput {
     /// Provides information about the activities that were performed by a campaign.
     /// This member is required.
     public var activitiesResponse: PinpointClientTypes.ActivitiesResponse?
@@ -14543,7 +14543,7 @@ public struct GetCampaignActivitiesOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignActivitiesOutputBody: Swift.Equatable {
+struct GetCampaignActivitiesOutputBody {
     let activitiesResponse: PinpointClientTypes.ActivitiesResponse?
 }
 
@@ -14616,7 +14616,7 @@ extension GetCampaignDateRangeKpiInput {
     }
 }
 
-public struct GetCampaignDateRangeKpiInput: Swift.Equatable {
+public struct GetCampaignDateRangeKpiInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14655,7 +14655,7 @@ public struct GetCampaignDateRangeKpiInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignDateRangeKpiInputBody: Swift.Equatable {
+struct GetCampaignDateRangeKpiInputBody {
 }
 
 extension GetCampaignDateRangeKpiInputBody: Swift.Decodable {
@@ -14675,7 +14675,7 @@ extension GetCampaignDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignDateRangeKpiOutput: Swift.Equatable {
+public struct GetCampaignDateRangeKpiOutput {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to a campaign, and provides information about that query.
     /// This member is required.
     public var campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
@@ -14688,7 +14688,7 @@ public struct GetCampaignDateRangeKpiOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignDateRangeKpiOutputBody: Swift.Equatable {
+struct GetCampaignDateRangeKpiOutputBody {
     let campaignDateRangeKpiResponse: PinpointClientTypes.CampaignDateRangeKpiResponse?
 }
 
@@ -14734,7 +14734,7 @@ extension GetCampaignInput {
     }
 }
 
-public struct GetCampaignInput: Swift.Equatable {
+public struct GetCampaignInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14752,7 +14752,7 @@ public struct GetCampaignInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignInputBody: Swift.Equatable {
+struct GetCampaignInputBody {
 }
 
 extension GetCampaignInputBody: Swift.Decodable {
@@ -14772,7 +14772,7 @@ extension GetCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignOutput: Swift.Equatable {
+public struct GetCampaignOutput {
     /// Provides information about the status, configuration, and other settings for a campaign.
     /// This member is required.
     public var campaignResponse: PinpointClientTypes.CampaignResponse?
@@ -14785,7 +14785,7 @@ public struct GetCampaignOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignOutputBody: Swift.Equatable {
+struct GetCampaignOutputBody {
     let campaignResponse: PinpointClientTypes.CampaignResponse?
 }
 
@@ -14834,7 +14834,7 @@ extension GetCampaignVersionInput {
     }
 }
 
-public struct GetCampaignVersionInput: Swift.Equatable {
+public struct GetCampaignVersionInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14857,7 +14857,7 @@ public struct GetCampaignVersionInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignVersionInputBody: Swift.Equatable {
+struct GetCampaignVersionInputBody {
 }
 
 extension GetCampaignVersionInputBody: Swift.Decodable {
@@ -14877,7 +14877,7 @@ extension GetCampaignVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignVersionOutput: Swift.Equatable {
+public struct GetCampaignVersionOutput {
     /// Provides information about the status, configuration, and other settings for a campaign.
     /// This member is required.
     public var campaignResponse: PinpointClientTypes.CampaignResponse?
@@ -14890,7 +14890,7 @@ public struct GetCampaignVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignVersionOutputBody: Swift.Equatable {
+struct GetCampaignVersionOutputBody {
     let campaignResponse: PinpointClientTypes.CampaignResponse?
 }
 
@@ -14952,7 +14952,7 @@ extension GetCampaignVersionsInput {
     }
 }
 
-public struct GetCampaignVersionsInput: Swift.Equatable {
+public struct GetCampaignVersionsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -14978,7 +14978,7 @@ public struct GetCampaignVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignVersionsInputBody: Swift.Equatable {
+struct GetCampaignVersionsInputBody {
 }
 
 extension GetCampaignVersionsInputBody: Swift.Decodable {
@@ -14998,7 +14998,7 @@ extension GetCampaignVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignVersionsOutput: Swift.Equatable {
+public struct GetCampaignVersionsOutput {
     /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
     /// This member is required.
     public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
@@ -15011,7 +15011,7 @@ public struct GetCampaignVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignVersionsOutputBody: Swift.Equatable {
+struct GetCampaignVersionsOutputBody {
     let campaignsResponse: PinpointClientTypes.CampaignsResponse?
 }
 
@@ -15070,7 +15070,7 @@ extension GetCampaignsInput {
     }
 }
 
-public struct GetCampaignsInput: Swift.Equatable {
+public struct GetCampaignsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15091,7 +15091,7 @@ public struct GetCampaignsInput: Swift.Equatable {
     }
 }
 
-struct GetCampaignsInputBody: Swift.Equatable {
+struct GetCampaignsInputBody {
 }
 
 extension GetCampaignsInputBody: Swift.Decodable {
@@ -15111,7 +15111,7 @@ extension GetCampaignsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCampaignsOutput: Swift.Equatable {
+public struct GetCampaignsOutput {
     /// Provides information about the configuration and other settings for all the campaigns that are associated with an application.
     /// This member is required.
     public var campaignsResponse: PinpointClientTypes.CampaignsResponse?
@@ -15124,7 +15124,7 @@ public struct GetCampaignsOutput: Swift.Equatable {
     }
 }
 
-struct GetCampaignsOutputBody: Swift.Equatable {
+struct GetCampaignsOutputBody {
     let campaignsResponse: PinpointClientTypes.CampaignsResponse?
 }
 
@@ -15167,7 +15167,7 @@ extension GetChannelsInput {
     }
 }
 
-public struct GetChannelsInput: Swift.Equatable {
+public struct GetChannelsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15180,7 +15180,7 @@ public struct GetChannelsInput: Swift.Equatable {
     }
 }
 
-struct GetChannelsInputBody: Swift.Equatable {
+struct GetChannelsInputBody {
 }
 
 extension GetChannelsInputBody: Swift.Decodable {
@@ -15200,7 +15200,7 @@ extension GetChannelsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetChannelsOutput: Swift.Equatable {
+public struct GetChannelsOutput {
     /// Provides information about the general settings and status of all channels for an application, including channels that aren't enabled for the application.
     /// This member is required.
     public var channelsResponse: PinpointClientTypes.ChannelsResponse?
@@ -15213,7 +15213,7 @@ public struct GetChannelsOutput: Swift.Equatable {
     }
 }
 
-struct GetChannelsOutputBody: Swift.Equatable {
+struct GetChannelsOutputBody {
     let channelsResponse: PinpointClientTypes.ChannelsResponse?
 }
 
@@ -15256,7 +15256,7 @@ extension GetEmailChannelInput {
     }
 }
 
-public struct GetEmailChannelInput: Swift.Equatable {
+public struct GetEmailChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15269,7 +15269,7 @@ public struct GetEmailChannelInput: Swift.Equatable {
     }
 }
 
-struct GetEmailChannelInputBody: Swift.Equatable {
+struct GetEmailChannelInputBody {
 }
 
 extension GetEmailChannelInputBody: Swift.Decodable {
@@ -15289,7 +15289,7 @@ extension GetEmailChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEmailChannelOutput: Swift.Equatable {
+public struct GetEmailChannelOutput {
     /// Provides information about the status and settings of the email channel for an application.
     /// This member is required.
     public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
@@ -15302,7 +15302,7 @@ public struct GetEmailChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailChannelOutputBody: Swift.Equatable {
+struct GetEmailChannelOutputBody {
     let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
 }
 
@@ -15357,7 +15357,7 @@ extension GetEmailTemplateInput {
     }
 }
 
-public struct GetEmailTemplateInput: Swift.Equatable {
+public struct GetEmailTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -15380,7 +15380,7 @@ public struct GetEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetEmailTemplateInputBody: Swift.Equatable {
+struct GetEmailTemplateInputBody {
 }
 
 extension GetEmailTemplateInputBody: Swift.Decodable {
@@ -15400,7 +15400,7 @@ extension GetEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEmailTemplateOutput: Swift.Equatable {
+public struct GetEmailTemplateOutput {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through the email channel.
     /// This member is required.
     public var emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
@@ -15413,7 +15413,7 @@ public struct GetEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetEmailTemplateOutputBody: Swift.Equatable {
+struct GetEmailTemplateOutputBody {
     let emailTemplateResponse: PinpointClientTypes.EmailTemplateResponse?
 }
 
@@ -15459,7 +15459,7 @@ extension GetEndpointInput {
     }
 }
 
-public struct GetEndpointInput: Swift.Equatable {
+public struct GetEndpointInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15477,7 +15477,7 @@ public struct GetEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetEndpointInputBody: Swift.Equatable {
+struct GetEndpointInputBody {
 }
 
 extension GetEndpointInputBody: Swift.Decodable {
@@ -15497,7 +15497,7 @@ extension GetEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEndpointOutput: Swift.Equatable {
+public struct GetEndpointOutput {
     /// Provides information about the channel type and other settings for an endpoint.
     /// This member is required.
     public var endpointResponse: PinpointClientTypes.EndpointResponse?
@@ -15510,7 +15510,7 @@ public struct GetEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetEndpointOutputBody: Swift.Equatable {
+struct GetEndpointOutputBody {
     let endpointResponse: PinpointClientTypes.EndpointResponse?
 }
 
@@ -15553,7 +15553,7 @@ extension GetEventStreamInput {
     }
 }
 
-public struct GetEventStreamInput: Swift.Equatable {
+public struct GetEventStreamInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15566,7 +15566,7 @@ public struct GetEventStreamInput: Swift.Equatable {
     }
 }
 
-struct GetEventStreamInputBody: Swift.Equatable {
+struct GetEventStreamInputBody {
 }
 
 extension GetEventStreamInputBody: Swift.Decodable {
@@ -15586,7 +15586,7 @@ extension GetEventStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetEventStreamOutput: Swift.Equatable {
+public struct GetEventStreamOutput {
     /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
     /// This member is required.
     public var eventStream: PinpointClientTypes.EventStream?
@@ -15599,7 +15599,7 @@ public struct GetEventStreamOutput: Swift.Equatable {
     }
 }
 
-struct GetEventStreamOutputBody: Swift.Equatable {
+struct GetEventStreamOutputBody {
     let eventStream: PinpointClientTypes.EventStream?
 }
 
@@ -15645,7 +15645,7 @@ extension GetExportJobInput {
     }
 }
 
-public struct GetExportJobInput: Swift.Equatable {
+public struct GetExportJobInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15663,7 +15663,7 @@ public struct GetExportJobInput: Swift.Equatable {
     }
 }
 
-struct GetExportJobInputBody: Swift.Equatable {
+struct GetExportJobInputBody {
 }
 
 extension GetExportJobInputBody: Swift.Decodable {
@@ -15683,7 +15683,7 @@ extension GetExportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExportJobOutput: Swift.Equatable {
+public struct GetExportJobOutput {
     /// Provides information about the status and settings of a job that exports endpoint definitions to a file. The file can be added directly to an Amazon Simple Storage Service (Amazon S3) bucket by using the Amazon Pinpoint API or downloaded directly to a computer by using the Amazon Pinpoint console.
     /// This member is required.
     public var exportJobResponse: PinpointClientTypes.ExportJobResponse?
@@ -15696,7 +15696,7 @@ public struct GetExportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetExportJobOutputBody: Swift.Equatable {
+struct GetExportJobOutputBody {
     let exportJobResponse: PinpointClientTypes.ExportJobResponse?
 }
 
@@ -15755,7 +15755,7 @@ extension GetExportJobsInput {
     }
 }
 
-public struct GetExportJobsInput: Swift.Equatable {
+public struct GetExportJobsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15776,7 +15776,7 @@ public struct GetExportJobsInput: Swift.Equatable {
     }
 }
 
-struct GetExportJobsInputBody: Swift.Equatable {
+struct GetExportJobsInputBody {
 }
 
 extension GetExportJobsInputBody: Swift.Decodable {
@@ -15796,7 +15796,7 @@ extension GetExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExportJobsOutput: Swift.Equatable {
+public struct GetExportJobsOutput {
     /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
     /// This member is required.
     public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
@@ -15809,7 +15809,7 @@ public struct GetExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetExportJobsOutputBody: Swift.Equatable {
+struct GetExportJobsOutputBody {
     let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
 }
 
@@ -15852,7 +15852,7 @@ extension GetGcmChannelInput {
     }
 }
 
-public struct GetGcmChannelInput: Swift.Equatable {
+public struct GetGcmChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15865,7 +15865,7 @@ public struct GetGcmChannelInput: Swift.Equatable {
     }
 }
 
-struct GetGcmChannelInputBody: Swift.Equatable {
+struct GetGcmChannelInputBody {
 }
 
 extension GetGcmChannelInputBody: Swift.Decodable {
@@ -15885,7 +15885,7 @@ extension GetGcmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGcmChannelOutput: Swift.Equatable {
+public struct GetGcmChannelOutput {
     /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
     /// This member is required.
     public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
@@ -15898,7 +15898,7 @@ public struct GetGcmChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetGcmChannelOutputBody: Swift.Equatable {
+struct GetGcmChannelOutputBody {
     let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
 }
 
@@ -15944,7 +15944,7 @@ extension GetImportJobInput {
     }
 }
 
-public struct GetImportJobInput: Swift.Equatable {
+public struct GetImportJobInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -15962,7 +15962,7 @@ public struct GetImportJobInput: Swift.Equatable {
     }
 }
 
-struct GetImportJobInputBody: Swift.Equatable {
+struct GetImportJobInputBody {
 }
 
 extension GetImportJobInputBody: Swift.Decodable {
@@ -15982,7 +15982,7 @@ extension GetImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportJobOutput: Swift.Equatable {
+public struct GetImportJobOutput {
     /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
     /// This member is required.
     public var importJobResponse: PinpointClientTypes.ImportJobResponse?
@@ -15995,7 +15995,7 @@ public struct GetImportJobOutput: Swift.Equatable {
     }
 }
 
-struct GetImportJobOutputBody: Swift.Equatable {
+struct GetImportJobOutputBody {
     let importJobResponse: PinpointClientTypes.ImportJobResponse?
 }
 
@@ -16054,7 +16054,7 @@ extension GetImportJobsInput {
     }
 }
 
-public struct GetImportJobsInput: Swift.Equatable {
+public struct GetImportJobsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16075,7 +16075,7 @@ public struct GetImportJobsInput: Swift.Equatable {
     }
 }
 
-struct GetImportJobsInputBody: Swift.Equatable {
+struct GetImportJobsInputBody {
 }
 
 extension GetImportJobsInputBody: Swift.Decodable {
@@ -16095,7 +16095,7 @@ extension GetImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetImportJobsOutput: Swift.Equatable {
+public struct GetImportJobsOutput {
     /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
     /// This member is required.
     public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
@@ -16108,7 +16108,7 @@ public struct GetImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetImportJobsOutputBody: Swift.Equatable {
+struct GetImportJobsOutputBody {
     let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
 }
 
@@ -16154,7 +16154,7 @@ extension GetInAppMessagesInput {
     }
 }
 
-public struct GetInAppMessagesInput: Swift.Equatable {
+public struct GetInAppMessagesInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16172,7 +16172,7 @@ public struct GetInAppMessagesInput: Swift.Equatable {
     }
 }
 
-struct GetInAppMessagesInputBody: Swift.Equatable {
+struct GetInAppMessagesInputBody {
 }
 
 extension GetInAppMessagesInputBody: Swift.Decodable {
@@ -16192,7 +16192,7 @@ extension GetInAppMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInAppMessagesOutput: Swift.Equatable {
+public struct GetInAppMessagesOutput {
     /// Get in-app messages response object.
     /// This member is required.
     public var inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
@@ -16205,7 +16205,7 @@ public struct GetInAppMessagesOutput: Swift.Equatable {
     }
 }
 
-struct GetInAppMessagesOutputBody: Swift.Equatable {
+struct GetInAppMessagesOutputBody {
     let inAppMessagesResponse: PinpointClientTypes.InAppMessagesResponse?
 }
 
@@ -16260,7 +16260,7 @@ extension GetInAppTemplateInput {
     }
 }
 
-public struct GetInAppTemplateInput: Swift.Equatable {
+public struct GetInAppTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -16283,7 +16283,7 @@ public struct GetInAppTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetInAppTemplateInputBody: Swift.Equatable {
+struct GetInAppTemplateInputBody {
 }
 
 extension GetInAppTemplateInputBody: Swift.Decodable {
@@ -16303,7 +16303,7 @@ extension GetInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInAppTemplateOutput: Swift.Equatable {
+public struct GetInAppTemplateOutput {
     /// In-App Template Response.
     /// This member is required.
     public var inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
@@ -16316,7 +16316,7 @@ public struct GetInAppTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetInAppTemplateOutputBody: Swift.Equatable {
+struct GetInAppTemplateOutputBody {
     let inAppTemplateResponse: PinpointClientTypes.InAppTemplateResponse?
 }
 
@@ -16389,7 +16389,7 @@ extension GetJourneyDateRangeKpiInput {
     }
 }
 
-public struct GetJourneyDateRangeKpiInput: Swift.Equatable {
+public struct GetJourneyDateRangeKpiInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16428,7 +16428,7 @@ public struct GetJourneyDateRangeKpiInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyDateRangeKpiInputBody: Swift.Equatable {
+struct GetJourneyDateRangeKpiInputBody {
 }
 
 extension GetJourneyDateRangeKpiInputBody: Swift.Decodable {
@@ -16448,7 +16448,7 @@ extension GetJourneyDateRangeKpiOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJourneyDateRangeKpiOutput: Swift.Equatable {
+public struct GetJourneyDateRangeKpiOutput {
     /// Provides the results of a query that retrieved the data for a standard engagement metric that applies to a journey, and provides information about that query.
     /// This member is required.
     public var journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
@@ -16461,7 +16461,7 @@ public struct GetJourneyDateRangeKpiOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyDateRangeKpiOutputBody: Swift.Equatable {
+struct GetJourneyDateRangeKpiOutputBody {
     let journeyDateRangeKpiResponse: PinpointClientTypes.JourneyDateRangeKpiResponse?
 }
 
@@ -16526,7 +16526,7 @@ extension GetJourneyExecutionActivityMetricsInput {
     }
 }
 
-public struct GetJourneyExecutionActivityMetricsInput: Swift.Equatable {
+public struct GetJourneyExecutionActivityMetricsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16557,7 +16557,7 @@ public struct GetJourneyExecutionActivityMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyExecutionActivityMetricsInputBody: Swift.Equatable {
+struct GetJourneyExecutionActivityMetricsInputBody {
 }
 
 extension GetJourneyExecutionActivityMetricsInputBody: Swift.Decodable {
@@ -16577,7 +16577,7 @@ extension GetJourneyExecutionActivityMetricsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetJourneyExecutionActivityMetricsOutput: Swift.Equatable {
+public struct GetJourneyExecutionActivityMetricsOutput {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity, and provides information about that query.
     /// This member is required.
     public var journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
@@ -16590,7 +16590,7 @@ public struct GetJourneyExecutionActivityMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyExecutionActivityMetricsOutputBody: Swift.Equatable {
+struct GetJourneyExecutionActivityMetricsOutputBody {
     let journeyExecutionActivityMetricsResponse: PinpointClientTypes.JourneyExecutionActivityMetricsResponse?
 }
 
@@ -16652,7 +16652,7 @@ extension GetJourneyExecutionMetricsInput {
     }
 }
 
-public struct GetJourneyExecutionMetricsInput: Swift.Equatable {
+public struct GetJourneyExecutionMetricsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16678,7 +16678,7 @@ public struct GetJourneyExecutionMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyExecutionMetricsInputBody: Swift.Equatable {
+struct GetJourneyExecutionMetricsInputBody {
 }
 
 extension GetJourneyExecutionMetricsInputBody: Swift.Decodable {
@@ -16698,7 +16698,7 @@ extension GetJourneyExecutionMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJourneyExecutionMetricsOutput: Swift.Equatable {
+public struct GetJourneyExecutionMetricsOutput {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey, and provides information about that query.
     /// This member is required.
     public var journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
@@ -16711,7 +16711,7 @@ public struct GetJourneyExecutionMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyExecutionMetricsOutputBody: Swift.Equatable {
+struct GetJourneyExecutionMetricsOutputBody {
     let journeyExecutionMetricsResponse: PinpointClientTypes.JourneyExecutionMetricsResponse?
 }
 
@@ -16757,7 +16757,7 @@ extension GetJourneyInput {
     }
 }
 
-public struct GetJourneyInput: Swift.Equatable {
+public struct GetJourneyInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16775,7 +16775,7 @@ public struct GetJourneyInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyInputBody: Swift.Equatable {
+struct GetJourneyInputBody {
 }
 
 extension GetJourneyInputBody: Swift.Decodable {
@@ -16795,7 +16795,7 @@ extension GetJourneyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJourneyOutput: Swift.Equatable {
+public struct GetJourneyOutput {
     /// Provides information about the status, configuration, and other settings for a journey.
     /// This member is required.
     public var journeyResponse: PinpointClientTypes.JourneyResponse?
@@ -16808,7 +16808,7 @@ public struct GetJourneyOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyOutputBody: Swift.Equatable {
+struct GetJourneyOutputBody {
     let journeyResponse: PinpointClientTypes.JourneyResponse?
 }
 
@@ -16876,7 +16876,7 @@ extension GetJourneyRunExecutionActivityMetricsInput {
     }
 }
 
-public struct GetJourneyRunExecutionActivityMetricsInput: Swift.Equatable {
+public struct GetJourneyRunExecutionActivityMetricsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -16912,7 +16912,7 @@ public struct GetJourneyRunExecutionActivityMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunExecutionActivityMetricsInputBody: Swift.Equatable {
+struct GetJourneyRunExecutionActivityMetricsInputBody {
 }
 
 extension GetJourneyRunExecutionActivityMetricsInputBody: Swift.Decodable {
@@ -16932,7 +16932,7 @@ extension GetJourneyRunExecutionActivityMetricsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetJourneyRunExecutionActivityMetricsOutput: Swift.Equatable {
+public struct GetJourneyRunExecutionActivityMetricsOutput {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
     /// This member is required.
     public var journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
@@ -16945,7 +16945,7 @@ public struct GetJourneyRunExecutionActivityMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunExecutionActivityMetricsOutputBody: Swift.Equatable {
+struct GetJourneyRunExecutionActivityMetricsOutputBody {
     let journeyRunExecutionActivityMetricsResponse: PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse?
 }
 
@@ -17010,7 +17010,7 @@ extension GetJourneyRunExecutionMetricsInput {
     }
 }
 
-public struct GetJourneyRunExecutionMetricsInput: Swift.Equatable {
+public struct GetJourneyRunExecutionMetricsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17041,7 +17041,7 @@ public struct GetJourneyRunExecutionMetricsInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunExecutionMetricsInputBody: Swift.Equatable {
+struct GetJourneyRunExecutionMetricsInputBody {
 }
 
 extension GetJourneyRunExecutionMetricsInputBody: Swift.Decodable {
@@ -17061,7 +17061,7 @@ extension GetJourneyRunExecutionMetricsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetJourneyRunExecutionMetricsOutput: Swift.Equatable {
+public struct GetJourneyRunExecutionMetricsOutput {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
     /// This member is required.
     public var journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
@@ -17074,7 +17074,7 @@ public struct GetJourneyRunExecutionMetricsOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunExecutionMetricsOutputBody: Swift.Equatable {
+struct GetJourneyRunExecutionMetricsOutputBody {
     let journeyRunExecutionMetricsResponse: PinpointClientTypes.JourneyRunExecutionMetricsResponse?
 }
 
@@ -17136,7 +17136,7 @@ extension GetJourneyRunsInput {
     }
 }
 
-public struct GetJourneyRunsInput: Swift.Equatable {
+public struct GetJourneyRunsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17162,7 +17162,7 @@ public struct GetJourneyRunsInput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunsInputBody: Swift.Equatable {
+struct GetJourneyRunsInputBody {
 }
 
 extension GetJourneyRunsInputBody: Swift.Decodable {
@@ -17182,7 +17182,7 @@ extension GetJourneyRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJourneyRunsOutput: Swift.Equatable {
+public struct GetJourneyRunsOutput {
     /// Provides information from all runs of a journey.
     /// This member is required.
     public var journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
@@ -17195,7 +17195,7 @@ public struct GetJourneyRunsOutput: Swift.Equatable {
     }
 }
 
-struct GetJourneyRunsOutputBody: Swift.Equatable {
+struct GetJourneyRunsOutputBody {
     let journeyRunsResponse: PinpointClientTypes.JourneyRunsResponse?
 }
 
@@ -17250,7 +17250,7 @@ extension GetPushTemplateInput {
     }
 }
 
-public struct GetPushTemplateInput: Swift.Equatable {
+public struct GetPushTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -17273,7 +17273,7 @@ public struct GetPushTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetPushTemplateInputBody: Swift.Equatable {
+struct GetPushTemplateInputBody {
 }
 
 extension GetPushTemplateInputBody: Swift.Decodable {
@@ -17293,7 +17293,7 @@ extension GetPushTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPushTemplateOutput: Swift.Equatable {
+public struct GetPushTemplateOutput {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through a push notification channel.
     /// This member is required.
     public var pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
@@ -17306,7 +17306,7 @@ public struct GetPushTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetPushTemplateOutputBody: Swift.Equatable {
+struct GetPushTemplateOutputBody {
     let pushNotificationTemplateResponse: PinpointClientTypes.PushNotificationTemplateResponse?
 }
 
@@ -17349,7 +17349,7 @@ extension GetRecommenderConfigurationInput {
     }
 }
 
-public struct GetRecommenderConfigurationInput: Swift.Equatable {
+public struct GetRecommenderConfigurationInput {
     /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
     /// This member is required.
     public var recommenderId: Swift.String?
@@ -17362,7 +17362,7 @@ public struct GetRecommenderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetRecommenderConfigurationInputBody: Swift.Equatable {
+struct GetRecommenderConfigurationInputBody {
 }
 
 extension GetRecommenderConfigurationInputBody: Swift.Decodable {
@@ -17382,7 +17382,7 @@ extension GetRecommenderConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommenderConfigurationOutput: Swift.Equatable {
+public struct GetRecommenderConfigurationOutput {
     /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
     /// This member is required.
     public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
@@ -17395,7 +17395,7 @@ public struct GetRecommenderConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommenderConfigurationOutputBody: Swift.Equatable {
+struct GetRecommenderConfigurationOutputBody {
     let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
 }
 
@@ -17451,7 +17451,7 @@ extension GetRecommenderConfigurationsInput {
     }
 }
 
-public struct GetRecommenderConfigurationsInput: Swift.Equatable {
+public struct GetRecommenderConfigurationsInput {
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var pageSize: Swift.String?
     /// The NextToken string that specifies which page of results to return in a paginated response.
@@ -17467,7 +17467,7 @@ public struct GetRecommenderConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct GetRecommenderConfigurationsInputBody: Swift.Equatable {
+struct GetRecommenderConfigurationsInputBody {
 }
 
 extension GetRecommenderConfigurationsInputBody: Swift.Decodable {
@@ -17487,7 +17487,7 @@ extension GetRecommenderConfigurationsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetRecommenderConfigurationsOutput: Swift.Equatable {
+public struct GetRecommenderConfigurationsOutput {
     /// Provides information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
     /// This member is required.
     public var listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
@@ -17500,7 +17500,7 @@ public struct GetRecommenderConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommenderConfigurationsOutputBody: Swift.Equatable {
+struct GetRecommenderConfigurationsOutputBody {
     let listRecommenderConfigurationsResponse: PinpointClientTypes.ListRecommenderConfigurationsResponse?
 }
 
@@ -17562,7 +17562,7 @@ extension GetSegmentExportJobsInput {
     }
 }
 
-public struct GetSegmentExportJobsInput: Swift.Equatable {
+public struct GetSegmentExportJobsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17588,7 +17588,7 @@ public struct GetSegmentExportJobsInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentExportJobsInputBody: Swift.Equatable {
+struct GetSegmentExportJobsInputBody {
 }
 
 extension GetSegmentExportJobsInputBody: Swift.Decodable {
@@ -17608,7 +17608,7 @@ extension GetSegmentExportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentExportJobsOutput: Swift.Equatable {
+public struct GetSegmentExportJobsOutput {
     /// Provides information about all the export jobs that are associated with an application or segment. An export job is a job that exports endpoint definitions to a file.
     /// This member is required.
     public var exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
@@ -17621,7 +17621,7 @@ public struct GetSegmentExportJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentExportJobsOutputBody: Swift.Equatable {
+struct GetSegmentExportJobsOutputBody {
     let exportJobsResponse: PinpointClientTypes.ExportJobsResponse?
 }
 
@@ -17683,7 +17683,7 @@ extension GetSegmentImportJobsInput {
     }
 }
 
-public struct GetSegmentImportJobsInput: Swift.Equatable {
+public struct GetSegmentImportJobsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17709,7 +17709,7 @@ public struct GetSegmentImportJobsInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentImportJobsInputBody: Swift.Equatable {
+struct GetSegmentImportJobsInputBody {
 }
 
 extension GetSegmentImportJobsInputBody: Swift.Decodable {
@@ -17729,7 +17729,7 @@ extension GetSegmentImportJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentImportJobsOutput: Swift.Equatable {
+public struct GetSegmentImportJobsOutput {
     /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
     /// This member is required.
     public var importJobsResponse: PinpointClientTypes.ImportJobsResponse?
@@ -17742,7 +17742,7 @@ public struct GetSegmentImportJobsOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentImportJobsOutputBody: Swift.Equatable {
+struct GetSegmentImportJobsOutputBody {
     let importJobsResponse: PinpointClientTypes.ImportJobsResponse?
 }
 
@@ -17788,7 +17788,7 @@ extension GetSegmentInput {
     }
 }
 
-public struct GetSegmentInput: Swift.Equatable {
+public struct GetSegmentInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17806,7 +17806,7 @@ public struct GetSegmentInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentInputBody: Swift.Equatable {
+struct GetSegmentInputBody {
 }
 
 extension GetSegmentInputBody: Swift.Decodable {
@@ -17826,7 +17826,7 @@ extension GetSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentOutput: Swift.Equatable {
+public struct GetSegmentOutput {
     /// Provides information about the configuration, dimension, and other settings for a segment.
     /// This member is required.
     public var segmentResponse: PinpointClientTypes.SegmentResponse?
@@ -17839,7 +17839,7 @@ public struct GetSegmentOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentOutputBody: Swift.Equatable {
+struct GetSegmentOutputBody {
     let segmentResponse: PinpointClientTypes.SegmentResponse?
 }
 
@@ -17888,7 +17888,7 @@ extension GetSegmentVersionInput {
     }
 }
 
-public struct GetSegmentVersionInput: Swift.Equatable {
+public struct GetSegmentVersionInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -17911,7 +17911,7 @@ public struct GetSegmentVersionInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentVersionInputBody: Swift.Equatable {
+struct GetSegmentVersionInputBody {
 }
 
 extension GetSegmentVersionInputBody: Swift.Decodable {
@@ -17931,7 +17931,7 @@ extension GetSegmentVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentVersionOutput: Swift.Equatable {
+public struct GetSegmentVersionOutput {
     /// Provides information about the configuration, dimension, and other settings for a segment.
     /// This member is required.
     public var segmentResponse: PinpointClientTypes.SegmentResponse?
@@ -17944,7 +17944,7 @@ public struct GetSegmentVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentVersionOutputBody: Swift.Equatable {
+struct GetSegmentVersionOutputBody {
     let segmentResponse: PinpointClientTypes.SegmentResponse?
 }
 
@@ -18006,7 +18006,7 @@ extension GetSegmentVersionsInput {
     }
 }
 
-public struct GetSegmentVersionsInput: Swift.Equatable {
+public struct GetSegmentVersionsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -18032,7 +18032,7 @@ public struct GetSegmentVersionsInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentVersionsInputBody: Swift.Equatable {
+struct GetSegmentVersionsInputBody {
 }
 
 extension GetSegmentVersionsInputBody: Swift.Decodable {
@@ -18052,7 +18052,7 @@ extension GetSegmentVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentVersionsOutput: Swift.Equatable {
+public struct GetSegmentVersionsOutput {
     /// Provides information about all the segments that are associated with an application.
     /// This member is required.
     public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
@@ -18065,7 +18065,7 @@ public struct GetSegmentVersionsOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentVersionsOutputBody: Swift.Equatable {
+struct GetSegmentVersionsOutputBody {
     let segmentsResponse: PinpointClientTypes.SegmentsResponse?
 }
 
@@ -18124,7 +18124,7 @@ extension GetSegmentsInput {
     }
 }
 
-public struct GetSegmentsInput: Swift.Equatable {
+public struct GetSegmentsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -18145,7 +18145,7 @@ public struct GetSegmentsInput: Swift.Equatable {
     }
 }
 
-struct GetSegmentsInputBody: Swift.Equatable {
+struct GetSegmentsInputBody {
 }
 
 extension GetSegmentsInputBody: Swift.Decodable {
@@ -18165,7 +18165,7 @@ extension GetSegmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSegmentsOutput: Swift.Equatable {
+public struct GetSegmentsOutput {
     /// Provides information about all the segments that are associated with an application.
     /// This member is required.
     public var segmentsResponse: PinpointClientTypes.SegmentsResponse?
@@ -18178,7 +18178,7 @@ public struct GetSegmentsOutput: Swift.Equatable {
     }
 }
 
-struct GetSegmentsOutputBody: Swift.Equatable {
+struct GetSegmentsOutputBody {
     let segmentsResponse: PinpointClientTypes.SegmentsResponse?
 }
 
@@ -18221,7 +18221,7 @@ extension GetSmsChannelInput {
     }
 }
 
-public struct GetSmsChannelInput: Swift.Equatable {
+public struct GetSmsChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -18234,7 +18234,7 @@ public struct GetSmsChannelInput: Swift.Equatable {
     }
 }
 
-struct GetSmsChannelInputBody: Swift.Equatable {
+struct GetSmsChannelInputBody {
 }
 
 extension GetSmsChannelInputBody: Swift.Decodable {
@@ -18254,7 +18254,7 @@ extension GetSmsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSmsChannelOutput: Swift.Equatable {
+public struct GetSmsChannelOutput {
     /// Provides information about the status and settings of the SMS channel for an application.
     /// This member is required.
     public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
@@ -18267,7 +18267,7 @@ public struct GetSmsChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetSmsChannelOutputBody: Swift.Equatable {
+struct GetSmsChannelOutputBody {
     let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
 }
 
@@ -18322,7 +18322,7 @@ extension GetSmsTemplateInput {
     }
 }
 
-public struct GetSmsTemplateInput: Swift.Equatable {
+public struct GetSmsTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -18345,7 +18345,7 @@ public struct GetSmsTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetSmsTemplateInputBody: Swift.Equatable {
+struct GetSmsTemplateInputBody {
 }
 
 extension GetSmsTemplateInputBody: Swift.Decodable {
@@ -18365,7 +18365,7 @@ extension GetSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSmsTemplateOutput: Swift.Equatable {
+public struct GetSmsTemplateOutput {
     /// Provides information about the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
     /// This member is required.
     public var smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
@@ -18378,7 +18378,7 @@ public struct GetSmsTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetSmsTemplateOutputBody: Swift.Equatable {
+struct GetSmsTemplateOutputBody {
     let smsTemplateResponse: PinpointClientTypes.SMSTemplateResponse?
 }
 
@@ -18424,7 +18424,7 @@ extension GetUserEndpointsInput {
     }
 }
 
-public struct GetUserEndpointsInput: Swift.Equatable {
+public struct GetUserEndpointsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -18442,7 +18442,7 @@ public struct GetUserEndpointsInput: Swift.Equatable {
     }
 }
 
-struct GetUserEndpointsInputBody: Swift.Equatable {
+struct GetUserEndpointsInputBody {
 }
 
 extension GetUserEndpointsInputBody: Swift.Decodable {
@@ -18462,7 +18462,7 @@ extension GetUserEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserEndpointsOutput: Swift.Equatable {
+public struct GetUserEndpointsOutput {
     /// Provides information about all the endpoints that are associated with a user ID.
     /// This member is required.
     public var endpointsResponse: PinpointClientTypes.EndpointsResponse?
@@ -18475,7 +18475,7 @@ public struct GetUserEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct GetUserEndpointsOutputBody: Swift.Equatable {
+struct GetUserEndpointsOutputBody {
     let endpointsResponse: PinpointClientTypes.EndpointsResponse?
 }
 
@@ -18518,7 +18518,7 @@ extension GetVoiceChannelInput {
     }
 }
 
-public struct GetVoiceChannelInput: Swift.Equatable {
+public struct GetVoiceChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -18531,7 +18531,7 @@ public struct GetVoiceChannelInput: Swift.Equatable {
     }
 }
 
-struct GetVoiceChannelInputBody: Swift.Equatable {
+struct GetVoiceChannelInputBody {
 }
 
 extension GetVoiceChannelInputBody: Swift.Decodable {
@@ -18551,7 +18551,7 @@ extension GetVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVoiceChannelOutput: Swift.Equatable {
+public struct GetVoiceChannelOutput {
     /// Provides information about the status and settings of the voice channel for an application.
     /// This member is required.
     public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
@@ -18564,7 +18564,7 @@ public struct GetVoiceChannelOutput: Swift.Equatable {
     }
 }
 
-struct GetVoiceChannelOutputBody: Swift.Equatable {
+struct GetVoiceChannelOutputBody {
     let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
 }
 
@@ -18619,7 +18619,7 @@ extension GetVoiceTemplateInput {
     }
 }
 
-public struct GetVoiceTemplateInput: Swift.Equatable {
+public struct GetVoiceTemplateInput {
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
     /// This member is required.
     public var templateName: Swift.String?
@@ -18642,7 +18642,7 @@ public struct GetVoiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetVoiceTemplateInputBody: Swift.Equatable {
+struct GetVoiceTemplateInputBody {
 }
 
 extension GetVoiceTemplateInputBody: Swift.Decodable {
@@ -18662,7 +18662,7 @@ extension GetVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetVoiceTemplateOutput: Swift.Equatable {
+public struct GetVoiceTemplateOutput {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through the voice channel.
     /// This member is required.
     public var voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
@@ -18675,7 +18675,7 @@ public struct GetVoiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetVoiceTemplateOutputBody: Swift.Equatable {
+struct GetVoiceTemplateOutputBody {
     let voiceTemplateResponse: PinpointClientTypes.VoiceTemplateResponse?
 }
 
@@ -18735,7 +18735,7 @@ extension PinpointClientTypes.HoldoutActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a holdout activity in a journey. This type of activity stops a journey for a specified percentage of participants.
-    public struct HoldoutActivity: Swift.Equatable {
+    public struct HoldoutActivity {
         /// The unique identifier for the next activity to perform, after performing the holdout activity.
         public var nextActivity: Swift.String?
         /// The percentage of participants who shouldn't continue the journey. To determine which participants are held out, Amazon Pinpoint applies a probability-based algorithm to the percentage that you specify. Therefore, the actual percentage of participants who are held out may not be equal to the percentage that you specify.
@@ -18817,7 +18817,7 @@ extension PinpointClientTypes.ImportJobRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a job that imports endpoint definitions from an Amazon Simple Storage Service (Amazon S3) bucket.
-    public struct ImportJobRequest: Swift.Equatable {
+    public struct ImportJobRequest {
         /// Specifies whether to create a segment that contains the endpoints, when the endpoint definitions are imported.
         public var defineSegment: Swift.Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -18925,7 +18925,7 @@ extension PinpointClientTypes.ImportJobResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the resource settings for a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
-    public struct ImportJobResource: Swift.Equatable {
+    public struct ImportJobResource {
         /// Specifies whether the import job creates a segment that contains the endpoints, when the endpoint definitions are imported.
         public var defineSegment: Swift.Bool?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -19075,7 +19075,7 @@ extension PinpointClientTypes.ImportJobResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of a job that imports endpoint definitions from one or more files. The files can be stored in an Amazon Simple Storage Service (Amazon S3) bucket or uploaded directly from a computer by using the Amazon Pinpoint console.
-    public struct ImportJobResponse: Swift.Equatable {
+    public struct ImportJobResponse {
         /// The unique identifier for the application that's associated with the import job.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -19182,7 +19182,7 @@ extension PinpointClientTypes.ImportJobsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of all the import jobs that are associated with an application or segment. An import job is a job that imports endpoint definitions from one or more files.
-    public struct ImportJobsResponse: Swift.Equatable {
+    public struct ImportJobsResponse {
         /// An array of responses, one for each import job that's associated with the application (Import Jobs resource) or segment (Segment Import Jobs resource).
         /// This member is required.
         public var item: [PinpointClientTypes.ImportJobResponse]?
@@ -19234,7 +19234,7 @@ extension PinpointClientTypes.InAppCampaignSchedule: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Schedule of the campaign.
-    public struct InAppCampaignSchedule: Swift.Equatable {
+    public struct InAppCampaignSchedule {
         /// The scheduled time after which the in-app message should not be shown. Timestamp is in ISO 8601 format.
         public var endDate: Swift.String?
         /// The event filter the SDK has to use to show the in-app message in the application.
@@ -19313,7 +19313,7 @@ extension PinpointClientTypes.InAppMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides all fields required for building an in-app message.
-    public struct InAppMessage: Swift.Equatable {
+    public struct InAppMessage {
         /// In-app message content.
         public var content: [PinpointClientTypes.InAppMessageContent]?
         /// Custom config to be sent to SDK.
@@ -19368,7 +19368,7 @@ extension PinpointClientTypes.InAppMessageBodyConfig: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Text config for Message Body.
-    public struct InAppMessageBodyConfig: Swift.Equatable {
+    public struct InAppMessageBodyConfig {
         /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
         /// This member is required.
         public var alignment: PinpointClientTypes.Alignment?
@@ -19432,7 +19432,7 @@ extension PinpointClientTypes.InAppMessageButton: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Button Config for an in-app message.
-    public struct InAppMessageButton: Swift.Equatable {
+    public struct InAppMessageButton {
         /// Default button content.
         public var android: PinpointClientTypes.OverrideButtonConfiguration?
         /// Default button content.
@@ -19521,7 +19521,7 @@ extension PinpointClientTypes.InAppMessageCampaign: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Targeted in-app message campaign.
-    public struct InAppMessageCampaign: Swift.Equatable {
+    public struct InAppMessageCampaign {
         /// Campaign id of the corresponding campaign.
         public var campaignId: Swift.String?
         /// Daily cap which controls the number of times any in-app messages can be shown to the endpoint during a day.
@@ -19614,7 +19614,7 @@ extension PinpointClientTypes.InAppMessageContent: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The configuration for the message content.
-    public struct InAppMessageContent: Swift.Equatable {
+    public struct InAppMessageContent {
         /// The background color for the message.
         public var backgroundColor: Swift.String?
         /// The configuration for the message body.
@@ -19681,7 +19681,7 @@ extension PinpointClientTypes.InAppMessageHeaderConfig: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Text config for Message Header.
-    public struct InAppMessageHeaderConfig: Swift.Equatable {
+    public struct InAppMessageHeaderConfig {
         /// The alignment of the text. Valid values: LEFT, CENTER, RIGHT.
         /// This member is required.
         public var alignment: PinpointClientTypes.Alignment?
@@ -19739,7 +19739,7 @@ extension PinpointClientTypes.InAppMessagesResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Get in-app messages response object.
-    public struct InAppMessagesResponse: Swift.Equatable {
+    public struct InAppMessagesResponse {
         /// List of targeted in-app message campaigns.
         public var inAppMessageCampaigns: [PinpointClientTypes.InAppMessageCampaign]?
 
@@ -19834,7 +19834,7 @@ extension PinpointClientTypes.InAppTemplateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// InApp Template Request.
-    public struct InAppTemplateRequest: Swift.Equatable {
+    public struct InAppTemplateRequest {
         /// The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional.
         public var content: [PinpointClientTypes.InAppMessageContent]?
         /// Custom config to be sent to client.
@@ -19981,7 +19981,7 @@ extension PinpointClientTypes.InAppTemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// In-App Template Response.
-    public struct InAppTemplateResponse: Swift.Equatable {
+    public struct InAppTemplateResponse {
         /// The resource arn of the template.
         public var arn: Swift.String?
         /// The content of the message, can include up to 5 modals. Each modal must contain a message, a header, and background color. ImageUrl and buttons are optional.
@@ -20120,7 +20120,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -20179,7 +20179,7 @@ extension PinpointClientTypes.ItemResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the results of a request to create or update an endpoint that's associated with an event.
-    public struct ItemResponse: Swift.Equatable {
+    public struct ItemResponse {
         /// The response that was received after the endpoint data was accepted.
         public var endpointItemResponse: PinpointClientTypes.EndpointItemResponse?
         /// A multipart response object that contains a key and a value for each event in the request. In each object, the event ID is the key and an EventItemResponse object is the value.
@@ -20277,7 +20277,7 @@ extension PinpointClientTypes.JourneyChannelSettings: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The channel-specific configurations for the journey.
-    public struct JourneyChannelSettings: Swift.Equatable {
+    public struct JourneyChannelSettings {
         /// Amazon Resource Name (ARN) of the Connect Campaign.
         public var connectCampaignArn: Swift.String?
         /// IAM role ARN to be assumed when invoking Connect campaign execution APIs for dialing.
@@ -20316,7 +20316,7 @@ extension PinpointClientTypes.JourneyCustomMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the message content for a custom channel message that's sent to participants in a journey.
-    public struct JourneyCustomMessage: Swift.Equatable {
+    public struct JourneyCustomMessage {
         /// The message content that's passed to an AWS Lambda function or to a web hook.
         public var data: Swift.String?
 
@@ -20387,7 +20387,7 @@ extension PinpointClientTypes.JourneyDateRangeKpiResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard engagement metric that applies to a journey, and provides information about that query.
-    public struct JourneyDateRangeKpiResponse: Swift.Equatable {
+    public struct JourneyDateRangeKpiResponse {
         /// The unique identifier for the application that the metric applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -20452,7 +20452,7 @@ extension PinpointClientTypes.JourneyEmailMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the "From" address for an email message that's sent to participants in a journey.
-    public struct JourneyEmailMessage: Swift.Equatable {
+    public struct JourneyEmailMessage {
         /// The verified email address to send the email message from. The default address is the FromAddress specified for the email channel for the application.
         public var fromAddress: Swift.String?
 
@@ -20529,7 +20529,7 @@ extension PinpointClientTypes.JourneyExecutionActivityMetricsResponse: Swift.Cod
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity, and provides information about that query.
-    public struct JourneyExecutionActivityMetricsResponse: Swift.Equatable {
+    public struct JourneyExecutionActivityMetricsResponse {
         /// The type of activity that the metric applies to. Possible values are:
         ///
         /// * CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey.
@@ -20632,7 +20632,7 @@ extension PinpointClientTypes.JourneyExecutionMetricsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey, and provides information about that query.
-    public struct JourneyExecutionMetricsResponse: Swift.Equatable {
+    public struct JourneyExecutionMetricsResponse {
         /// The unique identifier for the application that the metric applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -20713,7 +20713,7 @@ extension PinpointClientTypes.JourneyLimits: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies limits on the messages that a journey can send and the number of times participants can enter a journey.
-    public struct JourneyLimits: Swift.Equatable {
+    public struct JourneyLimits {
         /// The maximum number of messages that the journey can send to a single participant during a 24-hour period. The maximum value is 100.
         public var dailyCap: Swift.Int?
         /// The maximum number of times that a participant can enter the journey. The maximum value is 100. To allow participants to enter the journey an unlimited number of times, set this value to 0.
@@ -20768,7 +20768,7 @@ extension PinpointClientTypes.JourneyPushMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the message configuration for a push notification that's sent to participants in a journey.
-    public struct JourneyPushMessage: Swift.Equatable {
+    public struct JourneyPushMessage {
         /// The number of seconds that the push notification service should keep the message, if the service is unable to deliver the notification the first time. This value is converted to an expiration value when it's sent to a push-notification service. If this value is 0, the service treats the notification as if it expires immediately and the service doesn't store or try to deliver the notification again. This value doesn't apply to messages that are sent through the Amazon Device Messaging (ADM) service.
         public var timeToLive: Swift.String?
 
@@ -20965,7 +20965,7 @@ extension PinpointClientTypes.JourneyResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status, configuration, and other settings for a journey.
-    public struct JourneyResponse: Swift.Equatable {
+    public struct JourneyResponse {
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity.
         public var activities: [Swift.String:PinpointClientTypes.Activity]?
         /// The unique identifier for the application that the journey applies to.
@@ -21158,7 +21158,7 @@ extension PinpointClientTypes.JourneyRunExecutionActivityMetricsResponse: Swift.
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey activity for a particular journey run, and provides information about that query.
-    public struct JourneyRunExecutionActivityMetricsResponse: Swift.Equatable {
+    public struct JourneyRunExecutionActivityMetricsResponse {
         /// The type of activity that the metric applies to. Possible values are:
         ///
         /// * CONDITIONAL_SPLIT – For a yes/no split activity, which is an activity that sends participants down one of two paths in a journey.
@@ -21272,7 +21272,7 @@ extension PinpointClientTypes.JourneyRunExecutionMetricsResponse: Swift.Codable 
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard execution metric that applies to a journey run, and provides information about that query.
-    public struct JourneyRunExecutionMetricsResponse: Swift.Equatable {
+    public struct JourneyRunExecutionMetricsResponse {
         /// The unique identifier for the application that the metric applies to.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -21346,7 +21346,7 @@ extension PinpointClientTypes.JourneyRunResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information from a specified run of a journey.
-    public struct JourneyRunResponse: Swift.Equatable {
+    public struct JourneyRunResponse {
         /// The time when the journey run was created or scheduled, in ISO 8601 format.
         /// This member is required.
         public var creationTime: Swift.String?
@@ -21453,7 +21453,7 @@ extension PinpointClientTypes.JourneyRunsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information from all runs of a journey.
-    public struct JourneyRunsResponse: Swift.Equatable {
+    public struct JourneyRunsResponse {
         /// An array of responses, one for each run of the journey
         /// This member is required.
         public var item: [PinpointClientTypes.JourneyRunResponse]?
@@ -21517,7 +21517,7 @@ extension PinpointClientTypes.JourneySMSMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the sender ID and message type for an SMS message that's sent to participants in a journey.
-    public struct JourneySMSMessage: Swift.Equatable {
+    public struct JourneySMSMessage {
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
         public var entityId: Swift.String?
         /// The SMS message type. Valid values are TRANSACTIONAL (for messages that are critical or time-sensitive, such as a one-time passwords) and PROMOTIONAL (for messsages that aren't critical or time-sensitive, such as marketing messages).
@@ -21580,7 +21580,7 @@ extension PinpointClientTypes.JourneySchedule: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the schedule settings for a journey.
-    public struct JourneySchedule: Swift.Equatable {
+    public struct JourneySchedule {
         /// The scheduled time, in ISO 8601 format, when the journey ended or will end.
         public var endTime: ClientRuntime.Date?
         /// The scheduled time, in ISO 8601 format, when the journey began or will begin.
@@ -21623,7 +21623,7 @@ extension PinpointClientTypes.JourneyStateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Changes the status of a journey.
-    public struct JourneyStateRequest: Swift.Equatable {
+    public struct JourneyStateRequest {
         /// The status of the journey. Currently, Supported values are ACTIVE, PAUSED, and CANCELLED If you cancel a journey, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Amazon Pinpoint also continues to collect and aggregate analytics data for those activities, until they are complete, and any activities that were complete when you cancelled the journey. After you cancel a journey, you can't add, change, or remove any activities from the journey. In addition, Amazon Pinpoint stops evaluating the journey and doesn't perform any activities that haven't started. When the journey is paused, Amazon Pinpoint continues to perform activities that are currently in progress, until those activities are complete. Endpoints will stop entering journeys when the journey is paused and will resume entering the journey after the journey is resumed. For wait activities, wait time is paused when the journey is paused. Currently, PAUSED only supports journeys with a segment refresh interval.
         public var state: PinpointClientTypes.State?
 
@@ -21664,7 +21664,7 @@ extension PinpointClientTypes.JourneyTimeframeCap: Swift.Codable {
 
 extension PinpointClientTypes {
     /// The number of messages that can be sent to an endpoint during the specified timeframe for all journeys.
-    public struct JourneyTimeframeCap: Swift.Equatable {
+    public struct JourneyTimeframeCap {
         /// The maximum number of messages that all journeys can send to an endpoint during the specified timeframe. The maximum value is 100. If set to 0, this limit will not apply.
         public var cap: Swift.Int?
         /// The length of the timeframe in days. The maximum value is 30. If set to 0, this limit will not apply.
@@ -21721,7 +21721,7 @@ extension PinpointClientTypes.JourneysResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status, configuration, and other settings for all the journeys that are associated with an application.
-    public struct JourneysResponse: Swift.Equatable {
+    public struct JourneysResponse {
         /// An array of responses, one for each journey that's associated with the application.
         /// This member is required.
         public var item: [PinpointClientTypes.JourneyResponse]?
@@ -21810,7 +21810,7 @@ extension ListJourneysInput {
     }
 }
 
-public struct ListJourneysInput: Swift.Equatable {
+public struct ListJourneysInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -21831,7 +21831,7 @@ public struct ListJourneysInput: Swift.Equatable {
     }
 }
 
-struct ListJourneysInputBody: Swift.Equatable {
+struct ListJourneysInputBody {
 }
 
 extension ListJourneysInputBody: Swift.Decodable {
@@ -21851,7 +21851,7 @@ extension ListJourneysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJourneysOutput: Swift.Equatable {
+public struct ListJourneysOutput {
     /// Provides information about the status, configuration, and other settings for all the journeys that are associated with an application.
     /// This member is required.
     public var journeysResponse: PinpointClientTypes.JourneysResponse?
@@ -21864,7 +21864,7 @@ public struct ListJourneysOutput: Swift.Equatable {
     }
 }
 
-struct ListJourneysOutputBody: Swift.Equatable {
+struct ListJourneysOutputBody {
     let journeysResponse: PinpointClientTypes.JourneysResponse?
 }
 
@@ -21936,7 +21936,7 @@ extension PinpointClientTypes.ListRecommenderConfigurationsResponse: Swift.Codab
 
 extension PinpointClientTypes {
     /// Provides information about all the recommender model configurations that are associated with your Amazon Pinpoint account.
-    public struct ListRecommenderConfigurationsResponse: Swift.Equatable {
+    public struct ListRecommenderConfigurationsResponse {
         /// An array of responses, one for each recommender model configuration that's associated with your Amazon Pinpoint account.
         /// This member is required.
         public var item: [PinpointClientTypes.RecommenderConfigurationResponse]?
@@ -21965,7 +21965,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -21978,7 +21978,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -21998,7 +21998,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Specifies the tags (keys and values) for an application, campaign, message template, or segment.
     /// This member is required.
     public var tagsModel: PinpointClientTypes.TagsModel?
@@ -22011,7 +22011,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tagsModel: PinpointClientTypes.TagsModel?
 }
 
@@ -22066,7 +22066,7 @@ extension ListTemplateVersionsInput {
     }
 }
 
-public struct ListTemplateVersionsInput: Swift.Equatable {
+public struct ListTemplateVersionsInput {
     /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var nextToken: Swift.String?
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -22092,7 +22092,7 @@ public struct ListTemplateVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateVersionsInputBody: Swift.Equatable {
+struct ListTemplateVersionsInputBody {
 }
 
 extension ListTemplateVersionsInputBody: Swift.Decodable {
@@ -22112,7 +22112,7 @@ extension ListTemplateVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateVersionsOutput: Swift.Equatable {
+public struct ListTemplateVersionsOutput {
     /// Provides information about all the versions of a specific message template.
     /// This member is required.
     public var templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
@@ -22125,7 +22125,7 @@ public struct ListTemplateVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateVersionsOutputBody: Swift.Equatable {
+struct ListTemplateVersionsOutputBody {
     let templateVersionsResponse: PinpointClientTypes.TemplateVersionsResponse?
 }
 
@@ -22189,7 +22189,7 @@ extension ListTemplatesInput {
     }
 }
 
-public struct ListTemplatesInput: Swift.Equatable {
+public struct ListTemplatesInput {
     /// The string that specifies which page of results to return in a paginated response. This parameter is not supported for application, campaign, and journey metrics.
     public var nextToken: Swift.String?
     /// The maximum number of items to include in each page of a paginated response. This parameter is not supported for application, campaign, and journey metrics.
@@ -22213,7 +22213,7 @@ public struct ListTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesInputBody: Swift.Equatable {
+struct ListTemplatesInputBody {
 }
 
 extension ListTemplatesInputBody: Swift.Decodable {
@@ -22233,7 +22233,7 @@ extension ListTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplatesOutput: Swift.Equatable {
+public struct ListTemplatesOutput {
     /// Provides information about all the message templates that are associated with your Amazon Pinpoint account.
     /// This member is required.
     public var templatesResponse: PinpointClientTypes.TemplatesResponse?
@@ -22246,7 +22246,7 @@ public struct ListTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplatesOutputBody: Swift.Equatable {
+struct ListTemplatesOutputBody {
     let templatesResponse: PinpointClientTypes.TemplatesResponse?
 }
 
@@ -22364,7 +22364,7 @@ extension PinpointClientTypes.Message: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for a push notification that's sent to recipients of a campaign.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// The action to occur if a recipient taps the push notification. Valid values are:
         ///
         /// * OPEN_APP - Your app opens or it becomes the foreground app if it was sent to the background. This is the default action.
@@ -22455,7 +22455,7 @@ extension PinpointClientTypes.MessageBody: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about an API request or response.
-    public struct MessageBody: Swift.Equatable {
+    public struct MessageBody {
         /// The message that's returned from the API.
         public var message: Swift.String?
         /// The unique identifier for the request or response.
@@ -22542,7 +22542,7 @@ extension PinpointClientTypes.MessageConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the message configuration settings for a campaign.
-    public struct MessageConfiguration: Swift.Equatable {
+    public struct MessageConfiguration {
         /// The message that the campaign sends through the ADM (Amazon Device Messaging) channel. If specified, this message overrides the default message.
         public var admMessage: PinpointClientTypes.Message?
         /// The message that the campaign sends through the APNs (Apple Push Notification service) channel. If specified, this message overrides the default message.
@@ -22675,7 +22675,7 @@ extension PinpointClientTypes.MessageRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration and other settings for a message.
-    public struct MessageRequest: Swift.Equatable {
+    public struct MessageRequest {
         /// A map of key-value pairs, where each key is an address and each value is an [AddressConfiguration](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-addressconfiguration) object. An address can be a push notification token, a phone number, or an email address. You can use an [AddressConfiguration](https://docs.aws.amazon.com/pinpoint/latest/apireference/apps-application-id-messages.html#apps-application-id-messages-model-addressconfiguration) object to tailor the message for an address by specifying settings such as content overrides and message variables.
         public var addresses: [Swift.String:PinpointClientTypes.AddressConfiguration]?
         /// A map of custom attributes to attach to the message. For a push notification, this payload is added to the data.pinpoint object. For an email or text message, this payload is added to email/SMS delivery receipt event attributes.
@@ -22773,7 +22773,7 @@ extension PinpointClientTypes.MessageResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the results of a request to send a message to an endpoint address.
-    public struct MessageResponse: Swift.Equatable {
+    public struct MessageResponse {
         /// The unique identifier for the application that was used to send the message.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -22845,7 +22845,7 @@ extension PinpointClientTypes.MessageResult: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the results of sending a message directly to an endpoint address.
-    public struct MessageResult: Swift.Equatable {
+    public struct MessageResult {
         /// The delivery status of the message. Possible values are:
         ///
         /// * DUPLICATE - The endpoint address is a duplicate of another endpoint address. Amazon Pinpoint won't attempt to send the message again.
@@ -22969,7 +22969,7 @@ public struct MethodNotAllowedException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct MethodNotAllowedExceptionBody: Swift.Equatable {
+struct MethodNotAllowedExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -23016,7 +23016,7 @@ extension PinpointClientTypes.MetricDimension: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies metric-based criteria for including or excluding endpoints from a segment. These criteria derive from custom metrics that you define for endpoints.
-    public struct MetricDimension: Swift.Equatable {
+    public struct MetricDimension {
         /// The operator to use when comparing metric values. Valid values are: GREATER_THAN, LESS_THAN, GREATER_THAN_OR_EQUAL, LESS_THAN_OR_EQUAL, and EQUAL.
         /// This member is required.
         public var comparisonOperator: Swift.String?
@@ -23095,7 +23095,7 @@ extension PinpointClientTypes.MultiConditionalBranch: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a condition to evaluate for an activity path in a journey.
-    public struct MultiConditionalBranch: Swift.Equatable {
+    public struct MultiConditionalBranch {
         /// The condition to evaluate for the activity path.
         public var condition: PinpointClientTypes.SimpleCondition?
         /// The unique identifier for the next activity to perform, after completing the activity for the path.
@@ -23158,7 +23158,7 @@ extension PinpointClientTypes.MultiConditionalSplitActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a multivariate split activity in a journey. This type of activity sends participants down one of as many as five paths (including a default Else path) in a journey, based on conditions that you specify. To create multivariate split activities that send participants down different paths based on push notification events (such as Open or Received events), your mobile app has to specify the User ID and Endpoint ID values. For more information, see [Integrating Amazon Pinpoint with your application](https://docs.aws.amazon.com/pinpoint/latest/developerguide/integrate.html) in the Amazon Pinpoint Developer Guide.
-    public struct MultiConditionalSplitActivity: Swift.Equatable {
+    public struct MultiConditionalSplitActivity {
         /// The paths for the activity, including the conditions for entering each path and the activity to perform for each path.
         public var branches: [PinpointClientTypes.MultiConditionalBranch]?
         /// The unique identifier for the activity to perform for participants who don't meet any of the conditions specified for other paths in the activity.
@@ -23226,7 +23226,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -23273,7 +23273,7 @@ extension PinpointClientTypes.NumberValidateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a phone number to validate and retrieve information about.
-    public struct NumberValidateRequest: Swift.Equatable {
+    public struct NumberValidateRequest {
         /// The two-character code, in ISO 3166-1 alpha-2 format, for the country or region where the phone number was originally registered.
         public var isoCountryCode: Swift.String?
         /// The phone number to retrieve information about. The phone number that you provide should include a valid numeric country code. Otherwise, the operation might result in an error.
@@ -23390,7 +23390,7 @@ extension PinpointClientTypes.NumberValidateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a phone number.
-    public struct NumberValidateResponse: Swift.Equatable {
+    public struct NumberValidateResponse {
         /// The carrier or service provider that the phone number is currently registered with. In some countries and regions, this value may be the carrier or service provider that the phone number was originally registered with.
         public var carrier: Swift.String?
         /// The name of the city where the phone number was originally registered.
@@ -23611,7 +23611,7 @@ extension PinpointClientTypes.OpenHours: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the times when message are allowed to be sent to endpoints.
-    public struct OpenHours: Swift.Equatable {
+    public struct OpenHours {
         /// Specifies the schedule settings for the custom channel.
         public var custom: [Swift.String:[PinpointClientTypes.OpenHoursRule]]?
         /// Specifies the schedule settings for the email channel.
@@ -23668,7 +23668,7 @@ extension PinpointClientTypes.OpenHoursRule: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the start and end time for OpenHours.
-    public struct OpenHoursRule: Swift.Equatable {
+    public struct OpenHoursRule {
         /// The end of the scheduled time, in ISO 8601 format, when the channel can't send messages.
         public var endTime: Swift.String?
         /// The start of the scheduled time, in ISO 8601 format, when the channel can send messages.
@@ -23745,7 +23745,7 @@ extension PinpointClientTypes.OverrideButtonConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Override button configuration.
-    public struct OverrideButtonConfiguration: Swift.Equatable {
+    public struct OverrideButtonConfiguration {
         /// Action triggered by the button.
         /// This member is required.
         public var buttonAction: PinpointClientTypes.ButtonAction?
@@ -23810,7 +23810,7 @@ public struct PayloadTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct PayloadTooLargeExceptionBody: Swift.Equatable {
+struct PayloadTooLargeExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -23850,7 +23850,7 @@ extension PhoneNumberValidateInput {
     }
 }
 
-public struct PhoneNumberValidateInput: Swift.Equatable {
+public struct PhoneNumberValidateInput {
     /// Specifies a phone number to validate and retrieve information about.
     /// This member is required.
     public var numberValidateRequest: PinpointClientTypes.NumberValidateRequest?
@@ -23863,7 +23863,7 @@ public struct PhoneNumberValidateInput: Swift.Equatable {
     }
 }
 
-struct PhoneNumberValidateInputBody: Swift.Equatable {
+struct PhoneNumberValidateInputBody {
     let numberValidateRequest: PinpointClientTypes.NumberValidateRequest?
 }
 
@@ -23890,7 +23890,7 @@ extension PhoneNumberValidateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PhoneNumberValidateOutput: Swift.Equatable {
+public struct PhoneNumberValidateOutput {
     /// Provides information about a phone number.
     /// This member is required.
     public var numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
@@ -23903,7 +23903,7 @@ public struct PhoneNumberValidateOutput: Swift.Equatable {
     }
 }
 
-struct PhoneNumberValidateOutputBody: Swift.Equatable {
+struct PhoneNumberValidateOutputBody {
     let numberValidateResponse: PinpointClientTypes.NumberValidateResponse?
 }
 
@@ -24053,7 +24053,7 @@ extension PinpointClientTypes.PublicEndpoint: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the properties and attributes of an endpoint that's associated with an event.
-    public struct PublicEndpoint: Swift.Equatable {
+    public struct PublicEndpoint {
         /// The unique identifier for the recipient, such as a device token, email address, or mobile phone number.
         public var address: Swift.String?
         /// One or more custom attributes that describe the endpoint by associating a name with an array of values. You can use these attributes as filter criteria when you create segments.
@@ -24146,7 +24146,7 @@ extension PinpointClientTypes.PushMessageActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a push notification activity in a journey. This type of activity sends a push notification to participants.
-    public struct PushMessageActivity: Swift.Equatable {
+    public struct PushMessageActivity {
         /// Specifies the time to live (TTL) value for push notifications that are sent to participants in a journey.
         public var messageConfig: PinpointClientTypes.JourneyPushMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -24253,7 +24253,7 @@ extension PinpointClientTypes.PushNotificationTemplateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for a message template that can be used in messages that are sent through a push notification channel.
-    public struct PushNotificationTemplateRequest: Swift.Equatable {
+    public struct PushNotificationTemplateRequest {
         /// The message template to use for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public var adm: PinpointClientTypes.AndroidPushNotificationTemplate?
         /// The message template to use for the APNs (Apple Push Notification service) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -24416,7 +24416,7 @@ extension PinpointClientTypes.PushNotificationTemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through a push notification channel.
-    public struct PushNotificationTemplateResponse: Swift.Equatable {
+    public struct PushNotificationTemplateResponse {
         /// The message template that's used for the ADM (Amazon Device Messaging) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
         public var adm: PinpointClientTypes.AndroidPushNotificationTemplate?
         /// The message template that's used for the APNs (Apple Push Notification service) channel. This message template overrides the default template for push notification channels (DefaultPushNotificationTemplate).
@@ -24513,7 +24513,7 @@ extension PutEventStreamInput {
     }
 }
 
-public struct PutEventStreamInput: Swift.Equatable {
+public struct PutEventStreamInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -24531,7 +24531,7 @@ public struct PutEventStreamInput: Swift.Equatable {
     }
 }
 
-struct PutEventStreamInputBody: Swift.Equatable {
+struct PutEventStreamInputBody {
     let writeEventStream: PinpointClientTypes.WriteEventStream?
 }
 
@@ -24558,7 +24558,7 @@ extension PutEventStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventStreamOutput: Swift.Equatable {
+public struct PutEventStreamOutput {
     /// Specifies settings for publishing event data to an Amazon Kinesis data stream or an Amazon Kinesis Data Firehose delivery stream.
     /// This member is required.
     public var eventStream: PinpointClientTypes.EventStream?
@@ -24571,7 +24571,7 @@ public struct PutEventStreamOutput: Swift.Equatable {
     }
 }
 
-struct PutEventStreamOutputBody: Swift.Equatable {
+struct PutEventStreamOutputBody {
     let eventStream: PinpointClientTypes.EventStream?
 }
 
@@ -24627,7 +24627,7 @@ extension PutEventsInput {
     }
 }
 
-public struct PutEventsInput: Swift.Equatable {
+public struct PutEventsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -24645,7 +24645,7 @@ public struct PutEventsInput: Swift.Equatable {
     }
 }
 
-struct PutEventsInputBody: Swift.Equatable {
+struct PutEventsInputBody {
     let eventsRequest: PinpointClientTypes.EventsRequest?
 }
 
@@ -24672,7 +24672,7 @@ extension PutEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutEventsOutput: Swift.Equatable {
+public struct PutEventsOutput {
     /// Provides information about endpoints and the events that they're associated with.
     /// This member is required.
     public var eventsResponse: PinpointClientTypes.EventsResponse?
@@ -24685,7 +24685,7 @@ public struct PutEventsOutput: Swift.Equatable {
     }
 }
 
-struct PutEventsOutputBody: Swift.Equatable {
+struct PutEventsOutputBody {
     let eventsResponse: PinpointClientTypes.EventsResponse?
 }
 
@@ -24745,7 +24745,7 @@ extension PinpointClientTypes.QuietTime: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the start and end times that define a time range when messages aren't sent to endpoints.
-    public struct QuietTime: Swift.Equatable {
+    public struct QuietTime {
         /// The specific time when quiet time ends. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
         public var end: Swift.String?
         /// The specific time when quiet time begins. This value has to use 24-hour notation and be in HH:MM format, where HH is the hour (with a leading zero, if applicable) and MM is the minutes. For example, use 02:30 to represent 2:30 AM, or 14:30 to represent 2:30 PM.
@@ -24796,7 +24796,7 @@ extension PinpointClientTypes.RandomSplitActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a random split activity in a journey. This type of activity randomly sends specified percentages of participants down one of as many as five paths in a journey, based on conditions that you specify.
-    public struct RandomSplitActivity: Swift.Equatable {
+    public struct RandomSplitActivity {
         /// The paths for the activity, including the percentage of participants to enter each path and the activity to perform for each path.
         public var branches: [PinpointClientTypes.RandomSplitEntry]?
 
@@ -24837,7 +24837,7 @@ extension PinpointClientTypes.RandomSplitEntry: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a path in a random split activity in a journey.
-    public struct RandomSplitEntry: Swift.Equatable {
+    public struct RandomSplitEntry {
         /// The unique identifier for the next activity to perform, after completing the activity for the path.
         public var nextActivity: Swift.String?
         /// The percentage of participants to send down the activity path. To determine which participants are sent down each path, Amazon Pinpoint applies a probability-based algorithm to the percentages that you specify for the paths. Therefore, the actual percentage of participants who are sent down a path may not be equal to the percentage that you specify.
@@ -24876,7 +24876,7 @@ extension PinpointClientTypes.RawEmail: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the contents of an email message, represented as a raw MIME message.
-    public struct RawEmail: Swift.Equatable {
+    public struct RawEmail {
         /// The email message, represented as a raw MIME message. The entire message must be base64 encoded.
         public var data: ClientRuntime.Data?
 
@@ -24917,7 +24917,7 @@ extension PinpointClientTypes.RecencyDimension: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies criteria for including or excluding endpoints from a segment based on how recently an endpoint was active.
-    public struct RecencyDimension: Swift.Equatable {
+    public struct RecencyDimension {
         /// The duration to use when determining whether an endpoint is active or inactive.
         /// This member is required.
         public var duration: PinpointClientTypes.Duration?
@@ -25068,7 +25068,7 @@ extension PinpointClientTypes.RecommenderConfigurationResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
-    public struct RecommenderConfigurationResponse: Swift.Equatable {
+    public struct RecommenderConfigurationResponse {
         /// A map that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. This value is null if the configuration doesn't invoke an AWS Lambda function (RecommendationTransformerUri) to perform additional processing of recommendation data.
         public var attributes: [Swift.String:Swift.String]?
         /// The date, in extended ISO 8601 format, when the configuration was created for the recommender model.
@@ -25161,7 +25161,7 @@ extension RemoveAttributesInput {
     }
 }
 
-public struct RemoveAttributesInput: Swift.Equatable {
+public struct RemoveAttributesInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -25190,7 +25190,7 @@ public struct RemoveAttributesInput: Swift.Equatable {
     }
 }
 
-struct RemoveAttributesInputBody: Swift.Equatable {
+struct RemoveAttributesInputBody {
     let updateAttributesRequest: PinpointClientTypes.UpdateAttributesRequest?
 }
 
@@ -25217,7 +25217,7 @@ extension RemoveAttributesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemoveAttributesOutput: Swift.Equatable {
+public struct RemoveAttributesOutput {
     /// Provides information about the type and the names of attributes that were removed from all the endpoints that are associated with an application.
     /// This member is required.
     public var attributesResource: PinpointClientTypes.AttributesResource?
@@ -25230,7 +25230,7 @@ public struct RemoveAttributesOutput: Swift.Equatable {
     }
 }
 
-struct RemoveAttributesOutputBody: Swift.Equatable {
+struct RemoveAttributesOutputBody {
     let attributesResource: PinpointClientTypes.AttributesResource?
 }
 
@@ -25314,7 +25314,7 @@ extension PinpointClientTypes.ResultRow: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides the results of a query that retrieved the data for a standard metric that applies to an application, campaign, or journey.
-    public struct ResultRow: Swift.Equatable {
+    public struct ResultRow {
         /// An array of objects that defines the field and field values that were used to group data in a result set that contains multiple results. This value is null if the data in a result set isn’t grouped.
         /// This member is required.
         public var groupedBys: [PinpointClientTypes.ResultRowValue]?
@@ -25367,7 +25367,7 @@ extension PinpointClientTypes.ResultRowValue: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides a single value and metadata about that value as part of an array of query results for a standard metric that applies to an application, campaign, or journey.
-    public struct ResultRowValue: Swift.Equatable {
+    public struct ResultRowValue {
         /// The friendly name of the metric whose value is specified by the Value property.
         /// This member is required.
         public var key: Swift.String?
@@ -25425,7 +25425,7 @@ extension PinpointClientTypes.SMSChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the SMS channel for an application.
-    public struct SMSChannelRequest: Swift.Equatable {
+    public struct SMSChannelRequest {
         /// Specifies whether to enable the SMS channel for the application.
         public var enabled: Swift.Bool?
         /// The identity that you want to display on recipients' devices when they receive messages from the SMS channel.
@@ -25546,7 +25546,7 @@ extension PinpointClientTypes.SMSChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the SMS channel for an application.
-    public struct SMSChannelResponse: Swift.Equatable {
+    public struct SMSChannelResponse {
         /// The unique identifier for the application that the SMS channel applies to.
         public var applicationId: Swift.String?
         /// The date and time, in ISO 8601 format, when the SMS channel was enabled.
@@ -25704,7 +25704,7 @@ extension PinpointClientTypes.SMSMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default settings for a one-time SMS message that's sent directly to an endpoint.
-    public struct SMSMessage: Swift.Equatable {
+    public struct SMSMessage {
         /// The body of the SMS message.
         public var body: Swift.String?
         /// The entity ID or Principal Entity (PE) id received from the regulatory body for sending SMS in your country.
@@ -25789,7 +25789,7 @@ extension PinpointClientTypes.SMSMessageActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for an SMS activity in a journey. This type of activity sends a text message to participants.
-    public struct SMSMessageActivity: Swift.Equatable {
+    public struct SMSMessageActivity {
         /// Specifies the sender ID and message type for an SMS message that's sent to participants in a journey.
         public var messageConfig: PinpointClientTypes.JourneySMSMessage?
         /// The unique identifier for the next activity to perform, after the message is sent.
@@ -25872,7 +25872,7 @@ extension PinpointClientTypes.SMSTemplateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
-    public struct SMSTemplateRequest: Swift.Equatable {
+    public struct SMSTemplateRequest {
         /// The message body to use in text messages that are based on the message template.
         public var body: Swift.String?
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
@@ -25995,7 +25995,7 @@ extension PinpointClientTypes.SMSTemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
-    public struct SMSTemplateResponse: Swift.Equatable {
+    public struct SMSTemplateResponse {
         /// The Amazon Resource Name (ARN) of the message template.
         public var arn: Swift.String?
         /// The message body that's used in text messages that are based on the message template.
@@ -26110,7 +26110,7 @@ extension PinpointClientTypes.Schedule: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the schedule settings for a campaign.
-    public struct Schedule: Swift.Equatable {
+    public struct Schedule {
         /// The scheduled time, in ISO 8601 format, when the campaign ended or will end.
         public var endTime: Swift.String?
         /// The type of event that causes the campaign to be sent, if the value of the Frequency property is EVENT.
@@ -26179,7 +26179,7 @@ extension PinpointClientTypes.SegmentBehaviors: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies dimension settings for including or excluding endpoints from a segment based on how recently an endpoint was active.
-    public struct SegmentBehaviors: Swift.Equatable {
+    public struct SegmentBehaviors {
         /// The dimension settings that are based on how recently an endpoint was active.
         public var recency: PinpointClientTypes.RecencyDimension?
 
@@ -26214,7 +26214,7 @@ extension PinpointClientTypes.SegmentCondition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a segment to associate with an activity in a journey.
-    public struct SegmentCondition: Swift.Equatable {
+    public struct SegmentCondition {
         /// The unique identifier for the segment to associate with the activity.
         /// This member is required.
         public var segmentId: Swift.String?
@@ -26280,7 +26280,7 @@ extension PinpointClientTypes.SegmentDemographics: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies demographic-based dimension settings for including or excluding endpoints from a segment. These settings derive from characteristics of endpoint devices, such as platform, make, and model.
-    public struct SegmentDemographics: Swift.Equatable {
+    public struct SegmentDemographics {
         /// The app version criteria for the segment.
         public var appVersion: PinpointClientTypes.SetDimension?
         /// The channel criteria for the segment.
@@ -26401,7 +26401,7 @@ extension PinpointClientTypes.SegmentDimensions: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the dimension settings for a segment.
-    public struct SegmentDimensions: Swift.Equatable {
+    public struct SegmentDimensions {
         /// One or more custom attributes to use as criteria for the segment.
         public var attributes: [Swift.String:PinpointClientTypes.AttributeDimension]?
         /// The behavior-based criteria, such as how recently users have used your app, for the segment.
@@ -26498,7 +26498,7 @@ extension PinpointClientTypes.SegmentGroup: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the base segments and dimensions for a segment, and the relationships between these base segments and dimensions.
-    public struct SegmentGroup: Swift.Equatable {
+    public struct SegmentGroup {
         /// An array that defines the dimensions for the segment.
         public var dimensions: [PinpointClientTypes.SegmentDimensions]?
         /// The base segment to build the segment on. A base segment, also referred to as a source segment, defines the initial population of endpoints for a segment. When you add dimensions to a segment, Amazon Pinpoint filters the base segment by using the dimensions that you specify. You can specify more than one dimensional segment or only one imported segment. If you specify an imported segment, the Amazon Pinpoint console displays a segment size estimate that indicates the size of the imported segment without any filters applied to it.
@@ -26563,7 +26563,7 @@ extension PinpointClientTypes.SegmentGroupList: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings that define the relationships between segment groups for a segment.
-    public struct SegmentGroupList: Swift.Equatable {
+    public struct SegmentGroupList {
         /// An array that defines the set of segment criteria to evaluate when handling segment groups for the segment.
         public var groups: [PinpointClientTypes.SegmentGroup]?
         /// Specifies how to handle multiple segment groups for the segment. For example, if the segment includes three segment groups, whether the resulting segment includes endpoints that match all, any, or none of the segment groups.
@@ -26644,7 +26644,7 @@ extension PinpointClientTypes.SegmentImportResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the import job that created a segment. An import job is a job that creates a user segment by importing endpoint definitions.
-    public struct SegmentImportResource: Swift.Equatable {
+    public struct SegmentImportResource {
         /// The number of channel types in the endpoint definitions that were imported to create the segment.
         public var channelCounts: [Swift.String:Swift.Int]?
         /// (Deprecated) Your AWS account ID, which you assigned to an external ID key in an IAM trust policy. Amazon Pinpoint previously used this value to assume an IAM role when importing endpoint definitions, but we removed this requirement. We don't recommend use of external IDs for IAM roles that are assumed by Amazon Pinpoint.
@@ -26710,7 +26710,7 @@ extension PinpointClientTypes.SegmentLocation: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies geographical dimension settings for a segment.
-    public struct SegmentLocation: Swift.Equatable {
+    public struct SegmentLocation {
         /// The country or region code, in ISO 3166-1 alpha-2 format, for the segment.
         public var country: PinpointClientTypes.SetDimension?
         /// The GPS location and range for the segment.
@@ -26755,7 +26755,7 @@ extension PinpointClientTypes.SegmentReference: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the segment identifier and version of a segment.
-    public struct SegmentReference: Swift.Equatable {
+    public struct SegmentReference {
         /// The unique identifier for the segment.
         /// This member is required.
         public var id: Swift.String?
@@ -26873,7 +26873,7 @@ extension PinpointClientTypes.SegmentResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the configuration, dimension, and other settings for a segment.
-    public struct SegmentResponse: Swift.Equatable {
+    public struct SegmentResponse {
         /// The unique identifier for the application that the segment is associated with.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -27011,7 +27011,7 @@ extension PinpointClientTypes.SegmentsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all the segments that are associated with an application.
-    public struct SegmentsResponse: Swift.Equatable {
+    public struct SegmentsResponse {
         /// An array of responses, one for each segment that's associated with the application (Segments resource) or each version of a segment that's associated with the application (Segment Versions resource).
         /// This member is required.
         public var item: [PinpointClientTypes.SegmentResponse]?
@@ -27053,7 +27053,7 @@ extension SendMessagesInput {
     }
 }
 
-public struct SendMessagesInput: Swift.Equatable {
+public struct SendMessagesInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -27071,7 +27071,7 @@ public struct SendMessagesInput: Swift.Equatable {
     }
 }
 
-struct SendMessagesInputBody: Swift.Equatable {
+struct SendMessagesInputBody {
     let messageRequest: PinpointClientTypes.MessageRequest?
 }
 
@@ -27098,7 +27098,7 @@ extension SendMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendMessagesOutput: Swift.Equatable {
+public struct SendMessagesOutput {
     /// Provides information about the results of a request to send a message to an endpoint address.
     /// This member is required.
     public var messageResponse: PinpointClientTypes.MessageResponse?
@@ -27111,7 +27111,7 @@ public struct SendMessagesOutput: Swift.Equatable {
     }
 }
 
-struct SendMessagesOutputBody: Swift.Equatable {
+struct SendMessagesOutputBody {
     let messageResponse: PinpointClientTypes.MessageResponse?
 }
 
@@ -27167,7 +27167,7 @@ extension SendOTPMessageInput {
     }
 }
 
-public struct SendOTPMessageInput: Swift.Equatable {
+public struct SendOTPMessageInput {
     /// The unique ID of your Amazon Pinpoint application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -27185,7 +27185,7 @@ public struct SendOTPMessageInput: Swift.Equatable {
     }
 }
 
-struct SendOTPMessageInputBody: Swift.Equatable {
+struct SendOTPMessageInputBody {
     let sendOTPMessageRequestParameters: PinpointClientTypes.SendOTPMessageRequestParameters?
 }
 
@@ -27212,7 +27212,7 @@ extension SendOTPMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendOTPMessageOutput: Swift.Equatable {
+public struct SendOTPMessageOutput {
     /// Provides information about the results of a request to send a message to an endpoint address.
     /// This member is required.
     public var messageResponse: PinpointClientTypes.MessageResponse?
@@ -27225,7 +27225,7 @@ public struct SendOTPMessageOutput: Swift.Equatable {
     }
 }
 
-struct SendOTPMessageOutputBody: Swift.Equatable {
+struct SendOTPMessageOutputBody {
     let messageResponse: PinpointClientTypes.MessageResponse?
 }
 
@@ -27339,7 +27339,7 @@ extension PinpointClientTypes.SendOTPMessageRequestParameters: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Send OTP message request parameters.
-    public struct SendOTPMessageRequestParameters: Swift.Equatable {
+    public struct SendOTPMessageRequestParameters {
         /// The attempts allowed to validate an OTP.
         public var allowedAttempts: Swift.Int?
         /// The brand name that will be substituted into the OTP message body. Should be owned by calling AWS account.
@@ -27467,7 +27467,7 @@ extension PinpointClientTypes.SendUsersMessageRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration and other settings for a message to send to all the endpoints that are associated with a list of users.
-    public struct SendUsersMessageRequest: Swift.Equatable {
+    public struct SendUsersMessageRequest {
         /// A map of custom attribute-value pairs. For a push notification, Amazon Pinpoint adds these attributes to the data.pinpoint object in the body of the notification payload. Amazon Pinpoint also provides these attributes in the events that it generates for users-messages deliveries.
         public var context: [Swift.String:Swift.String]?
         /// The settings and content for the default message and any default messages that you defined for specific channels.
@@ -27554,7 +27554,7 @@ extension PinpointClientTypes.SendUsersMessageResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about which users and endpoints a message was sent to.
-    public struct SendUsersMessageResponse: Swift.Equatable {
+    public struct SendUsersMessageResponse {
         /// The unique identifier for the application that was used to send the message.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -27600,7 +27600,7 @@ extension SendUsersMessagesInput {
     }
 }
 
-public struct SendUsersMessagesInput: Swift.Equatable {
+public struct SendUsersMessagesInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -27618,7 +27618,7 @@ public struct SendUsersMessagesInput: Swift.Equatable {
     }
 }
 
-struct SendUsersMessagesInputBody: Swift.Equatable {
+struct SendUsersMessagesInputBody {
     let sendUsersMessageRequest: PinpointClientTypes.SendUsersMessageRequest?
 }
 
@@ -27645,7 +27645,7 @@ extension SendUsersMessagesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendUsersMessagesOutput: Swift.Equatable {
+public struct SendUsersMessagesOutput {
     /// Provides information about which users and endpoints a message was sent to.
     /// This member is required.
     public var sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
@@ -27658,7 +27658,7 @@ public struct SendUsersMessagesOutput: Swift.Equatable {
     }
 }
 
-struct SendUsersMessagesOutputBody: Swift.Equatable {
+struct SendUsersMessagesOutputBody {
     let sendUsersMessageResponse: PinpointClientTypes.SendUsersMessageResponse?
 }
 
@@ -27730,7 +27730,7 @@ extension PinpointClientTypes.Session: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a session.
-    public struct Session: Swift.Equatable {
+    public struct Session {
         /// The duration of the session, in milliseconds.
         public var duration: Swift.Int?
         /// The unique identifier for the session.
@@ -27797,7 +27797,7 @@ extension PinpointClientTypes.SetDimension: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the dimension type and values for a segment dimension.
-    public struct SetDimension: Swift.Equatable {
+    public struct SetDimension {
         /// The type of segment dimension to use. Valid values are: INCLUSIVE, endpoints that match the criteria are included in the segment; and, EXCLUSIVE, endpoints that match the criteria are excluded from the segment.
         public var dimensionType: PinpointClientTypes.DimensionType?
         /// The criteria values to use for the segment dimension. Depending on the value of the DimensionType property, endpoints are included or excluded from the segment if their values match the criteria values.
@@ -27849,7 +27849,7 @@ extension PinpointClientTypes.SimpleCondition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a condition to evaluate for an activity in a journey.
-    public struct SimpleCondition: Swift.Equatable {
+    public struct SimpleCondition {
         /// The dimension settings for the event that's associated with the activity.
         public var eventCondition: PinpointClientTypes.EventCondition?
         /// The segment that's associated with the activity.
@@ -27904,7 +27904,7 @@ extension PinpointClientTypes.SimpleEmail: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the contents of an email message, composed of a subject, a text part, and an HTML part.
-    public struct SimpleEmail: Swift.Equatable {
+    public struct SimpleEmail {
         /// The body of the email message, in HTML format. We recommend using HTML format for email clients that render HTML content. You can include links, formatted text, and more in an HTML message.
         public var htmlPart: PinpointClientTypes.SimpleEmailPart?
         /// The subject line, or title, of the email.
@@ -27953,7 +27953,7 @@ extension PinpointClientTypes.SimpleEmailPart: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the subject or body of an email message, represented as textual email data and the applicable character set.
-    public struct SimpleEmailPart: Swift.Equatable {
+    public struct SimpleEmailPart {
         /// The applicable character set for the message content.
         public var charset: Swift.String?
         /// The textual data of the message content.
@@ -28039,7 +28039,7 @@ extension PinpointClientTypes.StartCondition: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the conditions for the first activity in a journey. This activity and its conditions determine which users are participants in a journey.
-    public struct StartCondition: Swift.Equatable {
+    public struct StartCondition {
         /// The custom description of the condition.
         public var description: Swift.String?
         /// Specifies the settings for an event that causes a journey activity to start.
@@ -28128,7 +28128,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -28146,7 +28146,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tagsModel: PinpointClientTypes.TagsModel?
 }
 
@@ -28167,7 +28167,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -28215,7 +28215,7 @@ extension PinpointClientTypes.TagsModel: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the tags (keys and values) for an application, campaign, message template, or segment.
-    public struct TagsModel: Swift.Equatable {
+    public struct TagsModel {
         /// A string-to-string map of key-value pairs that defines the tags for an application, campaign, message template, or segment. Each of these resources can have a maximum of 50 tags. Each tag consists of a required tag key and an associated tag value. The maximum length of a tag key is 128 characters. The maximum length of a tag value is 256 characters.
         /// This member is required.
         public var tags: [Swift.String:Swift.String]?
@@ -28257,7 +28257,7 @@ extension PinpointClientTypes.Template: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the name and version of the message template to use for the message.
-    public struct Template: Swift.Equatable {
+    public struct Template {
         /// The name of the message template to use for the message. If specified, this value must match the name of an existing message template.
         public var name: Swift.String?
         /// The unique identifier for the version of the message template to use for the message. If specified, this value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource. If you don't specify a value for this property, Amazon Pinpoint uses the active version of the template. The active version is typically the version of a template that's been most recently reviewed and approved for use, depending on your workflow. It isn't necessarily the latest version of a template.
@@ -28296,7 +28296,7 @@ extension PinpointClientTypes.TemplateActiveVersionRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies which version of a message template to use as the active version of the template.
-    public struct TemplateActiveVersionRequest: Swift.Equatable {
+    public struct TemplateActiveVersionRequest {
         /// The version of the message template to use as the active version of the template. Valid values are: latest, for the most recent version of the template; or, the unique identifier for any existing version of the template. If you specify an identifier, the value must match the identifier for an existing template version. To retrieve a list of versions and version identifiers for a template, use the Template Versions resource.
         public var version: Swift.String?
 
@@ -28355,7 +28355,7 @@ extension PinpointClientTypes.TemplateConfiguration: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the message template to use for the message, for each type of channel.
-    public struct TemplateConfiguration: Swift.Equatable {
+    public struct TemplateConfiguration {
         /// The email template to use for the message.
         public var emailTemplate: PinpointClientTypes.Template?
         /// The InApp template to use for the message. The InApp template object is not supported for SendMessages.
@@ -28418,7 +28418,7 @@ extension PinpointClientTypes.TemplateCreateMessageBody: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a request to create a message template.
-    public struct TemplateCreateMessageBody: Swift.Equatable {
+    public struct TemplateCreateMessageBody {
         /// The Amazon Resource Name (ARN) of the message template that was created.
         public var arn: Swift.String?
         /// The message that's returned from the API for the request to create the message template.
@@ -28521,7 +28521,7 @@ extension PinpointClientTypes.TemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a message template that's associated with your Amazon Pinpoint account.
-    public struct TemplateResponse: Swift.Equatable {
+    public struct TemplateResponse {
         /// The Amazon Resource Name (ARN) of the message template. This value isn't included in a TemplateResponse object. To retrieve the ARN of a template, use the GetEmailTemplate, GetPushTemplate, GetSmsTemplate, or GetVoiceTemplate operation, depending on the type of template that you want to retrieve the ARN for.
         public var arn: Swift.String?
         /// The date, in ISO 8601 format, when the message template was created.
@@ -28669,7 +28669,7 @@ extension PinpointClientTypes.TemplateVersionResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about a specific version of a message template.
-    public struct TemplateVersionResponse: Swift.Equatable {
+    public struct TemplateVersionResponse {
         /// The date, in ISO 8601 format, when the version of the message template was created.
         /// This member is required.
         public var creationDate: Swift.String?
@@ -28762,7 +28762,7 @@ extension PinpointClientTypes.TemplateVersionsResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all the versions of a specific message template.
-    public struct TemplateVersionsResponse: Swift.Equatable {
+    public struct TemplateVersionsResponse {
         /// An array of responses, one for each version of the message template.
         /// This member is required.
         public var item: [PinpointClientTypes.TemplateVersionResponse]?
@@ -28828,7 +28828,7 @@ extension PinpointClientTypes.TemplatesResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about all the message templates that are associated with your Amazon Pinpoint account.
-    public struct TemplatesResponse: Swift.Equatable {
+    public struct TemplatesResponse {
         /// An array of responses, one for each message template that's associated with your Amazon Pinpoint account and meets any filter criteria that you specified in the request.
         /// This member is required.
         public var item: [PinpointClientTypes.TemplateResponse]?
@@ -28893,7 +28893,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
     let requestID: Swift.String?
 }
@@ -28982,7 +28982,7 @@ extension PinpointClientTypes.TreatmentResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a campaign treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
-    public struct TreatmentResource: Swift.Equatable {
+    public struct TreatmentResource {
         /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
         public var customDeliveryConfiguration: PinpointClientTypes.CustomDeliveryConfiguration?
         /// The unique identifier for the treatment.
@@ -29091,7 +29091,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -29109,7 +29109,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -29123,7 +29123,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -29161,7 +29161,7 @@ extension UpdateAdmChannelInput {
     }
 }
 
-public struct UpdateAdmChannelInput: Swift.Equatable {
+public struct UpdateAdmChannelInput {
     /// Specifies the status and settings of the ADM (Amazon Device Messaging) channel for an application.
     /// This member is required.
     public var admChannelRequest: PinpointClientTypes.ADMChannelRequest?
@@ -29179,7 +29179,7 @@ public struct UpdateAdmChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateAdmChannelInputBody: Swift.Equatable {
+struct UpdateAdmChannelInputBody {
     let admChannelRequest: PinpointClientTypes.ADMChannelRequest?
 }
 
@@ -29206,7 +29206,7 @@ extension UpdateAdmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAdmChannelOutput: Swift.Equatable {
+public struct UpdateAdmChannelOutput {
     /// Provides information about the status and settings of the ADM (Amazon Device Messaging) channel for an application.
     /// This member is required.
     public var admChannelResponse: PinpointClientTypes.ADMChannelResponse?
@@ -29219,7 +29219,7 @@ public struct UpdateAdmChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAdmChannelOutputBody: Swift.Equatable {
+struct UpdateAdmChannelOutputBody {
     let admChannelResponse: PinpointClientTypes.ADMChannelResponse?
 }
 
@@ -29275,7 +29275,7 @@ extension UpdateApnsChannelInput {
     }
 }
 
-public struct UpdateApnsChannelInput: Swift.Equatable {
+public struct UpdateApnsChannelInput {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) channel for an application.
     /// This member is required.
     public var apnsChannelRequest: PinpointClientTypes.APNSChannelRequest?
@@ -29293,7 +29293,7 @@ public struct UpdateApnsChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsChannelInputBody: Swift.Equatable {
+struct UpdateApnsChannelInputBody {
     let apnsChannelRequest: PinpointClientTypes.APNSChannelRequest?
 }
 
@@ -29320,7 +29320,7 @@ extension UpdateApnsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApnsChannelOutput: Swift.Equatable {
+public struct UpdateApnsChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) channel for an application.
     /// This member is required.
     public var apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
@@ -29333,7 +29333,7 @@ public struct UpdateApnsChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsChannelOutputBody: Swift.Equatable {
+struct UpdateApnsChannelOutputBody {
     let apnsChannelResponse: PinpointClientTypes.APNSChannelResponse?
 }
 
@@ -29389,7 +29389,7 @@ extension UpdateApnsSandboxChannelInput {
     }
 }
 
-public struct UpdateApnsSandboxChannelInput: Swift.Equatable {
+public struct UpdateApnsSandboxChannelInput {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
     /// This member is required.
     public var apnsSandboxChannelRequest: PinpointClientTypes.APNSSandboxChannelRequest?
@@ -29407,7 +29407,7 @@ public struct UpdateApnsSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsSandboxChannelInputBody: Swift.Equatable {
+struct UpdateApnsSandboxChannelInputBody {
     let apnsSandboxChannelRequest: PinpointClientTypes.APNSSandboxChannelRequest?
 }
 
@@ -29434,7 +29434,7 @@ extension UpdateApnsSandboxChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApnsSandboxChannelOutput: Swift.Equatable {
+public struct UpdateApnsSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) sandbox channel for an application.
     /// This member is required.
     public var apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
@@ -29447,7 +29447,7 @@ public struct UpdateApnsSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsSandboxChannelOutputBody: Swift.Equatable {
+struct UpdateApnsSandboxChannelOutputBody {
     let apnsSandboxChannelResponse: PinpointClientTypes.APNSSandboxChannelResponse?
 }
 
@@ -29503,7 +29503,7 @@ extension UpdateApnsVoipChannelInput {
     }
 }
 
-public struct UpdateApnsVoipChannelInput: Swift.Equatable {
+public struct UpdateApnsVoipChannelInput {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
     /// This member is required.
     public var apnsVoipChannelRequest: PinpointClientTypes.APNSVoipChannelRequest?
@@ -29521,7 +29521,7 @@ public struct UpdateApnsVoipChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsVoipChannelInputBody: Swift.Equatable {
+struct UpdateApnsVoipChannelInputBody {
     let apnsVoipChannelRequest: PinpointClientTypes.APNSVoipChannelRequest?
 }
 
@@ -29548,7 +29548,7 @@ extension UpdateApnsVoipChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApnsVoipChannelOutput: Swift.Equatable {
+public struct UpdateApnsVoipChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP channel for an application.
     /// This member is required.
     public var apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
@@ -29561,7 +29561,7 @@ public struct UpdateApnsVoipChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsVoipChannelOutputBody: Swift.Equatable {
+struct UpdateApnsVoipChannelOutputBody {
     let apnsVoipChannelResponse: PinpointClientTypes.APNSVoipChannelResponse?
 }
 
@@ -29617,7 +29617,7 @@ extension UpdateApnsVoipSandboxChannelInput {
     }
 }
 
-public struct UpdateApnsVoipSandboxChannelInput: Swift.Equatable {
+public struct UpdateApnsVoipSandboxChannelInput {
     /// Specifies the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
     /// This member is required.
     public var apnsVoipSandboxChannelRequest: PinpointClientTypes.APNSVoipSandboxChannelRequest?
@@ -29635,7 +29635,7 @@ public struct UpdateApnsVoipSandboxChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsVoipSandboxChannelInputBody: Swift.Equatable {
+struct UpdateApnsVoipSandboxChannelInputBody {
     let apnsVoipSandboxChannelRequest: PinpointClientTypes.APNSVoipSandboxChannelRequest?
 }
 
@@ -29662,7 +29662,7 @@ extension UpdateApnsVoipSandboxChannelOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateApnsVoipSandboxChannelOutput: Swift.Equatable {
+public struct UpdateApnsVoipSandboxChannelOutput {
     /// Provides information about the status and settings of the APNs (Apple Push Notification service) VoIP sandbox channel for an application.
     /// This member is required.
     public var apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
@@ -29675,7 +29675,7 @@ public struct UpdateApnsVoipSandboxChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApnsVoipSandboxChannelOutputBody: Swift.Equatable {
+struct UpdateApnsVoipSandboxChannelOutputBody {
     let apnsVoipSandboxChannelResponse: PinpointClientTypes.APNSVoipSandboxChannelResponse?
 }
 
@@ -29731,7 +29731,7 @@ extension UpdateApplicationSettingsInput {
     }
 }
 
-public struct UpdateApplicationSettingsInput: Swift.Equatable {
+public struct UpdateApplicationSettingsInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -29749,7 +29749,7 @@ public struct UpdateApplicationSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationSettingsInputBody: Swift.Equatable {
+struct UpdateApplicationSettingsInputBody {
     let writeApplicationSettingsRequest: PinpointClientTypes.WriteApplicationSettingsRequest?
 }
 
@@ -29776,7 +29776,7 @@ extension UpdateApplicationSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationSettingsOutput: Swift.Equatable {
+public struct UpdateApplicationSettingsOutput {
     /// Provides information about an application, including the default settings for an application.
     /// This member is required.
     public var applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
@@ -29789,7 +29789,7 @@ public struct UpdateApplicationSettingsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationSettingsOutputBody: Swift.Equatable {
+struct UpdateApplicationSettingsOutputBody {
     let applicationSettingsResource: PinpointClientTypes.ApplicationSettingsResource?
 }
 
@@ -29855,7 +29855,7 @@ extension PinpointClientTypes.UpdateAttributesRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies one or more attributes to remove from all the endpoints that are associated with an application.
-    public struct UpdateAttributesRequest: Swift.Equatable {
+    public struct UpdateAttributesRequest {
         /// An array of the attributes to remove from all the endpoints that are associated with the application. The array can specify the complete, exact name of each attribute to remove or it can specify a glob pattern that an attribute name must match in order for the attribute to be removed.
         public var blacklist: [Swift.String]?
 
@@ -29892,7 +29892,7 @@ extension UpdateBaiduChannelInput {
     }
 }
 
-public struct UpdateBaiduChannelInput: Swift.Equatable {
+public struct UpdateBaiduChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -29910,7 +29910,7 @@ public struct UpdateBaiduChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateBaiduChannelInputBody: Swift.Equatable {
+struct UpdateBaiduChannelInputBody {
     let baiduChannelRequest: PinpointClientTypes.BaiduChannelRequest?
 }
 
@@ -29937,7 +29937,7 @@ extension UpdateBaiduChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBaiduChannelOutput: Swift.Equatable {
+public struct UpdateBaiduChannelOutput {
     /// Provides information about the status and settings of the Baidu (Baidu Cloud Push) channel for an application.
     /// This member is required.
     public var baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
@@ -29950,7 +29950,7 @@ public struct UpdateBaiduChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBaiduChannelOutputBody: Swift.Equatable {
+struct UpdateBaiduChannelOutputBody {
     let baiduChannelResponse: PinpointClientTypes.BaiduChannelResponse?
 }
 
@@ -30009,7 +30009,7 @@ extension UpdateCampaignInput {
     }
 }
 
-public struct UpdateCampaignInput: Swift.Equatable {
+public struct UpdateCampaignInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30032,7 +30032,7 @@ public struct UpdateCampaignInput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignInputBody: Swift.Equatable {
+struct UpdateCampaignInputBody {
     let writeCampaignRequest: PinpointClientTypes.WriteCampaignRequest?
 }
 
@@ -30059,7 +30059,7 @@ extension UpdateCampaignOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCampaignOutput: Swift.Equatable {
+public struct UpdateCampaignOutput {
     /// Provides information about the status, configuration, and other settings for a campaign.
     /// This member is required.
     public var campaignResponse: PinpointClientTypes.CampaignResponse?
@@ -30072,7 +30072,7 @@ public struct UpdateCampaignOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCampaignOutputBody: Swift.Equatable {
+struct UpdateCampaignOutputBody {
     let campaignResponse: PinpointClientTypes.CampaignResponse?
 }
 
@@ -30128,7 +30128,7 @@ extension UpdateEmailChannelInput {
     }
 }
 
-public struct UpdateEmailChannelInput: Swift.Equatable {
+public struct UpdateEmailChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30146,7 +30146,7 @@ public struct UpdateEmailChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailChannelInputBody: Swift.Equatable {
+struct UpdateEmailChannelInputBody {
     let emailChannelRequest: PinpointClientTypes.EmailChannelRequest?
 }
 
@@ -30173,7 +30173,7 @@ extension UpdateEmailChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEmailChannelOutput: Swift.Equatable {
+public struct UpdateEmailChannelOutput {
     /// Provides information about the status and settings of the email channel for an application.
     /// This member is required.
     public var emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
@@ -30186,7 +30186,7 @@ public struct UpdateEmailChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailChannelOutputBody: Swift.Equatable {
+struct UpdateEmailChannelOutputBody {
     let emailChannelResponse: PinpointClientTypes.EmailChannelResponse?
 }
 
@@ -30258,7 +30258,7 @@ extension UpdateEmailTemplateInput {
     }
 }
 
-public struct UpdateEmailTemplateInput: Swift.Equatable {
+public struct UpdateEmailTemplateInput {
     /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
     public var createNewVersion: Swift.Bool?
     /// Specifies the content and settings for a message template that can be used in messages that are sent through the email channel.
@@ -30290,7 +30290,7 @@ public struct UpdateEmailTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailTemplateInputBody: Swift.Equatable {
+struct UpdateEmailTemplateInputBody {
     let emailTemplateRequest: PinpointClientTypes.EmailTemplateRequest?
 }
 
@@ -30317,7 +30317,7 @@ extension UpdateEmailTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEmailTemplateOutput: Swift.Equatable {
+public struct UpdateEmailTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -30330,7 +30330,7 @@ public struct UpdateEmailTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEmailTemplateOutputBody: Swift.Equatable {
+struct UpdateEmailTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -30389,7 +30389,7 @@ extension UpdateEndpointInput {
     }
 }
 
-public struct UpdateEndpointInput: Swift.Equatable {
+public struct UpdateEndpointInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30412,7 +30412,7 @@ public struct UpdateEndpointInput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointInputBody: Swift.Equatable {
+struct UpdateEndpointInputBody {
     let endpointRequest: PinpointClientTypes.EndpointRequest?
 }
 
@@ -30439,7 +30439,7 @@ extension UpdateEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEndpointOutput: Swift.Equatable {
+public struct UpdateEndpointOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -30452,7 +30452,7 @@ public struct UpdateEndpointOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointOutputBody: Swift.Equatable {
+struct UpdateEndpointOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -30508,7 +30508,7 @@ extension UpdateEndpointsBatchInput {
     }
 }
 
-public struct UpdateEndpointsBatchInput: Swift.Equatable {
+public struct UpdateEndpointsBatchInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30526,7 +30526,7 @@ public struct UpdateEndpointsBatchInput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointsBatchInputBody: Swift.Equatable {
+struct UpdateEndpointsBatchInputBody {
     let endpointBatchRequest: PinpointClientTypes.EndpointBatchRequest?
 }
 
@@ -30553,7 +30553,7 @@ extension UpdateEndpointsBatchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEndpointsBatchOutput: Swift.Equatable {
+public struct UpdateEndpointsBatchOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -30566,7 +30566,7 @@ public struct UpdateEndpointsBatchOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEndpointsBatchOutputBody: Swift.Equatable {
+struct UpdateEndpointsBatchOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -30622,7 +30622,7 @@ extension UpdateGcmChannelInput {
     }
 }
 
-public struct UpdateGcmChannelInput: Swift.Equatable {
+public struct UpdateGcmChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30640,7 +30640,7 @@ public struct UpdateGcmChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateGcmChannelInputBody: Swift.Equatable {
+struct UpdateGcmChannelInputBody {
     let gcmChannelRequest: PinpointClientTypes.GCMChannelRequest?
 }
 
@@ -30667,7 +30667,7 @@ extension UpdateGcmChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGcmChannelOutput: Swift.Equatable {
+public struct UpdateGcmChannelOutput {
     /// Provides information about the status and settings of the GCM channel for an application. The GCM channel enables Amazon Pinpoint to send push notifications through the Firebase Cloud Messaging (FCM), formerly Google Cloud Messaging (GCM), service.
     /// This member is required.
     public var gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
@@ -30680,7 +30680,7 @@ public struct UpdateGcmChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateGcmChannelOutputBody: Swift.Equatable {
+struct UpdateGcmChannelOutputBody {
     let gcmChannelResponse: PinpointClientTypes.GCMChannelResponse?
 }
 
@@ -30752,7 +30752,7 @@ extension UpdateInAppTemplateInput {
     }
 }
 
-public struct UpdateInAppTemplateInput: Swift.Equatable {
+public struct UpdateInAppTemplateInput {
     /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
     public var createNewVersion: Swift.Bool?
     /// InApp Template Request.
@@ -30784,7 +30784,7 @@ public struct UpdateInAppTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateInAppTemplateInputBody: Swift.Equatable {
+struct UpdateInAppTemplateInputBody {
     let inAppTemplateRequest: PinpointClientTypes.InAppTemplateRequest?
 }
 
@@ -30811,7 +30811,7 @@ extension UpdateInAppTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateInAppTemplateOutput: Swift.Equatable {
+public struct UpdateInAppTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -30824,7 +30824,7 @@ public struct UpdateInAppTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateInAppTemplateOutputBody: Swift.Equatable {
+struct UpdateInAppTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -30883,7 +30883,7 @@ extension UpdateJourneyInput {
     }
 }
 
-public struct UpdateJourneyInput: Swift.Equatable {
+public struct UpdateJourneyInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -30906,7 +30906,7 @@ public struct UpdateJourneyInput: Swift.Equatable {
     }
 }
 
-struct UpdateJourneyInputBody: Swift.Equatable {
+struct UpdateJourneyInputBody {
     let writeJourneyRequest: PinpointClientTypes.WriteJourneyRequest?
 }
 
@@ -30933,7 +30933,7 @@ extension UpdateJourneyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJourneyOutput: Swift.Equatable {
+public struct UpdateJourneyOutput {
     /// Provides information about the status, configuration, and other settings for a journey.
     /// This member is required.
     public var journeyResponse: PinpointClientTypes.JourneyResponse?
@@ -30946,7 +30946,7 @@ public struct UpdateJourneyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJourneyOutputBody: Swift.Equatable {
+struct UpdateJourneyOutputBody {
     let journeyResponse: PinpointClientTypes.JourneyResponse?
 }
 
@@ -31006,7 +31006,7 @@ extension UpdateJourneyStateInput {
     }
 }
 
-public struct UpdateJourneyStateInput: Swift.Equatable {
+public struct UpdateJourneyStateInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -31029,7 +31029,7 @@ public struct UpdateJourneyStateInput: Swift.Equatable {
     }
 }
 
-struct UpdateJourneyStateInputBody: Swift.Equatable {
+struct UpdateJourneyStateInputBody {
     let journeyStateRequest: PinpointClientTypes.JourneyStateRequest?
 }
 
@@ -31056,7 +31056,7 @@ extension UpdateJourneyStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJourneyStateOutput: Swift.Equatable {
+public struct UpdateJourneyStateOutput {
     /// Provides information about the status, configuration, and other settings for a journey.
     /// This member is required.
     public var journeyResponse: PinpointClientTypes.JourneyResponse?
@@ -31069,7 +31069,7 @@ public struct UpdateJourneyStateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateJourneyStateOutputBody: Swift.Equatable {
+struct UpdateJourneyStateOutputBody {
     let journeyResponse: PinpointClientTypes.JourneyResponse?
 }
 
@@ -31141,7 +31141,7 @@ extension UpdatePushTemplateInput {
     }
 }
 
-public struct UpdatePushTemplateInput: Swift.Equatable {
+public struct UpdatePushTemplateInput {
     /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
     public var createNewVersion: Swift.Bool?
     /// Specifies the content and settings for a message template that can be used in messages that are sent through a push notification channel.
@@ -31173,7 +31173,7 @@ public struct UpdatePushTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdatePushTemplateInputBody: Swift.Equatable {
+struct UpdatePushTemplateInputBody {
     let pushNotificationTemplateRequest: PinpointClientTypes.PushNotificationTemplateRequest?
 }
 
@@ -31200,7 +31200,7 @@ extension UpdatePushTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePushTemplateOutput: Swift.Equatable {
+public struct UpdatePushTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -31213,7 +31213,7 @@ public struct UpdatePushTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePushTemplateOutputBody: Swift.Equatable {
+struct UpdatePushTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -31269,7 +31269,7 @@ extension UpdateRecommenderConfigurationInput {
     }
 }
 
-public struct UpdateRecommenderConfigurationInput: Swift.Equatable {
+public struct UpdateRecommenderConfigurationInput {
     /// The unique identifier for the recommender model configuration. This identifier is displayed as the Recommender ID on the Amazon Pinpoint console.
     /// This member is required.
     public var recommenderId: Swift.String?
@@ -31287,7 +31287,7 @@ public struct UpdateRecommenderConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecommenderConfigurationInputBody: Swift.Equatable {
+struct UpdateRecommenderConfigurationInputBody {
     let updateRecommenderConfiguration: PinpointClientTypes.UpdateRecommenderConfigurationShape?
 }
 
@@ -31314,7 +31314,7 @@ extension UpdateRecommenderConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateRecommenderConfigurationOutput: Swift.Equatable {
+public struct UpdateRecommenderConfigurationOutput {
     /// Provides information about Amazon Pinpoint configuration settings for retrieving and processing data from a recommender model.
     /// This member is required.
     public var recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
@@ -31327,7 +31327,7 @@ public struct UpdateRecommenderConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRecommenderConfigurationOutputBody: Swift.Equatable {
+struct UpdateRecommenderConfigurationOutputBody {
     let recommenderConfigurationResponse: PinpointClientTypes.RecommenderConfigurationResponse?
 }
 
@@ -31441,7 +31441,7 @@ extension PinpointClientTypes.UpdateRecommenderConfigurationShape: Swift.Codable
 
 extension PinpointClientTypes {
     /// Specifies Amazon Pinpoint configuration settings for retrieving and processing recommendation data from a recommender model.
-    public struct UpdateRecommenderConfigurationShape: Swift.Equatable {
+    public struct UpdateRecommenderConfigurationShape {
         /// A map of key-value pairs that defines 1-10 custom endpoint or user attributes, depending on the value for the RecommendationProviderIdType property. Each of these attributes temporarily stores a recommended item that's retrieved from the recommender model and sent to an AWS Lambda function for additional processing. Each attribute can be used as a message variable in a message template. In the map, the key is the name of a custom attribute and the value is a custom display name for that attribute. The display name appears in the Attribute finder of the template editor on the Amazon Pinpoint console. The following restrictions apply to these names:
         ///
         /// * An attribute name must start with a letter or number and it can contain up to 50 characters. The characters can be letters, numbers, underscores (_), or hyphens (-). Attribute names are case sensitive and must be unique.
@@ -31526,7 +31526,7 @@ extension UpdateSegmentInput {
     }
 }
 
-public struct UpdateSegmentInput: Swift.Equatable {
+public struct UpdateSegmentInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -31549,7 +31549,7 @@ public struct UpdateSegmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateSegmentInputBody: Swift.Equatable {
+struct UpdateSegmentInputBody {
     let writeSegmentRequest: PinpointClientTypes.WriteSegmentRequest?
 }
 
@@ -31576,7 +31576,7 @@ extension UpdateSegmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSegmentOutput: Swift.Equatable {
+public struct UpdateSegmentOutput {
     /// Provides information about the configuration, dimension, and other settings for a segment.
     /// This member is required.
     public var segmentResponse: PinpointClientTypes.SegmentResponse?
@@ -31589,7 +31589,7 @@ public struct UpdateSegmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSegmentOutputBody: Swift.Equatable {
+struct UpdateSegmentOutputBody {
     let segmentResponse: PinpointClientTypes.SegmentResponse?
 }
 
@@ -31645,7 +31645,7 @@ extension UpdateSmsChannelInput {
     }
 }
 
-public struct UpdateSmsChannelInput: Swift.Equatable {
+public struct UpdateSmsChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -31663,7 +31663,7 @@ public struct UpdateSmsChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateSmsChannelInputBody: Swift.Equatable {
+struct UpdateSmsChannelInputBody {
     let smsChannelRequest: PinpointClientTypes.SMSChannelRequest?
 }
 
@@ -31690,7 +31690,7 @@ extension UpdateSmsChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSmsChannelOutput: Swift.Equatable {
+public struct UpdateSmsChannelOutput {
     /// Provides information about the status and settings of the SMS channel for an application.
     /// This member is required.
     public var smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
@@ -31703,7 +31703,7 @@ public struct UpdateSmsChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSmsChannelOutputBody: Swift.Equatable {
+struct UpdateSmsChannelOutputBody {
     let smsChannelResponse: PinpointClientTypes.SMSChannelResponse?
 }
 
@@ -31775,7 +31775,7 @@ extension UpdateSmsTemplateInput {
     }
 }
 
-public struct UpdateSmsTemplateInput: Swift.Equatable {
+public struct UpdateSmsTemplateInput {
     /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
     public var createNewVersion: Swift.Bool?
     /// Specifies the content and settings for a message template that can be used in text messages that are sent through the SMS channel.
@@ -31807,7 +31807,7 @@ public struct UpdateSmsTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateSmsTemplateInputBody: Swift.Equatable {
+struct UpdateSmsTemplateInputBody {
     let smsTemplateRequest: PinpointClientTypes.SMSTemplateRequest?
 }
 
@@ -31834,7 +31834,7 @@ extension UpdateSmsTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSmsTemplateOutput: Swift.Equatable {
+public struct UpdateSmsTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -31847,7 +31847,7 @@ public struct UpdateSmsTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSmsTemplateOutputBody: Swift.Equatable {
+struct UpdateSmsTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -31906,7 +31906,7 @@ extension UpdateTemplateActiveVersionInput {
     }
 }
 
-public struct UpdateTemplateActiveVersionInput: Swift.Equatable {
+public struct UpdateTemplateActiveVersionInput {
     /// Specifies which version of a message template to use as the active version of the template.
     /// This member is required.
     public var templateActiveVersionRequest: PinpointClientTypes.TemplateActiveVersionRequest?
@@ -31929,7 +31929,7 @@ public struct UpdateTemplateActiveVersionInput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateActiveVersionInputBody: Swift.Equatable {
+struct UpdateTemplateActiveVersionInputBody {
     let templateActiveVersionRequest: PinpointClientTypes.TemplateActiveVersionRequest?
 }
 
@@ -31956,7 +31956,7 @@ extension UpdateTemplateActiveVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTemplateActiveVersionOutput: Swift.Equatable {
+public struct UpdateTemplateActiveVersionOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -31969,7 +31969,7 @@ public struct UpdateTemplateActiveVersionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTemplateActiveVersionOutputBody: Swift.Equatable {
+struct UpdateTemplateActiveVersionOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -32025,7 +32025,7 @@ extension UpdateVoiceChannelInput {
     }
 }
 
-public struct UpdateVoiceChannelInput: Swift.Equatable {
+public struct UpdateVoiceChannelInput {
     /// The unique identifier for the application. This identifier is displayed as the Project ID on the Amazon Pinpoint console.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -32043,7 +32043,7 @@ public struct UpdateVoiceChannelInput: Swift.Equatable {
     }
 }
 
-struct UpdateVoiceChannelInputBody: Swift.Equatable {
+struct UpdateVoiceChannelInputBody {
     let voiceChannelRequest: PinpointClientTypes.VoiceChannelRequest?
 }
 
@@ -32070,7 +32070,7 @@ extension UpdateVoiceChannelOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVoiceChannelOutput: Swift.Equatable {
+public struct UpdateVoiceChannelOutput {
     /// Provides information about the status and settings of the voice channel for an application.
     /// This member is required.
     public var voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
@@ -32083,7 +32083,7 @@ public struct UpdateVoiceChannelOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVoiceChannelOutputBody: Swift.Equatable {
+struct UpdateVoiceChannelOutputBody {
     let voiceChannelResponse: PinpointClientTypes.VoiceChannelResponse?
 }
 
@@ -32155,7 +32155,7 @@ extension UpdateVoiceTemplateInput {
     }
 }
 
-public struct UpdateVoiceTemplateInput: Swift.Equatable {
+public struct UpdateVoiceTemplateInput {
     /// Specifies whether to save the updates as a new version of the message template. Valid values are: true, save the updates as a new version; and, false, save the updates to (overwrite) the latest existing version of the template. If you don't specify a value for this parameter, Amazon Pinpoint saves the updates to (overwrites) the latest existing version of the template. If you specify a value of true for this parameter, don't specify a value for the version parameter. Otherwise, an error will occur.
     public var createNewVersion: Swift.Bool?
     /// The name of the message template. A template name must start with an alphanumeric character and can contain a maximum of 128 characters. The characters can be alphanumeric characters, underscores (_), or hyphens (-). Template names are case sensitive.
@@ -32187,7 +32187,7 @@ public struct UpdateVoiceTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateVoiceTemplateInputBody: Swift.Equatable {
+struct UpdateVoiceTemplateInputBody {
     let voiceTemplateRequest: PinpointClientTypes.VoiceTemplateRequest?
 }
 
@@ -32214,7 +32214,7 @@ extension UpdateVoiceTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateVoiceTemplateOutput: Swift.Equatable {
+public struct UpdateVoiceTemplateOutput {
     /// Provides information about an API request or response.
     /// This member is required.
     public var messageBody: PinpointClientTypes.MessageBody?
@@ -32227,7 +32227,7 @@ public struct UpdateVoiceTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateVoiceTemplateOutputBody: Swift.Equatable {
+struct UpdateVoiceTemplateOutputBody {
     let messageBody: PinpointClientTypes.MessageBody?
 }
 
@@ -32281,7 +32281,7 @@ extension PinpointClientTypes.VerificationResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Verify OTP Message Response.
-    public struct VerificationResponse: Swift.Equatable {
+    public struct VerificationResponse {
         /// Specifies whether the OTP is valid or not.
         public var valid: Swift.Bool?
 
@@ -32318,7 +32318,7 @@ extension VerifyOTPMessageInput {
     }
 }
 
-public struct VerifyOTPMessageInput: Swift.Equatable {
+public struct VerifyOTPMessageInput {
     /// The unique ID of your Amazon Pinpoint application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -32336,7 +32336,7 @@ public struct VerifyOTPMessageInput: Swift.Equatable {
     }
 }
 
-struct VerifyOTPMessageInputBody: Swift.Equatable {
+struct VerifyOTPMessageInputBody {
     let verifyOTPMessageRequestParameters: PinpointClientTypes.VerifyOTPMessageRequestParameters?
 }
 
@@ -32363,7 +32363,7 @@ extension VerifyOTPMessageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifyOTPMessageOutput: Swift.Equatable {
+public struct VerifyOTPMessageOutput {
     /// Verify OTP Message Response.
     /// This member is required.
     public var verificationResponse: PinpointClientTypes.VerificationResponse?
@@ -32376,7 +32376,7 @@ public struct VerifyOTPMessageOutput: Swift.Equatable {
     }
 }
 
-struct VerifyOTPMessageOutputBody: Swift.Equatable {
+struct VerifyOTPMessageOutputBody {
     let verificationResponse: PinpointClientTypes.VerificationResponse?
 }
 
@@ -32442,7 +32442,7 @@ extension PinpointClientTypes.VerifyOTPMessageRequestParameters: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Verify OTP message request.
-    public struct VerifyOTPMessageRequestParameters: Swift.Equatable {
+    public struct VerifyOTPMessageRequestParameters {
         /// The destination identity to send OTP to.
         /// This member is required.
         public var destinationIdentity: Swift.String?
@@ -32488,7 +32488,7 @@ extension PinpointClientTypes.VoiceChannelRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the status and settings of the voice channel for an application.
-    public struct VoiceChannelRequest: Swift.Equatable {
+    public struct VoiceChannelRequest {
         /// Specifies whether to enable the voice channel for the application.
         public var enabled: Swift.Bool?
 
@@ -32577,7 +32577,7 @@ extension PinpointClientTypes.VoiceChannelResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the status and settings of the voice channel for an application.
-    public struct VoiceChannelResponse: Swift.Equatable {
+    public struct VoiceChannelResponse {
         /// The unique identifier for the application that the voice channel applies to.
         public var applicationId: Swift.String?
         /// The date and time, in ISO 8601 format, when the voice channel was enabled.
@@ -32695,7 +32695,7 @@ extension PinpointClientTypes.VoiceMessage: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a one-time voice message that's sent directly to an endpoint through the voice channel.
-    public struct VoiceMessage: Swift.Equatable {
+    public struct VoiceMessage {
         /// The text of the script to use for the voice message.
         public var body: Swift.String?
         /// The code for the language to use when synthesizing the text of the message script. For a list of supported languages and the code for each one, see the [Amazon Polly Developer Guide](https://docs.aws.amazon.com/polly/latest/dg/what-is.html).
@@ -32788,7 +32788,7 @@ extension PinpointClientTypes.VoiceTemplateRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the content and settings for a message template that can be used in messages that are sent through the voice channel.
-    public struct VoiceTemplateRequest: Swift.Equatable {
+    public struct VoiceTemplateRequest {
         /// The text of the script to use in messages that are based on the message template, in plain text format.
         public var body: Swift.String?
         /// A JSON object that specifies the default values to use for message variables in the message template. This object is a set of key-value pairs. Each key defines a message variable in the template. The corresponding value defines the default value for that variable. When you create a message that's based on the template, you can override these defaults with message-specific and address-specific variables and values.
@@ -32921,7 +32921,7 @@ extension PinpointClientTypes.VoiceTemplateResponse: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Provides information about the content and settings for a message template that can be used in messages that are sent through the voice channel.
-    public struct VoiceTemplateResponse: Swift.Equatable {
+    public struct VoiceTemplateResponse {
         /// The Amazon Resource Name (ARN) of the message template.
         public var arn: Swift.String?
         /// The text of the script that's used in messages that are based on the message template, in plain text format.
@@ -33010,7 +33010,7 @@ extension PinpointClientTypes.WaitActivity: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a wait activity in a journey. This type of activity waits for a certain amount of time or until a specific date and time before moving participants to the next activity in a journey.
-    public struct WaitActivity: Swift.Equatable {
+    public struct WaitActivity {
         /// The unique identifier for the next activity to perform, after performing the wait activity.
         public var nextActivity: Swift.String?
         /// The amount of time to wait or the date and time when the activity moves participants to the next activity in the journey.
@@ -33055,7 +33055,7 @@ extension PinpointClientTypes.WaitTime: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies a duration or a date and time that indicates when Amazon Pinpoint determines whether an activity's conditions have been met or an activity moves participants to the next activity in a journey.
-    public struct WaitTime: Swift.Equatable {
+    public struct WaitTime {
         /// The amount of time to wait, as a duration in ISO 8601 format, before determining whether the activity's conditions have been met or moving participants to the next activity in the journey.
         public var waitFor: Swift.String?
         /// The date and time, in ISO 8601 format, when Amazon Pinpoint determines whether the activity's conditions have been met or the activity moves participants to the next activity in the journey.
@@ -33124,7 +33124,7 @@ extension PinpointClientTypes.WriteApplicationSettingsRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the default settings for an application.
-    public struct WriteApplicationSettingsRequest: Swift.Equatable {
+    public struct WriteApplicationSettingsRequest {
         /// The settings for the AWS Lambda function to invoke by default as a code hook for campaigns in the application. You can use this hook to customize segments that are used by campaigns in the application. To override these settings and define custom settings for a specific campaign, use the CampaignHook object of the Campaign resource.
         public var campaignHook: PinpointClientTypes.CampaignHook?
         /// Specifies whether to enable application-related alarms in Amazon CloudWatch.
@@ -33307,7 +33307,7 @@ extension PinpointClientTypes.WriteCampaignRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration and other settings for a campaign.
-    public struct WriteCampaignRequest: Swift.Equatable {
+    public struct WriteCampaignRequest {
         /// An array of requests that defines additional treatments for the campaign, in addition to the default treatment for the campaign.
         public var additionalTreatments: [PinpointClientTypes.WriteTreatmentResource]?
         /// The delivery configuration settings for sending the campaign through a custom channel. This object is required if the MessageConfiguration object for the campaign specifies a CustomMessage object.
@@ -33412,7 +33412,7 @@ extension PinpointClientTypes.WriteEventStream: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the Amazon Resource Name (ARN) of an event stream to publish events to and the AWS Identity and Access Management (IAM) role to use when publishing those events.
-    public struct WriteEventStream: Swift.Equatable {
+    public struct WriteEventStream {
         /// The Amazon Resource Name (ARN) of the Amazon Kinesis data stream or Amazon Kinesis Data Firehose delivery stream that you want to publish event data to. For a Kinesis data stream, the ARN format is: arn:aws:kinesis:region:account-id:stream/stream_name For a Kinesis Data Firehose delivery stream, the ARN format is: arn:aws:firehose:region:account-id:deliverystream/stream_name
         /// This member is required.
         public var destinationStreamArn: Swift.String?
@@ -33585,7 +33585,7 @@ extension PinpointClientTypes.WriteJourneyRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration and other settings for a journey.
-    public struct WriteJourneyRequest: Swift.Equatable {
+    public struct WriteJourneyRequest {
         /// A map that contains a set of Activity objects, one object for each activity in the journey. For each Activity object, the key is the unique identifier (string) for an activity and the value is the settings for the activity. An activity identifier can contain a maximum of 100 characters. The characters must be alphanumeric characters.
         public var activities: [Swift.String:PinpointClientTypes.Activity]?
         /// The time when journey will stop sending messages. QuietTime should be configured first and SendingSchedule should be set to true.
@@ -33743,7 +33743,7 @@ extension PinpointClientTypes.WriteSegmentRequest: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the configuration, dimension, and other settings for a segment. A WriteSegmentRequest object can include a Dimensions object or a SegmentGroups object, but not both.
-    public struct WriteSegmentRequest: Swift.Equatable {
+    public struct WriteSegmentRequest {
         /// The criteria that define the dimensions for the segment.
         public var dimensions: PinpointClientTypes.SegmentDimensions?
         /// The name of the segment.
@@ -33826,7 +33826,7 @@ extension PinpointClientTypes.WriteTreatmentResource: Swift.Codable {
 
 extension PinpointClientTypes {
     /// Specifies the settings for a campaign treatment. A treatment is a variation of a campaign that's used for A/B testing of a campaign.
-    public struct WriteTreatmentResource: Swift.Equatable {
+    public struct WriteTreatmentResource {
         /// The delivery configuration settings for sending the treatment through a custom channel. This object is required if the MessageConfiguration object for the treatment specifies a CustomMessage object.
         public var customDeliveryConfiguration: PinpointClientTypes.CustomDeliveryConfiguration?
         /// The message configuration settings for the treatment.

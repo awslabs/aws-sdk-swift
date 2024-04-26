@@ -89,7 +89,7 @@ extension ComprehendMedicalClientTypes.Attribute: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the dosage of a medication taken. It contains information about the attribute such as id, begin and end offset within the input text, and the segment of the input text.
-    public struct Attribute: Swift.Equatable {
+    public struct Attribute {
         /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
         public var beginOffset: Swift.Int?
         /// The category of attribute.
@@ -213,7 +213,7 @@ extension ComprehendMedicalClientTypes.Characters: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The number of characters in the input text to be analyzed.
-    public struct Characters: Swift.Equatable {
+    public struct Characters {
         /// The number of characters present in the input text document as processed by Amazon Comprehend Medical.
         public var originalTextCharacters: Swift.Int?
 
@@ -266,7 +266,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter: Swift.Co
 
 extension ComprehendMedicalClientTypes {
     /// Provides information for filtering a list of detection jobs.
-    public struct ComprehendMedicalAsyncJobFilter: Swift.Equatable {
+    public struct ComprehendMedicalAsyncJobFilter {
         /// Filters on the name of the job.
         public var jobName: Swift.String?
         /// Filters the list of jobs based on job status. Returns only jobs with the specified status.
@@ -391,7 +391,7 @@ extension ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties: Swif
 
 extension ComprehendMedicalClientTypes {
     /// Provides information about a detection job.
-    public struct ComprehendMedicalAsyncJobProperties: Swift.Equatable {
+    public struct ComprehendMedicalAsyncJobProperties {
         /// The Amazon Resource Name (ARN) that gives Amazon Comprehend Medical read access to your input data.
         public var dataAccessRoleArn: Swift.String?
         /// The time that the detection job completed.
@@ -479,7 +479,7 @@ extension DescribeEntitiesDetectionV2JobInput {
     }
 }
 
-public struct DescribeEntitiesDetectionV2JobInput: Swift.Equatable {
+public struct DescribeEntitiesDetectionV2JobInput {
     /// The identifier that Amazon Comprehend Medical generated for the job. The StartEntitiesDetectionV2Job operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -492,7 +492,7 @@ public struct DescribeEntitiesDetectionV2JobInput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitiesDetectionV2JobInputBody: Swift.Equatable {
+struct DescribeEntitiesDetectionV2JobInputBody {
     let jobId: Swift.String?
 }
 
@@ -520,7 +520,7 @@ extension DescribeEntitiesDetectionV2JobOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeEntitiesDetectionV2JobOutput: Swift.Equatable {
+public struct DescribeEntitiesDetectionV2JobOutput {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
@@ -532,7 +532,7 @@ public struct DescribeEntitiesDetectionV2JobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeEntitiesDetectionV2JobOutputBody: Swift.Equatable {
+struct DescribeEntitiesDetectionV2JobOutputBody {
     let comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 }
 
@@ -582,7 +582,7 @@ extension DescribeICD10CMInferenceJobInput {
     }
 }
 
-public struct DescribeICD10CMInferenceJobInput: Swift.Equatable {
+public struct DescribeICD10CMInferenceJobInput {
     /// The identifier that Amazon Comprehend Medical generated for the job. The StartICD10CMInferenceJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -595,7 +595,7 @@ public struct DescribeICD10CMInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeICD10CMInferenceJobInputBody: Swift.Equatable {
+struct DescribeICD10CMInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -623,7 +623,7 @@ extension DescribeICD10CMInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeICD10CMInferenceJobOutput: Swift.Equatable {
+public struct DescribeICD10CMInferenceJobOutput {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
@@ -635,7 +635,7 @@ public struct DescribeICD10CMInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeICD10CMInferenceJobOutputBody: Swift.Equatable {
+struct DescribeICD10CMInferenceJobOutputBody {
     let comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 }
 
@@ -685,7 +685,7 @@ extension DescribePHIDetectionJobInput {
     }
 }
 
-public struct DescribePHIDetectionJobInput: Swift.Equatable {
+public struct DescribePHIDetectionJobInput {
     /// The identifier that Amazon Comprehend Medical generated for the job. The StartPHIDetectionJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -698,7 +698,7 @@ public struct DescribePHIDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct DescribePHIDetectionJobInputBody: Swift.Equatable {
+struct DescribePHIDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -726,7 +726,7 @@ extension DescribePHIDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribePHIDetectionJobOutput: Swift.Equatable {
+public struct DescribePHIDetectionJobOutput {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
@@ -738,7 +738,7 @@ public struct DescribePHIDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribePHIDetectionJobOutputBody: Swift.Equatable {
+struct DescribePHIDetectionJobOutputBody {
     let comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 }
 
@@ -788,7 +788,7 @@ extension DescribeRxNormInferenceJobInput {
     }
 }
 
-public struct DescribeRxNormInferenceJobInput: Swift.Equatable {
+public struct DescribeRxNormInferenceJobInput {
     /// The identifier that Amazon Comprehend Medical generated for the job. The StartRxNormInferenceJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -801,7 +801,7 @@ public struct DescribeRxNormInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeRxNormInferenceJobInputBody: Swift.Equatable {
+struct DescribeRxNormInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -829,7 +829,7 @@ extension DescribeRxNormInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRxNormInferenceJobOutput: Swift.Equatable {
+public struct DescribeRxNormInferenceJobOutput {
     /// An object that contains the properties associated with a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
@@ -841,7 +841,7 @@ public struct DescribeRxNormInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRxNormInferenceJobOutputBody: Swift.Equatable {
+struct DescribeRxNormInferenceJobOutputBody {
     let comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 }
 
@@ -891,7 +891,7 @@ extension DescribeSNOMEDCTInferenceJobInput {
     }
 }
 
-public struct DescribeSNOMEDCTInferenceJobInput: Swift.Equatable {
+public struct DescribeSNOMEDCTInferenceJobInput {
     /// The identifier that Amazon Comprehend Medical generated for the job. The StartSNOMEDCTInferenceJob operation returns this identifier in its response.
     /// This member is required.
     public var jobId: Swift.String?
@@ -904,7 +904,7 @@ public struct DescribeSNOMEDCTInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeSNOMEDCTInferenceJobInputBody: Swift.Equatable {
+struct DescribeSNOMEDCTInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -932,7 +932,7 @@ extension DescribeSNOMEDCTInferenceJobOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DescribeSNOMEDCTInferenceJobOutput: Swift.Equatable {
+public struct DescribeSNOMEDCTInferenceJobOutput {
     /// Provides information about a detection job.
     public var comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 
@@ -944,7 +944,7 @@ public struct DescribeSNOMEDCTInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSNOMEDCTInferenceJobOutputBody: Swift.Equatable {
+struct DescribeSNOMEDCTInferenceJobOutputBody {
     let comprehendMedicalAsyncJobProperties: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties?
 }
 
@@ -994,7 +994,7 @@ extension DetectEntitiesInput {
     }
 }
 
-public struct DetectEntitiesInput: Swift.Equatable {
+public struct DetectEntitiesInput {
     /// A UTF-8 text string containing the clinical content being examined for entities.
     /// This member is required.
     public var text: Swift.String?
@@ -1007,7 +1007,7 @@ public struct DetectEntitiesInput: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesInputBody: Swift.Equatable {
+struct DetectEntitiesInputBody {
     let text: Swift.String?
 }
 
@@ -1041,7 +1041,7 @@ extension DetectEntitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectEntitiesOutput: Swift.Equatable {
+public struct DetectEntitiesOutput {
     /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.Entity]?
@@ -1067,7 +1067,7 @@ public struct DetectEntitiesOutput: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesOutputBody: Swift.Equatable {
+struct DetectEntitiesOutputBody {
     let entities: [ComprehendMedicalClientTypes.Entity]?
     let unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]?
     let paginationToken: Swift.String?
@@ -1149,7 +1149,7 @@ extension DetectEntitiesV2Input {
     }
 }
 
-public struct DetectEntitiesV2Input: Swift.Equatable {
+public struct DetectEntitiesV2Input {
     /// A UTF-8 string containing the clinical content being examined for entities.
     /// This member is required.
     public var text: Swift.String?
@@ -1162,7 +1162,7 @@ public struct DetectEntitiesV2Input: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesV2InputBody: Swift.Equatable {
+struct DetectEntitiesV2InputBody {
     let text: Swift.String?
 }
 
@@ -1196,7 +1196,7 @@ extension DetectEntitiesV2Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectEntitiesV2Output: Swift.Equatable {
+public struct DetectEntitiesV2Output {
     /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence in the detection and analysis. Attributes and traits of the entity are also returned.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.Entity]?
@@ -1222,7 +1222,7 @@ public struct DetectEntitiesV2Output: Swift.Equatable {
     }
 }
 
-struct DetectEntitiesV2OutputBody: Swift.Equatable {
+struct DetectEntitiesV2OutputBody {
     let entities: [ComprehendMedicalClientTypes.Entity]?
     let unmappedAttributes: [ComprehendMedicalClientTypes.UnmappedAttribute]?
     let paginationToken: Swift.String?
@@ -1304,7 +1304,7 @@ extension DetectPHIInput {
     }
 }
 
-public struct DetectPHIInput: Swift.Equatable {
+public struct DetectPHIInput {
     /// A UTF-8 text string containing the clinical content being examined for PHI entities.
     /// This member is required.
     public var text: Swift.String?
@@ -1317,7 +1317,7 @@ public struct DetectPHIInput: Swift.Equatable {
     }
 }
 
-struct DetectPHIInputBody: Swift.Equatable {
+struct DetectPHIInputBody {
     let text: Swift.String?
 }
 
@@ -1349,7 +1349,7 @@ extension DetectPHIOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectPHIOutput: Swift.Equatable {
+public struct DetectPHIOutput {
     /// The collection of PHI entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in its detection.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.Entity]?
@@ -1371,7 +1371,7 @@ public struct DetectPHIOutput: Swift.Equatable {
     }
 }
 
-struct DetectPHIOutputBody: Swift.Equatable {
+struct DetectPHIOutputBody {
     let entities: [ComprehendMedicalClientTypes.Entity]?
     let paginationToken: Swift.String?
     let modelVersion: Swift.String?
@@ -1513,7 +1513,7 @@ extension ComprehendMedicalClientTypes.Entity: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// Provides information about an extracted medical entity.
-    public struct Entity: Swift.Equatable {
+    public struct Entity {
         /// The extracted attributes that relate to this entity.
         public var attributes: [ComprehendMedicalClientTypes.Attribute]?
         /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
@@ -1854,7 +1854,7 @@ extension ComprehendMedicalClientTypes.ICD10CMAttribute: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The detected attributes that relate to an entity. This includes an extracted segment of the text that is an attribute of an entity, or otherwise related to an entity. InferICD10CM detects the following attributes: Direction, System, Organ or Site, and Acuity.
-    public struct ICD10CMAttribute: Swift.Equatable {
+    public struct ICD10CMAttribute {
         /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
         public var beginOffset: Swift.Int?
         /// The category of attribute. Can be either of DX_NAME or TIME_EXPRESSION.
@@ -1984,7 +1984,7 @@ extension ComprehendMedicalClientTypes.ICD10CMConcept: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The ICD-10-CM concepts that the entity could refer to, along with a score indicating the likelihood of the match.
-    public struct ICD10CMConcept: Swift.Equatable {
+    public struct ICD10CMConcept {
         /// The ICD-10-CM code that identifies the concept found in the knowledge base from the Centers for Disease Control.
         public var code: Swift.String?
         /// The long description of the ICD-10-CM code in the ontology.
@@ -2117,7 +2117,7 @@ extension ComprehendMedicalClientTypes.ICD10CMEntity: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
-    public struct ICD10CMEntity: Swift.Equatable {
+    public struct ICD10CMEntity {
         /// The detected attributes that relate to the entity. An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the nature of a medical condition.
         public var attributes: [ComprehendMedicalClientTypes.ICD10CMAttribute]?
         /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
@@ -2290,7 +2290,7 @@ extension ComprehendMedicalClientTypes.ICD10CMTrait: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// Contextual information for the entity. The traits recognized by InferICD10CM are DIAGNOSIS, SIGN, SYMPTOM, and NEGATION.
-    public struct ICD10CMTrait: Swift.Equatable {
+    public struct ICD10CMTrait {
         /// Provides a name or contextual description about the trait.
         public var name: ComprehendMedicalClientTypes.ICD10CMTraitName?
         /// The level of confidence that Amazon Comprehend Medical has that the segment of text is correctly recognized as a trait.
@@ -2375,7 +2375,7 @@ extension InferICD10CMInput {
     }
 }
 
-public struct InferICD10CMInput: Swift.Equatable {
+public struct InferICD10CMInput {
     /// The input text used for analysis.
     /// This member is required.
     public var text: Swift.String?
@@ -2388,7 +2388,7 @@ public struct InferICD10CMInput: Swift.Equatable {
     }
 }
 
-struct InferICD10CMInputBody: Swift.Equatable {
+struct InferICD10CMInputBody {
     let text: Swift.String?
 }
 
@@ -2420,7 +2420,7 @@ extension InferICD10CMOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InferICD10CMOutput: Swift.Equatable {
+public struct InferICD10CMOutput {
     /// The medical conditions detected in the text linked to ICD-10-CM concepts. If the action is successful, the service sends back an HTTP 200 response, as well as the entities detected.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.ICD10CMEntity]?
@@ -2441,7 +2441,7 @@ public struct InferICD10CMOutput: Swift.Equatable {
     }
 }
 
-struct InferICD10CMOutputBody: Swift.Equatable {
+struct InferICD10CMOutputBody {
     let entities: [ComprehendMedicalClientTypes.ICD10CMEntity]?
     let paginationToken: Swift.String?
     let modelVersion: Swift.String?
@@ -2510,7 +2510,7 @@ extension InferRxNormInput {
     }
 }
 
-public struct InferRxNormInput: Swift.Equatable {
+public struct InferRxNormInput {
     /// The input text used for analysis.
     /// This member is required.
     public var text: Swift.String?
@@ -2523,7 +2523,7 @@ public struct InferRxNormInput: Swift.Equatable {
     }
 }
 
-struct InferRxNormInputBody: Swift.Equatable {
+struct InferRxNormInputBody {
     let text: Swift.String?
 }
 
@@ -2555,7 +2555,7 @@ extension InferRxNormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InferRxNormOutput: Swift.Equatable {
+public struct InferRxNormOutput {
     /// The medication entities detected in the text linked to RxNorm concepts. If the action is successful, the service sends back an HTTP 200 response, as well as the entities detected.
     /// This member is required.
     public var entities: [ComprehendMedicalClientTypes.RxNormEntity]?
@@ -2576,7 +2576,7 @@ public struct InferRxNormOutput: Swift.Equatable {
     }
 }
 
-struct InferRxNormOutputBody: Swift.Equatable {
+struct InferRxNormOutputBody {
     let entities: [ComprehendMedicalClientTypes.RxNormEntity]?
     let paginationToken: Swift.String?
     let modelVersion: Swift.String?
@@ -2645,7 +2645,7 @@ extension InferSNOMEDCTInput {
     }
 }
 
-public struct InferSNOMEDCTInput: Swift.Equatable {
+public struct InferSNOMEDCTInput {
     /// The input text to be analyzed using InferSNOMEDCT.
     /// This member is required.
     public var text: Swift.String?
@@ -2658,7 +2658,7 @@ public struct InferSNOMEDCTInput: Swift.Equatable {
     }
 }
 
-struct InferSNOMEDCTInputBody: Swift.Equatable {
+struct InferSNOMEDCTInputBody {
     let text: Swift.String?
 }
 
@@ -2694,7 +2694,7 @@ extension InferSNOMEDCTOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InferSNOMEDCTOutput: Swift.Equatable {
+public struct InferSNOMEDCTOutput {
     /// The number of characters in the input request documentation.
     public var characters: ComprehendMedicalClientTypes.Characters?
     /// The collection of medical concept entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
@@ -2723,7 +2723,7 @@ public struct InferSNOMEDCTOutput: Swift.Equatable {
     }
 }
 
-struct InferSNOMEDCTOutputBody: Swift.Equatable {
+struct InferSNOMEDCTOutputBody {
     let entities: [ComprehendMedicalClientTypes.SNOMEDCTEntity]?
     let paginationToken: Swift.String?
     let modelVersion: Swift.String?
@@ -2807,7 +2807,7 @@ extension ComprehendMedicalClientTypes.InputDataConfig: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The input properties for an entities detection job. This includes the name of the S3 bucket and the path to the files to be analyzed.
-    public struct InputDataConfig: Swift.Equatable {
+    public struct InputDataConfig {
         /// The URI of the S3 bucket that contains the input data. The bucket must be in the same region as the API endpoint that you are calling.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -2865,7 +2865,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2920,7 +2920,7 @@ public struct InvalidEncodingException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidEncodingExceptionBody: Swift.Equatable {
+struct InvalidEncodingExceptionBody {
     let message: Swift.String?
 }
 
@@ -2975,7 +2975,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -3095,7 +3095,7 @@ extension ListEntitiesDetectionV2JobsInput {
     }
 }
 
-public struct ListEntitiesDetectionV2JobsInput: Swift.Equatable {
+public struct ListEntitiesDetectionV2JobsInput {
     /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -3115,7 +3115,7 @@ public struct ListEntitiesDetectionV2JobsInput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesDetectionV2JobsInputBody: Swift.Equatable {
+struct ListEntitiesDetectionV2JobsInputBody {
     let filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3153,7 +3153,7 @@ extension ListEntitiesDetectionV2JobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEntitiesDetectionV2JobsOutput: Swift.Equatable {
+public struct ListEntitiesDetectionV2JobsOutput {
     /// A list containing the properties of each job returned.
     public var comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     /// Identifies the next page of results to return.
@@ -3169,7 +3169,7 @@ public struct ListEntitiesDetectionV2JobsOutput: Swift.Equatable {
     }
 }
 
-struct ListEntitiesDetectionV2JobsOutputBody: Swift.Equatable {
+struct ListEntitiesDetectionV2JobsOutputBody {
     let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     let nextToken: Swift.String?
 }
@@ -3240,7 +3240,7 @@ extension ListICD10CMInferenceJobsInput {
     }
 }
 
-public struct ListICD10CMInferenceJobsInput: Swift.Equatable {
+public struct ListICD10CMInferenceJobsInput {
     /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -3260,7 +3260,7 @@ public struct ListICD10CMInferenceJobsInput: Swift.Equatable {
     }
 }
 
-struct ListICD10CMInferenceJobsInputBody: Swift.Equatable {
+struct ListICD10CMInferenceJobsInputBody {
     let filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3298,7 +3298,7 @@ extension ListICD10CMInferenceJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListICD10CMInferenceJobsOutput: Swift.Equatable {
+public struct ListICD10CMInferenceJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     /// Identifies the next page of results to return.
@@ -3314,7 +3314,7 @@ public struct ListICD10CMInferenceJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListICD10CMInferenceJobsOutputBody: Swift.Equatable {
+struct ListICD10CMInferenceJobsOutputBody {
     let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     let nextToken: Swift.String?
 }
@@ -3385,7 +3385,7 @@ extension ListPHIDetectionJobsInput {
     }
 }
 
-public struct ListPHIDetectionJobsInput: Swift.Equatable {
+public struct ListPHIDetectionJobsInput {
     /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -3405,7 +3405,7 @@ public struct ListPHIDetectionJobsInput: Swift.Equatable {
     }
 }
 
-struct ListPHIDetectionJobsInputBody: Swift.Equatable {
+struct ListPHIDetectionJobsInputBody {
     let filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3443,7 +3443,7 @@ extension ListPHIDetectionJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPHIDetectionJobsOutput: Swift.Equatable {
+public struct ListPHIDetectionJobsOutput {
     /// A list containing the properties of each job returned.
     public var comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     /// Identifies the next page of results to return.
@@ -3459,7 +3459,7 @@ public struct ListPHIDetectionJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListPHIDetectionJobsOutputBody: Swift.Equatable {
+struct ListPHIDetectionJobsOutputBody {
     let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     let nextToken: Swift.String?
 }
@@ -3530,7 +3530,7 @@ extension ListRxNormInferenceJobsInput {
     }
 }
 
-public struct ListRxNormInferenceJobsInput: Swift.Equatable {
+public struct ListRxNormInferenceJobsInput {
     /// Filters the jobs that are returned. You can filter jobs based on their names, status, or the date and time that they were submitted. You can only set one filter at a time.
     public var filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     /// Identifies the next page of results to return.
@@ -3550,7 +3550,7 @@ public struct ListRxNormInferenceJobsInput: Swift.Equatable {
     }
 }
 
-struct ListRxNormInferenceJobsInputBody: Swift.Equatable {
+struct ListRxNormInferenceJobsInputBody {
     let filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3588,7 +3588,7 @@ extension ListRxNormInferenceJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRxNormInferenceJobsOutput: Swift.Equatable {
+public struct ListRxNormInferenceJobsOutput {
     /// The maximum number of results to return in each page. The default is 100.
     public var comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     /// Identifies the next page of results to return.
@@ -3604,7 +3604,7 @@ public struct ListRxNormInferenceJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListRxNormInferenceJobsOutputBody: Swift.Equatable {
+struct ListRxNormInferenceJobsOutputBody {
     let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     let nextToken: Swift.String?
 }
@@ -3675,7 +3675,7 @@ extension ListSNOMEDCTInferenceJobsInput {
     }
 }
 
-public struct ListSNOMEDCTInferenceJobsInput: Swift.Equatable {
+public struct ListSNOMEDCTInferenceJobsInput {
     /// Provides information for filtering a list of detection jobs.
     public var filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     /// The maximum number of results to return in each page. The default is 100.
@@ -3695,7 +3695,7 @@ public struct ListSNOMEDCTInferenceJobsInput: Swift.Equatable {
     }
 }
 
-struct ListSNOMEDCTInferenceJobsInputBody: Swift.Equatable {
+struct ListSNOMEDCTInferenceJobsInputBody {
     let filter: ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobFilter?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3733,7 +3733,7 @@ extension ListSNOMEDCTInferenceJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSNOMEDCTInferenceJobsOutput: Swift.Equatable {
+public struct ListSNOMEDCTInferenceJobsOutput {
     /// A list containing the properties of each job that is returned.
     public var comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     /// Identifies the next page of results to return.
@@ -3749,7 +3749,7 @@ public struct ListSNOMEDCTInferenceJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListSNOMEDCTInferenceJobsOutputBody: Swift.Equatable {
+struct ListSNOMEDCTInferenceJobsOutputBody {
     let comprehendMedicalAsyncJobPropertiesList: [ComprehendMedicalClientTypes.ComprehendMedicalAsyncJobProperties]?
     let nextToken: Swift.String?
 }
@@ -3819,7 +3819,7 @@ extension ComprehendMedicalClientTypes.OutputDataConfig: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The output properties for a detection job.
-    public struct OutputDataConfig: Swift.Equatable {
+    public struct OutputDataConfig {
         /// When you use the OutputDataConfig object with asynchronous operations, you specify the Amazon S3 location where you want to write the output data. The URI must be in the same region as the API endpoint that you are calling. The location is used as the prefix for the actual location of the output.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -3969,7 +3969,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -4060,7 +4060,7 @@ extension ComprehendMedicalClientTypes.RxNormAttribute: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The extracted attributes that relate to this entity. The attributes recognized by InferRxNorm are DOSAGE, DURATION, FORM, FREQUENCY, RATE, ROUTE_OR_MODE.
-    public struct RxNormAttribute: Swift.Equatable {
+    public struct RxNormAttribute {
         /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
         public var beginOffset: Swift.Int?
         /// The 0-based character offset in the input text that shows where the attribute ends. The offset returns the UTF-8 code point in the string.
@@ -4182,7 +4182,7 @@ extension ComprehendMedicalClientTypes.RxNormConcept: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The RxNorm concept that the entity could refer to, along with a score indicating the likelihood of the match.
-    public struct RxNormConcept: Swift.Equatable {
+    public struct RxNormConcept {
         /// RxNorm concept ID, also known as the RxCUI.
         public var code: Swift.String?
         /// The description of the RxNorm concept.
@@ -4315,7 +4315,7 @@ extension ComprehendMedicalClientTypes.RxNormEntity: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
-    public struct RxNormEntity: Swift.Equatable {
+    public struct RxNormEntity {
         /// The extracted attributes that relate to the entity. The attributes recognized by InferRxNorm are DOSAGE, DURATION, FORM, FREQUENCY, RATE, ROUTE_OR_MODE, and STRENGTH.
         public var attributes: [ComprehendMedicalClientTypes.RxNormAttribute]?
         /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
@@ -4453,7 +4453,7 @@ extension ComprehendMedicalClientTypes.RxNormTrait: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The contextual information for the entity. InferRxNorm recognizes the trait NEGATION, which is any indication that the patient is not taking a medication.
-    public struct RxNormTrait: Swift.Equatable {
+    public struct RxNormTrait {
         /// Provides a name or contextual description about the trait.
         public var name: ComprehendMedicalClientTypes.RxNormTraitName?
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of the detected trait.
@@ -4608,7 +4608,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTAttribute: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The extracted attributes that relate to an entity. An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the dosage of a medication taken.
-    public struct SNOMEDCTAttribute: Swift.Equatable {
+    public struct SNOMEDCTAttribute {
         /// The 0-based character offset in the input text that shows where the attribute begins. The offset returns the UTF-8 code point in the string.
         public var beginOffset: Swift.Int?
         /// The category of the detected attribute. Possible categories include MEDICAL_CONDITION, ANATOMY, and TEST_TREATMENT_PROCEDURE.
@@ -4739,7 +4739,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTConcept: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The SNOMED-CT concepts that the entity could refer to, along with a score indicating the likelihood of the match.
-    public struct SNOMEDCTConcept: Swift.Equatable {
+    public struct SNOMEDCTConcept {
         /// The numeric ID for the SNOMED-CT concept.
         public var code: Swift.String?
         /// The description of the SNOMED-CT concept.
@@ -4794,7 +4794,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTDetails: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The information about the revision of the SNOMED-CT ontology in the response. Specifically, the details include the SNOMED-CT edition, language, and version date.
-    public struct SNOMEDCTDetails: Swift.Equatable {
+    public struct SNOMEDCTDetails {
         /// The edition of SNOMED-CT used. The edition used for the InferSNOMEDCT editions is the US edition.
         public var edition: Swift.String?
         /// The language used in the SNOMED-CT ontology. All Amazon Comprehend Medical operations are US English (en).
@@ -4927,7 +4927,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTEntity: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// The collection of medical entities extracted from the input text and their associated information. For each entity, the response provides the entity text, the entity category, where the entity text begins and ends, and the level of confidence that Amazon Comprehend Medical has in the detection and analysis. Attributes and traits of the entity are also returned.
-    public struct SNOMEDCTEntity: Swift.Equatable {
+    public struct SNOMEDCTEntity {
         /// An extracted segment of the text that is an attribute of an entity, or otherwise related to an entity, such as the dosage of a medication taken.
         public var attributes: [ComprehendMedicalClientTypes.SNOMEDCTAttribute]?
         /// The 0-based character offset in the input text that shows where the entity begins. The offset returns the UTF-8 code point in the string.
@@ -5124,7 +5124,7 @@ extension ComprehendMedicalClientTypes.SNOMEDCTTrait: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// Contextual information for an entity.
-    public struct SNOMEDCTTrait: Swift.Equatable {
+    public struct SNOMEDCTTrait {
         /// The name or contextual description of a detected trait.
         public var name: ComprehendMedicalClientTypes.SNOMEDCTTraitName?
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of a detected trait.
@@ -5234,7 +5234,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -5294,7 +5294,7 @@ extension StartEntitiesDetectionV2JobInput {
     }
 }
 
-public struct StartEntitiesDetectionV2JobInput: Swift.Equatable {
+public struct StartEntitiesDetectionV2JobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one for you.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
@@ -5334,7 +5334,7 @@ public struct StartEntitiesDetectionV2JobInput: Swift.Equatable {
     }
 }
 
-struct StartEntitiesDetectionV2JobInputBody: Swift.Equatable {
+struct StartEntitiesDetectionV2JobInputBody {
     let inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -5386,7 +5386,7 @@ extension StartEntitiesDetectionV2JobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartEntitiesDetectionV2JobOutput: Swift.Equatable {
+public struct StartEntitiesDetectionV2JobOutput {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribeEntitiesDetectionV2Job operation.
     public var jobId: Swift.String?
 
@@ -5398,7 +5398,7 @@ public struct StartEntitiesDetectionV2JobOutput: Swift.Equatable {
     }
 }
 
-struct StartEntitiesDetectionV2JobOutputBody: Swift.Equatable {
+struct StartEntitiesDetectionV2JobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -5472,7 +5472,7 @@ extension StartICD10CMInferenceJobInput {
     }
 }
 
-public struct StartICD10CMInferenceJobInput: Swift.Equatable {
+public struct StartICD10CMInferenceJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
@@ -5512,7 +5512,7 @@ public struct StartICD10CMInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StartICD10CMInferenceJobInputBody: Swift.Equatable {
+struct StartICD10CMInferenceJobInputBody {
     let inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -5564,7 +5564,7 @@ extension StartICD10CMInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartICD10CMInferenceJobOutput: Swift.Equatable {
+public struct StartICD10CMInferenceJobOutput {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the StartICD10CMInferenceJob operation.
     public var jobId: Swift.String?
 
@@ -5576,7 +5576,7 @@ public struct StartICD10CMInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StartICD10CMInferenceJobOutputBody: Swift.Equatable {
+struct StartICD10CMInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -5650,7 +5650,7 @@ extension StartPHIDetectionJobInput {
     }
 }
 
-public struct StartPHIDetectionJobInput: Swift.Equatable {
+public struct StartPHIDetectionJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
@@ -5690,7 +5690,7 @@ public struct StartPHIDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StartPHIDetectionJobInputBody: Swift.Equatable {
+struct StartPHIDetectionJobInputBody {
     let inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -5742,7 +5742,7 @@ extension StartPHIDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartPHIDetectionJobOutput: Swift.Equatable {
+public struct StartPHIDetectionJobOutput {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the DescribePHIDetectionJob operation.
     public var jobId: Swift.String?
 
@@ -5754,7 +5754,7 @@ public struct StartPHIDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StartPHIDetectionJobOutputBody: Swift.Equatable {
+struct StartPHIDetectionJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -5828,7 +5828,7 @@ extension StartRxNormInferenceJobInput {
     }
 }
 
-public struct StartRxNormInferenceJobInput: Swift.Equatable {
+public struct StartRxNormInferenceJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data. For more information, see [ Role-Based Permissions Required for Asynchronous Operations](https://docs.aws.amazon.com/comprehend/latest/dg/access-control-managing-permissions-med.html#auth-role-permissions-med).
@@ -5868,7 +5868,7 @@ public struct StartRxNormInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StartRxNormInferenceJobInputBody: Swift.Equatable {
+struct StartRxNormInferenceJobInputBody {
     let inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -5920,7 +5920,7 @@ extension StartRxNormInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRxNormInferenceJobOutput: Swift.Equatable {
+public struct StartRxNormInferenceJobOutput {
     /// The identifier of the job.
     public var jobId: Swift.String?
 
@@ -5932,7 +5932,7 @@ public struct StartRxNormInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StartRxNormInferenceJobOutputBody: Swift.Equatable {
+struct StartRxNormInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6006,7 +6006,7 @@ extension StartSNOMEDCTInferenceJobInput {
     }
 }
 
-public struct StartSNOMEDCTInferenceJobInput: Swift.Equatable {
+public struct StartSNOMEDCTInferenceJobInput {
     /// A unique identifier for the request. If you don't set the client request token, Amazon Comprehend Medical generates one.
     public var clientRequestToken: Swift.String?
     /// The Amazon Resource Name (ARN) of the AWS Identity and Access Management (IAM) role that grants Amazon Comprehend Medical read access to your input data.
@@ -6046,7 +6046,7 @@ public struct StartSNOMEDCTInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StartSNOMEDCTInferenceJobInputBody: Swift.Equatable {
+struct StartSNOMEDCTInferenceJobInputBody {
     let inputDataConfig: ComprehendMedicalClientTypes.InputDataConfig?
     let outputDataConfig: ComprehendMedicalClientTypes.OutputDataConfig?
     let dataAccessRoleArn: Swift.String?
@@ -6098,7 +6098,7 @@ extension StartSNOMEDCTInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSNOMEDCTInferenceJobOutput: Swift.Equatable {
+public struct StartSNOMEDCTInferenceJobOutput {
     /// The identifier generated for the job. To get the status of a job, use this identifier with the StartSNOMEDCTInferenceJob operation.
     public var jobId: Swift.String?
 
@@ -6110,7 +6110,7 @@ public struct StartSNOMEDCTInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StartSNOMEDCTInferenceJobOutputBody: Swift.Equatable {
+struct StartSNOMEDCTInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6160,7 +6160,7 @@ extension StopEntitiesDetectionV2JobInput {
     }
 }
 
-public struct StopEntitiesDetectionV2JobInput: Swift.Equatable {
+public struct StopEntitiesDetectionV2JobInput {
     /// The identifier of the medical entities job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6173,7 +6173,7 @@ public struct StopEntitiesDetectionV2JobInput: Swift.Equatable {
     }
 }
 
-struct StopEntitiesDetectionV2JobInputBody: Swift.Equatable {
+struct StopEntitiesDetectionV2JobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6201,7 +6201,7 @@ extension StopEntitiesDetectionV2JobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopEntitiesDetectionV2JobOutput: Swift.Equatable {
+public struct StopEntitiesDetectionV2JobOutput {
     /// The identifier of the medical entities detection job that was stopped.
     public var jobId: Swift.String?
 
@@ -6213,7 +6213,7 @@ public struct StopEntitiesDetectionV2JobOutput: Swift.Equatable {
     }
 }
 
-struct StopEntitiesDetectionV2JobOutputBody: Swift.Equatable {
+struct StopEntitiesDetectionV2JobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6262,7 +6262,7 @@ extension StopICD10CMInferenceJobInput {
     }
 }
 
-public struct StopICD10CMInferenceJobInput: Swift.Equatable {
+public struct StopICD10CMInferenceJobInput {
     /// The identifier of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6275,7 +6275,7 @@ public struct StopICD10CMInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StopICD10CMInferenceJobInputBody: Swift.Equatable {
+struct StopICD10CMInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6303,7 +6303,7 @@ extension StopICD10CMInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopICD10CMInferenceJobOutput: Swift.Equatable {
+public struct StopICD10CMInferenceJobOutput {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeICD10CMInferenceJob operation.
     public var jobId: Swift.String?
 
@@ -6315,7 +6315,7 @@ public struct StopICD10CMInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StopICD10CMInferenceJobOutputBody: Swift.Equatable {
+struct StopICD10CMInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6364,7 +6364,7 @@ extension StopPHIDetectionJobInput {
     }
 }
 
-public struct StopPHIDetectionJobInput: Swift.Equatable {
+public struct StopPHIDetectionJobInput {
     /// The identifier of the PHI detection job to stop.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6377,7 +6377,7 @@ public struct StopPHIDetectionJobInput: Swift.Equatable {
     }
 }
 
-struct StopPHIDetectionJobInputBody: Swift.Equatable {
+struct StopPHIDetectionJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6405,7 +6405,7 @@ extension StopPHIDetectionJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopPHIDetectionJobOutput: Swift.Equatable {
+public struct StopPHIDetectionJobOutput {
     /// The identifier of the PHI detection job that was stopped.
     public var jobId: Swift.String?
 
@@ -6417,7 +6417,7 @@ public struct StopPHIDetectionJobOutput: Swift.Equatable {
     }
 }
 
-struct StopPHIDetectionJobOutputBody: Swift.Equatable {
+struct StopPHIDetectionJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6466,7 +6466,7 @@ extension StopRxNormInferenceJobInput {
     }
 }
 
-public struct StopRxNormInferenceJobInput: Swift.Equatable {
+public struct StopRxNormInferenceJobInput {
     /// The identifier of the job.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6479,7 +6479,7 @@ public struct StopRxNormInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StopRxNormInferenceJobInputBody: Swift.Equatable {
+struct StopRxNormInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6507,7 +6507,7 @@ extension StopRxNormInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopRxNormInferenceJobOutput: Swift.Equatable {
+public struct StopRxNormInferenceJobOutput {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeRxNormInferenceJob operation.
     public var jobId: Swift.String?
 
@@ -6519,7 +6519,7 @@ public struct StopRxNormInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StopRxNormInferenceJobOutputBody: Swift.Equatable {
+struct StopRxNormInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6568,7 +6568,7 @@ extension StopSNOMEDCTInferenceJobInput {
     }
 }
 
-public struct StopSNOMEDCTInferenceJobInput: Swift.Equatable {
+public struct StopSNOMEDCTInferenceJobInput {
     /// The job id of the asynchronous InferSNOMEDCT job to be stopped.
     /// This member is required.
     public var jobId: Swift.String?
@@ -6581,7 +6581,7 @@ public struct StopSNOMEDCTInferenceJobInput: Swift.Equatable {
     }
 }
 
-struct StopSNOMEDCTInferenceJobInputBody: Swift.Equatable {
+struct StopSNOMEDCTInferenceJobInputBody {
     let jobId: Swift.String?
 }
 
@@ -6609,7 +6609,7 @@ extension StopSNOMEDCTInferenceJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopSNOMEDCTInferenceJobOutput: Swift.Equatable {
+public struct StopSNOMEDCTInferenceJobOutput {
     /// The identifier generated for the job. To get the status of job, use this identifier with the DescribeSNOMEDCTInferenceJob operation.
     public var jobId: Swift.String?
 
@@ -6621,7 +6621,7 @@ public struct StopSNOMEDCTInferenceJobOutput: Swift.Equatable {
     }
 }
 
-struct StopSNOMEDCTInferenceJobOutputBody: Swift.Equatable {
+struct StopSNOMEDCTInferenceJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -6690,7 +6690,7 @@ public struct TextSizeLimitExceededException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct TextSizeLimitExceededExceptionBody: Swift.Equatable {
+struct TextSizeLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6745,7 +6745,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -6788,7 +6788,7 @@ extension ComprehendMedicalClientTypes.Trait: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// Provides contextual information about the extracted entity.
-    public struct Trait: Swift.Equatable {
+    public struct Trait {
         /// Provides a name or contextual description about the trait.
         public var name: ComprehendMedicalClientTypes.AttributeName?
         /// The level of confidence that Amazon Comprehend Medical has in the accuracy of this trait.
@@ -6833,7 +6833,7 @@ extension ComprehendMedicalClientTypes.UnmappedAttribute: Swift.Codable {
 
 extension ComprehendMedicalClientTypes {
     /// An attribute that was extracted, but Amazon Comprehend Medical was unable to relate to an entity.
-    public struct UnmappedAttribute: Swift.Equatable {
+    public struct UnmappedAttribute {
         /// The specific attribute that has been extracted but not mapped to an entity.
         public var attribute: ComprehendMedicalClientTypes.Attribute?
         /// The type of the unmapped attribute, could be one of the following values: "MEDICATION", "MEDICAL_CONDITION", "ANATOMY", "TEST_AND_TREATMENT_PROCEDURE" or "PROTECTED_HEALTH_INFORMATION".
@@ -6890,7 +6890,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

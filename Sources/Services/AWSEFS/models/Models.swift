@@ -55,7 +55,7 @@ public struct AccessPointAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct AccessPointAlreadyExistsBody: Swift.Equatable {
+struct AccessPointAlreadyExistsBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let accessPointId: Swift.String?
@@ -166,7 +166,7 @@ extension EFSClientTypes.AccessPointDescription: Swift.Codable {
 
 extension EFSClientTypes {
     /// Provides a description of an EFS file system access point.
-    public struct AccessPointDescription: Swift.Equatable {
+    public struct AccessPointDescription {
         /// The unique Amazon Resource Name (ARN) associated with the access point.
         public var accessPointArn: Swift.String?
         /// The ID of the access point, assigned by Amazon EFS.
@@ -263,7 +263,7 @@ public struct AccessPointLimitExceeded: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct AccessPointLimitExceededBody: Swift.Equatable {
+struct AccessPointLimitExceededBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -330,7 +330,7 @@ public struct AccessPointNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct AccessPointNotFoundBody: Swift.Equatable {
+struct AccessPointNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -396,7 +396,7 @@ public struct AvailabilityZonesMismatch: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct AvailabilityZonesMismatchBody: Swift.Equatable {
+struct AvailabilityZonesMismatchBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -437,7 +437,7 @@ extension EFSClientTypes.BackupPolicy: Swift.Codable {
 
 extension EFSClientTypes {
     /// The backup policy for the file system used to create automatic daily backups. If status has a value of ENABLED, the file system is being automatically backed up. For more information, see [Automatic backups](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups).
-    public struct BackupPolicy: Swift.Equatable {
+    public struct BackupPolicy {
         /// Describes the status of the file system's backup policy.
         ///
         /// * ENABLED – EFS is automatically backing up the file system.
@@ -507,7 +507,7 @@ public struct BadRequest: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     }
 }
 
-struct BadRequestBody: Swift.Equatable {
+struct BadRequestBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -573,7 +573,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -632,7 +632,7 @@ extension CreateAccessPointInput {
     }
 }
 
-public struct CreateAccessPointInput: Swift.Equatable {
+public struct CreateAccessPointInput {
     /// A string of up to 64 ASCII characters that Amazon EFS uses to ensure idempotent creation.
     /// This member is required.
     public var clientToken: Swift.String?
@@ -662,7 +662,7 @@ public struct CreateAccessPointInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPointInputBody: Swift.Equatable {
+struct CreateAccessPointInputBody {
     let clientToken: Swift.String?
     let tags: [EFSClientTypes.Tag]?
     let fileSystemId: Swift.String?
@@ -734,7 +734,7 @@ extension CreateAccessPointOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Provides a description of an EFS file system access point.
-public struct CreateAccessPointOutput: Swift.Equatable {
+public struct CreateAccessPointOutput {
     /// The unique Amazon Resource Name (ARN) associated with the access point.
     public var accessPointArn: Swift.String?
     /// The ID of the access point, assigned by Amazon EFS.
@@ -782,7 +782,7 @@ public struct CreateAccessPointOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessPointOutputBody: Swift.Equatable {
+struct CreateAccessPointOutputBody {
     let clientToken: Swift.String?
     let name: Swift.String?
     let tags: [EFSClientTypes.Tag]?
@@ -915,7 +915,7 @@ extension CreateFileSystemInput {
     }
 }
 
-public struct CreateFileSystemInput: Swift.Equatable {
+public struct CreateFileSystemInput {
     /// Used to create a One Zone file system. It specifies the Amazon Web Services Availability Zone in which to create the file system. Use the format us-east-1a to specify the Availability Zone. For more information about One Zone file systems, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide. One Zone file systems are not available in all Availability Zones in Amazon Web Services Regions where Amazon EFS is available.
     public var availabilityZoneName: Swift.String?
     /// Specifies whether automatic backups are enabled on the file system that you are creating. Set the value to true to enable automatic backups. If you are creating a One Zone file system, automatic backups are enabled by default. For more information, see [Automatic backups](https://docs.aws.amazon.com/efs/latest/ug/awsbackup.html#automatic-backups) in the Amazon EFS User Guide. Default is false. However, if you specify an AvailabilityZoneName, the default is true. Backup is not available in all Amazon Web Services Regions where Amazon EFS is available.
@@ -971,7 +971,7 @@ public struct CreateFileSystemInput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemInputBody: Swift.Equatable {
+struct CreateFileSystemInputBody {
     let creationToken: Swift.String?
     let performanceMode: EFSClientTypes.PerformanceMode?
     let encrypted: Swift.Bool?
@@ -1075,7 +1075,7 @@ extension CreateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A description of the file system.
-public struct CreateFileSystemOutput: Swift.Equatable {
+public struct CreateFileSystemOutput {
     /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
     public var availabilityZoneId: Swift.String?
     /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
@@ -1164,7 +1164,7 @@ public struct CreateFileSystemOutput: Swift.Equatable {
     }
 }
 
-struct CreateFileSystemOutputBody: Swift.Equatable {
+struct CreateFileSystemOutputBody {
     let ownerId: Swift.String?
     let creationToken: Swift.String?
     let fileSystemId: Swift.String?
@@ -1310,7 +1310,7 @@ extension CreateMountTargetInput {
 }
 
 ///
-public struct CreateMountTargetInput: Swift.Equatable {
+public struct CreateMountTargetInput {
     /// The ID of the file system for which to create the mount target.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -1336,7 +1336,7 @@ public struct CreateMountTargetInput: Swift.Equatable {
     }
 }
 
-struct CreateMountTargetInputBody: Swift.Equatable {
+struct CreateMountTargetInputBody {
     let fileSystemId: Swift.String?
     let subnetId: Swift.String?
     let ipAddress: Swift.String?
@@ -1404,7 +1404,7 @@ extension CreateMountTargetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Provides a description of a mount target.
-public struct CreateMountTargetOutput: Swift.Equatable {
+public struct CreateMountTargetOutput {
     /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every Amazon Web Services account.
     public var availabilityZoneId: Swift.String?
     /// The name of the Availability Zone in which the mount target is located. Availability Zones are independently mapped to names for each Amazon Web Services account. For example, the Availability Zone us-east-1a for your Amazon Web Services account might not be the same location as us-east-1a for another Amazon Web Services account.
@@ -1456,7 +1456,7 @@ public struct CreateMountTargetOutput: Swift.Equatable {
     }
 }
 
-struct CreateMountTargetOutputBody: Swift.Equatable {
+struct CreateMountTargetOutputBody {
     let ownerId: Swift.String?
     let mountTargetId: Swift.String?
     let fileSystemId: Swift.String?
@@ -1557,7 +1557,7 @@ extension CreateReplicationConfigurationInput {
     }
 }
 
-public struct CreateReplicationConfigurationInput: Swift.Equatable {
+public struct CreateReplicationConfigurationInput {
     /// An array of destination configuration objects. Only one destination configuration object is supported.
     /// This member is required.
     public var destinations: [EFSClientTypes.DestinationToCreate]?
@@ -1575,7 +1575,7 @@ public struct CreateReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationInputBody: Swift.Equatable {
+struct CreateReplicationConfigurationInputBody {
     let destinations: [EFSClientTypes.DestinationToCreate]?
 }
 
@@ -1623,7 +1623,7 @@ extension CreateReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
 }
 
 /// Describes the replication configuration for a specific file system.
-public struct CreateReplicationConfigurationOutput: Swift.Equatable {
+public struct CreateReplicationConfigurationOutput {
     /// Describes when the replication configuration was created.
     /// This member is required.
     public var creationTime: ClientRuntime.Date?
@@ -1661,7 +1661,7 @@ public struct CreateReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationOutputBody: Swift.Equatable {
+struct CreateReplicationConfigurationOutputBody {
     let sourceFileSystemId: Swift.String?
     let sourceFileSystemRegion: Swift.String?
     let sourceFileSystemArn: Swift.String?
@@ -1754,7 +1754,7 @@ extension CreateTagsInput {
 }
 
 ///
-public struct CreateTagsInput: Swift.Equatable {
+public struct CreateTagsInput {
     /// The ID of the file system whose tags you want to modify (String). This operation modifies the tags only, not the file system.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -1772,7 +1772,7 @@ public struct CreateTagsInput: Swift.Equatable {
     }
 }
 
-struct CreateTagsInputBody: Swift.Equatable {
+struct CreateTagsInputBody {
     let tags: [EFSClientTypes.Tag]?
 }
 
@@ -1802,7 +1802,7 @@ extension CreateTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTagsOutput: Swift.Equatable {
+public struct CreateTagsOutput {
 
     public init() { }
 }
@@ -1853,7 +1853,7 @@ extension EFSClientTypes.CreationInfo: Swift.Codable {
 
 extension EFSClientTypes {
     /// Required if the RootDirectory > Path specified does not exist. Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory > Path. If the access point root directory does not exist, EFS creates it with these settings when a client connects to the access point. When specifying CreationInfo, you must include values for all properties. Amazon EFS creates a root directory only if you have provided the CreationInfo: OwnUid, OwnGID, and permissions for the directory. If you do not provide this information, Amazon EFS does not create the root directory. If the root directory does not exist, attempts to mount using the access point will fail. If you do not provide CreationInfo and the specified RootDirectory does not exist, attempts to mount the file system using the access point will fail.
-    public struct CreationInfo: Swift.Equatable {
+    public struct CreationInfo {
         /// Specifies the POSIX group ID to apply to the RootDirectory. Accepts values from 0 to 2^32 (4294967295).
         /// This member is required.
         public var ownerGid: Swift.Int?
@@ -1888,7 +1888,7 @@ extension DeleteAccessPointInput {
     }
 }
 
-public struct DeleteAccessPointInput: Swift.Equatable {
+public struct DeleteAccessPointInput {
     /// The ID of the access point that you want to delete.
     /// This member is required.
     public var accessPointId: Swift.String?
@@ -1901,7 +1901,7 @@ public struct DeleteAccessPointInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessPointInputBody: Swift.Equatable {
+struct DeleteAccessPointInputBody {
 }
 
 extension DeleteAccessPointInputBody: Swift.Decodable {
@@ -1915,7 +1915,7 @@ extension DeleteAccessPointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessPointOutput: Swift.Equatable {
+public struct DeleteAccessPointOutput {
 
     public init() { }
 }
@@ -1944,7 +1944,7 @@ extension DeleteFileSystemInput {
 }
 
 ///
-public struct DeleteFileSystemInput: Swift.Equatable {
+public struct DeleteFileSystemInput {
     /// The ID of the file system you want to delete.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -1957,7 +1957,7 @@ public struct DeleteFileSystemInput: Swift.Equatable {
     }
 }
 
-struct DeleteFileSystemInputBody: Swift.Equatable {
+struct DeleteFileSystemInputBody {
 }
 
 extension DeleteFileSystemInputBody: Swift.Decodable {
@@ -1971,7 +1971,7 @@ extension DeleteFileSystemOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFileSystemOutput: Swift.Equatable {
+public struct DeleteFileSystemOutput {
 
     public init() { }
 }
@@ -2000,7 +2000,7 @@ extension DeleteFileSystemPolicyInput {
     }
 }
 
-public struct DeleteFileSystemPolicyInput: Swift.Equatable {
+public struct DeleteFileSystemPolicyInput {
     /// Specifies the EFS file system for which to delete the FileSystemPolicy.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -2013,7 +2013,7 @@ public struct DeleteFileSystemPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteFileSystemPolicyInputBody: Swift.Equatable {
+struct DeleteFileSystemPolicyInputBody {
 }
 
 extension DeleteFileSystemPolicyInputBody: Swift.Decodable {
@@ -2027,7 +2027,7 @@ extension DeleteFileSystemPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFileSystemPolicyOutput: Swift.Equatable {
+public struct DeleteFileSystemPolicyOutput {
 
     public init() { }
 }
@@ -2057,7 +2057,7 @@ extension DeleteMountTargetInput {
 }
 
 ///
-public struct DeleteMountTargetInput: Swift.Equatable {
+public struct DeleteMountTargetInput {
     /// The ID of the mount target to delete (String).
     /// This member is required.
     public var mountTargetId: Swift.String?
@@ -2070,7 +2070,7 @@ public struct DeleteMountTargetInput: Swift.Equatable {
     }
 }
 
-struct DeleteMountTargetInputBody: Swift.Equatable {
+struct DeleteMountTargetInputBody {
 }
 
 extension DeleteMountTargetInputBody: Swift.Decodable {
@@ -2084,7 +2084,7 @@ extension DeleteMountTargetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMountTargetOutput: Swift.Equatable {
+public struct DeleteMountTargetOutput {
 
     public init() { }
 }
@@ -2113,7 +2113,7 @@ extension DeleteReplicationConfigurationInput {
     }
 }
 
-public struct DeleteReplicationConfigurationInput: Swift.Equatable {
+public struct DeleteReplicationConfigurationInput {
     /// The ID of the source file system in the replication configuration.
     /// This member is required.
     public var sourceFileSystemId: Swift.String?
@@ -2126,7 +2126,7 @@ public struct DeleteReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteReplicationConfigurationInputBody: Swift.Equatable {
+struct DeleteReplicationConfigurationInputBody {
 }
 
 extension DeleteReplicationConfigurationInputBody: Swift.Decodable {
@@ -2140,7 +2140,7 @@ extension DeleteReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DeleteReplicationConfigurationOutput: Swift.Equatable {
+public struct DeleteReplicationConfigurationOutput {
 
     public init() { }
 }
@@ -2186,7 +2186,7 @@ extension DeleteTagsInput {
 }
 
 ///
-public struct DeleteTagsInput: Swift.Equatable {
+public struct DeleteTagsInput {
     /// The ID of the file system whose tags you want to delete (String).
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -2204,7 +2204,7 @@ public struct DeleteTagsInput: Swift.Equatable {
     }
 }
 
-struct DeleteTagsInputBody: Swift.Equatable {
+struct DeleteTagsInputBody {
     let tagKeys: [Swift.String]?
 }
 
@@ -2234,7 +2234,7 @@ extension DeleteTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTagsOutput: Swift.Equatable {
+public struct DeleteTagsOutput {
 
     public init() { }
 }
@@ -2299,7 +2299,7 @@ public struct DependencyTimeout: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct DependencyTimeoutBody: Swift.Equatable {
+struct DependencyTimeoutBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -2350,7 +2350,7 @@ extension DescribeAccessPointsInput {
     }
 }
 
-public struct DescribeAccessPointsInput: Swift.Equatable {
+public struct DescribeAccessPointsInput {
     /// (Optional) Specifies an EFS access point to describe in the response; mutually exclusive with FileSystemId.
     public var accessPointId: Swift.String?
     /// (Optional) If you provide a FileSystemId, EFS returns all access points for that file system; mutually exclusive with AccessPointId.
@@ -2374,7 +2374,7 @@ public struct DescribeAccessPointsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessPointsInputBody: Swift.Equatable {
+struct DescribeAccessPointsInputBody {
 }
 
 extension DescribeAccessPointsInputBody: Swift.Decodable {
@@ -2397,7 +2397,7 @@ extension DescribeAccessPointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccessPointsOutput: Swift.Equatable {
+public struct DescribeAccessPointsOutput {
     /// An array of access point descriptions.
     public var accessPoints: [EFSClientTypes.AccessPointDescription]?
     /// Present if there are more access points than returned in the response. You can use the NextMarker in the subsequent request to fetch the additional descriptions.
@@ -2413,7 +2413,7 @@ public struct DescribeAccessPointsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccessPointsOutputBody: Swift.Equatable {
+struct DescribeAccessPointsOutputBody {
     let accessPoints: [EFSClientTypes.AccessPointDescription]?
     let nextToken: Swift.String?
 }
@@ -2480,7 +2480,7 @@ extension DescribeAccountPreferencesInput {
     }
 }
 
-public struct DescribeAccountPreferencesInput: Swift.Equatable {
+public struct DescribeAccountPreferencesInput {
     /// (Optional) When retrieving account preferences, you can optionally specify the MaxItems parameter to limit the number of objects returned in a response. The default value is 100.
     public var maxResults: Swift.Int?
     /// (Optional) You can use NextToken in a subsequent request to fetch the next page of Amazon Web Services account preferences if the response payload was paginated.
@@ -2496,7 +2496,7 @@ public struct DescribeAccountPreferencesInput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountPreferencesInputBody: Swift.Equatable {
+struct DescribeAccountPreferencesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2530,7 +2530,7 @@ extension DescribeAccountPreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAccountPreferencesOutput: Swift.Equatable {
+public struct DescribeAccountPreferencesOutput {
     /// Present if there are more records than returned in the response. You can use the NextToken in the subsequent request to fetch the additional descriptions.
     public var nextToken: Swift.String?
     /// Describes the resource ID preference setting for the Amazon Web Services account associated with the user making the request, in the current Amazon Web Services Region.
@@ -2546,7 +2546,7 @@ public struct DescribeAccountPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAccountPreferencesOutputBody: Swift.Equatable {
+struct DescribeAccountPreferencesOutputBody {
     let resourceIdPreference: EFSClientTypes.ResourceIdPreference?
     let nextToken: Swift.String?
 }
@@ -2587,7 +2587,7 @@ extension DescribeBackupPolicyInput {
     }
 }
 
-public struct DescribeBackupPolicyInput: Swift.Equatable {
+public struct DescribeBackupPolicyInput {
     /// Specifies which EFS file system for which to retrieve the BackupPolicy.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -2600,7 +2600,7 @@ public struct DescribeBackupPolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupPolicyInputBody: Swift.Equatable {
+struct DescribeBackupPolicyInputBody {
 }
 
 extension DescribeBackupPolicyInputBody: Swift.Decodable {
@@ -2621,7 +2621,7 @@ extension DescribeBackupPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBackupPolicyOutput: Swift.Equatable {
+public struct DescribeBackupPolicyOutput {
     /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off.
     public var backupPolicy: EFSClientTypes.BackupPolicy?
 
@@ -2633,7 +2633,7 @@ public struct DescribeBackupPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBackupPolicyOutputBody: Swift.Equatable {
+struct DescribeBackupPolicyOutputBody {
     let backupPolicy: EFSClientTypes.BackupPolicy?
 }
 
@@ -2674,7 +2674,7 @@ extension DescribeFileSystemPolicyInput {
     }
 }
 
-public struct DescribeFileSystemPolicyInput: Swift.Equatable {
+public struct DescribeFileSystemPolicyInput {
     /// Specifies which EFS file system to retrieve the FileSystemPolicy for.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -2687,7 +2687,7 @@ public struct DescribeFileSystemPolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemPolicyInputBody: Swift.Equatable {
+struct DescribeFileSystemPolicyInputBody {
 }
 
 extension DescribeFileSystemPolicyInputBody: Swift.Decodable {
@@ -2710,7 +2710,7 @@ extension DescribeFileSystemPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFileSystemPolicyOutput: Swift.Equatable {
+public struct DescribeFileSystemPolicyOutput {
     /// Specifies the EFS file system to which the FileSystemPolicy applies.
     public var fileSystemId: Swift.String?
     /// The JSON formatted FileSystemPolicy for the EFS file system.
@@ -2726,7 +2726,7 @@ public struct DescribeFileSystemPolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemPolicyOutputBody: Swift.Equatable {
+struct DescribeFileSystemPolicyOutputBody {
     let fileSystemId: Swift.String?
     let policy: Swift.String?
 }
@@ -2792,7 +2792,7 @@ extension DescribeFileSystemsInput {
 }
 
 ///
-public struct DescribeFileSystemsInput: Swift.Equatable {
+public struct DescribeFileSystemsInput {
     /// (Optional) Restricts the list to the file system with this creation token (String). You specify a creation token when you create an Amazon EFS file system.
     public var creationToken: Swift.String?
     /// (Optional) ID of the file system whose description you want to retrieve (String).
@@ -2816,7 +2816,7 @@ public struct DescribeFileSystemsInput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemsInputBody: Swift.Equatable {
+struct DescribeFileSystemsInputBody {
 }
 
 extension DescribeFileSystemsInputBody: Swift.Decodable {
@@ -2841,7 +2841,7 @@ extension DescribeFileSystemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeFileSystemsOutput: Swift.Equatable {
+public struct DescribeFileSystemsOutput {
     /// An array of file system descriptions.
     public var fileSystems: [EFSClientTypes.FileSystemDescription]?
     /// Present if provided by caller in the request (String).
@@ -2861,7 +2861,7 @@ public struct DescribeFileSystemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeFileSystemsOutputBody: Swift.Equatable {
+struct DescribeFileSystemsOutputBody {
     let marker: Swift.String?
     let fileSystems: [EFSClientTypes.FileSystemDescription]?
     let nextMarker: Swift.String?
@@ -2917,7 +2917,7 @@ extension DescribeLifecycleConfigurationInput {
     }
 }
 
-public struct DescribeLifecycleConfigurationInput: Swift.Equatable {
+public struct DescribeLifecycleConfigurationInput {
     /// The ID of the file system whose LifecycleConfiguration object you want to retrieve (String).
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -2930,7 +2930,7 @@ public struct DescribeLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeLifecycleConfigurationInputBody: Swift.Equatable {
+struct DescribeLifecycleConfigurationInputBody {
 }
 
 extension DescribeLifecycleConfigurationInputBody: Swift.Decodable {
@@ -2951,7 +2951,7 @@ extension DescribeLifecycleConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct DescribeLifecycleConfigurationOutput: Swift.Equatable {
+public struct DescribeLifecycleConfigurationOutput {
     /// An array of lifecycle management policies. EFS supports a maximum of one policy per file system.
     public var lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]?
 
@@ -2963,7 +2963,7 @@ public struct DescribeLifecycleConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLifecycleConfigurationOutputBody: Swift.Equatable {
+struct DescribeLifecycleConfigurationOutputBody {
     let lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]?
 }
 
@@ -3012,7 +3012,7 @@ extension DescribeMountTargetSecurityGroupsInput {
 }
 
 ///
-public struct DescribeMountTargetSecurityGroupsInput: Swift.Equatable {
+public struct DescribeMountTargetSecurityGroupsInput {
     /// The ID of the mount target whose security groups you want to retrieve.
     /// This member is required.
     public var mountTargetId: Swift.String?
@@ -3025,7 +3025,7 @@ public struct DescribeMountTargetSecurityGroupsInput: Swift.Equatable {
     }
 }
 
-struct DescribeMountTargetSecurityGroupsInputBody: Swift.Equatable {
+struct DescribeMountTargetSecurityGroupsInputBody {
 }
 
 extension DescribeMountTargetSecurityGroupsInputBody: Swift.Decodable {
@@ -3046,7 +3046,7 @@ extension DescribeMountTargetSecurityGroupsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeMountTargetSecurityGroupsOutput: Swift.Equatable {
+public struct DescribeMountTargetSecurityGroupsOutput {
     /// An array of security groups.
     /// This member is required.
     public var securityGroups: [Swift.String]?
@@ -3059,7 +3059,7 @@ public struct DescribeMountTargetSecurityGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMountTargetSecurityGroupsOutputBody: Swift.Equatable {
+struct DescribeMountTargetSecurityGroupsOutputBody {
     let securityGroups: [Swift.String]?
 }
 
@@ -3134,7 +3134,7 @@ extension DescribeMountTargetsInput {
 }
 
 ///
-public struct DescribeMountTargetsInput: Swift.Equatable {
+public struct DescribeMountTargetsInput {
     /// (Optional) The ID of the access point whose mount targets that you want to list. It must be included in your request if a FileSystemId or MountTargetId is not included in your request. Accepts either an access point ID or ARN as input.
     public var accessPointId: Swift.String?
     /// (Optional) ID of the file system whose mount targets you want to list (String). It must be included in your request if an AccessPointId or MountTargetId is not included. Accepts either a file system ID or ARN as input.
@@ -3162,7 +3162,7 @@ public struct DescribeMountTargetsInput: Swift.Equatable {
     }
 }
 
-struct DescribeMountTargetsInputBody: Swift.Equatable {
+struct DescribeMountTargetsInputBody {
 }
 
 extension DescribeMountTargetsInputBody: Swift.Decodable {
@@ -3188,7 +3188,7 @@ extension DescribeMountTargetsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeMountTargetsOutput: Swift.Equatable {
+public struct DescribeMountTargetsOutput {
     /// If the request included the Marker, the response returns that value in this field.
     public var marker: Swift.String?
     /// Returns the file system's mount targets as an array of MountTargetDescription objects.
@@ -3208,7 +3208,7 @@ public struct DescribeMountTargetsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMountTargetsOutputBody: Swift.Equatable {
+struct DescribeMountTargetsOutputBody {
     let marker: Swift.String?
     let mountTargets: [EFSClientTypes.MountTargetDescription]?
     let nextMarker: Swift.String?
@@ -3283,7 +3283,7 @@ extension DescribeReplicationConfigurationsInput {
     }
 }
 
-public struct DescribeReplicationConfigurationsInput: Swift.Equatable {
+public struct DescribeReplicationConfigurationsInput {
     /// You can retrieve the replication configuration for a specific file system by providing its file system ID.
     public var fileSystemId: Swift.String?
     /// (Optional) To limit the number of objects returned in a response, you can specify the MaxItems parameter. The default value is 100.
@@ -3303,7 +3303,7 @@ public struct DescribeReplicationConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationsInputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationsInputBody {
 }
 
 extension DescribeReplicationConfigurationsInputBody: Swift.Decodable {
@@ -3326,7 +3326,7 @@ extension DescribeReplicationConfigurationsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeReplicationConfigurationsOutput: Swift.Equatable {
+public struct DescribeReplicationConfigurationsOutput {
     /// You can use the NextToken from the previous response in a subsequent request to fetch the additional descriptions.
     public var nextToken: Swift.String?
     /// The collection of replication configurations that is returned.
@@ -3342,7 +3342,7 @@ public struct DescribeReplicationConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationsOutputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationsOutputBody {
     let replications: [EFSClientTypes.ReplicationConfigurationDescription]?
     let nextToken: Swift.String?
 }
@@ -3413,7 +3413,7 @@ extension DescribeTagsInput {
 }
 
 ///
-public struct DescribeTagsInput: Swift.Equatable {
+public struct DescribeTagsInput {
     /// The ID of the file system whose tag set you want to retrieve.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -3434,7 +3434,7 @@ public struct DescribeTagsInput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsInputBody: Swift.Equatable {
+struct DescribeTagsInputBody {
 }
 
 extension DescribeTagsInputBody: Swift.Decodable {
@@ -3460,7 +3460,7 @@ extension DescribeTagsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 ///
-public struct DescribeTagsOutput: Swift.Equatable {
+public struct DescribeTagsOutput {
     /// If the request included a Marker, the response returns that value in this field.
     public var marker: Swift.String?
     /// If a value is present, there are more tags to return. In a subsequent request, you can provide the value of NextMarker as the value of the Marker parameter in your next request to retrieve the next set of tags.
@@ -3481,7 +3481,7 @@ public struct DescribeTagsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTagsOutputBody: Swift.Equatable {
+struct DescribeTagsOutputBody {
     let marker: Swift.String?
     let tags: [EFSClientTypes.Tag]?
     let nextMarker: Swift.String?
@@ -3566,7 +3566,7 @@ extension EFSClientTypes.Destination: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes the destination file system in the replication configuration.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// The ID of the destination Amazon EFS file system.
         /// This member is required.
         public var fileSystemId: Swift.String?
@@ -3638,7 +3638,7 @@ extension EFSClientTypes.DestinationToCreate: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes the new or existing destination file system for the replication configuration.
-    public struct DestinationToCreate: Swift.Equatable {
+    public struct DestinationToCreate {
         /// To create a file system that uses One Zone storage, specify the name of the Availability Zone in which to create the destination file system.
         public var availabilityZoneName: Swift.String?
         /// The ID of the file system to use for the destination. The file system's replication overwrite replication must be disabled. If you do not provide an ID, then EFS creates a new file system for the replication destination.
@@ -3727,7 +3727,7 @@ public struct FileSystemAlreadyExists: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct FileSystemAlreadyExistsBody: Swift.Equatable {
+struct FileSystemAlreadyExistsBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let fileSystemId: Swift.String?
@@ -3886,7 +3886,7 @@ extension EFSClientTypes.FileSystemDescription: Swift.Codable {
 
 extension EFSClientTypes {
     /// A description of the file system.
-    public struct FileSystemDescription: Swift.Equatable {
+    public struct FileSystemDescription {
         /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
         public var availabilityZoneId: Swift.String?
         /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
@@ -4024,7 +4024,7 @@ public struct FileSystemInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct FileSystemInUseBody: Swift.Equatable {
+struct FileSystemInUseBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4091,7 +4091,7 @@ public struct FileSystemLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct FileSystemLimitExceededBody: Swift.Equatable {
+struct FileSystemLimitExceededBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4158,7 +4158,7 @@ public struct FileSystemNotFound: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct FileSystemNotFoundBody: Swift.Equatable {
+struct FileSystemNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4199,7 +4199,7 @@ extension EFSClientTypes.FileSystemProtectionDescription: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes the protection on a file system.
-    public struct FileSystemProtectionDescription: Swift.Equatable {
+    public struct FileSystemProtectionDescription {
         /// The status of the file system's replication overwrite protection.
         ///
         /// * ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.
@@ -4267,7 +4267,7 @@ extension EFSClientTypes.FileSystemSize: Swift.Codable {
 
 extension EFSClientTypes {
     /// The latest known metered size (in bytes) of data stored in the file system, in its Value field, and the time at which that size was determined in its Timestamp field. The value doesn't represent the size of a consistent snapshot of the file system, but it is eventually consistent when there are no writes to the file system. That is, the value represents the actual size only if the file system is not modified for a period longer than a couple of hours. Otherwise, the value is not necessarily the exact size the file system was at any instant in time.
-    public struct FileSystemSize: Swift.Equatable {
+    public struct FileSystemSize {
         /// The time at which the size of data, returned in the Value field, was determined. The value is the integer number of seconds since 1970-01-01T00:00:00Z.
         public var timestamp: ClientRuntime.Date?
         /// The latest known metered size (in bytes) of data stored in the file system.
@@ -4345,7 +4345,7 @@ public struct IncorrectFileSystemLifeCycleState: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct IncorrectFileSystemLifeCycleStateBody: Swift.Equatable {
+struct IncorrectFileSystemLifeCycleStateBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4412,7 +4412,7 @@ public struct IncorrectMountTargetState: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct IncorrectMountTargetStateBody: Swift.Equatable {
+struct IncorrectMountTargetStateBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4479,7 +4479,7 @@ public struct InsufficientThroughputCapacity: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InsufficientThroughputCapacityBody: Swift.Equatable {
+struct InsufficientThroughputCapacityBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4546,7 +4546,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4612,7 +4612,7 @@ public struct InvalidPolicyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidPolicyExceptionBody: Swift.Equatable {
+struct InvalidPolicyExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4679,7 +4679,7 @@ public struct IpAddressInUse: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct IpAddressInUseBody: Swift.Equatable {
+struct IpAddressInUseBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -4776,7 +4776,7 @@ extension EFSClientTypes.LifecyclePolicy: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes a policy used by Lifecycle management that specifies when to transition files into and out of storage classes. For more information, see [Managing file system storage](https://docs.aws.amazon.com/efs/latest/ug/lifecycle-management-efs.html). When using the put-lifecycle-configuration CLI command or the PutLifecycleConfiguration API action, Amazon EFS requires that each LifecyclePolicy object have only a single transition. This means that in a request body, LifecyclePolicies must be structured as an array of LifecyclePolicy objects, one object for each transition. For more information, see the request examples in [PutLifecycleConfiguration].
-    public struct LifecyclePolicy: Swift.Equatable {
+    public struct LifecyclePolicy {
         /// The number of days after files were last accessed in primary storage (the Standard storage class) files at which to move them to Archive storage. Metadata operations such as listing the contents of a directory don't count as file access events.
         public var transitionToArchive: EFSClientTypes.TransitionToArchiveRules?
         /// The number of days after files were last accessed in primary storage (the Standard storage class) at which to move them to Infrequent Access (IA) storage. Metadata operations such as listing the contents of a directory don't count as file access events.
@@ -4824,7 +4824,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// (Optional) Specifies the maximum number of tag objects to return in the response. The default value is 100.
     public var maxResults: Swift.Int?
     /// (Optional) You can use NextToken in a subsequent request to fetch the next page of access point descriptions if the response payload was paginated.
@@ -4845,7 +4845,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4868,7 +4868,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// NextToken is present if the response payload is paginated. You can use NextToken in a subsequent request to fetch the next page of access point descriptions.
     public var nextToken: Swift.String?
     /// An array of the tags for the specified EFS resource.
@@ -4884,7 +4884,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [EFSClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -4954,7 +4954,7 @@ extension ModifyMountTargetSecurityGroupsInput {
 }
 
 ///
-public struct ModifyMountTargetSecurityGroupsInput: Swift.Equatable {
+public struct ModifyMountTargetSecurityGroupsInput {
     /// The ID of the mount target whose security groups you want to modify.
     /// This member is required.
     public var mountTargetId: Swift.String?
@@ -4971,7 +4971,7 @@ public struct ModifyMountTargetSecurityGroupsInput: Swift.Equatable {
     }
 }
 
-struct ModifyMountTargetSecurityGroupsInputBody: Swift.Equatable {
+struct ModifyMountTargetSecurityGroupsInputBody {
     let securityGroups: [Swift.String]?
 }
 
@@ -5001,7 +5001,7 @@ extension ModifyMountTargetSecurityGroupsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ModifyMountTargetSecurityGroupsOutput: Swift.Equatable {
+public struct ModifyMountTargetSecurityGroupsOutput {
 
     public init() { }
 }
@@ -5069,7 +5069,7 @@ public struct MountTargetConflict: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct MountTargetConflictBody: Swift.Equatable {
+struct MountTargetConflictBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -5164,7 +5164,7 @@ extension EFSClientTypes.MountTargetDescription: Swift.Codable {
 
 extension EFSClientTypes {
     /// Provides a description of a mount target.
-    public struct MountTargetDescription: Swift.Equatable {
+    public struct MountTargetDescription {
         /// The unique and consistent identifier of the Availability Zone that the mount target resides in. For example, use1-az1 is an AZ ID for the us-east-1 Region and it has the same location in every Amazon Web Services account.
         public var availabilityZoneId: Swift.String?
         /// The name of the Availability Zone in which the mount target is located. Availability Zones are independently mapped to names for each Amazon Web Services account. For example, the Availability Zone us-east-1a for your Amazon Web Services account might not be the same location as us-east-1a for another Amazon Web Services account.
@@ -5265,7 +5265,7 @@ public struct MountTargetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct MountTargetNotFoundBody: Swift.Equatable {
+struct MountTargetNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -5332,7 +5332,7 @@ public struct NetworkInterfaceLimitExceeded: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct NetworkInterfaceLimitExceededBody: Swift.Equatable {
+struct NetworkInterfaceLimitExceededBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -5399,7 +5399,7 @@ public struct NoFreeAddressesInSubnet: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct NoFreeAddressesInSubnetBody: Swift.Equatable {
+struct NoFreeAddressesInSubnetBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -5497,7 +5497,7 @@ public struct PolicyNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct PolicyNotFoundBody: Swift.Equatable {
+struct PolicyNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -5562,7 +5562,7 @@ extension EFSClientTypes.PosixUser: Swift.Codable {
 
 extension EFSClientTypes {
     /// The full POSIX identity, including the user ID, group ID, and any secondary group IDs, on the access point that is used for all file system operations performed by NFS clients using the access point.
-    public struct PosixUser: Swift.Equatable {
+    public struct PosixUser {
         /// The POSIX group ID used for all file system operations using this access point.
         /// This member is required.
         public var gid: Swift.Int?
@@ -5606,7 +5606,7 @@ extension PutAccountPreferencesInput {
     }
 }
 
-public struct PutAccountPreferencesInput: Swift.Equatable {
+public struct PutAccountPreferencesInput {
     /// Specifies the EFS resource ID preference to set for the user's Amazon Web Services account, in the current Amazon Web Services Region, either LONG_ID (17 characters), or SHORT_ID (8 characters). Starting in October, 2021, you will receive an error when setting the account preference to SHORT_ID. Contact Amazon Web Services support if you receive an error and must use short IDs for file system and mount target resources.
     /// This member is required.
     public var resourceIdType: EFSClientTypes.ResourceIdType?
@@ -5619,7 +5619,7 @@ public struct PutAccountPreferencesInput: Swift.Equatable {
     }
 }
 
-struct PutAccountPreferencesInputBody: Swift.Equatable {
+struct PutAccountPreferencesInputBody {
     let resourceIdType: EFSClientTypes.ResourceIdType?
 }
 
@@ -5647,7 +5647,7 @@ extension PutAccountPreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutAccountPreferencesOutput: Swift.Equatable {
+public struct PutAccountPreferencesOutput {
     /// Describes the resource type and its ID preference for the user's Amazon Web Services account, in the current Amazon Web Services Region.
     public var resourceIdPreference: EFSClientTypes.ResourceIdPreference?
 
@@ -5659,7 +5659,7 @@ public struct PutAccountPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct PutAccountPreferencesOutputBody: Swift.Equatable {
+struct PutAccountPreferencesOutputBody {
     let resourceIdPreference: EFSClientTypes.ResourceIdPreference?
 }
 
@@ -5710,7 +5710,7 @@ extension PutBackupPolicyInput {
     }
 }
 
-public struct PutBackupPolicyInput: Swift.Equatable {
+public struct PutBackupPolicyInput {
     /// The backup policy included in the PutBackupPolicy request.
     /// This member is required.
     public var backupPolicy: EFSClientTypes.BackupPolicy?
@@ -5728,7 +5728,7 @@ public struct PutBackupPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutBackupPolicyInputBody: Swift.Equatable {
+struct PutBackupPolicyInputBody {
     let backupPolicy: EFSClientTypes.BackupPolicy?
 }
 
@@ -5756,7 +5756,7 @@ extension PutBackupPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutBackupPolicyOutput: Swift.Equatable {
+public struct PutBackupPolicyOutput {
     /// Describes the file system's backup policy, indicating whether automatic backups are turned on or off.
     public var backupPolicy: EFSClientTypes.BackupPolicy?
 
@@ -5768,7 +5768,7 @@ public struct PutBackupPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutBackupPolicyOutputBody: Swift.Equatable {
+struct PutBackupPolicyOutputBody {
     let backupPolicy: EFSClientTypes.BackupPolicy?
 }
 
@@ -5826,7 +5826,7 @@ extension PutFileSystemPolicyInput {
     }
 }
 
-public struct PutFileSystemPolicyInput: Swift.Equatable {
+public struct PutFileSystemPolicyInput {
     /// (Optional) A boolean that specifies whether or not to bypass the FileSystemPolicy lockout safety check. The lockout safety check determines whether the policy in the request will lock out, or prevent, the IAM principal that is making the request from making future PutFileSystemPolicy requests on this file system. Set BypassPolicyLockoutSafetyCheck to True only when you intend to prevent the IAM principal that is making the request from making subsequent PutFileSystemPolicy requests on this file system. The default value is False.
     public var bypassPolicyLockoutSafetyCheck: Swift.Bool?
     /// The ID of the EFS file system that you want to create or update the FileSystemPolicy for.
@@ -5848,7 +5848,7 @@ public struct PutFileSystemPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutFileSystemPolicyInputBody: Swift.Equatable {
+struct PutFileSystemPolicyInputBody {
     let policy: Swift.String?
     let bypassPolicyLockoutSafetyCheck: Swift.Bool?
 }
@@ -5882,7 +5882,7 @@ extension PutFileSystemPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFileSystemPolicyOutput: Swift.Equatable {
+public struct PutFileSystemPolicyOutput {
     /// Specifies the EFS file system to which the FileSystemPolicy applies.
     public var fileSystemId: Swift.String?
     /// The JSON formatted FileSystemPolicy for the EFS file system.
@@ -5898,7 +5898,7 @@ public struct PutFileSystemPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutFileSystemPolicyOutputBody: Swift.Equatable {
+struct PutFileSystemPolicyOutputBody {
     let fileSystemId: Swift.String?
     let policy: Swift.String?
 }
@@ -5959,7 +5959,7 @@ extension PutLifecycleConfigurationInput {
     }
 }
 
-public struct PutLifecycleConfigurationInput: Swift.Equatable {
+public struct PutLifecycleConfigurationInput {
     /// The ID of the file system for which you are creating the LifecycleConfiguration object (String).
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -5986,7 +5986,7 @@ public struct PutLifecycleConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutLifecycleConfigurationInputBody: Swift.Equatable {
+struct PutLifecycleConfigurationInputBody {
     let lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]?
 }
 
@@ -6023,7 +6023,7 @@ extension PutLifecycleConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLifecycleConfigurationOutput: Swift.Equatable {
+public struct PutLifecycleConfigurationOutput {
     /// An array of lifecycle management policies. EFS supports a maximum of one policy per file system.
     public var lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]?
 
@@ -6035,7 +6035,7 @@ public struct PutLifecycleConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutLifecycleConfigurationOutputBody: Swift.Equatable {
+struct PutLifecycleConfigurationOutputBody {
     let lifecyclePolicies: [EFSClientTypes.LifecyclePolicy]?
 }
 
@@ -6120,7 +6120,7 @@ public struct ReplicationAlreadyExists: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ReplicationAlreadyExistsBody: Swift.Equatable {
+struct ReplicationAlreadyExistsBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6203,7 +6203,7 @@ extension EFSClientTypes.ReplicationConfigurationDescription: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes the replication configuration for a specific file system.
-    public struct ReplicationConfigurationDescription: Swift.Equatable {
+    public struct ReplicationConfigurationDescription {
         /// Describes when the replication configuration was created.
         /// This member is required.
         public var creationTime: ClientRuntime.Date?
@@ -6289,7 +6289,7 @@ public struct ReplicationNotFound: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ReplicationNotFoundBody: Swift.Equatable {
+struct ReplicationNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6460,7 +6460,7 @@ extension EFSClientTypes.ResourceIdPreference: Swift.Codable {
 
 extension EFSClientTypes {
     /// Describes the resource type and its ID preference for the user's Amazon Web Services account, in the current Amazon Web Services Region.
-    public struct ResourceIdPreference: Swift.Equatable {
+    public struct ResourceIdPreference {
         /// Identifies the EFS resource ID preference, either LONG_ID (17 characters) or SHORT_ID (8 characters).
         public var resourceIdType: EFSClientTypes.ResourceIdType?
         /// Identifies the Amazon EFS resources to which the ID preference setting applies, FILE_SYSTEM and MOUNT_TARGET.
@@ -6538,7 +6538,7 @@ extension EFSClientTypes.RootDirectory: Swift.Codable {
 
 extension EFSClientTypes {
     /// Specifies the directory on the Amazon EFS file system that the access point provides access to. The access point exposes the specified file system path as the root directory of your file system to applications using the access point. NFS clients using the access point can only access data in the access point's RootDirectory and it's subdirectories.
-    public struct RootDirectory: Swift.Equatable {
+    public struct RootDirectory {
         /// (Optional) Specifies the POSIX IDs and permissions to apply to the access point's RootDirectory. If the RootDirectory > Path specified does not exist, EFS creates the root directory using the CreationInfo settings when a client connects to an access point. When specifying the CreationInfo, you must provide values for all properties. If you do not provide CreationInfo and the specified RootDirectory > Path does not exist, attempts to mount the file system using the access point will fail.
         public var creationInfo: EFSClientTypes.CreationInfo?
         /// Specifies the path on the EFS file system to expose as the root directory to NFS clients using the access point to access the EFS file system. A path can have up to four subdirectories. If the specified path does not exist, you are required to provide the CreationInfo.
@@ -6603,7 +6603,7 @@ public struct SecurityGroupLimitExceeded: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct SecurityGroupLimitExceededBody: Swift.Equatable {
+struct SecurityGroupLimitExceededBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6670,7 +6670,7 @@ public struct SecurityGroupNotFound: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct SecurityGroupNotFoundBody: Swift.Equatable {
+struct SecurityGroupNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6775,7 +6775,7 @@ public struct SubnetNotFound: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct SubnetNotFoundBody: Swift.Equatable {
+struct SubnetNotFoundBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6822,7 +6822,7 @@ extension EFSClientTypes.Tag: Swift.Codable {
 
 extension EFSClientTypes {
     /// A tag is a key-value pair. Allowed characters are letters, white space, and numbers that can be represented in UTF-8, and the following characters: + - = . _ : /.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag key (String). The key can't start with aws:.
         /// This member is required.
         public var key: Swift.String?
@@ -6868,7 +6868,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ID specifying the EFS resource that you want to create a tag for.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -6886,7 +6886,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [EFSClientTypes.Tag]?
 }
 
@@ -6916,7 +6916,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6981,7 +6981,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -7048,7 +7048,7 @@ public struct ThroughputLimitExceeded: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ThroughputLimitExceededBody: Swift.Equatable {
+struct ThroughputLimitExceededBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -7150,7 +7150,7 @@ public struct TooManyRequests: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct TooManyRequestsBody: Swift.Equatable {
+struct TooManyRequestsBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -7352,7 +7352,7 @@ public struct UnsupportedAvailabilityZone: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct UnsupportedAvailabilityZoneBody: Swift.Equatable {
+struct UnsupportedAvailabilityZoneBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -7398,7 +7398,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Specifies the EFS resource that you want to remove tags from.
     /// This member is required.
     public var resourceId: Swift.String?
@@ -7416,7 +7416,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -7430,7 +7430,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7476,7 +7476,7 @@ extension UpdateFileSystemInput {
     }
 }
 
-public struct UpdateFileSystemInput: Swift.Equatable {
+public struct UpdateFileSystemInput {
     /// The ID of the file system that you want to update.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -7497,7 +7497,7 @@ public struct UpdateFileSystemInput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemInputBody: Swift.Equatable {
+struct UpdateFileSystemInputBody {
     let throughputMode: EFSClientTypes.ThroughputMode?
     let provisionedThroughputInMibps: Swift.Double?
 }
@@ -7564,7 +7564,7 @@ extension UpdateFileSystemOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A description of the file system.
-public struct UpdateFileSystemOutput: Swift.Equatable {
+public struct UpdateFileSystemOutput {
     /// The unique and consistent identifier of the Availability Zone in which the file system is located, and is valid only for One Zone file systems. For example, use1-az1 is an Availability Zone ID for the us-east-1 Amazon Web Services Region, and it has the same location in every Amazon Web Services account.
     public var availabilityZoneId: Swift.String?
     /// Describes the Amazon Web Services Availability Zone in which the file system is located, and is valid only for One Zone file systems. For more information, see [Using EFS storage classes](https://docs.aws.amazon.com/efs/latest/ug/storage-classes.html) in the Amazon EFS User Guide.
@@ -7653,7 +7653,7 @@ public struct UpdateFileSystemOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemOutputBody: Swift.Equatable {
+struct UpdateFileSystemOutputBody {
     let ownerId: Swift.String?
     let creationToken: Swift.String?
     let fileSystemId: Swift.String?
@@ -7786,7 +7786,7 @@ extension UpdateFileSystemProtectionInput {
     }
 }
 
-public struct UpdateFileSystemProtectionInput: Swift.Equatable {
+public struct UpdateFileSystemProtectionInput {
     /// The ID of the file system to update.
     /// This member is required.
     public var fileSystemId: Swift.String?
@@ -7812,7 +7812,7 @@ public struct UpdateFileSystemProtectionInput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemProtectionInputBody: Swift.Equatable {
+struct UpdateFileSystemProtectionInputBody {
     let replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection?
 }
 
@@ -7841,7 +7841,7 @@ extension UpdateFileSystemProtectionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Describes the protection on a file system.
-public struct UpdateFileSystemProtectionOutput: Swift.Equatable {
+public struct UpdateFileSystemProtectionOutput {
     /// The status of the file system's replication overwrite protection.
     ///
     /// * ENABLED – The file system cannot be used as the destination file system in a replication configuration. The file system is writeable. Replication overwrite protection is ENABLED by default.
@@ -7862,7 +7862,7 @@ public struct UpdateFileSystemProtectionOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFileSystemProtectionOutputBody: Swift.Equatable {
+struct UpdateFileSystemProtectionOutputBody {
     let replicationOverwriteProtection: EFSClientTypes.ReplicationOverwriteProtection?
 }
 
@@ -7943,7 +7943,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }

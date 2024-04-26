@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -105,7 +105,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -157,7 +157,7 @@ extension MarketplaceDeploymentClientTypes.DeploymentParameterInput: Swift.Custo
 
 extension MarketplaceDeploymentClientTypes {
     /// The shape containing the requested deployment parameter name and secretString.
-    public struct DeploymentParameterInput: Swift.Equatable {
+    public struct DeploymentParameterInput {
         /// The desired name of the deployment parameter. This is the identifier on which deployment parameters are keyed for a given buyer and product. If this name matches an existing deployment parameter, this request will update the existing resource.
         /// This member is required.
         public var name: Swift.String?
@@ -217,7 +217,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -243,7 +243,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) associated with the deployment parameter resource you want to list tags on.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -256,7 +256,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -277,7 +277,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A map of key-value pairs, where each pair represents a tag present on the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -289,7 +289,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -376,7 +376,7 @@ extension PutDeploymentParameterInput {
     }
 }
 
-public struct PutDeploymentParameterInput: Swift.Equatable {
+public struct PutDeploymentParameterInput {
     /// The unique identifier of the agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -416,7 +416,7 @@ public struct PutDeploymentParameterInput: Swift.Equatable {
     }
 }
 
-struct PutDeploymentParameterInputBody: Swift.Equatable {
+struct PutDeploymentParameterInputBody {
     let agreementId: Swift.String?
     let deploymentParameter: MarketplaceDeploymentClientTypes.DeploymentParameterInput?
     let tags: [Swift.String:Swift.String]?
@@ -475,7 +475,7 @@ extension PutDeploymentParameterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutDeploymentParameterOutput: Swift.Equatable {
+public struct PutDeploymentParameterOutput {
     /// The unique identifier of the agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -502,7 +502,7 @@ public struct PutDeploymentParameterOutput: Swift.Equatable {
     }
 }
 
-struct PutDeploymentParameterOutputBody: Swift.Equatable {
+struct PutDeploymentParameterOutputBody {
     let resourceArn: Swift.String?
     let agreementId: Swift.String?
     let deploymentParameterId: Swift.String?
@@ -596,7 +596,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -652,7 +652,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -694,7 +694,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) associated with the resource you want to tag.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -711,7 +711,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -741,7 +741,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -802,7 +802,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -844,7 +844,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) associated with the resource you want to remove the tag from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -862,7 +862,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -876,7 +876,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -944,7 +944,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let fieldName: Swift.String?
 }

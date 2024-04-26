@@ -29,7 +29,7 @@ extension ChatbotClientTypes.AccountPreferences: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
-    public struct AccountPreferences: Swift.Equatable {
+    public struct AccountPreferences {
         /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AWS Chatbot’s AI technologies.
         public var trainingDataCollectionEnabled: Swift.Bool?
         /// Enables use of a user role requirement in your chat configuration.
@@ -112,7 +112,7 @@ extension ChatbotClientTypes.ChimeWebhookConfiguration: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Amazon Chime.
-    public struct ChimeWebhookConfiguration: Swift.Equatable {
+    public struct ChimeWebhookConfiguration {
         /// The ARN of the ChimeWebhookConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
@@ -183,7 +183,7 @@ extension ChatbotClientTypes.ConfiguredTeam: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// A Microsoft Teams team that has been authorized with AWS Chatbot.
-    public struct ConfiguredTeam: Swift.Equatable {
+    public struct ConfiguredTeam {
         /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
         /// This member is required.
         public var teamId: Swift.String?
@@ -246,7 +246,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -301,7 +301,7 @@ public struct CreateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct CreateChimeWebhookConfigurationExceptionBody: Swift.Equatable {
+struct CreateChimeWebhookConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -360,7 +360,7 @@ extension CreateChimeWebhookConfigurationInput {
     }
 }
 
-public struct CreateChimeWebhookConfigurationInput: Swift.Equatable {
+public struct CreateChimeWebhookConfigurationInput {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
@@ -397,7 +397,7 @@ public struct CreateChimeWebhookConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateChimeWebhookConfigurationInputBody: Swift.Equatable {
+struct CreateChimeWebhookConfigurationInputBody {
     let webhookDescription: Swift.String?
     let webhookUrl: Swift.String?
     let snsTopicArns: [Swift.String]?
@@ -454,7 +454,7 @@ extension CreateChimeWebhookConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateChimeWebhookConfigurationOutput: Swift.Equatable {
+public struct CreateChimeWebhookConfigurationOutput {
     /// Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
@@ -466,7 +466,7 @@ public struct CreateChimeWebhookConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateChimeWebhookConfigurationOutputBody: Swift.Equatable {
+struct CreateChimeWebhookConfigurationOutputBody {
     let webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 }
 
@@ -563,7 +563,7 @@ extension CreateMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct CreateMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
+public struct CreateMicrosoftTeamsChannelConfigurationInput {
     /// The ID of the Microsoft Teams channel.
     /// This member is required.
     public var channelId: Swift.String?
@@ -620,7 +620,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateMicrosoftTeamsChannelConfigurationInputBody: Swift.Equatable {
+struct CreateMicrosoftTeamsChannelConfigurationInputBody {
     let channelId: Swift.String?
     let channelName: Swift.String?
     let teamId: Swift.String?
@@ -706,7 +706,7 @@ extension CreateMicrosoftTeamsChannelConfigurationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct CreateMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
+public struct CreateMicrosoftTeamsChannelConfigurationOutput {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -718,7 +718,7 @@ public struct CreateMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateMicrosoftTeamsChannelConfigurationOutputBody: Swift.Equatable {
+struct CreateMicrosoftTeamsChannelConfigurationOutputBody {
     let channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 }
 
@@ -788,7 +788,7 @@ public struct CreateSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct CreateSlackChannelConfigurationExceptionBody: Swift.Equatable {
+struct CreateSlackChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -862,7 +862,7 @@ extension CreateSlackChannelConfigurationInput {
     }
 }
 
-public struct CreateSlackChannelConfigurationInput: Swift.Equatable {
+public struct CreateSlackChannelConfigurationInput {
     /// The name of the configuration.
     /// This member is required.
     public var configurationName: Swift.String?
@@ -910,7 +910,7 @@ public struct CreateSlackChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateSlackChannelConfigurationInputBody: Swift.Equatable {
+struct CreateSlackChannelConfigurationInputBody {
     let slackTeamId: Swift.String?
     let slackChannelId: Swift.String?
     let slackChannelName: Swift.String?
@@ -988,7 +988,7 @@ extension CreateSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct CreateSlackChannelConfigurationOutput: Swift.Equatable {
+public struct CreateSlackChannelConfigurationOutput {
     /// The configuration for a Slack channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 
@@ -1000,7 +1000,7 @@ public struct CreateSlackChannelConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSlackChannelConfigurationOutputBody: Swift.Equatable {
+struct CreateSlackChannelConfigurationOutputBody {
     let channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 }
 
@@ -1070,7 +1070,7 @@ public struct CreateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct CreateTeamsChannelConfigurationExceptionBody: Swift.Equatable {
+struct CreateTeamsChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1125,7 +1125,7 @@ public struct DeleteChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct DeleteChimeWebhookConfigurationExceptionBody: Swift.Equatable {
+struct DeleteChimeWebhookConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1161,7 +1161,7 @@ extension DeleteChimeWebhookConfigurationInput {
     }
 }
 
-public struct DeleteChimeWebhookConfigurationInput: Swift.Equatable {
+public struct DeleteChimeWebhookConfigurationInput {
     /// The ARN of the ChimeWebhookConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1174,7 +1174,7 @@ public struct DeleteChimeWebhookConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteChimeWebhookConfigurationInputBody: Swift.Equatable {
+struct DeleteChimeWebhookConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
 }
 
@@ -1195,7 +1195,7 @@ extension DeleteChimeWebhookConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteChimeWebhookConfigurationOutput: Swift.Equatable {
+public struct DeleteChimeWebhookConfigurationOutput {
 
     public init() { }
 }
@@ -1234,7 +1234,7 @@ extension DeleteMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsChannelConfigurationInput {
     /// The ARN of the MicrosoftTeamsChannelConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1247,7 +1247,7 @@ public struct DeleteMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteMicrosoftTeamsChannelConfigurationInputBody: Swift.Equatable {
+struct DeleteMicrosoftTeamsChannelConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
 }
 
@@ -1268,7 +1268,7 @@ extension DeleteMicrosoftTeamsChannelConfigurationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DeleteMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsChannelConfigurationOutput {
 
     public init() { }
 }
@@ -1307,7 +1307,7 @@ extension DeleteMicrosoftTeamsConfiguredTeamInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsConfiguredTeamInput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsConfiguredTeamInput {
     /// The ID of the Microsoft Team authorized with AWS Chatbot. To get the team ID, you must perform the initial authorization flow with Microsoft Teams in the AWS Chatbot console. Then you can copy and paste the team ID from the console. For more details, see steps 1-4 in Get started with Microsoft Teams in the AWS Chatbot Administrator Guide.
     /// This member is required.
     public var teamId: Swift.String?
@@ -1320,7 +1320,7 @@ public struct DeleteMicrosoftTeamsConfiguredTeamInput: Swift.Equatable {
     }
 }
 
-struct DeleteMicrosoftTeamsConfiguredTeamInputBody: Swift.Equatable {
+struct DeleteMicrosoftTeamsConfiguredTeamInputBody {
     let teamId: Swift.String?
 }
 
@@ -1341,7 +1341,7 @@ extension DeleteMicrosoftTeamsConfiguredTeamOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteMicrosoftTeamsConfiguredTeamOutput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsConfiguredTeamOutput {
 
     public init() { }
 }
@@ -1397,7 +1397,7 @@ public struct DeleteMicrosoftTeamsUserIdentityException: ClientRuntime.ModeledEr
     }
 }
 
-struct DeleteMicrosoftTeamsUserIdentityExceptionBody: Swift.Equatable {
+struct DeleteMicrosoftTeamsUserIdentityExceptionBody {
     let message: Swift.String?
 }
 
@@ -1437,7 +1437,7 @@ extension DeleteMicrosoftTeamsUserIdentityInput {
     }
 }
 
-public struct DeleteMicrosoftTeamsUserIdentityInput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsUserIdentityInput {
     /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1455,7 +1455,7 @@ public struct DeleteMicrosoftTeamsUserIdentityInput: Swift.Equatable {
     }
 }
 
-struct DeleteMicrosoftTeamsUserIdentityInputBody: Swift.Equatable {
+struct DeleteMicrosoftTeamsUserIdentityInputBody {
     let chatConfigurationArn: Swift.String?
     let userId: Swift.String?
 }
@@ -1480,7 +1480,7 @@ extension DeleteMicrosoftTeamsUserIdentityOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DeleteMicrosoftTeamsUserIdentityOutput: Swift.Equatable {
+public struct DeleteMicrosoftTeamsUserIdentityOutput {
 
     public init() { }
 }
@@ -1537,7 +1537,7 @@ public struct DeleteSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct DeleteSlackChannelConfigurationExceptionBody: Swift.Equatable {
+struct DeleteSlackChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1573,7 +1573,7 @@ extension DeleteSlackChannelConfigurationInput {
     }
 }
 
-public struct DeleteSlackChannelConfigurationInput: Swift.Equatable {
+public struct DeleteSlackChannelConfigurationInput {
     /// The ARN of the SlackChannelConfiguration to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1586,7 +1586,7 @@ public struct DeleteSlackChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlackChannelConfigurationInputBody: Swift.Equatable {
+struct DeleteSlackChannelConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
 }
 
@@ -1607,7 +1607,7 @@ extension DeleteSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteSlackChannelConfigurationOutput: Swift.Equatable {
+public struct DeleteSlackChannelConfigurationOutput {
 
     public init() { }
 }
@@ -1665,7 +1665,7 @@ public struct DeleteSlackUserIdentityException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct DeleteSlackUserIdentityExceptionBody: Swift.Equatable {
+struct DeleteSlackUserIdentityExceptionBody {
     let message: Swift.String?
 }
 
@@ -1709,7 +1709,7 @@ extension DeleteSlackUserIdentityInput {
     }
 }
 
-public struct DeleteSlackUserIdentityInput: Swift.Equatable {
+public struct DeleteSlackUserIdentityInput {
     /// The ARN of the SlackChannelConfiguration associated with the user identity to delete.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -1732,7 +1732,7 @@ public struct DeleteSlackUserIdentityInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlackUserIdentityInputBody: Swift.Equatable {
+struct DeleteSlackUserIdentityInputBody {
     let chatConfigurationArn: Swift.String?
     let slackTeamId: Swift.String?
     let slackUserId: Swift.String?
@@ -1761,7 +1761,7 @@ extension DeleteSlackUserIdentityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSlackUserIdentityOutput: Swift.Equatable {
+public struct DeleteSlackUserIdentityOutput {
 
     public init() { }
 }
@@ -1818,7 +1818,7 @@ public struct DeleteSlackWorkspaceAuthorizationFault: ClientRuntime.ModeledError
     }
 }
 
-struct DeleteSlackWorkspaceAuthorizationFaultBody: Swift.Equatable {
+struct DeleteSlackWorkspaceAuthorizationFaultBody {
     let message: Swift.String?
 }
 
@@ -1854,7 +1854,7 @@ extension DeleteSlackWorkspaceAuthorizationInput {
     }
 }
 
-public struct DeleteSlackWorkspaceAuthorizationInput: Swift.Equatable {
+public struct DeleteSlackWorkspaceAuthorizationInput {
     /// The ID of the Slack workspace authorized with AWS Chatbot.
     /// This member is required.
     public var slackTeamId: Swift.String?
@@ -1867,7 +1867,7 @@ public struct DeleteSlackWorkspaceAuthorizationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlackWorkspaceAuthorizationInputBody: Swift.Equatable {
+struct DeleteSlackWorkspaceAuthorizationInputBody {
     let slackTeamId: Swift.String?
 }
 
@@ -1888,7 +1888,7 @@ extension DeleteSlackWorkspaceAuthorizationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteSlackWorkspaceAuthorizationOutput: Swift.Equatable {
+public struct DeleteSlackWorkspaceAuthorizationOutput {
 
     public init() { }
 }
@@ -1944,7 +1944,7 @@ public struct DeleteTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct DeleteTeamsChannelConfigurationExceptionBody: Swift.Equatable {
+struct DeleteTeamsChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -1999,7 +1999,7 @@ public struct DeleteTeamsConfiguredTeamException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct DeleteTeamsConfiguredTeamExceptionBody: Swift.Equatable {
+struct DeleteTeamsConfiguredTeamExceptionBody {
     let message: Swift.String?
 }
 
@@ -2054,7 +2054,7 @@ public struct DescribeChimeWebhookConfigurationsException: ClientRuntime.Modeled
     }
 }
 
-struct DescribeChimeWebhookConfigurationsExceptionBody: Swift.Equatable {
+struct DescribeChimeWebhookConfigurationsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2098,7 +2098,7 @@ extension DescribeChimeWebhookConfigurationsInput {
     }
 }
 
-public struct DescribeChimeWebhookConfigurationsInput: Swift.Equatable {
+public struct DescribeChimeWebhookConfigurationsInput {
     /// An optional ARN of a ChimeWebhookConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -2118,7 +2118,7 @@ public struct DescribeChimeWebhookConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeChimeWebhookConfigurationsInputBody: Swift.Equatable {
+struct DescribeChimeWebhookConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let chatConfigurationArn: Swift.String?
@@ -2156,7 +2156,7 @@ extension DescribeChimeWebhookConfigurationsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeChimeWebhookConfigurationsOutput: Swift.Equatable {
+public struct DescribeChimeWebhookConfigurationsOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Chime webhooks associated with the account.
@@ -2172,7 +2172,7 @@ public struct DescribeChimeWebhookConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeChimeWebhookConfigurationsOutputBody: Swift.Equatable {
+struct DescribeChimeWebhookConfigurationsOutputBody {
     let nextToken: Swift.String?
     let webhookConfigurations: [ChatbotClientTypes.ChimeWebhookConfiguration]?
 }
@@ -2253,7 +2253,7 @@ public struct DescribeSlackChannelConfigurationsException: ClientRuntime.Modeled
     }
 }
 
-struct DescribeSlackChannelConfigurationsExceptionBody: Swift.Equatable {
+struct DescribeSlackChannelConfigurationsExceptionBody {
     let message: Swift.String?
 }
 
@@ -2297,7 +2297,7 @@ extension DescribeSlackChannelConfigurationsInput {
     }
 }
 
-public struct DescribeSlackChannelConfigurationsInput: Swift.Equatable {
+public struct DescribeSlackChannelConfigurationsInput {
     /// An optional ARN of a SlackChannelConfiguration to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -2317,7 +2317,7 @@ public struct DescribeSlackChannelConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackChannelConfigurationsInputBody: Swift.Equatable {
+struct DescribeSlackChannelConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let chatConfigurationArn: Swift.String?
@@ -2355,7 +2355,7 @@ extension DescribeSlackChannelConfigurationsOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DescribeSlackChannelConfigurationsOutput: Swift.Equatable {
+public struct DescribeSlackChannelConfigurationsOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack channel configurations.
@@ -2371,7 +2371,7 @@ public struct DescribeSlackChannelConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackChannelConfigurationsOutputBody: Swift.Equatable {
+struct DescribeSlackChannelConfigurationsOutputBody {
     let nextToken: Swift.String?
     let slackChannelConfigurations: [ChatbotClientTypes.SlackChannelConfiguration]?
 }
@@ -2452,7 +2452,7 @@ public struct DescribeSlackUserIdentitiesException: ClientRuntime.ModeledError, 
     }
 }
 
-struct DescribeSlackUserIdentitiesExceptionBody: Swift.Equatable {
+struct DescribeSlackUserIdentitiesExceptionBody {
     let message: Swift.String?
 }
 
@@ -2496,7 +2496,7 @@ extension DescribeSlackUserIdentitiesInput {
     }
 }
 
-public struct DescribeSlackUserIdentitiesInput: Swift.Equatable {
+public struct DescribeSlackUserIdentitiesInput {
     /// The ARN of the SlackChannelConfiguration associated with the user identities to describe.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -2516,7 +2516,7 @@ public struct DescribeSlackUserIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackUserIdentitiesInputBody: Swift.Equatable {
+struct DescribeSlackUserIdentitiesInputBody {
     let chatConfigurationArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2554,7 +2554,7 @@ extension DescribeSlackUserIdentitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSlackUserIdentitiesOutput: Swift.Equatable {
+public struct DescribeSlackUserIdentitiesOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack User Identities.
@@ -2570,7 +2570,7 @@ public struct DescribeSlackUserIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackUserIdentitiesOutputBody: Swift.Equatable {
+struct DescribeSlackUserIdentitiesOutputBody {
     let slackUserIdentities: [ChatbotClientTypes.SlackUserIdentity]?
     let nextToken: Swift.String?
 }
@@ -2651,7 +2651,7 @@ public struct DescribeSlackWorkspacesException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct DescribeSlackWorkspacesExceptionBody: Swift.Equatable {
+struct DescribeSlackWorkspacesExceptionBody {
     let message: Swift.String?
 }
 
@@ -2691,7 +2691,7 @@ extension DescribeSlackWorkspacesInput {
     }
 }
 
-public struct DescribeSlackWorkspacesInput: Swift.Equatable {
+public struct DescribeSlackWorkspacesInput {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -2707,7 +2707,7 @@ public struct DescribeSlackWorkspacesInput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackWorkspacesInputBody: Swift.Equatable {
+struct DescribeSlackWorkspacesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2741,7 +2741,7 @@ extension DescribeSlackWorkspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSlackWorkspacesOutput: Swift.Equatable {
+public struct DescribeSlackWorkspacesOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of Slack Workspaces registered with AWS Chatbot.
@@ -2757,7 +2757,7 @@ public struct DescribeSlackWorkspacesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSlackWorkspacesOutputBody: Swift.Equatable {
+struct DescribeSlackWorkspacesOutputBody {
     let slackWorkspaces: [ChatbotClientTypes.SlackWorkspace]?
     let nextToken: Swift.String?
 }
@@ -2838,7 +2838,7 @@ public struct GetAccountPreferencesException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct GetAccountPreferencesExceptionBody: Swift.Equatable {
+struct GetAccountPreferencesExceptionBody {
     let message: Swift.String?
 }
 
@@ -2861,12 +2861,12 @@ extension GetAccountPreferencesInput {
     }
 }
 
-public struct GetAccountPreferencesInput: Swift.Equatable {
+public struct GetAccountPreferencesInput {
 
     public init() { }
 }
 
-struct GetAccountPreferencesInputBody: Swift.Equatable {
+struct GetAccountPreferencesInputBody {
 }
 
 extension GetAccountPreferencesInputBody: Swift.Decodable {
@@ -2887,7 +2887,7 @@ extension GetAccountPreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountPreferencesOutput: Swift.Equatable {
+public struct GetAccountPreferencesOutput {
     /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
@@ -2899,7 +2899,7 @@ public struct GetAccountPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountPreferencesOutputBody: Swift.Equatable {
+struct GetAccountPreferencesOutputBody {
     let accountPreferences: ChatbotClientTypes.AccountPreferences?
 }
 
@@ -2947,7 +2947,7 @@ extension GetMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct GetMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
+public struct GetMicrosoftTeamsChannelConfigurationInput {
     /// The ARN of the MicrosoftTeamsChannelConfiguration to retrieve.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -2960,7 +2960,7 @@ public struct GetMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetMicrosoftTeamsChannelConfigurationInputBody: Swift.Equatable {
+struct GetMicrosoftTeamsChannelConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
 }
 
@@ -2988,7 +2988,7 @@ extension GetMicrosoftTeamsChannelConfigurationOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct GetMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
+public struct GetMicrosoftTeamsChannelConfigurationOutput {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -3000,7 +3000,7 @@ public struct GetMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetMicrosoftTeamsChannelConfigurationOutputBody: Swift.Equatable {
+struct GetMicrosoftTeamsChannelConfigurationOutputBody {
     let channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 }
 
@@ -3068,7 +3068,7 @@ public struct GetTeamsChannelConfigurationException: ClientRuntime.ModeledError,
     }
 }
 
-struct GetTeamsChannelConfigurationExceptionBody: Swift.Equatable {
+struct GetTeamsChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -3123,7 +3123,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -3178,7 +3178,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -3233,7 +3233,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3277,7 +3277,7 @@ extension ListMicrosoftTeamsChannelConfigurationsInput {
     }
 }
 
-public struct ListMicrosoftTeamsChannelConfigurationsInput: Swift.Equatable {
+public struct ListMicrosoftTeamsChannelConfigurationsInput {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -3297,7 +3297,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsChannelConfigurationsInputBody: Swift.Equatable {
+struct ListMicrosoftTeamsChannelConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let teamId: Swift.String?
@@ -3335,7 +3335,7 @@ extension ListMicrosoftTeamsChannelConfigurationsOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListMicrosoftTeamsChannelConfigurationsOutput: Swift.Equatable {
+public struct ListMicrosoftTeamsChannelConfigurationsOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// A list of AWS Chatbot channel configurations for Microsoft Teams.
@@ -3351,7 +3351,7 @@ public struct ListMicrosoftTeamsChannelConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsChannelConfigurationsOutputBody: Swift.Equatable {
+struct ListMicrosoftTeamsChannelConfigurationsOutputBody {
     let nextToken: Swift.String?
     let teamChannelConfigurations: [ChatbotClientTypes.TeamsChannelConfiguration]?
 }
@@ -3432,7 +3432,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsException: ClientRuntime.ModeledE
     }
 }
 
-struct ListMicrosoftTeamsConfiguredTeamsExceptionBody: Swift.Equatable {
+struct ListMicrosoftTeamsConfiguredTeamsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3472,7 +3472,7 @@ extension ListMicrosoftTeamsConfiguredTeamsInput {
     }
 }
 
-public struct ListMicrosoftTeamsConfiguredTeamsInput: Swift.Equatable {
+public struct ListMicrosoftTeamsConfiguredTeamsInput {
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
     public var maxResults: Swift.Int?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -3488,7 +3488,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsInput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsConfiguredTeamsInputBody: Swift.Equatable {
+struct ListMicrosoftTeamsConfiguredTeamsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -3522,7 +3522,7 @@ extension ListMicrosoftTeamsConfiguredTeamsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListMicrosoftTeamsConfiguredTeamsOutput: Swift.Equatable {
+public struct ListMicrosoftTeamsConfiguredTeamsOutput {
     /// A list of teams in Microsoft Teams that have been configured with AWS Chatbot.
     public var configuredTeams: [ChatbotClientTypes.ConfiguredTeam]?
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
@@ -3538,7 +3538,7 @@ public struct ListMicrosoftTeamsConfiguredTeamsOutput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsConfiguredTeamsOutputBody: Swift.Equatable {
+struct ListMicrosoftTeamsConfiguredTeamsOutputBody {
     let configuredTeams: [ChatbotClientTypes.ConfiguredTeam]?
     let nextToken: Swift.String?
 }
@@ -3619,7 +3619,7 @@ public struct ListMicrosoftTeamsUserIdentitiesException: ClientRuntime.ModeledEr
     }
 }
 
-struct ListMicrosoftTeamsUserIdentitiesExceptionBody: Swift.Equatable {
+struct ListMicrosoftTeamsUserIdentitiesExceptionBody {
     let message: Swift.String?
 }
 
@@ -3663,7 +3663,7 @@ extension ListMicrosoftTeamsUserIdentitiesInput {
     }
 }
 
-public struct ListMicrosoftTeamsUserIdentitiesInput: Swift.Equatable {
+public struct ListMicrosoftTeamsUserIdentitiesInput {
     /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identities to list.
     public var chatConfigurationArn: Swift.String?
     /// The maximum number of results to include in the response. If more results exist than the specified MaxResults value, a token is included in the response so that the remaining results can be retrieved.
@@ -3683,7 +3683,7 @@ public struct ListMicrosoftTeamsUserIdentitiesInput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsUserIdentitiesInputBody: Swift.Equatable {
+struct ListMicrosoftTeamsUserIdentitiesInputBody {
     let chatConfigurationArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -3721,7 +3721,7 @@ extension ListMicrosoftTeamsUserIdentitiesOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListMicrosoftTeamsUserIdentitiesOutput: Swift.Equatable {
+public struct ListMicrosoftTeamsUserIdentitiesOutput {
     /// An optional token returned from a prior request. Use this token for pagination of results from this action. If this parameter is specified, the response includes only results beyond the token, up to the value specified by MaxResults.
     public var nextToken: Swift.String?
     /// User level permissions associated to a channel configuration.
@@ -3737,7 +3737,7 @@ public struct ListMicrosoftTeamsUserIdentitiesOutput: Swift.Equatable {
     }
 }
 
-struct ListMicrosoftTeamsUserIdentitiesOutputBody: Swift.Equatable {
+struct ListMicrosoftTeamsUserIdentitiesOutputBody {
     let teamsUserIdentities: [ChatbotClientTypes.TeamsUserIdentity]?
     let nextToken: Swift.String?
 }
@@ -3818,7 +3818,7 @@ public struct ListTeamsChannelConfigurationsException: ClientRuntime.ModeledErro
     }
 }
 
-struct ListTeamsChannelConfigurationsExceptionBody: Swift.Equatable {
+struct ListTeamsChannelConfigurationsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3873,7 +3873,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3994,7 +3994,7 @@ extension ChatbotClientTypes.SlackChannelConfiguration: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Slack.
-    public struct SlackChannelConfiguration: Swift.Equatable {
+    public struct SlackChannelConfiguration {
         /// The ARN of the SlackChannelConfiguration.
         /// This member is required.
         public var chatConfigurationArn: Swift.String?
@@ -4100,7 +4100,7 @@ extension ChatbotClientTypes.SlackUserIdentity: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// Identifes a User level permission for a channel configuration.
-    public struct SlackUserIdentity: Swift.Equatable {
+    public struct SlackUserIdentity {
         /// The AWS user identity ARN used to associate a Slack User Identity with an IAM Role.
         public var awsUserIdentity: Swift.String?
         /// The ARN of the SlackChannelConfiguration associated with the user identity.
@@ -4161,7 +4161,7 @@ extension ChatbotClientTypes.SlackWorkspace: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// A Slack Workspace.
-    public struct SlackWorkspace: Swift.Equatable {
+    public struct SlackWorkspace {
         /// The ID of the Slack workspace authorized with AWS Chatbot.
         /// This member is required.
         public var slackTeamId: Swift.String?
@@ -4292,7 +4292,7 @@ extension ChatbotClientTypes.TeamsChannelConfiguration: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// An AWS Chatbot configuration for Microsoft Teams.
-    public struct TeamsChannelConfiguration: Swift.Equatable {
+    public struct TeamsChannelConfiguration {
         /// The ID of the Microsoft Teams channel.
         /// This member is required.
         public var channelId: Swift.String?
@@ -4413,7 +4413,7 @@ extension ChatbotClientTypes.TeamsUserIdentity: Swift.Codable {
 
 extension ChatbotClientTypes {
     /// Identifes a user level permission for a channel configuration.
-    public struct TeamsUserIdentity: Swift.Equatable {
+    public struct TeamsUserIdentity {
         /// The AWS user identity ARN used to associate a Microsoft Teams User Identity with an IAM Role.
         public var awsUserIdentity: Swift.String?
         /// The ARN of the MicrosoftTeamsChannelConfiguration associated with the user identity.
@@ -4493,7 +4493,7 @@ public struct UpdateAccountPreferencesException: ClientRuntime.ModeledError, AWS
     }
 }
 
-struct UpdateAccountPreferencesExceptionBody: Swift.Equatable {
+struct UpdateAccountPreferencesExceptionBody {
     let message: Swift.String?
 }
 
@@ -4533,7 +4533,7 @@ extension UpdateAccountPreferencesInput {
     }
 }
 
-public struct UpdateAccountPreferencesInput: Swift.Equatable {
+public struct UpdateAccountPreferencesInput {
     /// Turns on training data collection. This helps improve the AWS Chatbot experience by allowing AWS Chatbot to store and use your customer information, such as AWS Chatbot configurations, notifications, user inputs, AWS Chatbot generated responses, and interaction data. This data helps us to continuously improve and develop Artificial Intelligence (AI) technologies. Your data is not shared with any third parties and is protected using sophisticated controls to prevent unauthorized access and misuse. AWS Chatbot does not store or use interactions in chat channels with Amazon Q for training AWS Chatbot’s AI technologies.
     public var trainingDataCollectionEnabled: Swift.Bool?
     /// Enables use of a user role requirement in your chat configuration.
@@ -4549,7 +4549,7 @@ public struct UpdateAccountPreferencesInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountPreferencesInputBody: Swift.Equatable {
+struct UpdateAccountPreferencesInputBody {
     let userAuthorizationRequired: Swift.Bool?
     let trainingDataCollectionEnabled: Swift.Bool?
 }
@@ -4581,7 +4581,7 @@ extension UpdateAccountPreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountPreferencesOutput: Swift.Equatable {
+public struct UpdateAccountPreferencesOutput {
     /// Preferences which apply for AWS Chatbot usage in the calling AWS account.
     public var accountPreferences: ChatbotClientTypes.AccountPreferences?
 
@@ -4593,7 +4593,7 @@ public struct UpdateAccountPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountPreferencesOutputBody: Swift.Equatable {
+struct UpdateAccountPreferencesOutputBody {
     let accountPreferences: ChatbotClientTypes.AccountPreferences?
 }
 
@@ -4661,7 +4661,7 @@ public struct UpdateChimeWebhookConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct UpdateChimeWebhookConfigurationExceptionBody: Swift.Equatable {
+struct UpdateChimeWebhookConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4720,7 +4720,7 @@ extension UpdateChimeWebhookConfigurationInput {
     }
 }
 
-public struct UpdateChimeWebhookConfigurationInput: Swift.Equatable {
+public struct UpdateChimeWebhookConfigurationInput {
     /// The ARN of the ChimeWebhookConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -4753,7 +4753,7 @@ public struct UpdateChimeWebhookConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateChimeWebhookConfigurationInputBody: Swift.Equatable {
+struct UpdateChimeWebhookConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
     let webhookDescription: Swift.String?
     let webhookUrl: Swift.String?
@@ -4810,7 +4810,7 @@ extension UpdateChimeWebhookConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateChimeWebhookConfigurationOutput: Swift.Equatable {
+public struct UpdateChimeWebhookConfigurationOutput {
     /// Chime webhook configuration.
     public var webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 
@@ -4822,7 +4822,7 @@ public struct UpdateChimeWebhookConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateChimeWebhookConfigurationOutputBody: Swift.Equatable {
+struct UpdateChimeWebhookConfigurationOutputBody {
     let webhookConfiguration: ChatbotClientTypes.ChimeWebhookConfiguration?
 }
 
@@ -4906,7 +4906,7 @@ extension UpdateMicrosoftTeamsChannelConfigurationInput {
     }
 }
 
-public struct UpdateMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
+public struct UpdateMicrosoftTeamsChannelConfigurationInput {
     /// The ID of the Microsoft Teams channel.
     /// This member is required.
     public var channelId: Swift.String?
@@ -4948,7 +4948,7 @@ public struct UpdateMicrosoftTeamsChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateMicrosoftTeamsChannelConfigurationInputBody: Swift.Equatable {
+struct UpdateMicrosoftTeamsChannelConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
     let channelId: Swift.String?
     let channelName: Swift.String?
@@ -5022,7 +5022,7 @@ extension UpdateMicrosoftTeamsChannelConfigurationOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct UpdateMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
+public struct UpdateMicrosoftTeamsChannelConfigurationOutput {
     /// The configuration for a Microsoft Teams channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 
@@ -5034,7 +5034,7 @@ public struct UpdateMicrosoftTeamsChannelConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMicrosoftTeamsChannelConfigurationOutputBody: Swift.Equatable {
+struct UpdateMicrosoftTeamsChannelConfigurationOutputBody {
     let channelConfiguration: ChatbotClientTypes.TeamsChannelConfiguration?
 }
 
@@ -5103,7 +5103,7 @@ public struct UpdateSlackChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct UpdateSlackChannelConfigurationExceptionBody: Swift.Equatable {
+struct UpdateSlackChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5173,7 +5173,7 @@ extension UpdateSlackChannelConfigurationInput {
     }
 }
 
-public struct UpdateSlackChannelConfigurationInput: Swift.Equatable {
+public struct UpdateSlackChannelConfigurationInput {
     /// The ARN of the SlackChannelConfiguration to update.
     /// This member is required.
     public var chatConfigurationArn: Swift.String?
@@ -5215,7 +5215,7 @@ public struct UpdateSlackChannelConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSlackChannelConfigurationInputBody: Swift.Equatable {
+struct UpdateSlackChannelConfigurationInputBody {
     let chatConfigurationArn: Swift.String?
     let slackChannelId: Swift.String?
     let slackChannelName: Swift.String?
@@ -5289,7 +5289,7 @@ extension UpdateSlackChannelConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateSlackChannelConfigurationOutput: Swift.Equatable {
+public struct UpdateSlackChannelConfigurationOutput {
     /// The configuration for a Slack channel configured with AWS Chatbot.
     public var channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 
@@ -5301,7 +5301,7 @@ public struct UpdateSlackChannelConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSlackChannelConfigurationOutputBody: Swift.Equatable {
+struct UpdateSlackChannelConfigurationOutputBody {
     let channelConfiguration: ChatbotClientTypes.SlackChannelConfiguration?
 }
 
@@ -5370,7 +5370,7 @@ public struct UpdateTeamsChannelConfigurationException: ClientRuntime.ModeledErr
     }
 }
 
-struct UpdateTeamsChannelConfigurationExceptionBody: Swift.Equatable {
+struct UpdateTeamsChannelConfigurationExceptionBody {
     let message: Swift.String?
 }
 

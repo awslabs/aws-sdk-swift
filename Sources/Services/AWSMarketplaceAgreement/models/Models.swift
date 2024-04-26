@@ -111,7 +111,7 @@ extension MarketplaceAgreementClientTypes.AcceptedTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// A subset of terms proposed by the proposer, which have been accepted by the acceptor as part of agreement creation.
-    public enum AcceptedTerm: Swift.Equatable {
+    public enum AcceptedTerm {
         /// Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).
         case legalterm(MarketplaceAgreementClientTypes.LegalTerm)
         /// Defines the customer support available for the acceptors when they purchase the software.
@@ -160,7 +160,7 @@ extension MarketplaceAgreementClientTypes.Acceptor: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// The details of the party accepting the agreement terms. This is commonly the buyer for PurchaseAgreement.
-    public struct Acceptor: Swift.Equatable {
+    public struct Acceptor {
         /// The AWS account ID of the acceptor.
         public var accountId: Swift.String?
 
@@ -219,7 +219,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let requestId: Swift.String?
     let message: Swift.String?
 }
@@ -361,7 +361,7 @@ extension MarketplaceAgreementClientTypes.AgreementViewSummary: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
-    public struct AgreementViewSummary: Swift.Equatable {
+    public struct AgreementViewSummary {
         /// The date and time that the agreement was accepted.
         public var acceptanceTime: ClientRuntime.Date?
         /// Details of the party accepting the agreement terms. This is commonly the buyer for PurchaseAgreement.
@@ -428,7 +428,7 @@ extension MarketplaceAgreementClientTypes.ByolPricingTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Enables you and your customers to move your existing agreements to AWS Marketplace. The customer won't be charged for product usage in AWS Marketplace because they already paid for the product outside of AWS Marketplace.
-    public struct ByolPricingTerm: Swift.Equatable {
+    public struct ByolPricingTerm {
         /// Type of the term being updated.
         public var type: Swift.String?
 
@@ -493,7 +493,7 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTerm: Swift.
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a prepaid payment model that allows buyers to configure the entitlements they want to purchase and the duration.
-    public struct ConfigurableUpfrontPricingTerm: Swift.Equatable {
+    public struct ConfigurableUpfrontPricingTerm {
         /// Additional parameters specified by the acceptor while accepting the term.
         public var configuration: MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfiguration?
         /// Defines the currency for the prices mentioned in the term.
@@ -558,7 +558,7 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontPricingTermConfigur
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a prepaid payment model that allows buyers to configure the entitlements they want to purchase and the duration.
-    public struct ConfigurableUpfrontPricingTermConfiguration: Swift.Equatable {
+    public struct ConfigurableUpfrontPricingTermConfiguration {
         /// Defines the dimensions that the acceptor has purchased from the overall set of dimensions presented in the rate card.
         /// This member is required.
         public var dimensions: [MarketplaceAgreementClientTypes.Dimension]?
@@ -623,7 +623,7 @@ extension MarketplaceAgreementClientTypes.ConfigurableUpfrontRateCardItem: Swift
 
 extension MarketplaceAgreementClientTypes {
     /// Within the prepaid payment model defined under ConfigurableUpfrontPricingTerm, the RateCardItem defines all the various rate cards (including pricing and dimensions) that have been proposed.
-    public struct ConfigurableUpfrontRateCardItem: Swift.Equatable {
+    public struct ConfigurableUpfrontRateCardItem {
         /// Defines limits on how the term can be configured by acceptors.
         public var constraints: MarketplaceAgreementClientTypes.Constraints?
         /// Defines the per unit rates for product dimensions.
@@ -672,7 +672,7 @@ extension MarketplaceAgreementClientTypes.Constraints: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines limits on how the term can be configured by acceptors.
-    public struct Constraints: Swift.Equatable {
+    public struct Constraints {
         /// Determines if buyers are allowed to select multiple dimensions in the rate card. The possible values are Allowed and Disallowed. The default value is Allowed.
         public var multipleDimensionSelection: Swift.String?
         /// Determines if acceptors are allowed to configure quantity for each dimension in rate card. The possible values are Allowed and Disallowed. The default value is Allowed.
@@ -710,7 +710,7 @@ extension DescribeAgreementInput {
     }
 }
 
-public struct DescribeAgreementInput: Swift.Equatable {
+public struct DescribeAgreementInput {
     /// The unique identifier of the agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -723,7 +723,7 @@ public struct DescribeAgreementInput: Swift.Equatable {
     }
 }
 
-struct DescribeAgreementInputBody: Swift.Equatable {
+struct DescribeAgreementInputBody {
     let agreementId: Swift.String?
 }
 
@@ -769,7 +769,7 @@ extension DescribeAgreementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAgreementOutput: Swift.Equatable {
+public struct DescribeAgreementOutput {
     /// The date and time the offer was accepted or the agreement was created. AcceptanceTime and StartTime can differ for future dated agreements (FDAs).
     public var acceptanceTime: ClientRuntime.Date?
     /// The details of the party accepting the agreement terms. This is commonly the buyer for PurchaseAgreement.
@@ -835,7 +835,7 @@ public struct DescribeAgreementOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAgreementOutputBody: Swift.Equatable {
+struct DescribeAgreementOutputBody {
     let agreementId: Swift.String?
     let acceptor: MarketplaceAgreementClientTypes.Acceptor?
     let proposer: MarketplaceAgreementClientTypes.Proposer?
@@ -929,7 +929,7 @@ extension MarketplaceAgreementClientTypes.Dimension: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines the dimensions that the acceptor has purchased from the overall set of dimensions presented in the rate card.
-    public struct Dimension: Swift.Equatable {
+    public struct Dimension {
         /// The name of key value of the dimension.
         /// This member is required.
         public var dimensionKey: Swift.String?
@@ -982,7 +982,7 @@ extension MarketplaceAgreementClientTypes.DocumentItem: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Includes the list of references to legal resources proposed by the proposer to the acceptor. Each DocumentItem refers to an individual reference.
-    public struct DocumentItem: Swift.Equatable {
+    public struct DocumentItem {
         /// Category of the document. Document types include:
         ///
         /// * CustomEula – A custom EULA provided by you as seller. A URL for a EULA stored in an accessible Amazon S3 bucket is required for this document type.
@@ -1039,7 +1039,7 @@ extension MarketplaceAgreementClientTypes.EstimatedCharges: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Estimated cost of the agreement.
-    public struct EstimatedCharges: Swift.Equatable {
+    public struct EstimatedCharges {
         /// The total known amount customer has to pay across the lifecycle of the agreement. This is the total contract value if accepted terms contain ConfigurableUpfrontPricingTerm or FixedUpfrontPricingTerm. In the case of pure contract pricing, this will be the total value of the contract. In the case of contracts with consumption pricing, this will only include the committed value and not include any overages that occur. If the accepted terms contain PaymentScheduleTerm, it will be the total payment schedule amount. This occurs when flexible payment schedule is used, and is the sum of all invoice charges in the payment schedule. In case a customer has amended an agreement, by purchasing more units of any dimension, this will include both the original cost as well as the added cost incurred due to addition of new units. This is 0 if the accepted terms contain UsageBasedPricingTerm without ConfigurableUpfrontPricingTerm or RecurringPaymentTerm. This occurs for usage-based pricing (such as SaaS metered or AMI/container hourly or monthly), because the exact usage is not known upfront.
         public var agreementValue: Swift.String?
         /// Defines the currency code for the charge.
@@ -1096,7 +1096,7 @@ extension MarketplaceAgreementClientTypes.Filter: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// The filter name and value pair that is used to return a more specific list of results. Filters can be used to match a set of resources by various criteria, such as offerId or productId.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The name of the filter.
         public var name: Swift.String?
         /// The filter value.
@@ -1171,7 +1171,7 @@ extension MarketplaceAgreementClientTypes.FixedUpfrontPricingTerm: Swift.Codable
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a prepaid pricing model where the customers are charged a fixed upfront amount.
-    public struct FixedUpfrontPricingTerm: Swift.Equatable {
+    public struct FixedUpfrontPricingTerm {
         /// Defines the currency for the prices mentioned in this term.
         public var currencyCode: Swift.String?
         /// Contract duration for the terms.
@@ -1246,7 +1246,7 @@ extension MarketplaceAgreementClientTypes.FreeTrialPricingTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a short-term free pricing model where the buyers aren’t charged anything within a specified limit.
-    public struct FreeTrialPricingTerm: Swift.Equatable {
+    public struct FreeTrialPricingTerm {
         /// Duration of the free trial period (5–31 days).
         public var duration: Swift.String?
         /// Entitlements granted to the acceptor of a free trial as part of an agreement execution.
@@ -1296,7 +1296,7 @@ extension GetAgreementTermsInput {
     }
 }
 
-public struct GetAgreementTermsInput: Swift.Equatable {
+public struct GetAgreementTermsInput {
     /// The unique identifier of the agreement.
     /// This member is required.
     public var agreementId: Swift.String?
@@ -1317,7 +1317,7 @@ public struct GetAgreementTermsInput: Swift.Equatable {
     }
 }
 
-struct GetAgreementTermsInputBody: Swift.Equatable {
+struct GetAgreementTermsInputBody {
     let agreementId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -1355,7 +1355,7 @@ extension GetAgreementTermsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAgreementTermsOutput: Swift.Equatable {
+public struct GetAgreementTermsOutput {
     /// A subset of terms proposed by the proposer that have been accepted by the acceptor as part of the agreement creation.
     public var acceptedTerms: [MarketplaceAgreementClientTypes.AcceptedTerm]?
     /// A token to specify where to start pagination
@@ -1371,7 +1371,7 @@ public struct GetAgreementTermsOutput: Swift.Equatable {
     }
 }
 
-struct GetAgreementTermsOutputBody: Swift.Equatable {
+struct GetAgreementTermsOutputBody {
     let acceptedTerms: [MarketplaceAgreementClientTypes.AcceptedTerm]?
     let nextToken: Swift.String?
 }
@@ -1442,7 +1442,7 @@ extension MarketplaceAgreementClientTypes.GrantItem: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Entitlements granted to the acceptor of fixed upfront as part of agreement execution.
-    public struct GrantItem: Swift.Equatable {
+    public struct GrantItem {
         /// Unique dimension key defined in the product document. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public var dimensionKey: Swift.String?
         /// Maximum amount of capacity that the buyer can be entitled to the given dimension of the product. If MaxQuantity is not provided, the buyer will be able to use an unlimited amount of the given dimension.
@@ -1505,7 +1505,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let requestId: Swift.String?
     let message: Swift.String?
 }
@@ -1564,7 +1564,7 @@ extension MarketplaceAgreementClientTypes.LegalTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines the list of text agreements proposed to the acceptors. An example is the end user license agreement (EULA).
-    public struct LegalTerm: Swift.Equatable {
+    public struct LegalTerm {
         /// List of references to legal resources proposed to the buyers. An example is the EULA.
         public var documents: [MarketplaceAgreementClientTypes.DocumentItem]?
         /// Category of the term being updated.
@@ -1629,7 +1629,7 @@ extension MarketplaceAgreementClientTypes.PaymentScheduleTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines an installment-based pricing model where customers are charged a fixed price on different dates during the agreement validity period. This is used most commonly for flexible payment schedule pricing.
-    public struct PaymentScheduleTerm: Swift.Equatable {
+    public struct PaymentScheduleTerm {
         /// Defines the currency for the prices mentioned in the term.
         public var currencyCode: Swift.String?
         /// List of the payment schedule where each element defines one installment of payment. It contains the information necessary for calculating the price.
@@ -1690,7 +1690,7 @@ extension MarketplaceAgreementClientTypes.ProposalSummary: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// A summary of the proposal received from the proposer.
-    public struct ProposalSummary: Swift.Equatable {
+    public struct ProposalSummary {
         /// The unique identifier of the offer in AWS Marketplace.
         public var offerId: Swift.String?
         /// The list of resources involved in the agreement.
@@ -1729,7 +1729,7 @@ extension MarketplaceAgreementClientTypes.Proposer: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Details of the party proposing the agreement terms,. This is commonly the seller for PurchaseAgreement.
-    public struct Proposer: Swift.Equatable {
+    public struct Proposer {
         /// The AWS account ID of the proposer.
         public var accountId: Swift.String?
 
@@ -1770,7 +1770,7 @@ extension MarketplaceAgreementClientTypes.RateCardItem: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines the per unit rates for each individual product dimension.
-    public struct RateCardItem: Swift.Equatable {
+    public struct RateCardItem {
         /// Dimension for which the given entitlement applies. Dimensions represent categories of capacity in a product and are specified when the product is listed in AWS Marketplace.
         public var dimensionKey: Swift.String?
         /// Per unit price for the product dimension that’s used for calculating the amount to be charged.
@@ -1827,7 +1827,7 @@ extension MarketplaceAgreementClientTypes.RecurringPaymentTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a pricing model where customers are charged a fixed recurring price at the end of each billing period.
-    public struct RecurringPaymentTerm: Swift.Equatable {
+    public struct RecurringPaymentTerm {
         /// Defines the recurrence at which buyers are charged.
         public var billingPeriod: Swift.String?
         /// Defines the currency for the prices mentioned in this term.
@@ -1880,7 +1880,7 @@ extension MarketplaceAgreementClientTypes.RenewalTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines that on graceful expiration of the agreement (when the agreement ends on its pre-defined end date), a new agreement will be created using the accepted terms on the existing agreement. In other words, the agreement will be renewed. The presence of RenewalTerm in the offer document means that auto-renewal is allowed. Buyers will have the option to accept or decline auto-renewal at the offer acceptance/agreement creation. Buyers can also change this flag from True to False or False to True at anytime during the agreement's lifecycle.
-    public struct RenewalTerm: Swift.Equatable {
+    public struct RenewalTerm {
         /// Additional parameters specified by the acceptor while accepting the term.
         public var configuration: MarketplaceAgreementClientTypes.RenewalTermConfiguration?
         /// Category of the term being updated.
@@ -1919,7 +1919,7 @@ extension MarketplaceAgreementClientTypes.RenewalTermConfiguration: Swift.Codabl
 
 extension MarketplaceAgreementClientTypes {
     /// Additional parameters specified by the acceptor while accepting the term.
-    public struct RenewalTermConfiguration: Swift.Equatable {
+    public struct RenewalTermConfiguration {
         /// Defines whether the acceptor has chosen to auto-renew the agreement at the end of its lifecycle. Can be set to True or False.
         /// This member is required.
         public var enableAutoRenew: Swift.Bool?
@@ -1961,7 +1961,7 @@ extension MarketplaceAgreementClientTypes.Resource: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// The list of resources involved in the agreement.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The unique identifier of the resource. We mention the term resource, which is most commonly a product, so a resourceId is also a productId.
         public var id: Swift.String?
         /// Type of the resource, which is the product. Values include SaaSProduct or AmiProduct.
@@ -2036,7 +2036,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let requestId: Swift.String?
     let message: Swift.String?
     let resourceId: Swift.String?
@@ -2120,7 +2120,7 @@ extension MarketplaceAgreementClientTypes.ScheduleItem: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// An individual installment of the payment that includes the date and amount of the charge.
-    public struct ScheduleItem: Swift.Equatable {
+    public struct ScheduleItem {
         /// The price that the customer would pay on the scheduled date (chargeDate).
         public var chargeAmount: Swift.String?
         /// The date that the customer would pay the price defined in this payment schedule term. Invoices are generated on the date provided.
@@ -2177,7 +2177,7 @@ extension SearchAgreementsInput {
     }
 }
 
-public struct SearchAgreementsInput: Swift.Equatable {
+public struct SearchAgreementsInput {
     /// The catalog in which the agreement was created.
     public var catalog: Swift.String?
     /// The filter name and value pair used to return a specific list of results. The following filters are supported:
@@ -2223,7 +2223,7 @@ public struct SearchAgreementsInput: Swift.Equatable {
     }
 }
 
-struct SearchAgreementsInputBody: Swift.Equatable {
+struct SearchAgreementsInputBody {
     let catalog: Swift.String?
     let filters: [MarketplaceAgreementClientTypes.Filter]?
     let sort: MarketplaceAgreementClientTypes.Sort?
@@ -2278,7 +2278,7 @@ extension SearchAgreementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchAgreementsOutput: Swift.Equatable {
+public struct SearchAgreementsOutput {
     /// A summary of the agreement, including top-level attributes (for example, the agreement ID, version, proposer, and acceptor).
     public var agreementViewSummaries: [MarketplaceAgreementClientTypes.AgreementViewSummary]?
     /// The token used for pagination. The field is null if there are no more results.
@@ -2294,7 +2294,7 @@ public struct SearchAgreementsOutput: Swift.Equatable {
     }
 }
 
-struct SearchAgreementsOutputBody: Swift.Equatable {
+struct SearchAgreementsOutputBody {
     let agreementViewSummaries: [MarketplaceAgreementClientTypes.AgreementViewSummary]?
     let nextToken: Swift.String?
 }
@@ -2364,7 +2364,7 @@ extension MarketplaceAgreementClientTypes.Selector: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Differentiates between the mutually exclusive rate cards in the same pricing term to be selected by the buyer.
-    public struct Selector: Swift.Equatable {
+    public struct Selector {
         /// Category of selector.
         public var type: Swift.String?
         /// Contract duration. This field supports the ISO 8601 format.
@@ -2409,7 +2409,7 @@ extension MarketplaceAgreementClientTypes.Sort: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// An object that contains the SortBy and SortOrder attributes.
-    public struct Sort: Swift.Equatable {
+    public struct Sort {
         /// The attribute on which the data is grouped, which can be by StartTime and EndTime. The default value is EndTime.
         public var sortBy: Swift.String?
         /// The sorting order, which can be ASCENDING or DESCENDING. The default value is DESCENDING.
@@ -2486,7 +2486,7 @@ extension MarketplaceAgreementClientTypes.SupportTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines the customer support available for the acceptors when they purchase the software.
-    public struct SupportTerm: Swift.Equatable {
+    public struct SupportTerm {
         /// Free-text field about the refund policy description that will be shown to customers as is on the website and console.
         public var refundPolicy: Swift.String?
         /// Category of the term being updated.
@@ -2549,7 +2549,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let requestId: Swift.String?
     let message: Swift.String?
 }
@@ -2614,7 +2614,7 @@ extension MarketplaceAgreementClientTypes.UsageBasedPricingTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines a usage-based pricing model (typically, pay-as-you-go pricing), where the customers are charged based on product usage.
-    public struct UsageBasedPricingTerm: Swift.Equatable {
+    public struct UsageBasedPricingTerm {
         /// Defines the currency for the prices mentioned in the term.
         public var currencyCode: Swift.String?
         /// List of rate cards.
@@ -2669,7 +2669,7 @@ extension MarketplaceAgreementClientTypes.UsageBasedRateCardItem: Swift.Codable 
 
 extension MarketplaceAgreementClientTypes {
     /// Within the pay-as-you-go model defined under UsageBasedPricingTerm, the UsageBasedRateCardItem defines an individual rate for a product dimension.
-    public struct UsageBasedRateCardItem: Swift.Equatable {
+    public struct UsageBasedRateCardItem {
         /// Defines the per unit rates for product dimensions.
         public var rateCard: [MarketplaceAgreementClientTypes.RateCardItem]?
 
@@ -2740,7 +2740,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let requestId: Swift.String?
     let message: Swift.String?
     let reason: MarketplaceAgreementClientTypes.ValidationExceptionReason?
@@ -2804,7 +2804,7 @@ extension MarketplaceAgreementClientTypes.ValidationExceptionField: Swift.Codabl
 
 extension MarketplaceAgreementClientTypes {
     /// The input fails to satisfy the constraints specified by the service.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// See applicable actions.
         /// This member is required.
         public var message: Swift.String?
@@ -2922,7 +2922,7 @@ extension MarketplaceAgreementClientTypes.ValidityTerm: Swift.Codable {
 
 extension MarketplaceAgreementClientTypes {
     /// Defines the conditions that will keep an agreement created from this offer valid.
-    public struct ValidityTerm: Swift.Equatable {
+    public struct ValidityTerm {
         /// Defines the duration that the agreement remains active. If AgreementStartDate isn’t provided, the agreement duration is relative to the agreement signature time. The duration is represented in the ISO_8601 format.
         public var agreementDuration: Swift.String?
         /// Defines the date when the agreement ends. The agreement ends at 23:59:59.999 UTC on the date provided. If AgreementEndDate isn’t provided, the agreement end date is determined by the validity of individual terms.

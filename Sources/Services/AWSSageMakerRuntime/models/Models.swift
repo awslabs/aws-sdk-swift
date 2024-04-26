@@ -41,7 +41,7 @@ public struct InternalDependencyException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InternalDependencyExceptionBody: Swift.Equatable {
+struct InternalDependencyExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct InternalFailure: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct InternalFailureBody: Swift.Equatable {
+struct InternalFailureBody {
     let message: Swift.String?
 }
 
@@ -170,7 +170,7 @@ public struct InternalStreamFailure: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InternalStreamFailureBody: Swift.Equatable {
+struct InternalStreamFailureBody {
     let message: Swift.String?
 }
 
@@ -230,7 +230,7 @@ extension InvokeEndpointAsyncInput {
     }
 }
 
-public struct InvokeEndpointAsyncInput: Swift.Equatable {
+public struct InvokeEndpointAsyncInput {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
     /// The MIME type of the input data in the request body.
@@ -272,7 +272,7 @@ public struct InvokeEndpointAsyncInput: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointAsyncInputBody: Swift.Equatable {
+struct InvokeEndpointAsyncInputBody {
 }
 
 extension InvokeEndpointAsyncInputBody: Swift.Decodable {
@@ -303,7 +303,7 @@ extension InvokeEndpointAsyncOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeEndpointAsyncOutput: Swift.Equatable {
+public struct InvokeEndpointAsyncOutput {
     /// The Amazon S3 URI where the inference failure response payload is stored.
     public var failureLocation: Swift.String?
     /// Identifier for an inference request. This will be the same as the InferenceId specified in the input. Amazon SageMaker will generate an identifier for you if you do not specify one.
@@ -323,7 +323,7 @@ public struct InvokeEndpointAsyncOutput: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointAsyncOutputBody: Swift.Equatable {
+struct InvokeEndpointAsyncOutputBody {
     let inferenceId: Swift.String?
 }
 
@@ -415,7 +415,7 @@ extension InvokeEndpointInput {
     }
 }
 
-public struct InvokeEndpointInput: Swift.Equatable {
+public struct InvokeEndpointInput {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
     /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
@@ -469,7 +469,7 @@ public struct InvokeEndpointInput: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointInputBody: Swift.Equatable {
+struct InvokeEndpointInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -518,7 +518,7 @@ extension InvokeEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeEndpointOutput: Swift.Equatable {
+public struct InvokeEndpointOutput {
     /// Includes the inference provided by the model. For information about the format of the response body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html). If the explainer is activated, the body includes the explanations provided by the model. For more information, see the Response section under [Invoke the Endpoint](https://docs.aws.amazon.com/sagemaker/latest/dg/clarify-online-explainability-invoke-endpoint.html#clarify-online-explainability-response) in the Developer Guide.
     /// This member is required.
     public var body: ClientRuntime.Data?
@@ -543,7 +543,7 @@ public struct InvokeEndpointOutput: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointOutputBody: Swift.Equatable {
+struct InvokeEndpointOutputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -632,7 +632,7 @@ extension InvokeEndpointWithResponseStreamInput {
     }
 }
 
-public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
+public struct InvokeEndpointWithResponseStreamInput {
     /// The desired MIME type of the inference response from the model container.
     public var accept: Swift.String?
     /// Provides input data, in the format specified in the ContentType request header. Amazon SageMaker passes all of the data in the body to the model. For information about the format of the request body, see [Common Data Formats-Inference](https://docs.aws.amazon.com/sagemaker/latest/dg/cdf-inference.html).
@@ -678,7 +678,7 @@ public struct InvokeEndpointWithResponseStreamInput: Swift.Equatable {
     }
 }
 
-struct InvokeEndpointWithResponseStreamInputBody: Swift.Equatable {
+struct InvokeEndpointWithResponseStreamInputBody {
     let body: ClientRuntime.Data?
 }
 
@@ -726,7 +726,7 @@ extension InvokeEndpointWithResponseStreamOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct InvokeEndpointWithResponseStreamOutput: Swift.Equatable {
+public struct InvokeEndpointWithResponseStreamOutput {
     /// A stream of payload parts. Each part contains a portion of the response for a streaming inference request.
     /// This member is required.
     public var body: AsyncThrowingStream<SageMakerRuntimeClientTypes.ResponseStream, Swift.Error>?
@@ -824,7 +824,7 @@ public struct ModelError: ClientRuntime.ModeledError, AWSClientRuntime.AWSServic
     }
 }
 
-struct ModelErrorBody: Swift.Equatable {
+struct ModelErrorBody {
     let message: Swift.String?
     let originalStatusCode: Swift.Int?
     let originalMessage: Swift.String?
@@ -891,7 +891,7 @@ public struct ModelNotReadyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ModelNotReadyExceptionBody: Swift.Equatable {
+struct ModelNotReadyExceptionBody {
     let message: Swift.String?
 }
 
@@ -977,7 +977,7 @@ public struct ModelStreamError: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ModelStreamErrorBody: Swift.Equatable {
+struct ModelStreamErrorBody {
     let message: Swift.String?
     let errorCode: Swift.String?
 }
@@ -1023,7 +1023,7 @@ extension SageMakerRuntimeClientTypes.PayloadPart: Swift.CustomDebugStringConver
 
 extension SageMakerRuntimeClientTypes {
     /// A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
-    public struct PayloadPart: Swift.Equatable {
+    public struct PayloadPart {
         /// A blob that contains part of the response for your streaming inference request.
         public var bytes: ClientRuntime.Data?
 
@@ -1074,7 +1074,7 @@ extension SageMakerRuntimeClientTypes.ResponseStream: ClientRuntime.MessageUnmar
 
 extension SageMakerRuntimeClientTypes {
     /// A stream of payload parts. Each part contains a portion of the response for a streaming inference request.
-    public enum ResponseStream: Swift.Equatable {
+    public enum ResponseStream {
         /// A wrapper for pieces of the payload that's returned in response to a streaming inference request. A streaming inference response consists of one or more payload parts.
         case payloadpart(SageMakerRuntimeClientTypes.PayloadPart)
         case sdkUnknown(Swift.String)
@@ -1123,7 +1123,7 @@ public struct ServiceUnavailable: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ServiceUnavailableBody: Swift.Equatable {
+struct ServiceUnavailableBody {
     let message: Swift.String?
 }
 
@@ -1178,7 +1178,7 @@ public struct ValidationError: ClientRuntime.ModeledError, AWSClientRuntime.AWSS
     }
 }
 
-struct ValidationErrorBody: Swift.Equatable {
+struct ValidationErrorBody {
     let message: Swift.String?
 }
 

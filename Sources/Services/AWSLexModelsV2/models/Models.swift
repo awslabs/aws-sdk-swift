@@ -23,7 +23,7 @@ extension LexModelsV2ClientTypes.ActiveContext: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The active context used in the test execution.
-    public struct ActiveContext: Swift.Equatable {
+    public struct ActiveContext {
         /// The name of active context.
         /// This member is required.
         public var name: Swift.String?
@@ -59,7 +59,7 @@ extension LexModelsV2ClientTypes.AdvancedRecognitionSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides settings that enable advanced recognition settings for slot values.
-    public struct AdvancedRecognitionSetting: Swift.Equatable {
+    public struct AdvancedRecognitionSetting {
         /// Enables using the slot values as a custom vocabulary for recognizing user utterances.
         public var audioRecognitionStrategy: LexModelsV2ClientTypes.AudioRecognitionStrategy?
 
@@ -118,7 +118,7 @@ extension LexModelsV2ClientTypes.AgentTurnResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The information about the agent turn in a test set execution.
-    public struct AgentTurnResult: Swift.Equatable {
+    public struct AgentTurnResult {
         /// The actual agent prompt for the agent turn in a test set execution.
         public var actualAgentPrompt: Swift.String?
         /// The actual elicited slot for the agent turn in a test set execution.
@@ -170,7 +170,7 @@ extension LexModelsV2ClientTypes.AgentTurnSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The specification of an agent turn.
-    public struct AgentTurnSpecification: Swift.Equatable {
+    public struct AgentTurnSpecification {
         /// The agent prompt for the agent turn in a test set.
         /// This member is required.
         public var agentPrompt: Swift.String?
@@ -230,7 +230,7 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters responses returned by the ListAggregatedUtterances operation.
-    public struct AggregatedUtterancesFilter: Swift.Equatable {
+    public struct AggregatedUtterancesFilter {
         /// The name of the field to filter the utterance list.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AggregatedUtterancesFilterName?
@@ -375,7 +375,7 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of utterances.
-    public struct AggregatedUtterancesSortBy: Swift.Equatable {
+    public struct AggregatedUtterancesSortBy {
         /// The utterance attribute to sort by.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.AggregatedUtterancesSortAttribute?
@@ -446,7 +446,7 @@ extension LexModelsV2ClientTypes.AggregatedUtterancesSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information for aggregated utterances. The ListAggregatedUtterances operations combines all instances of the same utterance into a single aggregated summary.
-    public struct AggregatedUtterancesSummary: Swift.Equatable {
+    public struct AggregatedUtterancesSummary {
         /// Aggregated utterance data may contain utterances from versions of your bot that have since been deleted. When the aggregated contains this kind of data, this field is set to true.
         public var containsDataFromDeletedResources: Swift.Bool?
         /// The number of times that the utterance was detected by Amazon Lex during the time period. When an utterance is detected, it activates an intent or a slot.
@@ -507,7 +507,7 @@ extension LexModelsV2ClientTypes.AllowedInputTypes: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the allowed input types.
-    public struct AllowedInputTypes: Swift.Equatable {
+    public struct AllowedInputTypes {
         /// Indicates whether audio input is allowed.
         /// This member is required.
         public var allowAudioInput: Swift.Bool?
@@ -592,7 +592,7 @@ extension LexModelsV2ClientTypes.AnalyticsBinBySpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the time metric, interval, and method by which to bin the analytics data.
-    public struct AnalyticsBinBySpecification: Swift.Equatable {
+    public struct AnalyticsBinBySpecification {
         /// Specifies the interval of time by which to bin the analytics data.
         /// This member is required.
         public var interval: LexModelsV2ClientTypes.AnalyticsInterval?
@@ -643,7 +643,7 @@ extension LexModelsV2ClientTypes.AnalyticsBinKey: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the criterion by which to bin the results and the value that defines that bin.
-    public struct AnalyticsBinKey: Swift.Equatable {
+    public struct AnalyticsBinKey {
         /// The criterion by which to bin the results.
         public var name: LexModelsV2ClientTypes.AnalyticsBinByName?
         /// The value of the criterion that defines the bin.
@@ -845,7 +845,7 @@ extension LexModelsV2ClientTypes {
     /// * IntentName – EQ, CO.
     ///
     /// * IntentEndState – EQ, CO.
-    public struct AnalyticsIntentFilter: Swift.Equatable {
+    public struct AnalyticsIntentFilter {
         /// The category by which to filter the intents. The descriptions for each option are as follows:
         ///
         /// * BotAlias – The name of the bot alias.
@@ -997,7 +997,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentGroupByKey: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which the intent analytics were grouped and a member of that category.
-    public struct AnalyticsIntentGroupByKey: Swift.Equatable {
+    public struct AnalyticsIntentGroupByKey {
         /// A category by which the intent analytics were grouped.
         public var name: LexModelsV2ClientTypes.AnalyticsIntentField?
         /// A member of the category by which the intent analytics were grouped.
@@ -1036,7 +1036,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentGroupBySpecification: Swift.Coda
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which to group the intents.
-    public struct AnalyticsIntentGroupBySpecification: Swift.Equatable {
+    public struct AnalyticsIntentGroupBySpecification {
         /// Specifies whether to group the intent stages by their name or their end state.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AnalyticsIntentField?
@@ -1084,7 +1084,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentMetric: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the intents in the bot.
-    public struct AnalyticsIntentMetric: Swift.Equatable {
+    public struct AnalyticsIntentMetric {
         /// The metric for which you want to get intent summary statistics.
         ///
         /// * Count – The number of times the intent was invoked.
@@ -1198,7 +1198,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentMetricResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the intent metric you requested.
-    public struct AnalyticsIntentMetricResult: Swift.Equatable {
+    public struct AnalyticsIntentMetricResult {
         /// The metric that you requested. See [Key definitions](https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html) for more details about these metrics.
         ///
         /// * Count – The number of times the intent was invoked.
@@ -1281,7 +1281,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentNodeSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing information about the requested path.
-    public struct AnalyticsIntentNodeSummary: Swift.Equatable {
+    public struct AnalyticsIntentNodeSummary {
         /// The total number of sessions that follow the given path to the given intent.
         public var intentCount: Swift.Int?
         /// The number of intents up to and including the requested path.
@@ -1380,7 +1380,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the intent metrics you requested and the bin and/or group(s) they refer to, if applicable.
-    public struct AnalyticsIntentResult: Swift.Equatable {
+    public struct AnalyticsIntentResult {
         /// A list of objects containing the criteria you requested for binning results and the values of the bins.
         public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
         /// A list of objects containing the criteria you requested for grouping results and the values of the groups.
@@ -1507,7 +1507,7 @@ extension LexModelsV2ClientTypes {
     /// * IntentName – EQ, CO.
     ///
     /// * IntentStageName – EQ, CO.
-    public struct AnalyticsIntentStageFilter: Swift.Equatable {
+    public struct AnalyticsIntentStageFilter {
         /// The category by which to filter the intent stages. The descriptions for each option are as follows:
         ///
         /// * BotAlias – The name of the bot alias.
@@ -1659,7 +1659,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupByKey: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which the intent stage analytics and the values for that category were grouped.
-    public struct AnalyticsIntentStageGroupByKey: Swift.Equatable {
+    public struct AnalyticsIntentStageGroupByKey {
         /// A category by which the intent stage analytics were grouped.
         public var name: LexModelsV2ClientTypes.AnalyticsIntentStageField?
         /// A member of the category by which the intent stage analytics were grouped.
@@ -1698,7 +1698,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageGroupBySpecification: Swift
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which to group the intent stages.
-    public struct AnalyticsIntentStageGroupBySpecification: Swift.Equatable {
+    public struct AnalyticsIntentStageGroupBySpecification {
         /// Specifies whether to group the intent stages by their name or the intent to which the session was switched.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AnalyticsIntentStageField?
@@ -1746,7 +1746,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageMetric: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the intent stages across the user sessions with the bot.
-    public struct AnalyticsIntentStageMetric: Swift.Equatable {
+    public struct AnalyticsIntentStageMetric {
         /// The metric for which you want to get intent stage summary statistics. See [Key definitions](https://docs.aws.amazon.com/lexv2/latest/dg/analytics-key-definitions.html) for more details about these metrics.
         ///
         /// * Count – The number of times the intent stage occurred.
@@ -1860,7 +1860,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageMetricResult: Swift.Codable
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for an intent stage metric you requested.
-    public struct AnalyticsIntentStageMetricResult: Swift.Equatable {
+    public struct AnalyticsIntentStageMetricResult {
         /// The metric that you requested.
         ///
         /// * Count – The number of times the intent stage occurred.
@@ -1967,7 +1967,7 @@ extension LexModelsV2ClientTypes.AnalyticsIntentStageResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the intent stage metrics you requested and the bin and/or group they refer to, if applicable.
-    public struct AnalyticsIntentStageResult: Swift.Equatable {
+    public struct AnalyticsIntentStageResult {
         /// A list of objects containing the criteria you requested for binning results and the values of the bins.
         public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
         /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
@@ -2191,7 +2191,7 @@ extension LexModelsV2ClientTypes {
     /// * Modality – EQ.
     ///
     /// * Channel – EQ.
-    public struct AnalyticsPathFilter: Swift.Equatable {
+    public struct AnalyticsPathFilter {
         /// The category by which to filter the intent paths. The descriptions for each option are as follows:
         ///
         /// * BotAlias – The name of the bot alias.
@@ -2354,7 +2354,7 @@ extension LexModelsV2ClientTypes {
     /// * OriginatingRequestId – EQ.
     ///
     /// * IntentPath – EQ.
-    public struct AnalyticsSessionFilter: Swift.Equatable {
+    public struct AnalyticsSessionFilter {
         /// The category by which to filter the sessions. The descriptions for each option are as follows:
         ///
         /// * BotAlias – The name of the bot alias.
@@ -2513,7 +2513,7 @@ extension LexModelsV2ClientTypes.AnalyticsSessionGroupByKey: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which the session analytics were grouped and a member of that category.
-    public struct AnalyticsSessionGroupByKey: Swift.Equatable {
+    public struct AnalyticsSessionGroupByKey {
         /// The category by which the session analytics were grouped.
         public var name: LexModelsV2ClientTypes.AnalyticsSessionField?
         /// A member of the category by which the session analytics were grouped.
@@ -2552,7 +2552,7 @@ extension LexModelsV2ClientTypes.AnalyticsSessionGroupBySpecification: Swift.Cod
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which to group the sessions.
-    public struct AnalyticsSessionGroupBySpecification: Swift.Equatable {
+    public struct AnalyticsSessionGroupBySpecification {
         /// Specifies whether to group the session by their end state or their locale.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AnalyticsSessionField?
@@ -2600,7 +2600,7 @@ extension LexModelsV2ClientTypes.AnalyticsSessionMetric: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the user sessions with the bot.
-    public struct AnalyticsSessionMetric: Swift.Equatable {
+    public struct AnalyticsSessionMetric {
         /// The metric for which you want to get session summary statistics.
         ///
         /// * Count – The number of sessions.
@@ -2724,7 +2724,7 @@ extension LexModelsV2ClientTypes.AnalyticsSessionMetricResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for a session metric you requested.
-    public struct AnalyticsSessionMetricResult: Swift.Equatable {
+    public struct AnalyticsSessionMetricResult {
         /// The metric that you requested.
         ///
         /// * Count – The number of sessions.
@@ -2835,7 +2835,7 @@ extension LexModelsV2ClientTypes.AnalyticsSessionResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the session metrics you requested and the bin and/or group(s) they refer to, if applicable.
-    public struct AnalyticsSessionResult: Swift.Equatable {
+    public struct AnalyticsSessionResult {
         /// A list of objects containing the criteria you requested for binning results and the values of the bins.
         public var binKeys: [LexModelsV2ClientTypes.AnalyticsBinKey]?
         /// A list of objects containing the criteria you requested for grouping results and the values of the bins.
@@ -2945,7 +2945,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceAttribute: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object that specifies the last used intent at the time of the utterance as an attribute to return.
-    public struct AnalyticsUtteranceAttribute: Swift.Equatable {
+    public struct AnalyticsUtteranceAttribute {
         /// An attribute to return. The only available attribute is the intent that the bot mapped the utterance to.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AnalyticsUtteranceAttributeName?
@@ -3010,7 +3010,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult: Swift.Codabl
 
 extension LexModelsV2ClientTypes {
     /// An object containing the intent that the bot mapped the utterance to.
-    public struct AnalyticsUtteranceAttributeResult: Swift.Equatable {
+    public struct AnalyticsUtteranceAttributeResult {
         /// The intent that the bot mapped the utterance to.
         public var lastUsedIntent: Swift.String?
 
@@ -3129,7 +3129,7 @@ extension LexModelsV2ClientTypes {
     /// * UtteranceState – EQ.
     ///
     /// * UtteranceText – EQ, CO.
-    public struct AnalyticsUtteranceFilter: Swift.Equatable {
+    public struct AnalyticsUtteranceFilter {
         /// The category by which to filter the utterances. The descriptions for each option are as follows:
         ///
         /// * BotAlias – The name of the bot alias.
@@ -3281,7 +3281,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupByKey: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which the utterance analytics were grouped and the values for that category.
-    public struct AnalyticsUtteranceGroupByKey: Swift.Equatable {
+    public struct AnalyticsUtteranceGroupByKey {
         /// The category by which the utterance analytics were grouped.
         public var name: LexModelsV2ClientTypes.AnalyticsUtteranceField?
         /// A member of the category by which the utterance analytics were grouped.
@@ -3320,7 +3320,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceGroupBySpecification: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Contains the category by which to group the utterances.
-    public struct AnalyticsUtteranceGroupBySpecification: Swift.Equatable {
+    public struct AnalyticsUtteranceGroupBySpecification {
         /// Specifies whether to group the utterances by their text or their state.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AnalyticsUtteranceField?
@@ -3368,7 +3368,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceMetric: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the metric and the summary statistic you want to calculate, and the order in which to sort the results, for the utterances across the user sessions with the bot.
-    public struct AnalyticsUtteranceMetric: Swift.Equatable {
+    public struct AnalyticsUtteranceMetric {
         /// The metric for which you want to get utterance summary statistics.
         ///
         /// * Count – The number of utterances.
@@ -3477,7 +3477,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceMetricResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the utterance metric you requested.
-    public struct AnalyticsUtteranceMetricResult: Swift.Equatable {
+    public struct AnalyticsUtteranceMetricResult {
         /// The metric that you requested.
         ///
         /// * Count – The number of utterances.
@@ -3600,7 +3600,7 @@ extension LexModelsV2ClientTypes.AnalyticsUtteranceResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the results for the utterance metrics you requested and the bin and/or group(s) they refer to, if applicable.
-    public struct AnalyticsUtteranceResult: Swift.Equatable {
+    public struct AnalyticsUtteranceResult {
         /// A list of objects containing information about the last used intent at the time of an utterance.
         public var attributeResults: [LexModelsV2ClientTypes.AnalyticsUtteranceAttributeResult]?
         /// A list of objects containing the criteria you requested for binning results and the values of the bins.
@@ -3676,7 +3676,7 @@ extension LexModelsV2ClientTypes.AssociatedTranscript: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object containing information that associates the recommended intent/slot type with a conversation.
-    public struct AssociatedTranscript: Swift.Equatable {
+    public struct AssociatedTranscript {
         /// The content of the transcript that meets the search filter criteria. For the JSON format of the transcript, see [Output transcript format](https://docs.aws.amazon.com/lexv2/latest/dg/designing-output-format.html).
         public var transcript: Swift.String?
 
@@ -3729,7 +3729,7 @@ extension LexModelsV2ClientTypes.AssociatedTranscriptFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters to search for the associated transcript.
-    public struct AssociatedTranscriptFilter: Swift.Equatable {
+    public struct AssociatedTranscriptFilter {
         /// The name of the field to use for filtering. The allowed names are IntentId and SlotTypeId.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.AssociatedTranscriptFilterName?
@@ -3814,7 +3814,7 @@ extension LexModelsV2ClientTypes.AudioAndDTMFInputSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the audio and DTMF input specification.
-    public struct AudioAndDTMFInputSpecification: Swift.Equatable {
+    public struct AudioAndDTMFInputSpecification {
         /// Specifies the settings on audio input.
         public var audioSpecification: LexModelsV2ClientTypes.AudioSpecification?
         /// Specifies the settings on DTMF input.
@@ -3858,7 +3858,7 @@ extension LexModelsV2ClientTypes.AudioLogDestination: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The location of audio log files collected when conversation logging is enabled for a bot.
-    public struct AudioLogDestination: Swift.Equatable {
+    public struct AudioLogDestination {
         /// The Amazon S3 bucket where the audio log files are stored. The IAM role specified in the roleArn parameter of the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation must have permission to write to this bucket.
         /// This member is required.
         public var s3Bucket: LexModelsV2ClientTypes.S3BucketLogDestination?
@@ -3906,7 +3906,7 @@ extension LexModelsV2ClientTypes.AudioLogSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Settings for logging audio of conversations between Amazon Lex and a user. You specify whether to log audio and the Amazon S3 bucket where the audio file is stored.
-    public struct AudioLogSetting: Swift.Equatable {
+    public struct AudioLogSetting {
         /// The location of audio log files collected when conversation logging is enabled for a bot.
         /// This member is required.
         public var destination: LexModelsV2ClientTypes.AudioLogDestination?
@@ -3986,7 +3986,7 @@ extension LexModelsV2ClientTypes.AudioSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the audio input specifications.
-    public struct AudioSpecification: Swift.Equatable {
+    public struct AudioSpecification {
         /// Time for which a bot waits after the customer stops speaking to assume the utterance is finished.
         /// This member is required.
         public var endTimeoutMs: Swift.Int?
@@ -4038,7 +4038,7 @@ extension BatchCreateCustomVocabularyItemInput {
     }
 }
 
-public struct BatchCreateCustomVocabularyItemInput: Swift.Equatable {
+public struct BatchCreateCustomVocabularyItemInput {
     /// The identifier of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
@@ -4066,7 +4066,7 @@ public struct BatchCreateCustomVocabularyItemInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateCustomVocabularyItemInputBody: Swift.Equatable {
+struct BatchCreateCustomVocabularyItemInputBody {
     let customVocabularyItemList: [LexModelsV2ClientTypes.NewCustomVocabularyItem]?
 }
 
@@ -4111,7 +4111,7 @@ extension BatchCreateCustomVocabularyItemOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct BatchCreateCustomVocabularyItemOutput: Swift.Equatable {
+public struct BatchCreateCustomVocabularyItemOutput {
     /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
     /// The identifier of the version of the bot associated with this custom vocabulary.
@@ -4139,7 +4139,7 @@ public struct BatchCreateCustomVocabularyItemOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateCustomVocabularyItemOutputBody: Swift.Equatable {
+struct BatchCreateCustomVocabularyItemOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -4236,7 +4236,7 @@ extension BatchDeleteCustomVocabularyItemInput {
     }
 }
 
-public struct BatchDeleteCustomVocabularyItemInput: Swift.Equatable {
+public struct BatchDeleteCustomVocabularyItemInput {
     /// The identifier of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
@@ -4264,7 +4264,7 @@ public struct BatchDeleteCustomVocabularyItemInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteCustomVocabularyItemInputBody: Swift.Equatable {
+struct BatchDeleteCustomVocabularyItemInputBody {
     let customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyEntryId]?
 }
 
@@ -4309,7 +4309,7 @@ extension BatchDeleteCustomVocabularyItemOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct BatchDeleteCustomVocabularyItemOutput: Swift.Equatable {
+public struct BatchDeleteCustomVocabularyItemOutput {
     /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
     /// The identifier of the version of the bot associated with this custom vocabulary.
@@ -4337,7 +4337,7 @@ public struct BatchDeleteCustomVocabularyItemOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteCustomVocabularyItemOutputBody: Swift.Equatable {
+struct BatchDeleteCustomVocabularyItemOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -4434,7 +4434,7 @@ extension BatchUpdateCustomVocabularyItemInput {
     }
 }
 
-public struct BatchUpdateCustomVocabularyItemInput: Swift.Equatable {
+public struct BatchUpdateCustomVocabularyItemInput {
     /// The identifier of the bot associated with this custom vocabulary
     /// This member is required.
     public var botId: Swift.String?
@@ -4462,7 +4462,7 @@ public struct BatchUpdateCustomVocabularyItemInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateCustomVocabularyItemInputBody: Swift.Equatable {
+struct BatchUpdateCustomVocabularyItemInputBody {
     let customVocabularyItemList: [LexModelsV2ClientTypes.CustomVocabularyItem]?
 }
 
@@ -4507,7 +4507,7 @@ extension BatchUpdateCustomVocabularyItemOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct BatchUpdateCustomVocabularyItemOutput: Swift.Equatable {
+public struct BatchUpdateCustomVocabularyItemOutput {
     /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
     /// The identifier of the version of the bot associated with this custom vocabulary.
@@ -4535,7 +4535,7 @@ public struct BatchUpdateCustomVocabularyItemOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateCustomVocabularyItemOutputBody: Swift.Equatable {
+struct BatchUpdateCustomVocabularyItemOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -4621,7 +4621,7 @@ extension LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Contains details about the configuration of a Amazon Bedrock knowledge base.
-    public struct BedrockKnowledgeStoreConfiguration: Swift.Equatable {
+    public struct BedrockKnowledgeStoreConfiguration {
         /// The ARN of the knowledge base used.
         /// This member is required.
         public var bedrockKnowledgeBaseArn: Swift.String?
@@ -4657,7 +4657,7 @@ extension LexModelsV2ClientTypes.BedrockModelSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
-    public struct BedrockModelSpecification: Swift.Equatable {
+    public struct BedrockModelSpecification {
         /// The ARN of the foundation model used in descriptive bot building.
         /// This member is required.
         public var modelArn: Swift.String?
@@ -4705,7 +4705,7 @@ extension LexModelsV2ClientTypes.BotAliasHistoryEvent: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides a record of an event that affects a bot alias. For example, when the version of a bot that the alias points to changes.
-    public struct BotAliasHistoryEvent: Swift.Equatable {
+    public struct BotAliasHistoryEvent {
         /// The version of the bot that was used in the event.
         public var botVersion: Swift.String?
         /// The date and time that the event ended.
@@ -4754,7 +4754,7 @@ extension LexModelsV2ClientTypes.BotAliasLocaleSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies settings that are unique to a locale. For example, you can use different Lambda function depending on the bot's locale.
-    public struct BotAliasLocaleSettings: Swift.Equatable {
+    public struct BotAliasLocaleSettings {
         /// Specifies the Lambda function that should be used in the locale.
         public var codeHookSpecification: LexModelsV2ClientTypes.CodeHookSpecification?
         /// Determines whether the locale is enabled for the bot. If the value is false, the locale isn't available for use.
@@ -4836,7 +4836,7 @@ extension LexModelsV2ClientTypes.BotAliasReplicaSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about all the aliases replication statuses applicable for global resiliency.
-    public struct BotAliasReplicaSummary: Swift.Equatable {
+    public struct BotAliasReplicaSummary {
         /// The bot alias ID for all the alias bot replications.
         public var botAliasId: Swift.String?
         /// The replication statuses for all the alias bot replications.
@@ -5007,7 +5007,7 @@ extension LexModelsV2ClientTypes.BotAliasSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about bot aliases returned from the [ListBotAliases](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotAliases.html) operation.
-    public struct BotAliasSummary: Swift.Equatable {
+    public struct BotAliasSummary {
         /// The unique identifier assigned to the bot alias. You can use this ID to get detailed information about the alias using the [DescribeBotAlias](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBotAlias.html) operation.
         public var botAliasId: Swift.String?
         /// The name of the bot alias.
@@ -5078,7 +5078,7 @@ extension LexModelsV2ClientTypes.BotAliasTestExecutionTarget: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The target Amazon S3 location for the test set execution using a bot alias.
-    public struct BotAliasTestExecutionTarget: Swift.Equatable {
+    public struct BotAliasTestExecutionTarget {
         /// The bot alias Id of the bot alias used in the test set execution.
         /// This member is required.
         public var botAliasId: Swift.String?
@@ -5130,7 +5130,7 @@ extension LexModelsV2ClientTypes.BotExportSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides the identity of a the bot that was exported.
-    public struct BotExportSpecification: Swift.Equatable {
+    public struct BotExportSpecification {
         /// The identifier of the bot assigned by Amazon Lex.
         /// This member is required.
         public var botId: Swift.String?
@@ -5195,7 +5195,7 @@ extension LexModelsV2ClientTypes.BotFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the responses returned by the ListBots operation.
-    public struct BotFilter: Swift.Equatable {
+    public struct BotFilter {
         /// The name of the field to filter the list of bots.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.BotFilterName?
@@ -5362,7 +5362,7 @@ extension LexModelsV2ClientTypes.BotImportSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides the bot parameters required for importing a bot.
-    public struct BotImportSpecification: Swift.Equatable {
+    public struct BotImportSpecification {
         /// The name that Amazon Lex should use for the bot.
         /// This member is required.
         public var botName: Swift.String?
@@ -5432,7 +5432,7 @@ extension LexModelsV2ClientTypes.BotLocaleExportSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides the bot locale parameters required for exporting a bot locale.
-    public struct BotLocaleExportSpecification: Swift.Equatable {
+    public struct BotLocaleExportSpecification {
         /// The identifier of the bot to create the locale for.
         /// This member is required.
         public var botId: Swift.String?
@@ -5502,7 +5502,7 @@ extension LexModelsV2ClientTypes.BotLocaleFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters responses returned by the ListBotLocales operation.
-    public struct BotLocaleFilter: Swift.Equatable {
+    public struct BotLocaleFilter {
         /// The name of the field to filter the list of bots.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.BotLocaleFilterName?
@@ -5615,7 +5615,7 @@ extension LexModelsV2ClientTypes.BotLocaleHistoryEvent: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information about an event that occurred affecting the bot locale.
-    public struct BotLocaleHistoryEvent: Swift.Equatable {
+    public struct BotLocaleHistoryEvent {
         /// A description of the event that occurred.
         /// This member is required.
         public var event: Swift.String?
@@ -5680,7 +5680,7 @@ extension LexModelsV2ClientTypes.BotLocaleImportSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides the bot locale parameters required for importing a bot locale.
-    public struct BotLocaleImportSpecification: Swift.Equatable {
+    public struct BotLocaleImportSpecification {
         /// The identifier of the bot to import the locale to.
         /// This member is required.
         public var botId: Swift.String?
@@ -5777,7 +5777,7 @@ extension LexModelsV2ClientTypes.BotLocaleSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of bot locales.
-    public struct BotLocaleSortBy: Swift.Equatable {
+    public struct BotLocaleSortBy {
         /// The bot locale attribute to sort by.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BotLocaleSortAttribute?
@@ -5901,7 +5901,7 @@ extension LexModelsV2ClientTypes.BotLocaleSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about bot locales returned by the [ListBotLocales](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotLocales.html) operation.
-    public struct BotLocaleSummary: Swift.Equatable {
+    public struct BotLocaleSummary {
         /// The current status of the bot locale. When the status is Built the locale is ready for use.
         public var botLocaleStatus: LexModelsV2ClientTypes.BotLocaleStatus?
         /// The description of the bot locale.
@@ -5980,7 +5980,7 @@ extension LexModelsV2ClientTypes.BotMember: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A bot that is a member of a network of bots.
-    public struct BotMember: Swift.Equatable {
+    public struct BotMember {
         /// The alias ID of a bot that is a member of this network of bots.
         /// This member is required.
         public var botMemberAliasId: Swift.String?
@@ -6042,7 +6042,7 @@ extension LexModelsV2ClientTypes.BotRecommendationResultStatistics: Swift.Codabl
 
 extension LexModelsV2ClientTypes {
     /// A statistical summary of the bot recommendation results.
-    public struct BotRecommendationResultStatistics: Swift.Equatable {
+    public struct BotRecommendationResultStatistics {
         /// Statistical information about about the intents associated with the bot recommendation results.
         public var intents: LexModelsV2ClientTypes.IntentStatistics?
         /// Statistical information about the slot types associated with the bot recommendation results.
@@ -6093,7 +6093,7 @@ extension LexModelsV2ClientTypes.BotRecommendationResults: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object representing the URL of the bot definition, the URL of the associated transcript, and a statistical summary of the bot recommendation results.
-    public struct BotRecommendationResults: Swift.Equatable {
+    public struct BotRecommendationResults {
         /// The presigned url link of the associated transcript.
         public var associatedTranscriptsUrl: Swift.String?
         /// The presigned URL link of the recommended bot definition.
@@ -6207,7 +6207,7 @@ extension LexModelsV2ClientTypes.BotRecommendationSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A summary of the bot recommendation.
-    public struct BotRecommendationSummary: Swift.Equatable {
+    public struct BotRecommendationSummary {
         /// The unique identifier of the bot recommendation to be updated.
         /// This member is required.
         public var botRecommendationId: Swift.String?
@@ -6325,7 +6325,7 @@ extension LexModelsV2ClientTypes.BotReplicaSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains summary information about all the replication statuses applicable for global resiliency.
-    public struct BotReplicaSummary: Swift.Equatable {
+    public struct BotReplicaSummary {
         /// The operation status for the replicated bot applicable.
         public var botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
         /// The creation time and date for the replicated bots.
@@ -6407,7 +6407,7 @@ extension LexModelsV2ClientTypes.BotSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of bots.
-    public struct BotSortBy: Swift.Equatable {
+    public struct BotSortBy {
         /// The attribute to use to sort the list of bots.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BotSortAttribute?
@@ -6534,7 +6534,7 @@ extension LexModelsV2ClientTypes.BotSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about a bot returned by the [ListBots](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBots.html) operation.
-    public struct BotSummary: Swift.Equatable {
+    public struct BotSummary {
         /// The unique identifier assigned to the bot. Use this ID to get detailed information about the bot with the [DescribeBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeBot.html) operation.
         public var botId: Swift.String?
         /// The name of the bot.
@@ -6625,7 +6625,7 @@ extension LexModelsV2ClientTypes.BotVersionLocaleDetails: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The version of a bot used for a bot locale.
-    public struct BotVersionLocaleDetails: Swift.Equatable {
+    public struct BotVersionLocaleDetails {
         /// The version of a bot used for a bot locale.
         /// This member is required.
         public var sourceBotVersion: Swift.String?
@@ -6696,7 +6696,7 @@ extension LexModelsV2ClientTypes.BotVersionReplicaSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The sort category for the version replicated bots.
-    public struct BotVersionReplicaSortBy: Swift.Equatable {
+    public struct BotVersionReplicaSortBy {
         /// The attribute of the sort category for the version replicated bots.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BotVersionReplicaSortAttribute?
@@ -6767,7 +6767,7 @@ extension LexModelsV2ClientTypes.BotVersionReplicaSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains summary information for all the version replication statuses applicable for Global resiliency.
-    public struct BotVersionReplicaSummary: Swift.Equatable {
+    public struct BotVersionReplicaSummary {
         /// The bot version for the summary information for all the version replication statuses.
         public var botVersion: Swift.String?
         /// The version replication status for all the replicated bots.
@@ -6888,7 +6888,7 @@ extension LexModelsV2ClientTypes.BotVersionSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of bot versions.
-    public struct BotVersionSortBy: Swift.Equatable {
+    public struct BotVersionSortBy {
         /// The attribute to use to sort the list of versions.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BotVersionSortAttribute?
@@ -6953,7 +6953,7 @@ extension LexModelsV2ClientTypes.BotVersionSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about a bot version returned by the [ListBotVersions](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBotVersions.html) operation.
-    public struct BotVersionSummary: Swift.Equatable {
+    public struct BotVersionSummary {
         /// The name of the bot associated with the version.
         public var botName: Swift.String?
         /// The status of the bot. When the status is available, the version of the bot is ready for use.
@@ -6999,7 +6999,7 @@ extension BuildBotLocaleInput {
     }
 }
 
-public struct BuildBotLocaleInput: Swift.Equatable {
+public struct BuildBotLocaleInput {
     /// The identifier of the bot to build. The identifier is returned in the response from the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation.
     /// This member is required.
     public var botId: Swift.String?
@@ -7022,7 +7022,7 @@ public struct BuildBotLocaleInput: Swift.Equatable {
     }
 }
 
-struct BuildBotLocaleInputBody: Swift.Equatable {
+struct BuildBotLocaleInputBody {
 }
 
 extension BuildBotLocaleInputBody: Swift.Decodable {
@@ -7051,7 +7051,7 @@ extension BuildBotLocaleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BuildBotLocaleOutput: Swift.Equatable {
+public struct BuildBotLocaleOutput {
     /// The identifier of the specified bot.
     public var botId: Swift.String?
     /// The bot's build status. When the status is ReadyExpressTesting you can test the bot using the utterances defined for the intents and slot types. When the status is Built, the bot is ready for use and can be tested using any utterance.
@@ -7079,7 +7079,7 @@ public struct BuildBotLocaleOutput: Swift.Equatable {
     }
 }
 
-struct BuildBotLocaleOutputBody: Swift.Equatable {
+struct BuildBotLocaleOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -7154,7 +7154,7 @@ extension LexModelsV2ClientTypes.BuildtimeSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications about the Amazon Lex build time generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
-    public struct BuildtimeSettings: Swift.Equatable {
+    public struct BuildtimeSettings {
         /// An object containing specifications for the descriptive bot building feature.
         public var descriptiveBotBuilder: LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification?
         /// Contains specifications for the sample utterance generation feature.
@@ -7228,7 +7228,7 @@ extension LexModelsV2ClientTypes.BuiltInIntentSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of built-in intents.
-    public struct BuiltInIntentSortBy: Swift.Equatable {
+    public struct BuiltInIntentSortBy {
         /// The attribute to use to sort the list of built-in intents.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BuiltInIntentSortAttribute?
@@ -7275,7 +7275,7 @@ extension LexModelsV2ClientTypes.BuiltInIntentSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information about a built-in intent for the [ ListBuiltInIntents ](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInIntents.html) operation.
-    public struct BuiltInIntentSummary: Swift.Equatable {
+    public struct BuiltInIntentSummary {
         /// The description of the intent.
         public var description: Swift.String?
         /// The signature of the built-in intent. Use this to specify the parent intent of a derived intent.
@@ -7349,7 +7349,7 @@ extension LexModelsV2ClientTypes.BuiltInSlotTypeSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of built-in slot types.
-    public struct BuiltInSlotTypeSortBy: Swift.Equatable {
+    public struct BuiltInSlotTypeSortBy {
         /// The attribute to use to sort the list of built-in intents.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.BuiltInSlotTypeSortAttribute?
@@ -7396,7 +7396,7 @@ extension LexModelsV2ClientTypes.BuiltInSlotTypeSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information about a built-in slot type for the [ ListBuiltInSlotTypes ](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListBuiltInSlotTypes.html) operation.
-    public struct BuiltInSlotTypeSummary: Swift.Equatable {
+    public struct BuiltInSlotTypeSummary {
         /// The description of the built-in slot type.
         public var description: Swift.String?
         /// The signature of the built-in slot type. Use this to specify the parent slot type of a derived slot type.
@@ -7441,7 +7441,7 @@ extension LexModelsV2ClientTypes.Button: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Describes a button to use on a response card used to gather slot values from a user.
-    public struct Button: Swift.Equatable {
+    public struct Button {
         /// The text that appears on the button. Use this to tell the user what value is returned when they choose this button.
         /// This member is required.
         public var text: Swift.String?
@@ -7488,7 +7488,7 @@ extension LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination: Swift.Codable
 
 extension LexModelsV2ClientTypes {
     /// The Amazon CloudWatch Logs log group where the text and metadata logs are delivered. The log group must exist before you enable logging.
-    public struct CloudWatchLogGroupLogDestination: Swift.Equatable {
+    public struct CloudWatchLogGroupLogDestination {
         /// The Amazon Resource Name (ARN) of the log group where text and metadata logs are delivered.
         /// This member is required.
         public var cloudWatchLogGroupArn: Swift.String?
@@ -7529,7 +7529,7 @@ extension LexModelsV2ClientTypes.CodeHookSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about code hooks that Amazon Lex calls during a conversation.
-    public struct CodeHookSpecification: Swift.Equatable {
+    public struct CodeHookSpecification {
         /// Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot.
         /// This member is required.
         public var lambdaCodeHook: LexModelsV2ClientTypes.LambdaCodeHook?
@@ -7577,7 +7577,7 @@ extension LexModelsV2ClientTypes.CompositeSlotTypeSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A composite slot is a combination of two or more slots that capture multiple pieces of information in a single user input.
-    public struct CompositeSlotTypeSetting: Swift.Equatable {
+    public struct CompositeSlotTypeSetting {
         /// Subslots in the composite slot.
         public var subSlots: [LexModelsV2ClientTypes.SubSlotTypeComposition]?
 
@@ -7612,7 +7612,7 @@ extension LexModelsV2ClientTypes.Condition: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides an expression that evaluates to true or false.
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// The expression string that is evaluated.
         /// This member is required.
         public var expressionString: Swift.String?
@@ -7666,7 +7666,7 @@ extension LexModelsV2ClientTypes.ConditionalBranch: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A set of actions that Amazon Lex should run if the condition is matched.
-    public struct ConditionalBranch: Swift.Equatable {
+    public struct ConditionalBranch {
         /// Contains the expression to evaluate. If the condition is true, the branch's actions are taken.
         /// This member is required.
         public var condition: LexModelsV2ClientTypes.Condition?
@@ -7740,7 +7740,7 @@ extension LexModelsV2ClientTypes.ConditionalSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides a list of conditional branches. Branches are evaluated in the order that they are entered in the list. The first branch with a condition that evaluates to true is executed. The last branch in the list is the default branch. The default branch should not have any condition expression. The default branch is executed if no other branch has a matching condition.
-    public struct ConditionalSpecification: Swift.Equatable {
+    public struct ConditionalSpecification {
         /// Determines whether a conditional branch is active. When active is false, the conditions are not evaluated.
         /// This member is required.
         public var active: Swift.Bool?
@@ -7804,7 +7804,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -7882,7 +7882,7 @@ extension LexModelsV2ClientTypes.ConversationLevelIntentClassificationResultItem
 
 extension LexModelsV2ClientTypes {
     /// The item listing the evaluation of intent level success or failure.
-    public struct ConversationLevelIntentClassificationResultItem: Swift.Equatable {
+    public struct ConversationLevelIntentClassificationResultItem {
         /// The intent name used in the evaluation of intent level success or failure.
         /// This member is required.
         public var intentName: Swift.String?
@@ -7929,7 +7929,7 @@ extension LexModelsV2ClientTypes.ConversationLevelResultDetail: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The conversation level details of the conversation used in the test set.
-    public struct ConversationLevelResultDetail: Swift.Equatable {
+    public struct ConversationLevelResultDetail {
         /// The success or failure of the streaming of the conversation.
         /// This member is required.
         public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
@@ -7981,7 +7981,7 @@ extension LexModelsV2ClientTypes.ConversationLevelSlotResolutionResultItem: Swif
 
 extension LexModelsV2ClientTypes {
     /// The slots used for the slot resolution in the conversation.
-    public struct ConversationLevelSlotResolutionResultItem: Swift.Equatable {
+    public struct ConversationLevelSlotResolutionResultItem {
         /// The intents used in the slots list for the slot resolution details.
         /// This member is required.
         public var intentName: Swift.String?
@@ -8075,7 +8075,7 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResultItem: Swift.Codable 
 
 extension LexModelsV2ClientTypes {
     /// The test result evaluation item at the conversation level.
-    public struct ConversationLevelTestResultItem: Swift.Equatable {
+    public struct ConversationLevelTestResultItem {
         /// The conversation Id of the test result evaluation item.
         /// This member is required.
         public var conversationId: Swift.String?
@@ -8142,7 +8142,7 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResults: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The test set results data at the conversation level.
-    public struct ConversationLevelTestResults: Swift.Equatable {
+    public struct ConversationLevelTestResults {
         /// The item list in the test set results data at the conversation level.
         /// This member is required.
         public var items: [LexModelsV2ClientTypes.ConversationLevelTestResultItem]?
@@ -8178,7 +8178,7 @@ extension LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy: Swift.Cod
 
 extension LexModelsV2ClientTypes {
     /// The selection to filter the test set results data at the conversation level.
-    public struct ConversationLevelTestResultsFilterBy: Swift.Equatable {
+    public struct ConversationLevelTestResultsFilterBy {
         /// The selection of matched or mismatched end-to-end status to filter test set results data at the conversation level.
         public var endToEndResult: LexModelsV2ClientTypes.TestResultMatchStatus?
 
@@ -8243,7 +8243,7 @@ extension LexModelsV2ClientTypes.ConversationLogSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Configures conversation logging that saves audio, text, and metadata for the conversations with your users.
-    public struct ConversationLogSettings: Swift.Equatable {
+    public struct ConversationLogSettings {
         /// The Amazon S3 settings for logging audio to an S3 bucket.
         public var audioLogSettings: [LexModelsV2ClientTypes.AudioLogSetting]?
         /// The Amazon CloudWatch Logs settings for logging text and metadata.
@@ -8300,7 +8300,7 @@ extension LexModelsV2ClientTypes.ConversationLogsDataSource: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The data source that uses conversation logs.
-    public struct ConversationLogsDataSource: Swift.Equatable {
+    public struct ConversationLogsDataSource {
         /// The bot alias Id from the conversation logs.
         /// This member is required.
         public var botAliasId: Swift.String?
@@ -8363,7 +8363,7 @@ extension LexModelsV2ClientTypes.ConversationLogsDataSourceFilterBy: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// The selected data source to filter the conversation log.
-    public struct ConversationLogsDataSourceFilterBy: Swift.Equatable {
+    public struct ConversationLogsDataSourceFilterBy {
         /// The end time for the conversation log.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -8473,7 +8473,7 @@ extension CreateBotAliasInput {
     }
 }
 
-public struct CreateBotAliasInput: Swift.Equatable {
+public struct CreateBotAliasInput {
     /// Maps configuration information to a specific locale. You can use this parameter to specify a specific Lambda function to run different functions in different locales.
     public var botAliasLocaleSettings: [Swift.String:LexModelsV2ClientTypes.BotAliasLocaleSettings]?
     /// The alias to create. The name must be unique for the bot.
@@ -8515,7 +8515,7 @@ public struct CreateBotAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateBotAliasInputBody: Swift.Equatable {
+struct CreateBotAliasInputBody {
     let botAliasName: Swift.String?
     let description: Swift.String?
     let botVersion: Swift.String?
@@ -8605,7 +8605,7 @@ extension CreateBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotAliasOutput: Swift.Equatable {
+public struct CreateBotAliasOutput {
     /// The unique identifier of the bot alias.
     public var botAliasId: Swift.String?
     /// Configuration information for a specific locale.
@@ -8657,7 +8657,7 @@ public struct CreateBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotAliasOutputBody: Swift.Equatable {
+struct CreateBotAliasOutputBody {
     let botAliasId: Swift.String?
     let botAliasName: Swift.String?
     let description: Swift.String?
@@ -8808,7 +8808,7 @@ extension CreateBotInput {
     }
 }
 
-public struct CreateBotInput: Swift.Equatable {
+public struct CreateBotInput {
     /// The list of bot members in a network to be created.
     public var botMembers: [LexModelsV2ClientTypes.BotMember]?
     /// The name of the bot. The bot name must be unique in the account that creates the bot.
@@ -8856,7 +8856,7 @@ public struct CreateBotInput: Swift.Equatable {
     }
 }
 
-struct CreateBotInputBody: Swift.Equatable {
+struct CreateBotInputBody {
     let botName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -8973,7 +8973,7 @@ extension CreateBotLocaleInput {
     }
 }
 
-public struct CreateBotLocaleInput: Swift.Equatable {
+public struct CreateBotLocaleInput {
     /// The identifier of the bot to create the locale for.
     /// This member is required.
     public var botId: Swift.String?
@@ -9021,7 +9021,7 @@ public struct CreateBotLocaleInput: Swift.Equatable {
     }
 }
 
-struct CreateBotLocaleInputBody: Swift.Equatable {
+struct CreateBotLocaleInputBody {
     let localeId: Swift.String?
     let description: Swift.String?
     let nluIntentConfidenceThreshold: Swift.Double?
@@ -9083,7 +9083,7 @@ extension CreateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotLocaleOutput: Swift.Equatable {
+public struct CreateBotLocaleOutput {
     /// The specified bot identifier.
     public var botId: Swift.String?
     /// The status of the bot. When the status is Creating the bot locale is being configured. When the status is Building Amazon Lex is building the bot for testing and use. If the status of the bot is ReadyExpressTesting, you can test the bot using the exact utterances specified in the bots' intents. When the bot is ready for full testing or to run, the status is Built. If there was a problem with building the bot, the status is Failed. If the bot was saved but not built, the status is NotBuilt.
@@ -9131,7 +9131,7 @@ public struct CreateBotLocaleOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotLocaleOutputBody: Swift.Equatable {
+struct CreateBotLocaleOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeName: Swift.String?
@@ -9233,7 +9233,7 @@ extension CreateBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotOutput: Swift.Equatable {
+public struct CreateBotOutput {
     /// A unique identifier for a particular bot. You use this to identify the bot when you call other Amazon Lex API operations.
     public var botId: Swift.String?
     /// The list of bots in a network that was created.
@@ -9289,7 +9289,7 @@ public struct CreateBotOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotOutputBody: Swift.Equatable {
+struct CreateBotOutputBody {
     let botId: Swift.String?
     let botName: Swift.String?
     let description: Swift.String?
@@ -9415,7 +9415,7 @@ extension CreateBotReplicaInput {
     }
 }
 
-public struct CreateBotReplicaInput: Swift.Equatable {
+public struct CreateBotReplicaInput {
     /// The request for the unique bot ID of the source bot to be replicated in the secondary region.
     /// This member is required.
     public var botId: Swift.String?
@@ -9433,7 +9433,7 @@ public struct CreateBotReplicaInput: Swift.Equatable {
     }
 }
 
-struct CreateBotReplicaInputBody: Swift.Equatable {
+struct CreateBotReplicaInputBody {
     let replicaRegion: Swift.String?
 }
 
@@ -9469,7 +9469,7 @@ extension CreateBotReplicaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotReplicaOutput: Swift.Equatable {
+public struct CreateBotReplicaOutput {
     /// The unique bot ID of the replicated bot generated.
     public var botId: Swift.String?
     /// The operational status of the replicated bot generated.
@@ -9497,7 +9497,7 @@ public struct CreateBotReplicaOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotReplicaOutputBody: Swift.Equatable {
+struct CreateBotReplicaOutputBody {
     let botId: Swift.String?
     let replicaRegion: Swift.String?
     let sourceRegion: Swift.String?
@@ -9575,7 +9575,7 @@ extension CreateBotVersionInput {
     }
 }
 
-public struct CreateBotVersionInput: Swift.Equatable {
+public struct CreateBotVersionInput {
     /// The identifier of the bot to create the version for.
     /// This member is required.
     public var botId: Swift.String?
@@ -9597,7 +9597,7 @@ public struct CreateBotVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateBotVersionInputBody: Swift.Equatable {
+struct CreateBotVersionInputBody {
     let description: Swift.String?
     let botVersionLocaleSpecification: [Swift.String:LexModelsV2ClientTypes.BotVersionLocaleDetails]?
 }
@@ -9648,7 +9648,7 @@ extension CreateBotVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBotVersionOutput: Swift.Equatable {
+public struct CreateBotVersionOutput {
     /// The bot identifier specified in the request.
     public var botId: Swift.String?
     /// When you send a request to create or update a bot, Amazon Lex sets the status response element to Creating. After Amazon Lex builds the bot, it sets status to Available. If Amazon Lex can't build the bot, it sets status to Failed.
@@ -9680,7 +9680,7 @@ public struct CreateBotVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateBotVersionOutputBody: Swift.Equatable {
+struct CreateBotVersionOutputBody {
     let botId: Swift.String?
     let description: Swift.String?
     let botVersion: Swift.String?
@@ -9774,7 +9774,7 @@ extension CreateExportInput {
     }
 }
 
-public struct CreateExportInput: Swift.Equatable {
+public struct CreateExportInput {
     /// The file format of the bot or bot locale definition files.
     /// This member is required.
     public var fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
@@ -9796,7 +9796,7 @@ public struct CreateExportInput: Swift.Equatable {
     }
 }
 
-struct CreateExportInputBody: Swift.Equatable {
+struct CreateExportInputBody {
     let resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
     let fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
     let filePassword: Swift.String?
@@ -9840,7 +9840,7 @@ extension CreateExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExportOutput: Swift.Equatable {
+public struct CreateExportOutput {
     /// The date and time that the request to export a bot was created.
     public var creationDateTime: ClientRuntime.Date?
     /// An identifier for a specific request to create an export.
@@ -9868,7 +9868,7 @@ public struct CreateExportOutput: Swift.Equatable {
     }
 }
 
-struct CreateExportOutputBody: Swift.Equatable {
+struct CreateExportOutputBody {
     let exportId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
     let fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
@@ -10002,7 +10002,7 @@ extension CreateIntentInput {
     }
 }
 
-public struct CreateIntentInput: Swift.Equatable {
+public struct CreateIntentInput {
     /// The identifier of the bot associated with this intent.
     /// This member is required.
     public var botId: Swift.String?
@@ -10078,7 +10078,7 @@ public struct CreateIntentInput: Swift.Equatable {
     }
 }
 
-struct CreateIntentInputBody: Swift.Equatable {
+struct CreateIntentInputBody {
     let intentName: Swift.String?
     let description: Swift.String?
     let parentIntentSignature: Swift.String?
@@ -10215,7 +10215,7 @@ extension CreateIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIntentOutput: Swift.Equatable {
+public struct CreateIntentOutput {
     /// The identifier of the bot associated with the intent.
     public var botId: Swift.String?
     /// The version of the bot associated with the intent.
@@ -10295,7 +10295,7 @@ public struct CreateIntentOutput: Swift.Equatable {
     }
 }
 
-struct CreateIntentOutputBody: Swift.Equatable {
+struct CreateIntentOutputBody {
     let intentId: Swift.String?
     let intentName: Swift.String?
     let description: Swift.String?
@@ -10445,7 +10445,7 @@ extension CreateResourcePolicyInput {
     }
 }
 
-public struct CreateResourcePolicyInput: Swift.Equatable {
+public struct CreateResourcePolicyInput {
     /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see [ IAM JSON policy reference ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html). If the policy isn't valid, Amazon Lex returns a validation exception.
     /// This member is required.
     public var policy: Swift.String?
@@ -10463,7 +10463,7 @@ public struct CreateResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct CreateResourcePolicyInputBody: Swift.Equatable {
+struct CreateResourcePolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -10493,7 +10493,7 @@ extension CreateResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateResourcePolicyOutput: Swift.Equatable {
+public struct CreateResourcePolicyOutput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy was attached to.
     public var resourceArn: Swift.String?
     /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
@@ -10509,7 +10509,7 @@ public struct CreateResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourcePolicyOutputBody: Swift.Equatable {
+struct CreateResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let revisionId: Swift.String?
 }
@@ -10608,7 +10608,7 @@ extension CreateResourcePolicyStatementInput {
     }
 }
 
-public struct CreateResourcePolicyStatementInput: Swift.Equatable {
+public struct CreateResourcePolicyStatementInput {
     /// The Amazon Lex action that this policy either allows or denies. The action must apply to the resource type of the specified ARN. For more information, see [ Actions, resources, and condition keys for Amazon Lex V2](https://docs.aws.amazon.com/service-authorization/latest/reference/list_amazonlexv2.html).
     /// This member is required.
     public var action: [Swift.String]?
@@ -10649,7 +10649,7 @@ public struct CreateResourcePolicyStatementInput: Swift.Equatable {
     }
 }
 
-struct CreateResourcePolicyStatementInputBody: Swift.Equatable {
+struct CreateResourcePolicyStatementInputBody {
     let statementId: Swift.String?
     let effect: LexModelsV2ClientTypes.Effect?
     let principal: [LexModelsV2ClientTypes.Principal]?
@@ -10729,7 +10729,7 @@ extension CreateResourcePolicyStatementOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateResourcePolicyStatementOutput: Swift.Equatable {
+public struct CreateResourcePolicyStatementOutput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
     public var resourceArn: Swift.String?
     /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
@@ -10745,7 +10745,7 @@ public struct CreateResourcePolicyStatementOutput: Swift.Equatable {
     }
 }
 
-struct CreateResourcePolicyStatementOutputBody: Swift.Equatable {
+struct CreateResourcePolicyStatementOutputBody {
     let resourceArn: Swift.String?
     let revisionId: Swift.String?
 }
@@ -10838,7 +10838,7 @@ extension CreateSlotInput {
     }
 }
 
-public struct CreateSlotInput: Swift.Equatable {
+public struct CreateSlotInput {
     /// The identifier of the bot associated with the slot.
     /// This member is required.
     public var botId: Swift.String?
@@ -10896,7 +10896,7 @@ public struct CreateSlotInput: Swift.Equatable {
     }
 }
 
-struct CreateSlotInputBody: Swift.Equatable {
+struct CreateSlotInputBody {
     let slotName: Swift.String?
     let description: Swift.String?
     let slotTypeId: Swift.String?
@@ -10972,7 +10972,7 @@ extension CreateSlotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSlotOutput: Swift.Equatable {
+public struct CreateSlotOutput {
     /// The unique identifier of the bot associated with the slot.
     public var botId: Swift.String?
     /// The version of the bot associated with the slot.
@@ -11032,7 +11032,7 @@ public struct CreateSlotOutput: Swift.Equatable {
     }
 }
 
-struct CreateSlotOutputBody: Swift.Equatable {
+struct CreateSlotOutputBody {
     let slotId: Swift.String?
     let slotName: Swift.String?
     let description: Swift.String?
@@ -11168,7 +11168,7 @@ extension CreateSlotTypeInput {
     }
 }
 
-public struct CreateSlotTypeInput: Swift.Equatable {
+public struct CreateSlotTypeInput {
     /// The identifier of the bot associated with this slot type.
     /// This member is required.
     public var botId: Swift.String?
@@ -11227,7 +11227,7 @@ public struct CreateSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct CreateSlotTypeInputBody: Swift.Equatable {
+struct CreateSlotTypeInputBody {
     let slotTypeName: Swift.String?
     let description: Swift.String?
     let slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]?
@@ -11310,7 +11310,7 @@ extension CreateSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSlotTypeOutput: Swift.Equatable {
+public struct CreateSlotTypeOutput {
     /// The identifier for the bot associated with the slot type.
     public var botId: Swift.String?
     /// The version of the bot associated with the slot type.
@@ -11366,7 +11366,7 @@ public struct CreateSlotTypeOutput: Swift.Equatable {
     }
 }
 
-struct CreateSlotTypeOutputBody: Swift.Equatable {
+struct CreateSlotTypeOutputBody {
     let slotTypeId: Swift.String?
     let slotTypeName: Swift.String?
     let description: Swift.String?
@@ -11474,7 +11474,7 @@ extension CreateTestSetDiscrepancyReportInput {
     }
 }
 
-public struct CreateTestSetDiscrepancyReportInput: Swift.Equatable {
+public struct CreateTestSetDiscrepancyReportInput {
     /// The target bot for the test set discrepancy report.
     /// This member is required.
     public var target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
@@ -11492,7 +11492,7 @@ public struct CreateTestSetDiscrepancyReportInput: Swift.Equatable {
     }
 }
 
-struct CreateTestSetDiscrepancyReportInputBody: Swift.Equatable {
+struct CreateTestSetDiscrepancyReportInputBody {
     let target: LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget?
 }
 
@@ -11526,7 +11526,7 @@ extension CreateTestSetDiscrepancyReportOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct CreateTestSetDiscrepancyReportOutput: Swift.Equatable {
+public struct CreateTestSetDiscrepancyReportOutput {
     /// The creation date and time for the test set discrepancy report.
     public var creationDateTime: ClientRuntime.Date?
     /// The target bot for the test set discrepancy report.
@@ -11550,7 +11550,7 @@ public struct CreateTestSetDiscrepancyReportOutput: Swift.Equatable {
     }
 }
 
-struct CreateTestSetDiscrepancyReportOutputBody: Swift.Equatable {
+struct CreateTestSetDiscrepancyReportOutputBody {
     let testSetDiscrepancyReportId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let testSetId: Swift.String?
@@ -11601,12 +11601,12 @@ extension CreateUploadUrlInput {
     }
 }
 
-public struct CreateUploadUrlInput: Swift.Equatable {
+public struct CreateUploadUrlInput {
 
     public init() { }
 }
 
-struct CreateUploadUrlInputBody: Swift.Equatable {
+struct CreateUploadUrlInputBody {
 }
 
 extension CreateUploadUrlInputBody: Swift.Decodable {
@@ -11629,7 +11629,7 @@ extension CreateUploadUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUploadUrlOutput: Swift.Equatable {
+public struct CreateUploadUrlOutput {
     /// An identifier for a unique import job. Use it when you call the [StartImport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_StartImport.html) operation.
     public var importId: Swift.String?
     /// A pre-signed S3 write URL. Upload the zip archive file that contains the definition of your bot or bot locale.
@@ -11645,7 +11645,7 @@ public struct CreateUploadUrlOutput: Swift.Equatable {
     }
 }
 
-struct CreateUploadUrlOutputBody: Swift.Equatable {
+struct CreateUploadUrlOutputBody {
     let importId: Swift.String?
     let uploadUrl: Swift.String?
 }
@@ -11701,7 +11701,7 @@ extension LexModelsV2ClientTypes.CustomPayload: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A custom response string that Amazon Lex sends to your application. You define the content and structure the string.
-    public struct CustomPayload: Swift.Equatable {
+    public struct CustomPayload {
         /// The string that is sent to your application.
         /// This member is required.
         public var value: Swift.String?
@@ -11737,7 +11737,7 @@ extension LexModelsV2ClientTypes.CustomVocabularyEntryId: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The unique entry identifier for the custom vocabulary items.
-    public struct CustomVocabularyEntryId: Swift.Equatable {
+    public struct CustomVocabularyEntryId {
         /// The unique item identifier for the custom vocabulary items.
         /// This member is required.
         public var itemId: Swift.String?
@@ -11785,7 +11785,7 @@ extension LexModelsV2ClientTypes.CustomVocabularyExportSpecification: Swift.Coda
 
 extension LexModelsV2ClientTypes {
     /// Provides the parameters required for exporting a custom vocabulary.
-    public struct CustomVocabularyExportSpecification: Swift.Equatable {
+    public struct CustomVocabularyExportSpecification {
         /// The identifier of the bot that contains the custom vocabulary to export.
         /// This member is required.
         public var botId: Swift.String?
@@ -11843,7 +11843,7 @@ extension LexModelsV2ClientTypes.CustomVocabularyImportSpecification: Swift.Coda
 
 extension LexModelsV2ClientTypes {
     /// Provides the parameters required for importing a custom vocabulary.
-    public struct CustomVocabularyImportSpecification: Swift.Equatable {
+    public struct CustomVocabularyImportSpecification {
         /// The identifier of the bot to import the custom vocabulary to.
         /// This member is required.
         public var botId: Swift.String?
@@ -11907,7 +11907,7 @@ extension LexModelsV2ClientTypes.CustomVocabularyItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The unique custom vocabulary item from the custom vocabulary list.
-    public struct CustomVocabularyItem: Swift.Equatable {
+    public struct CustomVocabularyItem {
         /// The DisplayAs value for the custom vocabulary item from the custom vocabulary list.
         public var displayAs: Swift.String?
         /// The unique item identifer for the custom vocabulary item from the custom vocabulary list.
@@ -12015,7 +12015,7 @@ extension LexModelsV2ClientTypes.DTMFSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the DTMF input specifications.
-    public struct DTMFSpecification: Swift.Equatable {
+    public struct DTMFSpecification {
         /// The DTMF character that clears the accumulated DTMF digits and immediately ends the input.
         /// This member is required.
         public var deletionCharacter: Swift.String?
@@ -12066,7 +12066,7 @@ extension LexModelsV2ClientTypes.DataPrivacy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// By default, data stored by Amazon Lex is encrypted. The DataPrivacy structure provides settings that determine how Amazon Lex handles special cases of securing the data for your bot.
-    public struct DataPrivacy: Swift.Equatable {
+    public struct DataPrivacy {
         /// For each Amazon Lex bot created with the Amazon Lex Model Building Service, you must specify whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to the Children's Online Privacy Protection Act (COPPA) by specifying true or false in the childDirected field. By specifying true in the childDirected field, you confirm that your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. By specifying false in the childDirected field, you confirm that your use of Amazon Lex is not related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. You may not specify a default value for the childDirected field that does not accurately reflect whether your use of Amazon Lex is related to a website, program, or other application that is directed or targeted, in whole or in part, to children under age 13 and subject to COPPA. If your use of Amazon Lex relates to a website, program, or other application that is directed in whole or in part, to children under age 13, you must obtain any required verifiable parental consent under COPPA. For information regarding the use of Amazon Lex in connection with websites, programs, or other applications that are directed or targeted, in whole or in part, to children under age 13, see the [Amazon Lex FAQ](http://aws.amazon.com/lex/faqs#data-security).
         /// This member is required.
         public var childDirected: Swift.Bool
@@ -12114,7 +12114,7 @@ extension LexModelsV2ClientTypes.DataSourceConfiguration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains details about the configuration of the knowledge store used for the AMAZON.QnAIntent. You must have already created the knowledge store and indexed the documents within it.
-    public struct DataSourceConfiguration: Swift.Equatable {
+    public struct DataSourceConfiguration {
         /// Contains details about the configuration of the Amazon Bedrock knowledge base used for the AMAZON.QnAIntent. To set up a knowledge base, follow the steps at [Building a knowledge base](https://docs.aws.amazon.com/bedrock/latest/userguide/knowledge-base.html).
         public var bedrockKnowledgeStoreConfiguration: LexModelsV2ClientTypes.BedrockKnowledgeStoreConfiguration?
         /// Contains details about the configuration of the Amazon Kendra index used for the AMAZON.QnAIntent. To create a Amazon Kendra index, follow the steps at [Creating an index](https://docs.aws.amazon.com/kendra/latest/dg/create-index.html).
@@ -12163,7 +12163,7 @@ extension LexModelsV2ClientTypes.DateRangeFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object used for specifying the data range that the customer wants Amazon Lex to read through in the input transcripts.
-    public struct DateRangeFilter: Swift.Equatable {
+    public struct DateRangeFilter {
         /// A timestamp indicating the end date for the date range filter.
         /// This member is required.
         public var endDateTime: ClientRuntime.Date?
@@ -12210,7 +12210,7 @@ extension LexModelsV2ClientTypes.DefaultConditionalBranch: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A set of actions that Amazon Lex should run if none of the other conditions are met.
-    public struct DefaultConditionalBranch: Swift.Equatable {
+    public struct DefaultConditionalBranch {
         /// The next step in the conversation.
         public var nextStep: LexModelsV2ClientTypes.DialogState?
         /// Specifies a list of message groups that Amazon Lex uses to respond the user input.
@@ -12253,7 +12253,7 @@ extension DeleteBotAliasInput {
     }
 }
 
-public struct DeleteBotAliasInput: Swift.Equatable {
+public struct DeleteBotAliasInput {
     /// The unique identifier of the bot alias to delete.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -12275,7 +12275,7 @@ public struct DeleteBotAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotAliasInputBody: Swift.Equatable {
+struct DeleteBotAliasInputBody {
 }
 
 extension DeleteBotAliasInputBody: Swift.Decodable {
@@ -12300,7 +12300,7 @@ extension DeleteBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotAliasOutput: Swift.Equatable {
+public struct DeleteBotAliasOutput {
     /// The unique identifier of the bot alias to delete.
     public var botAliasId: Swift.String?
     /// The current status of the alias. The status is Deleting while the alias is in the process of being deleted. Once the alias is deleted, it will no longer appear in the list of aliases returned by the ListBotAliases operation.
@@ -12320,7 +12320,7 @@ public struct DeleteBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBotAliasOutputBody: Swift.Equatable {
+struct DeleteBotAliasOutputBody {
     let botAliasId: Swift.String?
     let botId: Swift.String?
     let botAliasStatus: LexModelsV2ClientTypes.BotAliasStatus?
@@ -12382,7 +12382,7 @@ extension DeleteBotInput {
     }
 }
 
-public struct DeleteBotInput: Swift.Equatable {
+public struct DeleteBotInput {
     /// The identifier of the bot to delete.
     /// This member is required.
     public var botId: Swift.String?
@@ -12399,7 +12399,7 @@ public struct DeleteBotInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotInputBody: Swift.Equatable {
+struct DeleteBotInputBody {
 }
 
 extension DeleteBotInputBody: Swift.Decodable {
@@ -12424,7 +12424,7 @@ extension DeleteBotLocaleInput {
     }
 }
 
-public struct DeleteBotLocaleInput: Swift.Equatable {
+public struct DeleteBotLocaleInput {
     /// The unique identifier of the bot that contains the locale.
     /// This member is required.
     public var botId: Swift.String?
@@ -12447,7 +12447,7 @@ public struct DeleteBotLocaleInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotLocaleInputBody: Swift.Equatable {
+struct DeleteBotLocaleInputBody {
 }
 
 extension DeleteBotLocaleInputBody: Swift.Decodable {
@@ -12474,7 +12474,7 @@ extension DeleteBotLocaleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotLocaleOutput: Swift.Equatable {
+public struct DeleteBotLocaleOutput {
     /// The identifier of the bot that contained the deleted locale.
     public var botId: Swift.String?
     /// The status of deleting the bot locale. The locale first enters the Deleting status. Once the locale is deleted it no longer appears in the list of locales for the bot.
@@ -12498,7 +12498,7 @@ public struct DeleteBotLocaleOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBotLocaleOutputBody: Swift.Equatable {
+struct DeleteBotLocaleOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -12556,7 +12556,7 @@ extension DeleteBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotOutput: Swift.Equatable {
+public struct DeleteBotOutput {
     /// The unique identifier of the bot that Amazon Lex is deleting.
     public var botId: Swift.String?
     /// The current status of the bot. The status is Deleting while the bot and its associated resources are being deleted.
@@ -12572,7 +12572,7 @@ public struct DeleteBotOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBotOutputBody: Swift.Equatable {
+struct DeleteBotOutputBody {
     let botId: Swift.String?
     let botStatus: LexModelsV2ClientTypes.BotStatus?
 }
@@ -12621,7 +12621,7 @@ extension DeleteBotReplicaInput {
     }
 }
 
-public struct DeleteBotReplicaInput: Swift.Equatable {
+public struct DeleteBotReplicaInput {
     /// The unique ID of the replicated bot to be deleted from the secondary region
     /// This member is required.
     public var botId: Swift.String?
@@ -12639,7 +12639,7 @@ public struct DeleteBotReplicaInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotReplicaInputBody: Swift.Equatable {
+struct DeleteBotReplicaInputBody {
 }
 
 extension DeleteBotReplicaInputBody: Swift.Decodable {
@@ -12664,7 +12664,7 @@ extension DeleteBotReplicaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotReplicaOutput: Swift.Equatable {
+public struct DeleteBotReplicaOutput {
     /// The unique bot ID of the replicated bot generated.
     public var botId: Swift.String?
     /// The operational status of the replicated bot generated.
@@ -12684,7 +12684,7 @@ public struct DeleteBotReplicaOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBotReplicaOutputBody: Swift.Equatable {
+struct DeleteBotReplicaOutputBody {
     let botId: Swift.String?
     let replicaRegion: Swift.String?
     let botReplicaStatus: LexModelsV2ClientTypes.BotReplicaStatus?
@@ -12749,7 +12749,7 @@ extension DeleteBotVersionInput {
     }
 }
 
-public struct DeleteBotVersionInput: Swift.Equatable {
+public struct DeleteBotVersionInput {
     /// The identifier of the bot that contains the version.
     /// This member is required.
     public var botId: Swift.String?
@@ -12771,7 +12771,7 @@ public struct DeleteBotVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteBotVersionInputBody: Swift.Equatable {
+struct DeleteBotVersionInputBody {
 }
 
 extension DeleteBotVersionInputBody: Swift.Decodable {
@@ -12796,7 +12796,7 @@ extension DeleteBotVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBotVersionOutput: Swift.Equatable {
+public struct DeleteBotVersionOutput {
     /// The identifier of the bot that is being deleted.
     public var botId: Swift.String?
     /// The current status of the bot.
@@ -12816,7 +12816,7 @@ public struct DeleteBotVersionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBotVersionOutputBody: Swift.Equatable {
+struct DeleteBotVersionOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let botStatus: LexModelsV2ClientTypes.BotStatus?
@@ -12872,7 +12872,7 @@ extension DeleteCustomVocabularyInput {
     }
 }
 
-public struct DeleteCustomVocabularyInput: Swift.Equatable {
+public struct DeleteCustomVocabularyInput {
     /// The unique identifier of the bot to remove the custom vocabulary from.
     /// This member is required.
     public var botId: Swift.String?
@@ -12895,7 +12895,7 @@ public struct DeleteCustomVocabularyInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomVocabularyInputBody: Swift.Equatable {
+struct DeleteCustomVocabularyInputBody {
 }
 
 extension DeleteCustomVocabularyInputBody: Swift.Decodable {
@@ -12922,7 +12922,7 @@ extension DeleteCustomVocabularyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomVocabularyOutput: Swift.Equatable {
+public struct DeleteCustomVocabularyOutput {
     /// The identifier of the bot that the custom vocabulary was removed from.
     public var botId: Swift.String?
     /// The version of the bot that the custom vocabulary was removed from.
@@ -12946,7 +12946,7 @@ public struct DeleteCustomVocabularyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomVocabularyOutputBody: Swift.Equatable {
+struct DeleteCustomVocabularyOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -13000,7 +13000,7 @@ extension DeleteExportInput {
     }
 }
 
-public struct DeleteExportInput: Swift.Equatable {
+public struct DeleteExportInput {
     /// The unique identifier of the export to delete.
     /// This member is required.
     public var exportId: Swift.String?
@@ -13013,7 +13013,7 @@ public struct DeleteExportInput: Swift.Equatable {
     }
 }
 
-struct DeleteExportInputBody: Swift.Equatable {
+struct DeleteExportInputBody {
 }
 
 extension DeleteExportInputBody: Swift.Decodable {
@@ -13036,7 +13036,7 @@ extension DeleteExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteExportOutput: Swift.Equatable {
+public struct DeleteExportOutput {
     /// The unique identifier of the deleted export.
     public var exportId: Swift.String?
     /// The current status of the deletion. When the deletion is complete, the export will no longer be returned by the [ListExports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html) operation and calls to the [ DescribeExport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeExport.html) operation with the export identifier will fail.
@@ -13052,7 +13052,7 @@ public struct DeleteExportOutput: Swift.Equatable {
     }
 }
 
-struct DeleteExportOutputBody: Swift.Equatable {
+struct DeleteExportOutputBody {
     let exportId: Swift.String?
     let exportStatus: LexModelsV2ClientTypes.ExportStatus?
 }
@@ -13097,7 +13097,7 @@ extension DeleteImportInput {
     }
 }
 
-public struct DeleteImportInput: Swift.Equatable {
+public struct DeleteImportInput {
     /// The unique identifier of the import to delete.
     /// This member is required.
     public var importId: Swift.String?
@@ -13110,7 +13110,7 @@ public struct DeleteImportInput: Swift.Equatable {
     }
 }
 
-struct DeleteImportInputBody: Swift.Equatable {
+struct DeleteImportInputBody {
 }
 
 extension DeleteImportInputBody: Swift.Decodable {
@@ -13133,7 +13133,7 @@ extension DeleteImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteImportOutput: Swift.Equatable {
+public struct DeleteImportOutput {
     /// The unique identifier of the deleted import.
     public var importId: Swift.String?
     /// The current status of the deletion. When the deletion is complete, the import will no longer be returned by the [ListImports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html) operation and calls to the [DescribeImport](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_DescribeImport.html) operation with the import identifier will fail.
@@ -13149,7 +13149,7 @@ public struct DeleteImportOutput: Swift.Equatable {
     }
 }
 
-struct DeleteImportOutputBody: Swift.Equatable {
+struct DeleteImportOutputBody {
     let importId: Swift.String?
     let importStatus: LexModelsV2ClientTypes.ImportStatus?
 }
@@ -13203,7 +13203,7 @@ extension DeleteIntentInput {
     }
 }
 
-public struct DeleteIntentInput: Swift.Equatable {
+public struct DeleteIntentInput {
     /// The identifier of the bot associated with the intent.
     /// This member is required.
     public var botId: Swift.String?
@@ -13231,7 +13231,7 @@ public struct DeleteIntentInput: Swift.Equatable {
     }
 }
 
-struct DeleteIntentInputBody: Swift.Equatable {
+struct DeleteIntentInputBody {
 }
 
 extension DeleteIntentInputBody: Swift.Decodable {
@@ -13245,7 +13245,7 @@ extension DeleteIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIntentOutput: Swift.Equatable {
+public struct DeleteIntentOutput {
 
     public init() { }
 }
@@ -13288,7 +13288,7 @@ extension DeleteResourcePolicyInput {
     }
 }
 
-public struct DeleteResourcePolicyInput: Swift.Equatable {
+public struct DeleteResourcePolicyInput {
     /// The identifier of the revision to edit. If this ID doesn't match the current revision number, Amazon Lex returns an exception If you don't specify a revision ID, Amazon Lex will delete the current policy.
     public var expectedRevisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the bot or bot alias that has the resource policy attached.
@@ -13305,7 +13305,7 @@ public struct DeleteResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyInputBody: Swift.Equatable {
+struct DeleteResourcePolicyInputBody {
 }
 
 extension DeleteResourcePolicyInputBody: Swift.Decodable {
@@ -13328,7 +13328,7 @@ extension DeleteResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteResourcePolicyOutput: Swift.Equatable {
+public struct DeleteResourcePolicyOutput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy was deleted from.
     public var resourceArn: Swift.String?
     /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
@@ -13344,7 +13344,7 @@ public struct DeleteResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyOutputBody: Swift.Equatable {
+struct DeleteResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let revisionId: Swift.String?
 }
@@ -13403,7 +13403,7 @@ extension DeleteResourcePolicyStatementInput {
     }
 }
 
-public struct DeleteResourcePolicyStatementInput: Swift.Equatable {
+public struct DeleteResourcePolicyStatementInput {
     /// The identifier of the revision of the policy to delete the statement from. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex removes the current contents of the statement.
     public var expectedRevisionId: Swift.String?
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -13425,7 +13425,7 @@ public struct DeleteResourcePolicyStatementInput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyStatementInputBody: Swift.Equatable {
+struct DeleteResourcePolicyStatementInputBody {
 }
 
 extension DeleteResourcePolicyStatementInputBody: Swift.Decodable {
@@ -13448,7 +13448,7 @@ extension DeleteResourcePolicyStatementOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DeleteResourcePolicyStatementOutput: Swift.Equatable {
+public struct DeleteResourcePolicyStatementOutput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy statement was removed from.
     public var resourceArn: Swift.String?
     /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
@@ -13464,7 +13464,7 @@ public struct DeleteResourcePolicyStatementOutput: Swift.Equatable {
     }
 }
 
-struct DeleteResourcePolicyStatementOutputBody: Swift.Equatable {
+struct DeleteResourcePolicyStatementOutputBody {
     let resourceArn: Swift.String?
     let revisionId: Swift.String?
 }
@@ -13520,7 +13520,7 @@ extension DeleteSlotInput {
     }
 }
 
-public struct DeleteSlotInput: Swift.Equatable {
+public struct DeleteSlotInput {
     /// The identifier of the bot associated with the slot to delete.
     /// This member is required.
     public var botId: Swift.String?
@@ -13553,7 +13553,7 @@ public struct DeleteSlotInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlotInputBody: Swift.Equatable {
+struct DeleteSlotInputBody {
 }
 
 extension DeleteSlotInputBody: Swift.Decodable {
@@ -13567,7 +13567,7 @@ extension DeleteSlotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSlotOutput: Swift.Equatable {
+public struct DeleteSlotOutput {
 
     public init() { }
 }
@@ -13619,7 +13619,7 @@ extension DeleteSlotTypeInput {
     }
 }
 
-public struct DeleteSlotTypeInput: Swift.Equatable {
+public struct DeleteSlotTypeInput {
     /// The identifier of the bot associated with the slot type.
     /// This member is required.
     public var botId: Swift.String?
@@ -13651,7 +13651,7 @@ public struct DeleteSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct DeleteSlotTypeInputBody: Swift.Equatable {
+struct DeleteSlotTypeInputBody {
 }
 
 extension DeleteSlotTypeInputBody: Swift.Decodable {
@@ -13665,7 +13665,7 @@ extension DeleteSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSlotTypeOutput: Swift.Equatable {
+public struct DeleteSlotTypeOutput {
 
     public init() { }
 }
@@ -13696,7 +13696,7 @@ extension DeleteTestSetInput {
     }
 }
 
-public struct DeleteTestSetInput: Swift.Equatable {
+public struct DeleteTestSetInput {
     /// The test set Id of the test set to be deleted.
     /// This member is required.
     public var testSetId: Swift.String?
@@ -13709,7 +13709,7 @@ public struct DeleteTestSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteTestSetInputBody: Swift.Equatable {
+struct DeleteTestSetInputBody {
 }
 
 extension DeleteTestSetInputBody: Swift.Decodable {
@@ -13723,7 +13723,7 @@ extension DeleteTestSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTestSetOutput: Swift.Equatable {
+public struct DeleteTestSetOutput {
 
     public init() { }
 }
@@ -13770,7 +13770,7 @@ extension DeleteUtterancesInput {
     }
 }
 
-public struct DeleteUtterancesInput: Swift.Equatable {
+public struct DeleteUtterancesInput {
     /// The unique identifier of the bot that contains the utterances.
     /// This member is required.
     public var botId: Swift.String?
@@ -13791,7 +13791,7 @@ public struct DeleteUtterancesInput: Swift.Equatable {
     }
 }
 
-struct DeleteUtterancesInputBody: Swift.Equatable {
+struct DeleteUtterancesInputBody {
 }
 
 extension DeleteUtterancesInputBody: Swift.Decodable {
@@ -13805,7 +13805,7 @@ extension DeleteUtterancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteUtterancesOutput: Swift.Equatable {
+public struct DeleteUtterancesOutput {
 
     public init() { }
 }
@@ -13836,7 +13836,7 @@ extension DescribeBotAliasInput {
     }
 }
 
-public struct DescribeBotAliasInput: Swift.Equatable {
+public struct DescribeBotAliasInput {
     /// The identifier of the bot alias to describe.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -13854,7 +13854,7 @@ public struct DescribeBotAliasInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotAliasInputBody: Swift.Equatable {
+struct DescribeBotAliasInputBody {
 }
 
 extension DescribeBotAliasInputBody: Swift.Decodable {
@@ -13899,7 +13899,7 @@ extension DescribeBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotAliasOutput: Swift.Equatable {
+public struct DescribeBotAliasOutput {
     /// A list of events that affect a bot alias. For example, an event is recorded when the version that the alias points to changes.
     public var botAliasHistoryEvents: [LexModelsV2ClientTypes.BotAliasHistoryEvent]?
     /// The identifier of the bot alias.
@@ -13959,7 +13959,7 @@ public struct DescribeBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotAliasOutputBody: Swift.Equatable {
+struct DescribeBotAliasOutputBody {
     let botAliasId: Swift.String?
     let botAliasName: Swift.String?
     let description: Swift.String?
@@ -14075,7 +14075,7 @@ extension DescribeBotInput {
     }
 }
 
-public struct DescribeBotInput: Swift.Equatable {
+public struct DescribeBotInput {
     /// The unique identifier of the bot to describe.
     /// This member is required.
     public var botId: Swift.String?
@@ -14088,7 +14088,7 @@ public struct DescribeBotInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotInputBody: Swift.Equatable {
+struct DescribeBotInputBody {
 }
 
 extension DescribeBotInputBody: Swift.Decodable {
@@ -14113,7 +14113,7 @@ extension DescribeBotLocaleInput {
     }
 }
 
-public struct DescribeBotLocaleInput: Swift.Equatable {
+public struct DescribeBotLocaleInput {
     /// The identifier of the bot associated with the locale.
     /// This member is required.
     public var botId: Swift.String?
@@ -14136,7 +14136,7 @@ public struct DescribeBotLocaleInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotLocaleInputBody: Swift.Equatable {
+struct DescribeBotLocaleInputBody {
 }
 
 extension DescribeBotLocaleInputBody: Swift.Decodable {
@@ -14189,7 +14189,7 @@ extension DescribeBotLocaleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotLocaleOutput: Swift.Equatable {
+public struct DescribeBotLocaleOutput {
     /// The identifier of the bot associated with the locale.
     public var botId: Swift.String?
     /// History of changes, such as when a locale is used in an alias, that have taken place for the locale.
@@ -14265,7 +14265,7 @@ public struct DescribeBotLocaleOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotLocaleOutputBody: Swift.Equatable {
+struct DescribeBotLocaleOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -14421,7 +14421,7 @@ extension DescribeBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotOutput: Swift.Equatable {
+public struct DescribeBotOutput {
     /// The unique identifier of the bot.
     public var botId: Swift.String?
     /// The list of bots in the network that was described.
@@ -14477,7 +14477,7 @@ public struct DescribeBotOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotOutputBody: Swift.Equatable {
+struct DescribeBotOutputBody {
     let botId: Swift.String?
     let botName: Swift.String?
     let description: Swift.String?
@@ -14589,7 +14589,7 @@ extension DescribeBotRecommendationInput {
     }
 }
 
-public struct DescribeBotRecommendationInput: Swift.Equatable {
+public struct DescribeBotRecommendationInput {
     /// The unique identifier of the bot associated with the bot recommendation.
     /// This member is required.
     public var botId: Swift.String?
@@ -14617,7 +14617,7 @@ public struct DescribeBotRecommendationInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotRecommendationInputBody: Swift.Equatable {
+struct DescribeBotRecommendationInputBody {
 }
 
 extension DescribeBotRecommendationInputBody: Swift.Decodable {
@@ -14658,7 +14658,7 @@ extension DescribeBotRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotRecommendationOutput: Swift.Equatable {
+public struct DescribeBotRecommendationOutput {
     /// The identifier of the bot associated with the bot recommendation.
     public var botId: Swift.String?
     /// The identifier of the bot recommendation being described.
@@ -14710,7 +14710,7 @@ public struct DescribeBotRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotRecommendationOutputBody: Swift.Equatable {
+struct DescribeBotRecommendationOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -14802,7 +14802,7 @@ extension DescribeBotReplicaInput {
     }
 }
 
-public struct DescribeBotReplicaInput: Swift.Equatable {
+public struct DescribeBotReplicaInput {
     /// The request for the unique bot ID of the replicated bot being monitored.
     /// This member is required.
     public var botId: Swift.String?
@@ -14820,7 +14820,7 @@ public struct DescribeBotReplicaInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotReplicaInputBody: Swift.Equatable {
+struct DescribeBotReplicaInputBody {
 }
 
 extension DescribeBotReplicaInputBody: Swift.Decodable {
@@ -14851,7 +14851,7 @@ extension DescribeBotReplicaOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotReplicaOutput: Swift.Equatable {
+public struct DescribeBotReplicaOutput {
     /// The unique bot ID of the replicated bot being monitored.
     public var botId: Swift.String?
     /// The operational status of the replicated bot being monitored.
@@ -14883,7 +14883,7 @@ public struct DescribeBotReplicaOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotReplicaOutputBody: Swift.Equatable {
+struct DescribeBotReplicaOutputBody {
     let botId: Swift.String?
     let replicaRegion: Swift.String?
     let sourceRegion: Swift.String?
@@ -14962,7 +14962,7 @@ extension DescribeBotResourceGenerationInput {
     }
 }
 
-public struct DescribeBotResourceGenerationInput: Swift.Equatable {
+public struct DescribeBotResourceGenerationInput {
     /// The unique identifier of the bot for which to return the generation details.
     /// This member is required.
     public var botId: Swift.String?
@@ -14990,7 +14990,7 @@ public struct DescribeBotResourceGenerationInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotResourceGenerationInputBody: Swift.Equatable {
+struct DescribeBotResourceGenerationInputBody {
 }
 
 extension DescribeBotResourceGenerationInputBody: Swift.Decodable {
@@ -15031,7 +15031,7 @@ extension DescribeBotResourceGenerationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribeBotResourceGenerationOutput: Swift.Equatable {
+public struct DescribeBotResourceGenerationOutput {
     /// The unique identifier of the bot for which the generation request was made.
     public var botId: Swift.String?
     /// The version of the bot for which the generation request was made.
@@ -15083,7 +15083,7 @@ public struct DescribeBotResourceGenerationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotResourceGenerationOutputBody: Swift.Equatable {
+struct DescribeBotResourceGenerationOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -15175,7 +15175,7 @@ extension DescribeBotVersionInput {
     }
 }
 
-public struct DescribeBotVersionInput: Swift.Equatable {
+public struct DescribeBotVersionInput {
     /// The identifier of the bot containing the version to return metadata for.
     /// This member is required.
     public var botId: Swift.String?
@@ -15193,7 +15193,7 @@ public struct DescribeBotVersionInput: Swift.Equatable {
     }
 }
 
-struct DescribeBotVersionInputBody: Swift.Equatable {
+struct DescribeBotVersionInputBody {
 }
 
 extension DescribeBotVersionInputBody: Swift.Decodable {
@@ -15238,7 +15238,7 @@ extension DescribeBotVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeBotVersionOutput: Swift.Equatable {
+public struct DescribeBotVersionOutput {
     /// The identifier of the bot that contains the version.
     public var botId: Swift.String?
     /// The members of bot network in the version that was described.
@@ -15298,7 +15298,7 @@ public struct DescribeBotVersionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeBotVersionOutputBody: Swift.Equatable {
+struct DescribeBotVersionOutputBody {
     let botId: Swift.String?
     let botName: Swift.String?
     let botVersion: Swift.String?
@@ -15420,7 +15420,7 @@ extension DescribeCustomVocabularyMetadataInput {
     }
 }
 
-public struct DescribeCustomVocabularyMetadataInput: Swift.Equatable {
+public struct DescribeCustomVocabularyMetadataInput {
     /// The unique identifier of the bot that contains the custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
@@ -15443,7 +15443,7 @@ public struct DescribeCustomVocabularyMetadataInput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomVocabularyMetadataInputBody: Swift.Equatable {
+struct DescribeCustomVocabularyMetadataInputBody {
 }
 
 extension DescribeCustomVocabularyMetadataInputBody: Swift.Decodable {
@@ -15474,7 +15474,7 @@ extension DescribeCustomVocabularyMetadataOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeCustomVocabularyMetadataOutput: Swift.Equatable {
+public struct DescribeCustomVocabularyMetadataOutput {
     /// The identifier of the bot that contains the custom vocabulary.
     public var botId: Swift.String?
     /// The version of the bot that contains the custom vocabulary to describe.
@@ -15506,7 +15506,7 @@ public struct DescribeCustomVocabularyMetadataOutput: Swift.Equatable {
     }
 }
 
-struct DescribeCustomVocabularyMetadataOutputBody: Swift.Equatable {
+struct DescribeCustomVocabularyMetadataOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -15567,7 +15567,7 @@ extension DescribeExportInput {
     }
 }
 
-public struct DescribeExportInput: Swift.Equatable {
+public struct DescribeExportInput {
     /// The unique identifier of the export to describe.
     /// This member is required.
     public var exportId: Swift.String?
@@ -15580,7 +15580,7 @@ public struct DescribeExportInput: Swift.Equatable {
     }
 }
 
-struct DescribeExportInputBody: Swift.Equatable {
+struct DescribeExportInputBody {
 }
 
 extension DescribeExportInputBody: Swift.Decodable {
@@ -15615,7 +15615,7 @@ extension DescribeExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeExportOutput: Swift.Equatable {
+public struct DescribeExportOutput {
     /// The date and time that the export was created.
     public var creationDateTime: ClientRuntime.Date?
     /// A pre-signed S3 URL that points to the bot or bot locale archive. The URL is only available for 5 minutes after calling the DescribeExport operation.
@@ -15655,7 +15655,7 @@ public struct DescribeExportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeExportOutputBody: Swift.Equatable {
+struct DescribeExportOutputBody {
     let exportId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
     let fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
@@ -15732,7 +15732,7 @@ extension DescribeImportInput {
     }
 }
 
-public struct DescribeImportInput: Swift.Equatable {
+public struct DescribeImportInput {
     /// The unique identifier of the import to describe.
     /// This member is required.
     public var importId: Swift.String?
@@ -15745,7 +15745,7 @@ public struct DescribeImportInput: Swift.Equatable {
     }
 }
 
-struct DescribeImportInputBody: Swift.Equatable {
+struct DescribeImportInputBody {
 }
 
 extension DescribeImportInputBody: Swift.Decodable {
@@ -15782,7 +15782,7 @@ extension DescribeImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeImportOutput: Swift.Equatable {
+public struct DescribeImportOutput {
     /// The date and time that the import was created.
     public var creationDateTime: ClientRuntime.Date?
     /// If the importStatus field is Failed, this provides one or more reasons for the failure.
@@ -15826,7 +15826,7 @@ public struct DescribeImportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeImportOutputBody: Swift.Equatable {
+struct DescribeImportOutputBody {
     let importId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification?
     let importedResourceId: Swift.String?
@@ -15916,7 +15916,7 @@ extension DescribeIntentInput {
     }
 }
 
-public struct DescribeIntentInput: Swift.Equatable {
+public struct DescribeIntentInput {
     /// The identifier of the bot associated with the intent.
     /// This member is required.
     public var botId: Swift.String?
@@ -15944,7 +15944,7 @@ public struct DescribeIntentInput: Swift.Equatable {
     }
 }
 
-struct DescribeIntentInputBody: Swift.Equatable {
+struct DescribeIntentInputBody {
 }
 
 extension DescribeIntentInputBody: Swift.Decodable {
@@ -16003,7 +16003,7 @@ extension DescribeIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeIntentOutput: Swift.Equatable {
+public struct DescribeIntentOutput {
     /// The identifier of the bot associated with the intent.
     public var botId: Swift.String?
     /// The version of the bot associated with the intent.
@@ -16091,7 +16091,7 @@ public struct DescribeIntentOutput: Swift.Equatable {
     }
 }
 
-struct DescribeIntentOutputBody: Swift.Equatable {
+struct DescribeIntentOutputBody {
     let intentId: Swift.String?
     let intentName: Swift.String?
     let description: Swift.String?
@@ -16244,7 +16244,7 @@ extension DescribeResourcePolicyInput {
     }
 }
 
-public struct DescribeResourcePolicyInput: Swift.Equatable {
+public struct DescribeResourcePolicyInput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16257,7 +16257,7 @@ public struct DescribeResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePolicyInputBody: Swift.Equatable {
+struct DescribeResourcePolicyInputBody {
 }
 
 extension DescribeResourcePolicyInputBody: Swift.Decodable {
@@ -16282,7 +16282,7 @@ extension DescribeResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeResourcePolicyOutput: Swift.Equatable {
+public struct DescribeResourcePolicyOutput {
     /// The JSON structure that contains the resource policy. For more information about the contents of a JSON policy document, see [ IAM JSON policy reference ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html).
     public var policy: Swift.String?
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
@@ -16302,7 +16302,7 @@ public struct DescribeResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct DescribeResourcePolicyOutputBody: Swift.Equatable {
+struct DescribeResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
     let revisionId: Swift.String?
@@ -16361,7 +16361,7 @@ extension DescribeSlotInput {
     }
 }
 
-public struct DescribeSlotInput: Swift.Equatable {
+public struct DescribeSlotInput {
     /// The identifier of the bot associated with the slot.
     /// This member is required.
     public var botId: Swift.String?
@@ -16394,7 +16394,7 @@ public struct DescribeSlotInput: Swift.Equatable {
     }
 }
 
-struct DescribeSlotInputBody: Swift.Equatable {
+struct DescribeSlotInputBody {
 }
 
 extension DescribeSlotInputBody: Swift.Decodable {
@@ -16441,7 +16441,7 @@ extension DescribeSlotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSlotOutput: Swift.Equatable {
+public struct DescribeSlotOutput {
     /// The identifier of the bot associated with the slot.
     public var botId: Swift.String?
     /// The version of the bot associated with the slot.
@@ -16505,7 +16505,7 @@ public struct DescribeSlotOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSlotOutputBody: Swift.Equatable {
+struct DescribeSlotOutputBody {
     let slotId: Swift.String?
     let slotName: Swift.String?
     let description: Swift.String?
@@ -16607,7 +16607,7 @@ extension DescribeSlotTypeInput {
     }
 }
 
-public struct DescribeSlotTypeInput: Swift.Equatable {
+public struct DescribeSlotTypeInput {
     /// The identifier of the bot associated with the slot type.
     /// This member is required.
     public var botId: Swift.String?
@@ -16635,7 +16635,7 @@ public struct DescribeSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct DescribeSlotTypeInputBody: Swift.Equatable {
+struct DescribeSlotTypeInputBody {
 }
 
 extension DescribeSlotTypeInputBody: Swift.Decodable {
@@ -16680,7 +16680,7 @@ extension DescribeSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSlotTypeOutput: Swift.Equatable {
+public struct DescribeSlotTypeOutput {
     /// The identifier of the bot associated with the slot type.
     public var botId: Swift.String?
     /// The version of the bot associated with the slot type.
@@ -16740,7 +16740,7 @@ public struct DescribeSlotTypeOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSlotTypeOutputBody: Swift.Equatable {
+struct DescribeSlotTypeOutputBody {
     let slotTypeId: Swift.String?
     let slotTypeName: Swift.String?
     let description: Swift.String?
@@ -16838,7 +16838,7 @@ extension DescribeTestExecutionInput {
     }
 }
 
-public struct DescribeTestExecutionInput: Swift.Equatable {
+public struct DescribeTestExecutionInput {
     /// The execution Id of the test set execution.
     /// This member is required.
     public var testExecutionId: Swift.String?
@@ -16851,7 +16851,7 @@ public struct DescribeTestExecutionInput: Swift.Equatable {
     }
 }
 
-struct DescribeTestExecutionInputBody: Swift.Equatable {
+struct DescribeTestExecutionInputBody {
 }
 
 extension DescribeTestExecutionInputBody: Swift.Decodable {
@@ -16890,7 +16890,7 @@ extension DescribeTestExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTestExecutionOutput: Swift.Equatable {
+public struct DescribeTestExecutionOutput {
     /// Indicates whether we use streaming or non-streaming APIs are used for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API is used.
     public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
     /// The execution creation date and time for the test set execution.
@@ -16938,7 +16938,7 @@ public struct DescribeTestExecutionOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTestExecutionOutputBody: Swift.Equatable {
+struct DescribeTestExecutionOutputBody {
     let testExecutionId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let lastUpdatedDateTime: ClientRuntime.Date?
@@ -17024,7 +17024,7 @@ extension DescribeTestSetDiscrepancyReportInput {
     }
 }
 
-public struct DescribeTestSetDiscrepancyReportInput: Swift.Equatable {
+public struct DescribeTestSetDiscrepancyReportInput {
     /// The unique identifier of the test set discrepancy report.
     /// This member is required.
     public var testSetDiscrepancyReportId: Swift.String?
@@ -17037,7 +17037,7 @@ public struct DescribeTestSetDiscrepancyReportInput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetDiscrepancyReportInputBody: Swift.Equatable {
+struct DescribeTestSetDiscrepancyReportInputBody {
 }
 
 extension DescribeTestSetDiscrepancyReportInputBody: Swift.Decodable {
@@ -17074,7 +17074,7 @@ extension DescribeTestSetDiscrepancyReportOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct DescribeTestSetDiscrepancyReportOutput: Swift.Equatable {
+public struct DescribeTestSetDiscrepancyReportOutput {
     /// The time and date of creation for the test set discrepancy report.
     public var creationDateTime: ClientRuntime.Date?
     /// The failure report for the test set discrepancy report generation action.
@@ -17118,7 +17118,7 @@ public struct DescribeTestSetDiscrepancyReportOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetDiscrepancyReportOutputBody: Swift.Equatable {
+struct DescribeTestSetDiscrepancyReportOutputBody {
     let testSetDiscrepancyReportId: Swift.String?
     let testSetId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
@@ -17200,7 +17200,7 @@ extension DescribeTestSetGenerationInput {
     }
 }
 
-public struct DescribeTestSetGenerationInput: Swift.Equatable {
+public struct DescribeTestSetGenerationInput {
     /// The unique identifier of the test set generation.
     /// This member is required.
     public var testSetGenerationId: Swift.String?
@@ -17213,7 +17213,7 @@ public struct DescribeTestSetGenerationInput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetGenerationInputBody: Swift.Equatable {
+struct DescribeTestSetGenerationInputBody {
 }
 
 extension DescribeTestSetGenerationInputBody: Swift.Decodable {
@@ -17254,7 +17254,7 @@ extension DescribeTestSetGenerationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTestSetGenerationOutput: Swift.Equatable {
+public struct DescribeTestSetGenerationOutput {
     /// The creation date and time for the test set generation.
     public var creationDateTime: ClientRuntime.Date?
     /// The test set description for the test set generation.
@@ -17306,7 +17306,7 @@ public struct DescribeTestSetGenerationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetGenerationOutputBody: Swift.Equatable {
+struct DescribeTestSetGenerationOutputBody {
     let testSetGenerationId: Swift.String?
     let testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
     let failureReasons: [Swift.String]?
@@ -17396,7 +17396,7 @@ extension DescribeTestSetInput {
     }
 }
 
-public struct DescribeTestSetInput: Swift.Equatable {
+public struct DescribeTestSetInput {
     /// The test set Id for the test set request.
     /// This member is required.
     public var testSetId: Swift.String?
@@ -17409,7 +17409,7 @@ public struct DescribeTestSetInput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetInputBody: Swift.Equatable {
+struct DescribeTestSetInputBody {
 }
 
 extension DescribeTestSetInputBody: Swift.Decodable {
@@ -17448,7 +17448,7 @@ extension DescribeTestSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTestSetOutput: Swift.Equatable {
+public struct DescribeTestSetOutput {
     /// The creation date and time for the test set data.
     public var creationDateTime: ClientRuntime.Date?
     /// The description of the test set.
@@ -17496,7 +17496,7 @@ public struct DescribeTestSetOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTestSetOutputBody: Swift.Equatable {
+struct DescribeTestSetOutputBody {
     let testSetId: Swift.String?
     let testSetName: Swift.String?
     let description: Swift.String?
@@ -17590,7 +17590,7 @@ extension LexModelsV2ClientTypes.DescriptiveBotBuilderSpecification: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications for the descriptive bot building feature.
-    public struct DescriptiveBotBuilderSpecification: Swift.Equatable {
+    public struct DescriptiveBotBuilderSpecification {
         /// An object containing information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
         public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
         /// Specifies whether the descriptive bot building feature is activated or not.
@@ -17642,7 +17642,7 @@ extension LexModelsV2ClientTypes.DialogAction: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines the action that the bot executes at runtime when the conversation reaches this step.
-    public struct DialogAction: Swift.Equatable {
+    public struct DialogAction {
         /// If the dialog action is ElicitSlot, defines the slot to elicit from the user.
         public var slotToElicit: Swift.String?
         /// When true the next message for the intent is not used.
@@ -17757,7 +17757,7 @@ extension LexModelsV2ClientTypes.DialogCodeHookInvocationSetting: Swift.Codable 
 
 extension LexModelsV2ClientTypes {
     /// Settings that specify the dialog code hook that is called by Amazon Lex at a step of the conversation.
-    public struct DialogCodeHookInvocationSetting: Swift.Equatable {
+    public struct DialogCodeHookInvocationSetting {
         /// Determines whether a dialog code hook is used when the intent is activated.
         /// This member is required.
         public var active: Swift.Bool?
@@ -17807,7 +17807,7 @@ extension LexModelsV2ClientTypes.DialogCodeHookSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Settings that determine the Lambda function that Amazon Lex uses for processing user responses.
-    public struct DialogCodeHookSettings: Swift.Equatable {
+    public struct DialogCodeHookSettings {
         /// Enables the dialog code hook so that it processes user requests.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -17867,7 +17867,7 @@ extension LexModelsV2ClientTypes.DialogState: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The current state of the conversation with the user.
-    public struct DialogState: Swift.Equatable {
+    public struct DialogState {
         /// Defines the action that the bot executes at runtime when the conversation reaches this step.
         public var dialogAction: LexModelsV2ClientTypes.DialogAction?
         /// Override settings to configure the intent state.
@@ -17948,7 +17948,7 @@ extension LexModelsV2ClientTypes.ElicitationCodeHookInvocationSetting: Swift.Cod
 
 extension LexModelsV2ClientTypes {
     /// Settings that specify the dialog code hook that is called by Amazon Lex between eliciting slot values.
-    public struct ElicitationCodeHookInvocationSetting: Swift.Equatable {
+    public struct ElicitationCodeHookInvocationSetting {
         /// Indicates whether a Lambda function should be invoked for the dialog.
         /// This member is required.
         public var enableCodeHookInvocation: Swift.Bool?
@@ -18005,7 +18005,7 @@ extension LexModelsV2ClientTypes.EncryptionSetting: Swift.CustomDebugStringConve
 
 extension LexModelsV2ClientTypes {
     /// The object representing the passwords that were used to encrypt the data related to the bot recommendation, as well as the KMS key ARN used to encrypt the associated metadata.
-    public struct EncryptionSetting: Swift.Equatable {
+    public struct EncryptionSetting {
         /// The password used to encrypt the associated transcript file.
         public var associatedTranscriptsPassword: Swift.String?
         /// The password used to encrypt the recommended bot recommendation file.
@@ -18092,7 +18092,7 @@ extension LexModelsV2ClientTypes.ExactResponseFields: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the names of the fields used for an exact response to the user.
-    public struct ExactResponseFields: Swift.Equatable {
+    public struct ExactResponseFields {
         /// The name of the field that contains the answer to the query made to the OpenSearch Service database.
         /// This member is required.
         public var answerField: Swift.String?
@@ -18139,7 +18139,7 @@ extension LexModelsV2ClientTypes.ExecutionErrorDetails: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Details about an error in an execution of a test set.
-    public struct ExecutionErrorDetails: Swift.Equatable {
+    public struct ExecutionErrorDetails {
         /// The error code for the error.
         /// This member is required.
         public var errorCode: Swift.String?
@@ -18204,7 +18204,7 @@ extension LexModelsV2ClientTypes.ExportFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the response form the [ListExports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListExports.html) operation
-    public struct ExportFilter: Swift.Equatable {
+    public struct ExportFilter {
         /// The name of the field to use for filtering.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.ExportFilterName?
@@ -18329,7 +18329,7 @@ extension LexModelsV2ClientTypes.ExportResourceSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information about the bot or bot locale that you want to export. You can specify the botExportSpecification or the botLocaleExportSpecification, but not both.
-    public struct ExportResourceSpecification: Swift.Equatable {
+    public struct ExportResourceSpecification {
         /// Parameters for exporting a bot.
         public var botExportSpecification: LexModelsV2ClientTypes.BotExportSpecification?
         /// Parameters for exporting a bot locale.
@@ -18411,7 +18411,7 @@ extension LexModelsV2ClientTypes.ExportSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information about sorting a list of exports.
-    public struct ExportSortBy: Swift.Equatable {
+    public struct ExportSortBy {
         /// The export field to use for sorting.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.ExportSortAttribute?
@@ -18520,7 +18520,7 @@ extension LexModelsV2ClientTypes.ExportSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information about an export in an export list.
-    public struct ExportSummary: Swift.Equatable {
+    public struct ExportSummary {
         /// The date and time that the export was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The unique identifier that Amazon Lex assigned to the export.
@@ -18575,7 +18575,7 @@ extension LexModelsV2ClientTypes.ExternalSourceSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information about the external source of the slot type's definition.
-    public struct ExternalSourceSetting: Swift.Equatable {
+    public struct ExternalSourceSetting {
         /// Settings required for a slot type based on a grammar that you provide.
         public var grammarSlotTypeSetting: LexModelsV2ClientTypes.GrammarSlotTypeSetting?
 
@@ -18622,7 +18622,7 @@ extension LexModelsV2ClientTypes.FailedCustomVocabularyItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The unique failed custom vocabulary item from the custom vocabulary list.
-    public struct FailedCustomVocabularyItem: Swift.Equatable {
+    public struct FailedCustomVocabularyItem {
         /// The unique error code for the failed custom vocabulary item from the custom vocabulary list.
         public var errorCode: LexModelsV2ClientTypes.ErrorCode?
         /// The error message for the failed custom vocabulary item from the custom vocabulary list.
@@ -18683,7 +18683,7 @@ extension LexModelsV2ClientTypes.FulfillmentCodeHookSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Determines if a Lambda function should be invoked for a specific intent.
-    public struct FulfillmentCodeHookSettings: Swift.Equatable {
+    public struct FulfillmentCodeHookSettings {
         /// Determines whether the fulfillment code hook is used. When active is false, the code hook doesn't run.
         public var active: Swift.Bool?
         /// Indicates whether a Lambda function should be invoked to fulfill a specific intent.
@@ -18755,7 +18755,7 @@ extension LexModelsV2ClientTypes.FulfillmentStartResponseSpecification: Swift.Co
 
 extension LexModelsV2ClientTypes {
     /// Provides settings for a message that is sent to the user when a fulfillment Lambda function starts running.
-    public struct FulfillmentStartResponseSpecification: Swift.Equatable {
+    public struct FulfillmentStartResponseSpecification {
         /// Determines whether the user can interrupt the start message while it is playing.
         public var allowInterrupt: Swift.Bool?
         /// The delay between when the Lambda fulfillment function starts running and the start message is played. If the Lambda function returns before the delay is over, the start message isn't played.
@@ -18824,7 +18824,7 @@ extension LexModelsV2ClientTypes.FulfillmentUpdateResponseSpecification: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Provides settings for a message that is sent periodically to the user while a fulfillment Lambda function is running.
-    public struct FulfillmentUpdateResponseSpecification: Swift.Equatable {
+    public struct FulfillmentUpdateResponseSpecification {
         /// Determines whether the user can interrupt an update message while it is playing.
         public var allowInterrupt: Swift.Bool?
         /// The frequency that a message is sent to the user. When the period ends, Amazon Lex chooses a message from the message groups and plays it to the user. If the fulfillment Lambda returns before the first period ends, an update message is not played to the user.
@@ -18887,7 +18887,7 @@ extension LexModelsV2ClientTypes.FulfillmentUpdatesSpecification: Swift.Codable 
 
 extension LexModelsV2ClientTypes {
     /// Provides information for updating the user on the progress of fulfilling an intent.
-    public struct FulfillmentUpdatesSpecification: Swift.Equatable {
+    public struct FulfillmentUpdatesSpecification {
         /// Determines whether fulfillment updates are sent to the user. When this field is true, updates are sent. If the active field is set to true, the startResponse, updateResponse, and timeoutInSeconds fields are required.
         /// This member is required.
         public var active: Swift.Bool?
@@ -18943,7 +18943,7 @@ extension GenerateBotElementInput {
     }
 }
 
-public struct GenerateBotElementInput: Swift.Equatable {
+public struct GenerateBotElementInput {
     /// The bot unique Id for the bot request to generate utterances.
     /// This member is required.
     public var botId: Swift.String?
@@ -18971,7 +18971,7 @@ public struct GenerateBotElementInput: Swift.Equatable {
     }
 }
 
-struct GenerateBotElementInputBody: Swift.Equatable {
+struct GenerateBotElementInputBody {
     let intentId: Swift.String?
 }
 
@@ -19007,7 +19007,7 @@ extension GenerateBotElementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateBotElementOutput: Swift.Equatable {
+public struct GenerateBotElementOutput {
     /// The unique bot Id for the bot which received the response.
     public var botId: Swift.String?
     /// The unique bot version for the bot which received the response.
@@ -19035,7 +19035,7 @@ public struct GenerateBotElementOutput: Swift.Equatable {
     }
 }
 
-struct GenerateBotElementOutputBody: Swift.Equatable {
+struct GenerateBotElementOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -19120,7 +19120,7 @@ extension LexModelsV2ClientTypes.GenerationSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the attribute and method by which to sort the generation request information.
-    public struct GenerationSortBy: Swift.Equatable {
+    public struct GenerationSortBy {
         /// The attribute by which to sort the generation request information. You can sort by the following attributes.
         ///
         /// * creationStartTime – The time at which the generation request was created.
@@ -19250,7 +19250,7 @@ extension LexModelsV2ClientTypes.GenerationSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about a generation request made for the bot locale.
-    public struct GenerationSummary: Swift.Equatable {
+    public struct GenerationSummary {
         /// The date and time at which the generation request was made.
         public var creationDateTime: ClientRuntime.Date?
         /// The unique identifier of the generation request.
@@ -19303,7 +19303,7 @@ extension LexModelsV2ClientTypes.GenerativeAISettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications about the generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
-    public struct GenerativeAISettings: Swift.Equatable {
+    public struct GenerativeAISettings {
         /// Contains specifications about the Amazon Lex build time generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
         public var buildtimeSettings: LexModelsV2ClientTypes.BuildtimeSettings?
         /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
@@ -19331,7 +19331,7 @@ extension GetTestExecutionArtifactsUrlInput {
     }
 }
 
-public struct GetTestExecutionArtifactsUrlInput: Swift.Equatable {
+public struct GetTestExecutionArtifactsUrlInput {
     /// The unique identifier of the completed test execution.
     /// This member is required.
     public var testExecutionId: Swift.String?
@@ -19344,7 +19344,7 @@ public struct GetTestExecutionArtifactsUrlInput: Swift.Equatable {
     }
 }
 
-struct GetTestExecutionArtifactsUrlInputBody: Swift.Equatable {
+struct GetTestExecutionArtifactsUrlInputBody {
 }
 
 extension GetTestExecutionArtifactsUrlInputBody: Swift.Decodable {
@@ -19367,7 +19367,7 @@ extension GetTestExecutionArtifactsUrlOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetTestExecutionArtifactsUrlOutput: Swift.Equatable {
+public struct GetTestExecutionArtifactsUrlOutput {
     /// The pre-signed Amazon S3 URL to download completed test execution.
     public var downloadArtifactsUrl: Swift.String?
     /// The unique identifier of the completed test execution.
@@ -19383,7 +19383,7 @@ public struct GetTestExecutionArtifactsUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetTestExecutionArtifactsUrlOutputBody: Swift.Equatable {
+struct GetTestExecutionArtifactsUrlOutputBody {
     let testExecutionId: Swift.String?
     let downloadArtifactsUrl: Swift.String?
 }
@@ -19439,7 +19439,7 @@ extension LexModelsV2ClientTypes.GrammarSlotTypeSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Settings requried for a slot type based on a grammar that you provide.
-    public struct GrammarSlotTypeSetting: Swift.Equatable {
+    public struct GrammarSlotTypeSetting {
         /// The source of the grammar used to create the slot type.
         public var source: LexModelsV2ClientTypes.GrammarSlotTypeSource?
 
@@ -19486,7 +19486,7 @@ extension LexModelsV2ClientTypes.GrammarSlotTypeSource: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Describes the Amazon S3 bucket name and location for the grammar that is the source for the slot type.
-    public struct GrammarSlotTypeSource: Swift.Equatable {
+    public struct GrammarSlotTypeSource {
         /// The KMS key required to decrypt the contents of the grammar, if any.
         public var kmsKeyArn: Swift.String?
         /// The name of the Amazon S3 bucket that contains the grammar source.
@@ -19561,7 +19561,7 @@ extension LexModelsV2ClientTypes.ImageResponseCard: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A card that is shown to the user by a messaging platform. You define the contents of the card, the card is displayed by the platform. When you use a response card, the response from the user is constrained to the text associated with a button on the card.
-    public struct ImageResponseCard: Swift.Equatable {
+    public struct ImageResponseCard {
         /// A list of buttons that should be displayed on the response card. The arrangement of the buttons is determined by the platform that displays the button.
         public var buttons: [LexModelsV2ClientTypes.Button]?
         /// The URL of an image to display on the response card. The image URL must be publicly available so that the platform displaying the response card has access to the image.
@@ -19668,7 +19668,7 @@ extension LexModelsV2ClientTypes.ImportFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the response from the [ListImports](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_ListImports.html) operation.
-    public struct ImportFilter: Swift.Equatable {
+    public struct ImportFilter {
         /// The name of the field to use for filtering.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.ImportFilterName?
@@ -19793,7 +19793,7 @@ extension LexModelsV2ClientTypes.ImportResourceSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information about the bot or bot locale that you want to import. You can specify the botImportSpecification or the botLocaleImportSpecification, but not both.
-    public struct ImportResourceSpecification: Swift.Equatable {
+    public struct ImportResourceSpecification {
         /// Parameters for importing a bot.
         public var botImportSpecification: LexModelsV2ClientTypes.BotImportSpecification?
         /// Parameters for importing a bot locale.
@@ -19913,7 +19913,7 @@ extension LexModelsV2ClientTypes.ImportSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides information for sorting a list of imports.
-    public struct ImportSortBy: Swift.Equatable {
+    public struct ImportSortBy {
         /// The export field to use for sorting.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.ImportSortAttribute?
@@ -20034,7 +20034,7 @@ extension LexModelsV2ClientTypes.ImportSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information about an import in an import list.
-    public struct ImportSummary: Swift.Equatable {
+    public struct ImportSummary {
         /// The date and time that the import was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The unique identifier that Amazon Lex assigned to the import.
@@ -20115,7 +20115,7 @@ extension LexModelsV2ClientTypes.InitialResponseSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Configuration setting for a response sent to the user before Amazon Lex starts eliciting slots.
-    public struct InitialResponseSetting: Swift.Equatable {
+    public struct InitialResponseSetting {
         /// Settings that specify the dialog code hook that is called by Amazon Lex at a step of the conversation.
         public var codeHook: LexModelsV2ClientTypes.DialogCodeHookInvocationSetting?
         /// Provides a list of conditional branches. Branches are evaluated in the order that they are entered in the list. The first branch with a condition that evaluates to true is executed. The last branch in the list is the default branch. The default branch should not have any condition expression. The default branch is executed if no other branch has a matching condition.
@@ -20162,7 +20162,7 @@ extension LexModelsV2ClientTypes.InputContext: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A context that must be active for an intent to be selected by Amazon Lex.
-    public struct InputContext: Swift.Equatable {
+    public struct InputContext {
         /// The name of the context.
         /// This member is required.
         public var name: Swift.String?
@@ -20234,7 +20234,7 @@ extension LexModelsV2ClientTypes.InputSessionStateSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifications for the current state of the dialog between the user and the bot in the test set.
-    public struct InputSessionStateSpecification: Swift.Equatable {
+    public struct InputSessionStateSpecification {
         /// Active contexts for the session state.
         public var activeContexts: [LexModelsV2ClientTypes.ActiveContext]?
         /// Runtime hints for the session state.
@@ -20289,7 +20289,7 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResultItem: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Information for an intent that is classified by the test workbench.
-    public struct IntentClassificationTestResultItem: Swift.Equatable {
+    public struct IntentClassificationTestResultItem {
         /// The name of the intent.
         /// This member is required.
         public var intentName: Swift.String?
@@ -20371,7 +20371,7 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResultItemCounts: Swift
 
 extension LexModelsV2ClientTypes {
     /// The number of items in the intent classification test.
-    public struct IntentClassificationTestResultItemCounts: Swift.Equatable {
+    public struct IntentClassificationTestResultItemCounts {
         /// The number of matched and mismatched results for intent recognition for the intent.
         /// This member is required.
         public var intentMatchResultCounts: [Swift.String:Swift.Int]?
@@ -20428,7 +20428,7 @@ extension LexModelsV2ClientTypes.IntentClassificationTestResults: Swift.Codable 
 
 extension LexModelsV2ClientTypes {
     /// Information for the results of the intent classification test.
-    public struct IntentClassificationTestResults: Swift.Equatable {
+    public struct IntentClassificationTestResults {
         /// A list of the results for the intent classification test.
         /// This member is required.
         public var items: [LexModelsV2ClientTypes.IntentClassificationTestResultItem]?
@@ -20482,7 +20482,7 @@ extension LexModelsV2ClientTypes.IntentClosingSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides a statement the Amazon Lex conveys to the user when the intent is successfully fulfilled.
-    public struct IntentClosingSetting: Swift.Equatable {
+    public struct IntentClosingSetting {
         /// Specifies whether an intent's closing response is used. When this field is false, the closing response isn't sent to the user. If the active field isn't specified, the default is true.
         public var active: Swift.Bool?
         /// The response that Amazon Lex sends to the user when the intent is complete.
@@ -20601,7 +20601,7 @@ extension LexModelsV2ClientTypes.IntentConfirmationSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides a prompt for making sure that the user is ready for the intent to be fulfilled.
-    public struct IntentConfirmationSetting: Swift.Equatable {
+    public struct IntentConfirmationSetting {
         /// Specifies whether the intent's confirmation is sent to the user. When this field is false, confirmation and declination responses aren't sent. If the active field isn't specified, the default is true.
         public var active: Swift.Bool?
         /// The DialogCodeHookInvocationSetting object associated with intent's confirmation step. The dialog code hook is triggered based on these invocation settings when the confirmation next step or declination next step or failure next step is InvokeDialogCodeHook.
@@ -20709,7 +20709,7 @@ extension LexModelsV2ClientTypes.IntentFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the response from the ListIntents operation.
-    public struct IntentFilter: Swift.Equatable {
+    public struct IntentFilter {
         /// The name of the field to use for the filter.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.IntentFilterName?
@@ -20840,7 +20840,7 @@ extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem: Swift.
 
 extension LexModelsV2ClientTypes {
     /// Information about intent-level slot resolution in a test result.
-    public struct IntentLevelSlotResolutionTestResultItem: Swift.Equatable {
+    public struct IntentLevelSlotResolutionTestResultItem {
         /// The name of the intent that was recognized.
         /// This member is required.
         public var intentName: Swift.String?
@@ -20898,7 +20898,7 @@ extension LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResults: Swift.Cod
 
 extension LexModelsV2ClientTypes {
     /// Indicates the success or failure of slots at the intent level.
-    public struct IntentLevelSlotResolutionTestResults: Swift.Equatable {
+    public struct IntentLevelSlotResolutionTestResults {
         /// Indicates the items for the slot level resolution for the intents.
         /// This member is required.
         public var items: [LexModelsV2ClientTypes.IntentLevelSlotResolutionTestResultItem]?
@@ -20952,7 +20952,7 @@ extension LexModelsV2ClientTypes.IntentOverride: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Override settings to configure the intent state.
-    public struct IntentOverride: Swift.Equatable {
+    public struct IntentOverride {
         /// The name of the intent. Only required when you're switching intents.
         public var name: Swift.String?
         /// A map of all of the slot value overrides for the intent. The name of the slot maps to the value of the slot. Slots that are not included in the map aren't overridden.
@@ -21029,7 +21029,7 @@ extension LexModelsV2ClientTypes.IntentSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of intents.
-    public struct IntentSortBy: Swift.Equatable {
+    public struct IntentSortBy {
         /// The attribute to use to sort the list of intents.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.IntentSortAttribute?
@@ -21114,7 +21114,7 @@ extension LexModelsV2ClientTypes.IntentStatistics: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object that contains the statistical summary of recommended intents associated with the bot recommendation.
-    public struct IntentStatistics: Swift.Equatable {
+    public struct IntentStatistics {
         /// The number of recommended intents associated with the bot recommendation.
         public var discoveredIntentCount: Swift.Int?
 
@@ -21209,7 +21209,7 @@ extension LexModelsV2ClientTypes.IntentSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about an intent returned by the ListIntents operation.
-    public struct IntentSummary: Swift.Equatable {
+    public struct IntentSummary {
         /// The description of the intent.
         public var description: Swift.String?
         /// The input contexts that must be active for this intent to be considered for recognition.
@@ -21286,7 +21286,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -21323,7 +21323,7 @@ extension LexModelsV2ClientTypes.InvokedIntentSample: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing the name of an intent that was invoked.
-    public struct InvokedIntentSample: Swift.Equatable {
+    public struct InvokedIntentSample {
         /// The name of an intent that was invoked.
         public var intentName: Swift.String?
 
@@ -21370,7 +21370,7 @@ extension LexModelsV2ClientTypes.KendraConfiguration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides configuration information for the AMAZON.KendraSearchIntent intent. When you use this intent, Amazon Lex searches the specified Amazon Kendra index and returns documents from the index that match the user's utterance.
-    public struct KendraConfiguration: Swift.Equatable {
+    public struct KendraConfiguration {
         /// The Amazon Resource Name (ARN) of the Amazon Kendra index that you want the AMAZON.KendraSearchIntent intent to search. The index must be in the same account and Region as the Amazon Lex bot.
         /// This member is required.
         public var kendraIndex: Swift.String?
@@ -21420,7 +21420,7 @@ extension LexModelsV2ClientTypes.LambdaCodeHook: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies a Lambda function that verifies requests to a bot or fulfills the user's request to a bot.
-    public struct LambdaCodeHook: Swift.Equatable {
+    public struct LambdaCodeHook {
         /// The version of the request-response that you want Amazon Lex to use to invoke your Lambda function.
         /// This member is required.
         public var codeHookInterfaceVersion: Swift.String?
@@ -21463,7 +21463,7 @@ extension LexModelsV2ClientTypes.LexTranscriptFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object that contains transcript filter details that are associated with a bot recommendation.
-    public struct LexTranscriptFilter: Swift.Equatable {
+    public struct LexTranscriptFilter {
         /// The object that contains a date range filter that will be applied to the transcript. Specify this object if you want Amazon Lex to only read the files that are within the date range.
         public var dateRangeFilter: LexModelsV2ClientTypes.DateRangeFilter?
 
@@ -21531,7 +21531,7 @@ extension ListAggregatedUtterancesInput {
     }
 }
 
-public struct ListAggregatedUtterancesInput: Swift.Equatable {
+public struct ListAggregatedUtterancesInput {
     /// The time window for aggregating the utterance information. You can specify a time between one hour and two weeks.
     /// This member is required.
     public var aggregationDuration: LexModelsV2ClientTypes.UtteranceAggregationDuration?
@@ -21578,7 +21578,7 @@ public struct ListAggregatedUtterancesInput: Swift.Equatable {
     }
 }
 
-struct ListAggregatedUtterancesInputBody: Swift.Equatable {
+struct ListAggregatedUtterancesInputBody {
     let botAliasId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -21661,7 +21661,7 @@ extension ListAggregatedUtterancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAggregatedUtterancesOutput: Swift.Equatable {
+public struct ListAggregatedUtterancesOutput {
     /// Summaries of the aggregated utterance data. Each response contains information about the number of times that the utterance was seen during the time period, whether it was detected or missed, and when it was seen during the time period.
     public var aggregatedUtterancesSummaries: [LexModelsV2ClientTypes.AggregatedUtterancesSummary]?
     /// The time period used to aggregate the utterance data.
@@ -21715,7 +21715,7 @@ public struct ListAggregatedUtterancesOutput: Swift.Equatable {
     }
 }
 
-struct ListAggregatedUtterancesOutputBody: Swift.Equatable {
+struct ListAggregatedUtterancesOutputBody {
     let botId: Swift.String?
     let botAliasId: Swift.String?
     let botVersion: Swift.String?
@@ -21820,7 +21820,7 @@ extension ListBotAliasReplicasInput {
     }
 }
 
-public struct ListBotAliasReplicasInput: Swift.Equatable {
+public struct ListBotAliasReplicasInput {
     /// The request for the unique bot ID of the replicated bot created from the source bot alias.
     /// This member is required.
     public var botId: Swift.String?
@@ -21846,7 +21846,7 @@ public struct ListBotAliasReplicasInput: Swift.Equatable {
     }
 }
 
-struct ListBotAliasReplicasInputBody: Swift.Equatable {
+struct ListBotAliasReplicasInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -21886,7 +21886,7 @@ extension ListBotAliasReplicasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotAliasReplicasOutput: Swift.Equatable {
+public struct ListBotAliasReplicasOutput {
     /// The summary information of the replicated bot created from the source bot alias.
     public var botAliasReplicaSummaries: [LexModelsV2ClientTypes.BotAliasReplicaSummary]?
     /// The unique bot ID of the replicated bot created from the source bot alias.
@@ -21914,7 +21914,7 @@ public struct ListBotAliasReplicasOutput: Swift.Equatable {
     }
 }
 
-struct ListBotAliasReplicasOutputBody: Swift.Equatable {
+struct ListBotAliasReplicasOutputBody {
     let botId: Swift.String?
     let sourceRegion: Swift.String?
     let replicaRegion: Swift.String?
@@ -21996,7 +21996,7 @@ extension ListBotAliasesInput {
     }
 }
 
-public struct ListBotAliasesInput: Swift.Equatable {
+public struct ListBotAliasesInput {
     /// The identifier of the bot to list aliases for.
     /// This member is required.
     public var botId: Swift.String?
@@ -22017,7 +22017,7 @@ public struct ListBotAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListBotAliasesInputBody: Swift.Equatable {
+struct ListBotAliasesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -22053,7 +22053,7 @@ extension ListBotAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotAliasesOutput: Swift.Equatable {
+public struct ListBotAliasesOutput {
     /// Summary information for the bot aliases that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more aliases available, the nextToken field contains a token to get the next page of results.
     public var botAliasSummaries: [LexModelsV2ClientTypes.BotAliasSummary]?
     /// The identifier of the bot associated with the aliases.
@@ -22073,7 +22073,7 @@ public struct ListBotAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListBotAliasesOutputBody: Swift.Equatable {
+struct ListBotAliasesOutputBody {
     let botAliasSummaries: [LexModelsV2ClientTypes.BotAliasSummary]?
     let nextToken: Swift.String?
     let botId: Swift.String?
@@ -22161,7 +22161,7 @@ extension ListBotLocalesInput {
     }
 }
 
-public struct ListBotLocalesInput: Swift.Equatable {
+public struct ListBotLocalesInput {
     /// The identifier of the bot to list locales for.
     /// This member is required.
     public var botId: Swift.String?
@@ -22195,7 +22195,7 @@ public struct ListBotLocalesInput: Swift.Equatable {
     }
 }
 
-struct ListBotLocalesInputBody: Swift.Equatable {
+struct ListBotLocalesInputBody {
     let sortBy: LexModelsV2ClientTypes.BotLocaleSortBy?
     let filters: [LexModelsV2ClientTypes.BotLocaleFilter]?
     let maxResults: Swift.Int?
@@ -22250,7 +22250,7 @@ extension ListBotLocalesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotLocalesOutput: Swift.Equatable {
+public struct ListBotLocalesOutput {
     /// The identifier of the bot to list locales for.
     public var botId: Swift.String?
     /// Summary information for the locales that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more locales available, the nextToken field contains a token to get the next page of results.
@@ -22274,7 +22274,7 @@ public struct ListBotLocalesOutput: Swift.Equatable {
     }
 }
 
-struct ListBotLocalesOutputBody: Swift.Equatable {
+struct ListBotLocalesOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let nextToken: Swift.String?
@@ -22358,7 +22358,7 @@ extension ListBotRecommendationsInput {
     }
 }
 
-public struct ListBotRecommendationsInput: Swift.Equatable {
+public struct ListBotRecommendationsInput {
     /// The unique identifier of the bot that contains the bot recommendation list.
     /// This member is required.
     public var botId: Swift.String?
@@ -22389,7 +22389,7 @@ public struct ListBotRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListBotRecommendationsInputBody: Swift.Equatable {
+struct ListBotRecommendationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -22429,7 +22429,7 @@ extension ListBotRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotRecommendationsOutput: Swift.Equatable {
+public struct ListBotRecommendationsOutput {
     /// The unique identifier of the bot that contains the bot recommendation list.
     public var botId: Swift.String?
     /// Summary information for the bot recommendations that meet the filter specified in this request. The length of the list is specified in the maxResults parameter of the request. If there are more bot recommendations available, the nextToken field contains a token to get the next page of results.
@@ -22457,7 +22457,7 @@ public struct ListBotRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListBotRecommendationsOutputBody: Swift.Equatable {
+struct ListBotRecommendationsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -22522,7 +22522,7 @@ extension ListBotReplicasInput {
     }
 }
 
-public struct ListBotReplicasInput: Swift.Equatable {
+public struct ListBotReplicasInput {
     /// The request for the unique bot IDs in the list of replicated bots.
     /// This member is required.
     public var botId: Swift.String?
@@ -22535,7 +22535,7 @@ public struct ListBotReplicasInput: Swift.Equatable {
     }
 }
 
-struct ListBotReplicasInputBody: Swift.Equatable {
+struct ListBotReplicasInputBody {
 }
 
 extension ListBotReplicasInputBody: Swift.Decodable {
@@ -22560,7 +22560,7 @@ extension ListBotReplicasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotReplicasOutput: Swift.Equatable {
+public struct ListBotReplicasOutput {
     /// the unique bot IDs in the list of replicated bots.
     public var botId: Swift.String?
     /// The summary details for the replicated bots.
@@ -22580,7 +22580,7 @@ public struct ListBotReplicasOutput: Swift.Equatable {
     }
 }
 
-struct ListBotReplicasOutputBody: Swift.Equatable {
+struct ListBotReplicasOutputBody {
     let botId: Swift.String?
     let sourceRegion: Swift.String?
     let botReplicaSummaries: [LexModelsV2ClientTypes.BotReplicaSummary]?
@@ -22664,7 +22664,7 @@ extension ListBotResourceGenerationsInput {
     }
 }
 
-public struct ListBotResourceGenerationsInput: Swift.Equatable {
+public struct ListBotResourceGenerationsInput {
     /// The unique identifier of the bot whose generation requests you want to view.
     /// This member is required.
     public var botId: Swift.String?
@@ -22699,7 +22699,7 @@ public struct ListBotResourceGenerationsInput: Swift.Equatable {
     }
 }
 
-struct ListBotResourceGenerationsInputBody: Swift.Equatable {
+struct ListBotResourceGenerationsInputBody {
     let sortBy: LexModelsV2ClientTypes.GenerationSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -22743,7 +22743,7 @@ extension ListBotResourceGenerationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotResourceGenerationsOutput: Swift.Equatable {
+public struct ListBotResourceGenerationsOutput {
     /// The unique identifier of the bot for which the generation requests were made.
     public var botId: Swift.String?
     /// The version of the bot for which the generation requests were made.
@@ -22771,7 +22771,7 @@ public struct ListBotResourceGenerationsOutput: Swift.Equatable {
     }
 }
 
-struct ListBotResourceGenerationsOutputBody: Swift.Equatable {
+struct ListBotResourceGenerationsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -22860,7 +22860,7 @@ extension ListBotVersionReplicasInput {
     }
 }
 
-public struct ListBotVersionReplicasInput: Swift.Equatable {
+public struct ListBotVersionReplicasInput {
     /// The request for the unique ID in the list of replicated bots.
     /// This member is required.
     public var botId: Swift.String?
@@ -22890,7 +22890,7 @@ public struct ListBotVersionReplicasInput: Swift.Equatable {
     }
 }
 
-struct ListBotVersionReplicasInputBody: Swift.Equatable {
+struct ListBotVersionReplicasInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let sortBy: LexModelsV2ClientTypes.BotVersionReplicaSortBy?
@@ -22934,7 +22934,7 @@ extension ListBotVersionReplicasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotVersionReplicasOutput: Swift.Equatable {
+public struct ListBotVersionReplicasOutput {
     /// The unique ID of the bots in the list of replicated bots.
     public var botId: Swift.String?
     /// The information summary used for the replicated bots in the list of replicated bots.
@@ -22962,7 +22962,7 @@ public struct ListBotVersionReplicasOutput: Swift.Equatable {
     }
 }
 
-struct ListBotVersionReplicasOutputBody: Swift.Equatable {
+struct ListBotVersionReplicasOutputBody {
     let botId: Swift.String?
     let sourceRegion: Swift.String?
     let replicaRegion: Swift.String?
@@ -23048,7 +23048,7 @@ extension ListBotVersionsInput {
     }
 }
 
-public struct ListBotVersionsInput: Swift.Equatable {
+public struct ListBotVersionsInput {
     /// The identifier of the bot to list versions for.
     /// This member is required.
     public var botId: Swift.String?
@@ -23073,7 +23073,7 @@ public struct ListBotVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListBotVersionsInputBody: Swift.Equatable {
+struct ListBotVersionsInputBody {
     let sortBy: LexModelsV2ClientTypes.BotVersionSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -23113,7 +23113,7 @@ extension ListBotVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotVersionsOutput: Swift.Equatable {
+public struct ListBotVersionsOutput {
     /// The identifier of the bot to list versions for.
     public var botId: Swift.String?
     /// Summary information for the bot versions that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more versions available, the nextToken field contains a token to get the next page of results.
@@ -23133,7 +23133,7 @@ public struct ListBotVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListBotVersionsOutputBody: Swift.Equatable {
+struct ListBotVersionsOutputBody {
     let botId: Swift.String?
     let botVersionSummaries: [LexModelsV2ClientTypes.BotVersionSummary]?
     let nextToken: Swift.String?
@@ -23215,7 +23215,7 @@ extension ListBotsInput {
     }
 }
 
-public struct ListBotsInput: Swift.Equatable {
+public struct ListBotsInput {
     /// Provides the specification of a filter used to limit the bots in the response to only those that match the filter specification. You can only specify one filter and one string to filter on.
     public var filters: [LexModelsV2ClientTypes.BotFilter]?
     /// The maximum number of bots to return in each page of results. If there are fewer results than the maximum page size, only the actual number of results are returned.
@@ -23239,7 +23239,7 @@ public struct ListBotsInput: Swift.Equatable {
     }
 }
 
-struct ListBotsInputBody: Swift.Equatable {
+struct ListBotsInputBody {
     let sortBy: LexModelsV2ClientTypes.BotSortBy?
     let filters: [LexModelsV2ClientTypes.BotFilter]?
     let maxResults: Swift.Int?
@@ -23290,7 +23290,7 @@ extension ListBotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBotsOutput: Swift.Equatable {
+public struct ListBotsOutput {
     /// Summary information for the bots that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more bots available, the nextToken field contains a token to the next page of results.
     public var botSummaries: [LexModelsV2ClientTypes.BotSummary]?
     /// A token that indicates whether there are more results to return in a response to the ListBots operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListBots operation request to get the next page of results.
@@ -23306,7 +23306,7 @@ public struct ListBotsOutput: Swift.Equatable {
     }
 }
 
-struct ListBotsOutputBody: Swift.Equatable {
+struct ListBotsOutputBody {
     let botSummaries: [LexModelsV2ClientTypes.BotSummary]?
     let nextToken: Swift.String?
 }
@@ -23380,7 +23380,7 @@ extension ListBuiltInIntentsInput {
     }
 }
 
-public struct ListBuiltInIntentsInput: Swift.Equatable {
+public struct ListBuiltInIntentsInput {
     /// The identifier of the language and locale of the intents to list. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
@@ -23405,7 +23405,7 @@ public struct ListBuiltInIntentsInput: Swift.Equatable {
     }
 }
 
-struct ListBuiltInIntentsInputBody: Swift.Equatable {
+struct ListBuiltInIntentsInputBody {
     let sortBy: LexModelsV2ClientTypes.BuiltInIntentSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -23445,7 +23445,7 @@ extension ListBuiltInIntentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuiltInIntentsOutput: Swift.Equatable {
+public struct ListBuiltInIntentsOutput {
     /// Summary information for the built-in intents that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more intents available, the nextToken field contains a token to get the next page of results.
     public var builtInIntentSummaries: [LexModelsV2ClientTypes.BuiltInIntentSummary]?
     /// The language and locale of the intents in the list.
@@ -23465,7 +23465,7 @@ public struct ListBuiltInIntentsOutput: Swift.Equatable {
     }
 }
 
-struct ListBuiltInIntentsOutputBody: Swift.Equatable {
+struct ListBuiltInIntentsOutputBody {
     let builtInIntentSummaries: [LexModelsV2ClientTypes.BuiltInIntentSummary]?
     let nextToken: Swift.String?
     let localeId: Swift.String?
@@ -23543,7 +23543,7 @@ extension ListBuiltInSlotTypesInput {
     }
 }
 
-public struct ListBuiltInSlotTypesInput: Swift.Equatable {
+public struct ListBuiltInSlotTypesInput {
     /// The identifier of the language and locale of the slot types to list. The string must match one of the supported locales. For more information, see [Supported languages](https://docs.aws.amazon.com/lexv2/latest/dg/how-languages.html).
     /// This member is required.
     public var localeId: Swift.String?
@@ -23568,7 +23568,7 @@ public struct ListBuiltInSlotTypesInput: Swift.Equatable {
     }
 }
 
-struct ListBuiltInSlotTypesInputBody: Swift.Equatable {
+struct ListBuiltInSlotTypesInputBody {
     let sortBy: LexModelsV2ClientTypes.BuiltInSlotTypeSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -23608,7 +23608,7 @@ extension ListBuiltInSlotTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBuiltInSlotTypesOutput: Swift.Equatable {
+public struct ListBuiltInSlotTypesOutput {
     /// Summary information for the built-in slot types that meet the filter criteria specified in the request. The length of the list is specified in the maxResults parameter of the request. If there are more slot types available, the nextToken field contains a token to get the next page of results.
     public var builtInSlotTypeSummaries: [LexModelsV2ClientTypes.BuiltInSlotTypeSummary]?
     /// The language and locale of the slot types in the list.
@@ -23628,7 +23628,7 @@ public struct ListBuiltInSlotTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListBuiltInSlotTypesOutputBody: Swift.Equatable {
+struct ListBuiltInSlotTypesOutputBody {
     let builtInSlotTypeSummaries: [LexModelsV2ClientTypes.BuiltInSlotTypeSummary]?
     let nextToken: Swift.String?
     let localeId: Swift.String?
@@ -23708,7 +23708,7 @@ extension ListCustomVocabularyItemsInput {
     }
 }
 
-public struct ListCustomVocabularyItemsInput: Swift.Equatable {
+public struct ListCustomVocabularyItemsInput {
     /// The identifier of the version of the bot associated with this custom vocabulary.
     /// This member is required.
     public var botId: Swift.String?
@@ -23739,7 +23739,7 @@ public struct ListCustomVocabularyItemsInput: Swift.Equatable {
     }
 }
 
-struct ListCustomVocabularyItemsInputBody: Swift.Equatable {
+struct ListCustomVocabularyItemsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -23779,7 +23779,7 @@ extension ListCustomVocabularyItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCustomVocabularyItemsOutput: Swift.Equatable {
+public struct ListCustomVocabularyItemsOutput {
     /// The identifier of the bot associated with this custom vocabulary.
     public var botId: Swift.String?
     /// The identifier of the version of the bot associated with this custom vocabulary.
@@ -23807,7 +23807,7 @@ public struct ListCustomVocabularyItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListCustomVocabularyItemsOutputBody: Swift.Equatable {
+struct ListCustomVocabularyItemsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -23910,7 +23910,7 @@ extension ListExportsInput {
     }
 }
 
-public struct ListExportsInput: Swift.Equatable {
+public struct ListExportsInput {
     /// The unique identifier that Amazon Lex assigned to the bot.
     public var botId: Swift.String?
     /// The version of the bot to list exports for.
@@ -23946,7 +23946,7 @@ public struct ListExportsInput: Swift.Equatable {
     }
 }
 
-struct ListExportsInputBody: Swift.Equatable {
+struct ListExportsInputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let sortBy: LexModelsV2ClientTypes.ExportSortBy?
@@ -24015,7 +24015,7 @@ extension ListExportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExportsOutput: Swift.Equatable {
+public struct ListExportsOutput {
     /// The unique identifier assigned to the bot by Amazon Lex.
     public var botId: Swift.String?
     /// The version of the bot that was exported.
@@ -24043,7 +24043,7 @@ public struct ListExportsOutput: Swift.Equatable {
     }
 }
 
-struct ListExportsOutputBody: Swift.Equatable {
+struct ListExportsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let exportSummaries: [LexModelsV2ClientTypes.ExportSummary]?
@@ -24144,7 +24144,7 @@ extension ListImportsInput {
     }
 }
 
-public struct ListImportsInput: Swift.Equatable {
+public struct ListImportsInput {
     /// The unique identifier that Amazon Lex assigned to the bot.
     public var botId: Swift.String?
     /// The version of the bot to list imports for.
@@ -24180,7 +24180,7 @@ public struct ListImportsInput: Swift.Equatable {
     }
 }
 
-struct ListImportsInputBody: Swift.Equatable {
+struct ListImportsInputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let sortBy: LexModelsV2ClientTypes.ImportSortBy?
@@ -24249,7 +24249,7 @@ extension ListImportsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListImportsOutput: Swift.Equatable {
+public struct ListImportsOutput {
     /// The unique identifier assigned by Amazon Lex to the bot.
     public var botId: Swift.String?
     /// The version of the bot that was imported. It will always be DRAFT.
@@ -24277,7 +24277,7 @@ public struct ListImportsOutput: Swift.Equatable {
     }
 }
 
-struct ListImportsOutputBody: Swift.Equatable {
+struct ListImportsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let importSummaries: [LexModelsV2ClientTypes.ImportSummary]?
@@ -24394,7 +24394,7 @@ extension ListIntentMetricsInput {
     }
 }
 
-public struct ListIntentMetricsInput: Swift.Equatable {
+public struct ListIntentMetricsInput {
     /// A list of objects, each of which contains specifications for organizing the results by time.
     public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
     /// The identifier for the bot for which you want to retrieve intent metrics.
@@ -24446,7 +24446,7 @@ public struct ListIntentMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListIntentMetricsInputBody: Swift.Equatable {
+struct ListIntentMetricsInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let metrics: [LexModelsV2ClientTypes.AnalyticsIntentMetric]?
@@ -24542,7 +24542,7 @@ extension ListIntentMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIntentMetricsOutput: Swift.Equatable {
+public struct ListIntentMetricsOutput {
     /// The identifier for the bot for which you retrieved intent metrics.
     public var botId: Swift.String?
     /// If the response from the ListIntentMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentMetrics request to return the next page of results. For a complete set of results, call the ListIntentMetrics operation until the nextToken returned in the response is null.
@@ -24562,7 +24562,7 @@ public struct ListIntentMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListIntentMetricsOutputBody: Swift.Equatable {
+struct ListIntentMetricsOutputBody {
     let botId: Swift.String?
     let results: [LexModelsV2ClientTypes.AnalyticsIntentResult]?
     let nextToken: Swift.String?
@@ -24648,7 +24648,7 @@ extension ListIntentPathsInput {
     }
 }
 
-public struct ListIntentPathsInput: Swift.Equatable {
+public struct ListIntentPathsInput {
     /// The identifier for the bot for which you want to retrieve intent path metrics.
     /// This member is required.
     public var botId: Swift.String?
@@ -24686,7 +24686,7 @@ public struct ListIntentPathsInput: Swift.Equatable {
     }
 }
 
-struct ListIntentPathsInputBody: Swift.Equatable {
+struct ListIntentPathsInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let intentPath: Swift.String?
@@ -24735,7 +24735,7 @@ extension ListIntentPathsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIntentPathsOutput: Swift.Equatable {
+public struct ListIntentPathsOutput {
     /// A list of objects, each of which contains information about a node in the intent path for which you requested metrics.
     public var nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]?
 
@@ -24747,7 +24747,7 @@ public struct ListIntentPathsOutput: Swift.Equatable {
     }
 }
 
-struct ListIntentPathsOutputBody: Swift.Equatable {
+struct ListIntentPathsOutputBody {
     let nodeSummaries: [LexModelsV2ClientTypes.AnalyticsIntentNodeSummary]?
 }
 
@@ -24850,7 +24850,7 @@ extension ListIntentStageMetricsInput {
     }
 }
 
-public struct ListIntentStageMetricsInput: Swift.Equatable {
+public struct ListIntentStageMetricsInput {
     /// A list of objects, each of which contains specifications for organizing the results by time.
     public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
     /// The identifier for the bot for which you want to retrieve intent stage metrics.
@@ -24902,7 +24902,7 @@ public struct ListIntentStageMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListIntentStageMetricsInputBody: Swift.Equatable {
+struct ListIntentStageMetricsInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let metrics: [LexModelsV2ClientTypes.AnalyticsIntentStageMetric]?
@@ -24998,7 +24998,7 @@ extension ListIntentStageMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIntentStageMetricsOutput: Swift.Equatable {
+public struct ListIntentStageMetricsOutput {
     /// The identifier for the bot for which you retrieved intent stage metrics.
     public var botId: Swift.String?
     /// If the response from the ListIntentStageMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListIntentStageMetrics request to return the next page of results. For a complete set of results, call the ListIntentStageMetrics operation until the nextToken returned in the response is null.
@@ -25018,7 +25018,7 @@ public struct ListIntentStageMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListIntentStageMetricsOutputBody: Swift.Equatable {
+struct ListIntentStageMetricsOutputBody {
     let botId: Swift.String?
     let results: [LexModelsV2ClientTypes.AnalyticsIntentStageResult]?
     let nextToken: Swift.String?
@@ -25110,7 +25110,7 @@ extension ListIntentsInput {
     }
 }
 
-public struct ListIntentsInput: Swift.Equatable {
+public struct ListIntentsInput {
     /// The unique identifier of the bot that contains the intent.
     /// This member is required.
     public var botId: Swift.String?
@@ -25149,7 +25149,7 @@ public struct ListIntentsInput: Swift.Equatable {
     }
 }
 
-struct ListIntentsInputBody: Swift.Equatable {
+struct ListIntentsInputBody {
     let sortBy: LexModelsV2ClientTypes.IntentSortBy?
     let filters: [LexModelsV2ClientTypes.IntentFilter]?
     let maxResults: Swift.Int?
@@ -25206,7 +25206,7 @@ extension ListIntentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIntentsOutput: Swift.Equatable {
+public struct ListIntentsOutput {
     /// The identifier of the bot that contains the intent.
     public var botId: Swift.String?
     /// The version of the bot that contains the intent.
@@ -25234,7 +25234,7 @@ public struct ListIntentsOutput: Swift.Equatable {
     }
 }
 
-struct ListIntentsOutputBody: Swift.Equatable {
+struct ListIntentsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -25325,7 +25325,7 @@ extension ListRecommendedIntentsInput {
     }
 }
 
-public struct ListRecommendedIntentsInput: Swift.Equatable {
+public struct ListRecommendedIntentsInput {
     /// The unique identifier of the bot associated with the recommended intents.
     /// This member is required.
     public var botId: Swift.String?
@@ -25361,7 +25361,7 @@ public struct ListRecommendedIntentsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendedIntentsInputBody: Swift.Equatable {
+struct ListRecommendedIntentsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -25403,7 +25403,7 @@ extension ListRecommendedIntentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendedIntentsOutput: Swift.Equatable {
+public struct ListRecommendedIntentsOutput {
     /// The unique identifier of the bot associated with the recommended intent.
     public var botId: Swift.String?
     /// The identifier of the bot recommendation that contains the recommended intent.
@@ -25435,7 +25435,7 @@ public struct ListRecommendedIntentsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendedIntentsOutputBody: Swift.Equatable {
+struct ListRecommendedIntentsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -25541,7 +25541,7 @@ extension ListSessionAnalyticsDataInput {
     }
 }
 
-public struct ListSessionAnalyticsDataInput: Swift.Equatable {
+public struct ListSessionAnalyticsDataInput {
     /// The identifier for the bot for which you want to retrieve session analytics.
     /// This member is required.
     public var botId: Swift.String?
@@ -25580,7 +25580,7 @@ public struct ListSessionAnalyticsDataInput: Swift.Equatable {
     }
 }
 
-struct ListSessionAnalyticsDataInputBody: Swift.Equatable {
+struct ListSessionAnalyticsDataInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let sortBy: LexModelsV2ClientTypes.SessionDataSortBy?
@@ -25641,7 +25641,7 @@ extension ListSessionAnalyticsDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionAnalyticsDataOutput: Swift.Equatable {
+public struct ListSessionAnalyticsDataOutput {
     /// The unique identifier of the bot that the sessions belong to.
     public var botId: Swift.String?
     /// If the response from the ListSessionAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionAnalyticsData request to return the next page of results. For a complete set of results, call the ListSessionAnalyticsData operation until the nextToken returned in the response is null.
@@ -25661,7 +25661,7 @@ public struct ListSessionAnalyticsDataOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionAnalyticsDataOutputBody: Swift.Equatable {
+struct ListSessionAnalyticsDataOutputBody {
     let botId: Swift.String?
     let nextToken: Swift.String?
     let sessions: [LexModelsV2ClientTypes.SessionSpecification]?
@@ -25772,7 +25772,7 @@ extension ListSessionMetricsInput {
     }
 }
 
-public struct ListSessionMetricsInput: Swift.Equatable {
+public struct ListSessionMetricsInput {
     /// A list of objects, each of which contains specifications for organizing the results by time.
     public var binBy: [LexModelsV2ClientTypes.AnalyticsBinBySpecification]?
     /// The identifier for the bot for which you want to retrieve session metrics.
@@ -25824,7 +25824,7 @@ public struct ListSessionMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListSessionMetricsInputBody: Swift.Equatable {
+struct ListSessionMetricsInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let metrics: [LexModelsV2ClientTypes.AnalyticsSessionMetric]?
@@ -25920,7 +25920,7 @@ extension ListSessionMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionMetricsOutput: Swift.Equatable {
+public struct ListSessionMetricsOutput {
     /// The identifier for the bot for which you retrieved session metrics.
     public var botId: Swift.String?
     /// If the response from the ListSessionMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListSessionMetrics request to return the next page of results. For a complete set of results, call the ListSessionMetrics operation until the nextToken returned in the response is null.
@@ -25940,7 +25940,7 @@ public struct ListSessionMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionMetricsOutputBody: Swift.Equatable {
+struct ListSessionMetricsOutputBody {
     let botId: Swift.String?
     let results: [LexModelsV2ClientTypes.AnalyticsSessionResult]?
     let nextToken: Swift.String?
@@ -26032,7 +26032,7 @@ extension ListSlotTypesInput {
     }
 }
 
-public struct ListSlotTypesInput: Swift.Equatable {
+public struct ListSlotTypesInput {
     /// The unique identifier of the bot that contains the slot types.
     /// This member is required.
     public var botId: Swift.String?
@@ -26071,7 +26071,7 @@ public struct ListSlotTypesInput: Swift.Equatable {
     }
 }
 
-struct ListSlotTypesInputBody: Swift.Equatable {
+struct ListSlotTypesInputBody {
     let sortBy: LexModelsV2ClientTypes.SlotTypeSortBy?
     let filters: [LexModelsV2ClientTypes.SlotTypeFilter]?
     let maxResults: Swift.Int?
@@ -26128,7 +26128,7 @@ extension ListSlotTypesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSlotTypesOutput: Swift.Equatable {
+public struct ListSlotTypesOutput {
     /// The identifier of the bot that contains the slot types.
     public var botId: Swift.String?
     /// The version of the bot that contains the slot types.
@@ -26156,7 +26156,7 @@ public struct ListSlotTypesOutput: Swift.Equatable {
     }
 }
 
-struct ListSlotTypesOutputBody: Swift.Equatable {
+struct ListSlotTypesOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -26258,7 +26258,7 @@ extension ListSlotsInput {
     }
 }
 
-public struct ListSlotsInput: Swift.Equatable {
+public struct ListSlotsInput {
     /// The identifier of the bot that contains the slot.
     /// This member is required.
     public var botId: Swift.String?
@@ -26302,7 +26302,7 @@ public struct ListSlotsInput: Swift.Equatable {
     }
 }
 
-struct ListSlotsInputBody: Swift.Equatable {
+struct ListSlotsInputBody {
     let sortBy: LexModelsV2ClientTypes.SlotSortBy?
     let filters: [LexModelsV2ClientTypes.SlotFilter]?
     let maxResults: Swift.Int?
@@ -26361,7 +26361,7 @@ extension ListSlotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSlotsOutput: Swift.Equatable {
+public struct ListSlotsOutput {
     /// The identifier of the bot that contains the slots.
     public var botId: Swift.String?
     /// The version of the bot that contains the slots.
@@ -26393,7 +26393,7 @@ public struct ListSlotsOutput: Swift.Equatable {
     }
 }
 
-struct ListSlotsOutputBody: Swift.Equatable {
+struct ListSlotsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -26462,7 +26462,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to get a list of tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -26475,7 +26475,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -26496,7 +26496,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -26508,7 +26508,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -26578,7 +26578,7 @@ extension ListTestExecutionResultItemsInput {
     }
 }
 
-public struct ListTestExecutionResultItemsInput: Swift.Equatable {
+public struct ListTestExecutionResultItemsInput {
     /// The maximum number of test execution result items to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
     public var maxResults: Swift.Int?
     /// If the response from the ListTestExecutionResultItems operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
@@ -26604,7 +26604,7 @@ public struct ListTestExecutionResultItemsInput: Swift.Equatable {
     }
 }
 
-struct ListTestExecutionResultItemsInputBody: Swift.Equatable {
+struct ListTestExecutionResultItemsInputBody {
     let resultFilterBy: LexModelsV2ClientTypes.TestExecutionResultFilterBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -26642,7 +26642,7 @@ extension ListTestExecutionResultItemsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListTestExecutionResultItemsOutput: Swift.Equatable {
+public struct ListTestExecutionResultItemsOutput {
     /// A token that indicates whether there are more results to return in a response to the ListTestExecutionResultItems operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestExecutionResultItems operation request to get the next page of results.
     public var nextToken: Swift.String?
     /// The list of results from the test execution.
@@ -26658,7 +26658,7 @@ public struct ListTestExecutionResultItemsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestExecutionResultItemsOutputBody: Swift.Equatable {
+struct ListTestExecutionResultItemsOutputBody {
     let testExecutionResults: LexModelsV2ClientTypes.TestExecutionResultItems?
     let nextToken: Swift.String?
 }
@@ -26721,7 +26721,7 @@ extension ListTestExecutionsInput {
     }
 }
 
-public struct ListTestExecutionsInput: Swift.Equatable {
+public struct ListTestExecutionsInput {
     /// The maximum number of test executions to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
     public var maxResults: Swift.Int?
     /// If the response from the ListTestExecutions operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
@@ -26741,7 +26741,7 @@ public struct ListTestExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListTestExecutionsInputBody: Swift.Equatable {
+struct ListTestExecutionsInputBody {
     let sortBy: LexModelsV2ClientTypes.TestExecutionSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -26779,7 +26779,7 @@ extension ListTestExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestExecutionsOutput: Swift.Equatable {
+public struct ListTestExecutionsOutput {
     /// A token that indicates whether there are more results to return in a response to the ListTestExecutions operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestExecutions operation request to get the next page of results.
     public var nextToken: Swift.String?
     /// The list of test executions.
@@ -26795,7 +26795,7 @@ public struct ListTestExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestExecutionsOutputBody: Swift.Equatable {
+struct ListTestExecutionsOutputBody {
     let testExecutions: [LexModelsV2ClientTypes.TestExecutionSummary]?
     let nextToken: Swift.String?
 }
@@ -26865,7 +26865,7 @@ extension ListTestSetRecordsInput {
     }
 }
 
-public struct ListTestSetRecordsInput: Swift.Equatable {
+public struct ListTestSetRecordsInput {
     /// The maximum number of test set records to return in each page. If there are fewer records than the max page size, only the actual number of records are returned.
     public var maxResults: Swift.Int?
     /// If the response from the ListTestSetRecords operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
@@ -26886,7 +26886,7 @@ public struct ListTestSetRecordsInput: Swift.Equatable {
     }
 }
 
-struct ListTestSetRecordsInputBody: Swift.Equatable {
+struct ListTestSetRecordsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -26920,7 +26920,7 @@ extension ListTestSetRecordsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestSetRecordsOutput: Swift.Equatable {
+public struct ListTestSetRecordsOutput {
     /// A token that indicates whether there are more records to return in a response to the ListTestSetRecords operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestSetRecords operation request to get the next page of records.
     public var nextToken: Swift.String?
     /// The list of records from the test set.
@@ -26936,7 +26936,7 @@ public struct ListTestSetRecordsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestSetRecordsOutputBody: Swift.Equatable {
+struct ListTestSetRecordsOutputBody {
     let testSetRecords: [LexModelsV2ClientTypes.TestSetTurnRecord]?
     let nextToken: Swift.String?
 }
@@ -27008,7 +27008,7 @@ extension ListTestSetsInput {
     }
 }
 
-public struct ListTestSetsInput: Swift.Equatable {
+public struct ListTestSetsInput {
     /// The maximum number of test sets to return in each page. If there are fewer results than the max page size, only the actual number of results are returned.
     public var maxResults: Swift.Int?
     /// If the response from the ListTestSets operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use that token in the nextToken parameter to return the next page of results.
@@ -27028,7 +27028,7 @@ public struct ListTestSetsInput: Swift.Equatable {
     }
 }
 
-struct ListTestSetsInputBody: Swift.Equatable {
+struct ListTestSetsInputBody {
     let sortBy: LexModelsV2ClientTypes.TestSetSortBy?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -27066,7 +27066,7 @@ extension ListTestSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTestSetsOutput: Swift.Equatable {
+public struct ListTestSetsOutput {
     /// A token that indicates whether there are more results to return in a response to the ListTestSets operation. If the nextToken field is present, you send the contents as the nextToken parameter of a ListTestSets operation request to get the next page of results.
     public var nextToken: Swift.String?
     /// The selected test sets in a list of test sets.
@@ -27082,7 +27082,7 @@ public struct ListTestSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListTestSetsOutputBody: Swift.Equatable {
+struct ListTestSetsOutputBody {
     let testSets: [LexModelsV2ClientTypes.TestSetSummary]?
     let nextToken: Swift.String?
 }
@@ -27171,7 +27171,7 @@ extension ListUtteranceAnalyticsDataInput {
     }
 }
 
-public struct ListUtteranceAnalyticsDataInput: Swift.Equatable {
+public struct ListUtteranceAnalyticsDataInput {
     /// The identifier for the bot for which you want to retrieve utterance analytics.
     /// This member is required.
     public var botId: Swift.String?
@@ -27210,7 +27210,7 @@ public struct ListUtteranceAnalyticsDataInput: Swift.Equatable {
     }
 }
 
-struct ListUtteranceAnalyticsDataInputBody: Swift.Equatable {
+struct ListUtteranceAnalyticsDataInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let sortBy: LexModelsV2ClientTypes.UtteranceDataSortBy?
@@ -27271,7 +27271,7 @@ extension ListUtteranceAnalyticsDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUtteranceAnalyticsDataOutput: Swift.Equatable {
+public struct ListUtteranceAnalyticsDataOutput {
     /// The unique identifier of the bot that the utterances belong to.
     public var botId: Swift.String?
     /// If the response from the ListUtteranceAnalyticsData operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceAnalyticsData request to return the next page of results. For a complete set of results, call the ListUtteranceAnalyticsData operation until the nextToken returned in the response is null.
@@ -27291,7 +27291,7 @@ public struct ListUtteranceAnalyticsDataOutput: Swift.Equatable {
     }
 }
 
-struct ListUtteranceAnalyticsDataOutputBody: Swift.Equatable {
+struct ListUtteranceAnalyticsDataOutputBody {
     let botId: Swift.String?
     let nextToken: Swift.String?
     let utterances: [LexModelsV2ClientTypes.UtteranceSpecification]?
@@ -27409,7 +27409,7 @@ extension ListUtteranceMetricsInput {
     }
 }
 
-public struct ListUtteranceMetricsInput: Swift.Equatable {
+public struct ListUtteranceMetricsInput {
     /// A list containing attributes related to the utterance that you want the response to return. The following attributes are possible:
     ///
     /// * LastUsedIntent – The last used intent at the time of the utterance.
@@ -27467,7 +27467,7 @@ public struct ListUtteranceMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListUtteranceMetricsInputBody: Swift.Equatable {
+struct ListUtteranceMetricsInputBody {
     let startDateTime: ClientRuntime.Date?
     let endDateTime: ClientRuntime.Date?
     let metrics: [LexModelsV2ClientTypes.AnalyticsUtteranceMetric]?
@@ -27576,7 +27576,7 @@ extension ListUtteranceMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListUtteranceMetricsOutput: Swift.Equatable {
+public struct ListUtteranceMetricsOutput {
     /// The identifier for the bot for which you retrieved utterance metrics.
     public var botId: Swift.String?
     /// If the response from the ListUtteranceMetrics operation contains more results than specified in the maxResults parameter, a token is returned in the response. Use the returned token in the nextToken parameter of a ListUtteranceMetrics request to return the next page of results. For a complete set of results, call the ListUtteranceMetrics operation until the nextToken returned in the response is null.
@@ -27596,7 +27596,7 @@ public struct ListUtteranceMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListUtteranceMetricsOutputBody: Swift.Equatable {
+struct ListUtteranceMetricsOutputBody {
     let botId: Swift.String?
     let results: [LexModelsV2ClientTypes.AnalyticsUtteranceResult]?
     let nextToken: Swift.String?
@@ -27718,7 +27718,7 @@ extension LexModelsV2ClientTypes.Message: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object that provides message text and its type.
-    public struct Message: Swift.Equatable {
+    public struct Message {
         /// A message in a custom format defined by the client application.
         public var customPayload: LexModelsV2ClientTypes.CustomPayload?
         /// A message that defines a response card that the client application can show to the user.
@@ -27783,7 +27783,7 @@ extension LexModelsV2ClientTypes.MessageGroup: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides one or more messages that Amazon Lex should send to the user.
-    public struct MessageGroup: Swift.Equatable {
+    public struct MessageGroup {
         /// The primary message that Amazon Lex should send to the user.
         /// This member is required.
         public var message: LexModelsV2ClientTypes.Message?
@@ -27855,7 +27855,7 @@ extension LexModelsV2ClientTypes.MultipleValuesSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Indicates whether a slot can return multiple values.
-    public struct MultipleValuesSetting: Swift.Equatable {
+    public struct MultipleValuesSetting {
         /// Indicates whether a slot can return multiple values. When true, the slot may return more than one value in a response. When false, the slot returns only a single value. Multi-value slots are only available in the en-US locale. If you set this value to true in any other locale, Amazon Lex throws a ValidationException. If the allowMutlipleValues is not set, the default value is false.
         public var allowMultipleValues: Swift.Bool
 
@@ -27902,7 +27902,7 @@ extension LexModelsV2ClientTypes.NewCustomVocabularyItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The new custom vocabulary item from the custom vocabulary list.
-    public struct NewCustomVocabularyItem: Swift.Equatable {
+    public struct NewCustomVocabularyItem {
         /// The display as value assigned to the new custom vocabulary item from the custom vocabulary list.
         public var displayAs: Swift.String?
         /// The unique phrase for the new custom vocabulary item from the custom vocabulary list.
@@ -27946,7 +27946,7 @@ extension LexModelsV2ClientTypes.ObfuscationSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Determines whether Amazon Lex obscures slot values in conversation logs.
-    public struct ObfuscationSetting: Swift.Equatable {
+    public struct ObfuscationSetting {
         /// Value that determines whether Amazon Lex obscures slot values in conversation logs. The default is to obscure the values.
         /// This member is required.
         public var obfuscationSettingType: LexModelsV2ClientTypes.ObfuscationSettingType?
@@ -28050,7 +28050,7 @@ extension LexModelsV2ClientTypes.OpensearchConfiguration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains details about the configuration of the Amazon OpenSearch Service database used for the AMAZON.QnAIntent.
-    public struct OpensearchConfiguration: Swift.Equatable {
+    public struct OpensearchConfiguration {
         /// The endpoint of the Amazon OpenSearch Service domain.
         /// This member is required.
         public var domainEndpoint: Swift.String?
@@ -28115,7 +28115,7 @@ extension LexModelsV2ClientTypes.OutputContext: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Describes a session context that is activated when an intent is fulfilled.
-    public struct OutputContext: Swift.Equatable {
+    public struct OutputContext {
         /// The name of the output context.
         /// This member is required.
         public var name: Swift.String?
@@ -28203,7 +28203,7 @@ extension LexModelsV2ClientTypes.OverallTestResultItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Information about the overall results for a test execution result.
-    public struct OverallTestResultItem: Swift.Equatable {
+    public struct OverallTestResultItem {
         /// The number of results that succeeded.
         /// This member is required.
         public var endToEndResultCounts: [Swift.String:Swift.Int]?
@@ -28265,7 +28265,7 @@ extension LexModelsV2ClientTypes.OverallTestResults: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Information about the overall test results.
-    public struct OverallTestResults: Swift.Equatable {
+    public struct OverallTestResults {
         /// A list of the overall test results.
         /// This member is required.
         public var items: [LexModelsV2ClientTypes.OverallTestResultItem]?
@@ -28307,7 +28307,7 @@ extension LexModelsV2ClientTypes.ParentBotNetwork: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A network of bots.
-    public struct ParentBotNetwork: Swift.Equatable {
+    public struct ParentBotNetwork {
         /// The identifier of the network of bots assigned by Amazon Lex.
         /// This member is required.
         public var botId: Swift.String?
@@ -28360,7 +28360,7 @@ extension LexModelsV2ClientTypes.PathFormat: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object that contains a path format that will be applied when Amazon Lex reads the transcript file in the bucket you provide. Specify this object if you only want Lex to read a subset of files in your Amazon S3 bucket.
-    public struct PathFormat: Swift.Equatable {
+    public struct PathFormat {
         /// A list of Amazon S3 prefixes that points to sub-folders in the Amazon S3 bucket. Specify this list if you only want Lex to read the files under this set of sub-folders.
         public var objectPrefixes: [Swift.String]?
 
@@ -28395,7 +28395,7 @@ extension LexModelsV2ClientTypes.PlainTextMessage: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines an ASCII text message to send to the user.
-    public struct PlainTextMessage: Swift.Equatable {
+    public struct PlainTextMessage {
         /// The message to send to the user.
         /// This member is required.
         public var value: Swift.String?
@@ -28479,7 +28479,7 @@ extension LexModelsV2ClientTypes.PostDialogCodeHookInvocationSpecification: Swif
 
 extension LexModelsV2ClientTypes {
     /// Specifies next steps to run after the dialog code hook finishes.
-    public struct PostDialogCodeHookInvocationSpecification: Swift.Equatable {
+    public struct PostDialogCodeHookInvocationSpecification {
         /// A list of conditional branches to evaluate after the dialog code hook throws an exception or returns with the State field of the Intent object set to Failed.
         public var failureConditional: LexModelsV2ClientTypes.ConditionalSpecification?
         /// Specifies the next step the bot runs after the dialog code hook throws an exception or returns with the State field of the Intent object set to Failed.
@@ -28594,7 +28594,7 @@ extension LexModelsV2ClientTypes.PostFulfillmentStatusSpecification: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Provides a setting that determines whether the post-fulfillment response is sent to the user. For more information, see [https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete](https://docs.aws.amazon.com/lexv2/latest/dg/streaming-progress.html#progress-complete)
-    public struct PostFulfillmentStatusSpecification: Swift.Equatable {
+    public struct PostFulfillmentStatusSpecification {
         /// A list of conditional branches to evaluate after the fulfillment code hook throws an exception or returns with the State field of the Intent object set to Failed.
         public var failureConditional: LexModelsV2ClientTypes.ConditionalSpecification?
         /// Specifies the next step the bot runs after the fulfillment code hook throws an exception or returns with the State field of the Intent object set to Failed.
@@ -28679,7 +28679,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -28722,7 +28722,7 @@ extension LexModelsV2ClientTypes.Principal: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The IAM principal that you allowing or denying access to an Amazon Lex action. You must provide a service or an arn, but not both in the same statement. For more information, see [ AWS JSON policy elements: Principal ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies_elements_principal.html).
-    public struct Principal: Swift.Equatable {
+    public struct Principal {
         /// The Amazon Resource Name (ARN) of the principal.
         public var arn: Swift.String?
         /// The name of the Amazon Web Services service that should allowed or denied access to an Amazon Lex action.
@@ -28824,7 +28824,7 @@ extension LexModelsV2ClientTypes.PromptAttemptSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the settings on a prompt attempt.
-    public struct PromptAttemptSpecification: Swift.Equatable {
+    public struct PromptAttemptSpecification {
         /// Indicates whether the user can interrupt a speech prompt attempt from the bot.
         public var allowInterrupt: Swift.Bool?
         /// Indicates the allowed input types of the prompt attempt.
@@ -28920,7 +28920,7 @@ extension LexModelsV2ClientTypes.PromptSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies a list of message groups that Amazon Lex sends to a user to elicit a response.
-    public struct PromptSpecification: Swift.Equatable {
+    public struct PromptSpecification {
         /// Indicates whether the user can interrupt a speech prompt from the bot.
         public var allowInterrupt: Swift.Bool?
         /// The maximum number of times the bot tries to elicit a response from the user using this prompt.
@@ -28979,7 +28979,7 @@ extension LexModelsV2ClientTypes.QnAIntentConfiguration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Details about the the configuration of the built-in Amazon.QnAIntent.
-    public struct QnAIntentConfiguration: Swift.Equatable {
+    public struct QnAIntentConfiguration {
         /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
         public var bedrockModelConfiguration: LexModelsV2ClientTypes.BedrockModelSpecification?
         /// Contains details about the configuration of the data source used for the AMAZON.QnAIntent.
@@ -29036,7 +29036,7 @@ extension LexModelsV2ClientTypes.QnAKendraConfiguration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains details about the configuration of the Amazon Kendra index used for the AMAZON.QnAIntent.
-    public struct QnAKendraConfiguration: Swift.Equatable {
+    public struct QnAKendraConfiguration {
         /// Specifies whether to return an exact response from the Amazon Kendra index or to let the Amazon Bedrock model you select generate a response based on the results. To use this feature, you must first add FAQ questions to your index by following the steps at [Adding frequently asked questions (FAQs) to an index](https://docs.aws.amazon.com/kendra/latest/dg/in-creating-faq.html).
         public var exactResponse: Swift.Bool
         /// The ARN of the Amazon Kendra index to use.
@@ -29096,7 +29096,7 @@ extension LexModelsV2ClientTypes.RecommendedIntentSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object that contains a summary of a recommended intent.
-    public struct RecommendedIntentSummary: Swift.Equatable {
+    public struct RecommendedIntentSummary {
         /// The unique identifier of a recommended intent associated with the bot recommendation.
         public var intentId: Swift.String?
         /// The name of a recommended intent associated with the bot recommendation.
@@ -29151,7 +29151,7 @@ extension LexModelsV2ClientTypes {
     /// * Days - You can request utterance statistics for 3 days. Statistics are refreshed every 6 hours.
     ///
     /// * Weeks - You can see statistics for one or two weeks. Statistics are refreshed every 12 hours for one week time windows, and once per day for two week time windows.
-    public struct RelativeAggregationDuration: Swift.Equatable {
+    public struct RelativeAggregationDuration {
         /// The type of time period that the timeValue field represents.
         /// This member is required.
         public var timeDimension: LexModelsV2ClientTypes.TimeDimension?
@@ -29216,7 +29216,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -29271,7 +29271,7 @@ extension LexModelsV2ClientTypes.ResponseSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies a list of message groups that Amazon Lex uses to respond the user input.
-    public struct ResponseSpecification: Swift.Equatable {
+    public struct ResponseSpecification {
         /// Indicates whether the user can interrupt a speech response from Amazon Lex.
         public var allowInterrupt: Swift.Bool?
         /// A collection of responses that Amazon Lex can send to the user. Amazon Lex chooses the actual response to send at runtime.
@@ -29341,7 +29341,7 @@ extension LexModelsV2ClientTypes.RuntimeHintDetails: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides an array of phrases that should be given preference when resolving values for a slot.
-    public struct RuntimeHintDetails: Swift.Equatable {
+    public struct RuntimeHintDetails {
         /// One or more strings that Amazon Lex should look for in the input to the bot. Each phrase is given preference when deciding on slot values.
         public var runtimeHintValues: [LexModelsV2ClientTypes.RuntimeHintValue]?
         /// A map of constituent sub slot names inside a composite slot in the intent and the phrases that should be added for each sub slot. Inside each composite slot hints, this structure provides a mechanism to add granular sub slot phrases. Only sub slot hints are supported for composite slots. The intent name, composite slot name and the constituent sub slot names must exist.
@@ -29380,7 +29380,7 @@ extension LexModelsV2ClientTypes.RuntimeHintValue: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides the phrase that Amazon Lex should look for in the user's input to the bot.
-    public struct RuntimeHintValue: Swift.Equatable {
+    public struct RuntimeHintValue {
         /// The phrase that Amazon Lex should look for in the user's input to the bot.
         /// This member is required.
         public var phrase: Swift.String?
@@ -29438,7 +29438,7 @@ extension LexModelsV2ClientTypes.RuntimeHints: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// You can provide Amazon Lex with hints to the phrases that a customer is likely to use for a slot. When a slot with hints is resolved, the phrases in the runtime hints are preferred in the resolution. You can provide hints for a maximum of 100 intents. You can provide a maximum of 100 slots. Before you can use runtime hints with an existing bot, you must first rebuild the bot. For more information, see [Using runtime hints to improve recognition of slot values](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html).
-    public struct RuntimeHints: Swift.Equatable {
+    public struct RuntimeHints {
         /// A list of the slots in the intent that should have runtime hints added, and the phrases that should be added for each slot. The first level of the slotHints map is the name of the intent. The second level is the name of the slot within the intent. For more information, see [Using hints to improve accuracy](https://docs.aws.amazon.com/lexv2/latest/dg/using-hints.html). The intent name and slot name must exist.
         public var slotHints: [Swift.String:[Swift.String:LexModelsV2ClientTypes.RuntimeHintDetails]]?
 
@@ -29473,7 +29473,7 @@ extension LexModelsV2ClientTypes.RuntimeSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications about the Amazon Lex runtime generative AI capabilities from Amazon Bedrock that you can turn on for your bot.
-    public struct RuntimeSettings: Swift.Equatable {
+    public struct RuntimeSettings {
         /// An object containing specifications for the assisted slot resolution feature.
         public var slotResolutionImprovement: LexModelsV2ClientTypes.SlotResolutionImprovementSpecification?
 
@@ -29520,7 +29520,7 @@ extension LexModelsV2ClientTypes.S3BucketLogDestination: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies an Amazon S3 bucket for logging audio conversations
-    public struct S3BucketLogDestination: Swift.Equatable {
+    public struct S3BucketLogDestination {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting audio log files stored in an S3 bucket.
         public var kmsKeyArn: Swift.String?
         /// The S3 prefix to assign to audio log files.
@@ -29589,7 +29589,7 @@ extension LexModelsV2ClientTypes.S3BucketTranscriptSource: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object representing the Amazon S3 bucket containing the transcript, as well as the associated metadata.
-    public struct S3BucketTranscriptSource: Swift.Equatable {
+    public struct S3BucketTranscriptSource {
         /// The ARN of the KMS key that customer use to encrypt their Amazon S3 bucket. Only use this field if your bucket is encrypted using a customer managed KMS key.
         public var kmsKeyArn: Swift.String?
         /// The object that contains a path format that will be applied when Amazon Lex reads the transcript file in the bucket you provide. Specify this object if you only want Lex to read a subset of files in your Amazon S3 bucket.
@@ -29642,7 +29642,7 @@ extension LexModelsV2ClientTypes.SSMLMessage: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines a Speech Synthesis Markup Language (SSML) prompt.
-    public struct SSMLMessage: Swift.Equatable {
+    public struct SSMLMessage {
         /// The SSML text that defines the prompt.
         /// This member is required.
         public var value: Swift.String?
@@ -29678,7 +29678,7 @@ extension LexModelsV2ClientTypes.SampleUtterance: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// A sample utterance that invokes an intent or respond to a slot elicitation prompt.
-    public struct SampleUtterance: Swift.Equatable {
+    public struct SampleUtterance {
         /// The sample utterance that Amazon Lex uses to build its machine-learning model to recognize intents.
         /// This member is required.
         public var utterance: Swift.String?
@@ -29720,7 +29720,7 @@ extension LexModelsV2ClientTypes.SampleUtteranceGenerationSpecification: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications for the sample utterance generation feature.
-    public struct SampleUtteranceGenerationSpecification: Swift.Equatable {
+    public struct SampleUtteranceGenerationSpecification {
         /// Contains information about the Amazon Bedrock model used to interpret the prompt used in descriptive bot building.
         public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
         /// Specifies whether to enable sample utterance generation or not.
@@ -29760,7 +29760,7 @@ extension LexModelsV2ClientTypes.SampleValue: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines one of the values for a slot type.
-    public struct SampleValue: Swift.Equatable {
+    public struct SampleValue {
         /// The value that can be used for a slot type.
         /// This member is required.
         public var value: Swift.String?
@@ -29822,7 +29822,7 @@ extension SearchAssociatedTranscriptsInput {
     }
 }
 
-public struct SearchAssociatedTranscriptsInput: Swift.Equatable {
+public struct SearchAssociatedTranscriptsInput {
     /// The unique identifier of the bot associated with the transcripts that you are searching.
     /// This member is required.
     public var botId: Swift.String?
@@ -29867,7 +29867,7 @@ public struct SearchAssociatedTranscriptsInput: Swift.Equatable {
     }
 }
 
-struct SearchAssociatedTranscriptsInputBody: Swift.Equatable {
+struct SearchAssociatedTranscriptsInputBody {
     let searchOrder: LexModelsV2ClientTypes.SearchOrder?
     let filters: [LexModelsV2ClientTypes.AssociatedTranscriptFilter]?
     let maxResults: Swift.Int?
@@ -29928,7 +29928,7 @@ extension SearchAssociatedTranscriptsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchAssociatedTranscriptsOutput: Swift.Equatable {
+public struct SearchAssociatedTranscriptsOutput {
     /// The object that contains the associated transcript that meet the criteria you specified.
     public var associatedTranscripts: [LexModelsV2ClientTypes.AssociatedTranscript]?
     /// The unique identifier of the bot associated with the transcripts that you are searching.
@@ -29964,7 +29964,7 @@ public struct SearchAssociatedTranscriptsOutput: Swift.Equatable {
     }
 }
 
-struct SearchAssociatedTranscriptsOutputBody: Swift.Equatable {
+struct SearchAssociatedTranscriptsOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -30081,7 +30081,7 @@ extension LexModelsV2ClientTypes.SentimentAnalysisSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Determines whether Amazon Lex will use Amazon Comprehend to detect the sentiment of user utterances.
-    public struct SentimentAnalysisSettings: Swift.Equatable {
+    public struct SentimentAnalysisSettings {
         /// Sets whether Amazon Lex uses Amazon Comprehend to detect the sentiment of user utterances.
         /// This member is required.
         public var detectSentiment: Swift.Bool
@@ -30135,7 +30135,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -30178,7 +30178,7 @@ extension LexModelsV2ClientTypes.SessionDataSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object specifying the measure and method by which to sort the session analytics data.
-    public struct SessionDataSortBy: Swift.Equatable {
+    public struct SessionDataSortBy {
         /// The measure by which to sort the session analytics data.
         ///
         /// * conversationStartTime – The date and time when the conversation began. A conversation is defined as a unique combination of a sessionId and an originatingRequestId.
@@ -30309,7 +30309,7 @@ extension LexModelsV2ClientTypes.SessionSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing information about a specific session.
-    public struct SessionSpecification: Swift.Equatable {
+    public struct SessionSpecification {
         /// The identifier of the alias of the bot that the session was held with.
         public var botAliasId: Swift.String?
         /// The version of the bot that the session was held with.
@@ -30442,7 +30442,7 @@ extension LexModelsV2ClientTypes.SlotCaptureSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Settings used when Amazon Lex successfully captures a slot value from a user.
-    public struct SlotCaptureSetting: Swift.Equatable {
+    public struct SlotCaptureSetting {
         /// A list of conditional branches to evaluate after the slot value is captured.
         public var captureConditional: LexModelsV2ClientTypes.ConditionalSpecification?
         /// Specifies the next step that the bot runs when the slot value is captured before the code hook times out.
@@ -30537,7 +30537,7 @@ extension LexModelsV2ClientTypes.SlotDefaultValue: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the default value to use when a user doesn't provide a value for a slot.
-    public struct SlotDefaultValue: Swift.Equatable {
+    public struct SlotDefaultValue {
         /// The default value to use when a user doesn't provide a value for a slot.
         /// This member is required.
         public var defaultValue: Swift.String?
@@ -30585,7 +30585,7 @@ extension LexModelsV2ClientTypes.SlotDefaultValueSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines a list of values that Amazon Lex should use as the default value for a slot.
-    public struct SlotDefaultValueSpecification: Swift.Equatable {
+    public struct SlotDefaultValueSpecification {
         /// A list of default values. Amazon Lex chooses the default value to use in the order that they are presented in the list.
         /// This member is required.
         public var defaultValueList: [LexModelsV2ClientTypes.SlotDefaultValue]?
@@ -30645,7 +30645,7 @@ extension LexModelsV2ClientTypes.SlotFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the response from the ListSlots operation.
-    public struct SlotFilter: Swift.Equatable {
+    public struct SlotFilter {
         /// The name of the field to use for filtering.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.SlotFilterName?
@@ -30758,7 +30758,7 @@ extension LexModelsV2ClientTypes.SlotPriority: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Sets the priority that Amazon Lex should use when eliciting slot values from a user.
-    public struct SlotPriority: Swift.Equatable {
+    public struct SlotPriority {
         /// The priority that Amazon Lex should apply to the slot.
         /// This member is required.
         public var priority: Swift.Int?
@@ -30805,7 +30805,7 @@ extension LexModelsV2ClientTypes.SlotResolutionImprovementSpecification: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Contains specifications for the assisted slot resolution feature.
-    public struct SlotResolutionImprovementSpecification: Swift.Equatable {
+    public struct SlotResolutionImprovementSpecification {
         /// An object containing information about the Amazon Bedrock model used to assist slot resolution.
         public var bedrockModelSpecification: LexModelsV2ClientTypes.BedrockModelSpecification?
         /// Specifies whether assisted slot resolution is turned on or off.
@@ -30845,7 +30845,7 @@ extension LexModelsV2ClientTypes.SlotResolutionSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about whether assisted slot resolution is turned on for the slot or not.
-    public struct SlotResolutionSetting: Swift.Equatable {
+    public struct SlotResolutionSetting {
         /// Specifies whether assisted slot resolution is turned on for the slot or not. If the value is EnhancedFallback, assisted slot resolution is activated when Amazon Lex defaults to the AMAZON.FallbackIntent. If the value is Default, assisted slot resolution is turned off.
         /// This member is required.
         public var slotResolutionStrategy: LexModelsV2ClientTypes.SlotResolutionStrategy?
@@ -30919,7 +30919,7 @@ extension LexModelsV2ClientTypes.SlotResolutionTestResultItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Information about the success and failure rate of slot resolution in the results of a test execution.
-    public struct SlotResolutionTestResultItem: Swift.Equatable {
+    public struct SlotResolutionTestResultItem {
         /// A result for slot resolution in the results of a test execution.
         /// This member is required.
         public var resultCounts: LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts?
@@ -30996,7 +30996,7 @@ extension LexModelsV2ClientTypes.SlotResolutionTestResultItemCounts: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Information about the counts for a slot resolution in the results of a test execution.
-    public struct SlotResolutionTestResultItemCounts: Swift.Equatable {
+    public struct SlotResolutionTestResultItemCounts {
         /// The number of matched and mismatched results for slot resolution for the slot.
         /// This member is required.
         public var slotMatchResultCounts: [Swift.String:Swift.Int]?
@@ -31111,7 +31111,7 @@ extension LexModelsV2ClientTypes.SlotSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of bots.
-    public struct SlotSortBy: Swift.Equatable {
+    public struct SlotSortBy {
         /// The attribute to use to sort the list.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.SlotSortAttribute?
@@ -31188,7 +31188,7 @@ extension LexModelsV2ClientTypes.SlotSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summary information about a slot, a value that the bot elicits from the user.
-    public struct SlotSummary: Swift.Equatable {
+    public struct SlotSummary {
         /// The description of the slot.
         public var description: Swift.String?
         /// The timestamp of the last date and time that the slot was updated.
@@ -31309,7 +31309,7 @@ extension LexModelsV2ClientTypes.SlotTypeFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Filters the response from the ListSlotTypes operation.
-    public struct SlotTypeFilter: Swift.Equatable {
+    public struct SlotTypeFilter {
         /// The name of the field to use for filtering.
         /// This member is required.
         public var name: LexModelsV2ClientTypes.SlotTypeFilterName?
@@ -31457,7 +31457,7 @@ extension LexModelsV2ClientTypes.SlotTypeSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies attributes for sorting a list of slot types.
-    public struct SlotTypeSortBy: Swift.Equatable {
+    public struct SlotTypeSortBy {
         /// The attribute to use to sort the list of slot types.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.SlotTypeSortAttribute?
@@ -31498,7 +31498,7 @@ extension LexModelsV2ClientTypes.SlotTypeStatistics: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object that contains the statistical summary of the recommended slot type associated with the bot recommendation.
-    public struct SlotTypeStatistics: Swift.Equatable {
+    public struct SlotTypeStatistics {
         /// The number of recommended slot types associated with the bot recommendation.
         public var discoveredSlotTypeCount: Swift.Int?
 
@@ -31563,7 +31563,7 @@ extension LexModelsV2ClientTypes.SlotTypeSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides summary information about a slot type.
-    public struct SlotTypeSummary: Swift.Equatable {
+    public struct SlotTypeSummary {
         /// The description of the slot type.
         public var description: Swift.String?
         /// A timestamp of the date and time that the slot type was last updated.
@@ -31642,7 +31642,7 @@ extension LexModelsV2ClientTypes.SlotTypeValue: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Each slot type can have a set of values. Each SlotTypeValue represents a value that the slot type can take.
-    public struct SlotTypeValue: Swift.Equatable {
+    public struct SlotTypeValue {
         /// The value of the slot type entry.
         public var sampleValue: LexModelsV2ClientTypes.SampleValue?
         /// Additional values related to the slot type entry.
@@ -31681,7 +31681,7 @@ extension LexModelsV2ClientTypes.SlotValue: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The value to set in a slot.
-    public struct SlotValue: Swift.Equatable {
+    public struct SlotValue {
         /// The value that Amazon Lex determines for the slot. The actual value depends on the setting of the value selection strategy for the bot. You can choose to use the value entered by the user, or you can have Amazon Lex choose the first value in the resolvedValues list.
         public var interpretedValue: Swift.String?
 
@@ -31764,7 +31764,7 @@ extension LexModelsV2ClientTypes.SlotValueElicitationSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the elicitation setting details eliciting a slot.
-    public struct SlotValueElicitationSetting: Swift.Equatable {
+    public struct SlotValueElicitationSetting {
         /// A list of default values for a slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values.
         public var defaultValueSpecification: LexModelsV2ClientTypes.SlotDefaultValueSpecification?
         /// The prompt that Amazon Lex uses to elicit the slot value from the user.
@@ -31848,7 +31848,7 @@ extension LexModelsV2ClientTypes.SlotValueOverride: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The slot values that Amazon Lex uses when it sets slot values in a dialog step.
-    public struct SlotValueOverride: Swift.Equatable {
+    public struct SlotValueOverride {
         /// When the shape value is List, it indicates that the values field contains a list of slot values. When the value is Scalar, it indicates that the value field contains a single value.
         public var shape: LexModelsV2ClientTypes.SlotShape?
         /// The current value of the slot.
@@ -31891,7 +31891,7 @@ extension LexModelsV2ClientTypes.SlotValueRegexFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides a regular expression used to validate the value of a slot.
-    public struct SlotValueRegexFilter: Swift.Equatable {
+    public struct SlotValueRegexFilter {
         /// A regular expression used to validate the value of a slot. Use a standard regular expression. Amazon Lex supports the following characters in the regular expression:
         ///
         /// * A-Z, a-z
@@ -31987,7 +31987,7 @@ extension LexModelsV2ClientTypes.SlotValueSelectionSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains settings used by Amazon Lex to select a slot value.
-    public struct SlotValueSelectionSetting: Swift.Equatable {
+    public struct SlotValueSelectionSetting {
         /// Provides settings that enable advanced recognition settings for slot values. You can use this to enable using slot values as a custom vocabulary for recognizing user utterances.
         public var advancedRecognitionSetting: LexModelsV2ClientTypes.AdvancedRecognitionSetting?
         /// A regular expression used to validate the value of a slot.
@@ -32076,7 +32076,7 @@ extension LexModelsV2ClientTypes.Specifications: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Subslot specifications.
-    public struct Specifications: Swift.Equatable {
+    public struct Specifications {
         /// The unique identifier assigned to the slot type.
         /// This member is required.
         public var slotTypeId: Swift.String?
@@ -32129,7 +32129,7 @@ extension StartBotRecommendationInput {
     }
 }
 
-public struct StartBotRecommendationInput: Swift.Equatable {
+public struct StartBotRecommendationInput {
     /// The unique identifier of the bot containing the bot recommendation.
     /// This member is required.
     public var botId: Swift.String?
@@ -32161,7 +32161,7 @@ public struct StartBotRecommendationInput: Swift.Equatable {
     }
 }
 
-struct StartBotRecommendationInputBody: Swift.Equatable {
+struct StartBotRecommendationInputBody {
     let transcriptSourceSetting: LexModelsV2ClientTypes.TranscriptSourceSetting?
     let encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting?
 }
@@ -32207,7 +32207,7 @@ extension StartBotRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBotRecommendationOutput: Swift.Equatable {
+public struct StartBotRecommendationOutput {
     /// The unique identifier of the bot containing the bot recommendation.
     public var botId: Swift.String?
     /// The identifier of the bot recommendation that you have created.
@@ -32247,7 +32247,7 @@ public struct StartBotRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct StartBotRecommendationOutputBody: Swift.Equatable {
+struct StartBotRecommendationOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -32337,7 +32337,7 @@ extension StartBotResourceGenerationInput {
     }
 }
 
-public struct StartBotResourceGenerationInput: Swift.Equatable {
+public struct StartBotResourceGenerationInput {
     /// The unique identifier of the bot for which to generate intents and slot types.
     /// This member is required.
     public var botId: Swift.String?
@@ -32365,7 +32365,7 @@ public struct StartBotResourceGenerationInput: Swift.Equatable {
     }
 }
 
-struct StartBotResourceGenerationInputBody: Swift.Equatable {
+struct StartBotResourceGenerationInputBody {
     let generationInputPrompt: Swift.String?
 }
 
@@ -32405,7 +32405,7 @@ extension StartBotResourceGenerationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartBotResourceGenerationOutput: Swift.Equatable {
+public struct StartBotResourceGenerationOutput {
     /// The unique identifier of the bot for which the generation request was made.
     public var botId: Swift.String?
     /// The version of the bot for which the generation request was made.
@@ -32441,7 +32441,7 @@ public struct StartBotResourceGenerationOutput: Swift.Equatable {
     }
 }
 
-struct StartBotResourceGenerationOutputBody: Swift.Equatable {
+struct StartBotResourceGenerationOutputBody {
     let generationInputPrompt: Swift.String?
     let generationId: Swift.String?
     let botId: Swift.String?
@@ -32534,7 +32534,7 @@ extension StartImportInput {
     }
 }
 
-public struct StartImportInput: Swift.Equatable {
+public struct StartImportInput {
     /// The password used to encrypt the zip archive that contains the resource definition. You should always encrypt the zip archive to protect it during transit between your site and Amazon Lex.
     public var filePassword: Swift.String?
     /// The unique identifier for the import. It is included in the response from the [CreateUploadUrl](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateUploadUrl.html) operation.
@@ -32561,7 +32561,7 @@ public struct StartImportInput: Swift.Equatable {
     }
 }
 
-struct StartImportInputBody: Swift.Equatable {
+struct StartImportInputBody {
     let importId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification?
     let mergeStrategy: LexModelsV2ClientTypes.MergeStrategy?
@@ -32609,7 +32609,7 @@ extension StartImportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartImportOutput: Swift.Equatable {
+public struct StartImportOutput {
     /// The date and time that the import request was created.
     public var creationDateTime: ClientRuntime.Date?
     /// A unique identifier for the import.
@@ -32637,7 +32637,7 @@ public struct StartImportOutput: Swift.Equatable {
     }
 }
 
-struct StartImportOutputBody: Swift.Equatable {
+struct StartImportOutputBody {
     let importId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ImportResourceSpecification?
     let mergeStrategy: LexModelsV2ClientTypes.MergeStrategy?
@@ -32716,7 +32716,7 @@ extension StartTestExecutionInput {
     }
 }
 
-public struct StartTestExecutionInput: Swift.Equatable {
+public struct StartTestExecutionInput {
     /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Runtime API is used. Whereas, for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
     /// This member is required.
     public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
@@ -32743,7 +32743,7 @@ public struct StartTestExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartTestExecutionInputBody: Swift.Equatable {
+struct StartTestExecutionInputBody {
     let target: LexModelsV2ClientTypes.TestExecutionTarget?
     let apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
     let testExecutionModality: LexModelsV2ClientTypes.TestExecutionModality?
@@ -32789,7 +32789,7 @@ extension StartTestExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTestExecutionOutput: Swift.Equatable {
+public struct StartTestExecutionOutput {
     /// Indicates whether we use streaming or non-streaming APIs for the test set execution. For streaming, StartConversation Amazon Lex Runtime API is used. Whereas for non-streaming, RecognizeUtterance and RecognizeText Amazon Lex Runtime API are used.
     public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
     /// The creation date and time for the test set execution.
@@ -32821,7 +32821,7 @@ public struct StartTestExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartTestExecutionOutputBody: Swift.Equatable {
+struct StartTestExecutionOutputBody {
     let testExecutionId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let testSetId: Swift.String?
@@ -32916,7 +32916,7 @@ extension StartTestSetGenerationInput {
     }
 }
 
-public struct StartTestSetGenerationInput: Swift.Equatable {
+public struct StartTestSetGenerationInput {
     /// The test set description for the test set generation request.
     public var description: Swift.String?
     /// The data source for the test set generation.
@@ -32952,7 +32952,7 @@ public struct StartTestSetGenerationInput: Swift.Equatable {
     }
 }
 
-struct StartTestSetGenerationInputBody: Swift.Equatable {
+struct StartTestSetGenerationInputBody {
     let testSetName: Swift.String?
     let description: Swift.String?
     let storageLocation: LexModelsV2ClientTypes.TestSetStorageLocation?
@@ -33025,7 +33025,7 @@ extension StartTestSetGenerationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTestSetGenerationOutput: Swift.Equatable {
+public struct StartTestSetGenerationOutput {
     /// The creation date and time for the test set generation.
     public var creationDateTime: ClientRuntime.Date?
     /// The description used for the test set generation.
@@ -33069,7 +33069,7 @@ public struct StartTestSetGenerationOutput: Swift.Equatable {
     }
 }
 
-struct StartTestSetGenerationOutputBody: Swift.Equatable {
+struct StartTestSetGenerationOutputBody {
     let testSetGenerationId: Swift.String?
     let creationDateTime: ClientRuntime.Date?
     let testSetGenerationStatus: LexModelsV2ClientTypes.TestSetGenerationStatus?
@@ -33193,7 +33193,7 @@ extension LexModelsV2ClientTypes.StillWaitingResponseSpecification: Swift.Codabl
 
 extension LexModelsV2ClientTypes {
     /// Defines the messages that Amazon Lex sends to a user to remind them that the bot is waiting for a response.
-    public struct StillWaitingResponseSpecification: Swift.Equatable {
+    public struct StillWaitingResponseSpecification {
         /// Indicates that the user can interrupt the response by speaking while the message is being played.
         public var allowInterrupt: Swift.Bool?
         /// How often a message should be sent to the user. Minimum of 1 second, maximum of 5 minutes.
@@ -33241,7 +33241,7 @@ extension StopBotRecommendationInput {
     }
 }
 
-public struct StopBotRecommendationInput: Swift.Equatable {
+public struct StopBotRecommendationInput {
     /// The unique identifier of the bot containing the bot recommendation to be stopped.
     /// This member is required.
     public var botId: Swift.String?
@@ -33269,7 +33269,7 @@ public struct StopBotRecommendationInput: Swift.Equatable {
     }
 }
 
-struct StopBotRecommendationInputBody: Swift.Equatable {
+struct StopBotRecommendationInputBody {
 }
 
 extension StopBotRecommendationInputBody: Swift.Decodable {
@@ -33298,7 +33298,7 @@ extension StopBotRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopBotRecommendationOutput: Swift.Equatable {
+public struct StopBotRecommendationOutput {
     /// The unique identifier of the bot containing the bot recommendation that is being stopped.
     public var botId: Swift.String?
     /// The unique identifier of the bot recommendation that is being stopped.
@@ -33326,7 +33326,7 @@ public struct StopBotRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct StopBotRecommendationOutputBody: Swift.Equatable {
+struct StopBotRecommendationOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -33414,7 +33414,7 @@ extension LexModelsV2ClientTypes.SubSlotSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifications for the constituent sub slots and the expression for the composite slot.
-    public struct SubSlotSetting: Swift.Equatable {
+    public struct SubSlotSetting {
         /// The expression text for defining the constituent sub slots in the composite slot using logical AND and OR operators.
         public var expression: Swift.String?
         /// Specifications for the constituent sub slots of a composite slot.
@@ -33459,7 +33459,7 @@ extension LexModelsV2ClientTypes.SubSlotTypeComposition: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Subslot type composition.
-    public struct SubSlotTypeComposition: Swift.Equatable {
+    public struct SubSlotTypeComposition {
         /// Name of a constituent sub slot inside a composite slot.
         /// This member is required.
         public var name: Swift.String?
@@ -33530,7 +33530,7 @@ extension LexModelsV2ClientTypes.SubSlotValueElicitationSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Subslot elicitation settings. DefaultValueSpecification is a list of default values for a constituent sub slot in a composite slot. Default values are used when Amazon Lex hasn't determined a value for a slot. You can specify default values from context variables, session attributes, and defined values. This is similar to DefaultValueSpecification for slots. PromptSpecification is the prompt that Amazon Lex uses to elicit the sub slot value from the user. This is similar to PromptSpecification for slots.
-    public struct SubSlotValueElicitationSetting: Swift.Equatable {
+    public struct SubSlotValueElicitationSetting {
         /// Defines a list of values that Amazon Lex should use as the default value for a slot.
         public var defaultValueSpecification: LexModelsV2ClientTypes.SlotDefaultValueSpecification?
         /// Specifies a list of message groups that Amazon Lex sends to a user to elicit a response.
@@ -33583,7 +33583,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the bot, bot alias, or bot channel to tag.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -33601,7 +33601,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -33631,7 +33631,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -33741,7 +33741,7 @@ extension LexModelsV2ClientTypes.TestExecutionResultFilterBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the method by which to filter the results of the test execution.
-    public struct TestExecutionResultFilterBy: Swift.Equatable {
+    public struct TestExecutionResultFilterBy {
         /// Contains information about the method for filtering Conversation level test results.
         public var conversationLevelTestResultsFilterBy: LexModelsV2ClientTypes.ConversationLevelTestResultsFilterBy?
         /// Specifies which results to filter. See [Test result details">Test results details](https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html) for details about different types of results.
@@ -33805,7 +33805,7 @@ extension LexModelsV2ClientTypes.TestExecutionResultItems: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the results of the test execution, grouped by type of results. See [Test result details">Test results details](https://docs.aws.amazon.com/lexv2/latest/dg/test-results-details-test-set.html) for details about different types of results.
-    public struct TestExecutionResultItems: Swift.Equatable {
+    public struct TestExecutionResultItems {
         /// Results related to conversations in the test set, including metrics about success and failure of conversations and intent and slot failures.
         public var conversationLevelTestResults: LexModelsV2ClientTypes.ConversationLevelTestResults?
         /// Intent recognition results aggregated by intent name. The aggregated results contain success and failure rates of intent recognition, speech transcriptions, and end-to-end conversations.
@@ -33894,7 +33894,7 @@ extension LexModelsV2ClientTypes.TestExecutionSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the method by which to sort the instances of test executions you have carried out.
-    public struct TestExecutionSortBy: Swift.Equatable {
+    public struct TestExecutionSortBy {
         /// Specifies whether to sort the test set executions by the date and time at which the test sets were created.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.TestExecutionSortAttribute?
@@ -34030,7 +34030,7 @@ extension LexModelsV2ClientTypes.TestExecutionSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Summarizes metadata about the test execution.
-    public struct TestExecutionSummary: Swift.Equatable {
+    public struct TestExecutionSummary {
         /// Specifies whether the API mode for the test execution is streaming or non-streaming.
         public var apiMode: LexModelsV2ClientTypes.TestExecutionApiMode?
         /// The date and time at which the test execution was created.
@@ -34097,7 +34097,7 @@ extension LexModelsV2ClientTypes.TestExecutionTarget: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the bot used for the test execution.
-    public struct TestExecutionTarget: Swift.Equatable {
+    public struct TestExecutionTarget {
         /// Contains information about the bot alias used for the test execution.
         public var botAliasTarget: LexModelsV2ClientTypes.BotAliasTestExecutionTarget?
 
@@ -34238,7 +34238,7 @@ extension LexModelsV2ClientTypes.TestSetDiscrepancyErrors: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains details about the errors in the test set discrepancy report
-    public struct TestSetDiscrepancyErrors: Swift.Equatable {
+    public struct TestSetDiscrepancyErrors {
         /// Contains information about discrepancies found for intents between the test set and the bot.
         /// This member is required.
         public var intentDiscrepancies: [LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem]?
@@ -34291,7 +34291,7 @@ extension LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the bot alias used for the test set discrepancy report.
-    public struct TestSetDiscrepancyReportBotAliasTarget: Swift.Equatable {
+    public struct TestSetDiscrepancyReportBotAliasTarget {
         /// The unique identifier for the bot associated with the bot alias.
         /// This member is required.
         public var botAliasId: Swift.String?
@@ -34337,7 +34337,7 @@ extension LexModelsV2ClientTypes.TestSetDiscrepancyReportResourceTarget: Swift.C
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the resource used for the test set discrepancy report.
-    public struct TestSetDiscrepancyReportResourceTarget: Swift.Equatable {
+    public struct TestSetDiscrepancyReportResourceTarget {
         /// Contains information about the bot alias used as the resource for the test set discrepancy report.
         public var botAliasTarget: LexModelsV2ClientTypes.TestSetDiscrepancyReportBotAliasTarget?
 
@@ -34407,7 +34407,7 @@ extension LexModelsV2ClientTypes.TestSetExportSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the test set that is exported.
-    public struct TestSetExportSpecification: Swift.Equatable {
+    public struct TestSetExportSpecification {
         /// The unique identifier of the test set.
         /// This member is required.
         public var testSetId: Swift.String?
@@ -34443,7 +34443,7 @@ extension LexModelsV2ClientTypes.TestSetGenerationDataSource: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the data source from which the test set is generated.
-    public struct TestSetGenerationDataSource: Swift.Equatable {
+    public struct TestSetGenerationDataSource {
         /// Contains information about the bot from which the conversation logs are sourced.
         public var conversationLogsDataSource: LexModelsV2ClientTypes.ConversationLogsDataSource?
 
@@ -34522,7 +34522,7 @@ extension LexModelsV2ClientTypes.TestSetImportInputLocation: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the Amazon S3 location from which the test set is imported.
-    public struct TestSetImportInputLocation: Swift.Equatable {
+    public struct TestSetImportInputLocation {
         /// The name of the Amazon S3 bucket.
         /// This member is required.
         public var s3BucketName: Swift.String?
@@ -34611,7 +34611,7 @@ extension LexModelsV2ClientTypes.TestSetImportResourceSpecification: Swift.Codab
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the test set that is imported.
-    public struct TestSetImportResourceSpecification: Swift.Equatable {
+    public struct TestSetImportResourceSpecification {
         /// The description of the test set.
         public var description: Swift.String?
         /// Contains information about the input location from where test-set should be imported.
@@ -34681,7 +34681,7 @@ extension LexModelsV2ClientTypes.TestSetIntentDiscrepancyItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about discrepancy in an intent information between the test set and the bot.
-    public struct TestSetIntentDiscrepancyItem: Swift.Equatable {
+    public struct TestSetIntentDiscrepancyItem {
         /// The error message for a discrepancy for an intent between the test set and the bot.
         /// This member is required.
         public var errorMessage: Swift.String?
@@ -34766,7 +34766,7 @@ extension LexModelsV2ClientTypes.TestSetSlotDiscrepancyItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about discrepancy in a slot information between the test set and the bot.
-    public struct TestSetSlotDiscrepancyItem: Swift.Equatable {
+    public struct TestSetSlotDiscrepancyItem {
         /// The error message for a discrepancy for an intent between the test set and the bot.
         /// This member is required.
         public var errorMessage: Swift.String?
@@ -34850,7 +34850,7 @@ extension LexModelsV2ClientTypes.TestSetSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the methods by which to sort the test set.
-    public struct TestSetSortBy: Swift.Equatable {
+    public struct TestSetSortBy {
         /// Specifies whether to sort the test sets by name or by the time they were last updated.
         /// This member is required.
         public var attribute: LexModelsV2ClientTypes.TestSetSortAttribute?
@@ -34944,7 +34944,7 @@ extension LexModelsV2ClientTypes.TestSetStorageLocation: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the location in which the test set is stored.
-    public struct TestSetStorageLocation: Swift.Equatable {
+    public struct TestSetStorageLocation {
         /// The Amazon Resource Name (ARN) of an Amazon Web Services Key Management Service (KMS) key for encrypting the test set.
         public var kmsKeyArn: Swift.String?
         /// The name of the Amazon S3 bucket in which the test set is stored.
@@ -35043,7 +35043,7 @@ extension LexModelsV2ClientTypes.TestSetSummary: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains summary information about the test set.
-    public struct TestSetSummary: Swift.Equatable {
+    public struct TestSetSummary {
         /// The date and time at which the test set was created.
         public var creationDateTime: ClientRuntime.Date?
         /// The description of the test set.
@@ -35132,7 +35132,7 @@ extension LexModelsV2ClientTypes.TestSetTurnRecord: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about a turn in a test set.
-    public struct TestSetTurnRecord: Swift.Equatable {
+    public struct TestSetTurnRecord {
         /// The unique identifier for the conversation associated with the turn.
         public var conversationId: Swift.String?
         /// The record number associated with the turn.
@@ -35187,7 +35187,7 @@ extension LexModelsV2ClientTypes.TestSetTurnResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the results of the analysis of a turn in the test set.
-    public struct TestSetTurnResult: Swift.Equatable {
+    public struct TestSetTurnResult {
         /// Contains information about the agent messages in the turn.
         public var agent: LexModelsV2ClientTypes.AgentTurnResult?
         /// Contains information about the user messages in the turn.
@@ -35226,7 +35226,7 @@ extension LexModelsV2ClientTypes.TextInputSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the text input specifications.
-    public struct TextInputSpecification: Swift.Equatable {
+    public struct TextInputSpecification {
         /// Time for which a bot waits before re-prompting a customer for text input.
         /// This member is required.
         public var startTimeoutMs: Swift.Int?
@@ -35262,7 +35262,7 @@ extension LexModelsV2ClientTypes.TextLogDestination: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines the Amazon CloudWatch Logs destination log group for conversation text logs.
-    public struct TextLogDestination: Swift.Equatable {
+    public struct TextLogDestination {
         /// Defines the Amazon CloudWatch Logs log group where text and metadata logs are delivered.
         /// This member is required.
         public var cloudWatch: LexModelsV2ClientTypes.CloudWatchLogGroupLogDestination?
@@ -35310,7 +35310,7 @@ extension LexModelsV2ClientTypes.TextLogSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines settings to enable text conversation logs.
-    public struct TextLogSetting: Swift.Equatable {
+    public struct TextLogSetting {
         /// Defines the Amazon CloudWatch Logs destination log group for conversation text logs.
         /// This member is required.
         public var destination: LexModelsV2ClientTypes.TextLogDestination?
@@ -35382,7 +35382,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -35454,7 +35454,7 @@ extension LexModelsV2ClientTypes.TranscriptFilter: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// The object representing the filter that Amazon Lex will use to select the appropriate transcript.
-    public struct TranscriptFilter: Swift.Equatable {
+    public struct TranscriptFilter {
         /// The object representing the filter that Amazon Lex will use to select the appropriate transcript when the transcript format is the Amazon Lex format.
         public var lexTranscriptFilter: LexModelsV2ClientTypes.LexTranscriptFilter?
 
@@ -35518,7 +35518,7 @@ extension LexModelsV2ClientTypes.TranscriptSourceSetting: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Indicates the setting of the location where the transcript is stored.
-    public struct TranscriptSourceSetting: Swift.Equatable {
+    public struct TranscriptSourceSetting {
         /// Indicates the setting of the Amazon S3 bucket where the transcript is stored.
         public var s3BucketTranscriptSource: LexModelsV2ClientTypes.S3BucketTranscriptSource?
 
@@ -35559,7 +35559,7 @@ extension LexModelsV2ClientTypes.TurnSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the messages in the turn.
-    public struct TurnSpecification: Swift.Equatable {
+    public struct TurnSpecification {
         /// Contains information about the agent messages in the turn.
         public var agentTurn: LexModelsV2ClientTypes.AgentTurnSpecification?
         /// Contains information about the user messages in the turn.
@@ -35603,7 +35603,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove the tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -35621,7 +35621,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -35635,7 +35635,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -35703,7 +35703,7 @@ extension UpdateBotAliasInput {
     }
 }
 
-public struct UpdateBotAliasInput: Swift.Equatable {
+public struct UpdateBotAliasInput {
     /// The unique identifier of the bot alias.
     /// This member is required.
     public var botAliasId: Swift.String?
@@ -35746,7 +35746,7 @@ public struct UpdateBotAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateBotAliasInputBody: Swift.Equatable {
+struct UpdateBotAliasInputBody {
     let botAliasName: Swift.String?
     let description: Swift.String?
     let botVersion: Swift.String?
@@ -35823,7 +35823,7 @@ extension UpdateBotAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBotAliasOutput: Swift.Equatable {
+public struct UpdateBotAliasOutput {
     /// The identifier of the updated bot alias.
     public var botAliasId: Swift.String?
     /// The updated Lambda functions to use in each locale for the bot alias.
@@ -35875,7 +35875,7 @@ public struct UpdateBotAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBotAliasOutputBody: Swift.Equatable {
+struct UpdateBotAliasOutputBody {
     let botAliasId: Swift.String?
     let botAliasName: Swift.String?
     let description: Swift.String?
@@ -36006,7 +36006,7 @@ extension UpdateBotInput {
     }
 }
 
-public struct UpdateBotInput: Swift.Equatable {
+public struct UpdateBotInput {
     /// The unique identifier of the bot to update. This identifier is returned by the [CreateBot](https://docs.aws.amazon.com/lexv2/latest/APIReference/API_CreateBot.html) operation.
     /// This member is required.
     public var botId: Swift.String?
@@ -36051,7 +36051,7 @@ public struct UpdateBotInput: Swift.Equatable {
     }
 }
 
-struct UpdateBotInputBody: Swift.Equatable {
+struct UpdateBotInputBody {
     let botName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -36141,7 +36141,7 @@ extension UpdateBotLocaleInput {
     }
 }
 
-public struct UpdateBotLocaleInput: Swift.Equatable {
+public struct UpdateBotLocaleInput {
     /// The unique identifier of the bot that contains the locale.
     /// This member is required.
     public var botId: Swift.String?
@@ -36181,7 +36181,7 @@ public struct UpdateBotLocaleInput: Swift.Equatable {
     }
 }
 
-struct UpdateBotLocaleInputBody: Swift.Equatable {
+struct UpdateBotLocaleInputBody {
     let description: Swift.String?
     let nluIntentConfidenceThreshold: Swift.Double?
     let voiceSettings: LexModelsV2ClientTypes.VoiceSettings?
@@ -36245,7 +36245,7 @@ extension UpdateBotLocaleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBotLocaleOutput: Swift.Equatable {
+public struct UpdateBotLocaleOutput {
     /// The identifier of the bot that contains the updated locale.
     public var botId: Swift.String?
     /// The current status of the locale. When the bot status is Built the locale is ready for use.
@@ -36305,7 +36305,7 @@ public struct UpdateBotLocaleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBotLocaleOutputBody: Swift.Equatable {
+struct UpdateBotLocaleOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -36435,7 +36435,7 @@ extension UpdateBotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBotOutput: Swift.Equatable {
+public struct UpdateBotOutput {
     /// The unique identifier of the bot that was updated.
     public var botId: Swift.String?
     /// The list of bot members in the network that was updated.
@@ -36487,7 +36487,7 @@ public struct UpdateBotOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBotOutputBody: Swift.Equatable {
+struct UpdateBotOutputBody {
     let botId: Swift.String?
     let botName: Swift.String?
     let description: Swift.String?
@@ -36600,7 +36600,7 @@ extension UpdateBotRecommendationInput {
     }
 }
 
-public struct UpdateBotRecommendationInput: Swift.Equatable {
+public struct UpdateBotRecommendationInput {
     /// The unique identifier of the bot containing the bot recommendation to be updated.
     /// This member is required.
     public var botId: Swift.String?
@@ -36633,7 +36633,7 @@ public struct UpdateBotRecommendationInput: Swift.Equatable {
     }
 }
 
-struct UpdateBotRecommendationInputBody: Swift.Equatable {
+struct UpdateBotRecommendationInputBody {
     let encryptionSetting: LexModelsV2ClientTypes.EncryptionSetting?
 }
 
@@ -36677,7 +36677,7 @@ extension UpdateBotRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBotRecommendationOutput: Swift.Equatable {
+public struct UpdateBotRecommendationOutput {
     /// The unique identifier of the bot containing the bot recommendation that has been updated.
     public var botId: Swift.String?
     /// The unique identifier of the bot recommendation to be updated.
@@ -36721,7 +36721,7 @@ public struct UpdateBotRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBotRecommendationOutputBody: Swift.Equatable {
+struct UpdateBotRecommendationOutputBody {
     let botId: Swift.String?
     let botVersion: Swift.String?
     let localeId: Swift.String?
@@ -36814,7 +36814,7 @@ extension UpdateExportInput {
     }
 }
 
-public struct UpdateExportInput: Swift.Equatable {
+public struct UpdateExportInput {
     /// The unique identifier Amazon Lex assigned to the export.
     /// This member is required.
     public var exportId: Swift.String?
@@ -36831,7 +36831,7 @@ public struct UpdateExportInput: Swift.Equatable {
     }
 }
 
-struct UpdateExportInputBody: Swift.Equatable {
+struct UpdateExportInputBody {
     let filePassword: Swift.String?
 }
 
@@ -36869,7 +36869,7 @@ extension UpdateExportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateExportOutput: Swift.Equatable {
+public struct UpdateExportOutput {
     /// The date and time that the export was created.
     public var creationDateTime: ClientRuntime.Date?
     /// The unique identifier Amazon Lex assigned to the export.
@@ -36901,7 +36901,7 @@ public struct UpdateExportOutput: Swift.Equatable {
     }
 }
 
-struct UpdateExportOutputBody: Swift.Equatable {
+struct UpdateExportOutputBody {
     let exportId: Swift.String?
     let resourceSpecification: LexModelsV2ClientTypes.ExportResourceSpecification?
     let fileFormat: LexModelsV2ClientTypes.ImportExportFileFormat?
@@ -37049,7 +37049,7 @@ extension UpdateIntentInput {
     }
 }
 
-public struct UpdateIntentInput: Swift.Equatable {
+public struct UpdateIntentInput {
     /// The identifier of the bot that contains the intent.
     /// This member is required.
     public var botId: Swift.String?
@@ -37134,7 +37134,7 @@ public struct UpdateIntentInput: Swift.Equatable {
     }
 }
 
-struct UpdateIntentInputBody: Swift.Equatable {
+struct UpdateIntentInputBody {
     let intentName: Swift.String?
     let description: Swift.String?
     let parentIntentSignature: Swift.String?
@@ -37288,7 +37288,7 @@ extension UpdateIntentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIntentOutput: Swift.Equatable {
+public struct UpdateIntentOutput {
     /// The identifier of the bot that contains the intent.
     public var botId: Swift.String?
     /// The version of the bot that contains the intent. Will always be DRAFT.
@@ -37376,7 +37376,7 @@ public struct UpdateIntentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIntentOutputBody: Swift.Equatable {
+struct UpdateIntentOutputBody {
     let intentId: Swift.String?
     let intentName: Swift.String?
     let description: Swift.String?
@@ -37555,7 +37555,7 @@ extension UpdateResourcePolicyInput {
     }
 }
 
-public struct UpdateResourcePolicyInput: Swift.Equatable {
+public struct UpdateResourcePolicyInput {
     /// The identifier of the revision of the policy to update. If this revision ID doesn't match the current revision ID, Amazon Lex throws an exception. If you don't specify a revision, Amazon Lex overwrites the contents of the policy with the new values.
     public var expectedRevisionId: Swift.String?
     /// A resource policy to add to the resource. The policy is a JSON structure that contains one or more statements that define the policy. The policy must follow the IAM syntax. For more information about the contents of a JSON policy document, see [ IAM JSON policy reference ](https://docs.aws.amazon.com/IAM/latest/UserGuide/reference_policies.html). If the policy isn't valid, Amazon Lex returns a validation exception.
@@ -37577,7 +37577,7 @@ public struct UpdateResourcePolicyInput: Swift.Equatable {
     }
 }
 
-struct UpdateResourcePolicyInputBody: Swift.Equatable {
+struct UpdateResourcePolicyInputBody {
     let policy: Swift.String?
 }
 
@@ -37607,7 +37607,7 @@ extension UpdateResourcePolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateResourcePolicyOutput: Swift.Equatable {
+public struct UpdateResourcePolicyOutput {
     /// The Amazon Resource Name (ARN) of the bot or bot alias that the resource policy is attached to.
     public var resourceArn: Swift.String?
     /// The current revision of the resource policy. Use the revision ID to make sure that you are updating the most current version of a resource policy when you add a policy statement to a resource, delete a resource, or update a resource.
@@ -37623,7 +37623,7 @@ public struct UpdateResourcePolicyOutput: Swift.Equatable {
     }
 }
 
-struct UpdateResourcePolicyOutputBody: Swift.Equatable {
+struct UpdateResourcePolicyOutputBody {
     let resourceArn: Swift.String?
     let revisionId: Swift.String?
 }
@@ -37718,7 +37718,7 @@ extension UpdateSlotInput {
     }
 }
 
-public struct UpdateSlotInput: Swift.Equatable {
+public struct UpdateSlotInput {
     /// The unique identifier of the bot that contains the slot.
     /// This member is required.
     public var botId: Swift.String?
@@ -37781,7 +37781,7 @@ public struct UpdateSlotInput: Swift.Equatable {
     }
 }
 
-struct UpdateSlotInputBody: Swift.Equatable {
+struct UpdateSlotInputBody {
     let slotName: Swift.String?
     let description: Swift.String?
     let slotTypeId: Swift.String?
@@ -37859,7 +37859,7 @@ extension UpdateSlotOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSlotOutput: Swift.Equatable {
+public struct UpdateSlotOutput {
     /// The identifier of the bot that contains the slot.
     public var botId: Swift.String?
     /// The version of the bot that contains the slot. Will always be DRAFT.
@@ -37923,7 +37923,7 @@ public struct UpdateSlotOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSlotOutputBody: Swift.Equatable {
+struct UpdateSlotOutputBody {
     let slotId: Swift.String?
     let slotName: Swift.String?
     let description: Swift.String?
@@ -38066,7 +38066,7 @@ extension UpdateSlotTypeInput {
     }
 }
 
-public struct UpdateSlotTypeInput: Swift.Equatable {
+public struct UpdateSlotTypeInput {
     /// The identifier of the bot that contains the slot type.
     /// This member is required.
     public var botId: Swift.String?
@@ -38123,7 +38123,7 @@ public struct UpdateSlotTypeInput: Swift.Equatable {
     }
 }
 
-struct UpdateSlotTypeInputBody: Swift.Equatable {
+struct UpdateSlotTypeInputBody {
     let slotTypeName: Swift.String?
     let description: Swift.String?
     let slotTypeValues: [LexModelsV2ClientTypes.SlotTypeValue]?
@@ -38208,7 +38208,7 @@ extension UpdateSlotTypeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSlotTypeOutput: Swift.Equatable {
+public struct UpdateSlotTypeOutput {
     /// The identifier of the bot that contains the slot type.
     public var botId: Swift.String?
     /// The version of the bot that contains the slot type. This is always DRAFT.
@@ -38268,7 +38268,7 @@ public struct UpdateSlotTypeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSlotTypeOutputBody: Swift.Equatable {
+struct UpdateSlotTypeOutputBody {
     let slotTypeId: Swift.String?
     let slotTypeName: Swift.String?
     let description: Swift.String?
@@ -38384,7 +38384,7 @@ extension UpdateTestSetInput {
     }
 }
 
-public struct UpdateTestSetInput: Swift.Equatable {
+public struct UpdateTestSetInput {
     /// The new test set description.
     public var description: Swift.String?
     /// The test set Id for which update test operation to be performed.
@@ -38406,7 +38406,7 @@ public struct UpdateTestSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateTestSetInputBody: Swift.Equatable {
+struct UpdateTestSetInputBody {
     let testSetName: Swift.String?
     let description: Swift.String?
 }
@@ -38456,7 +38456,7 @@ extension UpdateTestSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTestSetOutput: Swift.Equatable {
+public struct UpdateTestSetOutput {
     /// The creation date and time for the updated test set.
     public var creationDateTime: ClientRuntime.Date?
     /// The test set description for the updated test set.
@@ -38504,7 +38504,7 @@ public struct UpdateTestSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTestSetOutputBody: Swift.Equatable {
+struct UpdateTestSetOutputBody {
     let testSetId: Swift.String?
     let testSetName: Swift.String?
     let description: Swift.String?
@@ -38617,7 +38617,7 @@ extension LexModelsV2ClientTypes.UserTurnInputSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the user messages in the turn in the input.
-    public struct UserTurnInputSpecification: Swift.Equatable {
+    public struct UserTurnInputSpecification {
         /// Request attributes of the user turn.
         public var requestAttributes: [Swift.String:Swift.String]?
         /// Contains information about the session state in the input.
@@ -38679,7 +38679,7 @@ extension LexModelsV2ClientTypes.UserTurnIntentOutput: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the intent that is output for the turn by the test execution.
-    public struct UserTurnIntentOutput: Swift.Equatable {
+    public struct UserTurnIntentOutput {
         /// The name of the intent.
         /// This member is required.
         public var name: Swift.String?
@@ -38743,7 +38743,7 @@ extension LexModelsV2ClientTypes.UserTurnOutputSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains results that are output for the user turn by the test execution.
-    public struct UserTurnOutputSpecification: Swift.Equatable {
+    public struct UserTurnOutputSpecification {
         /// The contexts that are active in the turn.
         public var activeContexts: [LexModelsV2ClientTypes.ActiveContext]?
         /// Contains information about the intent.
@@ -38835,7 +38835,7 @@ extension LexModelsV2ClientTypes.UserTurnResult: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains the results for the user turn by the test execution.
-    public struct UserTurnResult: Swift.Equatable {
+    public struct UserTurnResult {
         /// Contains information about the actual output for the user turn.
         public var actualOutput: LexModelsV2ClientTypes.UserTurnOutputSpecification?
         /// Contains information about the results related to the conversation associated with the user turn.
@@ -38940,7 +38940,7 @@ extension LexModelsV2ClientTypes.UserTurnSlotOutput: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about a slot output by the test set execution.
-    public struct UserTurnSlotOutput: Swift.Equatable {
+    public struct UserTurnSlotOutput {
         /// A list of items mapping the name of the subslots to information about those subslots.
         public var subSlots: [Swift.String:LexModelsV2ClientTypes.UserTurnSlotOutput]?
         /// The value output by the slot recognition.
@@ -38989,7 +38989,7 @@ extension LexModelsV2ClientTypes.UserTurnSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the expected and input values for the user turn.
-    public struct UserTurnSpecification: Swift.Equatable {
+    public struct UserTurnSpecification {
         /// Contains results about the expected output for the user turn.
         /// This member is required.
         public var expected: LexModelsV2ClientTypes.UserTurnOutputSpecification?
@@ -39030,7 +39030,7 @@ extension LexModelsV2ClientTypes.UtteranceAggregationDuration: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Provides parameters for setting the time window and duration for aggregating utterance data.
-    public struct UtteranceAggregationDuration: Swift.Equatable {
+    public struct UtteranceAggregationDuration {
         /// The desired time window for aggregating utterances.
         /// This member is required.
         public var relativeAggregationDuration: LexModelsV2ClientTypes.RelativeAggregationDuration?
@@ -39066,7 +39066,7 @@ extension LexModelsV2ClientTypes.UtteranceAudioInputSpecification: Swift.Codable
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the audio for an utterance.
-    public struct UtteranceAudioInputSpecification: Swift.Equatable {
+    public struct UtteranceAudioInputSpecification {
         /// Amazon S3 file pointing to the audio.
         /// This member is required.
         public var audioFileS3Location: Swift.String?
@@ -39114,7 +39114,7 @@ extension LexModelsV2ClientTypes.UtteranceBotResponse: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object that contains a response to the utterance from the bot.
-    public struct UtteranceBotResponse: Swift.Equatable {
+    public struct UtteranceBotResponse {
         /// The text of the response to the utterance from the bot.
         public var content: Swift.String?
         /// The type of the response. The following values are possible:
@@ -39209,7 +39209,7 @@ extension LexModelsV2ClientTypes.UtteranceDataSortBy: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object specifying the measure and method by which to sort the utterance data.
-    public struct UtteranceDataSortBy: Swift.Equatable {
+    public struct UtteranceDataSortBy {
         /// The measure by which to sort the utterance analytics data.
         ///
         /// * Count – The number of utterances.
@@ -39260,7 +39260,7 @@ extension LexModelsV2ClientTypes.UtteranceInputSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about input of an utterance.
-    public struct UtteranceInputSpecification: Swift.Equatable {
+    public struct UtteranceInputSpecification {
         /// Contains information about the audio input for an utterance.
         public var audioInput: LexModelsV2ClientTypes.UtteranceAudioInputSpecification?
         /// A text input transcription of the utterance. It is only applicable for test-sets containing text data.
@@ -39311,7 +39311,7 @@ extension LexModelsV2ClientTypes.UtteranceLevelTestResultItem: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about multiple utterances in the results of a test set execution.
-    public struct UtteranceLevelTestResultItem: Swift.Equatable {
+    public struct UtteranceLevelTestResultItem {
         /// The unique identifier for the conversation associated with the result.
         public var conversationId: Swift.String?
         /// The record number of the result.
@@ -39368,7 +39368,7 @@ extension LexModelsV2ClientTypes.UtteranceLevelTestResults: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Contains information about the utterances in the results of the test set execution.
-    public struct UtteranceLevelTestResults: Swift.Equatable {
+    public struct UtteranceLevelTestResults {
         /// Contains information about an utterance in the results of the test set execution.
         /// This member is required.
         public var items: [LexModelsV2ClientTypes.UtteranceLevelTestResultItem]?
@@ -39542,7 +39542,7 @@ extension LexModelsV2ClientTypes.UtteranceSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// An object containing information about a specific utterance.
-    public struct UtteranceSpecification: Swift.Equatable {
+    public struct UtteranceSpecification {
         /// The name of the intent that the utterance is associated to.
         public var associatedIntentName: Swift.String?
         /// The name of the slot that the utterance is associated to.
@@ -39719,7 +39719,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -39794,7 +39794,7 @@ extension LexModelsV2ClientTypes.VoiceSettings: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Defines settings for using an Amazon Polly voice to communicate with a user.
-    public struct VoiceSettings: Swift.Equatable {
+    public struct VoiceSettings {
         /// Indicates the type of Amazon Polly voice that Amazon Lex should use for voice interaction with the user. For more information, see the [engine] parameter of the SynthesizeSpeech operation(https://docs.aws.amazon.com/polly/latest/dg/API_SynthesizeSpeech.html#polly-SynthesizeSpeech-request-Engine) in the Amazon Polly developer guide. If you do not specify a value, the default is standard.
         public var engine: LexModelsV2ClientTypes.VoiceEngine?
         /// The identifier of the Amazon Polly voice to use.
@@ -39852,7 +39852,7 @@ extension LexModelsV2ClientTypes.WaitAndContinueSpecification: Swift.Codable {
 
 extension LexModelsV2ClientTypes {
     /// Specifies the prompts that Amazon Lex uses while a bot is waiting for customer input.
-    public struct WaitAndContinueSpecification: Swift.Equatable {
+    public struct WaitAndContinueSpecification {
         /// Specifies whether the bot will wait for a user to respond. When this field is false, wait and continue responses for a slot aren't used. If the active field isn't specified, the default is true.
         public var active: Swift.Bool?
         /// The response that Amazon Lex sends to indicate that the bot is ready to continue the conversation.

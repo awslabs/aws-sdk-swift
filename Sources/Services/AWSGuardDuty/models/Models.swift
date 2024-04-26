@@ -29,7 +29,7 @@ extension AcceptAdministratorInvitationInput {
     }
 }
 
-public struct AcceptAdministratorInvitationInput: Swift.Equatable {
+public struct AcceptAdministratorInvitationInput {
     /// The account ID of the GuardDuty administrator account whose invitation you're accepting.
     /// This member is required.
     public var administratorId: Swift.String?
@@ -52,7 +52,7 @@ public struct AcceptAdministratorInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptAdministratorInvitationInputBody: Swift.Equatable {
+struct AcceptAdministratorInvitationInputBody {
     let administratorId: Swift.String?
     let invitationId: Swift.String?
 }
@@ -77,7 +77,7 @@ extension AcceptAdministratorInvitationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct AcceptAdministratorInvitationOutput: Swift.Equatable {
+public struct AcceptAdministratorInvitationOutput {
 
     public init() { }
 }
@@ -122,7 +122,7 @@ extension AcceptInvitationInput {
 }
 
 @available(*, deprecated, message: "This input is deprecated, use AcceptAdministratorInvitationRequest instead")
-public struct AcceptInvitationInput: Swift.Equatable {
+public struct AcceptInvitationInput {
     /// The unique ID of the detector of the GuardDuty member account.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -145,7 +145,7 @@ public struct AcceptInvitationInput: Swift.Equatable {
     }
 }
 
-struct AcceptInvitationInputBody: Swift.Equatable {
+struct AcceptInvitationInputBody {
     let masterId: Swift.String?
     let invitationId: Swift.String?
 }
@@ -171,7 +171,7 @@ extension AcceptInvitationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "This output is deprecated, use AcceptAdministratorInvitationResponse instead")
-public struct AcceptInvitationOutput: Swift.Equatable {
+public struct AcceptInvitationOutput {
 
     public init() { }
 }
@@ -215,7 +215,7 @@ extension GuardDutyClientTypes.AccessControlList: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the current access control policies for the bucket.
-    public struct AccessControlList: Swift.Equatable {
+    public struct AccessControlList {
         /// A value that indicates whether public read access for the bucket is enabled through an Access Control List (ACL).
         public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through an Access Control List (ACL).
@@ -279,7 +279,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let type: Swift.String?
 }
@@ -338,7 +338,7 @@ extension GuardDutyClientTypes.AccessKeyDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the access keys.
-    public struct AccessKeyDetails: Swift.Equatable {
+    public struct AccessKeyDetails {
         /// The access key ID of the user.
         public var accessKeyId: Swift.String?
         /// The principal ID of the user.
@@ -396,7 +396,7 @@ extension GuardDutyClientTypes.AccountDetail: Swift.CustomDebugStringConvertible
 
 extension GuardDutyClientTypes {
     /// Contains information about the account.
-    public struct AccountDetail: Swift.Equatable {
+    public struct AccountDetail {
         /// The member account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -461,7 +461,7 @@ extension GuardDutyClientTypes.AccountFreeTrialInfo: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Provides details of the GuardDuty member account that uses a free trial service.
-    public struct AccountFreeTrialInfo: Swift.Equatable {
+    public struct AccountFreeTrialInfo {
         /// The account identifier of the GuardDuty member account.
         public var accountId: Swift.String?
         /// Describes the data source enabled for the GuardDuty member account.
@@ -505,7 +505,7 @@ extension GuardDutyClientTypes.AccountLevelPermissions: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the account level permissions on the S3 bucket.
-    public struct AccountLevelPermissions: Swift.Equatable {
+    public struct AccountLevelPermissions {
         /// Describes the S3 Block Public Access settings of the bucket's parent account.
         public var blockPublicAccess: GuardDutyClientTypes.BlockPublicAccess?
 
@@ -594,7 +594,7 @@ extension GuardDutyClientTypes.Action: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about actions.
-    public struct Action: Swift.Equatable {
+    public struct Action {
         /// The GuardDuty finding activity type.
         public var actionType: Swift.String?
         /// Information about the AWS_API_CALL action described in this finding.
@@ -671,7 +671,7 @@ extension GuardDutyClientTypes.AddonDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the installed EKS add-on (GuardDuty security agent).
-    public struct AddonDetails: Swift.Equatable {
+    public struct AddonDetails {
         /// Status of the installed EKS add-on.
         public var addonStatus: Swift.String?
         /// Version of the installed EKS add-on.
@@ -716,7 +716,7 @@ extension GuardDutyClientTypes.AdminAccount: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// The account within the organization specified as the GuardDuty delegated administrator.
-    public struct AdminAccount: Swift.Equatable {
+    public struct AdminAccount {
         /// The Amazon Web Services account ID for the account.
         public var adminAccountId: Swift.String?
         /// Indicates whether the account is enabled as the delegated administrator.
@@ -805,7 +805,7 @@ extension GuardDutyClientTypes.Administrator: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the administrator account and invitation.
-    public struct Administrator: Swift.Equatable {
+    public struct Administrator {
         /// The ID of the account used as the administrator account.
         public var accountId: Swift.String?
         /// The value that is used to validate the administrator account to the member account.
@@ -852,7 +852,7 @@ extension GuardDutyClientTypes.AgentDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the installed GuardDuty security agent.
-    public struct AgentDetails: Swift.Equatable {
+    public struct AgentDetails {
         /// Version of the installed GuardDuty security agent.
         public var version: Swift.String?
 
@@ -925,7 +925,7 @@ extension GuardDutyClientTypes.Anomaly: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the anomalies.
-    public struct Anomaly: Swift.Equatable {
+    public struct Anomaly {
         /// Information about the types of profiles.
         public var profiles: [Swift.String:[Swift.String:[GuardDutyClientTypes.AnomalyObject]]]?
         /// Information about the behavior of the anomalies.
@@ -976,7 +976,7 @@ extension GuardDutyClientTypes.AnomalyObject: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the unusual anomalies.
-    public struct AnomalyObject: Swift.Equatable {
+    public struct AnomalyObject {
         /// The recorded value.
         public var observations: GuardDutyClientTypes.Observations?
         /// The frequency of the anomaly.
@@ -1041,7 +1041,7 @@ extension GuardDutyClientTypes.AnomalyUnusual: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the behavior of the anomaly that is new to GuardDuty.
-    public struct AnomalyUnusual: Swift.Equatable {
+    public struct AnomalyUnusual {
         /// The behavior of the anomalous activity that caused GuardDuty to generate the finding.
         public var behavior: [Swift.String:[Swift.String:GuardDutyClientTypes.AnomalyObject]]?
 
@@ -1081,7 +1081,7 @@ extension ArchiveFindingsInput {
     }
 }
 
-public struct ArchiveFindingsInput: Swift.Equatable {
+public struct ArchiveFindingsInput {
     /// The ID of the detector that specifies the GuardDuty service whose findings you want to archive.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -1099,7 +1099,7 @@ public struct ArchiveFindingsInput: Swift.Equatable {
     }
 }
 
-struct ArchiveFindingsInputBody: Swift.Equatable {
+struct ArchiveFindingsInputBody {
     let findingIds: [Swift.String]?
 }
 
@@ -1129,7 +1129,7 @@ extension ArchiveFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ArchiveFindingsOutput: Swift.Equatable {
+public struct ArchiveFindingsOutput {
 
     public init() { }
 }
@@ -1262,7 +1262,7 @@ extension GuardDutyClientTypes.AwsApiCallAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the API action.
-    public struct AwsApiCallAction: Swift.Equatable {
+    public struct AwsApiCallAction {
         /// The details of the Amazon Web Services account that made the API call. This field identifies the resources that were affected by this API call.
         public var affectedResources: [Swift.String:Swift.String]?
         /// The Amazon Web Services API name.
@@ -1354,7 +1354,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
     let type: Swift.String?
 }
@@ -1413,7 +1413,7 @@ extension GuardDutyClientTypes.BlockPublicAccess: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on how the bucker owner's S3 Block Public Access settings are being applied to the S3 bucket. See [S3 Block Public Access](https://docs.aws.amazon.com/AmazonS3/latest/dev/access-control-block-public-access.html) for more information.
-    public struct BlockPublicAccess: Swift.Equatable {
+    public struct BlockPublicAccess {
         /// Indicates if S3 Block Public Access is set to BlockPublicAcls.
         public var blockPublicAcls: Swift.Bool?
         /// Indicates if S3 Block Public Access is set to BlockPublicPolicy.
@@ -1472,7 +1472,7 @@ extension GuardDutyClientTypes.BucketLevelPermissions: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the bucket level permissions for the S3 bucket.
-    public struct BucketLevelPermissions: Swift.Equatable {
+    public struct BucketLevelPermissions {
         /// Contains information on how Access Control Policies are applied to the bucket.
         public var accessControlList: GuardDutyClientTypes.AccessControlList?
         /// Contains information on which account level S3 Block Public Access settings are applied to the S3 bucket.
@@ -1521,7 +1521,7 @@ extension GuardDutyClientTypes.BucketPolicy: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the current bucket policies for the S3 bucket.
-    public struct BucketPolicy: Swift.Equatable {
+    public struct BucketPolicy {
         /// A value that indicates whether public read access for the bucket is enabled through a bucket policy.
         public var allowsPublicReadAccess: Swift.Bool?
         /// A value that indicates whether public write access for the bucket is enabled through a bucket policy.
@@ -1560,7 +1560,7 @@ extension GuardDutyClientTypes.City: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the city associated with the IP address.
-    public struct City: Swift.Equatable {
+    public struct City {
         /// The city name of the remote IP address.
         public var cityName: Swift.String?
 
@@ -1595,7 +1595,7 @@ extension GuardDutyClientTypes.CloudTrailConfigurationResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the status of CloudTrail as a data source for the detector.
-    public struct CloudTrailConfigurationResult: Swift.Equatable {
+    public struct CloudTrailConfigurationResult {
         /// Describes whether CloudTrail is enabled as a data source for the detector.
         /// This member is required.
         public var status: GuardDutyClientTypes.DataSourceStatus?
@@ -1745,7 +1745,7 @@ extension GuardDutyClientTypes.Condition: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the condition.
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// Represents the equal condition to be applied to a single field when querying for findings.
         @available(*, deprecated)
         public var eq: [Swift.String]?
@@ -1855,7 +1855,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let type: Swift.String?
 }
@@ -1944,7 +1944,7 @@ extension GuardDutyClientTypes.Container: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Details of a container.
-    public struct Container: Swift.Equatable {
+    public struct Container {
         /// The container runtime (such as, Docker or containerd) used to run the container.
         public var containerRuntime: Swift.String?
         /// Container ID.
@@ -2009,7 +2009,7 @@ extension GuardDutyClientTypes.ContainerInstanceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the Amazon EC2 instance that is running the Amazon ECS container.
-    public struct ContainerInstanceDetails: Swift.Equatable {
+    public struct ContainerInstanceDetails {
         /// Represents total number of nodes in the Amazon ECS cluster.
         public var compatibleContainerInstances: Swift.Int?
         /// Represents the nodes in the Amazon ECS cluster that has a HEALTHY coverage status.
@@ -2054,7 +2054,7 @@ extension GuardDutyClientTypes.Country: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the country where the remote IP address is located.
-    public struct Country: Swift.Equatable {
+    public struct Country {
         /// The country code of the remote IP address.
         public var countryCode: Swift.String?
         /// The country name of the remote IP address.
@@ -2117,7 +2117,7 @@ extension GuardDutyClientTypes.CoverageEc2InstanceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the Amazon EC2 instance runtime coverage details.
-    public struct CoverageEc2InstanceDetails: Swift.Equatable {
+    public struct CoverageEc2InstanceDetails {
         /// Information about the installed security agent.
         public var agentDetails: GuardDutyClientTypes.AgentDetails?
         /// The cluster ARN of the Amazon ECS cluster running on the Amazon EC2 instance.
@@ -2187,7 +2187,7 @@ extension GuardDutyClientTypes.CoverageEcsClusterDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about Amazon ECS cluster runtime coverage details.
-    public struct CoverageEcsClusterDetails: Swift.Equatable {
+    public struct CoverageEcsClusterDetails {
         /// The name of the Amazon ECS cluster.
         public var clusterName: Swift.String?
         /// Information about the Amazon ECS container running on Amazon EC2 instance.
@@ -2254,7 +2254,7 @@ extension GuardDutyClientTypes.CoverageEksClusterDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the EKS cluster that has a coverage status.
-    public struct CoverageEksClusterDetails: Swift.Equatable {
+    public struct CoverageEksClusterDetails {
         /// Information about the installed EKS add-on.
         public var addonDetails: GuardDutyClientTypes.AddonDetails?
         /// Name of the EKS cluster.
@@ -2335,7 +2335,7 @@ extension GuardDutyClientTypes.CoverageFilterCondition: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation.
-    public struct CoverageFilterCondition: Swift.Equatable {
+    public struct CoverageFilterCondition {
         /// Represents an equal condition that is applied to a single field while retrieving the coverage details.
         public var equals: [Swift.String]?
         /// Represents a not equal condition that is applied to a single field while retrieving the coverage details.
@@ -2386,7 +2386,7 @@ extension GuardDutyClientTypes.CoverageFilterCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the criteria used in the filter.
-    public struct CoverageFilterCriteria: Swift.Equatable {
+    public struct CoverageFilterCriteria {
         /// Represents a condition that when matched will be added to the response of the operation.
         public var filterCriterion: [GuardDutyClientTypes.CoverageFilterCriterion]?
 
@@ -2427,7 +2427,7 @@ extension GuardDutyClientTypes.CoverageFilterCriterion: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation.
-    public struct CoverageFilterCriterion: Swift.Equatable {
+    public struct CoverageFilterCriterion {
         /// An enum value representing possible filter fields. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CoverageFilterCriterionKey?
         /// Contains information about the condition.
@@ -2561,7 +2561,7 @@ extension GuardDutyClientTypes.CoverageResource: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the resource of the GuardDuty account.
-    public struct CoverageResource: Swift.Equatable {
+    public struct CoverageResource {
         /// The unique ID of the Amazon Web Services account.
         public var accountId: Swift.String?
         /// Represents the status of the EKS cluster coverage.
@@ -2638,7 +2638,7 @@ extension GuardDutyClientTypes.CoverageResourceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the resource for each individual EKS cluster.
-    public struct CoverageResourceDetails: Swift.Equatable {
+    public struct CoverageResourceDetails {
         /// Information about the Amazon EC2 instance assessed for runtime coverage.
         public var ec2InstanceDetails: GuardDutyClientTypes.CoverageEc2InstanceDetails?
         /// Information about the Amazon ECS cluster that is assessed for runtime coverage.
@@ -2691,7 +2691,7 @@ extension GuardDutyClientTypes.CoverageSortCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the sorting criteria used in the coverage statistics.
-    public struct CoverageSortCriteria: Swift.Equatable {
+    public struct CoverageSortCriteria {
         /// Represents the field name used to sort the coverage details. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var attributeName: GuardDutyClientTypes.CoverageSortKey?
         /// The order in which the sorted findings are to be displayed.
@@ -2813,7 +2813,7 @@ extension GuardDutyClientTypes.CoverageStatistics: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the coverage statistics for a resource.
-    public struct CoverageStatistics: Swift.Equatable {
+    public struct CoverageStatistics {
         /// Represents coverage statistics for EKS clusters aggregated by coverage status.
         public var countByCoverageStatus: [Swift.String:Swift.Int]?
         /// Represents coverage statistics for EKS clusters aggregated by resource type.
@@ -2941,7 +2941,7 @@ extension CreateDetectorInput {
     }
 }
 
-public struct CreateDetectorInput: Swift.Equatable {
+public struct CreateDetectorInput {
     /// The idempotency token for the create request.
     public var clientToken: Swift.String?
     /// Describes which data sources will be enabled for the detector. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
@@ -2975,7 +2975,7 @@ public struct CreateDetectorInput: Swift.Equatable {
     }
 }
 
-struct CreateDetectorInputBody: Swift.Equatable {
+struct CreateDetectorInputBody {
     let enable: Swift.Bool?
     let clientToken: Swift.String?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
@@ -3043,7 +3043,7 @@ extension CreateDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDetectorOutput: Swift.Equatable {
+public struct CreateDetectorOutput {
     /// The unique ID of the created detector.
     public var detectorId: Swift.String?
     /// Specifies the data sources that couldn't be enabled when GuardDuty was enabled for the first time.
@@ -3059,7 +3059,7 @@ public struct CreateDetectorOutput: Swift.Equatable {
     }
 }
 
-struct CreateDetectorOutputBody: Swift.Equatable {
+struct CreateDetectorOutputBody {
     let detectorId: Swift.String?
     let unprocessedDataSources: GuardDutyClientTypes.UnprocessedDataSourcesResult?
 }
@@ -3141,7 +3141,7 @@ extension CreateFilterInput {
     }
 }
 
-public struct CreateFilterInput: Swift.Equatable {
+public struct CreateFilterInput {
     /// Specifies the action that is to be applied to the findings that match the filter.
     public var action: GuardDutyClientTypes.FilterAction?
     /// The idempotency token for the create request.
@@ -3383,7 +3383,7 @@ public struct CreateFilterInput: Swift.Equatable {
     }
 }
 
-struct CreateFilterInputBody: Swift.Equatable {
+struct CreateFilterInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
@@ -3444,7 +3444,7 @@ extension CreateFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFilterOutput: Swift.Equatable {
+public struct CreateFilterOutput {
     /// The name of the successfully created filter.
     /// This member is required.
     public var name: Swift.String?
@@ -3457,7 +3457,7 @@ public struct CreateFilterOutput: Swift.Equatable {
     }
 }
 
-struct CreateFilterOutputBody: Swift.Equatable {
+struct CreateFilterOutputBody {
     let name: Swift.String?
 }
 
@@ -3531,7 +3531,7 @@ extension CreateIPSetInput {
     }
 }
 
-public struct CreateIPSetInput: Swift.Equatable {
+public struct CreateIPSetInput {
     /// A Boolean value that indicates whether GuardDuty is to start using the uploaded IPSet.
     /// This member is required.
     public var activate: Swift.Bool?
@@ -3572,7 +3572,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetInputBody: Swift.Equatable {
+struct CreateIPSetInputBody {
     let name: Swift.String?
     let format: GuardDutyClientTypes.IpSetFormat?
     let location: Swift.String?
@@ -3629,7 +3629,7 @@ extension CreateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIPSetOutput: Swift.Equatable {
+public struct CreateIPSetOutput {
     /// The ID of the IPSet resource.
     /// This member is required.
     public var ipSetId: Swift.String?
@@ -3642,7 +3642,7 @@ public struct CreateIPSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetOutputBody: Swift.Equatable {
+struct CreateIPSetOutputBody {
     let ipSetId: Swift.String?
 }
 
@@ -3696,7 +3696,7 @@ extension CreateMembersInput {
     }
 }
 
-public struct CreateMembersInput: Swift.Equatable {
+public struct CreateMembersInput {
     /// A list of account ID and email address pairs of the accounts that you want to associate with the GuardDuty administrator account.
     /// This member is required.
     public var accountDetails: [GuardDutyClientTypes.AccountDetail]?
@@ -3714,7 +3714,7 @@ public struct CreateMembersInput: Swift.Equatable {
     }
 }
 
-struct CreateMembersInputBody: Swift.Equatable {
+struct CreateMembersInputBody {
     let accountDetails: [GuardDutyClientTypes.AccountDetail]?
 }
 
@@ -3751,7 +3751,7 @@ extension CreateMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMembersOutput: Swift.Equatable {
+public struct CreateMembersOutput {
     /// A list of objects that include the accountIds of the unprocessed accounts and a result string that explains why each was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -3764,7 +3764,7 @@ public struct CreateMembersOutput: Swift.Equatable {
     }
 }
 
-struct CreateMembersOutputBody: Swift.Equatable {
+struct CreateMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -3832,7 +3832,7 @@ extension CreatePublishingDestinationInput {
     }
 }
 
-public struct CreatePublishingDestinationInput: Swift.Equatable {
+public struct CreatePublishingDestinationInput {
     /// The idempotency token for the request.
     public var clientToken: Swift.String?
     /// The properties of the publishing destination, including the ARNs for the destination and the KMS key used for encryption.
@@ -3859,7 +3859,7 @@ public struct CreatePublishingDestinationInput: Swift.Equatable {
     }
 }
 
-struct CreatePublishingDestinationInputBody: Swift.Equatable {
+struct CreatePublishingDestinationInputBody {
     let destinationType: GuardDutyClientTypes.DestinationType?
     let destinationProperties: GuardDutyClientTypes.DestinationProperties?
     let clientToken: Swift.String?
@@ -3895,7 +3895,7 @@ extension CreatePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePublishingDestinationOutput: Swift.Equatable {
+public struct CreatePublishingDestinationOutput {
     /// The ID of the publishing destination that is created.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -3908,7 +3908,7 @@ public struct CreatePublishingDestinationOutput: Swift.Equatable {
     }
 }
 
-struct CreatePublishingDestinationOutputBody: Swift.Equatable {
+struct CreatePublishingDestinationOutputBody {
     let destinationId: Swift.String?
 }
 
@@ -3962,7 +3962,7 @@ extension CreateSampleFindingsInput {
     }
 }
 
-public struct CreateSampleFindingsInput: Swift.Equatable {
+public struct CreateSampleFindingsInput {
     /// The ID of the detector to create sample findings for.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -3979,7 +3979,7 @@ public struct CreateSampleFindingsInput: Swift.Equatable {
     }
 }
 
-struct CreateSampleFindingsInputBody: Swift.Equatable {
+struct CreateSampleFindingsInputBody {
     let findingTypes: [Swift.String]?
 }
 
@@ -4009,7 +4009,7 @@ extension CreateSampleFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSampleFindingsOutput: Swift.Equatable {
+public struct CreateSampleFindingsOutput {
 
     public init() { }
 }
@@ -4072,7 +4072,7 @@ extension CreateThreatIntelSetInput {
     }
 }
 
-public struct CreateThreatIntelSetInput: Swift.Equatable {
+public struct CreateThreatIntelSetInput {
     /// A Boolean value that indicates whether GuardDuty is to start using the uploaded ThreatIntelSet.
     /// This member is required.
     public var activate: Swift.Bool?
@@ -4113,7 +4113,7 @@ public struct CreateThreatIntelSetInput: Swift.Equatable {
     }
 }
 
-struct CreateThreatIntelSetInputBody: Swift.Equatable {
+struct CreateThreatIntelSetInputBody {
     let name: Swift.String?
     let format: GuardDutyClientTypes.ThreatIntelSetFormat?
     let location: Swift.String?
@@ -4170,7 +4170,7 @@ extension CreateThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThreatIntelSetOutput: Swift.Equatable {
+public struct CreateThreatIntelSetOutput {
     /// The ID of the ThreatIntelSet resource.
     /// This member is required.
     public var threatIntelSetId: Swift.String?
@@ -4183,7 +4183,7 @@ public struct CreateThreatIntelSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateThreatIntelSetOutputBody: Swift.Equatable {
+struct CreateThreatIntelSetOutputBody {
     let threatIntelSetId: Swift.String?
 }
 
@@ -4279,7 +4279,7 @@ extension GuardDutyClientTypes.DNSLogsConfigurationResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the status of DNS logs as a data source.
-    public struct DNSLogsConfigurationResult: Swift.Equatable {
+    public struct DNSLogsConfigurationResult {
         /// Denotes whether DNS logs is enabled as a data source.
         /// This member is required.
         public var status: GuardDutyClientTypes.DataSourceStatus?
@@ -4371,7 +4371,7 @@ extension GuardDutyClientTypes.DataSourceConfigurations: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about which data sources are enabled.
-    public struct DataSourceConfigurations: Swift.Equatable {
+    public struct DataSourceConfigurations {
         /// Describes whether any Kubernetes logs are enabled as data sources.
         public var kubernetes: GuardDutyClientTypes.KubernetesConfiguration?
         /// Describes whether Malware Protection is enabled as a data source.
@@ -4444,7 +4444,7 @@ extension GuardDutyClientTypes.DataSourceConfigurationsResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the status of data sources for the detector.
-    public struct DataSourceConfigurationsResult: Swift.Equatable {
+    public struct DataSourceConfigurationsResult {
         /// An object that contains information on the status of CloudTrail as a data source.
         /// This member is required.
         public var cloudTrail: GuardDutyClientTypes.CloudTrailConfigurationResult?
@@ -4503,7 +4503,7 @@ extension GuardDutyClientTypes.DataSourceFreeTrial: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about which data sources are enabled for the GuardDuty member account.
-    public struct DataSourceFreeTrial: Swift.Equatable {
+    public struct DataSourceFreeTrial {
         /// A value that specifies the number of days left to use each enabled data source.
         public var freeTrialDaysRemaining: Swift.Int?
 
@@ -4600,7 +4600,7 @@ extension GuardDutyClientTypes.DataSourcesFreeTrial: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about which data sources are enabled for the GuardDuty member account.
-    public struct DataSourcesFreeTrial: Swift.Equatable {
+    public struct DataSourcesFreeTrial {
         /// Describes whether any Amazon Web Services CloudTrail management event logs are enabled as data sources.
         public var cloudTrail: GuardDutyClientTypes.DataSourceFreeTrial?
         /// Describes whether any DNS logs are enabled as data sources.
@@ -4657,7 +4657,7 @@ extension DeclineInvitationsInput {
     }
 }
 
-public struct DeclineInvitationsInput: Swift.Equatable {
+public struct DeclineInvitationsInput {
     /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to decline invitations from.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -4670,7 +4670,7 @@ public struct DeclineInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsInputBody: Swift.Equatable {
+struct DeclineInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -4707,7 +4707,7 @@ extension DeclineInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeclineInvitationsOutput: Swift.Equatable {
+public struct DeclineInvitationsOutput {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -4720,7 +4720,7 @@ public struct DeclineInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeclineInvitationsOutputBody: Swift.Equatable {
+struct DeclineInvitationsOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -4784,7 +4784,7 @@ extension GuardDutyClientTypes.DefaultServerSideEncryption: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the server side encryption method used in the S3 bucket. See [S3 Server-Side Encryption](https://docs.aws.amazon.com/AmazonS3/latest/dev/serv-side-encryption.html) for more information.
-    public struct DefaultServerSideEncryption: Swift.Equatable {
+    public struct DefaultServerSideEncryption {
         /// The type of encryption used for objects within the S3 bucket.
         public var encryptionType: Swift.String?
         /// The Amazon Resource Name (ARN) of the KMS encryption key. Only available if the bucket EncryptionType is aws:kms.
@@ -4812,7 +4812,7 @@ extension DeleteDetectorInput {
     }
 }
 
-public struct DeleteDetectorInput: Swift.Equatable {
+public struct DeleteDetectorInput {
     /// The unique ID of the detector that you want to delete.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -4825,7 +4825,7 @@ public struct DeleteDetectorInput: Swift.Equatable {
     }
 }
 
-struct DeleteDetectorInputBody: Swift.Equatable {
+struct DeleteDetectorInputBody {
 }
 
 extension DeleteDetectorInputBody: Swift.Decodable {
@@ -4839,7 +4839,7 @@ extension DeleteDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDetectorOutput: Swift.Equatable {
+public struct DeleteDetectorOutput {
 
     public init() { }
 }
@@ -4869,7 +4869,7 @@ extension DeleteFilterInput {
     }
 }
 
-public struct DeleteFilterInput: Swift.Equatable {
+public struct DeleteFilterInput {
     /// The unique ID of the detector that the filter is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -4887,7 +4887,7 @@ public struct DeleteFilterInput: Swift.Equatable {
     }
 }
 
-struct DeleteFilterInputBody: Swift.Equatable {
+struct DeleteFilterInputBody {
 }
 
 extension DeleteFilterInputBody: Swift.Decodable {
@@ -4901,7 +4901,7 @@ extension DeleteFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFilterOutput: Swift.Equatable {
+public struct DeleteFilterOutput {
 
     public init() { }
 }
@@ -4931,7 +4931,7 @@ extension DeleteIPSetInput {
     }
 }
 
-public struct DeleteIPSetInput: Swift.Equatable {
+public struct DeleteIPSetInput {
     /// The unique ID of the detector associated with the IPSet.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -4949,7 +4949,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteIPSetInputBody: Swift.Equatable {
+struct DeleteIPSetInputBody {
 }
 
 extension DeleteIPSetInputBody: Swift.Decodable {
@@ -4963,7 +4963,7 @@ extension DeleteIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIPSetOutput: Swift.Equatable {
+public struct DeleteIPSetOutput {
 
     public init() { }
 }
@@ -5003,7 +5003,7 @@ extension DeleteInvitationsInput {
     }
 }
 
-public struct DeleteInvitationsInput: Swift.Equatable {
+public struct DeleteInvitationsInput {
     /// A list of account IDs of the Amazon Web Services accounts that sent invitations to the current member account that you want to delete invitations from.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -5016,7 +5016,7 @@ public struct DeleteInvitationsInput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsInputBody: Swift.Equatable {
+struct DeleteInvitationsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -5053,7 +5053,7 @@ extension DeleteInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteInvitationsOutput: Swift.Equatable {
+public struct DeleteInvitationsOutput {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -5066,7 +5066,7 @@ public struct DeleteInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteInvitationsOutputBody: Swift.Equatable {
+struct DeleteInvitationsOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -5129,7 +5129,7 @@ extension DeleteMembersInput {
     }
 }
 
-public struct DeleteMembersInput: Swift.Equatable {
+public struct DeleteMembersInput {
     /// A list of account IDs of the GuardDuty member accounts that you want to delete.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -5147,7 +5147,7 @@ public struct DeleteMembersInput: Swift.Equatable {
     }
 }
 
-struct DeleteMembersInputBody: Swift.Equatable {
+struct DeleteMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -5184,7 +5184,7 @@ extension DeleteMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMembersOutput: Swift.Equatable {
+public struct DeleteMembersOutput {
     /// The accounts that could not be processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -5197,7 +5197,7 @@ public struct DeleteMembersOutput: Swift.Equatable {
     }
 }
 
-struct DeleteMembersOutputBody: Swift.Equatable {
+struct DeleteMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -5247,7 +5247,7 @@ extension DeletePublishingDestinationInput {
     }
 }
 
-public struct DeletePublishingDestinationInput: Swift.Equatable {
+public struct DeletePublishingDestinationInput {
     /// The ID of the publishing destination to delete.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -5265,7 +5265,7 @@ public struct DeletePublishingDestinationInput: Swift.Equatable {
     }
 }
 
-struct DeletePublishingDestinationInputBody: Swift.Equatable {
+struct DeletePublishingDestinationInputBody {
 }
 
 extension DeletePublishingDestinationInputBody: Swift.Decodable {
@@ -5279,7 +5279,7 @@ extension DeletePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePublishingDestinationOutput: Swift.Equatable {
+public struct DeletePublishingDestinationOutput {
 
     public init() { }
 }
@@ -5309,7 +5309,7 @@ extension DeleteThreatIntelSetInput {
     }
 }
 
-public struct DeleteThreatIntelSetInput: Swift.Equatable {
+public struct DeleteThreatIntelSetInput {
     /// The unique ID of the detector that the threatIntelSet is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -5327,7 +5327,7 @@ public struct DeleteThreatIntelSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteThreatIntelSetInputBody: Swift.Equatable {
+struct DeleteThreatIntelSetInputBody {
 }
 
 extension DeleteThreatIntelSetInputBody: Swift.Decodable {
@@ -5341,7 +5341,7 @@ extension DeleteThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThreatIntelSetOutput: Swift.Equatable {
+public struct DeleteThreatIntelSetOutput {
 
     public init() { }
 }
@@ -5393,7 +5393,7 @@ extension DescribeMalwareScansInput {
     }
 }
 
-public struct DescribeMalwareScansInput: Swift.Equatable {
+public struct DescribeMalwareScansInput {
     /// The unique ID of the detector that the request is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -5422,7 +5422,7 @@ public struct DescribeMalwareScansInput: Swift.Equatable {
     }
 }
 
-struct DescribeMalwareScansInputBody: Swift.Equatable {
+struct DescribeMalwareScansInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filterCriteria: GuardDutyClientTypes.FilterCriteria?
@@ -5464,7 +5464,7 @@ extension DescribeMalwareScansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeMalwareScansOutput: Swift.Equatable {
+public struct DescribeMalwareScansOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// Contains information about malware scans.
@@ -5481,7 +5481,7 @@ public struct DescribeMalwareScansOutput: Swift.Equatable {
     }
 }
 
-struct DescribeMalwareScansOutputBody: Swift.Equatable {
+struct DescribeMalwareScansOutputBody {
     let scans: [GuardDutyClientTypes.Scan]?
     let nextToken: Swift.String?
 }
@@ -5548,7 +5548,7 @@ extension DescribeOrganizationConfigurationInput {
     }
 }
 
-public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationInput {
     /// The ID of the detector to retrieve information about the delegated administrator from.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -5569,7 +5569,7 @@ public struct DescribeOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationInputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationInputBody {
 }
 
 extension DescribeOrganizationConfigurationInputBody: Swift.Decodable {
@@ -5600,7 +5600,7 @@ extension DescribeOrganizationConfigurationOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
+public struct DescribeOrganizationConfigurationOutput {
     /// Indicates whether GuardDuty is automatically enabled for accounts added to the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
@@ -5641,7 +5641,7 @@ public struct DescribeOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct DescribeOrganizationConfigurationOutputBody: Swift.Equatable {
+struct DescribeOrganizationConfigurationOutputBody {
     let autoEnable: Swift.Bool?
     let memberAccountLimitReached: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult?
@@ -5711,7 +5711,7 @@ extension DescribePublishingDestinationInput {
     }
 }
 
-public struct DescribePublishingDestinationInput: Swift.Equatable {
+public struct DescribePublishingDestinationInput {
     /// The ID of the publishing destination to retrieve.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -5729,7 +5729,7 @@ public struct DescribePublishingDestinationInput: Swift.Equatable {
     }
 }
 
-struct DescribePublishingDestinationInputBody: Swift.Equatable {
+struct DescribePublishingDestinationInputBody {
 }
 
 extension DescribePublishingDestinationInputBody: Swift.Decodable {
@@ -5758,7 +5758,7 @@ extension DescribePublishingDestinationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct DescribePublishingDestinationOutput: Swift.Equatable {
+public struct DescribePublishingDestinationOutput {
     /// The ID of the publishing destination.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -5791,7 +5791,7 @@ public struct DescribePublishingDestinationOutput: Swift.Equatable {
     }
 }
 
-struct DescribePublishingDestinationOutputBody: Swift.Equatable {
+struct DescribePublishingDestinationOutputBody {
     let destinationId: Swift.String?
     let destinationType: GuardDutyClientTypes.DestinationType?
     let status: GuardDutyClientTypes.PublishingStatus?
@@ -5868,7 +5868,7 @@ extension GuardDutyClientTypes.Destination: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the publishing destination, including the ID, type, and status.
-    public struct Destination: Swift.Equatable {
+    public struct Destination {
         /// The unique ID of the publishing destination.
         /// This member is required.
         public var destinationId: Swift.String?
@@ -5920,7 +5920,7 @@ extension GuardDutyClientTypes.DestinationProperties: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains the Amazon Resource Name (ARN) of the resource to publish to, such as an S3 bucket, and the ARN of the KMS key to use to encrypt published findings.
-    public struct DestinationProperties: Swift.Equatable {
+    public struct DestinationProperties {
         /// The ARN of the resource to publish to. To specify an S3 bucket folder use the following format: arn:aws:s3:::DOC-EXAMPLE-BUCKET/myFolder/
         public var destinationArn: Swift.String?
         /// The ARN of the KMS key to use for encryption.
@@ -5988,7 +5988,7 @@ extension GuardDutyClientTypes.Detection: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the detected behavior.
-    public struct Detection: Swift.Equatable {
+    public struct Detection {
         /// The details about the anomalous activity that caused GuardDuty to generate the finding.
         public var anomaly: GuardDutyClientTypes.Anomaly?
 
@@ -6029,7 +6029,7 @@ extension GuardDutyClientTypes.DetectorAdditionalConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the additional configuration for a feature in your GuardDuty account.
-    public struct DetectorAdditionalConfiguration: Swift.Equatable {
+    public struct DetectorAdditionalConfiguration {
         /// Name of the additional configuration.
         public var name: GuardDutyClientTypes.FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -6080,7 +6080,7 @@ extension GuardDutyClientTypes.DetectorAdditionalConfigurationResult: Swift.Coda
 
 extension GuardDutyClientTypes {
     /// Information about the additional configuration.
-    public struct DetectorAdditionalConfigurationResult: Swift.Equatable {
+    public struct DetectorAdditionalConfigurationResult {
         /// Name of the additional configuration.
         public var name: GuardDutyClientTypes.FeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -6194,7 +6194,7 @@ extension GuardDutyClientTypes.DetectorFeatureConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html).
-    public struct DetectorFeatureConfiguration: Swift.Equatable {
+    public struct DetectorFeatureConfiguration {
         /// Additional configuration for a resource.
         public var additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfiguration]?
         /// The name of the feature.
@@ -6267,7 +6267,7 @@ extension GuardDutyClientTypes.DetectorFeatureConfigurationResult: Swift.Codable
 
 extension GuardDutyClientTypes {
     /// Contains information about a GuardDuty feature. Specifying both EKS Runtime Monitoring (EKS_RUNTIME_MONITORING) and Runtime Monitoring (RUNTIME_MONITORING) will cause an error. You can add only one of these two features because Runtime Monitoring already includes the threat detection for Amazon EKS resources. For more information, see [Runtime Monitoring](https://docs.aws.amazon.com/guardduty/latest/ug/runtime-monitoring.html).
-    public struct DetectorFeatureConfigurationResult: Swift.Equatable {
+    public struct DetectorFeatureConfigurationResult {
         /// Additional configuration for a resource.
         public var additionalConfiguration: [GuardDutyClientTypes.DetectorAdditionalConfigurationResult]?
         /// Indicates the name of the feature that can be enabled for the detector.
@@ -6401,7 +6401,7 @@ extension DisableOrganizationAdminAccountInput {
     }
 }
 
-public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountInput {
     /// The Amazon Web Services Account ID for the organizations account to be disabled as a GuardDuty delegated administrator.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -6414,7 +6414,7 @@ public struct DisableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct DisableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct DisableOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -6435,7 +6435,7 @@ extension DisableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DisableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct DisableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -6462,7 +6462,7 @@ extension DisassociateFromAdministratorAccountInput {
     }
 }
 
-public struct DisassociateFromAdministratorAccountInput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountInput {
     /// The unique ID of the detector of the GuardDuty member account.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -6475,7 +6475,7 @@ public struct DisassociateFromAdministratorAccountInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFromAdministratorAccountInputBody: Swift.Equatable {
+struct DisassociateFromAdministratorAccountInputBody {
 }
 
 extension DisassociateFromAdministratorAccountInputBody: Swift.Decodable {
@@ -6489,7 +6489,7 @@ extension DisassociateFromAdministratorAccountOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DisassociateFromAdministratorAccountOutput: Swift.Equatable {
+public struct DisassociateFromAdministratorAccountOutput {
 
     public init() { }
 }
@@ -6517,7 +6517,7 @@ extension DisassociateFromMasterAccountInput {
 }
 
 @available(*, deprecated, message: "This input is deprecated, use DisassociateFromAdministratorAccountRequest instead")
-public struct DisassociateFromMasterAccountInput: Swift.Equatable {
+public struct DisassociateFromMasterAccountInput {
     /// The unique ID of the detector of the GuardDuty member account.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -6530,7 +6530,7 @@ public struct DisassociateFromMasterAccountInput: Swift.Equatable {
     }
 }
 
-struct DisassociateFromMasterAccountInputBody: Swift.Equatable {
+struct DisassociateFromMasterAccountInputBody {
 }
 
 extension DisassociateFromMasterAccountInputBody: Swift.Decodable {
@@ -6545,7 +6545,7 @@ extension DisassociateFromMasterAccountOutput: ClientRuntime.HttpResponseBinding
 }
 
 @available(*, deprecated, message: "This output is deprecated, use DisassociateFromAdministratorAccountResponse instead")
-public struct DisassociateFromMasterAccountOutput: Swift.Equatable {
+public struct DisassociateFromMasterAccountOutput {
 
     public init() { }
 }
@@ -6588,7 +6588,7 @@ extension DisassociateMembersInput {
     }
 }
 
-public struct DisassociateMembersInput: Swift.Equatable {
+public struct DisassociateMembersInput {
     /// A list of account IDs of the GuardDuty member accounts that you want to disassociate from the administrator account.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -6606,7 +6606,7 @@ public struct DisassociateMembersInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMembersInputBody: Swift.Equatable {
+struct DisassociateMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -6643,7 +6643,7 @@ extension DisassociateMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMembersOutput: Swift.Equatable {
+public struct DisassociateMembersOutput {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -6656,7 +6656,7 @@ public struct DisassociateMembersOutput: Swift.Equatable {
     }
 }
 
-struct DisassociateMembersOutputBody: Swift.Equatable {
+struct DisassociateMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -6732,7 +6732,7 @@ extension GuardDutyClientTypes.DnsRequestAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the DNS_REQUEST action described in this finding.
-    public struct DnsRequestAction: Swift.Equatable {
+    public struct DnsRequestAction {
         /// Indicates whether the targeted port is blocked.
         public var blocked: Swift.Bool?
         /// The domain information for the DNS query.
@@ -6779,7 +6779,7 @@ extension GuardDutyClientTypes.DomainDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the domain.
-    public struct DomainDetails: Swift.Equatable {
+    public struct DomainDetails {
         /// The domain information for the Amazon Web Services API call.
         public var domain: Swift.String?
 
@@ -6876,7 +6876,7 @@ extension GuardDutyClientTypes.EbsVolumeDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains list of scanned and skipped EBS volumes with details.
-    public struct EbsVolumeDetails: Swift.Equatable {
+    public struct EbsVolumeDetails {
         /// List of EBS volumes that were scanned.
         public var scannedVolumeDetails: [GuardDutyClientTypes.VolumeDetail]?
         /// List of EBS volumes that were skipped from the malware scan.
@@ -6963,7 +6963,7 @@ extension GuardDutyClientTypes.EbsVolumeScanDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains details from the malware scan that created a finding.
-    public struct EbsVolumeScanDetails: Swift.Equatable {
+    public struct EbsVolumeScanDetails {
         /// Returns the completion date and time of the malware scan.
         public var scanCompletedAt: ClientRuntime.Date?
         /// Contains a complete view providing malware scan result details.
@@ -7028,7 +7028,7 @@ extension GuardDutyClientTypes.EbsVolumesResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes the configuration of scanning EBS volumes as a data source.
-    public struct EbsVolumesResult: Swift.Equatable {
+    public struct EbsVolumesResult {
         /// Specifies the reason why scanning EBS volumes (Malware Protection) was not enabled as a data source.
         public var reason: Swift.String?
         /// Describes whether scanning EBS volumes is enabled as a data source.
@@ -7121,7 +7121,7 @@ extension GuardDutyClientTypes.EcsClusterDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the details of the ECS Cluster.
-    public struct EcsClusterDetails: Swift.Equatable {
+    public struct EcsClusterDetails {
         /// The number of services that are running on the cluster in an ACTIVE state.
         public var activeServicesCount: Swift.Int?
         /// The Amazon Resource Name (ARN) that identifies the cluster.
@@ -7274,7 +7274,7 @@ extension GuardDutyClientTypes.EcsTaskDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the task in an ECS cluster.
-    public struct EcsTaskDetails: Swift.Equatable {
+    public struct EcsTaskDetails {
         /// The Amazon Resource Name (ARN) of the task.
         public var arn: Swift.String?
         /// The containers that's associated with the task.
@@ -7387,7 +7387,7 @@ extension GuardDutyClientTypes.EksClusterDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Details about the EKS cluster involved in a Kubernetes finding.
-    public struct EksClusterDetails: Swift.Equatable {
+    public struct EksClusterDetails {
         /// EKS cluster ARN.
         public var arn: Swift.String?
         /// The timestamp when the EKS cluster was created.
@@ -7441,7 +7441,7 @@ extension EnableOrganizationAdminAccountInput {
     }
 }
 
-public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountInput {
     /// The Amazon Web Services account ID for the organization account to be enabled as a GuardDuty delegated administrator.
     /// This member is required.
     public var adminAccountId: Swift.String?
@@ -7454,7 +7454,7 @@ public struct EnableOrganizationAdminAccountInput: Swift.Equatable {
     }
 }
 
-struct EnableOrganizationAdminAccountInputBody: Swift.Equatable {
+struct EnableOrganizationAdminAccountInputBody {
     let adminAccountId: Swift.String?
 }
 
@@ -7475,7 +7475,7 @@ extension EnableOrganizationAdminAccountOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct EnableOrganizationAdminAccountOutput: Swift.Equatable {
+public struct EnableOrganizationAdminAccountOutput {
 
     public init() { }
 }
@@ -7525,7 +7525,7 @@ extension GuardDutyClientTypes.Evidence: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the reason that the finding was generated.
-    public struct Evidence: Swift.Equatable {
+    public struct Evidence {
         /// A list of threat intelligence details related to the evidence.
         public var threatIntelligenceDetails: [GuardDutyClientTypes.ThreatIntelligenceDetail]?
 
@@ -7578,7 +7578,7 @@ extension GuardDutyClientTypes.FargateDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about Amazon Web Services Fargate details associated with an Amazon ECS cluster.
-    public struct FargateDetails: Swift.Equatable {
+    public struct FargateDetails {
         /// Runtime coverage issues identified for the resource running on Amazon Web Services Fargate.
         public var issues: [Swift.String]?
         /// Indicates how the GuardDuty security agent is managed for this resource.
@@ -7767,7 +7767,7 @@ extension GuardDutyClientTypes.FilterCondition: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the condition.
-    public struct FilterCondition: Swift.Equatable {
+    public struct FilterCondition {
         /// Represents an equal condition to be applied to a single field when querying for scan entries.
         public var equalsValue: Swift.String?
         /// Represents a greater than condition to be applied to a single field when querying for scan entries.
@@ -7822,7 +7822,7 @@ extension GuardDutyClientTypes.FilterCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the criteria to be used in the filter for describing scan entries.
-    public struct FilterCriteria: Swift.Equatable {
+    public struct FilterCriteria {
         /// Represents a condition that when matched will be added to the response of the operation.
         public var filterCriterion: [GuardDutyClientTypes.FilterCriterion]?
 
@@ -7863,7 +7863,7 @@ extension GuardDutyClientTypes.FilterCriterion: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents a condition that when matched will be added to the response of the operation. Irrespective of using any filter criteria, an administrator account can view the scan entries for all of its member accounts. However, each member account can view the scan entries only for their own account.
-    public struct FilterCriterion: Swift.Equatable {
+    public struct FilterCriterion {
         /// An enum value representing possible scan properties to match with given scan entries. Replace the enum value CLUSTER_NAME with EKS_CLUSTER_NAME. CLUSTER_NAME has been deprecated.
         public var criterionKey: GuardDutyClientTypes.CriterionKey?
         /// Contains information about the condition.
@@ -7986,7 +7986,7 @@ extension GuardDutyClientTypes.Finding: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the finding that is generated when abnormal or suspicious activity is detected.
-    public struct Finding: Swift.Equatable {
+    public struct Finding {
         /// The ID of the account in which the finding was generated.
         /// This member is required.
         public var accountId: Swift.String?
@@ -8099,7 +8099,7 @@ extension GuardDutyClientTypes.FindingCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the criteria used for querying findings.
-    public struct FindingCriteria: Swift.Equatable {
+    public struct FindingCriteria {
         /// Represents a map of finding properties that match specified conditions and values when querying findings.
         public var criterion: [Swift.String:GuardDutyClientTypes.Condition]?
 
@@ -8210,7 +8210,7 @@ extension GuardDutyClientTypes.FindingStatistics: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about finding statistics.
-    public struct FindingStatistics: Swift.Equatable {
+    public struct FindingStatistics {
         /// Represents a map of severity to count statistics for a set of findings.
         public var countBySeverity: [Swift.String:Swift.Int]?
 
@@ -8245,7 +8245,7 @@ extension GuardDutyClientTypes.FlowLogsConfigurationResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the status of VPC flow logs as a data source.
-    public struct FlowLogsConfigurationResult: Swift.Equatable {
+    public struct FlowLogsConfigurationResult {
         /// Denotes whether VPC flow logs is enabled as a data source.
         /// This member is required.
         public var status: GuardDutyClientTypes.DataSourceStatus?
@@ -8287,7 +8287,7 @@ extension GuardDutyClientTypes.FreeTrialFeatureConfigurationResult: Swift.Codabl
 
 extension GuardDutyClientTypes {
     /// Contains information about the free trial period for a feature.
-    public struct FreeTrialFeatureConfigurationResult: Swift.Equatable {
+    public struct FreeTrialFeatureConfigurationResult {
         /// The number of the remaining free trial days for the feature.
         public var freeTrialDaysRemaining: Swift.Int?
         /// The name of the feature for which the free trial is configured.
@@ -8391,7 +8391,7 @@ extension GuardDutyClientTypes.GeoLocation: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the location of the remote IP address.
-    public struct GeoLocation: Swift.Equatable {
+    public struct GeoLocation {
         /// The latitude information of the remote IP address.
         public var lat: Swift.Double?
         /// The longitude information of the remote IP address.
@@ -8419,7 +8419,7 @@ extension GetAdministratorAccountInput {
     }
 }
 
-public struct GetAdministratorAccountInput: Swift.Equatable {
+public struct GetAdministratorAccountInput {
     /// The unique ID of the detector of the GuardDuty member account.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -8432,7 +8432,7 @@ public struct GetAdministratorAccountInput: Swift.Equatable {
     }
 }
 
-struct GetAdministratorAccountInputBody: Swift.Equatable {
+struct GetAdministratorAccountInputBody {
 }
 
 extension GetAdministratorAccountInputBody: Swift.Decodable {
@@ -8453,7 +8453,7 @@ extension GetAdministratorAccountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdministratorAccountOutput: Swift.Equatable {
+public struct GetAdministratorAccountOutput {
     /// The administrator account details.
     /// This member is required.
     public var administrator: GuardDutyClientTypes.Administrator?
@@ -8466,7 +8466,7 @@ public struct GetAdministratorAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetAdministratorAccountOutputBody: Swift.Equatable {
+struct GetAdministratorAccountOutputBody {
     let administrator: GuardDutyClientTypes.Administrator?
 }
 
@@ -8524,7 +8524,7 @@ extension GetCoverageStatisticsInput {
     }
 }
 
-public struct GetCoverageStatisticsInput: Swift.Equatable {
+public struct GetCoverageStatisticsInput {
     /// The unique ID of the GuardDuty detector associated to the coverage statistics.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -8546,7 +8546,7 @@ public struct GetCoverageStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetCoverageStatisticsInputBody: Swift.Equatable {
+struct GetCoverageStatisticsInputBody {
     let filterCriteria: GuardDutyClientTypes.CoverageFilterCriteria?
     let statisticsType: [GuardDutyClientTypes.CoverageStatisticsType]?
 }
@@ -8587,7 +8587,7 @@ extension GetCoverageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCoverageStatisticsOutput: Swift.Equatable {
+public struct GetCoverageStatisticsOutput {
     /// Represents the count aggregated by the statusCode and resourceType.
     public var coverageStatistics: GuardDutyClientTypes.CoverageStatistics?
 
@@ -8599,7 +8599,7 @@ public struct GetCoverageStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetCoverageStatisticsOutputBody: Swift.Equatable {
+struct GetCoverageStatisticsOutputBody {
     let coverageStatistics: GuardDutyClientTypes.CoverageStatistics?
 }
 
@@ -8637,7 +8637,7 @@ extension GetDetectorInput {
     }
 }
 
-public struct GetDetectorInput: Swift.Equatable {
+public struct GetDetectorInput {
     /// The unique ID of the detector that you want to get.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -8650,7 +8650,7 @@ public struct GetDetectorInput: Swift.Equatable {
     }
 }
 
-struct GetDetectorInputBody: Swift.Equatable {
+struct GetDetectorInputBody {
 }
 
 extension GetDetectorInputBody: Swift.Decodable {
@@ -8685,7 +8685,7 @@ extension GetDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDetectorOutput: Swift.Equatable {
+public struct GetDetectorOutput {
     /// The timestamp of when the detector was created.
     public var createdAt: Swift.String?
     /// Describes which data sources are enabled for the detector.
@@ -8728,7 +8728,7 @@ public struct GetDetectorOutput: Swift.Equatable {
     }
 }
 
-struct GetDetectorOutputBody: Swift.Equatable {
+struct GetDetectorOutputBody {
     let createdAt: Swift.String?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let serviceRole: Swift.String?
@@ -8815,7 +8815,7 @@ extension GetFilterInput {
     }
 }
 
-public struct GetFilterInput: Swift.Equatable {
+public struct GetFilterInput {
     /// The unique ID of the detector that the filter is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -8833,7 +8833,7 @@ public struct GetFilterInput: Swift.Equatable {
     }
 }
 
-struct GetFilterInputBody: Swift.Equatable {
+struct GetFilterInputBody {
 }
 
 extension GetFilterInputBody: Swift.Decodable {
@@ -8864,7 +8864,7 @@ extension GetFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFilterOutput: Swift.Equatable {
+public struct GetFilterOutput {
     /// Specifies the action that is to be applied to the findings that match the filter.
     /// This member is required.
     public var action: GuardDutyClientTypes.FilterAction?
@@ -8899,7 +8899,7 @@ public struct GetFilterOutput: Swift.Equatable {
     }
 }
 
-struct GetFilterOutputBody: Swift.Equatable {
+struct GetFilterOutputBody {
     let name: Swift.String?
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
@@ -8986,7 +8986,7 @@ extension GetFindingsInput {
     }
 }
 
-public struct GetFindingsInput: Swift.Equatable {
+public struct GetFindingsInput {
     /// The ID of the detector that specifies the GuardDuty service whose findings you want to retrieve.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9008,7 +9008,7 @@ public struct GetFindingsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsInputBody: Swift.Equatable {
+struct GetFindingsInputBody {
     let findingIds: [Swift.String]?
     let sortCriteria: GuardDutyClientTypes.SortCriteria?
 }
@@ -9049,7 +9049,7 @@ extension GetFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsOutput: Swift.Equatable {
+public struct GetFindingsOutput {
     /// A list of findings.
     /// This member is required.
     public var findings: [GuardDutyClientTypes.Finding]?
@@ -9062,7 +9062,7 @@ public struct GetFindingsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsOutputBody: Swift.Equatable {
+struct GetFindingsOutputBody {
     let findings: [GuardDutyClientTypes.Finding]?
 }
 
@@ -9129,7 +9129,7 @@ extension GetFindingsStatisticsInput {
     }
 }
 
-public struct GetFindingsStatisticsInput: Swift.Equatable {
+public struct GetFindingsStatisticsInput {
     /// The ID of the detector that specifies the GuardDuty service whose findings' statistics you want to retrieve.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9151,7 +9151,7 @@ public struct GetFindingsStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsStatisticsInputBody: Swift.Equatable {
+struct GetFindingsStatisticsInputBody {
     let findingStatisticTypes: [GuardDutyClientTypes.FindingStatisticType]?
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
 }
@@ -9192,7 +9192,7 @@ extension GetFindingsStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsStatisticsOutput: Swift.Equatable {
+public struct GetFindingsStatisticsOutput {
     /// The finding statistics object.
     /// This member is required.
     public var findingStatistics: GuardDutyClientTypes.FindingStatistics?
@@ -9205,7 +9205,7 @@ public struct GetFindingsStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsStatisticsOutputBody: Swift.Equatable {
+struct GetFindingsStatisticsOutputBody {
     let findingStatistics: GuardDutyClientTypes.FindingStatistics?
 }
 
@@ -9246,7 +9246,7 @@ extension GetIPSetInput {
     }
 }
 
-public struct GetIPSetInput: Swift.Equatable {
+public struct GetIPSetInput {
     /// The unique ID of the detector that the IPSet is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9264,7 +9264,7 @@ public struct GetIPSetInput: Swift.Equatable {
     }
 }
 
-struct GetIPSetInputBody: Swift.Equatable {
+struct GetIPSetInputBody {
 }
 
 extension GetIPSetInputBody: Swift.Decodable {
@@ -9293,7 +9293,7 @@ extension GetIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIPSetOutput: Swift.Equatable {
+public struct GetIPSetOutput {
     /// The format of the file that contains the IPSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.IpSetFormat?
@@ -9325,7 +9325,7 @@ public struct GetIPSetOutput: Swift.Equatable {
     }
 }
 
-struct GetIPSetOutputBody: Swift.Equatable {
+struct GetIPSetOutputBody {
     let name: Swift.String?
     let format: GuardDutyClientTypes.IpSetFormat?
     let location: Swift.String?
@@ -9385,12 +9385,12 @@ extension GetInvitationsCountInput {
     }
 }
 
-public struct GetInvitationsCountInput: Swift.Equatable {
+public struct GetInvitationsCountInput {
 
     public init() { }
 }
 
-struct GetInvitationsCountInputBody: Swift.Equatable {
+struct GetInvitationsCountInputBody {
 }
 
 extension GetInvitationsCountInputBody: Swift.Decodable {
@@ -9411,7 +9411,7 @@ extension GetInvitationsCountOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInvitationsCountOutput: Swift.Equatable {
+public struct GetInvitationsCountOutput {
     /// The number of received invitations.
     public var invitationsCount: Swift.Int?
 
@@ -9423,7 +9423,7 @@ public struct GetInvitationsCountOutput: Swift.Equatable {
     }
 }
 
-struct GetInvitationsCountOutputBody: Swift.Equatable {
+struct GetInvitationsCountOutputBody {
     let invitationsCount: Swift.Int?
 }
 
@@ -9461,7 +9461,7 @@ extension GetMalwareScanSettingsInput {
     }
 }
 
-public struct GetMalwareScanSettingsInput: Swift.Equatable {
+public struct GetMalwareScanSettingsInput {
     /// The unique ID of the detector that the scan setting is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9474,7 +9474,7 @@ public struct GetMalwareScanSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetMalwareScanSettingsInputBody: Swift.Equatable {
+struct GetMalwareScanSettingsInputBody {
 }
 
 extension GetMalwareScanSettingsInputBody: Swift.Decodable {
@@ -9497,7 +9497,7 @@ extension GetMalwareScanSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMalwareScanSettingsOutput: Swift.Equatable {
+public struct GetMalwareScanSettingsOutput {
     /// An enum value representing possible snapshot preservation settings.
     public var ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation?
     /// Represents the criteria to be used in the filter for scanning resources.
@@ -9513,7 +9513,7 @@ public struct GetMalwareScanSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetMalwareScanSettingsOutputBody: Swift.Equatable {
+struct GetMalwareScanSettingsOutputBody {
     let scanResourceCriteria: GuardDutyClientTypes.ScanResourceCriteria?
     let ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation?
 }
@@ -9556,7 +9556,7 @@ extension GetMasterAccountInput {
 }
 
 @available(*, deprecated, message: "This input is deprecated, use GetAdministratorAccountRequest instead")
-public struct GetMasterAccountInput: Swift.Equatable {
+public struct GetMasterAccountInput {
     /// The unique ID of the detector of the GuardDuty member account.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -9569,7 +9569,7 @@ public struct GetMasterAccountInput: Swift.Equatable {
     }
 }
 
-struct GetMasterAccountInputBody: Swift.Equatable {
+struct GetMasterAccountInputBody {
 }
 
 extension GetMasterAccountInputBody: Swift.Decodable {
@@ -9591,7 +9591,7 @@ extension GetMasterAccountOutput: ClientRuntime.HttpResponseBinding {
 }
 
 @available(*, deprecated, message: "This output is deprecated, use GetAdministratorAccountResponse instead")
-public struct GetMasterAccountOutput: Swift.Equatable {
+public struct GetMasterAccountOutput {
     /// The administrator account details.
     /// This member is required.
     public var master: GuardDutyClientTypes.Master?
@@ -9604,7 +9604,7 @@ public struct GetMasterAccountOutput: Swift.Equatable {
     }
 }
 
-struct GetMasterAccountOutputBody: Swift.Equatable {
+struct GetMasterAccountOutputBody {
     let master: GuardDutyClientTypes.Master?
 }
 
@@ -9658,7 +9658,7 @@ extension GetMemberDetectorsInput {
     }
 }
 
-public struct GetMemberDetectorsInput: Swift.Equatable {
+public struct GetMemberDetectorsInput {
     /// The account ID of the member account.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -9676,7 +9676,7 @@ public struct GetMemberDetectorsInput: Swift.Equatable {
     }
 }
 
-struct GetMemberDetectorsInputBody: Swift.Equatable {
+struct GetMemberDetectorsInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -9715,7 +9715,7 @@ extension GetMemberDetectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMemberDetectorsOutput: Swift.Equatable {
+public struct GetMemberDetectorsOutput {
     /// An object that describes which data sources are enabled for a member account.
     /// This member is required.
     public var memberDataSourceConfigurations: [GuardDutyClientTypes.MemberDataSourceConfiguration]?
@@ -9733,7 +9733,7 @@ public struct GetMemberDetectorsOutput: Swift.Equatable {
     }
 }
 
-struct GetMemberDetectorsOutputBody: Swift.Equatable {
+struct GetMemberDetectorsOutputBody {
     let memberDataSourceConfigurations: [GuardDutyClientTypes.MemberDataSourceConfiguration]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
@@ -9809,7 +9809,7 @@ extension GetMembersInput {
     }
 }
 
-public struct GetMembersInput: Swift.Equatable {
+public struct GetMembersInput {
     /// A list of account IDs of the GuardDuty member accounts that you want to describe.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -9827,7 +9827,7 @@ public struct GetMembersInput: Swift.Equatable {
     }
 }
 
-struct GetMembersInputBody: Swift.Equatable {
+struct GetMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -9866,7 +9866,7 @@ extension GetMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMembersOutput: Swift.Equatable {
+public struct GetMembersOutput {
     /// A list of members.
     /// This member is required.
     public var members: [GuardDutyClientTypes.Member]?
@@ -9884,7 +9884,7 @@ public struct GetMembersOutput: Swift.Equatable {
     }
 }
 
-struct GetMembersOutputBody: Swift.Equatable {
+struct GetMembersOutputBody {
     let members: [GuardDutyClientTypes.Member]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
@@ -9941,12 +9941,12 @@ extension GetOrganizationStatisticsInput {
     }
 }
 
-public struct GetOrganizationStatisticsInput: Swift.Equatable {
+public struct GetOrganizationStatisticsInput {
 
     public init() { }
 }
 
-struct GetOrganizationStatisticsInputBody: Swift.Equatable {
+struct GetOrganizationStatisticsInputBody {
 }
 
 extension GetOrganizationStatisticsInputBody: Swift.Decodable {
@@ -9967,7 +9967,7 @@ extension GetOrganizationStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetOrganizationStatisticsOutput: Swift.Equatable {
+public struct GetOrganizationStatisticsOutput {
     /// Information about the statistics report for your organization.
     public var organizationDetails: GuardDutyClientTypes.OrganizationDetails?
 
@@ -9979,7 +9979,7 @@ public struct GetOrganizationStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetOrganizationStatisticsOutputBody: Swift.Equatable {
+struct GetOrganizationStatisticsOutputBody {
     let organizationDetails: GuardDutyClientTypes.OrganizationDetails?
 }
 
@@ -10033,7 +10033,7 @@ extension GetRemainingFreeTrialDaysInput {
     }
 }
 
-public struct GetRemainingFreeTrialDaysInput: Swift.Equatable {
+public struct GetRemainingFreeTrialDaysInput {
     /// A list of account identifiers of the GuardDuty member account.
     public var accountIds: [Swift.String]?
     /// The unique ID of the detector of the GuardDuty member account.
@@ -10050,7 +10050,7 @@ public struct GetRemainingFreeTrialDaysInput: Swift.Equatable {
     }
 }
 
-struct GetRemainingFreeTrialDaysInputBody: Swift.Equatable {
+struct GetRemainingFreeTrialDaysInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -10089,7 +10089,7 @@ extension GetRemainingFreeTrialDaysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRemainingFreeTrialDaysOutput: Swift.Equatable {
+public struct GetRemainingFreeTrialDaysOutput {
     /// The member accounts which were included in a request and were processed successfully.
     public var accounts: [GuardDutyClientTypes.AccountFreeTrialInfo]?
     /// The member account that was included in a request but for which the request could not be processed.
@@ -10105,7 +10105,7 @@ public struct GetRemainingFreeTrialDaysOutput: Swift.Equatable {
     }
 }
 
-struct GetRemainingFreeTrialDaysOutputBody: Swift.Equatable {
+struct GetRemainingFreeTrialDaysOutputBody {
     let accounts: [GuardDutyClientTypes.AccountFreeTrialInfo]?
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
@@ -10168,7 +10168,7 @@ extension GetThreatIntelSetInput {
     }
 }
 
-public struct GetThreatIntelSetInput: Swift.Equatable {
+public struct GetThreatIntelSetInput {
     /// The unique ID of the detector that the threatIntelSet is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -10186,7 +10186,7 @@ public struct GetThreatIntelSetInput: Swift.Equatable {
     }
 }
 
-struct GetThreatIntelSetInputBody: Swift.Equatable {
+struct GetThreatIntelSetInputBody {
 }
 
 extension GetThreatIntelSetInputBody: Swift.Decodable {
@@ -10215,7 +10215,7 @@ extension GetThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetThreatIntelSetOutput: Swift.Equatable {
+public struct GetThreatIntelSetOutput {
     /// The format of the threatIntelSet.
     /// This member is required.
     public var format: GuardDutyClientTypes.ThreatIntelSetFormat?
@@ -10247,7 +10247,7 @@ public struct GetThreatIntelSetOutput: Swift.Equatable {
     }
 }
 
-struct GetThreatIntelSetOutputBody: Swift.Equatable {
+struct GetThreatIntelSetOutputBody {
     let name: Swift.String?
     let format: GuardDutyClientTypes.ThreatIntelSetFormat?
     let location: Swift.String?
@@ -10339,7 +10339,7 @@ extension GetUsageStatisticsInput {
     }
 }
 
-public struct GetUsageStatisticsInput: Swift.Equatable {
+public struct GetUsageStatisticsInput {
     /// The ID of the detector that specifies the GuardDuty service whose usage statistics you want to retrieve.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -10374,7 +10374,7 @@ public struct GetUsageStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetUsageStatisticsInputBody: Swift.Equatable {
+struct GetUsageStatisticsInputBody {
     let usageStatisticType: GuardDutyClientTypes.UsageStatisticType?
     let usageCriteria: GuardDutyClientTypes.UsageCriteria?
     let unit: Swift.String?
@@ -10420,7 +10420,7 @@ extension GetUsageStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUsageStatisticsOutput: Swift.Equatable {
+public struct GetUsageStatisticsOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// The usage statistics object. If a UsageStatisticType was provided, the objects representing other types will be null.
@@ -10436,7 +10436,7 @@ public struct GetUsageStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetUsageStatisticsOutputBody: Swift.Equatable {
+struct GetUsageStatisticsOutputBody {
     let usageStatistics: GuardDutyClientTypes.UsageStatistics?
     let nextToken: Swift.String?
 }
@@ -10503,7 +10503,7 @@ extension GuardDutyClientTypes.HighestSeverityThreatDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains details of the highest severity threat detected during scan and number of infected files.
-    public struct HighestSeverityThreatDetails: Swift.Equatable {
+    public struct HighestSeverityThreatDetails {
         /// Total number of infected files with the highest severity threat detected.
         public var count: Swift.Int?
         /// Severity level of the highest severity threat detected.
@@ -10546,7 +10546,7 @@ extension GuardDutyClientTypes.HostPath: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents a pre-existing file or directory on the host machine that the volume maps to.
-    public struct HostPath: Swift.Equatable {
+    public struct HostPath {
         /// Path of the file or directory on the host that the volume maps to.
         public var path: Swift.String?
 
@@ -10587,7 +10587,7 @@ extension GuardDutyClientTypes.IamInstanceProfile: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the EC2 instance profile.
-    public struct IamInstanceProfile: Swift.Equatable {
+    public struct IamInstanceProfile {
         /// The profile ARN of the EC2 instance.
         public var arn: Swift.String?
         /// The profile ID of the EC2 instance.
@@ -10644,7 +10644,7 @@ extension GuardDutyClientTypes.ImpersonatedUser: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the impersonated user.
-    public struct ImpersonatedUser: Swift.Equatable {
+    public struct ImpersonatedUser {
         /// The group to which the user name belongs.
         public var groups: [Swift.String]?
         /// Information about the username that was being impersonated.
@@ -10791,7 +10791,7 @@ extension GuardDutyClientTypes.InstanceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the details of an instance.
-    public struct InstanceDetails: Swift.Equatable {
+    public struct InstanceDetails {
         /// The Availability Zone of the EC2 instance.
         public var availabilityZone: Swift.String?
         /// The profile information of the EC2 instance.
@@ -10899,7 +10899,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
     let type: Swift.String?
 }
@@ -10958,7 +10958,7 @@ extension GuardDutyClientTypes.Invitation: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the invitation to become a member account.
-    public struct Invitation: Swift.Equatable {
+    public struct Invitation {
         /// The ID of the account that the invitation was sent from.
         public var accountId: Swift.String?
         /// The ID of the invitation. This value is used to validate the inviter account to the member account.
@@ -11018,7 +11018,7 @@ extension InviteMembersInput {
     }
 }
 
-public struct InviteMembersInput: Swift.Equatable {
+public struct InviteMembersInput {
     /// A list of account IDs of the accounts that you want to invite to GuardDuty as members.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -11044,7 +11044,7 @@ public struct InviteMembersInput: Swift.Equatable {
     }
 }
 
-struct InviteMembersInputBody: Swift.Equatable {
+struct InviteMembersInputBody {
     let accountIds: [Swift.String]?
     let disableEmailNotification: Swift.Bool?
     let message: Swift.String?
@@ -11089,7 +11089,7 @@ extension InviteMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InviteMembersOutput: Swift.Equatable {
+public struct InviteMembersOutput {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -11102,7 +11102,7 @@ public struct InviteMembersOutput: Swift.Equatable {
     }
 }
 
-struct InviteMembersOutputBody: Swift.Equatable {
+struct InviteMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -11323,7 +11323,7 @@ extension GuardDutyClientTypes.KubernetesApiCallAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the Kubernetes API call action described in this finding.
-    public struct KubernetesApiCallAction: Swift.Equatable {
+    public struct KubernetesApiCallAction {
         /// The name of the namespace where the Kubernetes API call action takes place.
         public var namespace: Swift.String?
         /// Parameters related to the Kubernetes API call action.
@@ -11398,7 +11398,7 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether Kubernetes audit logs are enabled as a data source.
-    public struct KubernetesAuditLogsConfiguration: Swift.Equatable {
+    public struct KubernetesAuditLogsConfiguration {
         /// The status of Kubernetes audit logs as a data source.
         /// This member is required.
         public var enable: Swift.Bool?
@@ -11434,7 +11434,7 @@ extension GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult: Swift.Cod
 
 extension GuardDutyClientTypes {
     /// Describes whether Kubernetes audit logs are enabled as a data source.
-    public struct KubernetesAuditLogsConfigurationResult: Swift.Equatable {
+    public struct KubernetesAuditLogsConfigurationResult {
         /// A value that describes whether Kubernetes audit logs are enabled as a data source.
         /// This member is required.
         public var status: GuardDutyClientTypes.DataSourceStatus?
@@ -11470,7 +11470,7 @@ extension GuardDutyClientTypes.KubernetesConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether any Kubernetes data sources are enabled.
-    public struct KubernetesConfiguration: Swift.Equatable {
+    public struct KubernetesConfiguration {
         /// The status of Kubernetes audit logs as a data source.
         /// This member is required.
         public var auditLogs: GuardDutyClientTypes.KubernetesAuditLogsConfiguration?
@@ -11506,7 +11506,7 @@ extension GuardDutyClientTypes.KubernetesConfigurationResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether any Kubernetes logs will be enabled as a data source.
-    public struct KubernetesConfigurationResult: Swift.Equatable {
+    public struct KubernetesConfigurationResult {
         /// Describes whether Kubernetes audit logs are enabled as a data source.
         /// This member is required.
         public var auditLogs: GuardDutyClientTypes.KubernetesAuditLogsConfigurationResult?
@@ -11542,7 +11542,7 @@ extension GuardDutyClientTypes.KubernetesDataSourceFreeTrial: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Provides details about the Kubernetes resources when it is enabled as a data source.
-    public struct KubernetesDataSourceFreeTrial: Swift.Equatable {
+    public struct KubernetesDataSourceFreeTrial {
         /// Describes whether Kubernetes audit logs are enabled as a data source.
         public var auditLogs: GuardDutyClientTypes.DataSourceFreeTrial?
 
@@ -11583,7 +11583,7 @@ extension GuardDutyClientTypes.KubernetesDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Details about Kubernetes resources such as a Kubernetes user or workload resource involved in a Kubernetes finding.
-    public struct KubernetesDetails: Swift.Equatable {
+    public struct KubernetesDetails {
         /// Details about the Kubernetes user involved in a Kubernetes finding.
         public var kubernetesUserDetails: GuardDutyClientTypes.KubernetesUserDetails?
         /// Details about the Kubernetes workload involved in a Kubernetes finding.
@@ -11640,7 +11640,7 @@ extension GuardDutyClientTypes.KubernetesPermissionCheckedDetails: Swift.Codable
 
 extension GuardDutyClientTypes {
     /// Information about the Kubernetes API for which you check if you have permission to call.
-    public struct KubernetesPermissionCheckedDetails: Swift.Equatable {
+    public struct KubernetesPermissionCheckedDetails {
         /// Information whether the user has the permission to call the Kubernetes API.
         public var allowed: Swift.Bool?
         /// The namespace where the Kubernetes API action will take place.
@@ -11711,7 +11711,7 @@ extension GuardDutyClientTypes.KubernetesRoleBindingDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the role binding that grants the permission defined in a Kubernetes role.
-    public struct KubernetesRoleBindingDetails: Swift.Equatable {
+    public struct KubernetesRoleBindingDetails {
         /// The kind of the role. For role binding, this value will be RoleBinding.
         public var kind: Swift.String?
         /// The name of the RoleBinding.
@@ -11774,7 +11774,7 @@ extension GuardDutyClientTypes.KubernetesRoleDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the Kubernetes role name and role type.
-    public struct KubernetesRoleDetails: Swift.Equatable {
+    public struct KubernetesRoleDetails {
         /// The kind of role. For this API, the value of kind will be Role.
         public var kind: Swift.String?
         /// The name of the Kubernetes role.
@@ -11865,7 +11865,7 @@ extension GuardDutyClientTypes.KubernetesUserDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Details about the Kubernetes user involved in a Kubernetes finding.
-    public struct KubernetesUserDetails: Swift.Equatable {
+    public struct KubernetesUserDetails {
         /// The groups that include the user who called the Kubernetes API.
         public var groups: [Swift.String]?
         /// Information about the impersonated user.
@@ -11994,7 +11994,7 @@ extension GuardDutyClientTypes.KubernetesWorkloadDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Details about the Kubernetes workload involved in a Kubernetes finding.
-    public struct KubernetesWorkloadDetails: Swift.Equatable {
+    public struct KubernetesWorkloadDetails {
         /// Containers running as part of the Kubernetes workload.
         public var containers: [GuardDutyClientTypes.Container]?
         /// Whether the host IPC flag is enabled for the pods in the workload.
@@ -12125,7 +12125,7 @@ extension GuardDutyClientTypes.LambdaDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the Lambda function involved in the finding.
-    public struct LambdaDetails: Swift.Equatable {
+    public struct LambdaDetails {
         /// Description of the Lambda function.
         public var description: Swift.String?
         /// Amazon Resource Name (ARN) of the Lambda function.
@@ -12240,7 +12240,7 @@ extension GuardDutyClientTypes.LineageObject: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the runtime process details.
-    public struct LineageObject: Swift.Equatable {
+    public struct LineageObject {
         /// The effective user ID that was used to execute the process.
         public var euid: Swift.Int?
         /// The absolute path of the process executable file.
@@ -12321,7 +12321,7 @@ extension ListCoverageInput {
     }
 }
 
-public struct ListCoverageInput: Swift.Equatable {
+public struct ListCoverageInput {
     /// The unique ID of the detector whose coverage details you want to retrieve.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -12350,7 +12350,7 @@ public struct ListCoverageInput: Swift.Equatable {
     }
 }
 
-struct ListCoverageInputBody: Swift.Equatable {
+struct ListCoverageInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filterCriteria: GuardDutyClientTypes.CoverageFilterCriteria?
@@ -12392,7 +12392,7 @@ extension ListCoverageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCoverageOutput: Swift.Equatable {
+public struct ListCoverageOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// A list of resources and their attributes providing cluster details.
@@ -12409,7 +12409,7 @@ public struct ListCoverageOutput: Swift.Equatable {
     }
 }
 
-struct ListCoverageOutputBody: Swift.Equatable {
+struct ListCoverageOutputBody {
     let resources: [GuardDutyClientTypes.CoverageResource]?
     let nextToken: Swift.String?
 }
@@ -12473,7 +12473,7 @@ extension ListDetectorsInput {
     }
 }
 
-public struct ListDetectorsInput: Swift.Equatable {
+public struct ListDetectorsInput {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -12489,7 +12489,7 @@ public struct ListDetectorsInput: Swift.Equatable {
     }
 }
 
-struct ListDetectorsInputBody: Swift.Equatable {
+struct ListDetectorsInputBody {
 }
 
 extension ListDetectorsInputBody: Swift.Decodable {
@@ -12512,7 +12512,7 @@ extension ListDetectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDetectorsOutput: Swift.Equatable {
+public struct ListDetectorsOutput {
     /// A list of detector IDs.
     /// This member is required.
     public var detectorIds: [Swift.String]?
@@ -12529,7 +12529,7 @@ public struct ListDetectorsOutput: Swift.Equatable {
     }
 }
 
-struct ListDetectorsOutputBody: Swift.Equatable {
+struct ListDetectorsOutputBody {
     let detectorIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12596,7 +12596,7 @@ extension ListFiltersInput {
     }
 }
 
-public struct ListFiltersInput: Swift.Equatable {
+public struct ListFiltersInput {
     /// The unique ID of the detector that the filter is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -12617,7 +12617,7 @@ public struct ListFiltersInput: Swift.Equatable {
     }
 }
 
-struct ListFiltersInputBody: Swift.Equatable {
+struct ListFiltersInputBody {
 }
 
 extension ListFiltersInputBody: Swift.Decodable {
@@ -12640,7 +12640,7 @@ extension ListFiltersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFiltersOutput: Swift.Equatable {
+public struct ListFiltersOutput {
     /// A list of filter names.
     /// This member is required.
     public var filterNames: [Swift.String]?
@@ -12657,7 +12657,7 @@ public struct ListFiltersOutput: Swift.Equatable {
     }
 }
 
-struct ListFiltersOutputBody: Swift.Equatable {
+struct ListFiltersOutputBody {
     let filterNames: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12733,7 +12733,7 @@ extension ListFindingsInput {
     }
 }
 
-public struct ListFindingsInput: Swift.Equatable {
+public struct ListFindingsInput {
     /// The ID of the detector that specifies the GuardDuty service whose findings you want to list.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -12860,7 +12860,7 @@ public struct ListFindingsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsInputBody: Swift.Equatable {
+struct ListFindingsInputBody {
     let findingCriteria: GuardDutyClientTypes.FindingCriteria?
     let sortCriteria: GuardDutyClientTypes.SortCriteria?
     let maxResults: Swift.Int?
@@ -12902,7 +12902,7 @@ extension ListFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsOutput: Swift.Equatable {
+public struct ListFindingsOutput {
     /// The IDs of the findings that you're listing.
     /// This member is required.
     public var findingIds: [Swift.String]?
@@ -12919,7 +12919,7 @@ public struct ListFindingsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsOutputBody: Swift.Equatable {
+struct ListFindingsOutputBody {
     let findingIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -12986,7 +12986,7 @@ extension ListIPSetsInput {
     }
 }
 
-public struct ListIPSetsInput: Swift.Equatable {
+public struct ListIPSetsInput {
     /// The unique ID of the detector that the IPSet is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -13007,7 +13007,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsInputBody: Swift.Equatable {
+struct ListIPSetsInputBody {
 }
 
 extension ListIPSetsInputBody: Swift.Decodable {
@@ -13030,7 +13030,7 @@ extension ListIPSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIPSetsOutput: Swift.Equatable {
+public struct ListIPSetsOutput {
     /// The IDs of the IPSet resources.
     /// This member is required.
     public var ipSetIds: [Swift.String]?
@@ -13047,7 +13047,7 @@ public struct ListIPSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsOutputBody: Swift.Equatable {
+struct ListIPSetsOutputBody {
     let ipSetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13111,7 +13111,7 @@ extension ListInvitationsInput {
     }
 }
 
-public struct ListInvitationsInput: Swift.Equatable {
+public struct ListInvitationsInput {
     /// You can use this parameter to indicate the maximum number of items that you want in the response. The default value is 50. The maximum value is 50.
     public var maxResults: Swift.Int?
     /// You can use this parameter when paginating results. Set the value of this parameter to null on your first call to the list action. For subsequent calls to the action, fill nextToken in the request with the value of NextToken from the previous response to continue listing data.
@@ -13127,7 +13127,7 @@ public struct ListInvitationsInput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsInputBody: Swift.Equatable {
+struct ListInvitationsInputBody {
 }
 
 extension ListInvitationsInputBody: Swift.Decodable {
@@ -13150,7 +13150,7 @@ extension ListInvitationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInvitationsOutput: Swift.Equatable {
+public struct ListInvitationsOutput {
     /// A list of invitation descriptions.
     public var invitations: [GuardDutyClientTypes.Invitation]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -13166,7 +13166,7 @@ public struct ListInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct ListInvitationsOutputBody: Swift.Equatable {
+struct ListInvitationsOutputBody {
     let invitations: [GuardDutyClientTypes.Invitation]?
     let nextToken: Swift.String?
 }
@@ -13237,7 +13237,7 @@ extension ListMembersInput {
     }
 }
 
-public struct ListMembersInput: Swift.Equatable {
+public struct ListMembersInput {
     /// The unique ID of the detector the member is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -13262,7 +13262,7 @@ public struct ListMembersInput: Swift.Equatable {
     }
 }
 
-struct ListMembersInputBody: Swift.Equatable {
+struct ListMembersInputBody {
 }
 
 extension ListMembersInputBody: Swift.Decodable {
@@ -13285,7 +13285,7 @@ extension ListMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMembersOutput: Swift.Equatable {
+public struct ListMembersOutput {
     /// A list of members. The values for email and invitedAt are available only if the member accounts are added by invitation.
     public var members: [GuardDutyClientTypes.Member]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -13301,7 +13301,7 @@ public struct ListMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListMembersOutputBody: Swift.Equatable {
+struct ListMembersOutputBody {
     let members: [GuardDutyClientTypes.Member]?
     let nextToken: Swift.String?
 }
@@ -13365,7 +13365,7 @@ extension ListOrganizationAdminAccountsInput {
     }
 }
 
-public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsInput {
     /// The maximum number of results to return in the response.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request to a list action. For subsequent calls, use the NextToken value returned from the previous request to continue listing results after the first page.
@@ -13381,7 +13381,7 @@ public struct ListOrganizationAdminAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsInputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsInputBody {
 }
 
 extension ListOrganizationAdminAccountsInputBody: Swift.Decodable {
@@ -13404,7 +13404,7 @@ extension ListOrganizationAdminAccountsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
+public struct ListOrganizationAdminAccountsOutput {
     /// A list of accounts configured as GuardDuty delegated administrators.
     public var adminAccounts: [GuardDutyClientTypes.AdminAccount]?
     /// The pagination parameter to be used on the next list operation to retrieve more items.
@@ -13420,7 +13420,7 @@ public struct ListOrganizationAdminAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationAdminAccountsOutputBody: Swift.Equatable {
+struct ListOrganizationAdminAccountsOutputBody {
     let adminAccounts: [GuardDutyClientTypes.AdminAccount]?
     let nextToken: Swift.String?
 }
@@ -13487,7 +13487,7 @@ extension ListPublishingDestinationsInput {
     }
 }
 
-public struct ListPublishingDestinationsInput: Swift.Equatable {
+public struct ListPublishingDestinationsInput {
     /// The ID of the detector to retrieve publishing destinations for.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -13508,7 +13508,7 @@ public struct ListPublishingDestinationsInput: Swift.Equatable {
     }
 }
 
-struct ListPublishingDestinationsInputBody: Swift.Equatable {
+struct ListPublishingDestinationsInputBody {
 }
 
 extension ListPublishingDestinationsInputBody: Swift.Decodable {
@@ -13531,7 +13531,7 @@ extension ListPublishingDestinationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPublishingDestinationsOutput: Swift.Equatable {
+public struct ListPublishingDestinationsOutput {
     /// A Destinations object that includes information about each publishing destination returned.
     /// This member is required.
     public var destinations: [GuardDutyClientTypes.Destination]?
@@ -13548,7 +13548,7 @@ public struct ListPublishingDestinationsOutput: Swift.Equatable {
     }
 }
 
-struct ListPublishingDestinationsOutputBody: Swift.Equatable {
+struct ListPublishingDestinationsOutputBody {
     let destinations: [GuardDutyClientTypes.Destination]?
     let nextToken: Swift.String?
 }
@@ -13599,7 +13599,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for the given GuardDuty resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13612,7 +13612,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -13633,7 +13633,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags associated with the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13645,7 +13645,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13709,7 +13709,7 @@ extension ListThreatIntelSetsInput {
     }
 }
 
-public struct ListThreatIntelSetsInput: Swift.Equatable {
+public struct ListThreatIntelSetsInput {
     /// The unique ID of the detector that the threatIntelSet is associated with.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -13730,7 +13730,7 @@ public struct ListThreatIntelSetsInput: Swift.Equatable {
     }
 }
 
-struct ListThreatIntelSetsInputBody: Swift.Equatable {
+struct ListThreatIntelSetsInputBody {
 }
 
 extension ListThreatIntelSetsInputBody: Swift.Decodable {
@@ -13753,7 +13753,7 @@ extension ListThreatIntelSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThreatIntelSetsOutput: Swift.Equatable {
+public struct ListThreatIntelSetsOutput {
     /// The pagination parameter to be used on the next list operation to retrieve more items.
     public var nextToken: Swift.String?
     /// The IDs of the ThreatIntelSet resources.
@@ -13770,7 +13770,7 @@ public struct ListThreatIntelSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListThreatIntelSetsOutputBody: Swift.Equatable {
+struct ListThreatIntelSetsOutputBody {
     let threatIntelSetIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -13843,7 +13843,7 @@ extension GuardDutyClientTypes.LocalIpDetails: Swift.CustomDebugStringConvertibl
 
 extension GuardDutyClientTypes {
     /// Contains information about the local IP address of the connection.
-    public struct LocalIpDetails: Swift.Equatable {
+    public struct LocalIpDetails {
         /// The IPv4 local address of the connection.
         public var ipAddressV4: Swift.String?
         /// The IPv6 local address of the connection.
@@ -13888,7 +13888,7 @@ extension GuardDutyClientTypes.LocalPortDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the port for the local connection.
-    public struct LocalPortDetails: Swift.Equatable {
+    public struct LocalPortDetails {
         /// The port number of the local connection.
         public var port: Swift.Int?
         /// The port name of the local connection.
@@ -13945,7 +13945,7 @@ extension GuardDutyClientTypes.LoginAttribute: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the login attempts.
-    public struct LoginAttribute: Swift.Equatable {
+    public struct LoginAttribute {
         /// Indicates the application name used to attempt log in.
         public var application: Swift.String?
         /// Represents the sum of failed (unsuccessful) login attempts made to establish a connection to the database instance.
@@ -13992,7 +13992,7 @@ extension GuardDutyClientTypes.MalwareProtectionConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether Malware Protection will be enabled as a data source.
-    public struct MalwareProtectionConfiguration: Swift.Equatable {
+    public struct MalwareProtectionConfiguration {
         /// Describes the configuration of Malware Protection for EC2 instances with findings.
         public var scanEc2InstanceWithFindings: GuardDutyClientTypes.ScanEc2InstanceWithFindings?
 
@@ -14033,7 +14033,7 @@ extension GuardDutyClientTypes.MalwareProtectionConfigurationResult: Swift.Codab
 
 extension GuardDutyClientTypes {
     /// An object that contains information on the status of all Malware Protection data sources.
-    public struct MalwareProtectionConfigurationResult: Swift.Equatable {
+    public struct MalwareProtectionConfigurationResult {
         /// Describes the configuration of Malware Protection for EC2 instances with findings.
         public var scanEc2InstanceWithFindings: GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult?
         /// The GuardDuty Malware Protection service role.
@@ -14072,7 +14072,7 @@ extension GuardDutyClientTypes.MalwareProtectionDataSourceFreeTrial: Swift.Codab
 
 extension GuardDutyClientTypes {
     /// Provides details about Malware Protection when it is enabled as a data source.
-    public struct MalwareProtectionDataSourceFreeTrial: Swift.Equatable {
+    public struct MalwareProtectionDataSourceFreeTrial {
         /// Describes whether Malware Protection for EC2 instances with findings is enabled as a data source.
         public var scanEc2InstanceWithFindings: GuardDutyClientTypes.DataSourceFreeTrial?
 
@@ -14160,7 +14160,7 @@ extension GuardDutyClientTypes.Master: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the administrator account and invitation.
-    public struct Master: Swift.Equatable {
+    public struct Master {
         /// The ID of the account used as the administrator account.
         public var accountId: Swift.String?
         /// The value used to validate the administrator account to the member account.
@@ -14254,7 +14254,7 @@ extension GuardDutyClientTypes.Member: Swift.CustomDebugStringConvertible {
 
 extension GuardDutyClientTypes {
     /// Contains information about the member account.
-    public struct Member: Swift.Equatable {
+    public struct Member {
         /// The ID of the member account.
         /// This member is required.
         public var accountId: Swift.String?
@@ -14328,7 +14328,7 @@ extension GuardDutyClientTypes.MemberAdditionalConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the additional configuration for the member account.
-    public struct MemberAdditionalConfiguration: Swift.Equatable {
+    public struct MemberAdditionalConfiguration {
         /// Name of the additional configuration.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
         /// Status of the additional configuration.
@@ -14379,7 +14379,7 @@ extension GuardDutyClientTypes.MemberAdditionalConfigurationResult: Swift.Codabl
 
 extension GuardDutyClientTypes {
     /// Information about the additional configuration for the member account.
-    public struct MemberAdditionalConfigurationResult: Swift.Equatable {
+    public struct MemberAdditionalConfigurationResult {
         /// Indicates the name of the additional configuration that is set for the member account.
         public var name: GuardDutyClientTypes.OrgFeatureAdditionalConfiguration?
         /// Indicates the status of the additional configuration that is set for the member account.
@@ -14446,7 +14446,7 @@ extension GuardDutyClientTypes.MemberDataSourceConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on which data sources are enabled for a member account.
-    public struct MemberDataSourceConfiguration: Swift.Equatable {
+    public struct MemberDataSourceConfiguration {
         /// The account ID for the member account.
         /// This member is required.
         public var accountId: Swift.String?
@@ -14515,7 +14515,7 @@ extension GuardDutyClientTypes.MemberFeaturesConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the features for the member account.
-    public struct MemberFeaturesConfiguration: Swift.Equatable {
+    public struct MemberFeaturesConfiguration {
         /// Additional configuration of the feature for the member account.
         public var additionalConfiguration: [GuardDutyClientTypes.MemberAdditionalConfiguration]?
         /// The name of the feature.
@@ -14588,7 +14588,7 @@ extension GuardDutyClientTypes.MemberFeaturesConfigurationResult: Swift.Codable 
 
 extension GuardDutyClientTypes {
     /// Contains information about the features for the member account.
-    public struct MemberFeaturesConfigurationResult: Swift.Equatable {
+    public struct MemberFeaturesConfigurationResult {
         /// Indicates the additional configuration of the feature that is configured for the member account.
         public var additionalConfiguration: [GuardDutyClientTypes.MemberAdditionalConfigurationResult]?
         /// Indicates the name of the feature that is enabled for the detector.
@@ -14671,7 +14671,7 @@ extension GuardDutyClientTypes.NetworkConnectionAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the NETWORK_CONNECTION action described in the finding.
-    public struct NetworkConnectionAction: Swift.Equatable {
+    public struct NetworkConnectionAction {
         /// Indicates whether EC2 blocked the network connection to your instance.
         public var blocked: Swift.Bool?
         /// The network connection direction.
@@ -14825,7 +14825,7 @@ extension GuardDutyClientTypes.NetworkInterface: Swift.CustomDebugStringConverti
 
 extension GuardDutyClientTypes {
     /// Contains information about the elastic network interface of the EC2 instance.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// A list of IPv6 addresses for the EC2 instance.
         public var ipv6Addresses: [Swift.String]?
         /// The ID of the network interface.
@@ -14908,7 +14908,7 @@ extension GuardDutyClientTypes.Observations: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the observed behavior.
-    public struct Observations: Swift.Equatable {
+    public struct Observations {
         /// The text that was unusual.
         public var text: [Swift.String]?
 
@@ -15110,7 +15110,7 @@ extension GuardDutyClientTypes.Organization: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the ISP organization of the remote IP address.
-    public struct Organization: Swift.Equatable {
+    public struct Organization {
         /// The Autonomous System Number (ASN) of the internet provider of the remote IP address.
         public var asn: Swift.String?
         /// The organization that registered this ASN.
@@ -15163,7 +15163,7 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfiguration: Swift.Codabl
 
 extension GuardDutyClientTypes {
     /// A list of additional configurations which will be configured for the organization.
-    public struct OrganizationAdditionalConfiguration: Swift.Equatable {
+    public struct OrganizationAdditionalConfiguration {
         /// The status of the additional configuration that will be configured for the organization. Use one of the following values to configure the feature status for the entire organization:
         ///
         /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
@@ -15214,7 +15214,7 @@ extension GuardDutyClientTypes.OrganizationAdditionalConfigurationResult: Swift.
 
 extension GuardDutyClientTypes {
     /// A list of additional configuration which will be configured for the organization.
-    public struct OrganizationAdditionalConfigurationResult: Swift.Equatable {
+    public struct OrganizationAdditionalConfigurationResult {
         /// Describes the status of the additional configuration that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
         ///
         /// * NEW: Indicates that when a new account joins the organization, they will have the additional configuration enabled automatically.
@@ -15271,7 +15271,7 @@ extension GuardDutyClientTypes.OrganizationDataSourceConfigurations: Swift.Codab
 
 extension GuardDutyClientTypes {
     /// An object that contains information on which data sources will be configured to be automatically enabled for new members within the organization.
-    public struct OrganizationDataSourceConfigurations: Swift.Equatable {
+    public struct OrganizationDataSourceConfigurations {
         /// Describes the configuration of Kubernetes data sources for new members of the organization.
         public var kubernetes: GuardDutyClientTypes.OrganizationKubernetesConfiguration?
         /// Describes the configuration of Malware Protection for new members of the organization.
@@ -15326,7 +15326,7 @@ extension GuardDutyClientTypes.OrganizationDataSourceConfigurationsResult: Swift
 
 extension GuardDutyClientTypes {
     /// An object that contains information on which data sources are automatically enabled for new members within the organization.
-    public struct OrganizationDataSourceConfigurationsResult: Swift.Equatable {
+    public struct OrganizationDataSourceConfigurationsResult {
         /// Describes the configuration of Kubernetes data sources.
         public var kubernetes: GuardDutyClientTypes.OrganizationKubernetesConfigurationResult?
         /// Describes the configuration of Malware Protection data source for an organization.
@@ -15376,7 +15376,7 @@ extension GuardDutyClientTypes.OrganizationDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about GuardDuty coverage statistics for members in your Amazon Web Services organization.
-    public struct OrganizationDetails: Swift.Equatable {
+    public struct OrganizationDetails {
         /// Information about the GuardDuty coverage statistics for members in your Amazon Web Services organization.
         public var organizationStatistics: GuardDutyClientTypes.OrganizationStatistics?
         /// The timestamp at which the organization statistics was last updated. This is in UTC format.
@@ -15415,7 +15415,7 @@ extension GuardDutyClientTypes.OrganizationEbsVolumes: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Organization-wide EBS volumes scan configuration.
-    public struct OrganizationEbsVolumes: Swift.Equatable {
+    public struct OrganizationEbsVolumes {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public var autoEnable: Swift.Bool?
 
@@ -15450,7 +15450,7 @@ extension GuardDutyClientTypes.OrganizationEbsVolumesResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// An object that contains information on the status of whether EBS volumes scanning will be enabled as a data source for an organization.
-    public struct OrganizationEbsVolumesResult: Swift.Equatable {
+    public struct OrganizationEbsVolumesResult {
         /// An object that contains the status of whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public var autoEnable: Swift.Bool?
 
@@ -15509,7 +15509,7 @@ extension GuardDutyClientTypes.OrganizationFeatureConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// A list of features which will be configured for the organization.
-    public struct OrganizationFeatureConfiguration: Swift.Equatable {
+    public struct OrganizationFeatureConfiguration {
         /// The additional information that will be configured for the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfiguration]?
         /// Describes the status of the feature that is configured for the member accounts within the organization. One of the following values is the status for the entire organization:
@@ -15582,7 +15582,7 @@ extension GuardDutyClientTypes.OrganizationFeatureConfigurationResult: Swift.Cod
 
 extension GuardDutyClientTypes {
     /// A list of features which will be configured for the organization.
-    public struct OrganizationFeatureConfigurationResult: Swift.Equatable {
+    public struct OrganizationFeatureConfigurationResult {
         /// The additional configuration that is configured for the member accounts within the organization.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationAdditionalConfigurationResult]?
         /// Describes the status of the feature that is configured for the member accounts within the organization.
@@ -15655,7 +15655,7 @@ extension GuardDutyClientTypes.OrganizationFeatureStatistics: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the number of accounts that have enabled a specific feature.
-    public struct OrganizationFeatureStatistics: Swift.Equatable {
+    public struct OrganizationFeatureStatistics {
         /// Name of the additional configuration.
         public var additionalConfiguration: [GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfiguration]?
         /// Total number of accounts that have enabled a specific feature.
@@ -15704,7 +15704,7 @@ extension GuardDutyClientTypes.OrganizationFeatureStatisticsAdditionalConfigurat
 
 extension GuardDutyClientTypes {
     /// Information about the coverage statistic for the additional configuration of the feature.
-    public struct OrganizationFeatureStatisticsAdditionalConfiguration: Swift.Equatable {
+    public struct OrganizationFeatureStatisticsAdditionalConfiguration {
         /// Total number of accounts that have enabled the additional configuration.
         public var enabledAccountsCount: Swift.Int?
         /// Name of the additional configuration within a feature.
@@ -15743,7 +15743,7 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration: Swi
 
 extension GuardDutyClientTypes {
     /// Organization-wide Kubernetes audit logs configuration.
-    public struct OrganizationKubernetesAuditLogsConfiguration: Swift.Equatable {
+    public struct OrganizationKubernetesAuditLogsConfiguration {
         /// A value that contains information on whether Kubernetes audit logs should be enabled automatically as a data source for the organization.
         /// This member is required.
         public var autoEnable: Swift.Bool?
@@ -15779,7 +15779,7 @@ extension GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResul
 
 extension GuardDutyClientTypes {
     /// The current configuration of Kubernetes audit logs as a data source for the organization.
-    public struct OrganizationKubernetesAuditLogsConfigurationResult: Swift.Equatable {
+    public struct OrganizationKubernetesAuditLogsConfigurationResult {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         /// This member is required.
         public var autoEnable: Swift.Bool?
@@ -15815,7 +15815,7 @@ extension GuardDutyClientTypes.OrganizationKubernetesConfiguration: Swift.Codabl
 
 extension GuardDutyClientTypes {
     /// Organization-wide Kubernetes data sources configurations.
-    public struct OrganizationKubernetesConfiguration: Swift.Equatable {
+    public struct OrganizationKubernetesConfiguration {
         /// Whether Kubernetes audit logs data source should be auto-enabled for new members joining the organization.
         /// This member is required.
         public var auditLogs: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfiguration?
@@ -15851,7 +15851,7 @@ extension GuardDutyClientTypes.OrganizationKubernetesConfigurationResult: Swift.
 
 extension GuardDutyClientTypes {
     /// The current configuration of all Kubernetes data sources for the organization.
-    public struct OrganizationKubernetesConfigurationResult: Swift.Equatable {
+    public struct OrganizationKubernetesConfigurationResult {
         /// The current configuration of Kubernetes audit logs as a data source for the organization.
         /// This member is required.
         public var auditLogs: GuardDutyClientTypes.OrganizationKubernetesAuditLogsConfigurationResult?
@@ -15887,7 +15887,7 @@ extension GuardDutyClientTypes.OrganizationMalwareProtectionConfiguration: Swift
 
 extension GuardDutyClientTypes {
     /// Organization-wide Malware Protection configurations.
-    public struct OrganizationMalwareProtectionConfiguration: Swift.Equatable {
+    public struct OrganizationMalwareProtectionConfiguration {
         /// Whether Malware Protection for EC2 instances with findings should be auto-enabled for new members joining the organization.
         public var scanEc2InstanceWithFindings: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings?
 
@@ -15922,7 +15922,7 @@ extension GuardDutyClientTypes.OrganizationMalwareProtectionConfigurationResult:
 
 extension GuardDutyClientTypes {
     /// An object that contains information on the status of all Malware Protection data source for an organization.
-    public struct OrganizationMalwareProtectionConfigurationResult: Swift.Equatable {
+    public struct OrganizationMalwareProtectionConfigurationResult {
         /// Describes the configuration for scanning EC2 instances with findings for an organization.
         public var scanEc2InstanceWithFindings: GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult?
 
@@ -15957,7 +15957,7 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether S3 data event logs will be automatically enabled for new members of the organization.
-    public struct OrganizationS3LogsConfiguration: Swift.Equatable {
+    public struct OrganizationS3LogsConfiguration {
         /// A value that contains information on whether S3 data event logs will be enabled automatically as a data source for the organization.
         /// This member is required.
         public var autoEnable: Swift.Bool?
@@ -15993,7 +15993,7 @@ extension GuardDutyClientTypes.OrganizationS3LogsConfigurationResult: Swift.Coda
 
 extension GuardDutyClientTypes {
     /// The current configuration of S3 data event logs as a data source for the organization.
-    public struct OrganizationS3LogsConfigurationResult: Swift.Equatable {
+    public struct OrganizationS3LogsConfigurationResult {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         /// This member is required.
         public var autoEnable: Swift.Bool?
@@ -16029,7 +16029,7 @@ extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindings: Swift.Co
 
 extension GuardDutyClientTypes {
     /// Organization-wide EC2 instances with findings scan configuration.
-    public struct OrganizationScanEc2InstanceWithFindings: Swift.Equatable {
+    public struct OrganizationScanEc2InstanceWithFindings {
         /// Whether scanning EBS volumes should be auto-enabled for new members joining the organization.
         public var ebsVolumes: GuardDutyClientTypes.OrganizationEbsVolumes?
 
@@ -16064,7 +16064,7 @@ extension GuardDutyClientTypes.OrganizationScanEc2InstanceWithFindingsResult: Sw
 
 extension GuardDutyClientTypes {
     /// An object that contains information on the status of scanning EC2 instances with findings for an organization.
-    public struct OrganizationScanEc2InstanceWithFindingsResult: Swift.Equatable {
+    public struct OrganizationScanEc2InstanceWithFindingsResult {
         /// Describes the configuration for scanning EBS volumes for an organization.
         public var ebsVolumes: GuardDutyClientTypes.OrganizationEbsVolumesResult?
 
@@ -16135,7 +16135,7 @@ extension GuardDutyClientTypes.OrganizationStatistics: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the coverage statistics of the features for the entire Amazon Web Services organization. When you create a new Amazon Web Services organization, it might take up to 24 hours to generate the statistics summary for this organization.
-    public struct OrganizationStatistics: Swift.Equatable {
+    public struct OrganizationStatistics {
         /// Total number of active accounts in your Amazon Web Services organization that are associated with GuardDuty.
         public var activeAccountsCount: Swift.Int?
         /// Retrieves the coverage statistics for each feature.
@@ -16186,7 +16186,7 @@ extension GuardDutyClientTypes.Owner: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the owner of the bucket.
-    public struct Owner: Swift.Equatable {
+    public struct Owner {
         /// The canonical user ID of the bucket owner. For information about locating your canonical user ID see [Finding Your Account Canonical User ID.](https://docs.aws.amazon.com/general/latest/gr/acct-identifiers.html#FindingCanonicalId)
         public var id: Swift.String?
 
@@ -16227,7 +16227,7 @@ extension GuardDutyClientTypes.PermissionConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about how permissions are configured for the S3 bucket.
-    public struct PermissionConfiguration: Swift.Equatable {
+    public struct PermissionConfiguration {
         /// Contains information about the account level permissions on the S3 bucket.
         public var accountLevelPermissions: GuardDutyClientTypes.AccountLevelPermissions?
         /// Contains information about the bucket level permissions for the S3 bucket.
@@ -16284,7 +16284,7 @@ extension GuardDutyClientTypes.PortProbeAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the PORT_PROBE action described in the finding.
-    public struct PortProbeAction: Swift.Equatable {
+    public struct PortProbeAction {
         /// Indicates whether EC2 blocked the port probe to the instance, such as with an ACL.
         public var blocked: Swift.Bool?
         /// A list of objects related to port probe details.
@@ -16335,7 +16335,7 @@ extension GuardDutyClientTypes.PortProbeDetail: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the port probe details.
-    public struct PortProbeDetail: Swift.Equatable {
+    public struct PortProbeDetail {
         /// The local IP information of the connection.
         public var localIpDetails: GuardDutyClientTypes.LocalIpDetails?
         /// The local port information of the connection.
@@ -16389,7 +16389,7 @@ extension GuardDutyClientTypes.PrivateIpAddressDetails: Swift.CustomDebugStringC
 
 extension GuardDutyClientTypes {
     /// Contains other private IP address information of the EC2 instance.
-    public struct PrivateIpAddressDetails: Swift.Equatable {
+    public struct PrivateIpAddressDetails {
         /// The private DNS name of the EC2 instance.
         public var privateDnsName: Swift.String?
         /// The private IP address of the EC2 instance.
@@ -16512,7 +16512,7 @@ extension GuardDutyClientTypes.ProcessDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the observed process.
-    public struct ProcessDetails: Swift.Equatable {
+    public struct ProcessDetails {
         /// The effective user ID of the user that executed the process.
         public var euid: Swift.Int?
         /// The absolute path of the process executable file.
@@ -16601,7 +16601,7 @@ extension GuardDutyClientTypes.ProductCode: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the product code for the EC2 instance.
-    public struct ProductCode: Swift.Equatable {
+    public struct ProductCode {
         /// The product code information.
         public var code: Swift.String?
         /// The product code type.
@@ -16713,7 +16713,7 @@ extension GuardDutyClientTypes.PublicAccess: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes the public access policies that apply to the S3 bucket.
-    public struct PublicAccess: Swift.Equatable {
+    public struct PublicAccess {
         /// Describes the effective permission on this bucket after factoring all attached policies.
         public var effectivePermission: Swift.String?
         /// Contains information about how permissions are configured for the S3 bucket.
@@ -16832,7 +16832,7 @@ extension GuardDutyClientTypes.RdsDbInstanceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the resource type RDSDBInstance involved in a GuardDuty finding.
-    public struct RdsDbInstanceDetails: Swift.Equatable {
+    public struct RdsDbInstanceDetails {
         /// The identifier of the database cluster that contains the database instance ID involved in the finding.
         public var dbClusterIdentifier: Swift.String?
         /// The Amazon Resource Name (ARN) that identifies the database instance involved in the finding.
@@ -16911,7 +16911,7 @@ extension GuardDutyClientTypes.RdsDbUserDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the user and authentication details for a database instance involved in the finding.
-    public struct RdsDbUserDetails: Swift.Equatable {
+    public struct RdsDbUserDetails {
         /// The application name used in the anomalous login attempt.
         public var application: Swift.String?
         /// The authentication method used by the user involved in the finding.
@@ -16980,7 +16980,7 @@ extension GuardDutyClientTypes.RdsLoginAttemptAction: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Indicates that a login attempt was made to the potentially compromised database from a remote IP address.
-    public struct RdsLoginAttemptAction: Swift.Equatable {
+    public struct RdsLoginAttemptAction {
         /// Indicates the login attributes used in the login attempt.
         public var loginAttributes: [GuardDutyClientTypes.LoginAttribute]?
         /// Contains information about the remote IP address of the connection.
@@ -17025,7 +17025,7 @@ extension GuardDutyClientTypes.RemoteAccountDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains details about the remote Amazon Web Services account that made the API call.
-    public struct RemoteAccountDetails: Swift.Equatable {
+    public struct RemoteAccountDetails {
         /// The Amazon Web Services account ID of the remote API caller.
         public var accountId: Swift.String?
         /// Details on whether the Amazon Web Services account of the remote API caller is related to your GuardDuty environment. If this value is True the API caller is affiliated to your account in some way. If it is False the API caller is from outside your environment.
@@ -17099,7 +17099,7 @@ extension GuardDutyClientTypes.RemoteIpDetails: Swift.CustomDebugStringConvertib
 
 extension GuardDutyClientTypes {
     /// Contains information about the remote IP address of the connection.
-    public struct RemoteIpDetails: Swift.Equatable {
+    public struct RemoteIpDetails {
         /// The city information of the remote IP address.
         public var city: GuardDutyClientTypes.City?
         /// The country code of the remote IP address.
@@ -17160,7 +17160,7 @@ extension GuardDutyClientTypes.RemotePortDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the remote port.
-    public struct RemotePortDetails: Swift.Equatable {
+    public struct RemotePortDetails {
         /// The port number of the remote connection.
         public var port: Swift.Int?
         /// The port name of the remote connection.
@@ -17277,7 +17277,7 @@ extension GuardDutyClientTypes.Resource: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the Amazon Web Services resource associated with the activity that prompted GuardDuty to generate a finding.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The IAM access key details (user information) of a user that engaged in the activity that prompted GuardDuty to generate a finding.
         public var accessKeyDetails: GuardDutyClientTypes.AccessKeyDetails?
         /// Details of a container.
@@ -17356,7 +17356,7 @@ extension GuardDutyClientTypes.ResourceDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the resources that were scanned in the scan entry.
-    public struct ResourceDetails: Swift.Equatable {
+    public struct ResourceDetails {
         /// InstanceArn that was scanned in the scan entry.
         public var instanceArn: Swift.String?
 
@@ -17594,7 +17594,7 @@ extension GuardDutyClientTypes.RuntimeContext: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Additional information about the suspicious activity.
-    public struct RuntimeContext: Swift.Equatable {
+    public struct RuntimeContext {
         /// Represents the communication protocol associated with the address. For example, the address family AF_INET is used for IP version of 4 protocol.
         public var addressFamily: Swift.String?
         /// Example of the command line involved in the suspicious activity.
@@ -17731,7 +17731,7 @@ extension GuardDutyClientTypes.RuntimeDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the process and any required context values for a specific finding.
-    public struct RuntimeDetails: Swift.Equatable {
+    public struct RuntimeDetails {
         /// Additional information about the suspicious activity.
         public var context: GuardDutyClientTypes.RuntimeContext?
         /// Information about the observed process.
@@ -17824,7 +17824,7 @@ extension GuardDutyClientTypes.S3BucketDetail: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the S3 bucket.
-    public struct S3BucketDetail: Swift.Equatable {
+    public struct S3BucketDetail {
         /// The Amazon Resource Name (ARN) of the S3 bucket.
         public var arn: Swift.String?
         /// The date and time the bucket was created at.
@@ -17887,7 +17887,7 @@ extension GuardDutyClientTypes.S3LogsConfiguration: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether S3 data event logs will be enabled as a data source.
-    public struct S3LogsConfiguration: Swift.Equatable {
+    public struct S3LogsConfiguration {
         /// The status of S3 data event logs as a data source.
         /// This member is required.
         public var enable: Swift.Bool?
@@ -17923,7 +17923,7 @@ extension GuardDutyClientTypes.S3LogsConfigurationResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether S3 data event logs will be enabled as a data source.
-    public struct S3LogsConfigurationResult: Swift.Equatable {
+    public struct S3LogsConfigurationResult {
         /// A value that describes whether S3 data event logs are automatically enabled for new members of the organization.
         /// This member is required.
         public var status: GuardDutyClientTypes.DataSourceStatus?
@@ -18055,7 +18055,7 @@ extension GuardDutyClientTypes.Scan: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about a malware scan.
-    public struct Scan: Swift.Equatable {
+    public struct Scan {
         /// The ID for the account that belongs to the scan.
         public var accountId: Swift.String?
         /// The unique detector ID of the administrator account that the request is associated with. Note that this value will be the same as the one used for DetectorId if the account is an administrator.
@@ -18158,7 +18158,7 @@ extension GuardDutyClientTypes.ScanCondition: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the condition.
-    public struct ScanCondition: Swift.Equatable {
+    public struct ScanCondition {
         /// Represents an mapEqual condition to be applied to a single field when triggering for malware scan.
         /// This member is required.
         public var mapEquals: [GuardDutyClientTypes.ScanConditionPair]?
@@ -18200,7 +18200,7 @@ extension GuardDutyClientTypes.ScanConditionPair: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the key:value pair to be matched against given resource property.
-    public struct ScanConditionPair: Swift.Equatable {
+    public struct ScanConditionPair {
         /// Represents the key in the map condition.
         /// This member is required.
         public var key: Swift.String?
@@ -18288,7 +18288,7 @@ extension GuardDutyClientTypes.ScanDetections: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains a complete view providing malware scan result details.
-    public struct ScanDetections: Swift.Equatable {
+    public struct ScanDetections {
         /// Details of the highest severity threat detected during malware scan and number of infected files.
         public var highestSeverityThreatDetails: GuardDutyClientTypes.HighestSeverityThreatDetails?
         /// Total number of scanned files.
@@ -18335,7 +18335,7 @@ extension GuardDutyClientTypes.ScanEc2InstanceWithFindings: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Describes whether Malware Protection for EC2 instances with findings will be enabled as a data source.
-    public struct ScanEc2InstanceWithFindings: Swift.Equatable {
+    public struct ScanEc2InstanceWithFindings {
         /// Describes the configuration for scanning EBS volumes as data source.
         public var ebsVolumes: Swift.Bool?
 
@@ -18370,7 +18370,7 @@ extension GuardDutyClientTypes.ScanEc2InstanceWithFindingsResult: Swift.Codable 
 
 extension GuardDutyClientTypes {
     /// An object that contains information on the status of whether Malware Protection for EC2 instances with findings will be enabled as a data source.
-    public struct ScanEc2InstanceWithFindingsResult: Swift.Equatable {
+    public struct ScanEc2InstanceWithFindingsResult {
         /// Describes the configuration of scanning EBS volumes as a data source.
         public var ebsVolumes: GuardDutyClientTypes.EbsVolumesResult?
 
@@ -18423,7 +18423,7 @@ extension GuardDutyClientTypes.ScanFilePath: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains details of infected file including name, file path and hash.
-    public struct ScanFilePath: Swift.Equatable {
+    public struct ScanFilePath {
         /// File name of the infected file.
         public var fileName: Swift.String?
         /// The file path of the infected file.
@@ -18500,7 +18500,7 @@ extension GuardDutyClientTypes.ScanResourceCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about criteria used to filter resources before triggering malware scan.
-    public struct ScanResourceCriteria: Swift.Equatable {
+    public struct ScanResourceCriteria {
         /// Represents condition that when matched will prevent a malware scan for a certain resource.
         public var exclude: [Swift.String:GuardDutyClientTypes.ScanCondition]?
         /// Represents condition that when matched will allow a malware scan for a certain resource.
@@ -18571,7 +18571,7 @@ extension GuardDutyClientTypes.ScanResultDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the result of the scan.
-    public struct ScanResultDetails: Swift.Equatable {
+    public struct ScanResultDetails {
         /// An enum value representing possible scan results.
         public var scanResult: GuardDutyClientTypes.ScanResult?
 
@@ -18674,7 +18674,7 @@ extension GuardDutyClientTypes.ScanThreatName: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains files infected with the given threat providing details of malware name and severity.
-    public struct ScanThreatName: Swift.Equatable {
+    public struct ScanThreatName {
         /// List of infected files in EBS volume with details.
         public var filePaths: [GuardDutyClientTypes.ScanFilePath]?
         /// Total number of files infected with given threat.
@@ -18765,7 +18765,7 @@ extension GuardDutyClientTypes.ScannedItemCount: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Total number of scanned files.
-    public struct ScannedItemCount: Swift.Equatable {
+    public struct ScannedItemCount {
         /// Number of files scanned.
         public var files: Swift.Int?
         /// Total GB of files scanned for malware.
@@ -18814,7 +18814,7 @@ extension GuardDutyClientTypes.SecurityContext: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Container security context.
-    public struct SecurityContext: Swift.Equatable {
+    public struct SecurityContext {
         /// Whether or not a container or a Kubernetes pod is allowed to gain more privileges than its parent process.
         public var allowPrivilegeEscalation: Swift.Bool?
         /// Whether the container is privileged.
@@ -18859,7 +18859,7 @@ extension GuardDutyClientTypes.SecurityGroup: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the security groups associated with the EC2 instance.
-    public struct SecurityGroup: Swift.Equatable {
+    public struct SecurityGroup {
         /// The security group ID of the EC2 instance.
         public var groupId: Swift.String?
         /// The security group name of the EC2 instance.
@@ -18982,7 +18982,7 @@ extension GuardDutyClientTypes.Service: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains additional information about the generated finding.
-    public struct Service: Swift.Equatable {
+    public struct Service {
         /// Information about the activity that is described in a finding.
         public var action: GuardDutyClientTypes.Action?
         /// Contains additional information about the generated finding.
@@ -19079,7 +19079,7 @@ extension GuardDutyClientTypes.ServiceAdditionalInfo: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Additional information about the generated finding.
-    public struct ServiceAdditionalInfo: Swift.Equatable {
+    public struct ServiceAdditionalInfo {
         /// Describes the type of the additional information.
         public var type: Swift.String?
         /// This field specifies the value of the additional information.
@@ -19124,7 +19124,7 @@ extension GuardDutyClientTypes.SortCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the criteria used for sorting findings.
-    public struct SortCriteria: Swift.Equatable {
+    public struct SortCriteria {
         /// Represents the finding attribute, such as accountId, that sorts the findings.
         public var attributeName: Swift.String?
         /// The order by which the sorted findings are to be displayed.
@@ -19162,7 +19162,7 @@ extension StartMalwareScanInput {
     }
 }
 
-public struct StartMalwareScanInput: Swift.Equatable {
+public struct StartMalwareScanInput {
     /// Amazon Resource Name (ARN) of the resource for which you invoked the API.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -19175,7 +19175,7 @@ public struct StartMalwareScanInput: Swift.Equatable {
     }
 }
 
-struct StartMalwareScanInputBody: Swift.Equatable {
+struct StartMalwareScanInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -19203,7 +19203,7 @@ extension StartMalwareScanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMalwareScanOutput: Swift.Equatable {
+public struct StartMalwareScanOutput {
     /// A unique identifier that gets generated when you invoke the API without any error. Each malware scan has a corresponding scan ID. Using this scan ID, you can monitor the status of your malware scan.
     public var scanId: Swift.String?
 
@@ -19215,7 +19215,7 @@ public struct StartMalwareScanOutput: Swift.Equatable {
     }
 }
 
-struct StartMalwareScanOutputBody: Swift.Equatable {
+struct StartMalwareScanOutputBody {
     let scanId: Swift.String?
 }
 
@@ -19270,7 +19270,7 @@ extension StartMonitoringMembersInput {
     }
 }
 
-public struct StartMonitoringMembersInput: Swift.Equatable {
+public struct StartMonitoringMembersInput {
     /// A list of account IDs of the GuardDuty member accounts to start monitoring.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -19288,7 +19288,7 @@ public struct StartMonitoringMembersInput: Swift.Equatable {
     }
 }
 
-struct StartMonitoringMembersInputBody: Swift.Equatable {
+struct StartMonitoringMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -19325,7 +19325,7 @@ extension StartMonitoringMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMonitoringMembersOutput: Swift.Equatable {
+public struct StartMonitoringMembersOutput {
     /// A list of objects that contain the unprocessed account and a result string that explains why it was unprocessed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -19338,7 +19338,7 @@ public struct StartMonitoringMembersOutput: Swift.Equatable {
     }
 }
 
-struct StartMonitoringMembersOutputBody: Swift.Equatable {
+struct StartMonitoringMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -19401,7 +19401,7 @@ extension StopMonitoringMembersInput {
     }
 }
 
-public struct StopMonitoringMembersInput: Swift.Equatable {
+public struct StopMonitoringMembersInput {
     /// A list of account IDs for the member accounts to stop monitoring.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -19419,7 +19419,7 @@ public struct StopMonitoringMembersInput: Swift.Equatable {
     }
 }
 
-struct StopMonitoringMembersInputBody: Swift.Equatable {
+struct StopMonitoringMembersInputBody {
     let accountIds: [Swift.String]?
 }
 
@@ -19456,7 +19456,7 @@ extension StopMonitoringMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopMonitoringMembersOutput: Swift.Equatable {
+public struct StopMonitoringMembersOutput {
     /// A list of objects that contain an accountId for each account that could not be processed, and a result string that indicates why the account was not processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -19469,7 +19469,7 @@ public struct StopMonitoringMembersOutput: Swift.Equatable {
     }
 }
 
-struct StopMonitoringMembersOutputBody: Swift.Equatable {
+struct StopMonitoringMembersOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -19533,7 +19533,7 @@ extension GuardDutyClientTypes.Tag: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about a tag associated with the EC2 instance.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The EC2 instance tag key.
         public var key: Swift.String?
         /// The EC2 instance tag value.
@@ -19577,7 +19577,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for the GuardDuty resource to apply a tag to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -19595,7 +19595,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -19625,7 +19625,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -19694,7 +19694,7 @@ extension GuardDutyClientTypes.ThreatDetectedByName: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains details about identified threats organized by threat name.
-    public struct ThreatDetectedByName: Swift.Equatable {
+    public struct ThreatDetectedByName {
         /// Total number of infected files identified.
         public var itemCount: Swift.Int?
         /// Flag to determine if the finding contains every single infected file-path and/or every threat.
@@ -19856,7 +19856,7 @@ extension GuardDutyClientTypes.ThreatIntelligenceDetail: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// An instance of a threat intelligence detail that constitutes evidence for the finding.
-    public struct ThreatIntelligenceDetail: Swift.Equatable {
+    public struct ThreatIntelligenceDetail {
         /// SHA256 of the file that generated the finding.
         public var threatFileSha256: Swift.String?
         /// The name of the threat intelligence list that triggered the finding.
@@ -19899,7 +19899,7 @@ extension GuardDutyClientTypes.ThreatsDetectedItemCount: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains total number of infected files.
-    public struct ThreatsDetectedItemCount: Swift.Equatable {
+    public struct ThreatsDetectedItemCount {
         /// Total number of infected files.
         public var files: Swift.Int?
 
@@ -19940,7 +19940,7 @@ extension GuardDutyClientTypes.Total: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains the total usage with the corresponding currency unit for that value.
-    public struct Total: Swift.Equatable {
+    public struct Total {
         /// The total usage.
         public var amount: Swift.String?
         /// The currency unit that the amount is given in.
@@ -19985,7 +19985,7 @@ extension GuardDutyClientTypes.TriggerDetails: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Represents the reason the scan was triggered.
-    public struct TriggerDetails: Swift.Equatable {
+    public struct TriggerDetails {
         /// The description of the scan trigger.
         public var description: Swift.String?
         /// The ID of the GuardDuty finding that triggered the malware scan.
@@ -20029,7 +20029,7 @@ extension UnarchiveFindingsInput {
     }
 }
 
-public struct UnarchiveFindingsInput: Swift.Equatable {
+public struct UnarchiveFindingsInput {
     /// The ID of the detector associated with the findings to unarchive.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -20047,7 +20047,7 @@ public struct UnarchiveFindingsInput: Swift.Equatable {
     }
 }
 
-struct UnarchiveFindingsInputBody: Swift.Equatable {
+struct UnarchiveFindingsInputBody {
     let findingIds: [Swift.String]?
 }
 
@@ -20077,7 +20077,7 @@ extension UnarchiveFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnarchiveFindingsOutput: Swift.Equatable {
+public struct UnarchiveFindingsOutput {
 
     public init() { }
 }
@@ -20121,7 +20121,7 @@ extension GuardDutyClientTypes.UnprocessedAccount: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the accounts that weren't processed.
-    public struct UnprocessedAccount: Swift.Equatable {
+    public struct UnprocessedAccount {
         /// The Amazon Web Services account ID.
         /// This member is required.
         public var accountId: Swift.String?
@@ -20162,7 +20162,7 @@ extension GuardDutyClientTypes.UnprocessedDataSourcesResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Specifies the names of the data sources that couldn't be enabled.
-    public struct UnprocessedDataSourcesResult: Swift.Equatable {
+    public struct UnprocessedDataSourcesResult {
         /// An object that contains information on the status of all Malware Protection data sources.
         public var malwareProtection: GuardDutyClientTypes.MalwareProtectionConfigurationResult?
 
@@ -20202,7 +20202,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -20220,7 +20220,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -20234,7 +20234,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -20290,7 +20290,7 @@ extension UpdateDetectorInput {
     }
 }
 
-public struct UpdateDetectorInput: Swift.Equatable {
+public struct UpdateDetectorInput {
     /// Describes which data sources will be updated. There might be regional differences because some data sources might not be available in all the Amazon Web Services Regions where GuardDuty is presently supported. For more information, see [Regions and endpoints](https://docs.aws.amazon.com/guardduty/latest/ug/guardduty_regions.html).
     @available(*, deprecated, message: "This parameter is deprecated, use Features instead")
     public var dataSources: GuardDutyClientTypes.DataSourceConfigurations?
@@ -20320,7 +20320,7 @@ public struct UpdateDetectorInput: Swift.Equatable {
     }
 }
 
-struct UpdateDetectorInputBody: Swift.Equatable {
+struct UpdateDetectorInputBody {
     let enable: Swift.Bool?
     let findingPublishingFrequency: GuardDutyClientTypes.FindingPublishingFrequency?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
@@ -20362,7 +20362,7 @@ extension UpdateDetectorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDetectorOutput: Swift.Equatable {
+public struct UpdateDetectorOutput {
 
     public init() { }
 }
@@ -20417,7 +20417,7 @@ extension UpdateFilterInput {
     }
 }
 
-public struct UpdateFilterInput: Swift.Equatable {
+public struct UpdateFilterInput {
     /// Specifies the action that is to be applied to the findings that match the filter.
     public var action: GuardDutyClientTypes.FilterAction?
     /// The description of the filter. Valid characters include alphanumeric characters, and special characters such as hyphen, period, colon, underscore, parentheses ({ }, [ ], and ( )), forward slash, horizontal tab, vertical tab, newline, form feed, return, and whitespace.
@@ -20451,7 +20451,7 @@ public struct UpdateFilterInput: Swift.Equatable {
     }
 }
 
-struct UpdateFilterInputBody: Swift.Equatable {
+struct UpdateFilterInputBody {
     let description: Swift.String?
     let action: GuardDutyClientTypes.FilterAction?
     let rank: Swift.Int?
@@ -20491,7 +20491,7 @@ extension UpdateFilterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFilterOutput: Swift.Equatable {
+public struct UpdateFilterOutput {
     /// The name of the filter.
     /// This member is required.
     public var name: Swift.String?
@@ -20504,7 +20504,7 @@ public struct UpdateFilterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFilterOutputBody: Swift.Equatable {
+struct UpdateFilterOutputBody {
     let name: Swift.String?
 }
 
@@ -20566,7 +20566,7 @@ extension UpdateFindingsFeedbackInput {
     }
 }
 
-public struct UpdateFindingsFeedbackInput: Swift.Equatable {
+public struct UpdateFindingsFeedbackInput {
     /// Additional feedback about the GuardDuty findings.
     public var comments: Swift.String?
     /// The ID of the detector associated with the findings to update feedback for.
@@ -20593,7 +20593,7 @@ public struct UpdateFindingsFeedbackInput: Swift.Equatable {
     }
 }
 
-struct UpdateFindingsFeedbackInputBody: Swift.Equatable {
+struct UpdateFindingsFeedbackInputBody {
     let findingIds: [Swift.String]?
     let feedback: GuardDutyClientTypes.Feedback?
     let comments: Swift.String?
@@ -20631,7 +20631,7 @@ extension UpdateFindingsFeedbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFindingsFeedbackOutput: Swift.Equatable {
+public struct UpdateFindingsFeedbackOutput {
 
     public init() { }
 }
@@ -20682,7 +20682,7 @@ extension UpdateIPSetInput {
     }
 }
 
-public struct UpdateIPSetInput: Swift.Equatable {
+public struct UpdateIPSetInput {
     /// The updated Boolean value that specifies whether the IPSet is active or not.
     public var activate: Swift.Bool?
     /// The detectorID that specifies the GuardDuty service whose IPSet you want to update.
@@ -20712,7 +20712,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateIPSetInputBody: Swift.Equatable {
+struct UpdateIPSetInputBody {
     let name: Swift.String?
     let location: Swift.String?
     let activate: Swift.Bool?
@@ -20741,7 +20741,7 @@ extension UpdateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIPSetOutput: Swift.Equatable {
+public struct UpdateIPSetOutput {
 
     public init() { }
 }
@@ -20785,7 +20785,7 @@ extension UpdateMalwareScanSettingsInput {
     }
 }
 
-public struct UpdateMalwareScanSettingsInput: Swift.Equatable {
+public struct UpdateMalwareScanSettingsInput {
     /// The unique ID of the detector that specifies the GuardDuty service where you want to update scan settings.
     /// This member is required.
     public var detectorId: Swift.String?
@@ -20806,7 +20806,7 @@ public struct UpdateMalwareScanSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateMalwareScanSettingsInputBody: Swift.Equatable {
+struct UpdateMalwareScanSettingsInputBody {
     let scanResourceCriteria: GuardDutyClientTypes.ScanResourceCriteria?
     let ebsSnapshotPreservation: GuardDutyClientTypes.EbsSnapshotPreservation?
 }
@@ -20831,7 +20831,7 @@ extension UpdateMalwareScanSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMalwareScanSettingsOutput: Swift.Equatable {
+public struct UpdateMalwareScanSettingsOutput {
 
     public init() { }
 }
@@ -20885,7 +20885,7 @@ extension UpdateMemberDetectorsInput {
     }
 }
 
-public struct UpdateMemberDetectorsInput: Swift.Equatable {
+public struct UpdateMemberDetectorsInput {
     /// A list of member account IDs to be updated.
     /// This member is required.
     public var accountIds: [Swift.String]?
@@ -20912,7 +20912,7 @@ public struct UpdateMemberDetectorsInput: Swift.Equatable {
     }
 }
 
-struct UpdateMemberDetectorsInputBody: Swift.Equatable {
+struct UpdateMemberDetectorsInputBody {
     let accountIds: [Swift.String]?
     let dataSources: GuardDutyClientTypes.DataSourceConfigurations?
     let features: [GuardDutyClientTypes.MemberFeaturesConfiguration]?
@@ -20966,7 +20966,7 @@ extension UpdateMemberDetectorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMemberDetectorsOutput: Swift.Equatable {
+public struct UpdateMemberDetectorsOutput {
     /// A list of member account IDs that were unable to be processed along with an explanation for why they were not processed.
     /// This member is required.
     public var unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
@@ -20979,7 +20979,7 @@ public struct UpdateMemberDetectorsOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMemberDetectorsOutputBody: Swift.Equatable {
+struct UpdateMemberDetectorsOutputBody {
     let unprocessedAccounts: [GuardDutyClientTypes.UnprocessedAccount]?
 }
 
@@ -21054,7 +21054,7 @@ extension UpdateOrganizationConfigurationInput {
     }
 }
 
-public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationInput {
     /// Represents whether or not to automatically enable member accounts in the organization. Even though this is still supported, we recommend using AutoEnableOrganizationMembers to achieve the similar results. You must provide a value for either autoEnableOrganizationMembers or autoEnable.
     @available(*, deprecated, message: "This field is deprecated, use AutoEnableOrganizationMembers instead")
     public var autoEnable: Swift.Bool?
@@ -21091,7 +21091,7 @@ public struct UpdateOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationConfigurationInputBody: Swift.Equatable {
+struct UpdateOrganizationConfigurationInputBody {
     let autoEnable: Swift.Bool?
     let dataSources: GuardDutyClientTypes.OrganizationDataSourceConfigurations?
     let features: [GuardDutyClientTypes.OrganizationFeatureConfiguration]?
@@ -21133,7 +21133,7 @@ extension UpdateOrganizationConfigurationOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateOrganizationConfigurationOutput: Swift.Equatable {
+public struct UpdateOrganizationConfigurationOutput {
 
     public init() { }
 }
@@ -21176,7 +21176,7 @@ extension UpdatePublishingDestinationInput {
     }
 }
 
-public struct UpdatePublishingDestinationInput: Swift.Equatable {
+public struct UpdatePublishingDestinationInput {
     /// The ID of the publishing destination to update.
     /// This member is required.
     public var destinationId: Swift.String?
@@ -21198,7 +21198,7 @@ public struct UpdatePublishingDestinationInput: Swift.Equatable {
     }
 }
 
-struct UpdatePublishingDestinationInputBody: Swift.Equatable {
+struct UpdatePublishingDestinationInputBody {
     let destinationProperties: GuardDutyClientTypes.DestinationProperties?
 }
 
@@ -21219,7 +21219,7 @@ extension UpdatePublishingDestinationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePublishingDestinationOutput: Swift.Equatable {
+public struct UpdatePublishingDestinationOutput {
 
     public init() { }
 }
@@ -21270,7 +21270,7 @@ extension UpdateThreatIntelSetInput {
     }
 }
 
-public struct UpdateThreatIntelSetInput: Swift.Equatable {
+public struct UpdateThreatIntelSetInput {
     /// The updated Boolean value that specifies whether the ThreateIntelSet is active or not.
     public var activate: Swift.Bool?
     /// The detectorID that specifies the GuardDuty service whose ThreatIntelSet you want to update.
@@ -21300,7 +21300,7 @@ public struct UpdateThreatIntelSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateThreatIntelSetInputBody: Swift.Equatable {
+struct UpdateThreatIntelSetInputBody {
     let name: Swift.String?
     let location: Swift.String?
     let activate: Swift.Bool?
@@ -21329,7 +21329,7 @@ extension UpdateThreatIntelSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThreatIntelSetOutput: Swift.Equatable {
+public struct UpdateThreatIntelSetOutput {
 
     public init() { }
 }
@@ -21373,7 +21373,7 @@ extension GuardDutyClientTypes.UsageAccountResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the total of usage based on account IDs.
-    public struct UsageAccountResult: Swift.Equatable {
+    public struct UsageAccountResult {
         /// The Account ID that generated usage.
         public var accountId: Swift.String?
         /// Represents the total of usage for the Account ID.
@@ -21478,7 +21478,7 @@ extension GuardDutyClientTypes.UsageCriteria: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the criteria used to query usage statistics.
-    public struct UsageCriteria: Swift.Equatable {
+    public struct UsageCriteria {
         /// The account IDs to aggregate usage statistics from.
         public var accountIds: [Swift.String]?
         /// The data sources to aggregate usage statistics from.
@@ -21532,7 +21532,7 @@ extension GuardDutyClientTypes.UsageDataSourceResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the result of usage based on data source type.
-    public struct UsageDataSourceResult: Swift.Equatable {
+    public struct UsageDataSourceResult {
         /// The data source type that generated usage.
         public var dataSource: GuardDutyClientTypes.DataSource?
         /// Represents the total of usage for the specified data source.
@@ -21642,7 +21642,7 @@ extension GuardDutyClientTypes.UsageFeatureResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information about the result of the total usage based on the feature.
-    public struct UsageFeatureResult: Swift.Equatable {
+    public struct UsageFeatureResult {
         /// The feature that generated the usage cost.
         public var feature: GuardDutyClientTypes.UsageFeature?
         /// Contains the total usage with the corresponding currency unit for that value.
@@ -21687,7 +21687,7 @@ extension GuardDutyClientTypes.UsageResourceResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the sum of usage based on an Amazon Web Services resource.
-    public struct UsageResourceResult: Swift.Equatable {
+    public struct UsageResourceResult {
         /// The Amazon Web Services resource that generated usage.
         public var resource: Swift.String?
         /// Represents the sum total of usage for the specified resource type.
@@ -21872,7 +21872,7 @@ extension GuardDutyClientTypes.UsageStatistics: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains the result of GuardDuty usage. If a UsageStatisticType is provided the result for other types will be null.
-    public struct UsageStatistics: Swift.Equatable {
+    public struct UsageStatistics {
         /// The usage statistic sum organized by account ID.
         public var sumByAccount: [GuardDutyClientTypes.UsageAccountResult]?
         /// The usage statistic sum organized by on data source.
@@ -21933,7 +21933,7 @@ extension GuardDutyClientTypes.UsageTopAccountResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains information on the total of usage based on the topmost 50 account IDs.
-    public struct UsageTopAccountResult: Swift.Equatable {
+    public struct UsageTopAccountResult {
         /// The unique account ID.
         public var accountId: Swift.String?
         /// Contains the total usage with the corresponding currency unit for that value.
@@ -21990,7 +21990,7 @@ extension GuardDutyClientTypes.UsageTopAccountsResult: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Information about the usage statistics, calculated by top accounts by feature.
-    public struct UsageTopAccountsResult: Swift.Equatable {
+    public struct UsageTopAccountsResult {
         /// The accounts that contributed to the total usage cost.
         public var accounts: [GuardDutyClientTypes.UsageTopAccountResult]?
         /// Features by which you can generate the usage statistics. RDS_LOGIN_EVENTS is currently not supported with topAccountsByFeature.
@@ -22035,7 +22035,7 @@ extension GuardDutyClientTypes.Volume: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Volume used by the Kubernetes workload.
-    public struct Volume: Swift.Equatable {
+    public struct Volume {
         /// Represents a pre-existing file or directory on the host machine that the volume maps to.
         public var hostPath: GuardDutyClientTypes.HostPath?
         /// Volume name.
@@ -22110,7 +22110,7 @@ extension GuardDutyClientTypes.VolumeDetail: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Contains EBS volume details.
-    public struct VolumeDetail: Swift.Equatable {
+    public struct VolumeDetail {
         /// The device name for the EBS volume.
         public var deviceName: Swift.String?
         /// EBS volume encryption type.
@@ -22175,7 +22175,7 @@ extension GuardDutyClientTypes.VolumeMount: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Container volume mount.
-    public struct VolumeMount: Swift.Equatable {
+    public struct VolumeMount {
         /// Volume mount path.
         public var mountPath: Swift.String?
         /// Volume mount name.
@@ -22250,7 +22250,7 @@ extension GuardDutyClientTypes.VpcConfig: Swift.Codable {
 
 extension GuardDutyClientTypes {
     /// Amazon Virtual Private Cloud configuration details associated with your Lambda function.
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// The identifier of the security group attached to the Lambda function.
         public var securityGroups: [GuardDutyClientTypes.SecurityGroup]?
         /// The identifiers of the subnets that are associated with your Lambda function.

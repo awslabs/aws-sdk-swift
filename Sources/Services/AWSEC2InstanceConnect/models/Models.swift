@@ -41,7 +41,7 @@ public struct AuthException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSer
     }
 }
 
-struct AuthExceptionBody: Swift.Equatable {
+struct AuthExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ public struct EC2InstanceNotFoundException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct EC2InstanceNotFoundExceptionBody: Swift.Equatable {
+struct EC2InstanceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -153,7 +153,7 @@ public struct EC2InstanceStateInvalidException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct EC2InstanceStateInvalidExceptionBody: Swift.Equatable {
+struct EC2InstanceStateInvalidExceptionBody {
     let message: Swift.String?
 }
 
@@ -208,7 +208,7 @@ public struct EC2InstanceTypeInvalidException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct EC2InstanceTypeInvalidExceptionBody: Swift.Equatable {
+struct EC2InstanceTypeInvalidExceptionBody {
     let message: Swift.String?
 }
 
@@ -263,7 +263,7 @@ public struct EC2InstanceUnavailableException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct EC2InstanceUnavailableExceptionBody: Swift.Equatable {
+struct EC2InstanceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -318,7 +318,7 @@ public struct InvalidArgsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct InvalidArgsExceptionBody: Swift.Equatable {
+struct InvalidArgsExceptionBody {
     let message: Swift.String?
 }
 
@@ -366,7 +366,7 @@ extension SendSSHPublicKeyInput {
     }
 }
 
-public struct SendSSHPublicKeyInput: Swift.Equatable {
+public struct SendSSHPublicKeyInput {
     /// The Availability Zone in which the EC2 instance was launched.
     public var availabilityZone: Swift.String?
     /// The ID of the EC2 instance.
@@ -393,7 +393,7 @@ public struct SendSSHPublicKeyInput: Swift.Equatable {
     }
 }
 
-struct SendSSHPublicKeyInputBody: Swift.Equatable {
+struct SendSSHPublicKeyInputBody {
     let instanceId: Swift.String?
     let instanceOSUser: Swift.String?
     let sshPublicKey: Swift.String?
@@ -435,7 +435,7 @@ extension SendSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SendSSHPublicKeyOutput: Swift.Equatable {
+public struct SendSSHPublicKeyOutput {
     /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
     public var requestId: Swift.String?
     /// Is true if the request succeeds and an error otherwise.
@@ -451,7 +451,7 @@ public struct SendSSHPublicKeyOutput: Swift.Equatable {
     }
 }
 
-struct SendSSHPublicKeyOutputBody: Swift.Equatable {
+struct SendSSHPublicKeyOutputBody {
     let requestId: Swift.String?
     let success: Swift.Bool
 }
@@ -516,7 +516,7 @@ extension SendSerialConsoleSSHPublicKeyInput {
     }
 }
 
-public struct SendSerialConsoleSSHPublicKeyInput: Swift.Equatable {
+public struct SendSerialConsoleSSHPublicKeyInput {
     /// The ID of the EC2 instance.
     /// This member is required.
     public var instanceId: Swift.String?
@@ -538,7 +538,7 @@ public struct SendSerialConsoleSSHPublicKeyInput: Swift.Equatable {
     }
 }
 
-struct SendSerialConsoleSSHPublicKeyInputBody: Swift.Equatable {
+struct SendSerialConsoleSSHPublicKeyInputBody {
     let instanceId: Swift.String?
     let serialPort: Swift.Int?
     let sshPublicKey: Swift.String?
@@ -576,7 +576,7 @@ extension SendSerialConsoleSSHPublicKeyOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct SendSerialConsoleSSHPublicKeyOutput: Swift.Equatable {
+public struct SendSerialConsoleSSHPublicKeyOutput {
     /// The ID of the request. Please provide this ID when contacting AWS Support for assistance.
     public var requestId: Swift.String?
     /// Is true if the request succeeds and an error otherwise.
@@ -592,7 +592,7 @@ public struct SendSerialConsoleSSHPublicKeyOutput: Swift.Equatable {
     }
 }
 
-struct SendSerialConsoleSSHPublicKeyOutputBody: Swift.Equatable {
+struct SendSerialConsoleSSHPublicKeyOutputBody {
     let requestId: Swift.String?
     let success: Swift.Bool
 }
@@ -673,7 +673,7 @@ public struct SerialConsoleAccessDisabledException: ClientRuntime.ModeledError, 
     }
 }
 
-struct SerialConsoleAccessDisabledExceptionBody: Swift.Equatable {
+struct SerialConsoleAccessDisabledExceptionBody {
     let message: Swift.String?
 }
 
@@ -728,7 +728,7 @@ public struct SerialConsoleSessionLimitExceededException: ClientRuntime.ModeledE
     }
 }
 
-struct SerialConsoleSessionLimitExceededExceptionBody: Swift.Equatable {
+struct SerialConsoleSessionLimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -783,7 +783,7 @@ public struct SerialConsoleSessionUnavailableException: ClientRuntime.ModeledErr
     }
 }
 
-struct SerialConsoleSessionUnavailableExceptionBody: Swift.Equatable {
+struct SerialConsoleSessionUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -838,7 +838,7 @@ public struct SerialConsoleSessionUnsupportedException: ClientRuntime.ModeledErr
     }
 }
 
-struct SerialConsoleSessionUnsupportedExceptionBody: Swift.Equatable {
+struct SerialConsoleSessionUnsupportedExceptionBody {
     let message: Swift.String?
 }
 
@@ -893,7 +893,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let message: Swift.String?
 }
 
@@ -948,7 +948,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 

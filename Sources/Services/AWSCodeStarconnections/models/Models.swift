@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -159,7 +159,7 @@ public struct ConcurrentModificationException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConcurrentModificationExceptionBody: Swift.Equatable {
+struct ConcurrentModificationExceptionBody {
     let message: Swift.String?
 }
 
@@ -214,7 +214,7 @@ public struct ConditionalCheckFailedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct ConditionalCheckFailedExceptionBody: Swift.Equatable {
+struct ConditionalCheckFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -269,7 +269,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -336,7 +336,7 @@ extension CodeStarconnectionsClientTypes.Connection: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// A resource that is used to connect third-party source providers with services like CodePipeline. Note: A connection created through CloudFormation, the CLI, or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by updating the connection in the console.
-    public struct Connection: Swift.Equatable {
+    public struct Connection {
         /// The Amazon Resource Name (ARN) of the connection. The ARN is used as the connection reference when the connection is shared between Amazon Web Services. The ARN is never reused if the connection is deleted.
         public var connectionArn: Swift.String?
         /// The name of the connection. Connection names must be unique in an Amazon Web Services account.
@@ -440,7 +440,7 @@ extension CreateConnectionInput {
     }
 }
 
-public struct CreateConnectionInput: Swift.Equatable {
+public struct CreateConnectionInput {
     /// The name of the connection to be created.
     /// This member is required.
     public var connectionName: Swift.String?
@@ -465,7 +465,7 @@ public struct CreateConnectionInput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionInputBody: Swift.Equatable {
+struct CreateConnectionInputBody {
     let providerType: CodeStarconnectionsClientTypes.ProviderType?
     let connectionName: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
@@ -516,7 +516,7 @@ extension CreateConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateConnectionOutput: Swift.Equatable {
+public struct CreateConnectionOutput {
     /// The Amazon Resource Name (ARN) of the connection to be created. The ARN is used as the connection reference when the connection is shared between Amazon Web Services services. The ARN is never reused if the connection is deleted.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -533,7 +533,7 @@ public struct CreateConnectionOutput: Swift.Equatable {
     }
 }
 
-struct CreateConnectionOutputBody: Swift.Equatable {
+struct CreateConnectionOutputBody {
     let connectionArn: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
@@ -614,7 +614,7 @@ extension CreateHostInput {
     }
 }
 
-public struct CreateHostInput: Swift.Equatable {
+public struct CreateHostInput {
     /// The name of the host to be created.
     /// This member is required.
     public var name: Swift.String?
@@ -645,7 +645,7 @@ public struct CreateHostInput: Swift.Equatable {
     }
 }
 
-struct CreateHostInputBody: Swift.Equatable {
+struct CreateHostInputBody {
     let name: Swift.String?
     let providerType: CodeStarconnectionsClientTypes.ProviderType?
     let providerEndpoint: Swift.String?
@@ -700,7 +700,7 @@ extension CreateHostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateHostOutput: Swift.Equatable {
+public struct CreateHostOutput {
     /// The Amazon Resource Name (ARN) of the host to be created.
     public var hostArn: Swift.String?
     /// Tags for the created host.
@@ -716,7 +716,7 @@ public struct CreateHostOutput: Swift.Equatable {
     }
 }
 
-struct CreateHostOutputBody: Swift.Equatable {
+struct CreateHostOutputBody {
     let hostArn: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
@@ -795,7 +795,7 @@ extension CreateRepositoryLinkInput {
     }
 }
 
-public struct CreateRepositoryLinkInput: Swift.Equatable {
+public struct CreateRepositoryLinkInput {
     /// The Amazon Resource Name (ARN) of the connection to be associated with the repository link.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -826,7 +826,7 @@ public struct CreateRepositoryLinkInput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryLinkInputBody: Swift.Equatable {
+struct CreateRepositoryLinkInputBody {
     let connectionArn: Swift.String?
     let ownerId: Swift.String?
     let repositoryName: Swift.String?
@@ -879,7 +879,7 @@ extension CreateRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRepositoryLinkOutput: Swift.Equatable {
+public struct CreateRepositoryLinkOutput {
     /// The returned information about the created repository link.
     /// This member is required.
     public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
@@ -892,7 +892,7 @@ public struct CreateRepositoryLinkOutput: Swift.Equatable {
     }
 }
 
-struct CreateRepositoryLinkOutputBody: Swift.Equatable {
+struct CreateRepositoryLinkOutputBody {
     let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
 }
 
@@ -973,7 +973,7 @@ extension CreateSyncConfigurationInput {
     }
 }
 
-public struct CreateSyncConfigurationInput: Swift.Equatable {
+public struct CreateSyncConfigurationInput {
     /// The branch in the repository from which changes will be synced.
     /// This member is required.
     public var branch: Swift.String?
@@ -1019,7 +1019,7 @@ public struct CreateSyncConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateSyncConfigurationInputBody: Swift.Equatable {
+struct CreateSyncConfigurationInputBody {
     let branch: Swift.String?
     let configFile: Swift.String?
     let repositoryLinkId: Swift.String?
@@ -1075,7 +1075,7 @@ extension CreateSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSyncConfigurationOutput: Swift.Equatable {
+public struct CreateSyncConfigurationOutput {
     /// The created sync configuration for the connection. A sync configuration allows Amazon Web Services to sync content from a Git repository to update a specified Amazon Web Services resource.
     /// This member is required.
     public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
@@ -1088,7 +1088,7 @@ public struct CreateSyncConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSyncConfigurationOutputBody: Swift.Equatable {
+struct CreateSyncConfigurationOutputBody {
     let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
 }
 
@@ -1141,7 +1141,7 @@ extension DeleteConnectionInput {
     }
 }
 
-public struct DeleteConnectionInput: Swift.Equatable {
+public struct DeleteConnectionInput {
     /// The Amazon Resource Name (ARN) of the connection to be deleted. The ARN is never reused if the connection is deleted.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -1154,7 +1154,7 @@ public struct DeleteConnectionInput: Swift.Equatable {
     }
 }
 
-struct DeleteConnectionInputBody: Swift.Equatable {
+struct DeleteConnectionInputBody {
     let connectionArn: Swift.String?
 }
 
@@ -1175,7 +1175,7 @@ extension DeleteConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteConnectionOutput: Swift.Equatable {
+public struct DeleteConnectionOutput {
 
     public init() { }
 }
@@ -1211,7 +1211,7 @@ extension DeleteHostInput {
     }
 }
 
-public struct DeleteHostInput: Swift.Equatable {
+public struct DeleteHostInput {
     /// The Amazon Resource Name (ARN) of the host to be deleted.
     /// This member is required.
     public var hostArn: Swift.String?
@@ -1224,7 +1224,7 @@ public struct DeleteHostInput: Swift.Equatable {
     }
 }
 
-struct DeleteHostInputBody: Swift.Equatable {
+struct DeleteHostInputBody {
     let hostArn: Swift.String?
 }
 
@@ -1245,7 +1245,7 @@ extension DeleteHostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteHostOutput: Swift.Equatable {
+public struct DeleteHostOutput {
 
     public init() { }
 }
@@ -1282,7 +1282,7 @@ extension DeleteRepositoryLinkInput {
     }
 }
 
-public struct DeleteRepositoryLinkInput: Swift.Equatable {
+public struct DeleteRepositoryLinkInput {
     /// The ID of the repository link to be deleted.
     /// This member is required.
     public var repositoryLinkId: Swift.String?
@@ -1295,7 +1295,7 @@ public struct DeleteRepositoryLinkInput: Swift.Equatable {
     }
 }
 
-struct DeleteRepositoryLinkInputBody: Swift.Equatable {
+struct DeleteRepositoryLinkInputBody {
     let repositoryLinkId: Swift.String?
 }
 
@@ -1316,7 +1316,7 @@ extension DeleteRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRepositoryLinkOutput: Swift.Equatable {
+public struct DeleteRepositoryLinkOutput {
 
     public init() { }
 }
@@ -1363,7 +1363,7 @@ extension DeleteSyncConfigurationInput {
     }
 }
 
-public struct DeleteSyncConfigurationInput: Swift.Equatable {
+public struct DeleteSyncConfigurationInput {
     /// The name of the Amazon Web Services resource associated with the sync configuration to be deleted.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -1381,7 +1381,7 @@ public struct DeleteSyncConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSyncConfigurationInputBody: Swift.Equatable {
+struct DeleteSyncConfigurationInputBody {
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
     let resourceName: Swift.String?
 }
@@ -1406,7 +1406,7 @@ extension DeleteSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSyncConfigurationOutput: Swift.Equatable {
+public struct DeleteSyncConfigurationOutput {
 
     public init() { }
 }
@@ -1447,7 +1447,7 @@ extension GetConnectionInput {
     }
 }
 
-public struct GetConnectionInput: Swift.Equatable {
+public struct GetConnectionInput {
     /// The Amazon Resource Name (ARN) of a connection.
     /// This member is required.
     public var connectionArn: Swift.String?
@@ -1460,7 +1460,7 @@ public struct GetConnectionInput: Swift.Equatable {
     }
 }
 
-struct GetConnectionInputBody: Swift.Equatable {
+struct GetConnectionInputBody {
     let connectionArn: Swift.String?
 }
 
@@ -1488,7 +1488,7 @@ extension GetConnectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConnectionOutput: Swift.Equatable {
+public struct GetConnectionOutput {
     /// The connection details, such as status, owner, and provider type.
     public var connection: CodeStarconnectionsClientTypes.Connection?
 
@@ -1500,7 +1500,7 @@ public struct GetConnectionOutput: Swift.Equatable {
     }
 }
 
-struct GetConnectionOutputBody: Swift.Equatable {
+struct GetConnectionOutputBody {
     let connection: CodeStarconnectionsClientTypes.Connection?
 }
 
@@ -1548,7 +1548,7 @@ extension GetHostInput {
     }
 }
 
-public struct GetHostInput: Swift.Equatable {
+public struct GetHostInput {
     /// The Amazon Resource Name (ARN) of the requested host.
     /// This member is required.
     public var hostArn: Swift.String?
@@ -1561,7 +1561,7 @@ public struct GetHostInput: Swift.Equatable {
     }
 }
 
-struct GetHostInputBody: Swift.Equatable {
+struct GetHostInputBody {
     let hostArn: Swift.String?
 }
 
@@ -1597,7 +1597,7 @@ extension GetHostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHostOutput: Swift.Equatable {
+public struct GetHostOutput {
     /// The name of the requested host.
     public var name: Swift.String?
     /// The endpoint of the infrastructure represented by the requested host.
@@ -1625,7 +1625,7 @@ public struct GetHostOutput: Swift.Equatable {
     }
 }
 
-struct GetHostOutputBody: Swift.Equatable {
+struct GetHostOutputBody {
     let name: Swift.String?
     let status: Swift.String?
     let providerType: CodeStarconnectionsClientTypes.ProviderType?
@@ -1689,7 +1689,7 @@ extension GetRepositoryLinkInput {
     }
 }
 
-public struct GetRepositoryLinkInput: Swift.Equatable {
+public struct GetRepositoryLinkInput {
     /// The ID of the repository link to get.
     /// This member is required.
     public var repositoryLinkId: Swift.String?
@@ -1702,7 +1702,7 @@ public struct GetRepositoryLinkInput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryLinkInputBody: Swift.Equatable {
+struct GetRepositoryLinkInputBody {
     let repositoryLinkId: Swift.String?
 }
 
@@ -1730,7 +1730,7 @@ extension GetRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositoryLinkOutput: Swift.Equatable {
+public struct GetRepositoryLinkOutput {
     /// The information returned for a specified repository link.
     /// This member is required.
     public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
@@ -1743,7 +1743,7 @@ public struct GetRepositoryLinkOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositoryLinkOutputBody: Swift.Equatable {
+struct GetRepositoryLinkOutputBody {
     let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
 }
 
@@ -1803,7 +1803,7 @@ extension GetRepositorySyncStatusInput {
     }
 }
 
-public struct GetRepositorySyncStatusInput: Swift.Equatable {
+public struct GetRepositorySyncStatusInput {
     /// The branch of the repository link for the requested repository sync status.
     /// This member is required.
     public var branch: Swift.String?
@@ -1826,7 +1826,7 @@ public struct GetRepositorySyncStatusInput: Swift.Equatable {
     }
 }
 
-struct GetRepositorySyncStatusInputBody: Swift.Equatable {
+struct GetRepositorySyncStatusInputBody {
     let branch: Swift.String?
     let repositoryLinkId: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
@@ -1862,7 +1862,7 @@ extension GetRepositorySyncStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRepositorySyncStatusOutput: Swift.Equatable {
+public struct GetRepositorySyncStatusOutput {
     /// The status of the latest sync returned for a specified repository and branch.
     /// This member is required.
     public var latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt?
@@ -1875,7 +1875,7 @@ public struct GetRepositorySyncStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetRepositorySyncStatusOutputBody: Swift.Equatable {
+struct GetRepositorySyncStatusOutputBody {
     let latestSync: CodeStarconnectionsClientTypes.RepositorySyncAttempt?
 }
 
@@ -1930,7 +1930,7 @@ extension GetResourceSyncStatusInput {
     }
 }
 
-public struct GetResourceSyncStatusInput: Swift.Equatable {
+public struct GetResourceSyncStatusInput {
     /// The name of the Amazon Web Services resource for the sync status with the Git repository.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -1948,7 +1948,7 @@ public struct GetResourceSyncStatusInput: Swift.Equatable {
     }
 }
 
-struct GetResourceSyncStatusInputBody: Swift.Equatable {
+struct GetResourceSyncStatusInputBody {
     let resourceName: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
 }
@@ -1984,7 +1984,7 @@ extension GetResourceSyncStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetResourceSyncStatusOutput: Swift.Equatable {
+public struct GetResourceSyncStatusOutput {
     /// The desired state of the Amazon Web Services resource for the sync status with the Git repository.
     public var desiredState: CodeStarconnectionsClientTypes.Revision?
     /// The latest successful sync for the sync status with the Git repository.
@@ -2005,7 +2005,7 @@ public struct GetResourceSyncStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetResourceSyncStatusOutputBody: Swift.Equatable {
+struct GetResourceSyncStatusOutputBody {
     let desiredState: CodeStarconnectionsClientTypes.Revision?
     let latestSuccessfulSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
     let latestSync: CodeStarconnectionsClientTypes.ResourceSyncAttempt?
@@ -2068,7 +2068,7 @@ extension GetSyncBlockerSummaryInput {
     }
 }
 
-public struct GetSyncBlockerSummaryInput: Swift.Equatable {
+public struct GetSyncBlockerSummaryInput {
     /// The name of the Amazon Web Services resource currently blocked from automatically being synced from a Git repository.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -2086,7 +2086,7 @@ public struct GetSyncBlockerSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetSyncBlockerSummaryInputBody: Swift.Equatable {
+struct GetSyncBlockerSummaryInputBody {
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
     let resourceName: Swift.String?
 }
@@ -2118,7 +2118,7 @@ extension GetSyncBlockerSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSyncBlockerSummaryOutput: Swift.Equatable {
+public struct GetSyncBlockerSummaryOutput {
     /// The list of sync blockers for a specified resource.
     /// This member is required.
     public var syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary?
@@ -2131,7 +2131,7 @@ public struct GetSyncBlockerSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetSyncBlockerSummaryOutputBody: Swift.Equatable {
+struct GetSyncBlockerSummaryOutputBody {
     let syncBlockerSummary: CodeStarconnectionsClientTypes.SyncBlockerSummary?
 }
 
@@ -2186,7 +2186,7 @@ extension GetSyncConfigurationInput {
     }
 }
 
-public struct GetSyncConfigurationInput: Swift.Equatable {
+public struct GetSyncConfigurationInput {
     /// The name of the Amazon Web Services resource for the sync configuration for which you want to retrieve information.
     /// This member is required.
     public var resourceName: Swift.String?
@@ -2204,7 +2204,7 @@ public struct GetSyncConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetSyncConfigurationInputBody: Swift.Equatable {
+struct GetSyncConfigurationInputBody {
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
     let resourceName: Swift.String?
 }
@@ -2236,7 +2236,7 @@ extension GetSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSyncConfigurationOutput: Swift.Equatable {
+public struct GetSyncConfigurationOutput {
     /// The details about the sync configuration for which you want to retrieve information.
     /// This member is required.
     public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
@@ -2249,7 +2249,7 @@ public struct GetSyncConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetSyncConfigurationOutputBody: Swift.Equatable {
+struct GetSyncConfigurationOutputBody {
     let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
 }
 
@@ -2337,7 +2337,7 @@ extension CodeStarconnectionsClientTypes.Host: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// A resource that represents the infrastructure where a third-party provider is installed. The host is used when you create connections to an installed third-party provider type, such as GitHub Enterprise Server. You create one host for all connections to that provider. A host created through the CLI or the SDK is in `PENDING` status by default. You can make its status `AVAILABLE` by setting up the host in the console.
-    public struct Host: Swift.Equatable {
+    public struct Host {
         /// The Amazon Resource Name (ARN) of the host.
         public var hostArn: Swift.String?
         /// The name of the host.
@@ -2414,7 +2414,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2469,7 +2469,7 @@ public struct InvalidInputException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidInputExceptionBody: Swift.Equatable {
+struct InvalidInputExceptionBody {
     let message: Swift.String?
 }
 
@@ -2524,7 +2524,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2572,7 +2572,7 @@ extension ListConnectionsInput {
     }
 }
 
-public struct ListConnectionsInput: Swift.Equatable {
+public struct ListConnectionsInput {
     /// Filters the list of connections to those associated with a specified host.
     public var hostArnFilter: Swift.String?
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
@@ -2596,7 +2596,7 @@ public struct ListConnectionsInput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsInputBody: Swift.Equatable {
+struct ListConnectionsInputBody {
     let providerTypeFilter: CodeStarconnectionsClientTypes.ProviderType?
     let hostArnFilter: Swift.String?
     let maxResults: Swift.Int?
@@ -2638,7 +2638,7 @@ extension ListConnectionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListConnectionsOutput: Swift.Equatable {
+public struct ListConnectionsOutput {
     /// A list of connections and the details for each connection, such as status, owner, and provider type.
     public var connections: [CodeStarconnectionsClientTypes.Connection]?
     /// A token that can be used in the next ListConnections call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -2654,7 +2654,7 @@ public struct ListConnectionsOutput: Swift.Equatable {
     }
 }
 
-struct ListConnectionsOutputBody: Swift.Equatable {
+struct ListConnectionsOutputBody {
     let connections: [CodeStarconnectionsClientTypes.Connection]?
     let nextToken: Swift.String?
 }
@@ -2718,7 +2718,7 @@ extension ListHostsInput {
     }
 }
 
-public struct ListHostsInput: Swift.Equatable {
+public struct ListHostsInput {
     /// The maximum number of results to return in a single call. To retrieve the remaining results, make another call with the returned nextToken value.
     public var maxResults: Swift.Int?
     /// The token that was returned from the previous ListHosts call, which can be used to return the next set of hosts in the list.
@@ -2734,7 +2734,7 @@ public struct ListHostsInput: Swift.Equatable {
     }
 }
 
-struct ListHostsInputBody: Swift.Equatable {
+struct ListHostsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2768,7 +2768,7 @@ extension ListHostsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHostsOutput: Swift.Equatable {
+public struct ListHostsOutput {
     /// A list of hosts and the details for each host, such as status, endpoint, and provider type.
     public var hosts: [CodeStarconnectionsClientTypes.Host]?
     /// A token that can be used in the next ListHosts call. To view all items in the list, continue to call this operation with each subsequent token until no more nextToken values are returned.
@@ -2784,7 +2784,7 @@ public struct ListHostsOutput: Swift.Equatable {
     }
 }
 
-struct ListHostsOutputBody: Swift.Equatable {
+struct ListHostsOutputBody {
     let hosts: [CodeStarconnectionsClientTypes.Host]?
     let nextToken: Swift.String?
 }
@@ -2847,7 +2847,7 @@ extension ListRepositoryLinksInput {
     }
 }
 
-public struct ListRepositoryLinksInput: Swift.Equatable {
+public struct ListRepositoryLinksInput {
     /// A non-zero, non-negative integer used to limit the number of returned results.
     public var maxResults: Swift.Int?
     /// An enumeration token that, when provided in a request, returns the next batch of the results.
@@ -2863,7 +2863,7 @@ public struct ListRepositoryLinksInput: Swift.Equatable {
     }
 }
 
-struct ListRepositoryLinksInputBody: Swift.Equatable {
+struct ListRepositoryLinksInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -2897,7 +2897,7 @@ extension ListRepositoryLinksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRepositoryLinksOutput: Swift.Equatable {
+public struct ListRepositoryLinksOutput {
     /// An enumeration token that allows the operation to batch the results of the operation.
     public var nextToken: Swift.String?
     /// Lists the repository links called by the list repository links operation.
@@ -2914,7 +2914,7 @@ public struct ListRepositoryLinksOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositoryLinksOutputBody: Swift.Equatable {
+struct ListRepositoryLinksOutputBody {
     let repositoryLinks: [CodeStarconnectionsClientTypes.RepositoryLinkInfo]?
     let nextToken: Swift.String?
 }
@@ -2983,7 +2983,7 @@ extension ListRepositorySyncDefinitionsInput {
     }
 }
 
-public struct ListRepositorySyncDefinitionsInput: Swift.Equatable {
+public struct ListRepositorySyncDefinitionsInput {
     /// The ID of the repository link for the sync definition for which you want to retrieve information.
     /// This member is required.
     public var repositoryLinkId: Swift.String?
@@ -3001,7 +3001,7 @@ public struct ListRepositorySyncDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct ListRepositorySyncDefinitionsInputBody: Swift.Equatable {
+struct ListRepositorySyncDefinitionsInputBody {
     let repositoryLinkId: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
 }
@@ -3035,7 +3035,7 @@ extension ListRepositorySyncDefinitionsOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
+public struct ListRepositorySyncDefinitionsOutput {
     /// An enumeration token that, when provided in a request, returns the next batch of the results.
     public var nextToken: Swift.String?
     /// The list of repository sync definitions returned by the request. A RepositorySyncDefinition is a mapping from a repository branch to all the Amazon Web Services resources that are being synced from that branch.
@@ -3052,7 +3052,7 @@ public struct ListRepositorySyncDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct ListRepositorySyncDefinitionsOutputBody: Swift.Equatable {
+struct ListRepositorySyncDefinitionsOutputBody {
     let repositorySyncDefinitions: [CodeStarconnectionsClientTypes.RepositorySyncDefinition]?
     let nextToken: Swift.String?
 }
@@ -3128,7 +3128,7 @@ extension ListSyncConfigurationsInput {
     }
 }
 
-public struct ListSyncConfigurationsInput: Swift.Equatable {
+public struct ListSyncConfigurationsInput {
     /// A non-zero, non-negative integer used to limit the number of returned results.
     public var maxResults: Swift.Int?
     /// An enumeration token that allows the operation to batch the results of the operation.
@@ -3154,7 +3154,7 @@ public struct ListSyncConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListSyncConfigurationsInputBody: Swift.Equatable {
+struct ListSyncConfigurationsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
     let repositoryLinkId: Swift.String?
@@ -3196,7 +3196,7 @@ extension ListSyncConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSyncConfigurationsOutput: Swift.Equatable {
+public struct ListSyncConfigurationsOutput {
     /// An enumeration token that allows the operation to batch the next results of the operation.
     public var nextToken: Swift.String?
     /// The list of repository sync definitions returned by the request.
@@ -3213,7 +3213,7 @@ public struct ListSyncConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListSyncConfigurationsOutputBody: Swift.Equatable {
+struct ListSyncConfigurationsOutputBody {
     let syncConfigurations: [CodeStarconnectionsClientTypes.SyncConfiguration]?
     let nextToken: Swift.String?
 }
@@ -3277,7 +3277,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource for which you want to get information about tags, if any.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3290,7 +3290,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -3318,7 +3318,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tag key and value pairs associated with the specified resource.
     public var tags: [CodeStarconnectionsClientTypes.Tag]?
 
@@ -3330,7 +3330,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
 
@@ -3496,7 +3496,7 @@ extension CodeStarconnectionsClientTypes.RepositoryLinkInfo: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about the repository link resource, such as the repository link ARN, the associated connection ARN, encryption key ARN, and owner ID.
-    public struct RepositoryLinkInfo: Swift.Equatable {
+    public struct RepositoryLinkInfo {
         /// The Amazon Resource Name (ARN) of the connection associated with the repository link.
         /// This member is required.
         public var connectionArn: Swift.String?
@@ -3585,7 +3585,7 @@ extension CodeStarconnectionsClientTypes.RepositorySyncAttempt: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about a repository sync attempt for a repository with a sync configuration.
-    public struct RepositorySyncAttempt: Swift.Equatable {
+    public struct RepositorySyncAttempt {
         /// The events associated with a specific sync attempt.
         /// This member is required.
         public var events: [CodeStarconnectionsClientTypes.RepositorySyncEvent]?
@@ -3659,7 +3659,7 @@ extension CodeStarconnectionsClientTypes.RepositorySyncDefinition: Swift.Codable
 
 extension CodeStarconnectionsClientTypes {
     /// The definition for a repository with a sync configuration.
-    public struct RepositorySyncDefinition: Swift.Equatable {
+    public struct RepositorySyncDefinition {
         /// The branch specified for a repository sync definition.
         /// This member is required.
         public var branch: Swift.String?
@@ -3728,7 +3728,7 @@ extension CodeStarconnectionsClientTypes.RepositorySyncEvent: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about a repository sync event.
-    public struct RepositorySyncEvent: Swift.Equatable {
+    public struct RepositorySyncEvent {
         /// A description of a repository sync event.
         /// This member is required.
         public var event: Swift.String?
@@ -3837,7 +3837,7 @@ public struct ResourceAlreadyExistsException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct ResourceAlreadyExistsExceptionBody: Swift.Equatable {
+struct ResourceAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -3892,7 +3892,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3971,7 +3971,7 @@ extension CodeStarconnectionsClientTypes.ResourceSyncAttempt: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about a resource sync attempt.
-    public struct ResourceSyncAttempt: Swift.Equatable {
+    public struct ResourceSyncAttempt {
         /// The events related to a resource sync attempt.
         /// This member is required.
         public var events: [CodeStarconnectionsClientTypes.ResourceSyncEvent]?
@@ -4058,7 +4058,7 @@ extension CodeStarconnectionsClientTypes.ResourceSyncEvent: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about a resource sync event for the resource associated with a sync configuration.
-    public struct ResourceSyncEvent: Swift.Equatable {
+    public struct ResourceSyncEvent {
         /// The event for a resource sync event.
         /// This member is required.
         public var event: Swift.String?
@@ -4164,7 +4164,7 @@ public struct ResourceUnavailableException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct ResourceUnavailableExceptionBody: Swift.Equatable {
+struct ResourceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -4219,7 +4219,7 @@ public struct RetryLatestCommitFailedException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct RetryLatestCommitFailedExceptionBody: Swift.Equatable {
+struct RetryLatestCommitFailedExceptionBody {
     let message: Swift.String?
 }
 
@@ -4286,7 +4286,7 @@ extension CodeStarconnectionsClientTypes.Revision: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about the revision for a specific sync event, such as the branch, owner ID, and name of the repository.
-    public struct Revision: Swift.Equatable {
+    public struct Revision {
         /// The branch name for a specific revision.
         /// This member is required.
         public var branch: Swift.String?
@@ -4401,7 +4401,7 @@ extension CodeStarconnectionsClientTypes.SyncBlocker: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information about a blocker for a sync event.
-    public struct SyncBlocker: Swift.Equatable {
+    public struct SyncBlocker {
         /// The contexts for a specific sync blocker.
         public var contexts: [CodeStarconnectionsClientTypes.SyncBlockerContext]?
         /// The creation time for a specific sync blocker.
@@ -4475,7 +4475,7 @@ extension CodeStarconnectionsClientTypes.SyncBlockerContext: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// The context for a specific sync blocker.
-    public struct SyncBlockerContext: Swift.Equatable {
+    public struct SyncBlockerContext {
         /// The key provided for a context key-value pair for a specific sync blocker.
         /// This member is required.
         public var key: Swift.String?
@@ -4534,7 +4534,7 @@ public struct SyncBlockerDoesNotExistException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct SyncBlockerDoesNotExistExceptionBody: Swift.Equatable {
+struct SyncBlockerDoesNotExistExceptionBody {
     let message: Swift.String?
 }
 
@@ -4595,7 +4595,7 @@ extension CodeStarconnectionsClientTypes.SyncBlockerSummary: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// A summary for sync blockers.
-    public struct SyncBlockerSummary: Swift.Equatable {
+    public struct SyncBlockerSummary {
         /// The latest events for a sync blocker summary.
         public var latestBlockers: [CodeStarconnectionsClientTypes.SyncBlocker]?
         /// The parent resource name for a sync blocker summary.
@@ -4699,7 +4699,7 @@ extension CodeStarconnectionsClientTypes.SyncConfiguration: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// Information, such as repository, branch, provider, and resource names for a specific sync configuration.
-    public struct SyncConfiguration: Swift.Equatable {
+    public struct SyncConfiguration {
         /// The branch associated with a specific sync configuration.
         /// This member is required.
         public var branch: Swift.String?
@@ -4800,7 +4800,7 @@ public struct SyncConfigurationStillExistsException: ClientRuntime.ModeledError,
     }
 }
 
-struct SyncConfigurationStillExistsExceptionBody: Swift.Equatable {
+struct SyncConfigurationStillExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4872,7 +4872,7 @@ extension CodeStarconnectionsClientTypes.Tag: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// A tag is a key-value pair that is used to manage the resource. This tag is available for use by Amazon Web Services services that support tags.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -4919,7 +4919,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to which you want to add or update tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4937,7 +4937,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [CodeStarconnectionsClientTypes.Tag]?
 }
@@ -4971,7 +4971,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5027,7 +5027,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -5114,7 +5114,7 @@ public struct UnsupportedOperationException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedOperationExceptionBody: Swift.Equatable {
+struct UnsupportedOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -5169,7 +5169,7 @@ public struct UnsupportedProviderTypeException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct UnsupportedProviderTypeExceptionBody: Swift.Equatable {
+struct UnsupportedProviderTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -5212,7 +5212,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource to remove tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5230,7 +5230,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -5264,7 +5264,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5308,7 +5308,7 @@ extension UpdateHostInput {
     }
 }
 
-public struct UpdateHostInput: Swift.Equatable {
+public struct UpdateHostInput {
     /// The Amazon Resource Name (ARN) of the host to be updated.
     /// This member is required.
     public var hostArn: Swift.String?
@@ -5329,7 +5329,7 @@ public struct UpdateHostInput: Swift.Equatable {
     }
 }
 
-struct UpdateHostInputBody: Swift.Equatable {
+struct UpdateHostInputBody {
     let hostArn: Swift.String?
     let providerEndpoint: Swift.String?
     let vpcConfiguration: CodeStarconnectionsClientTypes.VpcConfiguration?
@@ -5358,7 +5358,7 @@ extension UpdateHostOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateHostOutput: Swift.Equatable {
+public struct UpdateHostOutput {
 
     public init() { }
 }
@@ -5416,7 +5416,7 @@ public struct UpdateOutOfSyncException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct UpdateOutOfSyncExceptionBody: Swift.Equatable {
+struct UpdateOutOfSyncExceptionBody {
     let message: Swift.String?
 }
 
@@ -5460,7 +5460,7 @@ extension UpdateRepositoryLinkInput {
     }
 }
 
-public struct UpdateRepositoryLinkInput: Swift.Equatable {
+public struct UpdateRepositoryLinkInput {
     /// The Amazon Resource Name (ARN) of the connection for the repository link to be updated. The updated connection ARN must have the same providerType (such as GitHub) as the original connection ARN for the repo link.
     public var connectionArn: Swift.String?
     /// The Amazon Resource Name (ARN) of the encryption key for the repository link to be updated.
@@ -5481,7 +5481,7 @@ public struct UpdateRepositoryLinkInput: Swift.Equatable {
     }
 }
 
-struct UpdateRepositoryLinkInputBody: Swift.Equatable {
+struct UpdateRepositoryLinkInputBody {
     let connectionArn: Swift.String?
     let encryptionKeyArn: Swift.String?
     let repositoryLinkId: Swift.String?
@@ -5517,7 +5517,7 @@ extension UpdateRepositoryLinkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRepositoryLinkOutput: Swift.Equatable {
+public struct UpdateRepositoryLinkOutput {
     /// Information about the repository link to be updated.
     /// This member is required.
     public var repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
@@ -5530,7 +5530,7 @@ public struct UpdateRepositoryLinkOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRepositoryLinkOutputBody: Swift.Equatable {
+struct UpdateRepositoryLinkOutputBody {
     let repositoryLinkInfo: CodeStarconnectionsClientTypes.RepositoryLinkInfo?
 }
 
@@ -5595,7 +5595,7 @@ extension UpdateSyncBlockerInput {
     }
 }
 
-public struct UpdateSyncBlockerInput: Swift.Equatable {
+public struct UpdateSyncBlockerInput {
     /// The ID of the sync blocker to be updated.
     /// This member is required.
     public var id: Swift.String?
@@ -5623,7 +5623,7 @@ public struct UpdateSyncBlockerInput: Swift.Equatable {
     }
 }
 
-struct UpdateSyncBlockerInputBody: Swift.Equatable {
+struct UpdateSyncBlockerInputBody {
     let id: Swift.String?
     let syncType: CodeStarconnectionsClientTypes.SyncConfigurationType?
     let resourceName: Swift.String?
@@ -5667,7 +5667,7 @@ extension UpdateSyncBlockerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSyncBlockerOutput: Swift.Equatable {
+public struct UpdateSyncBlockerOutput {
     /// The parent resource name for the sync blocker.
     public var parentResourceName: Swift.String?
     /// The resource name for the sync blocker.
@@ -5689,7 +5689,7 @@ public struct UpdateSyncBlockerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSyncBlockerOutputBody: Swift.Equatable {
+struct UpdateSyncBlockerOutputBody {
     let resourceName: Swift.String?
     let parentResourceName: Swift.String?
     let syncBlocker: CodeStarconnectionsClientTypes.SyncBlocker?
@@ -5778,7 +5778,7 @@ extension UpdateSyncConfigurationInput {
     }
 }
 
-public struct UpdateSyncConfigurationInput: Swift.Equatable {
+public struct UpdateSyncConfigurationInput {
     /// The branch for the sync configuration to be updated.
     public var branch: Swift.String?
     /// The configuration file for the sync configuration to be updated.
@@ -5820,7 +5820,7 @@ public struct UpdateSyncConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSyncConfigurationInputBody: Swift.Equatable {
+struct UpdateSyncConfigurationInputBody {
     let branch: Swift.String?
     let configFile: Swift.String?
     let repositoryLinkId: Swift.String?
@@ -5876,7 +5876,7 @@ extension UpdateSyncConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSyncConfigurationOutput: Swift.Equatable {
+public struct UpdateSyncConfigurationOutput {
     /// The information returned for the sync configuration to be updated.
     /// This member is required.
     public var syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
@@ -5889,7 +5889,7 @@ public struct UpdateSyncConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSyncConfigurationOutputBody: Swift.Equatable {
+struct UpdateSyncConfigurationOutputBody {
     let syncConfiguration: CodeStarconnectionsClientTypes.SyncConfiguration?
 }
 
@@ -5985,7 +5985,7 @@ extension CodeStarconnectionsClientTypes.VpcConfiguration: Swift.Codable {
 
 extension CodeStarconnectionsClientTypes {
     /// The VPC configuration provisioned for the host.
-    public struct VpcConfiguration: Swift.Equatable {
+    public struct VpcConfiguration {
         /// The ID of the security group or security groups associated with the Amazon VPC connected to the infrastructure where your provider type is installed.
         /// This member is required.
         public var securityGroupIds: [Swift.String]?

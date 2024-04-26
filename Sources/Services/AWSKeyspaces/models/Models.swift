@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -79,7 +79,7 @@ extension KeyspacesClientTypes.AutoScalingPolicy: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Amazon Keyspaces supports the target tracking auto scaling policy. With this policy, Amazon Keyspaces auto scaling ensures that the table's ratio of consumed to provisioned capacity stays at or near the target value that you specify. You define the target value as a percentage between 20 and 90.
-    public struct AutoScalingPolicy: Swift.Equatable {
+    public struct AutoScalingPolicy {
         /// Auto scaling scales up capacity automatically when traffic exceeds this target utilization rate, and then back down when it falls below the target. A double between 20 and 90.
         public var targetTrackingScalingPolicyConfiguration: KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration?
 
@@ -157,7 +157,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
-    public struct AutoScalingSettings: Swift.Equatable {
+    public struct AutoScalingSettings {
         /// This optional parameter enables auto scaling for the table if set to false.
         public var autoScalingDisabled: Swift.Bool
         /// Manage costs by specifying the maximum amount of throughput to provision. The value must be between 1 and the max throughput per second quota for your account (40,000 by default).
@@ -210,7 +210,7 @@ extension KeyspacesClientTypes.AutoScalingSpecification: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The optional auto scaling capacity settings for a table in provisioned capacity mode.
-    public struct AutoScalingSpecification: Swift.Equatable {
+    public struct AutoScalingSpecification {
         /// The auto scaling settings for the table's read capacity.
         public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
         /// The auto scaling settings for the table's write capacity.
@@ -268,7 +268,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// The read/write capacity mode that you choose controls how you are charged for read and write throughput and how table throughput capacity is managed. For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
-    public struct CapacitySpecification: Swift.Equatable {
+    public struct CapacitySpecification {
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
         public var readCapacityUnits: Swift.Int?
         /// The read/write throughput capacity mode for a table. The options are:
@@ -344,7 +344,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information, see [Read/write capacity modes](https://docs.aws.amazon.com/keyspaces/latest/devguide/ReadWriteCapacityMode.html) in the Amazon Keyspaces Developer Guide.
-    public struct CapacitySpecificationSummary: Swift.Equatable {
+    public struct CapacitySpecificationSummary {
         /// The timestamp of the last operation that changed the provisioned throughput capacity of a table.
         public var lastUpdateToPayPerRequestTimestamp: ClientRuntime.Date?
         /// The throughput capacity specified for read operations defined in read capacity units(RCUs).
@@ -399,7 +399,7 @@ extension KeyspacesClientTypes.ClientSideTimestamps: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The client-side timestamp setting of the table. For more information, see [How it works: Amazon Keyspaces client-side timestamps](https://docs.aws.amazon.com/keyspaces/latest/devguide/client-side-timestamps-how-it-works.html) in the Amazon Keyspaces Developer Guide.
-    public struct ClientSideTimestamps: Swift.Equatable {
+    public struct ClientSideTimestamps {
         /// Shows how to enable client-side timestamps settings for the specified table.
         /// This member is required.
         public var status: KeyspacesClientTypes.ClientSideTimestampsStatus?
@@ -470,7 +470,7 @@ extension KeyspacesClientTypes.ClusteringKey: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The optional clustering column portion of your primary key determines how the data is clustered and sorted within each partition.
-    public struct ClusteringKey: Swift.Equatable {
+    public struct ClusteringKey {
         /// The name(s) of the clustering column(s).
         /// This member is required.
         public var name: Swift.String?
@@ -517,7 +517,7 @@ extension KeyspacesClientTypes.ColumnDefinition: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The names and data types of regular columns.
-    public struct ColumnDefinition: Swift.Equatable {
+    public struct ColumnDefinition {
         /// The name of the column.
         /// This member is required.
         public var name: Swift.String?
@@ -558,7 +558,7 @@ extension KeyspacesClientTypes.Comment: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// An optional comment that describes the table.
-    public struct Comment: Swift.Equatable {
+    public struct Comment {
         /// An optional description of the table.
         /// This member is required.
         public var message: Swift.String?
@@ -613,7 +613,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -660,7 +660,7 @@ extension CreateKeyspaceInput {
     }
 }
 
-public struct CreateKeyspaceInput: Swift.Equatable {
+public struct CreateKeyspaceInput {
     /// The name of the keyspace to be created.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -685,7 +685,7 @@ public struct CreateKeyspaceInput: Swift.Equatable {
     }
 }
 
-struct CreateKeyspaceInputBody: Swift.Equatable {
+struct CreateKeyspaceInputBody {
     let keyspaceName: Swift.String?
     let tags: [KeyspacesClientTypes.Tag]?
     let replicationSpecification: KeyspacesClientTypes.ReplicationSpecification?
@@ -730,7 +730,7 @@ extension CreateKeyspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateKeyspaceOutput: Swift.Equatable {
+public struct CreateKeyspaceOutput {
     /// The unique identifier of the keyspace in the format of an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -743,7 +743,7 @@ public struct CreateKeyspaceOutput: Swift.Equatable {
     }
 }
 
-struct CreateKeyspaceOutputBody: Swift.Equatable {
+struct CreateKeyspaceOutputBody {
     let resourceArn: Swift.String?
 }
 
@@ -848,7 +848,7 @@ extension CreateTableInput {
     }
 }
 
-public struct CreateTableInput: Swift.Equatable {
+public struct CreateTableInput {
     /// The optional auto scaling settings for a table in provisioned capacity mode. Specifies if the service can manage throughput capacity automatically on your behalf. Auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide. By default, auto scaling is disabled for a table.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the table. The options are:
@@ -971,7 +971,7 @@ public struct CreateTableInput: Swift.Equatable {
     }
 }
 
-struct CreateTableInputBody: Swift.Equatable {
+struct CreateTableInputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
     let schemaDefinition: KeyspacesClientTypes.SchemaDefinition?
@@ -1065,7 +1065,7 @@ extension CreateTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTableOutput: Swift.Equatable {
+public struct CreateTableOutput {
     /// The unique identifier of the table in the format of an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -1078,7 +1078,7 @@ public struct CreateTableOutput: Swift.Equatable {
     }
 }
 
-struct CreateTableOutputBody: Swift.Equatable {
+struct CreateTableOutputBody {
     let resourceArn: Swift.String?
 }
 
@@ -1130,7 +1130,7 @@ extension DeleteKeyspaceInput {
     }
 }
 
-public struct DeleteKeyspaceInput: Swift.Equatable {
+public struct DeleteKeyspaceInput {
     /// The name of the keyspace to be deleted.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1143,7 +1143,7 @@ public struct DeleteKeyspaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteKeyspaceInputBody: Swift.Equatable {
+struct DeleteKeyspaceInputBody {
     let keyspaceName: Swift.String?
 }
 
@@ -1164,7 +1164,7 @@ extension DeleteKeyspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteKeyspaceOutput: Swift.Equatable {
+public struct DeleteKeyspaceOutput {
 
     public init() { }
 }
@@ -1209,7 +1209,7 @@ extension DeleteTableInput {
     }
 }
 
-public struct DeleteTableInput: Swift.Equatable {
+public struct DeleteTableInput {
     /// The name of the keyspace of the to be deleted table.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1227,7 +1227,7 @@ public struct DeleteTableInput: Swift.Equatable {
     }
 }
 
-struct DeleteTableInputBody: Swift.Equatable {
+struct DeleteTableInputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
 }
@@ -1252,7 +1252,7 @@ extension DeleteTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTableOutput: Swift.Equatable {
+public struct DeleteTableOutput {
 
     public init() { }
 }
@@ -1307,7 +1307,7 @@ extension KeyspacesClientTypes {
     ///
     ///
     /// For more information about encryption at rest in Amazon Keyspaces, see [Encryption at rest](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Amazon Keyspaces Developer Guide. For more information about KMS, see [KMS management service concepts](https://docs.aws.amazon.com/keyspaces/latest/devguide/EncryptionAtRest.html) in the Key Management Service Developer Guide.
-    public struct EncryptionSpecification: Swift.Equatable {
+    public struct EncryptionSpecification {
         /// The Amazon Resource Name (ARN) of the customer managed KMS key, for example kms_key_identifier:ARN.
         public var kmsKeyIdentifier: Swift.String?
         /// The encryption option specified for the table. You can choose one of the following KMS keys (KMS keys):
@@ -1385,7 +1385,7 @@ extension GetKeyspaceInput {
     }
 }
 
-public struct GetKeyspaceInput: Swift.Equatable {
+public struct GetKeyspaceInput {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1398,7 +1398,7 @@ public struct GetKeyspaceInput: Swift.Equatable {
     }
 }
 
-struct GetKeyspaceInputBody: Swift.Equatable {
+struct GetKeyspaceInputBody {
     let keyspaceName: Swift.String?
 }
 
@@ -1432,7 +1432,7 @@ extension GetKeyspaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetKeyspaceOutput: Swift.Equatable {
+public struct GetKeyspaceOutput {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1459,7 +1459,7 @@ public struct GetKeyspaceOutput: Swift.Equatable {
     }
 }
 
-struct GetKeyspaceOutputBody: Swift.Equatable {
+struct GetKeyspaceOutputBody {
     let keyspaceName: Swift.String?
     let resourceArn: Swift.String?
     let replicationStrategy: KeyspacesClientTypes.Rs?
@@ -1535,7 +1535,7 @@ extension GetTableAutoScalingSettingsInput {
     }
 }
 
-public struct GetTableAutoScalingSettingsInput: Swift.Equatable {
+public struct GetTableAutoScalingSettingsInput {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1553,7 +1553,7 @@ public struct GetTableAutoScalingSettingsInput: Swift.Equatable {
     }
 }
 
-struct GetTableAutoScalingSettingsInputBody: Swift.Equatable {
+struct GetTableAutoScalingSettingsInputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
 }
@@ -1593,7 +1593,7 @@ extension GetTableAutoScalingSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableAutoScalingSettingsOutput: Swift.Equatable {
+public struct GetTableAutoScalingSettingsOutput {
     /// The auto scaling settings of the table.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// The name of the keyspace.
@@ -1624,7 +1624,7 @@ public struct GetTableAutoScalingSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetTableAutoScalingSettingsOutputBody: Swift.Equatable {
+struct GetTableAutoScalingSettingsOutputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
     let resourceArn: Swift.String?
@@ -1704,7 +1704,7 @@ extension GetTableInput {
     }
 }
 
-public struct GetTableInput: Swift.Equatable {
+public struct GetTableInput {
     /// The name of the keyspace that the table is stored in.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -1722,7 +1722,7 @@ public struct GetTableInput: Swift.Equatable {
     }
 }
 
-struct GetTableInputBody: Swift.Equatable {
+struct GetTableInputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
 }
@@ -1780,7 +1780,7 @@ extension GetTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableOutput: Swift.Equatable {
+public struct GetTableOutput {
     /// The read/write throughput capacity mode for a table. The options are:
     ///
     /// * throughputMode:PAY_PER_REQUEST
@@ -1851,7 +1851,7 @@ public struct GetTableOutput: Swift.Equatable {
     }
 }
 
-struct GetTableOutputBody: Swift.Equatable {
+struct GetTableOutputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
     let resourceArn: Swift.String?
@@ -1983,7 +1983,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2050,7 +2050,7 @@ extension KeyspacesClientTypes.KeyspaceSummary: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Represents the properties of a keyspace.
-    public struct KeyspaceSummary: Swift.Equatable {
+    public struct KeyspaceSummary {
         /// The name of the keyspace.
         /// This member is required.
         public var keyspaceName: Swift.String?
@@ -2105,7 +2105,7 @@ extension ListKeyspacesInput {
     }
 }
 
-public struct ListKeyspacesInput: Swift.Equatable {
+public struct ListKeyspacesInput {
     /// The total number of keyspaces to return in the output. If the total number of keyspaces available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -2121,7 +2121,7 @@ public struct ListKeyspacesInput: Swift.Equatable {
     }
 }
 
-struct ListKeyspacesInputBody: Swift.Equatable {
+struct ListKeyspacesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -2155,7 +2155,7 @@ extension ListKeyspacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListKeyspacesOutput: Swift.Equatable {
+public struct ListKeyspacesOutput {
     /// A list of keyspaces.
     /// This member is required.
     public var keyspaces: [KeyspacesClientTypes.KeyspaceSummary]?
@@ -2172,7 +2172,7 @@ public struct ListKeyspacesOutput: Swift.Equatable {
     }
 }
 
-struct ListKeyspacesOutputBody: Swift.Equatable {
+struct ListKeyspacesOutputBody {
     let nextToken: Swift.String?
     let keyspaces: [KeyspacesClientTypes.KeyspaceSummary]?
 }
@@ -2244,7 +2244,7 @@ extension ListTablesInput {
     }
 }
 
-public struct ListTablesInput: Swift.Equatable {
+public struct ListTablesInput {
     /// The name of the keyspace.
     /// This member is required.
     public var keyspaceName: Swift.String?
@@ -2265,7 +2265,7 @@ public struct ListTablesInput: Swift.Equatable {
     }
 }
 
-struct ListTablesInputBody: Swift.Equatable {
+struct ListTablesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let keyspaceName: Swift.String?
@@ -2303,7 +2303,7 @@ extension ListTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTablesOutput: Swift.Equatable {
+public struct ListTablesOutput {
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// A list of tables.
@@ -2319,7 +2319,7 @@ public struct ListTablesOutput: Swift.Equatable {
     }
 }
 
-struct ListTablesOutputBody: Swift.Equatable {
+struct ListTablesOutputBody {
     let nextToken: Swift.String?
     let tables: [KeyspacesClientTypes.TableSummary]?
 }
@@ -2391,7 +2391,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The total number of tags to return in the output. If the total number of tags available is more than the value specified, a NextToken is provided in the output. To resume pagination, provide the NextToken value as an argument of a subsequent API invocation.
     public var maxResults: Swift.Int?
     /// The pagination token. To resume pagination, provide the NextToken value as argument of a subsequent API invocation.
@@ -2412,7 +2412,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -2450,7 +2450,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A token to specify where to start paginating. This is the NextToken from a previously truncated response.
     public var nextToken: Swift.String?
     /// A list of tags.
@@ -2466,7 +2466,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let nextToken: Swift.String?
     let tags: [KeyspacesClientTypes.Tag]?
 }
@@ -2531,7 +2531,7 @@ extension KeyspacesClientTypes.PartitionKey: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The partition key portion of the primary key is required and determines how Amazon Keyspaces stores the data. The partition key can be a single column, or it can be a compound value composed of two or more columns.
-    public struct PartitionKey: Swift.Equatable {
+    public struct PartitionKey {
         /// The name(s) of the partition key column(s).
         /// This member is required.
         public var name: Swift.String?
@@ -2567,7 +2567,7 @@ extension KeyspacesClientTypes.PointInTimeRecovery: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Point-in-time recovery (PITR) helps protect your Amazon Keyspaces tables from accidental write or delete operations by providing you continuous backups of your table data. For more information, see [Point-in-time recovery](https://docs.aws.amazon.com/keyspaces/latest/devguide/PointInTimeRecovery.html) in the Amazon Keyspaces Developer Guide.
-    public struct PointInTimeRecovery: Swift.Equatable {
+    public struct PointInTimeRecovery {
         /// The options are:
         ///
         /// * status=ENABLED
@@ -2645,7 +2645,7 @@ extension KeyspacesClientTypes.PointInTimeRecoverySummary: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The point-in-time recovery status of the specified table.
-    public struct PointInTimeRecoverySummary: Swift.Equatable {
+    public struct PointInTimeRecoverySummary {
         /// Specifies the earliest possible restore point of the table in ISO 8601 format.
         public var earliestRestorableTimestamp: ClientRuntime.Date?
         /// Shows if point-in-time recovery is enabled or disabled for the specified table.
@@ -2691,7 +2691,7 @@ extension KeyspacesClientTypes.ReplicaAutoScalingSpecification: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The auto scaling settings of a multi-Region table in the specified Amazon Web Services Region.
-    public struct ReplicaAutoScalingSpecification: Swift.Equatable {
+    public struct ReplicaAutoScalingSpecification {
         /// The auto scaling settings for a multi-Region table in the specified Amazon Web Services Region.
         public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
         /// The Amazon Web Services Region.
@@ -2748,7 +2748,7 @@ extension KeyspacesClientTypes {
     /// * readCapacityUnits: The provisioned read capacity units. (Optional)
     ///
     /// * readCapacityAutoScaling: The read capacity auto scaling settings for the table. (Optional)
-    public struct ReplicaSpecification: Swift.Equatable {
+    public struct ReplicaSpecification {
         /// The read capacity auto scaling settings for the multi-Region table in the specified Amazon Web Services Region.
         public var readCapacityAutoScaling: KeyspacesClientTypes.AutoScalingSettings?
         /// The provisioned read capacity units for the multi-Region table in the specified Amazon Web Services Region.
@@ -2804,7 +2804,7 @@ extension KeyspacesClientTypes.ReplicaSpecificationSummary: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The Region-specific settings of a multi-Region table in the specified Amazon Web Services Region. If the multi-Region table is using provisioned capacity and has optional auto scaling policies configured, note that the Region specific summary returns both read and write capacity settings. But only Region specific read capacity settings can be configured for a multi-Region table. In a multi-Region table, your write capacity units will be synced across all Amazon Web Services Regions to ensure that there is enough capacity to replicate write events across Regions.
-    public struct ReplicaSpecificationSummary: Swift.Equatable {
+    public struct ReplicaSpecificationSummary {
         /// The read/write throughput capacity mode for a table. The options are:
         ///
         /// * throughputMode:PAY_PER_REQUEST and
@@ -2876,7 +2876,7 @@ extension KeyspacesClientTypes {
     /// * regionList - up to six Amazon Web Services Regions where the keyspace is replicated in.
     ///
     /// * replicationStrategy - the required value is SINGLE_REGION or MULTI_REGION.
-    public struct ReplicationSpecification: Swift.Equatable {
+    public struct ReplicationSpecification {
         /// The regionList can contain up to six Amazon Web Services Regions where the keyspace is replicated in.
         public var regionList: [Swift.String]?
         /// The replicationStrategy of a keyspace, the required value is SINGLE_REGION or MULTI_REGION.
@@ -2941,7 +2941,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -3027,7 +3027,7 @@ extension RestoreTableInput {
     }
 }
 
-public struct RestoreTableInput: Swift.Equatable {
+public struct RestoreTableInput {
     /// The optional auto scaling settings for the restored table in provisioned capacity mode. Specifies if the service can manage throughput capacity of a provisioned table automatically on your behalf. Amazon Keyspaces auto scaling helps you provision throughput capacity for variable workloads efficiently by increasing and decreasing your table's read and write capacity automatically in response to application traffic. For more information, see [Managing throughput capacity automatically with Amazon Keyspaces auto scaling](https://docs.aws.amazon.com/keyspaces/latest/devguide/autoscaling.html) in the Amazon Keyspaces Developer Guide.
     public var autoScalingSpecification: KeyspacesClientTypes.AutoScalingSpecification?
     /// Specifies the read/write throughput capacity mode for the target table. The options are:
@@ -3104,7 +3104,7 @@ public struct RestoreTableInput: Swift.Equatable {
     }
 }
 
-struct RestoreTableInputBody: Swift.Equatable {
+struct RestoreTableInputBody {
     let sourceKeyspaceName: Swift.String?
     let sourceTableName: Swift.String?
     let targetKeyspaceName: Swift.String?
@@ -3190,7 +3190,7 @@ extension RestoreTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RestoreTableOutput: Swift.Equatable {
+public struct RestoreTableOutput {
     /// The Amazon Resource Name (ARN) of the restored table.
     /// This member is required.
     public var restoredTableARN: Swift.String?
@@ -3203,7 +3203,7 @@ public struct RestoreTableOutput: Swift.Equatable {
     }
 }
 
-struct RestoreTableOutputBody: Swift.Equatable {
+struct RestoreTableOutputBody {
     let restoredTableARN: Swift.String?
 }
 
@@ -3354,7 +3354,7 @@ extension KeyspacesClientTypes.SchemaDefinition: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Describes the schema of the table.
-    public struct SchemaDefinition: Swift.Equatable {
+    public struct SchemaDefinition {
         /// The regular columns of the table.
         /// This member is required.
         public var allColumns: [KeyspacesClientTypes.ColumnDefinition]?
@@ -3422,7 +3422,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3491,7 +3491,7 @@ extension KeyspacesClientTypes.StaticColumn: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// The static columns of the table. Static columns store values that are shared by all rows in the same partition.
-    public struct StaticColumn: Swift.Equatable {
+    public struct StaticColumn {
         /// The name of the static column.
         /// This member is required.
         public var name: Swift.String?
@@ -3586,7 +3586,7 @@ extension KeyspacesClientTypes.TableSummary: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Returns the name of the specified table, the keyspace it is stored in, and the unique identifier in the format of an Amazon Resource Name (ARN).
-    public struct TableSummary: Swift.Equatable {
+    public struct TableSummary {
         /// The name of the keyspace that the table is stored in.
         /// This member is required.
         public var keyspaceName: Swift.String?
@@ -3638,7 +3638,7 @@ extension KeyspacesClientTypes.Tag: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a single Amazon Keyspaces resource. Amazon Web Services-assigned tag names and values are automatically assigned the aws: prefix, which the user cannot assign. Amazon Web Services-assigned tag names do not count towards the tag limit of 50. User-assigned tag names have the prefix user: in the Cost Allocation Report. You cannot backdate the application of a tag. For more information, see [Adding tags and labels to Amazon Keyspaces resources](https://docs.aws.amazon.com/keyspaces/latest/devguide/tagging-keyspaces.html) in the Amazon Keyspaces Developer Guide.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag. Tag keys are case sensitive. Each Amazon Keyspaces resource can only have up to one tag with the same key. If you try to add an existing tag (same key), the existing tag value will be updated to the new value.
         /// This member is required.
         public var key: Swift.String?
@@ -3685,7 +3685,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Keyspaces resource to which to add tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3703,7 +3703,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [KeyspacesClientTypes.Tag]?
 }
@@ -3737,7 +3737,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3796,7 +3796,7 @@ extension KeyspacesClientTypes.TargetTrackingScalingPolicyConfiguration: Swift.C
 
 extension KeyspacesClientTypes {
     /// The auto scaling policy that scales a table based on the ratio of consumed to provisioned capacity.
-    public struct TargetTrackingScalingPolicyConfiguration: Swift.Equatable {
+    public struct TargetTrackingScalingPolicyConfiguration {
         /// Specifies if scale-in is enabled. When auto scaling automatically decreases capacity for a table, the table scales in. When scaling policies are set, they can't scale in the table lower than its minimum capacity.
         public var disableScaleIn: Swift.Bool
         /// Specifies a scale-in cool down period. A cooldown period in seconds between scaling activities that lets the table stabilize before another scaling activity starts.
@@ -3876,7 +3876,7 @@ extension KeyspacesClientTypes.TimeToLive: Swift.Codable {
 
 extension KeyspacesClientTypes {
     /// Enable custom Time to Live (TTL) settings for rows and columns without setting a TTL default for the specified table. For more information, see [Enabling TTL on tables](https://docs.aws.amazon.com/keyspaces/latest/devguide/TTL-how-it-works.html#ttl-howitworks_enabling) in the Amazon Keyspaces Developer Guide.
-    public struct TimeToLive: Swift.Equatable {
+    public struct TimeToLive {
         /// Shows how to enable custom Time to Live (TTL) settings for the specified table.
         /// This member is required.
         public var status: KeyspacesClientTypes.TimeToLiveStatus?
@@ -3947,7 +3947,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Keyspaces resource that the tags will be removed from. This value is an Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3965,7 +3965,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceArn: Swift.String?
     let tags: [KeyspacesClientTypes.Tag]?
 }
@@ -3999,7 +3999,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4086,7 +4086,7 @@ extension UpdateTableInput {
     }
 }
 
-public struct UpdateTableInput: Swift.Equatable {
+public struct UpdateTableInput {
     /// For each column to be added to the specified table:
     ///
     /// * name - The name of the column.
@@ -4177,7 +4177,7 @@ public struct UpdateTableInput: Swift.Equatable {
     }
 }
 
-struct UpdateTableInputBody: Swift.Equatable {
+struct UpdateTableInputBody {
     let keyspaceName: Swift.String?
     let tableName: Swift.String?
     let addColumns: [KeyspacesClientTypes.ColumnDefinition]?
@@ -4263,7 +4263,7 @@ extension UpdateTableOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTableOutput: Swift.Equatable {
+public struct UpdateTableOutput {
     /// The Amazon Resource Name (ARN) of the modified table.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4276,7 +4276,7 @@ public struct UpdateTableOutput: Swift.Equatable {
     }
 }
 
-struct UpdateTableOutputBody: Swift.Equatable {
+struct UpdateTableOutputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4348,7 +4348,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

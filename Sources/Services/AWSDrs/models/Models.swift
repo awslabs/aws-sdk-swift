@@ -46,7 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -87,7 +87,7 @@ extension DrsClientTypes.Account: Swift.Codable {
 
 extension DrsClientTypes {
     /// AWS account.
-    public struct Account: Swift.Equatable {
+    public struct Account {
         /// Account ID of AWS account.
         public var accountID: Swift.String?
 
@@ -130,7 +130,7 @@ extension AssociateSourceNetworkStackInput {
     }
 }
 
-public struct AssociateSourceNetworkStackInput: Swift.Equatable {
+public struct AssociateSourceNetworkStackInput {
     /// CloudFormation template to associate with a Source Network.
     /// This member is required.
     public var cfnStackName: Swift.String?
@@ -148,7 +148,7 @@ public struct AssociateSourceNetworkStackInput: Swift.Equatable {
     }
 }
 
-struct AssociateSourceNetworkStackInputBody: Swift.Equatable {
+struct AssociateSourceNetworkStackInputBody {
     let sourceNetworkID: Swift.String?
     let cfnStackName: Swift.String?
 }
@@ -180,7 +180,7 @@ extension AssociateSourceNetworkStackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateSourceNetworkStackOutput: Swift.Equatable {
+public struct AssociateSourceNetworkStackOutput {
     /// The Source Network association Job.
     public var job: DrsClientTypes.Job?
 
@@ -192,7 +192,7 @@ public struct AssociateSourceNetworkStackOutput: Swift.Equatable {
     }
 }
 
-struct AssociateSourceNetworkStackOutputBody: Swift.Equatable {
+struct AssociateSourceNetworkStackOutputBody {
     let job: DrsClientTypes.Job?
 }
 
@@ -252,7 +252,7 @@ extension DrsClientTypes.CPU: Swift.Codable {
 
 extension DrsClientTypes {
     /// Information about a server's CPU.
-    public struct CPU: Swift.Equatable {
+    public struct CPU {
         /// The number of CPU cores.
         public var cores: Swift.Int
         /// The model name of the CPU.
@@ -326,7 +326,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -461,7 +461,7 @@ extension DrsClientTypes.ConversionProperties: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of a conversion job
-    public struct ConversionProperties: Swift.Equatable {
+    public struct ConversionProperties {
         /// The timestamp of when the snapshot being converted was taken
         public var dataTimestamp: Swift.String?
         /// Whether the volume being converted uses UEFI or not
@@ -527,7 +527,7 @@ extension CreateExtendedSourceServerInput {
     }
 }
 
-public struct CreateExtendedSourceServerInput: Swift.Equatable {
+public struct CreateExtendedSourceServerInput {
     /// This defines the ARN of the source server in staging Account based on which you want to create an extended source server.
     /// This member is required.
     public var sourceServerArn: Swift.String?
@@ -544,7 +544,7 @@ public struct CreateExtendedSourceServerInput: Swift.Equatable {
     }
 }
 
-struct CreateExtendedSourceServerInputBody: Swift.Equatable {
+struct CreateExtendedSourceServerInputBody {
     let sourceServerArn: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -585,7 +585,7 @@ extension CreateExtendedSourceServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateExtendedSourceServerOutput: Swift.Equatable {
+public struct CreateExtendedSourceServerOutput {
     /// Created extended source server.
     public var sourceServer: DrsClientTypes.SourceServer?
 
@@ -597,7 +597,7 @@ public struct CreateExtendedSourceServerOutput: Swift.Equatable {
     }
 }
 
-struct CreateExtendedSourceServerOutputBody: Swift.Equatable {
+struct CreateExtendedSourceServerOutputBody {
     let sourceServer: DrsClientTypes.SourceServer?
 }
 
@@ -690,7 +690,7 @@ extension CreateLaunchConfigurationTemplateInput {
     }
 }
 
-public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct CreateLaunchConfigurationTemplateInput {
     /// Copy private IP.
     public var copyPrivateIp: Swift.Bool?
     /// Copy tags.
@@ -734,7 +734,7 @@ public struct CreateLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct CreateLaunchConfigurationTemplateInputBody {
     let tags: [Swift.String:Swift.String]?
     let launchDisposition: DrsClientTypes.LaunchDisposition?
     let targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
@@ -803,7 +803,7 @@ extension CreateLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct CreateLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct CreateLaunchConfigurationTemplateOutput {
     /// Created Launch Configuration Template.
     public var launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
 
@@ -815,7 +815,7 @@ public struct CreateLaunchConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateLaunchConfigurationTemplateOutputBody: Swift.Equatable {
+struct CreateLaunchConfigurationTemplateOutputBody {
     let launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
 }
 
@@ -940,7 +940,7 @@ extension CreateReplicationConfigurationTemplateInput {
     }
 }
 
-public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct CreateReplicationConfigurationTemplateInput {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
     /// This member is required.
     public var associateDefaultSecurityGroup: Swift.Bool?
@@ -1020,7 +1020,7 @@ public struct CreateReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct CreateReplicationConfigurationTemplateInputBody {
     let stagingAreaSubnetId: Swift.String?
     let associateDefaultSecurityGroup: Swift.Bool?
     let replicationServersSecurityGroupsIDs: [Swift.String]?
@@ -1177,7 +1177,7 @@ extension CreateReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct CreateReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct CreateReplicationConfigurationTemplateOutput {
     /// The Replication Configuration Template ARN.
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
@@ -1254,7 +1254,7 @@ public struct CreateReplicationConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateReplicationConfigurationTemplateOutputBody: Swift.Equatable {
+struct CreateReplicationConfigurationTemplateOutputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -1426,7 +1426,7 @@ extension CreateSourceNetworkInput {
     }
 }
 
-public struct CreateSourceNetworkInput: Swift.Equatable {
+public struct CreateSourceNetworkInput {
     /// Account containing the VPC to protect.
     /// This member is required.
     public var originAccountID: Swift.String?
@@ -1453,7 +1453,7 @@ public struct CreateSourceNetworkInput: Swift.Equatable {
     }
 }
 
-struct CreateSourceNetworkInputBody: Swift.Equatable {
+struct CreateSourceNetworkInputBody {
     let vpcID: Swift.String?
     let originAccountID: Swift.String?
     let originRegion: Swift.String?
@@ -1502,7 +1502,7 @@ extension CreateSourceNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSourceNetworkOutput: Swift.Equatable {
+public struct CreateSourceNetworkOutput {
     /// ID of the created Source Network.
     public var sourceNetworkID: Swift.String?
 
@@ -1514,7 +1514,7 @@ public struct CreateSourceNetworkOutput: Swift.Equatable {
     }
 }
 
-struct CreateSourceNetworkOutputBody: Swift.Equatable {
+struct CreateSourceNetworkOutputBody {
     let sourceNetworkID: Swift.String?
 }
 
@@ -1574,7 +1574,7 @@ extension DrsClientTypes.DataReplicationError: Swift.Codable {
 
 extension DrsClientTypes {
     /// Error in data replication.
-    public struct DataReplicationError: Swift.Equatable {
+    public struct DataReplicationError {
         /// Error in data replication.
         public var error: DrsClientTypes.DataReplicationErrorString?
         /// Error in data replication.
@@ -1735,7 +1735,7 @@ extension DrsClientTypes.DataReplicationInfo: Swift.Codable {
 
 extension DrsClientTypes {
     /// Information about Data Replication
-    public struct DataReplicationInfo: Swift.Equatable {
+    public struct DataReplicationInfo {
         /// Error in data replication.
         public var dataReplicationError: DrsClientTypes.DataReplicationError?
         /// Information about whether the data replication has been initiated.
@@ -1828,7 +1828,7 @@ extension DrsClientTypes.DataReplicationInfoReplicatedDisk: Swift.Codable {
 
 extension DrsClientTypes {
     /// A disk that should be replicated.
-    public struct DataReplicationInfoReplicatedDisk: Swift.Equatable {
+    public struct DataReplicationInfoReplicatedDisk {
         /// The size of the replication backlog in bytes.
         public var backloggedStorageBytes: Swift.Int
         /// The name of the device.
@@ -1907,7 +1907,7 @@ extension DrsClientTypes.DataReplicationInitiation: Swift.Codable {
 
 extension DrsClientTypes {
     /// Data replication initiation.
-    public struct DataReplicationInitiation: Swift.Equatable {
+    public struct DataReplicationInitiation {
         /// The date and time of the next attempt to initiate data replication.
         public var nextAttemptDateTime: Swift.String?
         /// The date and time of the current attempt to initiate data replication.
@@ -1956,7 +1956,7 @@ extension DrsClientTypes.DataReplicationInitiationStep: Swift.Codable {
 
 extension DrsClientTypes {
     /// Data replication initiation step.
-    public struct DataReplicationInitiationStep: Swift.Equatable {
+    public struct DataReplicationInitiationStep {
         /// The name of the step.
         public var name: DrsClientTypes.DataReplicationInitiationStepName?
         /// The status of the step.
@@ -2150,7 +2150,7 @@ extension DeleteJobInput {
     }
 }
 
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// The ID of the Job to be deleted.
     /// This member is required.
     public var jobID: Swift.String?
@@ -2163,7 +2163,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
     let jobID: Swift.String?
 }
 
@@ -2184,7 +2184,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
 
     public init() { }
 }
@@ -2228,7 +2228,7 @@ extension DeleteLaunchActionInput {
     }
 }
 
-public struct DeleteLaunchActionInput: Swift.Equatable {
+public struct DeleteLaunchActionInput {
     /// Launch action Id.
     /// This member is required.
     public var actionId: Swift.String?
@@ -2246,7 +2246,7 @@ public struct DeleteLaunchActionInput: Swift.Equatable {
     }
 }
 
-struct DeleteLaunchActionInputBody: Swift.Equatable {
+struct DeleteLaunchActionInputBody {
     let resourceId: Swift.String?
     let actionId: Swift.String?
 }
@@ -2271,7 +2271,7 @@ extension DeleteLaunchActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLaunchActionOutput: Swift.Equatable {
+public struct DeleteLaunchActionOutput {
 
     public init() { }
 }
@@ -2311,7 +2311,7 @@ extension DeleteLaunchConfigurationTemplateInput {
     }
 }
 
-public struct DeleteLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct DeleteLaunchConfigurationTemplateInput {
     /// The ID of the Launch Configuration Template to be deleted.
     /// This member is required.
     public var launchConfigurationTemplateID: Swift.String?
@@ -2324,7 +2324,7 @@ public struct DeleteLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct DeleteLaunchConfigurationTemplateInputBody {
     let launchConfigurationTemplateID: Swift.String?
 }
 
@@ -2345,7 +2345,7 @@ extension DeleteLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct DeleteLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct DeleteLaunchConfigurationTemplateOutput {
 
     public init() { }
 }
@@ -2385,7 +2385,7 @@ extension DeleteRecoveryInstanceInput {
     }
 }
 
-public struct DeleteRecoveryInstanceInput: Swift.Equatable {
+public struct DeleteRecoveryInstanceInput {
     /// The ID of the Recovery Instance to be deleted.
     /// This member is required.
     public var recoveryInstanceID: Swift.String?
@@ -2398,7 +2398,7 @@ public struct DeleteRecoveryInstanceInput: Swift.Equatable {
     }
 }
 
-struct DeleteRecoveryInstanceInputBody: Swift.Equatable {
+struct DeleteRecoveryInstanceInputBody {
     let recoveryInstanceID: Swift.String?
 }
 
@@ -2419,7 +2419,7 @@ extension DeleteRecoveryInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRecoveryInstanceOutput: Swift.Equatable {
+public struct DeleteRecoveryInstanceOutput {
 
     public init() { }
 }
@@ -2459,7 +2459,7 @@ extension DeleteReplicationConfigurationTemplateInput {
     }
 }
 
-public struct DeleteReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct DeleteReplicationConfigurationTemplateInput {
     /// The ID of the Replication Configuration Template to be deleted.
     /// This member is required.
     public var replicationConfigurationTemplateID: Swift.String?
@@ -2472,7 +2472,7 @@ public struct DeleteReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct DeleteReplicationConfigurationTemplateInputBody {
     let replicationConfigurationTemplateID: Swift.String?
 }
 
@@ -2493,7 +2493,7 @@ extension DeleteReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct DeleteReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct DeleteReplicationConfigurationTemplateOutput {
 
     public init() { }
 }
@@ -2533,7 +2533,7 @@ extension DeleteSourceNetworkInput {
     }
 }
 
-public struct DeleteSourceNetworkInput: Swift.Equatable {
+public struct DeleteSourceNetworkInput {
     /// ID of the Source Network to delete.
     /// This member is required.
     public var sourceNetworkID: Swift.String?
@@ -2546,7 +2546,7 @@ public struct DeleteSourceNetworkInput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceNetworkInputBody: Swift.Equatable {
+struct DeleteSourceNetworkInputBody {
     let sourceNetworkID: Swift.String?
 }
 
@@ -2567,7 +2567,7 @@ extension DeleteSourceNetworkOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSourceNetworkOutput: Swift.Equatable {
+public struct DeleteSourceNetworkOutput {
 
     public init() { }
 }
@@ -2607,7 +2607,7 @@ extension DeleteSourceServerInput {
     }
 }
 
-public struct DeleteSourceServerInput: Swift.Equatable {
+public struct DeleteSourceServerInput {
     /// The ID of the Source Server to be deleted.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -2620,7 +2620,7 @@ public struct DeleteSourceServerInput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceServerInputBody: Swift.Equatable {
+struct DeleteSourceServerInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -2641,7 +2641,7 @@ extension DeleteSourceServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSourceServerOutput: Swift.Equatable {
+public struct DeleteSourceServerOutput {
 
     public init() { }
 }
@@ -2689,7 +2689,7 @@ extension DescribeJobLogItemsInput {
     }
 }
 
-public struct DescribeJobLogItemsInput: Swift.Equatable {
+public struct DescribeJobLogItemsInput {
     /// The ID of the Job for which Job log items will be retrieved.
     /// This member is required.
     public var jobID: Swift.String?
@@ -2710,7 +2710,7 @@ public struct DescribeJobLogItemsInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobLogItemsInputBody: Swift.Equatable {
+struct DescribeJobLogItemsInputBody {
     let jobID: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2748,7 +2748,7 @@ extension DescribeJobLogItemsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobLogItemsOutput: Swift.Equatable {
+public struct DescribeJobLogItemsOutput {
     /// An array of Job log items.
     public var items: [DrsClientTypes.JobLog]?
     /// The token of the next Job log items to retrieve.
@@ -2764,7 +2764,7 @@ public struct DescribeJobLogItemsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobLogItemsOutputBody: Swift.Equatable {
+struct DescribeJobLogItemsOutputBody {
     let items: [DrsClientTypes.JobLog]?
     let nextToken: Swift.String?
 }
@@ -2835,7 +2835,7 @@ extension DescribeJobsInput {
     }
 }
 
-public struct DescribeJobsInput: Swift.Equatable {
+public struct DescribeJobsInput {
     /// A set of filters by which to return Jobs.
     public var filters: DrsClientTypes.DescribeJobsRequestFilters?
     /// Maximum number of Jobs to retrieve.
@@ -2855,7 +2855,7 @@ public struct DescribeJobsInput: Swift.Equatable {
     }
 }
 
-struct DescribeJobsInputBody: Swift.Equatable {
+struct DescribeJobsInputBody {
     let filters: DrsClientTypes.DescribeJobsRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2893,7 +2893,7 @@ extension DescribeJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeJobsOutput: Swift.Equatable {
+public struct DescribeJobsOutput {
     /// An array of Jobs.
     public var items: [DrsClientTypes.Job]?
     /// The token of the next Job to retrieve.
@@ -2909,7 +2909,7 @@ public struct DescribeJobsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeJobsOutputBody: Swift.Equatable {
+struct DescribeJobsOutputBody {
     let items: [DrsClientTypes.Job]?
     let nextToken: Swift.String?
 }
@@ -2997,7 +2997,7 @@ extension DrsClientTypes.DescribeJobsRequestFilters: Swift.Codable {
 
 extension DrsClientTypes {
     /// A set of filters by which to return Jobs.
-    public struct DescribeJobsRequestFilters: Swift.Equatable {
+    public struct DescribeJobsRequestFilters {
         /// The start date in a date range query.
         public var fromDate: Swift.String?
         /// An array of Job IDs that should be returned. An empty array means all jobs.
@@ -3050,7 +3050,7 @@ extension DescribeLaunchConfigurationTemplatesInput {
     }
 }
 
-public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
+public struct DescribeLaunchConfigurationTemplatesInput {
     /// Request to filter Launch Configuration Templates list by Launch Configuration Template ID.
     public var launchConfigurationTemplateIDs: [Swift.String]?
     /// Maximum results to be returned in DescribeLaunchConfigurationTemplates.
@@ -3070,7 +3070,7 @@ public struct DescribeLaunchConfigurationTemplatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeLaunchConfigurationTemplatesInputBody: Swift.Equatable {
+struct DescribeLaunchConfigurationTemplatesInputBody {
     let launchConfigurationTemplateIDs: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3117,7 +3117,7 @@ extension DescribeLaunchConfigurationTemplatesOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Equatable {
+public struct DescribeLaunchConfigurationTemplatesOutput {
     /// List of items returned by DescribeLaunchConfigurationTemplates.
     public var items: [DrsClientTypes.LaunchConfigurationTemplate]?
     /// The token of the next Launch Configuration Template to retrieve.
@@ -3133,7 +3133,7 @@ public struct DescribeLaunchConfigurationTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeLaunchConfigurationTemplatesOutputBody: Swift.Equatable {
+struct DescribeLaunchConfigurationTemplatesOutputBody {
     let items: [DrsClientTypes.LaunchConfigurationTemplate]?
     let nextToken: Swift.String?
 }
@@ -3205,7 +3205,7 @@ extension DescribeRecoveryInstancesInput {
     }
 }
 
-public struct DescribeRecoveryInstancesInput: Swift.Equatable {
+public struct DescribeRecoveryInstancesInput {
     /// A set of filters by which to return Recovery Instances.
     public var filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters?
     /// Maximum number of Recovery Instances to retrieve.
@@ -3225,7 +3225,7 @@ public struct DescribeRecoveryInstancesInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoveryInstancesInputBody: Swift.Equatable {
+struct DescribeRecoveryInstancesInputBody {
     let filters: DrsClientTypes.DescribeRecoveryInstancesRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3263,7 +3263,7 @@ extension DescribeRecoveryInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecoveryInstancesOutput: Swift.Equatable {
+public struct DescribeRecoveryInstancesOutput {
     /// An array of Recovery Instances.
     public var items: [DrsClientTypes.RecoveryInstance]?
     /// The token of the next Recovery Instance to retrieve.
@@ -3279,7 +3279,7 @@ public struct DescribeRecoveryInstancesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoveryInstancesOutputBody: Swift.Equatable {
+struct DescribeRecoveryInstancesOutputBody {
     let nextToken: Swift.String?
     let items: [DrsClientTypes.RecoveryInstance]?
 }
@@ -3373,7 +3373,7 @@ extension DrsClientTypes.DescribeRecoveryInstancesRequestFilters: Swift.Codable 
 
 extension DrsClientTypes {
     /// A set of filters by which to return Recovery Instances.
-    public struct DescribeRecoveryInstancesRequestFilters: Swift.Equatable {
+    public struct DescribeRecoveryInstancesRequestFilters {
         /// An array of Recovery Instance IDs that should be returned. An empty array means all Recovery Instances.
         public var recoveryInstanceIDs: [Swift.String]?
         /// An array of Source Server IDs for which associated Recovery Instances should be returned.
@@ -3427,7 +3427,7 @@ extension DescribeRecoverySnapshotsInput {
     }
 }
 
-public struct DescribeRecoverySnapshotsInput: Swift.Equatable {
+public struct DescribeRecoverySnapshotsInput {
     /// A set of filters by which to return Recovery Snapshots.
     public var filters: DrsClientTypes.DescribeRecoverySnapshotsRequestFilters?
     /// Maximum number of Recovery Snapshots to retrieve.
@@ -3456,7 +3456,7 @@ public struct DescribeRecoverySnapshotsInput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoverySnapshotsInputBody: Swift.Equatable {
+struct DescribeRecoverySnapshotsInputBody {
     let sourceServerID: Swift.String?
     let filters: DrsClientTypes.DescribeRecoverySnapshotsRequestFilters?
     let order: DrsClientTypes.RecoverySnapshotsOrder?
@@ -3502,7 +3502,7 @@ extension DescribeRecoverySnapshotsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeRecoverySnapshotsOutput: Swift.Equatable {
+public struct DescribeRecoverySnapshotsOutput {
     /// An array of Recovery Snapshots.
     public var items: [DrsClientTypes.RecoverySnapshot]?
     /// The token of the next Recovery Snapshot to retrieve.
@@ -3518,7 +3518,7 @@ public struct DescribeRecoverySnapshotsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeRecoverySnapshotsOutputBody: Swift.Equatable {
+struct DescribeRecoverySnapshotsOutputBody {
     let items: [DrsClientTypes.RecoverySnapshot]?
     let nextToken: Swift.String?
 }
@@ -3589,7 +3589,7 @@ extension DrsClientTypes.DescribeRecoverySnapshotsRequestFilters: Swift.Codable 
 
 extension DrsClientTypes {
     /// A set of filters by which to return Recovery Snapshots.
-    public struct DescribeRecoverySnapshotsRequestFilters: Swift.Equatable {
+    public struct DescribeRecoverySnapshotsRequestFilters {
         /// The start date in a date range query.
         public var fromDateTime: Swift.String?
         /// The end date in a date range query.
@@ -3638,7 +3638,7 @@ extension DescribeReplicationConfigurationTemplatesInput {
     }
 }
 
-public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
+public struct DescribeReplicationConfigurationTemplatesInput {
     /// Maximum number of Replication Configuration Templates to retrieve.
     public var maxResults: Swift.Int?
     /// The token of the next Replication Configuration Template to retrieve.
@@ -3658,7 +3658,7 @@ public struct DescribeReplicationConfigurationTemplatesInput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationTemplatesInputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationTemplatesInputBody {
     let replicationConfigurationTemplateIDs: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3705,7 +3705,7 @@ extension DescribeReplicationConfigurationTemplatesOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Equatable {
+public struct DescribeReplicationConfigurationTemplatesOutput {
     /// An array of Replication Configuration Templates.
     public var items: [DrsClientTypes.ReplicationConfigurationTemplate]?
     /// The token of the next Replication Configuration Template to retrieve.
@@ -3721,7 +3721,7 @@ public struct DescribeReplicationConfigurationTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReplicationConfigurationTemplatesOutputBody: Swift.Equatable {
+struct DescribeReplicationConfigurationTemplatesOutputBody {
     let items: [DrsClientTypes.ReplicationConfigurationTemplate]?
     let nextToken: Swift.String?
 }
@@ -3793,7 +3793,7 @@ extension DescribeSourceNetworksInput {
     }
 }
 
-public struct DescribeSourceNetworksInput: Swift.Equatable {
+public struct DescribeSourceNetworksInput {
     /// A set of filters by which to return Source Networks.
     public var filters: DrsClientTypes.DescribeSourceNetworksRequestFilters?
     /// Maximum number of Source Networks to retrieve.
@@ -3813,7 +3813,7 @@ public struct DescribeSourceNetworksInput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceNetworksInputBody: Swift.Equatable {
+struct DescribeSourceNetworksInputBody {
     let filters: DrsClientTypes.DescribeSourceNetworksRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3851,7 +3851,7 @@ extension DescribeSourceNetworksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSourceNetworksOutput: Swift.Equatable {
+public struct DescribeSourceNetworksOutput {
     /// An array of Source Networks.
     public var items: [DrsClientTypes.SourceNetwork]?
     /// The token of the next Source Networks to retrieve.
@@ -3867,7 +3867,7 @@ public struct DescribeSourceNetworksOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceNetworksOutputBody: Swift.Equatable {
+struct DescribeSourceNetworksOutputBody {
     let items: [DrsClientTypes.SourceNetwork]?
     let nextToken: Swift.String?
 }
@@ -3955,7 +3955,7 @@ extension DrsClientTypes.DescribeSourceNetworksRequestFilters: Swift.Codable {
 
 extension DrsClientTypes {
     /// A set of filters by which to return Source Networks.
-    public struct DescribeSourceNetworksRequestFilters: Swift.Equatable {
+    public struct DescribeSourceNetworksRequestFilters {
         /// Filter Source Networks by account ID containing the protected VPCs.
         public var originAccountID: Swift.String?
         /// Filter Source Networks by the region containing the protected VPCs.
@@ -4005,7 +4005,7 @@ extension DescribeSourceServersInput {
     }
 }
 
-public struct DescribeSourceServersInput: Swift.Equatable {
+public struct DescribeSourceServersInput {
     /// A set of filters by which to return Source Servers.
     public var filters: DrsClientTypes.DescribeSourceServersRequestFilters?
     /// Maximum number of Source Servers to retrieve.
@@ -4025,7 +4025,7 @@ public struct DescribeSourceServersInput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceServersInputBody: Swift.Equatable {
+struct DescribeSourceServersInputBody {
     let filters: DrsClientTypes.DescribeSourceServersRequestFilters?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4063,7 +4063,7 @@ extension DescribeSourceServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeSourceServersOutput: Swift.Equatable {
+public struct DescribeSourceServersOutput {
     /// An array of Source Servers.
     public var items: [DrsClientTypes.SourceServer]?
     /// The token of the next Source Server to retrieve.
@@ -4079,7 +4079,7 @@ public struct DescribeSourceServersOutput: Swift.Equatable {
     }
 }
 
-struct DescribeSourceServersOutputBody: Swift.Equatable {
+struct DescribeSourceServersOutputBody {
     let items: [DrsClientTypes.SourceServer]?
     let nextToken: Swift.String?
 }
@@ -4179,7 +4179,7 @@ extension DrsClientTypes.DescribeSourceServersRequestFilters: Swift.Codable {
 
 extension DrsClientTypes {
     /// A set of filters by which to return Source Servers.
-    public struct DescribeSourceServersRequestFilters: Swift.Equatable {
+    public struct DescribeSourceServersRequestFilters {
         /// An ID that describes the hardware of the Source Server. This is either an EC2 instance id, a VMware uuid or a mac address.
         public var hardwareId: Swift.String?
         /// An array of Source Servers IDs that should be returned. An empty array means all Source Servers.
@@ -4221,7 +4221,7 @@ extension DisconnectRecoveryInstanceInput {
     }
 }
 
-public struct DisconnectRecoveryInstanceInput: Swift.Equatable {
+public struct DisconnectRecoveryInstanceInput {
     /// The ID of the Recovery Instance to disconnect.
     /// This member is required.
     public var recoveryInstanceID: Swift.String?
@@ -4234,7 +4234,7 @@ public struct DisconnectRecoveryInstanceInput: Swift.Equatable {
     }
 }
 
-struct DisconnectRecoveryInstanceInputBody: Swift.Equatable {
+struct DisconnectRecoveryInstanceInputBody {
     let recoveryInstanceID: Swift.String?
 }
 
@@ -4255,7 +4255,7 @@ extension DisconnectRecoveryInstanceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisconnectRecoveryInstanceOutput: Swift.Equatable {
+public struct DisconnectRecoveryInstanceOutput {
 
     public init() { }
 }
@@ -4296,7 +4296,7 @@ extension DisconnectSourceServerInput {
     }
 }
 
-public struct DisconnectSourceServerInput: Swift.Equatable {
+public struct DisconnectSourceServerInput {
     /// The ID of the Source Server to disconnect.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -4309,7 +4309,7 @@ public struct DisconnectSourceServerInput: Swift.Equatable {
     }
 }
 
-struct DisconnectSourceServerInputBody: Swift.Equatable {
+struct DisconnectSourceServerInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -4368,7 +4368,7 @@ extension DisconnectSourceServerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisconnectSourceServerOutput: Swift.Equatable {
+public struct DisconnectSourceServerOutput {
     /// The version of the DRS agent installed on the source server
     public var agentVersion: Swift.String?
     /// The ARN of the Source Server.
@@ -4432,7 +4432,7 @@ public struct DisconnectSourceServerOutput: Swift.Equatable {
     }
 }
 
-struct DisconnectSourceServerOutputBody: Swift.Equatable {
+struct DisconnectSourceServerOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -4551,7 +4551,7 @@ extension DrsClientTypes.Disk: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing a data storage device on a server.
-    public struct Disk: Swift.Equatable {
+    public struct Disk {
         /// The amount of storage on the disk in bytes.
         public var bytes: Swift.Int
         /// The disk or device name.
@@ -4647,7 +4647,7 @@ extension DrsClientTypes.EventResourceData: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of resource related to a job event.
-    public enum EventResourceData: Swift.Equatable {
+    public enum EventResourceData {
         /// Source Network properties.
         case sourcenetworkdata(DrsClientTypes.SourceNetworkData)
         case sdkUnknown(Swift.String)
@@ -4675,7 +4675,7 @@ extension ExportSourceNetworkCfnTemplateInput {
     }
 }
 
-public struct ExportSourceNetworkCfnTemplateInput: Swift.Equatable {
+public struct ExportSourceNetworkCfnTemplateInput {
     /// The Source Network ID to export its CloudFormation template to an S3 bucket.
     /// This member is required.
     public var sourceNetworkID: Swift.String?
@@ -4688,7 +4688,7 @@ public struct ExportSourceNetworkCfnTemplateInput: Swift.Equatable {
     }
 }
 
-struct ExportSourceNetworkCfnTemplateInputBody: Swift.Equatable {
+struct ExportSourceNetworkCfnTemplateInputBody {
     let sourceNetworkID: Swift.String?
 }
 
@@ -4716,7 +4716,7 @@ extension ExportSourceNetworkCfnTemplateOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ExportSourceNetworkCfnTemplateOutput: Swift.Equatable {
+public struct ExportSourceNetworkCfnTemplateOutput {
     /// S3 bucket URL where the Source Network CloudFormation template was exported to.
     public var s3DestinationUrl: Swift.String?
 
@@ -4728,7 +4728,7 @@ public struct ExportSourceNetworkCfnTemplateOutput: Swift.Equatable {
     }
 }
 
-struct ExportSourceNetworkCfnTemplateOutputBody: Swift.Equatable {
+struct ExportSourceNetworkCfnTemplateOutputBody {
     let s3DestinationUrl: Swift.String?
 }
 
@@ -4983,7 +4983,7 @@ extension GetFailbackReplicationConfigurationInput {
     }
 }
 
-public struct GetFailbackReplicationConfigurationInput: Swift.Equatable {
+public struct GetFailbackReplicationConfigurationInput {
     /// The ID of the Recovery Instance whose failback replication configuration should be returned.
     /// This member is required.
     public var recoveryInstanceID: Swift.String?
@@ -4996,7 +4996,7 @@ public struct GetFailbackReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetFailbackReplicationConfigurationInputBody: Swift.Equatable {
+struct GetFailbackReplicationConfigurationInputBody {
     let recoveryInstanceID: Swift.String?
 }
 
@@ -5030,7 +5030,7 @@ extension GetFailbackReplicationConfigurationOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct GetFailbackReplicationConfigurationOutput: Swift.Equatable {
+public struct GetFailbackReplicationConfigurationOutput {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// The name of the Failback Replication Configuration.
@@ -5055,7 +5055,7 @@ public struct GetFailbackReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetFailbackReplicationConfigurationOutputBody: Swift.Equatable {
+struct GetFailbackReplicationConfigurationOutputBody {
     let recoveryInstanceID: Swift.String?
     let name: Swift.String?
     let bandwidthThrottling: Swift.Int
@@ -5117,7 +5117,7 @@ extension GetLaunchConfigurationInput {
     }
 }
 
-public struct GetLaunchConfigurationInput: Swift.Equatable {
+public struct GetLaunchConfigurationInput {
     /// The ID of the Source Server that we want to retrieve a Launch Configuration for.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -5130,7 +5130,7 @@ public struct GetLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLaunchConfigurationInputBody: Swift.Equatable {
+struct GetLaunchConfigurationInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -5176,7 +5176,7 @@ extension GetLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLaunchConfigurationOutput: Swift.Equatable {
+public struct GetLaunchConfigurationOutput {
     /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
     public var copyPrivateIp: Swift.Bool?
     /// Whether we want to copy the tags of the Source Server to the EC2 machine of the Recovery Instance.
@@ -5224,7 +5224,7 @@ public struct GetLaunchConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLaunchConfigurationOutputBody: Swift.Equatable {
+struct GetLaunchConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let ec2LaunchTemplateID: Swift.String?
@@ -5310,7 +5310,7 @@ extension GetReplicationConfigurationInput {
     }
 }
 
-public struct GetReplicationConfigurationInput: Swift.Equatable {
+public struct GetReplicationConfigurationInput {
     /// The ID of the Source Serve for this Replication Configuration.r
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -5323,7 +5323,7 @@ public struct GetReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetReplicationConfigurationInputBody: Swift.Equatable {
+struct GetReplicationConfigurationInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -5388,7 +5388,7 @@ extension GetReplicationConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReplicationConfigurationOutput: Swift.Equatable {
+public struct GetReplicationConfigurationOutput {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
@@ -5464,7 +5464,7 @@ public struct GetReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetReplicationConfigurationOutputBody: Swift.Equatable {
+struct GetReplicationConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -5634,7 +5634,7 @@ extension DrsClientTypes.IdentificationHints: Swift.Codable {
 
 extension DrsClientTypes {
     /// Hints used to uniquely identify a machine.
-    public struct IdentificationHints: Swift.Equatable {
+    public struct IdentificationHints {
         /// AWS Instance ID identification hint.
         public var awsInstanceID: Swift.String?
         /// Fully Qualified Domain Name identification hint.
@@ -5667,12 +5667,12 @@ extension InitializeServiceInput {
     }
 }
 
-public struct InitializeServiceInput: Swift.Equatable {
+public struct InitializeServiceInput {
 
     public init() { }
 }
 
-struct InitializeServiceInputBody: Swift.Equatable {
+struct InitializeServiceInputBody {
 }
 
 extension InitializeServiceInputBody: Swift.Decodable {
@@ -5686,7 +5686,7 @@ extension InitializeServiceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InitializeServiceOutput: Swift.Equatable {
+public struct InitializeServiceOutput {
 
     public init() { }
 }
@@ -5807,7 +5807,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -5939,7 +5939,7 @@ extension DrsClientTypes.Job: Swift.CustomDebugStringConvertible {
 
 extension DrsClientTypes {
     /// A job is an asynchronous workflow.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The ARN of a Job.
         public var arn: Swift.String?
         /// The date and time of when the Job was created.
@@ -6023,7 +6023,7 @@ extension DrsClientTypes.JobLog: Swift.Codable {
 
 extension DrsClientTypes {
     /// A log outputted by a Job.
-    public struct JobLog: Swift.Equatable {
+    public struct JobLog {
         /// The event represents the type of a log.
         public var event: DrsClientTypes.JobLogEvent?
         /// Metadata associated with a Job log.
@@ -6203,7 +6203,7 @@ extension DrsClientTypes.JobLogEventData: Swift.Codable {
 
 extension DrsClientTypes {
     /// Metadata associated with a Job log.
-    public struct JobLogEventData: Swift.Equatable {
+    public struct JobLogEventData {
         /// Properties of a conversion job
         public var conversionProperties: DrsClientTypes.ConversionProperties?
         /// The ID of a conversion server.
@@ -6470,7 +6470,7 @@ extension DrsClientTypes.LaunchAction: Swift.Codable {
 
 extension DrsClientTypes {
     /// Launch action.
-    public struct LaunchAction: Swift.Equatable {
+    public struct LaunchAction {
         /// Launch action code.
         public var actionCode: Swift.String?
         /// Launch action Id.
@@ -6593,7 +6593,7 @@ extension DrsClientTypes.LaunchActionParameter: Swift.Codable {
 
 extension DrsClientTypes {
     /// Launch action parameter.
-    public struct LaunchActionParameter: Swift.Equatable {
+    public struct LaunchActionParameter {
         /// Type.
         public var type: DrsClientTypes.LaunchActionParameterType?
         /// Value.
@@ -6682,7 +6682,7 @@ extension DrsClientTypes.LaunchActionRun: Swift.Codable {
 
 extension DrsClientTypes {
     /// Launch action run.
-    public struct LaunchActionRun: Swift.Equatable {
+    public struct LaunchActionRun {
         /// Action.
         public var action: DrsClientTypes.LaunchAction?
         /// Failure reason.
@@ -6808,7 +6808,7 @@ extension DrsClientTypes.LaunchActionsRequestFilters: Swift.Codable {
 
 extension DrsClientTypes {
     /// Resource launch actions filter.
-    public struct LaunchActionsRequestFilters: Swift.Equatable {
+    public struct LaunchActionsRequestFilters {
         /// Launch actions Ids.
         public var actionIds: [Swift.String]?
 
@@ -6861,7 +6861,7 @@ extension DrsClientTypes.LaunchActionsStatus: Swift.Codable {
 
 extension DrsClientTypes {
     /// Launch actions status.
-    public struct LaunchActionsStatus: Swift.Equatable {
+    public struct LaunchActionsStatus {
         /// List of post launch action status.
         public var runs: [DrsClientTypes.LaunchActionRun]?
         /// Time where the AWS Systems Manager was detected as running on the launched instance.
@@ -6977,7 +6977,7 @@ extension DrsClientTypes.LaunchConfigurationTemplate: Swift.CustomDebugStringCon
 
 extension DrsClientTypes {
     /// Account level Launch Configuration Template.
-    public struct LaunchConfigurationTemplate: Swift.Equatable {
+    public struct LaunchConfigurationTemplate {
         /// ARN of the Launch Configuration Template.
         public var arn: Swift.String?
         /// Copy private IP.
@@ -7084,7 +7084,7 @@ extension DrsClientTypes.LaunchIntoInstanceProperties: Swift.Codable {
 
 extension DrsClientTypes {
     /// Launch into existing instance.
-    public struct LaunchIntoInstanceProperties: Swift.Equatable {
+    public struct LaunchIntoInstanceProperties {
         /// Optionally holds EC2 instance ID of an instance to launch into, instead of launching a new instance during drill, recovery or failback.
         public var launchIntoEC2InstanceID: Swift.String?
 
@@ -7160,7 +7160,7 @@ extension DrsClientTypes.Licensing: Swift.Codable {
 
 extension DrsClientTypes {
     /// Configuration of a machine's license.
-    public struct Licensing: Swift.Equatable {
+    public struct Licensing {
         /// Whether to enable "Bring your own license" or not.
         public var osByol: Swift.Bool?
 
@@ -7219,7 +7219,7 @@ extension DrsClientTypes.LifeCycle: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing the Source Server Lifecycle.
-    public struct LifeCycle: Swift.Equatable {
+    public struct LifeCycle {
         /// The date and time of when the Source Server was added to the service.
         public var addedToServiceDateTime: Swift.String?
         /// The amount of time that the Source Server has been replicating for.
@@ -7276,7 +7276,7 @@ extension DrsClientTypes.LifeCycleLastLaunch: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object containing information regarding the last launch of a Source Server.
-    public struct LifeCycleLastLaunch: Swift.Equatable {
+    public struct LifeCycleLastLaunch {
         /// An object containing information regarding the initiation of the last launch of a Source Server.
         public var initiated: DrsClientTypes.LifeCycleLastLaunchInitiated?
         /// Status of Source Server's last launch.
@@ -7327,7 +7327,7 @@ extension DrsClientTypes.LifeCycleLastLaunchInitiated: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object containing information regarding the initiation of the last launch of a Source Server.
-    public struct LifeCycleLastLaunchInitiated: Swift.Equatable {
+    public struct LifeCycleLastLaunchInitiated {
         /// The date and time the last Source Server launch was initiated.
         public var apiCallDateTime: Swift.String?
         /// The ID of the Job that was used to last launch the Source Server.
@@ -7377,7 +7377,7 @@ extension ListExtensibleSourceServersInput {
     }
 }
 
-public struct ListExtensibleSourceServersInput: Swift.Equatable {
+public struct ListExtensibleSourceServersInput {
     /// The maximum number of extensible source servers to retrieve.
     public var maxResults: Swift.Int?
     /// The token of the next extensible source server to retrieve.
@@ -7398,7 +7398,7 @@ public struct ListExtensibleSourceServersInput: Swift.Equatable {
     }
 }
 
-struct ListExtensibleSourceServersInputBody: Swift.Equatable {
+struct ListExtensibleSourceServersInputBody {
     let stagingAccountID: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7436,7 +7436,7 @@ extension ListExtensibleSourceServersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExtensibleSourceServersOutput: Swift.Equatable {
+public struct ListExtensibleSourceServersOutput {
     /// A list of source servers on a staging Account that are extensible.
     public var items: [DrsClientTypes.StagingSourceServer]?
     /// The token of the next extensible source server to retrieve.
@@ -7452,7 +7452,7 @@ public struct ListExtensibleSourceServersOutput: Swift.Equatable {
     }
 }
 
-struct ListExtensibleSourceServersOutputBody: Swift.Equatable {
+struct ListExtensibleSourceServersOutputBody {
     let items: [DrsClientTypes.StagingSourceServer]?
     let nextToken: Swift.String?
 }
@@ -7528,7 +7528,7 @@ extension ListLaunchActionsInput {
     }
 }
 
-public struct ListLaunchActionsInput: Swift.Equatable {
+public struct ListLaunchActionsInput {
     /// Filters to apply when listing resource launch actions.
     public var filters: DrsClientTypes.LaunchActionsRequestFilters?
     /// Maximum amount of items to return when listing resource launch actions.
@@ -7553,7 +7553,7 @@ public struct ListLaunchActionsInput: Swift.Equatable {
     }
 }
 
-struct ListLaunchActionsInputBody: Swift.Equatable {
+struct ListLaunchActionsInputBody {
     let resourceId: Swift.String?
     let filters: DrsClientTypes.LaunchActionsRequestFilters?
     let maxResults: Swift.Int?
@@ -7595,7 +7595,7 @@ extension ListLaunchActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLaunchActionsOutput: Swift.Equatable {
+public struct ListLaunchActionsOutput {
     /// List of resource launch actions.
     public var items: [DrsClientTypes.LaunchAction]?
     /// Next token returned when listing resource launch actions.
@@ -7611,7 +7611,7 @@ public struct ListLaunchActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLaunchActionsOutputBody: Swift.Equatable {
+struct ListLaunchActionsOutputBody {
     let items: [DrsClientTypes.LaunchAction]?
     let nextToken: Swift.String?
 }
@@ -7678,7 +7678,7 @@ extension ListStagingAccountsInput {
     }
 }
 
-public struct ListStagingAccountsInput: Swift.Equatable {
+public struct ListStagingAccountsInput {
     /// The maximum number of staging Accounts to retrieve.
     public var maxResults: Swift.Int?
     /// The token of the next staging Account to retrieve.
@@ -7694,7 +7694,7 @@ public struct ListStagingAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListStagingAccountsInputBody: Swift.Equatable {
+struct ListStagingAccountsInputBody {
 }
 
 extension ListStagingAccountsInputBody: Swift.Decodable {
@@ -7717,7 +7717,7 @@ extension ListStagingAccountsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStagingAccountsOutput: Swift.Equatable {
+public struct ListStagingAccountsOutput {
     /// An array of staging AWS Accounts.
     public var accounts: [DrsClientTypes.Account]?
     /// The token of the next staging Account to retrieve.
@@ -7733,7 +7733,7 @@ public struct ListStagingAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListStagingAccountsOutputBody: Swift.Equatable {
+struct ListStagingAccountsOutputBody {
     let accounts: [DrsClientTypes.Account]?
     let nextToken: Swift.String?
 }
@@ -7787,7 +7787,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource whose tags should be returned.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7800,7 +7800,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -7826,7 +7826,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags of the requested resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -7838,7 +7838,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7923,7 +7923,7 @@ extension DrsClientTypes.NetworkInterface: Swift.Codable {
 
 extension DrsClientTypes {
     /// Network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// Network interface IPs.
         public var ips: [Swift.String]?
         /// Whether this is the primary network interface.
@@ -7966,7 +7966,7 @@ extension DrsClientTypes.OS: Swift.Codable {
 
 extension DrsClientTypes {
     /// Operating System.
-    public struct OS: Swift.Equatable {
+    public struct OS {
         /// The long name of the Operating System.
         public var fullString: Swift.String?
 
@@ -8057,7 +8057,7 @@ extension DrsClientTypes.PITPolicyRule: Swift.Codable {
 
 extension DrsClientTypes {
     /// A rule in the Point in Time (PIT) policy representing when to take snapshots and how long to retain them for.
-    public struct PITPolicyRule: Swift.Equatable {
+    public struct PITPolicyRule {
         /// Whether this rule is enabled or not.
         public var enabled: Swift.Bool?
         /// How often, in the chosen units, a snapshot should be taken.
@@ -8152,7 +8152,7 @@ extension DrsClientTypes.ParticipatingResource: Swift.Codable {
 
 extension DrsClientTypes {
     /// Represents a resource participating in an asynchronous Job.
-    public struct ParticipatingResource: Swift.Equatable {
+    public struct ParticipatingResource {
         /// The launch status of a participating resource.
         public var launchStatus: DrsClientTypes.LaunchStatus?
         /// The ID of a participating resource.
@@ -8199,7 +8199,7 @@ extension DrsClientTypes.ParticipatingResourceID: Swift.Codable {
 
 extension DrsClientTypes {
     /// ID of a resource participating in an asynchronous Job.
-    public enum ParticipatingResourceID: Swift.Equatable {
+    public enum ParticipatingResourceID {
         /// Source Network ID.
         case sourcenetworkid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -8246,7 +8246,7 @@ extension DrsClientTypes.ParticipatingServer: Swift.Codable {
 
 extension DrsClientTypes {
     /// Represents a server participating in an asynchronous Job.
-    public struct ParticipatingServer: Swift.Equatable {
+    public struct ParticipatingServer {
         /// The post-launch action runs of a participating server.
         public var launchActionsStatus: DrsClientTypes.LaunchActionsStatus?
         /// The launch status of a participating server.
@@ -8299,7 +8299,7 @@ extension DrsClientTypes.ProductCode: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of a product code associated with a volume.
-    public struct ProductCode: Swift.Equatable {
+    public struct ProductCode {
         /// Id of a product code associated with a volume.
         public var productCodeId: Swift.String?
         /// Mode of a product code associated with a volume.
@@ -8412,7 +8412,7 @@ extension PutLaunchActionInput {
     }
 }
 
-public struct PutLaunchActionInput: Swift.Equatable {
+public struct PutLaunchActionInput {
     /// Launch action code.
     /// This member is required.
     public var actionCode: Swift.String?
@@ -8474,7 +8474,7 @@ public struct PutLaunchActionInput: Swift.Equatable {
     }
 }
 
-struct PutLaunchActionInputBody: Swift.Equatable {
+struct PutLaunchActionInputBody {
     let resourceId: Swift.String?
     let actionCode: Swift.String?
     let order: Swift.Int?
@@ -8573,7 +8573,7 @@ extension PutLaunchActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLaunchActionOutput: Swift.Equatable {
+public struct PutLaunchActionOutput {
     /// Launch action code.
     public var actionCode: Swift.String?
     /// Launch action Id.
@@ -8629,7 +8629,7 @@ public struct PutLaunchActionOutput: Swift.Equatable {
     }
 }
 
-struct PutLaunchActionOutputBody: Swift.Equatable {
+struct PutLaunchActionOutputBody {
     let resourceId: Swift.String?
     let actionId: Swift.String?
     let actionCode: Swift.String?
@@ -8842,7 +8842,7 @@ extension DrsClientTypes.RecoveryInstance: Swift.CustomDebugStringConvertible {
 
 extension DrsClientTypes {
     /// A Recovery Instance is a replica of a Source Server running on EC2.
-    public struct RecoveryInstance: Swift.Equatable {
+    public struct RecoveryInstance {
         /// The version of the DRS agent installed on the recovery instance
         public var agentVersion: Swift.String?
         /// The ARN of the Recovery Instance.
@@ -8943,7 +8943,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationError: Swift.Codable {
 
 extension DrsClientTypes {
     /// Error in data replication.
-    public struct RecoveryInstanceDataReplicationError: Swift.Equatable {
+    public struct RecoveryInstanceDataReplicationError {
         /// Error in data replication.
         public var error: DrsClientTypes.FailbackReplicationError?
         /// Error in data replication.
@@ -9036,7 +9036,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfo: Swift.Codable {
 
 extension DrsClientTypes {
     /// Information about Data Replication
-    public struct RecoveryInstanceDataReplicationInfo: Swift.Equatable {
+    public struct RecoveryInstanceDataReplicationInfo {
         /// Information about Data Replication
         public var dataReplicationError: DrsClientTypes.RecoveryInstanceDataReplicationError?
         /// Information about whether the data replication has been initiated.
@@ -9123,7 +9123,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInfoReplicatedDisk: Swif
 
 extension DrsClientTypes {
     /// A disk that should be replicated.
-    public struct RecoveryInstanceDataReplicationInfoReplicatedDisk: Swift.Equatable {
+    public struct RecoveryInstanceDataReplicationInfoReplicatedDisk {
         /// The size of the replication backlog in bytes.
         public var backloggedStorageBytes: Swift.Int
         /// The name of the device.
@@ -9192,7 +9192,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInitiation: Swift.Codabl
 
 extension DrsClientTypes {
     /// Data replication initiation.
-    public struct RecoveryInstanceDataReplicationInitiation: Swift.Equatable {
+    public struct RecoveryInstanceDataReplicationInitiation {
         /// The date and time of the current attempt to initiate data replication.
         public var startDateTime: Swift.String?
         /// The steps of the current attempt to initiate data replication.
@@ -9237,7 +9237,7 @@ extension DrsClientTypes.RecoveryInstanceDataReplicationInitiationStep: Swift.Co
 
 extension DrsClientTypes {
     /// Data replication initiation step.
-    public struct RecoveryInstanceDataReplicationInitiationStep: Swift.Equatable {
+    public struct RecoveryInstanceDataReplicationInitiationStep {
         /// The name of the step.
         public var name: DrsClientTypes.RecoveryInstanceDataReplicationInitiationStepName?
         /// The status of the step.
@@ -9471,7 +9471,7 @@ extension DrsClientTypes.RecoveryInstanceDisk: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing a block storage device on the Recovery Instance.
-    public struct RecoveryInstanceDisk: Swift.Equatable {
+    public struct RecoveryInstanceDisk {
         /// The amount of storage on the disk in bytes.
         public var bytes: Swift.Int
         /// The EBS Volume ID of this disk.
@@ -9568,7 +9568,7 @@ extension DrsClientTypes.RecoveryInstanceFailback: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing failback related information of the Recovery Instance.
-    public struct RecoveryInstanceFailback: Swift.Equatable {
+    public struct RecoveryInstanceFailback {
         /// The date and time the agent on the Recovery Instance was last seen by the service.
         public var agentLastSeenByServiceDateTime: Swift.String?
         /// The amount of time that the Recovery Instance has been replicating for.
@@ -9711,7 +9711,7 @@ extension DrsClientTypes.RecoveryInstanceProperties: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of the Recovery Instance machine.
-    public struct RecoveryInstanceProperties: Swift.Equatable {
+    public struct RecoveryInstanceProperties {
         /// An array of CPUs.
         public var cpus: [DrsClientTypes.CPU]?
         /// An array of disks.
@@ -9782,7 +9782,7 @@ extension DrsClientTypes.RecoveryLifeCycle: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing the Source Network recovery Lifecycle.
-    public struct RecoveryLifeCycle: Swift.Equatable {
+    public struct RecoveryLifeCycle {
         /// The date and time the last Source Network recovery was initiated.
         public var apiCallDateTime: ClientRuntime.Date?
         /// The ID of the Job that was used to last recover the Source Network.
@@ -9908,7 +9908,7 @@ extension DrsClientTypes.RecoverySnapshot: Swift.Codable {
 
 extension DrsClientTypes {
     /// A snapshot of a Source Server used during recovery.
-    public struct RecoverySnapshot: Swift.Equatable {
+    public struct RecoverySnapshot {
         /// A list of EBS snapshots.
         public var ebsSnapshots: [Swift.String]?
         /// The timestamp of when we expect the snapshot to be taken.
@@ -10129,7 +10129,7 @@ extension DrsClientTypes.ReplicationConfigurationReplicatedDisk: Swift.Codable {
 
 extension DrsClientTypes {
     /// The configuration of a disk of the Source Server to be replicated.
-    public struct ReplicationConfigurationReplicatedDisk: Swift.Equatable {
+    public struct ReplicationConfigurationReplicatedDisk {
         /// The name of the device.
         public var deviceName: Swift.String?
         /// The requested number of I/O operations per second (IOPS).
@@ -10379,7 +10379,7 @@ extension DrsClientTypes.ReplicationConfigurationTemplate: Swift.CustomDebugStri
 }
 
 extension DrsClientTypes {
-    public struct ReplicationConfigurationTemplate: Swift.Equatable {
+    public struct ReplicationConfigurationTemplate {
         /// The Replication Configuration Template ARN.
         public var arn: Swift.String?
         /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
@@ -10585,7 +10585,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -10634,7 +10634,7 @@ extension RetryDataReplicationInput {
 }
 
 @available(*, deprecated, message: "WARNING: RetryDataReplication is deprecated")
-public struct RetryDataReplicationInput: Swift.Equatable {
+public struct RetryDataReplicationInput {
     /// The ID of the Source Server whose data replication should be retried.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -10647,7 +10647,7 @@ public struct RetryDataReplicationInput: Swift.Equatable {
     }
 }
 
-struct RetryDataReplicationInputBody: Swift.Equatable {
+struct RetryDataReplicationInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -10706,7 +10706,7 @@ extension RetryDataReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RetryDataReplicationOutput: Swift.Equatable {
+public struct RetryDataReplicationOutput {
     /// The version of the DRS agent installed on the source server
     public var agentVersion: Swift.String?
     /// The ARN of the Source Server.
@@ -10770,7 +10770,7 @@ public struct RetryDataReplicationOutput: Swift.Equatable {
     }
 }
 
-struct RetryDataReplicationOutputBody: Swift.Equatable {
+struct RetryDataReplicationOutputBody {
     let sourceServerID: Swift.String?
     let arn: Swift.String?
     let tags: [Swift.String:Swift.String]?
@@ -10882,7 +10882,7 @@ extension ReverseReplicationInput {
     }
 }
 
-public struct ReverseReplicationInput: Swift.Equatable {
+public struct ReverseReplicationInput {
     /// The ID of the Recovery Instance that we want to reverse the replication for.
     /// This member is required.
     public var recoveryInstanceID: Swift.String?
@@ -10895,7 +10895,7 @@ public struct ReverseReplicationInput: Swift.Equatable {
     }
 }
 
-struct ReverseReplicationInputBody: Swift.Equatable {
+struct ReverseReplicationInputBody {
     let recoveryInstanceID: Swift.String?
 }
 
@@ -10923,7 +10923,7 @@ extension ReverseReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ReverseReplicationOutput: Swift.Equatable {
+public struct ReverseReplicationOutput {
     /// ARN of created SourceServer.
     public var reversedDirectionSourceServerArn: Swift.String?
 
@@ -10935,7 +10935,7 @@ public struct ReverseReplicationOutput: Swift.Equatable {
     }
 }
 
-struct ReverseReplicationOutputBody: Swift.Equatable {
+struct ReverseReplicationOutputBody {
     let reversedDirectionSourceServerArn: Swift.String?
 }
 
@@ -11036,7 +11036,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let resourceId: Swift.String?
@@ -11111,7 +11111,7 @@ extension DrsClientTypes.SourceCloudProperties: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of the cloud environment where this Source Server originated from.
-    public struct SourceCloudProperties: Swift.Equatable {
+    public struct SourceCloudProperties {
         /// AWS Account ID for an EC2-originated Source Server.
         public var originAccountID: Swift.String?
         /// AWS Availability Zone for an EC2-originated Source Server.
@@ -11235,7 +11235,7 @@ extension DrsClientTypes.SourceNetwork: Swift.CustomDebugStringConvertible {
 
 extension DrsClientTypes {
     /// The ARN of the Source Network.
-    public struct SourceNetwork: Swift.Equatable {
+    public struct SourceNetwork {
         /// The ARN of the Source Network.
         public var arn: Swift.String?
         /// CloudFormation stack name that was deployed for recovering the Source Network.
@@ -11328,7 +11328,7 @@ extension DrsClientTypes.SourceNetworkData: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of Source Network related to a job event.
-    public struct SourceNetworkData: Swift.Equatable {
+    public struct SourceNetworkData {
         /// Source Network ID.
         public var sourceNetworkID: Swift.String?
         /// VPC ID protected by the Source Network.
@@ -11459,7 +11459,7 @@ extension DrsClientTypes.SourceProperties: Swift.Codable {
 
 extension DrsClientTypes {
     /// Properties of the Source Server machine.
-    public struct SourceProperties: Swift.Equatable {
+    public struct SourceProperties {
         /// An array of CPUs.
         public var cpus: [DrsClientTypes.CPU]?
         /// An array of disks.
@@ -11620,7 +11620,7 @@ extension DrsClientTypes.SourceServer: Swift.CustomDebugStringConvertible {
 }
 
 extension DrsClientTypes {
-    public struct SourceServer: Swift.Equatable {
+    public struct SourceServer {
         /// The version of the DRS agent installed on the source server
         public var agentVersion: Swift.String?
         /// The ARN of the Source Server.
@@ -11725,7 +11725,7 @@ extension DrsClientTypes.StagingArea: Swift.Codable {
 
 extension DrsClientTypes {
     /// Staging information related to source server.
-    public struct StagingArea: Swift.Equatable {
+    public struct StagingArea {
         /// Shows an error message that occurred when DRS tried to access the staging source server. In this case StagingArea$status will have value EXTENSION_ERROR
         public var errorMessage: Swift.String?
         /// Account ID of the account to which source server belongs. If this source server is extended - shows Account ID of staging source server.
@@ -11801,7 +11801,7 @@ extension DrsClientTypes.StagingSourceServer: Swift.CustomDebugStringConvertible
 
 extension DrsClientTypes {
     /// Source server in staging account that extended source server connected to.
-    public struct StagingSourceServer: Swift.Equatable {
+    public struct StagingSourceServer {
         /// The ARN of the source server.
         public var arn: Swift.String?
         /// Hostname of staging source server.
@@ -11858,7 +11858,7 @@ extension StartFailbackLaunchInput {
     }
 }
 
-public struct StartFailbackLaunchInput: Swift.Equatable {
+public struct StartFailbackLaunchInput {
     /// The IDs of the Recovery Instance whose failback launch we want to request.
     /// This member is required.
     public var recoveryInstanceIDs: [Swift.String]?
@@ -11875,7 +11875,7 @@ public struct StartFailbackLaunchInput: Swift.Equatable {
     }
 }
 
-struct StartFailbackLaunchInputBody: Swift.Equatable {
+struct StartFailbackLaunchInputBody {
     let recoveryInstanceIDs: [Swift.String]?
     let tags: [Swift.String:Swift.String]?
 }
@@ -11925,7 +11925,7 @@ extension StartFailbackLaunchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartFailbackLaunchOutput: Swift.Equatable {
+public struct StartFailbackLaunchOutput {
     /// The failback launch Job.
     public var job: DrsClientTypes.Job?
 
@@ -11937,7 +11937,7 @@ public struct StartFailbackLaunchOutput: Swift.Equatable {
     }
 }
 
-struct StartFailbackLaunchOutputBody: Swift.Equatable {
+struct StartFailbackLaunchOutputBody {
     let job: DrsClientTypes.Job?
 }
 
@@ -12008,7 +12008,7 @@ extension StartRecoveryInput {
     }
 }
 
-public struct StartRecoveryInput: Swift.Equatable {
+public struct StartRecoveryInput {
     /// Whether this Source Server Recovery operation is a drill or not.
     public var isDrill: Swift.Bool?
     /// The Source Servers that we want to start a Recovery Job for.
@@ -12029,7 +12029,7 @@ public struct StartRecoveryInput: Swift.Equatable {
     }
 }
 
-struct StartRecoveryInputBody: Swift.Equatable {
+struct StartRecoveryInputBody {
     let sourceServers: [DrsClientTypes.StartRecoveryRequestSourceServer]?
     let isDrill: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
@@ -12083,7 +12083,7 @@ extension StartRecoveryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartRecoveryOutput: Swift.Equatable {
+public struct StartRecoveryOutput {
     /// The Recovery Job.
     public var job: DrsClientTypes.Job?
 
@@ -12095,7 +12095,7 @@ public struct StartRecoveryOutput: Swift.Equatable {
     }
 }
 
-struct StartRecoveryOutputBody: Swift.Equatable {
+struct StartRecoveryOutputBody {
     let job: DrsClientTypes.Job?
 }
 
@@ -12153,7 +12153,7 @@ extension DrsClientTypes.StartRecoveryRequestSourceServer: Swift.Codable {
 
 extension DrsClientTypes {
     /// An object representing the Source Server to recover.
-    public struct StartRecoveryRequestSourceServer: Swift.Equatable {
+    public struct StartRecoveryRequestSourceServer {
         /// The ID of a Recovery Snapshot we want to recover from. Omit this field to launch from the latest data by taking an on-demand snapshot.
         public var recoverySnapshotID: Swift.String?
         /// The ID of the Source Server you want to recover.
@@ -12192,7 +12192,7 @@ extension StartReplicationInput {
     }
 }
 
-public struct StartReplicationInput: Swift.Equatable {
+public struct StartReplicationInput {
     /// The ID of the Source Server to start replication for.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -12205,7 +12205,7 @@ public struct StartReplicationInput: Swift.Equatable {
     }
 }
 
-struct StartReplicationInputBody: Swift.Equatable {
+struct StartReplicationInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -12233,7 +12233,7 @@ extension StartReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartReplicationOutput: Swift.Equatable {
+public struct StartReplicationOutput {
     /// The Source Server that this action was targeted on.
     public var sourceServer: DrsClientTypes.SourceServer?
 
@@ -12245,7 +12245,7 @@ public struct StartReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StartReplicationOutputBody: Swift.Equatable {
+struct StartReplicationOutputBody {
     let sourceServer: DrsClientTypes.SourceServer?
 }
 
@@ -12315,7 +12315,7 @@ extension StartSourceNetworkRecoveryInput {
     }
 }
 
-public struct StartSourceNetworkRecoveryInput: Swift.Equatable {
+public struct StartSourceNetworkRecoveryInput {
     /// Don't update existing CloudFormation Stack, recover the network using a new stack.
     public var deployAsNew: Swift.Bool?
     /// The Source Networks that we want to start a Recovery Job for.
@@ -12336,7 +12336,7 @@ public struct StartSourceNetworkRecoveryInput: Swift.Equatable {
     }
 }
 
-struct StartSourceNetworkRecoveryInputBody: Swift.Equatable {
+struct StartSourceNetworkRecoveryInputBody {
     let sourceNetworks: [DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry]?
     let deployAsNew: Swift.Bool?
     let tags: [Swift.String:Swift.String]?
@@ -12390,7 +12390,7 @@ extension StartSourceNetworkRecoveryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSourceNetworkRecoveryOutput: Swift.Equatable {
+public struct StartSourceNetworkRecoveryOutput {
     /// The Source Network recovery Job.
     public var job: DrsClientTypes.Job?
 
@@ -12402,7 +12402,7 @@ public struct StartSourceNetworkRecoveryOutput: Swift.Equatable {
     }
 }
 
-struct StartSourceNetworkRecoveryOutputBody: Swift.Equatable {
+struct StartSourceNetworkRecoveryOutputBody {
     let job: DrsClientTypes.Job?
 }
 
@@ -12466,7 +12466,7 @@ extension DrsClientTypes.StartSourceNetworkRecoveryRequestNetworkEntry: Swift.Cu
 
 extension DrsClientTypes {
     /// An object representing the Source Network to recover.
-    public struct StartSourceNetworkRecoveryRequestNetworkEntry: Swift.Equatable {
+    public struct StartSourceNetworkRecoveryRequestNetworkEntry {
         /// CloudFormation stack name to be used for recovering the network.
         public var cfnStackName: Swift.String?
         /// The ID of the Source Network you want to recover.
@@ -12505,7 +12505,7 @@ extension StartSourceNetworkReplicationInput {
     }
 }
 
-public struct StartSourceNetworkReplicationInput: Swift.Equatable {
+public struct StartSourceNetworkReplicationInput {
     /// ID of the Source Network to replicate.
     /// This member is required.
     public var sourceNetworkID: Swift.String?
@@ -12518,7 +12518,7 @@ public struct StartSourceNetworkReplicationInput: Swift.Equatable {
     }
 }
 
-struct StartSourceNetworkReplicationInputBody: Swift.Equatable {
+struct StartSourceNetworkReplicationInputBody {
     let sourceNetworkID: Swift.String?
 }
 
@@ -12546,7 +12546,7 @@ extension StartSourceNetworkReplicationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct StartSourceNetworkReplicationOutput: Swift.Equatable {
+public struct StartSourceNetworkReplicationOutput {
     /// Source Network which was requested for replication.
     public var sourceNetwork: DrsClientTypes.SourceNetwork?
 
@@ -12558,7 +12558,7 @@ public struct StartSourceNetworkReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StartSourceNetworkReplicationOutputBody: Swift.Equatable {
+struct StartSourceNetworkReplicationOutputBody {
     let sourceNetwork: DrsClientTypes.SourceNetwork?
 }
 
@@ -12609,7 +12609,7 @@ extension StopFailbackInput {
     }
 }
 
-public struct StopFailbackInput: Swift.Equatable {
+public struct StopFailbackInput {
     /// The ID of the Recovery Instance we want to stop failback for.
     /// This member is required.
     public var recoveryInstanceID: Swift.String?
@@ -12622,7 +12622,7 @@ public struct StopFailbackInput: Swift.Equatable {
     }
 }
 
-struct StopFailbackInputBody: Swift.Equatable {
+struct StopFailbackInputBody {
     let recoveryInstanceID: Swift.String?
 }
 
@@ -12643,7 +12643,7 @@ extension StopFailbackOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopFailbackOutput: Swift.Equatable {
+public struct StopFailbackOutput {
 
     public init() { }
 }
@@ -12682,7 +12682,7 @@ extension StopReplicationInput {
     }
 }
 
-public struct StopReplicationInput: Swift.Equatable {
+public struct StopReplicationInput {
     /// The ID of the Source Server to stop replication for.
     /// This member is required.
     public var sourceServerID: Swift.String?
@@ -12695,7 +12695,7 @@ public struct StopReplicationInput: Swift.Equatable {
     }
 }
 
-struct StopReplicationInputBody: Swift.Equatable {
+struct StopReplicationInputBody {
     let sourceServerID: Swift.String?
 }
 
@@ -12723,7 +12723,7 @@ extension StopReplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopReplicationOutput: Swift.Equatable {
+public struct StopReplicationOutput {
     /// The Source Server that this action was targeted on.
     public var sourceServer: DrsClientTypes.SourceServer?
 
@@ -12735,7 +12735,7 @@ public struct StopReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StopReplicationOutputBody: Swift.Equatable {
+struct StopReplicationOutputBody {
     let sourceServer: DrsClientTypes.SourceServer?
 }
 
@@ -12786,7 +12786,7 @@ extension StopSourceNetworkReplicationInput {
     }
 }
 
-public struct StopSourceNetworkReplicationInput: Swift.Equatable {
+public struct StopSourceNetworkReplicationInput {
     /// ID of the Source Network to stop replication.
     /// This member is required.
     public var sourceNetworkID: Swift.String?
@@ -12799,7 +12799,7 @@ public struct StopSourceNetworkReplicationInput: Swift.Equatable {
     }
 }
 
-struct StopSourceNetworkReplicationInputBody: Swift.Equatable {
+struct StopSourceNetworkReplicationInputBody {
     let sourceNetworkID: Swift.String?
 }
 
@@ -12827,7 +12827,7 @@ extension StopSourceNetworkReplicationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct StopSourceNetworkReplicationOutput: Swift.Equatable {
+public struct StopSourceNetworkReplicationOutput {
     /// Source Network which was requested to stop replication.
     public var sourceNetwork: DrsClientTypes.SourceNetwork?
 
@@ -12839,7 +12839,7 @@ public struct StopSourceNetworkReplicationOutput: Swift.Equatable {
     }
 }
 
-struct StopSourceNetworkReplicationOutputBody: Swift.Equatable {
+struct StopSourceNetworkReplicationOutputBody {
     let sourceNetwork: DrsClientTypes.SourceNetwork?
 }
 
@@ -12902,7 +12902,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// ARN of the resource for which tags are to be added or updated.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -12920,7 +12920,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -12950,7 +12950,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -13028,7 +13028,7 @@ extension TerminateRecoveryInstancesInput {
     }
 }
 
-public struct TerminateRecoveryInstancesInput: Swift.Equatable {
+public struct TerminateRecoveryInstancesInput {
     /// The IDs of the Recovery Instances that should be terminated.
     /// This member is required.
     public var recoveryInstanceIDs: [Swift.String]?
@@ -13041,7 +13041,7 @@ public struct TerminateRecoveryInstancesInput: Swift.Equatable {
     }
 }
 
-struct TerminateRecoveryInstancesInputBody: Swift.Equatable {
+struct TerminateRecoveryInstancesInputBody {
     let recoveryInstanceIDs: [Swift.String]?
 }
 
@@ -13078,7 +13078,7 @@ extension TerminateRecoveryInstancesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateRecoveryInstancesOutput: Swift.Equatable {
+public struct TerminateRecoveryInstancesOutput {
     /// The Job for terminating the Recovery Instances.
     public var job: DrsClientTypes.Job?
 
@@ -13090,7 +13090,7 @@ public struct TerminateRecoveryInstancesOutput: Swift.Equatable {
     }
 }
 
-struct TerminateRecoveryInstancesOutputBody: Swift.Equatable {
+struct TerminateRecoveryInstancesOutputBody {
     let job: DrsClientTypes.Job?
 }
 
@@ -13182,7 +13182,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -13250,7 +13250,7 @@ public struct UninitializedAccountException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UninitializedAccountExceptionBody: Swift.Equatable {
+struct UninitializedAccountExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -13301,7 +13301,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// ARN of the resource for which tags are to be removed.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -13319,7 +13319,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -13333,7 +13333,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -13385,7 +13385,7 @@ extension UpdateFailbackReplicationConfigurationInput {
     }
 }
 
-public struct UpdateFailbackReplicationConfigurationInput: Swift.Equatable {
+public struct UpdateFailbackReplicationConfigurationInput {
     /// Configure bandwidth throttling for the outbound data transfer rate of the Recovery Instance in Mbps.
     public var bandwidthThrottling: Swift.Int
     /// The name of the Failback Replication Configuration.
@@ -13410,7 +13410,7 @@ public struct UpdateFailbackReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateFailbackReplicationConfigurationInputBody: Swift.Equatable {
+struct UpdateFailbackReplicationConfigurationInputBody {
     let recoveryInstanceID: Swift.String?
     let name: Swift.String?
     let bandwidthThrottling: Swift.Int
@@ -13443,7 +13443,7 @@ extension UpdateFailbackReplicationConfigurationOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateFailbackReplicationConfigurationOutput: Swift.Equatable {
+public struct UpdateFailbackReplicationConfigurationOutput {
 
     public init() { }
 }
@@ -13515,7 +13515,7 @@ extension UpdateLaunchConfigurationInput {
     }
 }
 
-public struct UpdateLaunchConfigurationInput: Swift.Equatable {
+public struct UpdateLaunchConfigurationInput {
     /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
     public var copyPrivateIp: Swift.Bool?
     /// Whether we want to copy the tags of the Source Server to the EC2 machine of the Recovery Instance.
@@ -13560,7 +13560,7 @@ public struct UpdateLaunchConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationInputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationInputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let launchDisposition: DrsClientTypes.LaunchDisposition?
@@ -13638,7 +13638,7 @@ extension UpdateLaunchConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
+public struct UpdateLaunchConfigurationOutput {
     /// Whether we should copy the Private IP of the Source Server to the Recovery Instance.
     public var copyPrivateIp: Swift.Bool?
     /// Whether we want to copy the tags of the Source Server to the EC2 machine of the Recovery Instance.
@@ -13686,7 +13686,7 @@ public struct UpdateLaunchConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationOutputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let ec2LaunchTemplateID: Swift.String?
@@ -13806,7 +13806,7 @@ extension UpdateLaunchConfigurationTemplateInput {
     }
 }
 
-public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
+public struct UpdateLaunchConfigurationTemplateInput {
     /// Copy private IP.
     public var copyPrivateIp: Swift.Bool?
     /// Copy tags.
@@ -13851,7 +13851,7 @@ public struct UpdateLaunchConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationTemplateInputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationTemplateInputBody {
     let launchConfigurationTemplateID: Swift.String?
     let launchDisposition: DrsClientTypes.LaunchDisposition?
     let targetInstanceTypeRightSizingMethod: DrsClientTypes.TargetInstanceTypeRightSizingMethod?
@@ -13911,7 +13911,7 @@ extension UpdateLaunchConfigurationTemplateOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct UpdateLaunchConfigurationTemplateOutput: Swift.Equatable {
+public struct UpdateLaunchConfigurationTemplateOutput {
     /// Updated Launch Configuration Template.
     public var launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
 
@@ -13923,7 +13923,7 @@ public struct UpdateLaunchConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLaunchConfigurationTemplateOutputBody: Swift.Equatable {
+struct UpdateLaunchConfigurationTemplateOutputBody {
     let launchConfigurationTemplate: DrsClientTypes.LaunchConfigurationTemplate?
 }
 
@@ -14056,7 +14056,7 @@ extension UpdateReplicationConfigurationInput {
     }
 }
 
-public struct UpdateReplicationConfigurationInput: Swift.Equatable {
+public struct UpdateReplicationConfigurationInput {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
@@ -14133,7 +14133,7 @@ public struct UpdateReplicationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationInputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationInputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -14298,7 +14298,7 @@ extension UpdateReplicationConfigurationOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateReplicationConfigurationOutput: Swift.Equatable {
+public struct UpdateReplicationConfigurationOutput {
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration.
     public var associateDefaultSecurityGroup: Swift.Bool?
     /// Whether to allow the AWS replication agent to automatically replicate newly added disks.
@@ -14374,7 +14374,7 @@ public struct UpdateReplicationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationOutputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationOutputBody {
     let sourceServerID: Swift.String?
     let name: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -14601,7 +14601,7 @@ extension UpdateReplicationConfigurationTemplateInput {
     }
 }
 
-public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
+public struct UpdateReplicationConfigurationTemplateInput {
     /// The Replication Configuration Template ARN.
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
@@ -14674,7 +14674,7 @@ public struct UpdateReplicationConfigurationTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationTemplateInputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationTemplateInputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -14826,7 +14826,7 @@ extension UpdateReplicationConfigurationTemplateOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct UpdateReplicationConfigurationTemplateOutput: Swift.Equatable {
+public struct UpdateReplicationConfigurationTemplateOutput {
     /// The Replication Configuration Template ARN.
     public var arn: Swift.String?
     /// Whether to associate the default Elastic Disaster Recovery Security group with the Replication Configuration Template.
@@ -14903,7 +14903,7 @@ public struct UpdateReplicationConfigurationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReplicationConfigurationTemplateOutputBody: Swift.Equatable {
+struct UpdateReplicationConfigurationTemplateOutputBody {
     let replicationConfigurationTemplateID: Swift.String?
     let arn: Swift.String?
     let stagingAreaSubnetId: Swift.String?
@@ -15091,7 +15091,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
     let reason: DrsClientTypes.ValidationExceptionReason?
@@ -15155,7 +15155,7 @@ extension DrsClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension DrsClientTypes {
     /// Validate exception field.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Validate exception field message.
         public var message: Swift.String?
         /// Validate exception field name.

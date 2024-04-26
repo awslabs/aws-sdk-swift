@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -148,7 +148,7 @@ extension CreateEndpointInput {
     }
 }
 
-public struct CreateEndpointInput: Swift.Equatable {
+public struct CreateEndpointInput {
     /// The type of access for the network connectivity for the Amazon S3 on Outposts endpoint. To use the Amazon Web Services VPC, choose Private. To use the endpoint with an on-premises network, choose CustomerOwnedIp. If you choose CustomerOwnedIp, you must also provide the customer-owned IP address pool (CoIP pool). Private is the default access type value.
     public var accessType: S3OutpostsClientTypes.EndpointAccessType?
     /// The ID of the customer-owned IPv4 address pool (CoIP pool) for the endpoint. IP addresses are allocated from this pool for the endpoint.
@@ -179,7 +179,7 @@ public struct CreateEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointInputBody: Swift.Equatable {
+struct CreateEndpointInputBody {
     let outpostId: Swift.String?
     let subnetId: Swift.String?
     let securityGroupId: Swift.String?
@@ -223,7 +223,7 @@ extension CreateEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateEndpointOutput: Swift.Equatable {
+public struct CreateEndpointOutput {
     /// The Amazon Resource Name (ARN) of the endpoint.
     public var endpointArn: Swift.String?
 
@@ -235,7 +235,7 @@ public struct CreateEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateEndpointOutputBody: Swift.Equatable {
+struct CreateEndpointOutputBody {
     let endpointArn: Swift.String?
 }
 
@@ -295,7 +295,7 @@ extension DeleteEndpointInput {
     }
 }
 
-public struct DeleteEndpointInput: Swift.Equatable {
+public struct DeleteEndpointInput {
     /// The ID of the endpoint.
     /// This member is required.
     public var endpointId: Swift.String?
@@ -313,7 +313,7 @@ public struct DeleteEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteEndpointInputBody: Swift.Equatable {
+struct DeleteEndpointInputBody {
 }
 
 extension DeleteEndpointInputBody: Swift.Decodable {
@@ -327,7 +327,7 @@ extension DeleteEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteEndpointOutput: Swift.Equatable {
+public struct DeleteEndpointOutput {
 
     public init() { }
 }
@@ -447,7 +447,7 @@ extension S3OutpostsClientTypes.Endpoint: Swift.Codable {
 
 extension S3OutpostsClientTypes {
     /// Amazon S3 on Outposts Access Points simplify managing data access at scale for shared datasets in S3 on Outposts. S3 on Outposts uses endpoints to connect to Outposts buckets so that you can perform actions within your virtual private cloud (VPC). For more information, see [ Accessing S3 on Outposts using VPC-only access points](https://docs.aws.amazon.com/AmazonS3/latest/userguide/WorkingWithS3Outposts.html) in the Amazon Simple Storage Service User Guide.
-    public struct Endpoint: Swift.Equatable {
+    public struct Endpoint {
         /// The type of connectivity used to access the Amazon S3 on Outposts endpoint.
         public var accessType: S3OutpostsClientTypes.EndpointAccessType?
         /// The VPC CIDR committed by this endpoint.
@@ -605,7 +605,7 @@ extension S3OutpostsClientTypes.FailedReason: Swift.Codable {
 
 extension S3OutpostsClientTypes {
     /// The failure reason, if any, for a create or delete endpoint operation.
-    public struct FailedReason: Swift.Equatable {
+    public struct FailedReason {
         /// The failure code, if any, for a create or delete endpoint operation.
         public var errorCode: Swift.String?
         /// Additional error details describing the endpoint failure and recommended action.
@@ -662,7 +662,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -701,7 +701,7 @@ extension ListEndpointsInput {
     }
 }
 
-public struct ListEndpointsInput: Swift.Equatable {
+public struct ListEndpointsInput {
     /// The maximum number of endpoints that will be returned in the response.
     public var maxResults: Swift.Int?
     /// If a previous response from this operation included a NextToken value, provide that value here to retrieve the next page of results.
@@ -717,7 +717,7 @@ public struct ListEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListEndpointsInputBody: Swift.Equatable {
+struct ListEndpointsInputBody {
 }
 
 extension ListEndpointsInputBody: Swift.Decodable {
@@ -740,7 +740,7 @@ extension ListEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEndpointsOutput: Swift.Equatable {
+public struct ListEndpointsOutput {
     /// The list of endpoints associated with the specified Outpost.
     public var endpoints: [S3OutpostsClientTypes.Endpoint]?
     /// If the number of endpoints associated with the specified Outpost exceeds MaxResults, you can include this value in subsequent calls to this operation to retrieve more results.
@@ -756,7 +756,7 @@ public struct ListEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListEndpointsOutputBody: Swift.Equatable {
+struct ListEndpointsOutputBody {
     let endpoints: [S3OutpostsClientTypes.Endpoint]?
     let nextToken: Swift.String?
 }
@@ -823,7 +823,7 @@ extension ListOutpostsWithS3Input {
     }
 }
 
-public struct ListOutpostsWithS3Input: Swift.Equatable {
+public struct ListOutpostsWithS3Input {
     /// The maximum number of Outposts to return. The limit is 100.
     public var maxResults: Swift.Int?
     /// When you can get additional results from the ListOutpostsWithS3 call, a NextToken parameter is returned in the output. You can then pass in a subsequent command to the NextToken parameter to continue listing additional Outposts.
@@ -839,7 +839,7 @@ public struct ListOutpostsWithS3Input: Swift.Equatable {
     }
 }
 
-struct ListOutpostsWithS3InputBody: Swift.Equatable {
+struct ListOutpostsWithS3InputBody {
 }
 
 extension ListOutpostsWithS3InputBody: Swift.Decodable {
@@ -862,7 +862,7 @@ extension ListOutpostsWithS3Output: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListOutpostsWithS3Output: Swift.Equatable {
+public struct ListOutpostsWithS3Output {
     /// Returns a token that you can use to call ListOutpostsWithS3 again and receive additional results, if there are any.
     public var nextToken: Swift.String?
     /// Returns the list of Outposts that have the following characteristics:
@@ -884,7 +884,7 @@ public struct ListOutpostsWithS3Output: Swift.Equatable {
     }
 }
 
-struct ListOutpostsWithS3OutputBody: Swift.Equatable {
+struct ListOutpostsWithS3OutputBody {
     let outposts: [S3OutpostsClientTypes.Outpost]?
     let nextToken: Swift.String?
 }
@@ -956,7 +956,7 @@ extension ListSharedEndpointsInput {
     }
 }
 
-public struct ListSharedEndpointsInput: Swift.Equatable {
+public struct ListSharedEndpointsInput {
     /// The maximum number of endpoints that will be returned in the response.
     public var maxResults: Swift.Int?
     /// If a previous response from this operation included a NextToken value, you can provide that value here to retrieve the next page of results.
@@ -977,7 +977,7 @@ public struct ListSharedEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListSharedEndpointsInputBody: Swift.Equatable {
+struct ListSharedEndpointsInputBody {
 }
 
 extension ListSharedEndpointsInputBody: Swift.Decodable {
@@ -1000,7 +1000,7 @@ extension ListSharedEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSharedEndpointsOutput: Swift.Equatable {
+public struct ListSharedEndpointsOutput {
     /// The list of endpoints associated with the specified Outpost that have been shared by Amazon Web Services Resource Access Manager (RAM).
     public var endpoints: [S3OutpostsClientTypes.Endpoint]?
     /// If the number of endpoints associated with the specified Outpost exceeds MaxResults, you can include this value in subsequent calls to this operation to retrieve more results.
@@ -1016,7 +1016,7 @@ public struct ListSharedEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListSharedEndpointsOutputBody: Swift.Equatable {
+struct ListSharedEndpointsOutputBody {
     let endpoints: [S3OutpostsClientTypes.Endpoint]?
     let nextToken: Swift.String?
 }
@@ -1081,7 +1081,7 @@ extension S3OutpostsClientTypes.NetworkInterface: Swift.Codable {
 
 extension S3OutpostsClientTypes {
     /// The container for the network interface.
-    public struct NetworkInterface: Swift.Equatable {
+    public struct NetworkInterface {
         /// The ID for the network interface.
         public var networkInterfaceId: Swift.String?
 
@@ -1140,7 +1140,7 @@ extension S3OutpostsClientTypes.Outpost: Swift.Codable {
 
 extension S3OutpostsClientTypes {
     /// Contains the details for the Outpost object.
-    public struct Outpost: Swift.Equatable {
+    public struct Outpost {
         /// The Amazon S3 capacity of the outpost in bytes.
         public var capacityInBytes: Swift.Int
         /// Specifies the unique Amazon Resource Name (ARN) for the outpost.
@@ -1209,7 +1209,7 @@ public struct OutpostOfflineException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct OutpostOfflineExceptionBody: Swift.Equatable {
+struct OutpostOfflineExceptionBody {
     let message: Swift.String?
 }
 
@@ -1264,7 +1264,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1321,7 +1321,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1376,7 +1376,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

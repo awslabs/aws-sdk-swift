@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -90,7 +90,7 @@ extension InternetMonitorClientTypes.AvailabilityMeasurement: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Amazon CloudWatch Internet Monitor calculates measurements about the availability for your application's internet traffic between client locations and Amazon Web Services. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
-    public struct AvailabilityMeasurement: Swift.Equatable {
+    public struct AvailabilityMeasurement {
         /// Experience scores, or health scores are calculated for different geographic and network provider combinations (that is, different granularities) and also summed into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
         /// The percentage of impact caused by a health event for client location traffic globally. For information about how Internet Monitor calculates impact, see [Inside Internet Monitor](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html) in the Amazon CloudWatch Internet Monitor section of the Amazon CloudWatch User Guide.
@@ -151,7 +151,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -230,7 +230,7 @@ extension InternetMonitorClientTypes.ClientLocation: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// The impacted location, such as a city, that Amazon Web Services clients access application resources from.
-    public struct ClientLocation: Swift.Equatable {
+    public struct ClientLocation {
         /// The name of the internet service provider (ISP) or network (ASN).
         /// This member is required.
         public var asName: Swift.String?
@@ -317,7 +317,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -387,7 +387,7 @@ extension CreateMonitorInput {
     }
 }
 
-public struct CreateMonitorInput: Swift.Equatable {
+public struct CreateMonitorInput {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. Don't reuse the same client token for other API requests.
     public var clientToken: Swift.String?
     /// Defines the threshold percentages and other configuration information for when Amazon CloudWatch Internet Monitor creates a health event. Internet Monitor creates a health event when an internet issue that affects your application end users has a health score percentage that is at or below a specific threshold, and, sometimes, when other criteria are met. If you don't set a health event threshold, the default value is 95%. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
@@ -428,7 +428,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorInputBody: Swift.Equatable {
+struct CreateMonitorInputBody {
     let monitorName: Swift.String?
     let resources: [Swift.String]?
     let clientToken: Swift.String?
@@ -504,7 +504,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMonitorOutput: Swift.Equatable {
+public struct CreateMonitorOutput {
     /// The Amazon Resource Name (ARN) of the monitor.
     /// This member is required.
     public var arn: Swift.String?
@@ -522,7 +522,7 @@ public struct CreateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorOutputBody: Swift.Equatable {
+struct CreateMonitorOutputBody {
     let arn: Swift.String?
     let status: InternetMonitorClientTypes.MonitorConfigState?
 }
@@ -568,7 +568,7 @@ extension DeleteMonitorInput {
     }
 }
 
-public struct DeleteMonitorInput: Swift.Equatable {
+public struct DeleteMonitorInput {
     /// The name of the monitor to delete.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -581,7 +581,7 @@ public struct DeleteMonitorInput: Swift.Equatable {
     }
 }
 
-struct DeleteMonitorInputBody: Swift.Equatable {
+struct DeleteMonitorInputBody {
 }
 
 extension DeleteMonitorInputBody: Swift.Decodable {
@@ -595,7 +595,7 @@ extension DeleteMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMonitorOutput: Swift.Equatable {
+public struct DeleteMonitorOutput {
 
     public init() { }
 }
@@ -659,7 +659,7 @@ extension InternetMonitorClientTypes.FilterParameter: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// A filter that you use with the results of a Amazon CloudWatch Internet Monitor query that you created and ran. The query sets up a repository of data that is a subset of your application's Internet Monitor data. FilterParameter is a string that defines how you want to filter the repository of data to return a set of results, based on your criteria. The filter parameters that you can specify depend on the query type that you used to create the repository, since each query type returns a different set of Internet Monitor data. For each filter, you specify a field (such as city), an operator (such as not_equals, and a value or array of values (such as ["Seattle", "Redmond"]). Separate values in the array with commas. For more information about specifying filter parameters, see [Using the Amazon CloudWatch Internet Monitor query interface](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-view-cw-tools-cwim-query.html) in the Amazon CloudWatch Internet Monitor User Guide.
-    public struct FilterParameter: Swift.Equatable {
+    public struct FilterParameter {
         /// A data field that you want to filter, to further scope your application's Internet Monitor data in a repository that you created by running a query. A field might be city, for example. The field must be one of the fields that was returned by the specific query that you used to create the repository.
         public var field: Swift.String?
         /// The operator to use with the filter field and a value, such as not_equals.
@@ -706,7 +706,7 @@ extension GetHealthEventInput {
     }
 }
 
-public struct GetHealthEventInput: Swift.Equatable {
+public struct GetHealthEventInput {
     /// The internally-generated identifier of a health event. Because EventID contains the forward slash (“/”) character, you must URL-encode the EventID field in the request URL.
     /// This member is required.
     public var eventId: Swift.String?
@@ -728,7 +728,7 @@ public struct GetHealthEventInput: Swift.Equatable {
     }
 }
 
-struct GetHealthEventInputBody: Swift.Equatable {
+struct GetHealthEventInputBody {
 }
 
 extension GetHealthEventInputBody: Swift.Decodable {
@@ -769,7 +769,7 @@ extension GetHealthEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetHealthEventOutput: Swift.Equatable {
+public struct GetHealthEventOutput {
     /// The time when a health event was created.
     public var createdAt: ClientRuntime.Date?
     /// The time when a health event was resolved. If the health event is still active, the end time is not set.
@@ -828,7 +828,7 @@ public struct GetHealthEventOutput: Swift.Equatable {
     }
 }
 
-struct GetHealthEventOutputBody: Swift.Equatable {
+struct GetHealthEventOutputBody {
     let eventArn: Swift.String?
     let eventId: Swift.String?
     let startedAt: ClientRuntime.Date?
@@ -917,7 +917,7 @@ extension GetInternetEventInput {
     }
 }
 
-public struct GetInternetEventInput: Swift.Equatable {
+public struct GetInternetEventInput {
     /// The EventId of the internet event to return information for.
     /// This member is required.
     public var eventId: Swift.String?
@@ -930,7 +930,7 @@ public struct GetInternetEventInput: Swift.Equatable {
     }
 }
 
-struct GetInternetEventInputBody: Swift.Equatable {
+struct GetInternetEventInputBody {
 }
 
 extension GetInternetEventInputBody: Swift.Decodable {
@@ -963,7 +963,7 @@ extension GetInternetEventOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetInternetEventOutput: Swift.Equatable {
+public struct GetInternetEventOutput {
     /// The impacted location, such as a city, where clients access Amazon Web Services application resources.
     /// This member is required.
     public var clientLocation: InternetMonitorClientTypes.ClientLocation?
@@ -1005,7 +1005,7 @@ public struct GetInternetEventOutput: Swift.Equatable {
     }
 }
 
-struct GetInternetEventOutputBody: Swift.Equatable {
+struct GetInternetEventOutputBody {
     let eventId: Swift.String?
     let eventArn: Swift.String?
     let startedAt: ClientRuntime.Date?
@@ -1081,7 +1081,7 @@ extension GetMonitorInput {
     }
 }
 
-public struct GetMonitorInput: Swift.Equatable {
+public struct GetMonitorInput {
     /// The account ID for an account that you've set up cross-account sharing for in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var linkedAccountId: Swift.String?
     /// The name of the monitor.
@@ -1098,7 +1098,7 @@ public struct GetMonitorInput: Swift.Equatable {
     }
 }
 
-struct GetMonitorInputBody: Swift.Equatable {
+struct GetMonitorInputBody {
 }
 
 extension GetMonitorInputBody: Swift.Decodable {
@@ -1143,7 +1143,7 @@ extension GetMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMonitorOutput: Swift.Equatable {
+public struct GetMonitorOutput {
     /// The time when the monitor was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -1209,7 +1209,7 @@ public struct GetMonitorOutput: Swift.Equatable {
     }
 }
 
-struct GetMonitorOutputBody: Swift.Equatable {
+struct GetMonitorOutputBody {
     let monitorName: Swift.String?
     let monitorArn: Swift.String?
     let resources: [Swift.String]?
@@ -1334,7 +1334,7 @@ extension GetQueryResultsInput {
     }
 }
 
-public struct GetQueryResultsInput: Swift.Equatable {
+public struct GetQueryResultsInput {
     /// The number of query results that you want to return with this call.
     public var maxResults: Swift.Int?
     /// The name of the monitor to return data for.
@@ -1360,7 +1360,7 @@ public struct GetQueryResultsInput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsInputBody: Swift.Equatable {
+struct GetQueryResultsInputBody {
 }
 
 extension GetQueryResultsInputBody: Swift.Decodable {
@@ -1385,7 +1385,7 @@ extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryResultsOutput: Swift.Equatable {
+public struct GetQueryResultsOutput {
     /// The data results that the query returns. Data is returned in arrays, aligned with the Fields for the query, which creates a repository of Amazon CloudWatch Internet Monitor information for your application. Then, you can filter the information in the repository by using FilterParameters that you define.
     /// This member is required.
     public var data: [[Swift.String]]?
@@ -1407,7 +1407,7 @@ public struct GetQueryResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsOutputBody: Swift.Equatable {
+struct GetQueryResultsOutputBody {
     let fields: [InternetMonitorClientTypes.QueryField]?
     let data: [[Swift.String]]?
     let nextToken: Swift.String?
@@ -1486,7 +1486,7 @@ extension GetQueryStatusInput {
     }
 }
 
-public struct GetQueryStatusInput: Swift.Equatable {
+public struct GetQueryStatusInput {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -1504,7 +1504,7 @@ public struct GetQueryStatusInput: Swift.Equatable {
     }
 }
 
-struct GetQueryStatusInputBody: Swift.Equatable {
+struct GetQueryStatusInputBody {
 }
 
 extension GetQueryStatusInputBody: Swift.Decodable {
@@ -1525,7 +1525,7 @@ extension GetQueryStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryStatusOutput: Swift.Equatable {
+public struct GetQueryStatusOutput {
     /// The current status for a query.
     /// This member is required.
     public var status: InternetMonitorClientTypes.QueryStatus?
@@ -1538,7 +1538,7 @@ public struct GetQueryStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryStatusOutputBody: Swift.Equatable {
+struct GetQueryStatusOutputBody {
     let status: InternetMonitorClientTypes.QueryStatus?
 }
 
@@ -1662,7 +1662,7 @@ extension InternetMonitorClientTypes.HealthEvent: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Information about a health event created in a monitor in Amazon CloudWatch Internet Monitor.
-    public struct HealthEvent: Swift.Equatable {
+    public struct HealthEvent {
         /// When the health event was created.
         public var createdAt: ClientRuntime.Date?
         /// The time when a health event ended. If the health event is still active, then the end time is not set.
@@ -1832,7 +1832,7 @@ extension InternetMonitorClientTypes.HealthEventsConfig: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for an overall performance or availability issue, across an application's geographies. Defines the percentages, for overall performance scores and availability scores for an application, that are the thresholds for when Amazon CloudWatch Internet Monitor creates a health event. You can override the defaults to set a custom threshold for overall performance or availability scores, or both. You can also set thresholds for local health scores,, where Internet Monitor creates a health event when scores cross a threshold for one or more city-networks, in addition to creating an event when an overall score crosses a threshold. If you don't set a health event threshold, the default value is 95%. For local thresholds, you also set a minimum percentage of overall traffic that is impacted by an issue before Internet Monitor creates an event. In addition, you can disable local thresholds, for performance scores, availability scores, or both. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
-    public struct HealthEventsConfig: Swift.Equatable {
+    public struct HealthEventsConfig {
         /// The configuration that determines the threshold and other conditions for when Internet Monitor creates a health event for a local availability issue.
         public var availabilityLocalHealthEventsConfig: InternetMonitorClientTypes.LocalHealthEventsConfig?
         /// The health event threshold percentage set for availability scores.
@@ -1975,7 +1975,7 @@ extension InternetMonitorClientTypes.ImpactedLocation: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Information about a location impacted by a health event in Amazon CloudWatch Internet Monitor. Geographic regions are hierarchically categorized into country, subdivision, metro and city geographic granularities. The geographic region is identified based on the IP address used at the client locations.
-    public struct ImpactedLocation: Swift.Equatable {
+    public struct ImpactedLocation {
         /// The name of the internet service provider (ISP) or network (ASN).
         /// This member is required.
         public var asName: Swift.String?
@@ -2088,7 +2088,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -2143,7 +2143,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2248,7 +2248,7 @@ extension InternetMonitorClientTypes.InternetEventSummary: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// A summary of information about an internet event in Amazon CloudWatch Internet Monitor. Internet events are issues that cause performance degradation or availability problems for impacted Amazon Web Services client locations. Internet Monitor displays information about recent global health events, called internet events, on a global outages map that is available to all Amazon Web Services customers.
-    public struct InternetEventSummary: Swift.Equatable {
+    public struct InternetEventSummary {
         /// The impacted location, such as a city, that Amazon Web Services clients access application resources from.
         /// This member is required.
         public var clientLocation: InternetMonitorClientTypes.ClientLocation?
@@ -2351,7 +2351,7 @@ extension InternetMonitorClientTypes.InternetHealth: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Internet health includes measurements calculated by Amazon CloudWatch Internet Monitor about the performance and availability for your application on the internet. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, Internet Monitor reports the information to you in the form of health scores: a performance score and an availability score.
-    public struct InternetHealth: Swift.Equatable {
+    public struct InternetHealth {
         /// Availability in Internet Monitor represents the estimated percentage of traffic that is not seeing an availability drop. For example, an availability score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing an availability drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var availability: InternetMonitorClientTypes.AvailabilityMeasurement?
         /// Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
@@ -2390,7 +2390,7 @@ extension InternetMonitorClientTypes.InternetMeasurementsLogDelivery: Swift.Coda
 
 extension InternetMonitorClientTypes {
     /// Publish internet measurements to an Amazon S3 bucket in addition to CloudWatch Logs.
-    public struct InternetMeasurementsLogDelivery: Swift.Equatable {
+    public struct InternetMeasurementsLogDelivery {
         /// The configuration information for publishing Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
         public var s3Config: InternetMonitorClientTypes.S3Config?
 
@@ -2445,7 +2445,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -2503,7 +2503,7 @@ extension ListHealthEventsInput {
     }
 }
 
-public struct ListHealthEventsInput: Swift.Equatable {
+public struct ListHealthEventsInput {
     /// The time when a health event ended. If the health event is still ongoing, then the end time is not set.
     public var endTime: ClientRuntime.Date?
     /// The status of a health event.
@@ -2540,7 +2540,7 @@ public struct ListHealthEventsInput: Swift.Equatable {
     }
 }
 
-struct ListHealthEventsInputBody: Swift.Equatable {
+struct ListHealthEventsInputBody {
 }
 
 extension ListHealthEventsInputBody: Swift.Decodable {
@@ -2563,7 +2563,7 @@ extension ListHealthEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListHealthEventsOutput: Swift.Equatable {
+public struct ListHealthEventsOutput {
     /// A list of health events.
     /// This member is required.
     public var healthEvents: [InternetMonitorClientTypes.HealthEvent]?
@@ -2580,7 +2580,7 @@ public struct ListHealthEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListHealthEventsOutputBody: Swift.Equatable {
+struct ListHealthEventsOutputBody {
     let healthEvents: [InternetMonitorClientTypes.HealthEvent]?
     let nextToken: Swift.String?
 }
@@ -2662,7 +2662,7 @@ extension ListInternetEventsInput {
     }
 }
 
-public struct ListInternetEventsInput: Swift.Equatable {
+public struct ListInternetEventsInput {
     /// The end time of the time window that you want to get a list of internet events for.
     public var endTime: ClientRuntime.Date?
     /// The status of an internet event.
@@ -2694,7 +2694,7 @@ public struct ListInternetEventsInput: Swift.Equatable {
     }
 }
 
-struct ListInternetEventsInputBody: Swift.Equatable {
+struct ListInternetEventsInputBody {
 }
 
 extension ListInternetEventsInputBody: Swift.Decodable {
@@ -2717,7 +2717,7 @@ extension ListInternetEventsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListInternetEventsOutput: Swift.Equatable {
+public struct ListInternetEventsOutput {
     /// A set of internet events returned for the list operation.
     /// This member is required.
     public var internetEvents: [InternetMonitorClientTypes.InternetEventSummary]?
@@ -2734,7 +2734,7 @@ public struct ListInternetEventsOutput: Swift.Equatable {
     }
 }
 
-struct ListInternetEventsOutputBody: Swift.Equatable {
+struct ListInternetEventsOutputBody {
     let internetEvents: [InternetMonitorClientTypes.InternetEventSummary]?
     let nextToken: Swift.String?
 }
@@ -2808,7 +2808,7 @@ extension ListMonitorsInput {
     }
 }
 
-public struct ListMonitorsInput: Swift.Equatable {
+public struct ListMonitorsInput {
     /// A boolean option that you can set to TRUE to include monitors for linked accounts in a list of monitors, when you've set up cross-account sharing in Amazon CloudWatch Internet Monitor. You configure cross-account sharing by using Amazon CloudWatch Observability Access Manager. For more information, see [Internet Monitor cross-account observability](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/cwim-cross-account.html) in the Amazon CloudWatch Internet Monitor User Guide.
     public var includeLinkedAccounts: Swift.Bool?
     /// The number of monitor objects that you want to return with this call.
@@ -2832,7 +2832,7 @@ public struct ListMonitorsInput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsInputBody: Swift.Equatable {
+struct ListMonitorsInputBody {
 }
 
 extension ListMonitorsInputBody: Swift.Decodable {
@@ -2855,7 +2855,7 @@ extension ListMonitorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitorsOutput: Swift.Equatable {
+public struct ListMonitorsOutput {
     /// A list of monitors.
     /// This member is required.
     public var monitors: [InternetMonitorClientTypes.Monitor]?
@@ -2872,7 +2872,7 @@ public struct ListMonitorsOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsOutputBody: Swift.Equatable {
+struct ListMonitorsOutputBody {
     let monitors: [InternetMonitorClientTypes.Monitor]?
     let nextToken: Swift.String?
 }
@@ -2925,7 +2925,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) for a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2938,7 +2938,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2959,7 +2959,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Tags for a resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2971,7 +2971,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3044,7 +3044,7 @@ extension InternetMonitorClientTypes.LocalHealthEventsConfig: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// A complex type with the configuration information that determines the threshold and other conditions for when Internet Monitor creates a health event for a local performance or availability issue, when scores cross a threshold for one or more city-networks. Defines the percentages, for performance scores or availability scores, that are the local thresholds for when Amazon CloudWatch Internet Monitor creates a health event. Also defines whether a local threshold is enabled or disabled, and the minimum percentage of overall traffic that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a local health event threshold, the default value is 60%. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
-    public struct LocalHealthEventsConfig: Swift.Equatable {
+    public struct LocalHealthEventsConfig {
         /// The health event threshold percentage set for a local health score.
         public var healthScoreThreshold: Swift.Double
         /// The minimum percentage of overall traffic for an application that must be impacted by an issue before Internet Monitor creates an event when a threshold is crossed for a local health score. If you don't set a minimum traffic impact threshold, the default value is 0.1%.
@@ -3169,7 +3169,7 @@ extension InternetMonitorClientTypes.Monitor: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// The description of and information about a monitor in Amazon CloudWatch Internet Monitor.
-    public struct Monitor: Swift.Equatable {
+    public struct Monitor {
         /// The Amazon Resource Name (ARN) of the monitor.
         /// This member is required.
         public var monitorArn: Swift.String?
@@ -3307,7 +3307,7 @@ extension InternetMonitorClientTypes.Network: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// An internet service provider (ISP) or network (ASN) in Amazon CloudWatch Internet Monitor.
-    public struct Network: Swift.Equatable {
+    public struct Network {
         /// The name of the internet service provider (ISP) or network (ASN).
         /// This member is required.
         public var asName: Swift.String?
@@ -3384,7 +3384,7 @@ extension InternetMonitorClientTypes.NetworkImpairment: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Information about the network impairment for a specific network measured by Amazon CloudWatch Internet Monitor.
-    public struct NetworkImpairment: Swift.Equatable {
+    public struct NetworkImpairment {
         /// The combination of the Autonomous System Number (ASN) of the network and the name of the network.
         /// This member is required.
         public var asPath: [InternetMonitorClientTypes.Network]?
@@ -3448,7 +3448,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3535,7 +3535,7 @@ extension InternetMonitorClientTypes.PerformanceMeasurement: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Amazon CloudWatch Internet Monitor calculates measurements about the performance for your application's internet traffic between client locations and Amazon Web Services. Amazon Web Services has substantial historical data about internet performance and availability between Amazon Web Services services and different network providers and geographies. By applying statistical analysis to the data, Internet Monitor can detect when the performance and availability for your application has dropped, compared to an estimated baseline that's already calculated. To make it easier to see those drops, we report that information to you in the form of health scores: a performance score and an availability score. Performance in Internet Monitor represents the estimated percentage of traffic that is not seeing a performance drop. For example, a performance score of 99% for an end user and service location pair is equivalent to 1% of the traffic experiencing a performance drop for that pair. For more information, see [How Internet Monitor calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
-    public struct PerformanceMeasurement: Swift.Equatable {
+    public struct PerformanceMeasurement {
         /// Experience scores, or health scores, are calculated for different geographic and network provider combinations (that is, different granularities) and also totaled into global scores. If you view performance or availability scores without filtering for any specific geography or service provider, Amazon CloudWatch Internet Monitor provides global health scores. The Amazon CloudWatch Internet Monitor chapter in the CloudWatch User Guide includes detailed information about how Internet Monitor calculates health scores, including performance and availability scores, and when it creates and resolves health events. For more information, see [How Amazon Web Services calculates performance and availability scores](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMExperienceScores) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
         public var experienceScore: Swift.Double?
         /// How much performance impact was caused by a health event at a client location. For performance, this is the percentage of how much latency increased during the event compared to typical performance for traffic, from this client location to an Amazon Web Services location, using a specific client network. For more information, see [When Amazon Web Services creates and resolves health events](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-inside-internet-monitor.html#IMHealthEventStartStop) in the Amazon CloudWatch Internet Monitor section of the CloudWatch User Guide.
@@ -3588,7 +3588,7 @@ extension InternetMonitorClientTypes.QueryField: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Defines a field to query for your application's Amazon CloudWatch Internet Monitor data. You create a data repository by running a query of a specific type. Each QueryType includes a specific set of fields and datatypes to retrieve data for.
-    public struct QueryField: Swift.Equatable {
+    public struct QueryField {
         /// The name of a field to query your application's Amazon CloudWatch Internet Monitor data for, such as availability_score.
         public var name: Swift.String?
         /// The data type for a query field, which must correspond to the field you're defining for QueryField. For example, if the query field name is availability_score, the data type is float.
@@ -3721,7 +3721,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3770,7 +3770,7 @@ extension InternetMonitorClientTypes.RoundTripTime: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// Round-trip time (RTT) is how long it takes for a request from the user to return a response to the user. Amazon CloudWatch Internet Monitor calculates RTT at different percentiles: p50, p90, and p95.
-    public struct RoundTripTime: Swift.Equatable {
+    public struct RoundTripTime {
         /// RTT at the 50th percentile (p50).
         public var p50: Swift.Double?
         /// RTT at the 90th percentile (p90).
@@ -3825,7 +3825,7 @@ extension InternetMonitorClientTypes.S3Config: Swift.Codable {
 
 extension InternetMonitorClientTypes {
     /// The configuration for publishing Amazon CloudWatch Internet Monitor internet measurements to Amazon S3. The configuration includes the bucket name and (optionally) prefix for the S3 bucket to store the measurements, and the delivery status. The delivery status is ENABLED or DISABLED, depending on whether you choose to deliver internet measurements to S3 logs.
-    public struct S3Config: Swift.Equatable {
+    public struct S3Config {
         /// The Amazon S3 bucket name.
         public var bucketName: Swift.String?
         /// The Amazon S3 bucket prefix.
@@ -3889,7 +3889,7 @@ extension StartQueryInput {
     }
 }
 
-public struct StartQueryInput: Swift.Equatable {
+public struct StartQueryInput {
     /// The timestamp that is the end of the period that you want to retrieve data for with your query.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -3934,7 +3934,7 @@ public struct StartQueryInput: Swift.Equatable {
     }
 }
 
-struct StartQueryInputBody: Swift.Equatable {
+struct StartQueryInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let queryType: InternetMonitorClientTypes.QueryType?
@@ -3987,7 +3987,7 @@ extension StartQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartQueryOutput: Swift.Equatable {
+public struct StartQueryOutput {
     /// The internally-generated identifier of a specific query.
     /// This member is required.
     public var queryId: Swift.String?
@@ -4000,7 +4000,7 @@ public struct StartQueryOutput: Swift.Equatable {
     }
 }
 
-struct StartQueryOutputBody: Swift.Equatable {
+struct StartQueryOutputBody {
     let queryId: Swift.String?
 }
 
@@ -4044,7 +4044,7 @@ extension StopQueryInput {
     }
 }
 
-public struct StopQueryInput: Swift.Equatable {
+public struct StopQueryInput {
     /// The name of the monitor.
     /// This member is required.
     public var monitorName: Swift.String?
@@ -4062,7 +4062,7 @@ public struct StopQueryInput: Swift.Equatable {
     }
 }
 
-struct StopQueryInputBody: Swift.Equatable {
+struct StopQueryInputBody {
 }
 
 extension StopQueryInputBody: Swift.Decodable {
@@ -4076,7 +4076,7 @@ extension StopQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopQueryOutput: Swift.Equatable {
+public struct StopQueryOutput {
 
     public init() { }
 }
@@ -4122,7 +4122,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) for a tag that you add to a resource. Tags are supported only for monitors in Amazon CloudWatch Internet Monitor.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4140,7 +4140,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4170,7 +4170,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4229,7 +4229,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4284,7 +4284,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
 }
 
@@ -4358,7 +4358,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) for a tag you remove a resource from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4376,7 +4376,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4390,7 +4390,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4467,7 +4467,7 @@ extension UpdateMonitorInput {
     }
 }
 
-public struct UpdateMonitorInput: Swift.Equatable {
+public struct UpdateMonitorInput {
     /// A unique, case-sensitive string of up to 64 ASCII characters that you specify to make an idempotent API request. You should not reuse the same client token for other API requests.
     public var clientToken: Swift.String?
     /// The list of health score thresholds. A threshold percentage for health scores, along with other configuration information, determines when Internet Monitor creates a health event when there's an internet issue that affects your application end users. For more information, see [ Change health event thresholds](https://docs.aws.amazon.com/AmazonCloudWatch/latest/monitoring/CloudWatch-IM-overview.html#IMUpdateThresholdFromOverview) in the Internet Monitor section of the CloudWatch User Guide.
@@ -4512,7 +4512,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     }
 }
 
-struct UpdateMonitorInputBody: Swift.Equatable {
+struct UpdateMonitorInputBody {
     let resourcesToAdd: [Swift.String]?
     let resourcesToRemove: [Swift.String]?
     let status: InternetMonitorClientTypes.MonitorConfigState?
@@ -4588,7 +4588,7 @@ extension UpdateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMonitorOutput: Swift.Equatable {
+public struct UpdateMonitorOutput {
     /// The Amazon Resource Name (ARN) of the monitor.
     /// This member is required.
     public var monitorArn: Swift.String?
@@ -4606,7 +4606,7 @@ public struct UpdateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct UpdateMonitorOutputBody: Swift.Equatable {
+struct UpdateMonitorOutputBody {
     let monitorArn: Swift.String?
     let status: InternetMonitorClientTypes.MonitorConfigState?
 }
@@ -4681,7 +4681,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

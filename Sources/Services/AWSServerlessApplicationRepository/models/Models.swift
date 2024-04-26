@@ -29,7 +29,7 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummar
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// A nested application summary.
-    public struct ApplicationDependencySummary: Swift.Equatable {
+    public struct ApplicationDependencySummary {
         /// The Amazon Resource Name (ARN) of the nested application.
         /// This member is required.
         public var applicationId: Swift.String?
@@ -124,7 +124,7 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement:
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// Policy statement applied to the application.
-    public struct ApplicationPolicyStatement: Swift.Equatable {
+    public struct ApplicationPolicyStatement {
         /// For the list of actions supported for this operation, see [Application Permissions](https://docs.aws.amazon.com/serverlessrepo/latest/devguide/access-control-resource-based.html#application-permissions).
         /// This member is required.
         public var actions: [Swift.String]?
@@ -227,7 +227,7 @@ extension ServerlessApplicationRepositoryClientTypes.ApplicationSummary: Swift.C
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// Summary of details about the application.
-    public struct ApplicationSummary: Swift.Equatable {
+    public struct ApplicationSummary {
         /// The application Amazon Resource Name (ARN).
         /// This member is required.
         public var applicationId: Swift.String?
@@ -319,7 +319,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -424,7 +424,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -523,7 +523,7 @@ extension CreateApplicationInput {
     }
 }
 
-public struct CreateApplicationInput: Swift.Equatable {
+public struct CreateApplicationInput {
     /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
     /// This member is required.
     public var author: Swift.String?
@@ -594,7 +594,7 @@ public struct CreateApplicationInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationInputBody: Swift.Equatable {
+struct CreateApplicationInputBody {
     let author: Swift.String?
     let description: Swift.String?
     let homePageUrl: Swift.String?
@@ -711,7 +711,7 @@ extension CreateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationOutput: Swift.Equatable {
+public struct CreateApplicationOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -771,7 +771,7 @@ public struct CreateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationOutputBody: Swift.Equatable {
+struct CreateApplicationOutputBody {
     let applicationId: Swift.String?
     let author: Swift.String?
     let creationTime: Swift.String?
@@ -897,7 +897,7 @@ extension CreateApplicationVersionInput {
     }
 }
 
-public struct CreateApplicationVersionInput: Swift.Equatable {
+public struct CreateApplicationVersionInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -931,7 +931,7 @@ public struct CreateApplicationVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationVersionInputBody: Swift.Equatable {
+struct CreateApplicationVersionInputBody {
     let sourceCodeArchiveUrl: Swift.String?
     let sourceCodeUrl: Swift.String?
     let templateBody: Swift.String?
@@ -987,7 +987,7 @@ extension CreateApplicationVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateApplicationVersionOutput: Swift.Equatable {
+public struct CreateApplicationVersionOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The date and time this resource was created.
@@ -1031,7 +1031,7 @@ public struct CreateApplicationVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateApplicationVersionOutputBody: Swift.Equatable {
+struct CreateApplicationVersionOutputBody {
     let applicationId: Swift.String?
     let creationTime: Swift.String?
     let parameterDefinitions: [ServerlessApplicationRepositoryClientTypes.ParameterDefinition]?
@@ -1194,7 +1194,7 @@ extension CreateCloudFormationChangeSetInput {
     }
 }
 
-public struct CreateCloudFormationChangeSetInput: Swift.Equatable {
+public struct CreateCloudFormationChangeSetInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1256,7 +1256,7 @@ public struct CreateCloudFormationChangeSetInput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationChangeSetInputBody: Swift.Equatable {
+struct CreateCloudFormationChangeSetInputBody {
     let capabilities: [Swift.String]?
     let changeSetName: Swift.String?
     let clientToken: Swift.String?
@@ -1379,7 +1379,7 @@ extension CreateCloudFormationChangeSetOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct CreateCloudFormationChangeSetOutput: Swift.Equatable {
+public struct CreateCloudFormationChangeSetOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The Amazon Resource Name (ARN) of the change set.Length constraints: Minimum length of 1.Pattern: ARN:[-a-zA-Z0-9:/]*
@@ -1403,7 +1403,7 @@ public struct CreateCloudFormationChangeSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationChangeSetOutputBody: Swift.Equatable {
+struct CreateCloudFormationChangeSetOutputBody {
     let applicationId: Swift.String?
     let changeSetId: Swift.String?
     let semanticVersion: Swift.String?
@@ -1468,7 +1468,7 @@ extension CreateCloudFormationTemplateInput {
     }
 }
 
-public struct CreateCloudFormationTemplateInput: Swift.Equatable {
+public struct CreateCloudFormationTemplateInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1485,7 +1485,7 @@ public struct CreateCloudFormationTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationTemplateInputBody: Swift.Equatable {
+struct CreateCloudFormationTemplateInputBody {
     let semanticVersion: Swift.String?
 }
 
@@ -1525,7 +1525,7 @@ extension CreateCloudFormationTemplateOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateCloudFormationTemplateOutput: Swift.Equatable {
+public struct CreateCloudFormationTemplateOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The date and time this resource was created.
@@ -1561,7 +1561,7 @@ public struct CreateCloudFormationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateCloudFormationTemplateOutputBody: Swift.Equatable {
+struct CreateCloudFormationTemplateOutputBody {
     let applicationId: Swift.String?
     let creationTime: Swift.String?
     let expirationTime: Swift.String?
@@ -1626,7 +1626,7 @@ extension DeleteApplicationInput {
     }
 }
 
-public struct DeleteApplicationInput: Swift.Equatable {
+public struct DeleteApplicationInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1639,7 +1639,7 @@ public struct DeleteApplicationInput: Swift.Equatable {
     }
 }
 
-struct DeleteApplicationInputBody: Swift.Equatable {
+struct DeleteApplicationInputBody {
 }
 
 extension DeleteApplicationInputBody: Swift.Decodable {
@@ -1653,7 +1653,7 @@ extension DeleteApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteApplicationOutput: Swift.Equatable {
+public struct DeleteApplicationOutput {
 
     public init() { }
 }
@@ -1720,7 +1720,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -1762,7 +1762,7 @@ extension GetApplicationInput {
     }
 }
 
-public struct GetApplicationInput: Swift.Equatable {
+public struct GetApplicationInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1779,7 +1779,7 @@ public struct GetApplicationInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationInputBody: Swift.Equatable {
+struct GetApplicationInputBody {
 }
 
 extension GetApplicationInputBody: Swift.Decodable {
@@ -1824,7 +1824,7 @@ extension GetApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationOutput: Swift.Equatable {
+public struct GetApplicationOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -1884,7 +1884,7 @@ public struct GetApplicationOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationOutputBody: Swift.Equatable {
+struct GetApplicationOutputBody {
     let applicationId: Swift.String?
     let author: Swift.String?
     let creationTime: Swift.String?
@@ -1982,7 +1982,7 @@ extension GetApplicationPolicyInput {
     }
 }
 
-public struct GetApplicationPolicyInput: Swift.Equatable {
+public struct GetApplicationPolicyInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -1995,7 +1995,7 @@ public struct GetApplicationPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetApplicationPolicyInputBody: Swift.Equatable {
+struct GetApplicationPolicyInputBody {
 }
 
 extension GetApplicationPolicyInputBody: Swift.Decodable {
@@ -2016,7 +2016,7 @@ extension GetApplicationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetApplicationPolicyOutput: Swift.Equatable {
+public struct GetApplicationPolicyOutput {
     /// An array of policy statements applied to the application.
     public var statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]?
 
@@ -2028,7 +2028,7 @@ public struct GetApplicationPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetApplicationPolicyOutputBody: Swift.Equatable {
+struct GetApplicationPolicyOutputBody {
     let statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]?
 }
 
@@ -2081,7 +2081,7 @@ extension GetCloudFormationTemplateInput {
     }
 }
 
-public struct GetCloudFormationTemplateInput: Swift.Equatable {
+public struct GetCloudFormationTemplateInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2099,7 +2099,7 @@ public struct GetCloudFormationTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetCloudFormationTemplateInputBody: Swift.Equatable {
+struct GetCloudFormationTemplateInputBody {
 }
 
 extension GetCloudFormationTemplateInputBody: Swift.Decodable {
@@ -2132,7 +2132,7 @@ extension GetCloudFormationTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCloudFormationTemplateOutput: Swift.Equatable {
+public struct GetCloudFormationTemplateOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The date and time this resource was created.
@@ -2168,7 +2168,7 @@ public struct GetCloudFormationTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetCloudFormationTemplateOutputBody: Swift.Equatable {
+struct GetCloudFormationTemplateOutputBody {
     let applicationId: Swift.String?
     let creationTime: Swift.String?
     let expirationTime: Swift.String?
@@ -2269,7 +2269,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -2319,7 +2319,7 @@ extension ListApplicationDependenciesInput {
     }
 }
 
-public struct ListApplicationDependenciesInput: Swift.Equatable {
+public struct ListApplicationDependenciesInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2344,7 +2344,7 @@ public struct ListApplicationDependenciesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationDependenciesInputBody: Swift.Equatable {
+struct ListApplicationDependenciesInputBody {
 }
 
 extension ListApplicationDependenciesInputBody: Swift.Decodable {
@@ -2367,7 +2367,7 @@ extension ListApplicationDependenciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationDependenciesOutput: Swift.Equatable {
+public struct ListApplicationDependenciesOutput {
     /// An array of application summaries nested in the application.
     public var dependencies: [ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary]?
     /// The token to request the next page of results.
@@ -2383,7 +2383,7 @@ public struct ListApplicationDependenciesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationDependenciesOutputBody: Swift.Equatable {
+struct ListApplicationDependenciesOutputBody {
     let dependencies: [ServerlessApplicationRepositoryClientTypes.ApplicationDependencySummary]?
     let nextToken: Swift.String?
 }
@@ -2453,7 +2453,7 @@ extension ListApplicationVersionsInput {
     }
 }
 
-public struct ListApplicationVersionsInput: Swift.Equatable {
+public struct ListApplicationVersionsInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -2474,7 +2474,7 @@ public struct ListApplicationVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationVersionsInputBody: Swift.Equatable {
+struct ListApplicationVersionsInputBody {
 }
 
 extension ListApplicationVersionsInputBody: Swift.Decodable {
@@ -2497,7 +2497,7 @@ extension ListApplicationVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationVersionsOutput: Swift.Equatable {
+public struct ListApplicationVersionsOutput {
     /// The token to request the next page of results.
     public var nextToken: Swift.String?
     /// An array of version summaries for the application.
@@ -2513,7 +2513,7 @@ public struct ListApplicationVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationVersionsOutputBody: Swift.Equatable {
+struct ListApplicationVersionsOutputBody {
     let nextToken: Swift.String?
     let versions: [ServerlessApplicationRepositoryClientTypes.VersionSummary]?
 }
@@ -2580,7 +2580,7 @@ extension ListApplicationsInput {
     }
 }
 
-public struct ListApplicationsInput: Swift.Equatable {
+public struct ListApplicationsInput {
     /// The total number of items to return.
     public var maxItems: Swift.Int?
     /// A token to specify where to start paginating.
@@ -2596,7 +2596,7 @@ public struct ListApplicationsInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsInputBody: Swift.Equatable {
+struct ListApplicationsInputBody {
 }
 
 extension ListApplicationsInputBody: Swift.Decodable {
@@ -2619,7 +2619,7 @@ extension ListApplicationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationsOutput: Swift.Equatable {
+public struct ListApplicationsOutput {
     /// An array of application summaries.
     public var applications: [ServerlessApplicationRepositoryClientTypes.ApplicationSummary]?
     /// The token to request the next page of results.
@@ -2635,7 +2635,7 @@ public struct ListApplicationsOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationsOutputBody: Swift.Equatable {
+struct ListApplicationsOutputBody {
     let applications: [ServerlessApplicationRepositoryClientTypes.ApplicationSummary]?
     let nextToken: Swift.String?
 }
@@ -2724,7 +2724,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -2861,7 +2861,7 @@ extension ServerlessApplicationRepositoryClientTypes.ParameterDefinition: Swift.
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// Parameters supported by the application.
-    public struct ParameterDefinition: Swift.Equatable {
+    public struct ParameterDefinition {
         /// A regular expression that represents the patterns to allow for String types.
         public var allowedPattern: Swift.String?
         /// An array containing the list of values allowed for the parameter.
@@ -2952,7 +2952,7 @@ extension ServerlessApplicationRepositoryClientTypes.ParameterValue: Swift.Codab
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// Parameter value of the application.
-    public struct ParameterValue: Swift.Equatable {
+    public struct ParameterValue {
         /// The key associated with the parameter. If you don't specify a key and value for a particular parameter, AWS CloudFormation uses the default value that is specified in your template.
         /// This member is required.
         public var name: Swift.String?
@@ -2998,7 +2998,7 @@ extension PutApplicationPolicyInput {
     }
 }
 
-public struct PutApplicationPolicyInput: Swift.Equatable {
+public struct PutApplicationPolicyInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3016,7 +3016,7 @@ public struct PutApplicationPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutApplicationPolicyInputBody: Swift.Equatable {
+struct PutApplicationPolicyInputBody {
     let statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]?
 }
 
@@ -3053,7 +3053,7 @@ extension PutApplicationPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutApplicationPolicyOutput: Swift.Equatable {
+public struct PutApplicationPolicyOutput {
     /// An array of policy statements applied to the application.
     public var statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]?
 
@@ -3065,7 +3065,7 @@ public struct PutApplicationPolicyOutput: Swift.Equatable {
     }
 }
 
-struct PutApplicationPolicyOutputBody: Swift.Equatable {
+struct PutApplicationPolicyOutputBody {
     let statements: [ServerlessApplicationRepositoryClientTypes.ApplicationPolicyStatement]?
 }
 
@@ -3144,7 +3144,7 @@ extension ServerlessApplicationRepositoryClientTypes.RollbackConfiguration: Swif
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// This property corresponds to the AWS CloudFormation [RollbackConfiguration](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration) Data Type.
-    public struct RollbackConfiguration: Swift.Equatable {
+    public struct RollbackConfiguration {
         /// This property corresponds to the content of the same name for the AWS CloudFormation [RollbackConfiguration](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration) Data Type.
         public var monitoringTimeInMinutes: Swift.Int?
         /// This property corresponds to the content of the same name for the AWS CloudFormation [RollbackConfiguration](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackConfiguration) Data Type.
@@ -3189,7 +3189,7 @@ extension ServerlessApplicationRepositoryClientTypes.RollbackTrigger: Swift.Coda
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// This property corresponds to the AWS CloudFormation [RollbackTrigger](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger) Data Type.
-    public struct RollbackTrigger: Swift.Equatable {
+    public struct RollbackTrigger {
         /// This property corresponds to the content of the same name for the AWS CloudFormation [RollbackTrigger](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/RollbackTrigger) Data Type.
         /// This member is required.
         public var arn: Swift.String?
@@ -3273,7 +3273,7 @@ extension ServerlessApplicationRepositoryClientTypes.Tag: Swift.Codable {
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// This property corresponds to the AWS CloudFormation [Tag](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag) Data Type.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// This property corresponds to the content of the same name for the AWS CloudFormation [Tag](https://docs.aws.amazon.com/goto/WebAPI/cloudformation-2010-05-15/Tag) Data Type.
         /// This member is required.
         public var key: Swift.String?
@@ -3339,7 +3339,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
 }
@@ -3382,7 +3382,7 @@ extension UnshareApplicationInput {
     }
 }
 
-public struct UnshareApplicationInput: Swift.Equatable {
+public struct UnshareApplicationInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3400,7 +3400,7 @@ public struct UnshareApplicationInput: Swift.Equatable {
     }
 }
 
-struct UnshareApplicationInputBody: Swift.Equatable {
+struct UnshareApplicationInputBody {
     let organizationId: Swift.String?
 }
 
@@ -3421,7 +3421,7 @@ extension UnshareApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UnshareApplicationOutput: Swift.Equatable {
+public struct UnshareApplicationOutput {
 
     public init() { }
 }
@@ -3487,7 +3487,7 @@ extension UpdateApplicationInput {
     }
 }
 
-public struct UpdateApplicationInput: Swift.Equatable {
+public struct UpdateApplicationInput {
     /// The Amazon Resource Name (ARN) of the application.
     /// This member is required.
     public var applicationId: Swift.String?
@@ -3524,7 +3524,7 @@ public struct UpdateApplicationInput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationInputBody: Swift.Equatable {
+struct UpdateApplicationInputBody {
     let author: Swift.String?
     let description: Swift.String?
     let homePageUrl: Swift.String?
@@ -3605,7 +3605,7 @@ extension UpdateApplicationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateApplicationOutput: Swift.Equatable {
+public struct UpdateApplicationOutput {
     /// The application Amazon Resource Name (ARN).
     public var applicationId: Swift.String?
     /// The name of the author publishing the app.Minimum length=1. Maximum length=127.Pattern "^[a-z0-9](([a-z0-9]|-(?!-))*[a-z0-9])?$";
@@ -3665,7 +3665,7 @@ public struct UpdateApplicationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateApplicationOutputBody: Swift.Equatable {
+struct UpdateApplicationOutputBody {
     let applicationId: Swift.String?
     let author: Swift.String?
     let creationTime: Swift.String?
@@ -3847,7 +3847,7 @@ extension ServerlessApplicationRepositoryClientTypes.Version: Swift.Codable {
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// Application version details.
-    public struct Version: Swift.Equatable {
+    public struct Version {
         /// The application Amazon Resource Name (ARN).
         /// This member is required.
         public var applicationId: Swift.String?
@@ -3939,7 +3939,7 @@ extension ServerlessApplicationRepositoryClientTypes.VersionSummary: Swift.Codab
 
 extension ServerlessApplicationRepositoryClientTypes {
     /// An application version summary.
-    public struct VersionSummary: Swift.Equatable {
+    public struct VersionSummary {
         /// The application Amazon Resource Name (ARN).
         /// This member is required.
         public var applicationId: Swift.String?

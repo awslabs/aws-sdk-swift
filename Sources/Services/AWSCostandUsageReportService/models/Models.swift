@@ -208,7 +208,7 @@ extension DeleteReportDefinitionInput {
 }
 
 /// Deletes the specified report.
-public struct DeleteReportDefinitionInput: Swift.Equatable {
+public struct DeleteReportDefinitionInput {
     /// The name of the report that you want to delete. The name must be unique, is case sensitive, and can't include spaces.
     /// This member is required.
     public var reportName: Swift.String?
@@ -221,7 +221,7 @@ public struct DeleteReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct DeleteReportDefinitionInputBody: Swift.Equatable {
+struct DeleteReportDefinitionInputBody {
     let reportName: Swift.String?
 }
 
@@ -250,7 +250,7 @@ extension DeleteReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
-public struct DeleteReportDefinitionOutput: Swift.Equatable {
+public struct DeleteReportDefinitionOutput {
     /// Whether the deletion was successful or not.
     public var responseMessage: Swift.String?
 
@@ -262,7 +262,7 @@ public struct DeleteReportDefinitionOutput: Swift.Equatable {
     }
 }
 
-struct DeleteReportDefinitionOutputBody: Swift.Equatable {
+struct DeleteReportDefinitionOutputBody {
     let responseMessage: Swift.String?
 }
 
@@ -315,7 +315,7 @@ extension DescribeReportDefinitionsInput {
 }
 
 /// Requests a Amazon Web Services Cost and Usage Report list owned by the account.
-public struct DescribeReportDefinitionsInput: Swift.Equatable {
+public struct DescribeReportDefinitionsInput {
     /// The maximum number of results that Amazon Web Services returns for the operation.
     public var maxResults: Swift.Int?
     /// A generic string.
@@ -331,7 +331,7 @@ public struct DescribeReportDefinitionsInput: Swift.Equatable {
     }
 }
 
-struct DescribeReportDefinitionsInputBody: Swift.Equatable {
+struct DescribeReportDefinitionsInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -366,7 +366,7 @@ extension DescribeReportDefinitionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response.
-public struct DescribeReportDefinitionsOutput: Swift.Equatable {
+public struct DescribeReportDefinitionsOutput {
     /// A generic string.
     public var nextToken: Swift.String?
     /// An Amazon Web Services Cost and Usage Report list owned by the account.
@@ -382,7 +382,7 @@ public struct DescribeReportDefinitionsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeReportDefinitionsOutputBody: Swift.Equatable {
+struct DescribeReportDefinitionsOutputBody {
     let reportDefinitions: [CostandUsageReportClientTypes.ReportDefinition]?
     let nextToken: Swift.String?
 }
@@ -462,7 +462,7 @@ public struct DuplicateReportNameException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct DuplicateReportNameExceptionBody: Swift.Equatable {
+struct DuplicateReportNameExceptionBody {
     let message: Swift.String?
 }
 
@@ -518,7 +518,7 @@ public struct InternalErrorException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InternalErrorExceptionBody: Swift.Equatable {
+struct InternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -589,7 +589,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The report name of the report definition that tags are to be returned for.
     /// This member is required.
     public var reportName: Swift.String?
@@ -602,7 +602,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let reportName: Swift.String?
 }
 
@@ -630,7 +630,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags assigned to the report definition resource.
     public var tags: [CostandUsageReportClientTypes.Tag]?
 
@@ -642,7 +642,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [CostandUsageReportClientTypes.Tag]?
 }
 
@@ -704,7 +704,7 @@ extension ModifyReportDefinitionInput {
     }
 }
 
-public struct ModifyReportDefinitionInput: Swift.Equatable {
+public struct ModifyReportDefinitionInput {
     /// The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
     /// This member is required.
     public var reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
@@ -722,7 +722,7 @@ public struct ModifyReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct ModifyReportDefinitionInputBody: Swift.Equatable {
+struct ModifyReportDefinitionInputBody {
     let reportName: Swift.String?
     let reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
 }
@@ -747,7 +747,7 @@ extension ModifyReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ModifyReportDefinitionOutput: Swift.Equatable {
+public struct ModifyReportDefinitionOutput {
 
     public init() { }
 }
@@ -792,7 +792,7 @@ extension PutReportDefinitionInput {
 }
 
 /// Creates a Cost and Usage Report.
-public struct PutReportDefinitionInput: Swift.Equatable {
+public struct PutReportDefinitionInput {
     /// Represents the output of the PutReportDefinition operation. The content consists of the detailed metadata and data file information.
     /// This member is required.
     public var reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
@@ -809,7 +809,7 @@ public struct PutReportDefinitionInput: Swift.Equatable {
     }
 }
 
-struct PutReportDefinitionInputBody: Swift.Equatable {
+struct PutReportDefinitionInputBody {
     let reportDefinition: CostandUsageReportClientTypes.ReportDefinition?
     let tags: [CostandUsageReportClientTypes.Tag]?
 }
@@ -844,7 +844,7 @@ extension PutReportDefinitionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// If the action is successful, the service sends back an HTTP 200 response with an empty HTTP body.
-public struct PutReportDefinitionOutput: Swift.Equatable {
+public struct PutReportDefinitionOutput {
 
     public init() { }
 }
@@ -981,7 +981,7 @@ extension CostandUsageReportClientTypes.ReportDefinition: Swift.Codable {
 
 extension CostandUsageReportClientTypes {
     /// The definition of Amazon Web Services Cost and Usage Report. You can specify the report name, time unit, report format, compression format, S3 bucket, additional artifacts, and schema elements in the definition.
-    public struct ReportDefinition: Swift.Equatable {
+    public struct ReportDefinition {
         /// A list of manifests that you want Amazon Web Services to create for this report.
         public var additionalArtifacts: [CostandUsageReportClientTypes.AdditionalArtifact]?
         /// A list of strings that indicate additional content that Amazon Web Services includes in the report, such as individual resource IDs.
@@ -1124,7 +1124,7 @@ public struct ReportLimitReachedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ReportLimitReachedExceptionBody: Swift.Equatable {
+struct ReportLimitReachedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1167,7 +1167,7 @@ extension CostandUsageReportClientTypes.ReportStatus: Swift.Codable {
 
 extension CostandUsageReportClientTypes {
     /// A two element dictionary with a lastDelivery and lastStatus key whose values describe the date and status of the last delivered report for a particular report definition.
-    public struct ReportStatus: Swift.Equatable {
+    public struct ReportStatus {
         /// A timestamp that gives the date of a report delivery.
         public var lastDelivery: Swift.String?
         /// An enum that gives the status of a report delivery.
@@ -1257,7 +1257,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -1336,7 +1336,7 @@ extension CostandUsageReportClientTypes.Tag: Swift.Codable {
 
 extension CostandUsageReportClientTypes {
     /// Describes a tag. A tag is a key-value pair. You can add up to 50 tags to a report definition.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key of the tag. Tag keys are case sensitive. Each report definition can only have up to one tag with the same key. If you try to add an existing tag with the same key, the existing tag value will be updated to the new value.
         /// This member is required.
         public var key: Swift.String?
@@ -1383,7 +1383,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The report name of the report definition that tags are to be associated with.
     /// This member is required.
     public var reportName: Swift.String?
@@ -1401,7 +1401,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let reportName: Swift.String?
     let tags: [CostandUsageReportClientTypes.Tag]?
 }
@@ -1435,7 +1435,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -1516,7 +1516,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The report name of the report definition that tags are to be disassociated from.
     /// This member is required.
     public var reportName: Swift.String?
@@ -1534,7 +1534,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let reportName: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -1568,7 +1568,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -1626,7 +1626,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

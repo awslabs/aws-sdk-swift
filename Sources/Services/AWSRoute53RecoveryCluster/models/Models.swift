@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -113,7 +113,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -177,7 +177,7 @@ public struct EndpointTemporarilyUnavailableException: ClientRuntime.ModeledErro
     }
 }
 
-struct EndpointTemporarilyUnavailableExceptionBody: Swift.Equatable {
+struct EndpointTemporarilyUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -213,7 +213,7 @@ extension GetRoutingControlStateInput {
     }
 }
 
-public struct GetRoutingControlStateInput: Swift.Equatable {
+public struct GetRoutingControlStateInput {
     /// The Amazon Resource Name (ARN) for the routing control that you want to get the state for.
     /// This member is required.
     public var routingControlArn: Swift.String?
@@ -226,7 +226,7 @@ public struct GetRoutingControlStateInput: Swift.Equatable {
     }
 }
 
-struct GetRoutingControlStateInputBody: Swift.Equatable {
+struct GetRoutingControlStateInputBody {
     let routingControlArn: Swift.String?
 }
 
@@ -258,7 +258,7 @@ extension GetRoutingControlStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRoutingControlStateOutput: Swift.Equatable {
+public struct GetRoutingControlStateOutput {
     /// The Amazon Resource Name (ARN) of the response.
     /// This member is required.
     public var routingControlArn: Swift.String?
@@ -280,7 +280,7 @@ public struct GetRoutingControlStateOutput: Swift.Equatable {
     }
 }
 
-struct GetRoutingControlStateOutputBody: Swift.Equatable {
+struct GetRoutingControlStateOutputBody {
     let routingControlArn: Swift.String?
     let routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState?
     let routingControlName: Swift.String?
@@ -369,7 +369,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -413,7 +413,7 @@ extension ListRoutingControlsInput {
     }
 }
 
-public struct ListRoutingControlsInput: Swift.Equatable {
+public struct ListRoutingControlsInput {
     /// The Amazon Resource Name (ARN) of the control panel of the routing controls to list.
     public var controlPanelArn: Swift.String?
     /// The number of routing controls objects that you want to return with this call. The default value is 500.
@@ -433,7 +433,7 @@ public struct ListRoutingControlsInput: Swift.Equatable {
     }
 }
 
-struct ListRoutingControlsInputBody: Swift.Equatable {
+struct ListRoutingControlsInputBody {
     let controlPanelArn: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -471,7 +471,7 @@ extension ListRoutingControlsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRoutingControlsOutput: Swift.Equatable {
+public struct ListRoutingControlsOutput {
     /// The token for the next set of results. You receive this token from a previous call.
     public var nextToken: Swift.String?
     /// The list of routing controls.
@@ -488,7 +488,7 @@ public struct ListRoutingControlsOutput: Swift.Equatable {
     }
 }
 
-struct ListRoutingControlsOutputBody: Swift.Equatable {
+struct ListRoutingControlsOutputBody {
     let routingControls: [Route53RecoveryClusterClientTypes.RoutingControl]?
     let nextToken: Swift.String?
 }
@@ -587,7 +587,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -664,7 +664,7 @@ extension Route53RecoveryClusterClientTypes.RoutingControl: Swift.Codable {
 
 extension Route53RecoveryClusterClientTypes {
     /// A routing control, which is a simple on/off switch that you can use to route traffic to cells. When a routing control state is set to ON, traffic flows to a cell. When the state is set to OFF, traffic does not flow.
-    public struct RoutingControl: Swift.Equatable {
+    public struct RoutingControl {
         /// The Amazon Resource Name (ARN) of the control panel where the routing control is located.
         public var controlPanelArn: Swift.String?
         /// The name of the control panel where the routing control is located. Only ASCII characters are supported for control panel names.
@@ -796,7 +796,7 @@ public struct ServiceLimitExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceLimitExceededExceptionBody: Swift.Equatable {
+struct ServiceLimitExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -877,7 +877,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -920,7 +920,7 @@ extension Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry: Swif
 
 extension Route53RecoveryClusterClientTypes {
     /// A routing control state entry.
-    public struct UpdateRoutingControlStateEntry: Swift.Equatable {
+    public struct UpdateRoutingControlStateEntry {
         /// The Amazon Resource Name (ARN) for a routing control state entry.
         /// This member is required.
         public var routingControlArn: Swift.String?
@@ -971,7 +971,7 @@ extension UpdateRoutingControlStateInput {
     }
 }
 
-public struct UpdateRoutingControlStateInput: Swift.Equatable {
+public struct UpdateRoutingControlStateInput {
     /// The Amazon Resource Name (ARN) for the routing control that you want to update the state for.
     /// This member is required.
     public var routingControlArn: Swift.String?
@@ -993,7 +993,7 @@ public struct UpdateRoutingControlStateInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingControlStateInputBody: Swift.Equatable {
+struct UpdateRoutingControlStateInputBody {
     let routingControlArn: Swift.String?
     let routingControlState: Route53RecoveryClusterClientTypes.RoutingControlState?
     let safetyRulesToOverride: [Swift.String]?
@@ -1031,7 +1031,7 @@ extension UpdateRoutingControlStateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoutingControlStateOutput: Swift.Equatable {
+public struct UpdateRoutingControlStateOutput {
 
     public init() { }
 }
@@ -1083,7 +1083,7 @@ extension UpdateRoutingControlStatesInput {
     }
 }
 
-public struct UpdateRoutingControlStatesInput: Swift.Equatable {
+public struct UpdateRoutingControlStatesInput {
     /// The Amazon Resource Names (ARNs) for the safety rules that you want to override when you're updating routing control states. You can override one safety rule or multiple safety rules by including one or more ARNs, separated by commas. For more information, see [ Override safety rules to reroute traffic](https://docs.aws.amazon.com/r53recovery/latest/dg/routing-control.override-safety-rule.html) in the Amazon Route 53 Application Recovery Controller Developer Guide.
     public var safetyRulesToOverride: [Swift.String]?
     /// A set of routing control entries that you want to update.
@@ -1100,7 +1100,7 @@ public struct UpdateRoutingControlStatesInput: Swift.Equatable {
     }
 }
 
-struct UpdateRoutingControlStatesInputBody: Swift.Equatable {
+struct UpdateRoutingControlStatesInputBody {
     let updateRoutingControlStateEntries: [Route53RecoveryClusterClientTypes.UpdateRoutingControlStateEntry]?
     let safetyRulesToOverride: [Swift.String]?
 }
@@ -1143,7 +1143,7 @@ extension UpdateRoutingControlStatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRoutingControlStatesOutput: Swift.Equatable {
+public struct UpdateRoutingControlStatesOutput {
 
     public init() { }
 }
@@ -1218,7 +1218,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: Route53RecoveryClusterClientTypes.ValidationExceptionReason?
     let fields: [Route53RecoveryClusterClientTypes.ValidationExceptionField]?
@@ -1278,7 +1278,7 @@ extension Route53RecoveryClusterClientTypes.ValidationExceptionField: Swift.Coda
 
 extension Route53RecoveryClusterClientTypes {
     /// There was a validation error on the request.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Information about the validation exception.
         /// This member is required.
         public var message: Swift.String?

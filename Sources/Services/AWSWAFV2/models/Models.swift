@@ -53,7 +53,7 @@ extension WAFV2ClientTypes.APIKeySummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Information for a single API key. API keys are required for the integration of the CAPTCHA API in your JavaScript client applications. The API lets you customize the placement and characteristics of the CAPTCHA puzzle for your end users. For more information about the CAPTCHA JavaScript integration, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
-    public struct APIKeySummary: Swift.Equatable {
+    public struct APIKeySummary {
         /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
         public var apiKey: Swift.String?
         /// The date and time that the key was created.
@@ -124,7 +124,7 @@ extension WAFV2ClientTypes.AWSManagedRulesACFPRuleSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Details for your use of the account creation fraud prevention managed rule group, AWSManagedRulesACFPRuleSet. This configuration is used in ManagedRuleGroupConfig.
-    public struct AWSManagedRulesACFPRuleSet: Swift.Equatable {
+    public struct AWSManagedRulesACFPRuleSet {
         /// The path of the account creation endpoint for your application. This is the page on your website that accepts the completed registration form for a new user. This page must accept POST requests. For example, for the URL https://example.com/web/newaccount, you would provide the path /web/newaccount. Account creation page paths that start with the path that you provide are considered a match. For example /web/newaccount matches the account creation paths /web/newaccount, /web/newaccount/, /web/newaccountPage, and /web/newaccount/thisPage, but doesn't match the path /home/web/newaccount or /website/newaccount.
         /// This member is required.
         public var creationPath: Swift.String?
@@ -196,7 +196,7 @@ extension WAFV2ClientTypes.AWSManagedRulesATPRuleSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Details for your use of the account takeover prevention managed rule group, AWSManagedRulesATPRuleSet. This configuration is used in ManagedRuleGroupConfig.
-    public struct AWSManagedRulesATPRuleSet: Swift.Equatable {
+    public struct AWSManagedRulesATPRuleSet {
         /// Allow the use of regular expressions in the login page path.
         public var enableRegexInPath: Swift.Bool
         /// The path of the login endpoint for your application. For example, for the URL https://example.com/web/login, you would provide the path /web/login. Login paths that start with the path that you provide are considered a match. For example /web/login matches the login paths /web/login, /web/login/, /web/loginPage, and /web/login/thisPage, but doesn't match the login path /home/web/login or /website/login. The rule group inspects only HTTP POST requests to your specified login endpoint.
@@ -250,7 +250,7 @@ extension WAFV2ClientTypes.AWSManagedRulesBotControlRuleSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Details for your use of the Bot Control managed rule group, AWSManagedRulesBotControlRuleSet. This configuration is used in ManagedRuleGroupConfig.
-    public struct AWSManagedRulesBotControlRuleSet: Swift.Equatable {
+    public struct AWSManagedRulesBotControlRuleSet {
         /// Applies only to the targeted inspection level. Determines whether to use machine learning (ML) to analyze your web traffic for bot-related activity. Machine learning is required for the Bot Control rules TGT_ML_CoordinatedActivityLow and TGT_ML_CoordinatedActivityMedium, which inspect for anomalous behavior that might indicate distributed, coordinated bot activity. For more information about this choice, see the listing for these rules in the table at [Bot Control rules listing](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html#aws-managed-rule-groups-bot-rules) in the WAF Developer Guide. Default: TRUE
         public var enableMachineLearning: Swift.Bool?
         /// The inspection level to use for the Bot Control rule group. The common level is the least expensive. The targeted level includes all common level rules and adds rules with more advanced inspection criteria. For details, see [WAF Bot Control rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-bot.html) in the WAF Developer Guide.
@@ -290,7 +290,7 @@ extension WAFV2ClientTypes.ActionCondition: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single action condition for a [Condition] in a logging filter.
-    public struct ActionCondition: Swift.Equatable {
+    public struct ActionCondition {
         /// The action setting that a log record must contain in order to meet the condition. This is the action that WAF applied to the web request. For rule groups, this is either the configured rule action setting, or if you've applied a rule action override to the rule, it's the override action. The value EXCLUDED_AS_COUNT matches on excluded rules and also on rules that have a rule action override of Count.
         /// This member is required.
         public var action: WAFV2ClientTypes.ActionValue?
@@ -370,7 +370,7 @@ extension WAFV2ClientTypes.AddressField: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The name of a field in the request payload that contains part or all of your customer's primary physical address. This data type is used in the RequestInspectionACFP data type.
-    public struct AddressField: Swift.Equatable {
+    public struct AddressField {
         /// The name of a single primary address field. How you specify the address fields depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } }, the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.
@@ -402,7 +402,7 @@ extension WAFV2ClientTypes.All: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect all of the elements that WAF has parsed and extracted from the web request component that you've identified in your [FieldToMatch] specifications. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "All": {}
-    public struct All: Swift.Equatable {
+    public struct All {
 
         public init() { }
     }
@@ -422,7 +422,7 @@ extension WAFV2ClientTypes.AllQueryArguments: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect all query arguments of the web request. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "AllQueryArguments": {}
-    public struct AllQueryArguments: Swift.Equatable {
+    public struct AllQueryArguments {
 
         public init() { }
     }
@@ -450,7 +450,7 @@ extension WAFV2ClientTypes.AllowAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies that WAF should allow the request and optionally defines additional custom handling for the request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
-    public struct AllowAction: Swift.Equatable {
+    public struct AllowAction {
         /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
@@ -497,7 +497,7 @@ extension WAFV2ClientTypes.AndStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one [Statement] within the AndStatement.
-    public struct AndStatement: Swift.Equatable {
+    public struct AndStatement {
         /// The statements to combine with AND logic. You can use any statements that can be nested.
         /// This member is required.
         public var statements: [WAFV2ClientTypes.Statement]?
@@ -536,7 +536,7 @@ extension AssociateWebACLInput {
     }
 }
 
-public struct AssociateWebACLInput: Swift.Equatable {
+public struct AssociateWebACLInput {
     /// The Amazon Resource Name (ARN) of the resource to associate with the web ACL. The ARN must be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -566,7 +566,7 @@ public struct AssociateWebACLInput: Swift.Equatable {
     }
 }
 
-struct AssociateWebACLInputBody: Swift.Equatable {
+struct AssociateWebACLInputBody {
     let webACLArn: Swift.String?
     let resourceArn: Swift.String?
 }
@@ -591,7 +591,7 @@ extension AssociateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateWebACLOutput: Swift.Equatable {
+public struct AssociateWebACLOutput {
 
     public init() { }
 }
@@ -685,7 +685,7 @@ extension WAFV2ClientTypes.AssociationConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
-    public struct AssociationConfig: Swift.Equatable {
+    public struct AssociationConfig {
         /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" } For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
         public var requestBody: [Swift.String:WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig]?
 
@@ -720,7 +720,7 @@ extension WAFV2ClientTypes.BlockAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies that WAF should block the request and optionally defines additional custom handling for the response to the web request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
-    public struct BlockAction: Swift.Equatable {
+    public struct BlockAction {
         /// Defines a custom response for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customResponse: WAFV2ClientTypes.CustomResponse?
 
@@ -755,7 +755,7 @@ extension WAFV2ClientTypes.Body: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the body of the web request. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification.
-    public struct Body: Swift.Equatable {
+    public struct Body {
         /// What WAF should do if the body is larger than WAF can inspect. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
         ///
         /// * For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
@@ -871,7 +871,7 @@ extension WAFV2ClientTypes.ByteMatchStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
-    public struct ByteMatchStatement: Swift.Equatable {
+    public struct ByteMatchStatement {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
@@ -956,7 +956,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// You can configure the expiration time in the CaptchaConfigImmunityTimeProperty setting at the rule and web ACL level. The rule setting overrides the web ACL setting. This action option is available for rules. It isn't available for web ACL default actions.
-    public struct CaptchaAction: Swift.Equatable {
+    public struct CaptchaAction {
         /// Defines custom handling for the web request, used when the CAPTCHA inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
@@ -991,7 +991,7 @@ extension WAFV2ClientTypes.CaptchaConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies how WAF should handle CAPTCHA evaluations. This is available at the web ACL level and in each rule.
-    public struct CaptchaConfig: Swift.Equatable {
+    public struct CaptchaConfig {
         /// Determines how long a CAPTCHA timestamp in the token remains valid after the client successfully solves a CAPTCHA puzzle.
         public var immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty?
 
@@ -1038,7 +1038,7 @@ extension WAFV2ClientTypes.CaptchaResponse: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The result from the inspection of the web request for a valid CAPTCHA token.
-    public struct CaptchaResponse: Swift.Equatable {
+    public struct CaptchaResponse {
         /// The reason for failure, populated when the evaluation of the token fails.
         public var failureReason: WAFV2ClientTypes.FailureReason?
         /// The HTTP response code indicating the status of the CAPTCHA token in the web request. If the token is missing, invalid, or expired, this code is 405 Method Not Allowed.
@@ -1097,7 +1097,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// You can configure the expiration time in the ChallengeConfigImmunityTimeProperty setting at the rule and web ACL level. The rule setting overrides the web ACL setting. This action option is available for rules. It isn't available for web ACL default actions.
-    public struct ChallengeAction: Swift.Equatable {
+    public struct ChallengeAction {
         /// Defines custom handling for the web request, used when the challenge inspection determines that the request's token is valid and unexpired. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
@@ -1132,7 +1132,7 @@ extension WAFV2ClientTypes.ChallengeConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies how WAF should handle Challenge evaluations. This is available at the web ACL level and in each rule.
-    public struct ChallengeConfig: Swift.Equatable {
+    public struct ChallengeConfig {
         /// Determines how long a challenge timestamp in the token remains valid after the client successfully responds to a challenge.
         public var immunityTimeProperty: WAFV2ClientTypes.ImmunityTimeProperty?
 
@@ -1179,7 +1179,7 @@ extension WAFV2ClientTypes.ChallengeResponse: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The result from the inspection of the web request for a valid challenge token.
-    public struct ChallengeResponse: Swift.Equatable {
+    public struct ChallengeResponse {
         /// The reason for failure, populated when the evaluation of the token fails.
         public var failureReason: WAFV2ClientTypes.FailureReason?
         /// The HTTP response code indicating the status of the challenge token in the web request. If the token is missing, invalid, or expired, this code is 202 Request Accepted.
@@ -1228,7 +1228,7 @@ extension CheckCapacityInput {
     }
 }
 
-public struct CheckCapacityInput: Swift.Equatable {
+public struct CheckCapacityInput {
     /// An array of [Rule] that you're configuring to use in a rule group or web ACL.
     /// This member is required.
     public var rules: [WAFV2ClientTypes.Rule]?
@@ -1250,7 +1250,7 @@ public struct CheckCapacityInput: Swift.Equatable {
     }
 }
 
-struct CheckCapacityInputBody: Swift.Equatable {
+struct CheckCapacityInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let rules: [WAFV2ClientTypes.Rule]?
 }
@@ -1291,7 +1291,7 @@ extension CheckCapacityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CheckCapacityOutput: Swift.Equatable {
+public struct CheckCapacityOutput {
     /// The capacity required by the rules and scope.
     public var capacity: Swift.Int
 
@@ -1303,7 +1303,7 @@ public struct CheckCapacityOutput: Swift.Equatable {
     }
 }
 
-struct CheckCapacityOutputBody: Swift.Equatable {
+struct CheckCapacityOutputBody {
     let capacity: Swift.Int
 }
 
@@ -1409,7 +1409,7 @@ extension WAFV2ClientTypes.Condition: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single match condition for a [Filter].
-    public struct Condition: Swift.Equatable {
+    public struct Condition {
         /// A single action condition. This is the action setting that a log record must contain in order to meet the condition.
         public var actionCondition: WAFV2ClientTypes.ActionCondition?
         /// A single label name condition. This is the fully qualified label name that a log record must contain in order to meet the condition. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
@@ -1484,7 +1484,7 @@ extension WAFV2ClientTypes.CookieMatchPattern: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
-    public struct CookieMatchPattern: Swift.Equatable {
+    public struct CookieMatchPattern {
         /// Inspect all cookies.
         public var all: WAFV2ClientTypes.All?
         /// Inspect only the cookies whose keys don't match any of the strings specified here.
@@ -1539,7 +1539,7 @@ extension WAFV2ClientTypes.Cookies: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the cookies in the web request. You can specify the parts of the cookies to inspect and you can narrow the set of cookies to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "Cookies": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
-    public struct Cookies: Swift.Equatable {
+    public struct Cookies {
         /// The filter to use to identify the subset of cookies to inspect in a web request. You must specify exactly one setting: either All, IncludedCookies, or ExcludedCookies. Example JSON: "MatchPattern": { "IncludedCookies": [ "session-id-time", "session-id" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.CookieMatchPattern?
@@ -1591,7 +1591,7 @@ extension WAFV2ClientTypes.CountAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies that WAF should count the request. Optionally defines additional custom handling for the request. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction].
-    public struct CountAction: Swift.Equatable {
+    public struct CountAction {
         /// Defines custom handling for the web request. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
         public var customRequestHandling: WAFV2ClientTypes.CustomRequestHandling?
 
@@ -2408,7 +2408,7 @@ extension CreateAPIKeyInput {
     }
 }
 
-public struct CreateAPIKeyInput: Swift.Equatable {
+public struct CreateAPIKeyInput {
     /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
@@ -2430,7 +2430,7 @@ public struct CreateAPIKeyInput: Swift.Equatable {
     }
 }
 
-struct CreateAPIKeyInputBody: Swift.Equatable {
+struct CreateAPIKeyInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let tokenDomains: [Swift.String]?
 }
@@ -2471,7 +2471,7 @@ extension CreateAPIKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAPIKeyOutput: Swift.Equatable {
+public struct CreateAPIKeyOutput {
     /// The generated, encrypted API key. You can copy this for use in your JavaScript CAPTCHA integration.
     public var apiKey: Swift.String?
 
@@ -2483,7 +2483,7 @@ public struct CreateAPIKeyOutput: Swift.Equatable {
     }
 }
 
-struct CreateAPIKeyOutputBody: Swift.Equatable {
+struct CreateAPIKeyOutputBody {
     let apiKey: Swift.String?
 }
 
@@ -2559,7 +2559,7 @@ extension CreateIPSetInput {
     }
 }
 
-public struct CreateIPSetInput: Swift.Equatable {
+public struct CreateIPSetInput {
     /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0. Example address strings:
     ///
     /// * For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.
@@ -2618,7 +2618,7 @@ public struct CreateIPSetInput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetInputBody: Swift.Equatable {
+struct CreateIPSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let description: Swift.String?
@@ -2684,7 +2684,7 @@ extension CreateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateIPSetOutput: Swift.Equatable {
+public struct CreateIPSetOutput {
     /// High-level information about an [IPSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the [IPSetReferenceStatement] to use the address set in a [Rule].
     public var summary: WAFV2ClientTypes.IPSetSummary?
 
@@ -2696,7 +2696,7 @@ public struct CreateIPSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateIPSetOutputBody: Swift.Equatable {
+struct CreateIPSetOutputBody {
     let summary: WAFV2ClientTypes.IPSetSummary?
 }
 
@@ -2772,7 +2772,7 @@ extension CreateRegexPatternSetInput {
     }
 }
 
-public struct CreateRegexPatternSetInput: Swift.Equatable {
+public struct CreateRegexPatternSetInput {
     /// A description of the set that helps with identification.
     public var description: Swift.String?
     /// The name of the set. You cannot change the name after you create the set.
@@ -2807,7 +2807,7 @@ public struct CreateRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct CreateRegexPatternSetInputBody: Swift.Equatable {
+struct CreateRegexPatternSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let description: Swift.String?
@@ -2869,7 +2869,7 @@ extension CreateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRegexPatternSetOutput: Swift.Equatable {
+public struct CreateRegexPatternSetOutput {
     /// High-level information about a [RegexPatternSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the [RegexPatternSetReferenceStatement] to use the pattern set in a [Rule].
     public var summary: WAFV2ClientTypes.RegexPatternSetSummary?
 
@@ -2881,7 +2881,7 @@ public struct CreateRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct CreateRegexPatternSetOutputBody: Swift.Equatable {
+struct CreateRegexPatternSetOutputBody {
     let summary: WAFV2ClientTypes.RegexPatternSetSummary?
 }
 
@@ -2972,7 +2972,7 @@ extension CreateRuleGroupInput {
     }
 }
 
-public struct CreateRuleGroupInput: Swift.Equatable {
+public struct CreateRuleGroupInput {
     /// The web ACL capacity units (WCUs) required for this rule group. When you create your own rule group, you define this, and you cannot change it after creation. When you add or modify the rules in a rule group, WAF enforces this limit. You can check the capacity for a set of rules using [CheckCapacity]. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
     /// This member is required.
     public var capacity: Swift.Int?
@@ -3020,7 +3020,7 @@ public struct CreateRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupInputBody: Swift.Equatable {
+struct CreateRuleGroupInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let capacity: Swift.Int?
@@ -3103,7 +3103,7 @@ extension CreateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateRuleGroupOutput: Swift.Equatable {
+public struct CreateRuleGroupOutput {
     /// High-level information about a [RuleGroup], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the [RuleGroupReferenceStatement] to use the rule group in a [Rule].
     public var summary: WAFV2ClientTypes.RuleGroupSummary?
 
@@ -3115,7 +3115,7 @@ public struct CreateRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct CreateRuleGroupOutputBody: Swift.Equatable {
+struct CreateRuleGroupOutputBody {
     let summary: WAFV2ClientTypes.RuleGroupSummary?
 }
 
@@ -3228,7 +3228,7 @@ extension CreateWebACLInput {
     }
 }
 
-public struct CreateWebACLInput: Swift.Equatable {
+public struct CreateWebACLInput {
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -3292,7 +3292,7 @@ public struct CreateWebACLInput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLInputBody: Swift.Equatable {
+struct CreateWebACLInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let defaultAction: WAFV2ClientTypes.DefaultAction?
@@ -3400,7 +3400,7 @@ extension CreateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWebACLOutput: Swift.Equatable {
+public struct CreateWebACLOutput {
     /// High-level information about a [WebACL], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like [AssociateWebACL].
     public var summary: WAFV2ClientTypes.WebACLSummary?
 
@@ -3412,7 +3412,7 @@ public struct CreateWebACLOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebACLOutputBody: Swift.Equatable {
+struct CreateWebACLOutputBody {
     let summary: WAFV2ClientTypes.WebACLSummary?
 }
 
@@ -3479,7 +3479,7 @@ extension WAFV2ClientTypes.CustomHTTPHeader: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A custom header for custom request and response handling. This is used in [CustomResponse] and [CustomRequestHandling].
-    public struct CustomHTTPHeader: Swift.Equatable {
+    public struct CustomHTTPHeader {
         /// The name of the custom header. For custom request header insertion, when WAF inserts the header into the request, it prefixes this name x-amzn-waf-, to avoid confusion with the headers that are already in the request. For example, for the header name sample, WAF inserts the header x-amzn-waf-sample.
         /// This member is required.
         public var name: Swift.String?
@@ -3532,7 +3532,7 @@ extension WAFV2ClientTypes.CustomRequestHandling: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Custom request handling behavior that inserts custom headers into a web request. You can add custom request handling for WAF to use when the rule action doesn't block the request. For example, CaptchaAction for requests with valid t okens, and AllowAction. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
-    public struct CustomRequestHandling: Swift.Equatable {
+    public struct CustomRequestHandling {
         /// The HTTP headers to insert into the request. Duplicate header names are not allowed. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         /// This member is required.
         public var insertHeaders: [WAFV2ClientTypes.CustomHTTPHeader]?
@@ -3592,7 +3592,7 @@ extension WAFV2ClientTypes.CustomResponse: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A custom response to send to the client. You can define a custom response for rule actions and default web ACL actions that are set to [BlockAction]. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide.
-    public struct CustomResponse: Swift.Equatable {
+    public struct CustomResponse {
         /// References the response body that you want WAF to return to the web request client. You can define a custom response for a rule action or a default web ACL action that is set to block. To do this, you first define the response body key and value in the CustomResponseBodies setting for the [WebACL] or [RuleGroup] where you want to use it. Then, in the rule action or web ACL default action BlockAction setting, you reference the response body using this key.
         public var customResponseBodyKey: Swift.String?
         /// The HTTP status code to return to the client. For a list of status codes that you can use in your custom responses, see [Supported status codes for custom response](https://docs.aws.amazon.com/waf/latest/developerguide/customizing-the-response-status-codes.html) in the WAF Developer Guide.
@@ -3642,7 +3642,7 @@ extension WAFV2ClientTypes.CustomResponseBody: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The response body to use in a custom response to a web request. This is referenced by key from [CustomResponse]CustomResponseBodyKey.
-    public struct CustomResponseBody: Swift.Equatable {
+    public struct CustomResponseBody {
         /// The payload of the custom response. You can use JSON escape strings in JSON content. To do this, you must specify JSON content in the ContentType setting. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
         /// This member is required.
         public var content: Swift.String?
@@ -3689,7 +3689,7 @@ extension WAFV2ClientTypes.DefaultAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// In a [WebACL], this is the action that you want WAF to perform when a web request doesn't match any of the rules in the WebACL. The default action must be a terminating action.
-    public struct DefaultAction: Swift.Equatable {
+    public struct DefaultAction {
         /// Specifies that WAF should allow requests by default.
         public var allow: WAFV2ClientTypes.AllowAction?
         /// Specifies that WAF should block requests by default.
@@ -3731,7 +3731,7 @@ extension DeleteAPIKeyInput {
     }
 }
 
-public struct DeleteAPIKeyInput: Swift.Equatable {
+public struct DeleteAPIKeyInput {
     /// The encrypted API key that you want to delete.
     /// This member is required.
     public var apiKey: Swift.String?
@@ -3753,7 +3753,7 @@ public struct DeleteAPIKeyInput: Swift.Equatable {
     }
 }
 
-struct DeleteAPIKeyInputBody: Swift.Equatable {
+struct DeleteAPIKeyInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let apiKey: Swift.String?
 }
@@ -3778,7 +3778,7 @@ extension DeleteAPIKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAPIKeyOutput: Swift.Equatable {
+public struct DeleteAPIKeyOutput {
 
     public init() { }
 }
@@ -3822,7 +3822,7 @@ extension DeleteFirewallManagerRuleGroupsInput {
     }
 }
 
-public struct DeleteFirewallManagerRuleGroupsInput: Swift.Equatable {
+public struct DeleteFirewallManagerRuleGroupsInput {
     /// The Amazon Resource Name (ARN) of the web ACL.
     /// This member is required.
     public var webACLArn: Swift.String?
@@ -3840,7 +3840,7 @@ public struct DeleteFirewallManagerRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallManagerRuleGroupsInputBody: Swift.Equatable {
+struct DeleteFirewallManagerRuleGroupsInputBody {
     let webACLArn: Swift.String?
     let webACLLockToken: Swift.String?
 }
@@ -3872,7 +3872,7 @@ extension DeleteFirewallManagerRuleGroupsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteFirewallManagerRuleGroupsOutput: Swift.Equatable {
+public struct DeleteFirewallManagerRuleGroupsOutput {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var nextWebACLLockToken: Swift.String?
 
@@ -3884,7 +3884,7 @@ public struct DeleteFirewallManagerRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct DeleteFirewallManagerRuleGroupsOutputBody: Swift.Equatable {
+struct DeleteFirewallManagerRuleGroupsOutputBody {
     let nextWebACLLockToken: Swift.String?
 }
 
@@ -3947,7 +3947,7 @@ extension DeleteIPSetInput {
     }
 }
 
-public struct DeleteIPSetInput: Swift.Equatable {
+public struct DeleteIPSetInput {
     /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -3979,7 +3979,7 @@ public struct DeleteIPSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteIPSetInputBody: Swift.Equatable {
+struct DeleteIPSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -4012,7 +4012,7 @@ extension DeleteIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteIPSetOutput: Swift.Equatable {
+public struct DeleteIPSetOutput {
 
     public init() { }
 }
@@ -4055,7 +4055,7 @@ extension DeleteLoggingConfigurationInput {
     }
 }
 
-public struct DeleteLoggingConfigurationInput: Swift.Equatable {
+public struct DeleteLoggingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the web ACL from which you want to delete the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4068,7 +4068,7 @@ public struct DeleteLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteLoggingConfigurationInputBody: Swift.Equatable {
+struct DeleteLoggingConfigurationInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4089,7 +4089,7 @@ extension DeleteLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLoggingConfigurationOutput: Swift.Equatable {
+public struct DeleteLoggingConfigurationOutput {
 
     public init() { }
 }
@@ -4129,7 +4129,7 @@ extension DeletePermissionPolicyInput {
     }
 }
 
-public struct DeletePermissionPolicyInput: Swift.Equatable {
+public struct DeletePermissionPolicyInput {
     /// The Amazon Resource Name (ARN) of the rule group from which you want to delete the policy. You must be the owner of the rule group to perform this operation.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4142,7 +4142,7 @@ public struct DeletePermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct DeletePermissionPolicyInputBody: Swift.Equatable {
+struct DeletePermissionPolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -4163,7 +4163,7 @@ extension DeletePermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePermissionPolicyOutput: Swift.Equatable {
+public struct DeletePermissionPolicyOutput {
 
     public init() { }
 }
@@ -4213,7 +4213,7 @@ extension DeleteRegexPatternSetInput {
     }
 }
 
-public struct DeleteRegexPatternSetInput: Swift.Equatable {
+public struct DeleteRegexPatternSetInput {
     /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -4245,7 +4245,7 @@ public struct DeleteRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct DeleteRegexPatternSetInputBody: Swift.Equatable {
+struct DeleteRegexPatternSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -4278,7 +4278,7 @@ extension DeleteRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRegexPatternSetOutput: Swift.Equatable {
+public struct DeleteRegexPatternSetOutput {
 
     public init() { }
 }
@@ -4333,7 +4333,7 @@ extension DeleteRuleGroupInput {
     }
 }
 
-public struct DeleteRuleGroupInput: Swift.Equatable {
+public struct DeleteRuleGroupInput {
     /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -4365,7 +4365,7 @@ public struct DeleteRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteRuleGroupInputBody: Swift.Equatable {
+struct DeleteRuleGroupInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -4398,7 +4398,7 @@ extension DeleteRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteRuleGroupOutput: Swift.Equatable {
+public struct DeleteRuleGroupOutput {
 
     public init() { }
 }
@@ -4453,7 +4453,7 @@ extension DeleteWebACLInput {
     }
 }
 
-public struct DeleteWebACLInput: Swift.Equatable {
+public struct DeleteWebACLInput {
     /// The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -4485,7 +4485,7 @@ public struct DeleteWebACLInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebACLInputBody: Swift.Equatable {
+struct DeleteWebACLInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -4518,7 +4518,7 @@ extension DeleteWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWebACLOutput: Swift.Equatable {
+public struct DeleteWebACLOutput {
 
     public init() { }
 }
@@ -4561,7 +4561,7 @@ extension DescribeAllManagedProductsInput {
     }
 }
 
-public struct DescribeAllManagedProductsInput: Swift.Equatable {
+public struct DescribeAllManagedProductsInput {
     /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
@@ -4578,7 +4578,7 @@ public struct DescribeAllManagedProductsInput: Swift.Equatable {
     }
 }
 
-struct DescribeAllManagedProductsInputBody: Swift.Equatable {
+struct DescribeAllManagedProductsInputBody {
     let scope: WAFV2ClientTypes.Scope?
 }
 
@@ -4606,7 +4606,7 @@ extension DescribeAllManagedProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeAllManagedProductsOutput: Swift.Equatable {
+public struct DescribeAllManagedProductsOutput {
     /// High-level information for the Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups.
     public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
 
@@ -4618,7 +4618,7 @@ public struct DescribeAllManagedProductsOutput: Swift.Equatable {
     }
 }
 
-struct DescribeAllManagedProductsOutputBody: Swift.Equatable {
+struct DescribeAllManagedProductsOutputBody {
     let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
 }
 
@@ -4680,7 +4680,7 @@ extension DescribeManagedProductsByVendorInput {
     }
 }
 
-public struct DescribeManagedProductsByVendorInput: Swift.Equatable {
+public struct DescribeManagedProductsByVendorInput {
     /// Specifies whether this is for an Amazon CloudFront distribution or for a regional application. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. To work with CloudFront, you must also specify the Region US East (N. Virginia) as follows:
     ///
     /// * CLI - Specify the Region when you use the CloudFront scope: --scope=CLOUDFRONT --region=us-east-1.
@@ -4702,7 +4702,7 @@ public struct DescribeManagedProductsByVendorInput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedProductsByVendorInputBody: Swift.Equatable {
+struct DescribeManagedProductsByVendorInputBody {
     let vendorName: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
 }
@@ -4734,7 +4734,7 @@ extension DescribeManagedProductsByVendorOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DescribeManagedProductsByVendorOutput: Swift.Equatable {
+public struct DescribeManagedProductsByVendorOutput {
     /// High-level information for the managed rule groups owned by the specified vendor.
     public var managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
 
@@ -4746,7 +4746,7 @@ public struct DescribeManagedProductsByVendorOutput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedProductsByVendorOutputBody: Swift.Equatable {
+struct DescribeManagedProductsByVendorOutputBody {
     let managedProducts: [WAFV2ClientTypes.ManagedProductDescriptor]?
 }
 
@@ -4816,7 +4816,7 @@ extension DescribeManagedRuleGroupInput {
     }
 }
 
-public struct DescribeManagedRuleGroupInput: Swift.Equatable {
+public struct DescribeManagedRuleGroupInput {
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
     /// This member is required.
     public var name: Swift.String?
@@ -4847,7 +4847,7 @@ public struct DescribeManagedRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedRuleGroupInputBody: Swift.Equatable {
+struct DescribeManagedRuleGroupInputBody {
     let vendorName: Swift.String?
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
@@ -4899,7 +4899,7 @@ extension DescribeManagedRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeManagedRuleGroupOutput: Swift.Equatable {
+public struct DescribeManagedRuleGroupOutput {
     /// The labels that one or more rules in this rule group add to matching web requests. These labels are defined in the RuleLabels for a [Rule].
     public var availableLabels: [WAFV2ClientTypes.LabelSummary]?
     /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
@@ -4939,7 +4939,7 @@ public struct DescribeManagedRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct DescribeManagedRuleGroupOutputBody: Swift.Equatable {
+struct DescribeManagedRuleGroupOutputBody {
     let versionName: Swift.String?
     let snsTopicArn: Swift.String?
     let capacity: Swift.Int?
@@ -5042,7 +5042,7 @@ extension DisassociateWebACLInput {
     }
 }
 
-public struct DisassociateWebACLInput: Swift.Equatable {
+public struct DisassociateWebACLInput {
     /// The Amazon Resource Name (ARN) of the resource to disassociate from the web ACL. The ARN must be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -5067,7 +5067,7 @@ public struct DisassociateWebACLInput: Swift.Equatable {
     }
 }
 
-struct DisassociateWebACLInputBody: Swift.Equatable {
+struct DisassociateWebACLInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -5088,7 +5088,7 @@ extension DisassociateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateWebACLOutput: Swift.Equatable {
+public struct DisassociateWebACLOutput {
 
     public init() { }
 }
@@ -5128,7 +5128,7 @@ extension WAFV2ClientTypes.EmailField: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The name of the field in the request payload that contains your customer's email. This data type is used in the RequestInspectionACFP data type.
-    public struct EmailField: Swift.Equatable {
+    public struct EmailField {
         /// The name of the email field. How you specify this depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "email": "THE_EMAIL" } }, the email field specification is /form/email.
@@ -5168,7 +5168,7 @@ extension WAFV2ClientTypes.ExcludedRule: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a single rule in a rule group whose action you want to override to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
-    public struct ExcludedRule: Swift.Equatable {
+    public struct ExcludedRule {
         /// The name of the rule whose action you want to override to Count.
         /// This member is required.
         public var name: Swift.String?
@@ -5348,7 +5348,7 @@ extension WAFV2ClientTypes {
     /// * Even though all FieldToMatch settings are available, the only valid settings for field redaction are UriPath, QueryString, SingleHeader, and Method.
     ///
     /// * In this documentation, the descriptions of the individual fields talk about specifying the web request component to inspect, but for field redaction, you are specifying the component type to redact from the logs.
-    public struct FieldToMatch: Swift.Equatable {
+    public struct FieldToMatch {
         /// Inspect all query arguments.
         public var allQueryArguments: WAFV2ClientTypes.AllQueryArguments?
         /// Inspect the request body as plain text. The request body immediately follows the request headers. This is the part of a request that contains any additional data that you want to send to your web server as the HTTP request body, such as data from a form. WAF does not support inspecting the entire contents of the web request body if the body exceeds the limit for the resource type. When a web request body is larger than the limit, the underlying host service only forwards the contents that are within the limit to WAF for inspection.
@@ -5465,7 +5465,7 @@ extension WAFV2ClientTypes.Filter: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single logging filter, used in [LoggingFilter].
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// How to handle logs that satisfy the filter's conditions and requirement.
         /// This member is required.
         public var behavior: WAFV2ClientTypes.FilterBehavior?
@@ -5599,7 +5599,7 @@ extension WAFV2ClientTypes.FirewallManagerRuleGroup: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule group that's defined for an Firewall Manager WAF policy.
-    public struct FirewallManagerRuleGroup: Swift.Equatable {
+    public struct FirewallManagerRuleGroup {
         /// The processing guidance for an Firewall Manager rule. This is like a regular rule [Statement], but it can only contain a rule group reference.
         /// This member is required.
         public var firewallManagerStatement: WAFV2ClientTypes.FirewallManagerStatement?
@@ -5661,7 +5661,7 @@ extension WAFV2ClientTypes.FirewallManagerStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The processing guidance for an Firewall Manager rule. This is like a regular rule [Statement], but it can only contain a single rule group reference.
-    public struct FirewallManagerStatement: Swift.Equatable {
+    public struct FirewallManagerStatement {
         /// A statement used by Firewall Manager to run the rules that are defined in a managed rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
         public var managedRuleGroupStatement: WAFV2ClientTypes.ManagedRuleGroupStatement?
         /// A statement used by Firewall Manager to run the rules that are defined in a rule group. This is managed by Firewall Manager for an Firewall Manager WAF policy.
@@ -5706,7 +5706,7 @@ extension WAFV2ClientTypes.ForwardedIPConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used for [GeoMatchStatement] and [RateBasedStatement]. For [IPSetReferenceStatement], use [IPSetForwardedIPConfig] instead. WAF only evaluates the first IP address found in the specified HTTP header.
-    public struct ForwardedIPConfig: Swift.Equatable {
+    public struct ForwardedIPConfig {
         /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
@@ -5789,7 +5789,7 @@ extension GenerateMobileSdkReleaseUrlInput {
     }
 }
 
-public struct GenerateMobileSdkReleaseUrlInput: Swift.Equatable {
+public struct GenerateMobileSdkReleaseUrlInput {
     /// The device platform.
     /// This member is required.
     public var platform: WAFV2ClientTypes.Platform?
@@ -5807,7 +5807,7 @@ public struct GenerateMobileSdkReleaseUrlInput: Swift.Equatable {
     }
 }
 
-struct GenerateMobileSdkReleaseUrlInputBody: Swift.Equatable {
+struct GenerateMobileSdkReleaseUrlInputBody {
     let platform: WAFV2ClientTypes.Platform?
     let releaseVersion: Swift.String?
 }
@@ -5839,7 +5839,7 @@ extension GenerateMobileSdkReleaseUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GenerateMobileSdkReleaseUrlOutput: Swift.Equatable {
+public struct GenerateMobileSdkReleaseUrlOutput {
     /// The presigned download URL for the specified SDK release.
     public var url: Swift.String?
 
@@ -5851,7 +5851,7 @@ public struct GenerateMobileSdkReleaseUrlOutput: Swift.Equatable {
     }
 }
 
-struct GenerateMobileSdkReleaseUrlOutputBody: Swift.Equatable {
+struct GenerateMobileSdkReleaseUrlOutputBody {
     let url: Swift.String?
 }
 
@@ -5927,7 +5927,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// WAF labels requests using the alpha-2 country and region codes from the International Organization for Standardization (ISO) 3166 standard. WAF determines the codes using either the IP address in the web request origin or, if you specify it, the address in the geo match ForwardedIPConfig. If you use the web request origin, the label formats are awswaf:clientip:geo:region:- and awswaf:clientip:geo:country:. If you use a forwarded IP address, the label formats are awswaf:forwardedip:geo:region:- and awswaf:forwardedip:geo:country:. For additional details, see [Geographic match rule statement](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-statement-type-geo-match.html) in the [WAF Developer Guide](https://docs.aws.amazon.com/waf/latest/developerguide/waf-chapter.html).
-    public struct GeoMatchStatement: Swift.Equatable {
+    public struct GeoMatchStatement {
         /// An array of two-character country codes that you want to match against, for example, [ "US", "CN" ], from the alpha-2 country ISO codes of the ISO 3166 international standard. When you use a geo match statement just for the region and country labels that it adds to requests, you still have to supply a country code for the rule to evaluate. In this case, you configure the rule to only count matching requests, but it will still generate logging and count metrics for any matches. You can reduce the logging and metrics that the rule produces by specifying a country that's unlikely to be a source of traffic to your site.
         public var countryCodes: [WAFV2ClientTypes.CountryCode]?
         /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all.
@@ -5969,7 +5969,7 @@ extension GetDecryptedAPIKeyInput {
     }
 }
 
-public struct GetDecryptedAPIKeyInput: Swift.Equatable {
+public struct GetDecryptedAPIKeyInput {
     /// The encrypted API key.
     /// This member is required.
     public var apiKey: Swift.String?
@@ -5991,7 +5991,7 @@ public struct GetDecryptedAPIKeyInput: Swift.Equatable {
     }
 }
 
-struct GetDecryptedAPIKeyInputBody: Swift.Equatable {
+struct GetDecryptedAPIKeyInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let apiKey: Swift.String?
 }
@@ -6025,7 +6025,7 @@ extension GetDecryptedAPIKeyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDecryptedAPIKeyOutput: Swift.Equatable {
+public struct GetDecryptedAPIKeyOutput {
     /// The date and time that the key was created.
     public var creationTimestamp: ClientRuntime.Date?
     /// The token domains that are defined in this API key.
@@ -6041,7 +6041,7 @@ public struct GetDecryptedAPIKeyOutput: Swift.Equatable {
     }
 }
 
-struct GetDecryptedAPIKeyOutputBody: Swift.Equatable {
+struct GetDecryptedAPIKeyOutputBody {
     let tokenDomains: [Swift.String]?
     let creationTimestamp: ClientRuntime.Date?
 }
@@ -6113,7 +6113,7 @@ extension GetIPSetInput {
     }
 }
 
-public struct GetIPSetInput: Swift.Equatable {
+public struct GetIPSetInput {
     /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -6140,7 +6140,7 @@ public struct GetIPSetInput: Swift.Equatable {
     }
 }
 
-struct GetIPSetInputBody: Swift.Equatable {
+struct GetIPSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -6178,7 +6178,7 @@ extension GetIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetIPSetOutput: Swift.Equatable {
+public struct GetIPSetOutput {
     ///
     public var ipSet: WAFV2ClientTypes.IPSet?
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
@@ -6194,7 +6194,7 @@ public struct GetIPSetOutput: Swift.Equatable {
     }
 }
 
-struct GetIPSetOutputBody: Swift.Equatable {
+struct GetIPSetOutputBody {
     let ipSet: WAFV2ClientTypes.IPSet?
     let lockToken: Swift.String?
 }
@@ -6248,7 +6248,7 @@ extension GetLoggingConfigurationInput {
     }
 }
 
-public struct GetLoggingConfigurationInput: Swift.Equatable {
+public struct GetLoggingConfigurationInput {
     /// The Amazon Resource Name (ARN) of the web ACL for which you want to get the [LoggingConfiguration].
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6261,7 +6261,7 @@ public struct GetLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationInputBody: Swift.Equatable {
+struct GetLoggingConfigurationInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6289,7 +6289,7 @@ extension GetLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLoggingConfigurationOutput: Swift.Equatable {
+public struct GetLoggingConfigurationOutput {
     /// The [LoggingConfiguration] for the specified web ACL.
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 
@@ -6301,7 +6301,7 @@ public struct GetLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetLoggingConfigurationOutputBody: Swift.Equatable {
+struct GetLoggingConfigurationOutputBody {
     let loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 }
 
@@ -6359,7 +6359,7 @@ extension GetManagedRuleSetInput {
     }
 }
 
-public struct GetManagedRuleSetInput: Swift.Equatable {
+public struct GetManagedRuleSetInput {
     /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
     /// This member is required.
     public var id: Swift.String?
@@ -6386,7 +6386,7 @@ public struct GetManagedRuleSetInput: Swift.Equatable {
     }
 }
 
-struct GetManagedRuleSetInputBody: Swift.Equatable {
+struct GetManagedRuleSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -6424,7 +6424,7 @@ extension GetManagedRuleSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetManagedRuleSetOutput: Swift.Equatable {
+public struct GetManagedRuleSetOutput {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var lockToken: Swift.String?
     /// The managed rule set that you requested.
@@ -6440,7 +6440,7 @@ public struct GetManagedRuleSetOutput: Swift.Equatable {
     }
 }
 
-struct GetManagedRuleSetOutputBody: Swift.Equatable {
+struct GetManagedRuleSetOutputBody {
     let managedRuleSet: WAFV2ClientTypes.ManagedRuleSet?
     let lockToken: Swift.String?
 }
@@ -6498,7 +6498,7 @@ extension GetMobileSdkReleaseInput {
     }
 }
 
-public struct GetMobileSdkReleaseInput: Swift.Equatable {
+public struct GetMobileSdkReleaseInput {
     /// The device platform.
     /// This member is required.
     public var platform: WAFV2ClientTypes.Platform?
@@ -6516,7 +6516,7 @@ public struct GetMobileSdkReleaseInput: Swift.Equatable {
     }
 }
 
-struct GetMobileSdkReleaseInputBody: Swift.Equatable {
+struct GetMobileSdkReleaseInputBody {
     let platform: WAFV2ClientTypes.Platform?
     let releaseVersion: Swift.String?
 }
@@ -6548,7 +6548,7 @@ extension GetMobileSdkReleaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMobileSdkReleaseOutput: Swift.Equatable {
+public struct GetMobileSdkReleaseOutput {
     /// Information for a specified SDK release, including release notes and tags.
     public var mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease?
 
@@ -6560,7 +6560,7 @@ public struct GetMobileSdkReleaseOutput: Swift.Equatable {
     }
 }
 
-struct GetMobileSdkReleaseOutputBody: Swift.Equatable {
+struct GetMobileSdkReleaseOutputBody {
     let mobileSdkRelease: WAFV2ClientTypes.MobileSdkRelease?
 }
 
@@ -6610,7 +6610,7 @@ extension GetPermissionPolicyInput {
     }
 }
 
-public struct GetPermissionPolicyInput: Swift.Equatable {
+public struct GetPermissionPolicyInput {
     /// The Amazon Resource Name (ARN) of the rule group for which you want to get the policy.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6623,7 +6623,7 @@ public struct GetPermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPermissionPolicyInputBody: Swift.Equatable {
+struct GetPermissionPolicyInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -6651,7 +6651,7 @@ extension GetPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPermissionPolicyOutput: Swift.Equatable {
+public struct GetPermissionPolicyOutput {
     /// The IAM policy that is attached to the specified rule group.
     public var policy: Swift.String?
 
@@ -6663,7 +6663,7 @@ public struct GetPermissionPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPermissionPolicyOutputBody: Swift.Equatable {
+struct GetPermissionPolicyOutputBody {
     let policy: Swift.String?
 }
 
@@ -6728,7 +6728,7 @@ extension GetRateBasedStatementManagedKeysInput {
     }
 }
 
-public struct GetRateBasedStatementManagedKeysInput: Swift.Equatable {
+public struct GetRateBasedStatementManagedKeysInput {
     /// The name of the rule group reference statement in your web ACL. This is required only when you have the rate-based rule nested inside a rule group.
     public var ruleGroupRuleName: Swift.String?
     /// The name of the rate-based rule to get the keys for. If you have the rule defined inside a rule group that you're using in your web ACL, also provide the name of the rule group reference statement in the request parameter RuleGroupRuleName.
@@ -6764,7 +6764,7 @@ public struct GetRateBasedStatementManagedKeysInput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedStatementManagedKeysInputBody: Swift.Equatable {
+struct GetRateBasedStatementManagedKeysInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let webACLName: Swift.String?
     let webACLId: Swift.String?
@@ -6810,7 +6810,7 @@ extension GetRateBasedStatementManagedKeysOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetRateBasedStatementManagedKeysOutput: Swift.Equatable {
+public struct GetRateBasedStatementManagedKeysOutput {
     /// The keys that are of Internet Protocol version 4 (IPv4).
     public var managedKeysIPV4: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet?
     /// The keys that are of Internet Protocol version 6 (IPv6).
@@ -6826,7 +6826,7 @@ public struct GetRateBasedStatementManagedKeysOutput: Swift.Equatable {
     }
 }
 
-struct GetRateBasedStatementManagedKeysOutputBody: Swift.Equatable {
+struct GetRateBasedStatementManagedKeysOutputBody {
     let managedKeysIPV4: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet?
     let managedKeysIPV6: WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet?
 }
@@ -6889,7 +6889,7 @@ extension GetRegexPatternSetInput {
     }
 }
 
-public struct GetRegexPatternSetInput: Swift.Equatable {
+public struct GetRegexPatternSetInput {
     /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -6916,7 +6916,7 @@ public struct GetRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct GetRegexPatternSetInputBody: Swift.Equatable {
+struct GetRegexPatternSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -6954,7 +6954,7 @@ extension GetRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRegexPatternSetOutput: Swift.Equatable {
+public struct GetRegexPatternSetOutput {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var lockToken: Swift.String?
     ///
@@ -6970,7 +6970,7 @@ public struct GetRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct GetRegexPatternSetOutputBody: Swift.Equatable {
+struct GetRegexPatternSetOutputBody {
     let regexPatternSet: WAFV2ClientTypes.RegexPatternSet?
     let lockToken: Swift.String?
 }
@@ -7036,7 +7036,7 @@ extension GetRuleGroupInput {
     }
 }
 
-public struct GetRuleGroupInput: Swift.Equatable {
+public struct GetRuleGroupInput {
     /// The Amazon Resource Name (ARN) of the entity.
     public var arn: Swift.String?
     /// A unique identifier for the rule group. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
@@ -7064,7 +7064,7 @@ public struct GetRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct GetRuleGroupInputBody: Swift.Equatable {
+struct GetRuleGroupInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -7106,7 +7106,7 @@ extension GetRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuleGroupOutput: Swift.Equatable {
+public struct GetRuleGroupOutput {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var lockToken: Swift.String?
     ///
@@ -7122,7 +7122,7 @@ public struct GetRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetRuleGroupOutputBody: Swift.Equatable {
+struct GetRuleGroupOutputBody {
     let ruleGroup: WAFV2ClientTypes.RuleGroup?
     let lockToken: Swift.String?
 }
@@ -7192,7 +7192,7 @@ extension GetSampledRequestsInput {
     }
 }
 
-public struct GetSampledRequestsInput: Swift.Equatable {
+public struct GetSampledRequestsInput {
     /// The number of requests that you want WAF to return from among the first 5,000 requests that your Amazon Web Services resource received during the time range. If your resource received fewer requests than the value of MaxItems, GetSampledRequests returns information about all of them.
     /// This member is required.
     public var maxItems: Swift.Int?
@@ -7229,7 +7229,7 @@ public struct GetSampledRequestsInput: Swift.Equatable {
     }
 }
 
-struct GetSampledRequestsInputBody: Swift.Equatable {
+struct GetSampledRequestsInputBody {
     let webAclArn: Swift.String?
     let ruleMetricName: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
@@ -7277,7 +7277,7 @@ extension GetSampledRequestsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSampledRequestsOutput: Swift.Equatable {
+public struct GetSampledRequestsOutput {
     /// The total number of requests from which GetSampledRequests got a sample of MaxItems requests. If PopulationSize is less than MaxItems, the sample includes every request that your Amazon Web Services resource received during the specified time range.
     public var populationSize: Swift.Int
     /// A complex type that contains detailed information about each of the requests in the sample.
@@ -7297,7 +7297,7 @@ public struct GetSampledRequestsOutput: Swift.Equatable {
     }
 }
 
-struct GetSampledRequestsOutputBody: Swift.Equatable {
+struct GetSampledRequestsOutputBody {
     let sampledRequests: [WAFV2ClientTypes.SampledHTTPRequest]?
     let populationSize: Swift.Int
     let timeWindow: WAFV2ClientTypes.TimeWindow?
@@ -7363,7 +7363,7 @@ extension GetWebACLForResourceInput {
     }
 }
 
-public struct GetWebACLForResourceInput: Swift.Equatable {
+public struct GetWebACLForResourceInput {
     /// The Amazon Resource Name (ARN) of the resource whose web ACL you want to retrieve. The ARN must be in one of the following formats:
     ///
     /// * For an Application Load Balancer: arn:partition:elasticloadbalancing:region:account-id:loadbalancer/app/load-balancer-name/load-balancer-id
@@ -7388,7 +7388,7 @@ public struct GetWebACLForResourceInput: Swift.Equatable {
     }
 }
 
-struct GetWebACLForResourceInputBody: Swift.Equatable {
+struct GetWebACLForResourceInputBody {
     let resourceArn: Swift.String?
 }
 
@@ -7416,7 +7416,7 @@ extension GetWebACLForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebACLForResourceOutput: Swift.Equatable {
+public struct GetWebACLForResourceOutput {
     /// The web ACL that is associated with the resource. If there is no associated resource, WAF returns a null web ACL.
     public var webACL: WAFV2ClientTypes.WebACL?
 
@@ -7428,7 +7428,7 @@ public struct GetWebACLForResourceOutput: Swift.Equatable {
     }
 }
 
-struct GetWebACLForResourceOutputBody: Swift.Equatable {
+struct GetWebACLForResourceOutputBody {
     let webACL: WAFV2ClientTypes.WebACL?
 }
 
@@ -7487,7 +7487,7 @@ extension GetWebACLInput {
     }
 }
 
-public struct GetWebACLInput: Swift.Equatable {
+public struct GetWebACLInput {
     /// The unique identifier for the web ACL. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
     /// This member is required.
     public var id: Swift.String?
@@ -7514,7 +7514,7 @@ public struct GetWebACLInput: Swift.Equatable {
     }
 }
 
-struct GetWebACLInputBody: Swift.Equatable {
+struct GetWebACLInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -7554,7 +7554,7 @@ extension GetWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWebACLOutput: Swift.Equatable {
+public struct GetWebACLOutput {
     /// The URL to use in SDK integrations with Amazon Web Services managed rule groups. For example, you can use the integration SDKs with the account takeover prevention managed rule group AWSManagedRulesATPRuleSet and the account creation fraud prevention managed rule group AWSManagedRulesACFPRuleSet. This is only populated if you are using a rule group in your web ACL that integrates with your applications in this way. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
     public var applicationIntegrationURL: Swift.String?
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
@@ -7574,7 +7574,7 @@ public struct GetWebACLOutput: Swift.Equatable {
     }
 }
 
-struct GetWebACLOutputBody: Swift.Equatable {
+struct GetWebACLOutputBody {
     let webACL: WAFV2ClientTypes.WebACL?
     let lockToken: Swift.String?
     let applicationIntegrationURL: Swift.String?
@@ -7639,7 +7639,7 @@ extension WAFV2ClientTypes.HTTPHeader: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Part of the response from [GetSampledRequests]. This is a complex type that appears as Headers in the response syntax. HTTPHeader contains the names and values of all of the headers that appear in one of the web requests.
-    public struct HTTPHeader: Swift.Equatable {
+    public struct HTTPHeader {
         /// The name of the HTTP header.
         public var name: Swift.String?
         /// The value of the HTTP header.
@@ -7720,7 +7720,7 @@ extension WAFV2ClientTypes.HTTPRequest: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Part of the response from [GetSampledRequests]. This is a complex type that appears as Request in the response syntax. HTTPRequest contains information about one of the web requests.
-    public struct HTTPRequest: Swift.Equatable {
+    public struct HTTPRequest {
         /// The IP address that the request originated from. If the web ACL is associated with a CloudFront distribution, this is the value of one of the following fields in CloudFront access logs:
         ///
         /// * c-ip, if the viewer did not use an HTTP proxy or a load balancer to send the request
@@ -7815,7 +7815,7 @@ extension WAFV2ClientTypes.HeaderMatchPattern: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
-    public struct HeaderMatchPattern: Swift.Equatable {
+    public struct HeaderMatchPattern {
         /// Inspect all headers.
         public var all: WAFV2ClientTypes.All?
         /// Inspect only the headers whose keys don't match any of the strings specified here.
@@ -7858,7 +7858,7 @@ extension WAFV2ClientTypes.HeaderOrder: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect a string containing the list of the request's header names, ordered as they appear in the web request that WAF receives for inspection. WAF generates the string and then uses that as the field to match component in its inspection. WAF separates the header names in the string using colons and no added spaces, for example host:user-agent:accept:authorization:referer.
-    public struct HeaderOrder: Swift.Equatable {
+    public struct HeaderOrder {
         /// What WAF should do if the headers of the request are more numerous or larger than WAF can inspect. WAF does not support inspecting the entire contents of request headers when they exceed 8 KB (8192 bytes) or 200 total headers. The underlying host service forwards a maximum of 200 headers and at most 8 KB of header contents to WAF. The options for oversize handling are the following:
         ///
         /// * CONTINUE - Inspect the available headers normally, according to the rule inspection criteria.
@@ -7912,7 +7912,7 @@ extension WAFV2ClientTypes.Headers: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect all headers in the web request. You can specify the parts of the headers to inspect and you can narrow the set of headers to inspect by including or excluding specific keys. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. If you want to inspect just the value of a single header, use the SingleHeaderFieldToMatch setting instead. Example JSON: "Headers": { "MatchPattern": { "All": {} }, "MatchScope": "KEY", "OversizeHandling": "MATCH" }
-    public struct Headers: Swift.Equatable {
+    public struct Headers {
         /// The filter to use to identify the subset of headers to inspect in a web request. You must specify exactly one setting: either All, IncludedHeaders, or ExcludedHeaders. Example JSON: "MatchPattern": { "ExcludedHeaders": [ "KeyToExclude1", "KeyToExclude2" ] }
         /// This member is required.
         public var matchPattern: WAFV2ClientTypes.HeaderMatchPattern?
@@ -8038,7 +8038,7 @@ extension WAFV2ClientTypes.IPSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Contains zero or more IP addresses or blocks of IP addresses specified in Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0. For information about CIDR notation, see the Wikipedia entry [Classless Inter-Domain Routing](https://en.wikipedia.org/wiki/Classless_Inter-Domain_Routing). WAF assigns an ARN to each IPSet that you create. To use an IP set in a rule, you provide the ARN to the [Rule] statement [IPSetReferenceStatement].
-    public struct IPSet: Swift.Equatable {
+    public struct IPSet {
         /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0. Example address strings:
         ///
         /// * For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.
@@ -8129,7 +8129,7 @@ extension WAFV2ClientTypes.IPSetForwardedIPConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The configuration for inspecting IP addresses in an HTTP header that you specify, instead of using the IP address that's reported by the web request origin. Commonly, this is the X-Forwarded-For (XFF) header, but you can specify any header name. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. This configuration is used only for [IPSetReferenceStatement]. For [GeoMatchStatement] and [RateBasedStatement], use [ForwardedIPConfig] instead.
-    public struct IPSetForwardedIPConfig: Swift.Equatable {
+    public struct IPSetForwardedIPConfig {
         /// The match status to assign to the web request if the request doesn't have a valid IP address in the specified position. If the specified header isn't present in the request, WAF doesn't apply the rule to the web request at all. You can specify the following fallback behaviors:
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
@@ -8191,7 +8191,7 @@ extension WAFV2ClientTypes.IPSetReferenceStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement used to detect web requests coming from particular IP addresses or address ranges. To use this, create an [IPSet] that specifies the addresses you want to detect, then use the ARN of that set in this statement. To create an IP set, see [CreateIPSet]. Each IP set rule statement references an IP set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
-    public struct IPSetReferenceStatement: Swift.Equatable {
+    public struct IPSetReferenceStatement {
         /// The Amazon Resource Name (ARN) of the [IPSet] that this statement references.
         /// This member is required.
         public var arn: Swift.String?
@@ -8255,7 +8255,7 @@ extension WAFV2ClientTypes.IPSetSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about an [IPSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage an IPSet, and the ARN, that you provide to the [IPSetReferenceStatement] to use the address set in a [Rule].
-    public struct IPSetSummary: Swift.Equatable {
+    public struct IPSetSummary {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the IP set that helps with identification.
@@ -8306,7 +8306,7 @@ extension WAFV2ClientTypes.ImmunityTimeProperty: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Used for CAPTCHA and challenge token settings. Determines how long a CAPTCHA or challenge timestamp remains valid after WAF updates it for a successful CAPTCHA or challenge response.
-    public struct ImmunityTimeProperty: Swift.Equatable {
+    public struct ImmunityTimeProperty {
         /// The amount of time, in seconds, that a CAPTCHA or challenge timestamp is considered valid by WAF. The default setting is 300. For the Challenge action, the minimum setting is 300.
         /// This member is required.
         public var immunityTime: Swift.Int?
@@ -8374,7 +8374,7 @@ extension WAFV2ClientTypes.JA3Fingerprint: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Match against the request's JA3 fingerprint. The JA3 fingerprint is a 32-character hash derived from the TLS Client Hello of an incoming request. This fingerprint serves as a unique identifier for the client's TLS configuration. WAF calculates and logs this fingerprint for each request that has enough TLS Client Hello information for the calculation. Almost all web requests include this information. You can use this choice only with a string match ByteMatchStatement with the PositionalConstraint set to EXACTLY. You can obtain the JA3 fingerprint for client requests from the web ACL logs. If WAF is able to calculate the fingerprint, it includes it in the logs. For information about the logging fields, see [Log fields](https://docs.aws.amazon.com/waf/latest/developerguide/logging-fields.html) in the WAF Developer Guide. Provide the JA3 fingerprint string from the logs in your string match statement specification, to match with any future requests that have the same TLS configuration.
-    public struct JA3Fingerprint: Swift.Equatable {
+    public struct JA3Fingerprint {
         /// The match status to assign to the web request if the request doesn't have a JA3 fingerprint. You can specify the following fallback behaviors:
         ///
         /// * MATCH - Treat the web request as matching the rule statement. WAF applies the rule action to the request.
@@ -8432,7 +8432,7 @@ extension WAFV2ClientTypes.JsonBody: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the body of the web request as JSON. The body immediately follows the request headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Use the specifications in this object to indicate which parts of the JSON body to inspect using the rule's inspection criteria. WAF inspects only the parts of the JSON that result from the matches that you indicate. Example JSON: "JsonBody": { "MatchPattern": { "All": {} }, "MatchScope": "ALL" }
-    public struct JsonBody: Swift.Equatable {
+    public struct JsonBody {
         /// What WAF should do if it fails to completely parse the JSON body. The options are the following:
         ///
         /// * EVALUATE_AS_STRING - Inspect the body as plain text. WAF applies the text transformations and inspection criteria that you defined for the JSON inspection to the body text string.
@@ -8530,7 +8530,7 @@ extension WAFV2ClientTypes.JsonMatchPattern: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The patterns to look for in the JSON body. WAF inspects the results of these pattern matches against the rule inspection criteria. This is used with the [FieldToMatch] option JsonBody.
-    public struct JsonMatchPattern: Swift.Equatable {
+    public struct JsonMatchPattern {
         /// Match all of the elements. See also MatchScope in [JsonBody]. You must specify either this setting or the IncludedPaths setting, but not both.
         public var all: WAFV2ClientTypes.All?
         /// Match only the specified include paths. See also MatchScope in [JsonBody]. Provide the include paths using JSON Pointer syntax. For example, "IncludedPaths": ["/dogs/0/name", "/dogs/1/name"]. For information about this syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). You must specify either this setting or the All setting, but not both. Don't use this option to include all paths. Instead, use the All setting.
@@ -8604,7 +8604,7 @@ extension WAFV2ClientTypes.Label: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single label container. This is used as an element of a label array in multiple contexts, for example, in RuleLabels inside a [Rule] and in Labels inside a [SampledHTTPRequest].
-    public struct Label: Swift.Equatable {
+    public struct Label {
         /// The label string.
         /// This member is required.
         public var name: Swift.String?
@@ -8678,7 +8678,7 @@ extension WAFV2ClientTypes.LabelMatchStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement to match against labels that have been added to the web request by rules that have already run in the web ACL. The label match statement provides the label or namespace string to search for. The label string can represent a part or all of the fully qualified label name that had been added to the web request. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label. If you do not provide the fully qualified name in your label match string, WAF performs the search for labels that were added in the same context as the label match statement.
-    public struct LabelMatchStatement: Swift.Equatable {
+    public struct LabelMatchStatement {
         /// The string to match against. The setting you provide for this depends on the match statement's Scope setting:
         ///
         /// * If the Scope indicates LABEL, then this specification must include the name and can include any number of preceding namespace specifications and prefix up to providing the fully qualified label name.
@@ -8726,7 +8726,7 @@ extension WAFV2ClientTypes.LabelNameCondition: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single label name condition for a [Condition] in a logging filter.
-    public struct LabelNameCondition: Swift.Equatable {
+    public struct LabelNameCondition {
         /// The label name that a log record must contain in order to meet the condition. This must be a fully qualified label name. Fully qualified labels have a prefix, optional namespaces, and label name. The prefix identifies the rule group or web ACL context of the rule that added the label.
         /// This member is required.
         public var labelName: Swift.String?
@@ -8766,7 +8766,7 @@ extension WAFV2ClientTypes {
     /// * AvailableLabels - Labels that rules add to matching requests. These labels are defined in the RuleLabels for a [Rule].
     ///
     /// * ConsumedLabels - Labels that rules match against. These labels are defined in a LabelMatchStatement specification, in the [Statement] definition of a rule.
-    public struct LabelSummary: Swift.Equatable {
+    public struct LabelSummary {
         /// An individual label specification.
         public var name: Swift.String?
 
@@ -8808,7 +8808,7 @@ extension ListAPIKeysInput {
     }
 }
 
-public struct ListAPIKeysInput: Swift.Equatable {
+public struct ListAPIKeysInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -8833,7 +8833,7 @@ public struct ListAPIKeysInput: Swift.Equatable {
     }
 }
 
-struct ListAPIKeysInputBody: Swift.Equatable {
+struct ListAPIKeysInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -8873,7 +8873,7 @@ extension ListAPIKeysOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAPIKeysOutput: Swift.Equatable {
+public struct ListAPIKeysOutput {
     /// The array of key summaries. If you specified a Limit in your request, this might not be the full list.
     public var apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]?
     /// The CAPTCHA application integration URL, for use in your JavaScript implementation.
@@ -8893,7 +8893,7 @@ public struct ListAPIKeysOutput: Swift.Equatable {
     }
 }
 
-struct ListAPIKeysOutputBody: Swift.Equatable {
+struct ListAPIKeysOutputBody {
     let nextMarker: Swift.String?
     let apiKeySummaries: [WAFV2ClientTypes.APIKeySummary]?
     let applicationIntegrationURL: Swift.String?
@@ -8976,7 +8976,7 @@ extension ListAvailableManagedRuleGroupVersionsInput {
     }
 }
 
-public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
+public struct ListAvailableManagedRuleGroupVersionsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
@@ -9011,7 +9011,7 @@ public struct ListAvailableManagedRuleGroupVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagedRuleGroupVersionsInputBody: Swift.Equatable {
+struct ListAvailableManagedRuleGroupVersionsInputBody {
     let vendorName: Swift.String?
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
@@ -9059,7 +9059,7 @@ extension ListAvailableManagedRuleGroupVersionsOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct ListAvailableManagedRuleGroupVersionsOutput: Swift.Equatable {
+public struct ListAvailableManagedRuleGroupVersionsOutput {
     /// The name of the version that's currently set as the default.
     public var currentDefaultVersion: Swift.String?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9079,7 +9079,7 @@ public struct ListAvailableManagedRuleGroupVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagedRuleGroupVersionsOutputBody: Swift.Equatable {
+struct ListAvailableManagedRuleGroupVersionsOutputBody {
     let nextMarker: Swift.String?
     let versions: [WAFV2ClientTypes.ManagedRuleGroupVersion]?
     let currentDefaultVersion: Swift.String?
@@ -9154,7 +9154,7 @@ extension ListAvailableManagedRuleGroupsInput {
     }
 }
 
-public struct ListAvailableManagedRuleGroupsInput: Swift.Equatable {
+public struct ListAvailableManagedRuleGroupsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9179,7 +9179,7 @@ public struct ListAvailableManagedRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagedRuleGroupsInputBody: Swift.Equatable {
+struct ListAvailableManagedRuleGroupsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9217,7 +9217,7 @@ extension ListAvailableManagedRuleGroupsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListAvailableManagedRuleGroupsOutput: Swift.Equatable {
+public struct ListAvailableManagedRuleGroupsOutput {
     /// Array of managed rule groups that you can use. If you specified a Limit in your request, this might not be the full list.
     public var managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9233,7 +9233,7 @@ public struct ListAvailableManagedRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailableManagedRuleGroupsOutputBody: Swift.Equatable {
+struct ListAvailableManagedRuleGroupsOutputBody {
     let nextMarker: Swift.String?
     let managedRuleGroups: [WAFV2ClientTypes.ManagedRuleGroupSummary]?
 }
@@ -9303,7 +9303,7 @@ extension ListIPSetsInput {
     }
 }
 
-public struct ListIPSetsInput: Swift.Equatable {
+public struct ListIPSetsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9328,7 +9328,7 @@ public struct ListIPSetsInput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsInputBody: Swift.Equatable {
+struct ListIPSetsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9366,7 +9366,7 @@ extension ListIPSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListIPSetsOutput: Swift.Equatable {
+public struct ListIPSetsOutput {
     /// Array of IPSets. If you specified a Limit in your request, this might not be the full list.
     public var ipSets: [WAFV2ClientTypes.IPSetSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9382,7 +9382,7 @@ public struct ListIPSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListIPSetsOutputBody: Swift.Equatable {
+struct ListIPSetsOutputBody {
     let nextMarker: Swift.String?
     let ipSets: [WAFV2ClientTypes.IPSetSummary]?
 }
@@ -9452,7 +9452,7 @@ extension ListLoggingConfigurationsInput {
     }
 }
 
-public struct ListLoggingConfigurationsInput: Swift.Equatable {
+public struct ListLoggingConfigurationsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9477,7 +9477,7 @@ public struct ListLoggingConfigurationsInput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsInputBody: Swift.Equatable {
+struct ListLoggingConfigurationsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9515,7 +9515,7 @@ extension ListLoggingConfigurationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLoggingConfigurationsOutput: Swift.Equatable {
+public struct ListLoggingConfigurationsOutput {
     /// Array of logging configurations. If you specified a Limit in your request, this might not be the full list.
     public var loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9531,7 +9531,7 @@ public struct ListLoggingConfigurationsOutput: Swift.Equatable {
     }
 }
 
-struct ListLoggingConfigurationsOutputBody: Swift.Equatable {
+struct ListLoggingConfigurationsOutputBody {
     let loggingConfigurations: [WAFV2ClientTypes.LoggingConfiguration]?
     let nextMarker: Swift.String?
 }
@@ -9601,7 +9601,7 @@ extension ListManagedRuleSetsInput {
     }
 }
 
-public struct ListManagedRuleSetsInput: Swift.Equatable {
+public struct ListManagedRuleSetsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9626,7 +9626,7 @@ public struct ListManagedRuleSetsInput: Swift.Equatable {
     }
 }
 
-struct ListManagedRuleSetsInputBody: Swift.Equatable {
+struct ListManagedRuleSetsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9664,7 +9664,7 @@ extension ListManagedRuleSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListManagedRuleSetsOutput: Swift.Equatable {
+public struct ListManagedRuleSetsOutput {
     /// Your managed rule sets. If you specified a Limit in your request, this might not be the full list.
     public var managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9680,7 +9680,7 @@ public struct ListManagedRuleSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListManagedRuleSetsOutputBody: Swift.Equatable {
+struct ListManagedRuleSetsOutputBody {
     let nextMarker: Swift.String?
     let managedRuleSets: [WAFV2ClientTypes.ManagedRuleSetSummary]?
 }
@@ -9750,7 +9750,7 @@ extension ListMobileSdkReleasesInput {
     }
 }
 
-public struct ListMobileSdkReleasesInput: Swift.Equatable {
+public struct ListMobileSdkReleasesInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9771,7 +9771,7 @@ public struct ListMobileSdkReleasesInput: Swift.Equatable {
     }
 }
 
-struct ListMobileSdkReleasesInputBody: Swift.Equatable {
+struct ListMobileSdkReleasesInputBody {
     let platform: WAFV2ClientTypes.Platform?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9809,7 +9809,7 @@ extension ListMobileSdkReleasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMobileSdkReleasesOutput: Swift.Equatable {
+public struct ListMobileSdkReleasesOutput {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// The high level information for the available SDK releases. If you specified a Limit in your request, this might not be the full list.
@@ -9825,7 +9825,7 @@ public struct ListMobileSdkReleasesOutput: Swift.Equatable {
     }
 }
 
-struct ListMobileSdkReleasesOutputBody: Swift.Equatable {
+struct ListMobileSdkReleasesOutputBody {
     let releaseSummaries: [WAFV2ClientTypes.ReleaseSummary]?
     let nextMarker: Swift.String?
 }
@@ -9895,7 +9895,7 @@ extension ListRegexPatternSetsInput {
     }
 }
 
-public struct ListRegexPatternSetsInput: Swift.Equatable {
+public struct ListRegexPatternSetsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -9920,7 +9920,7 @@ public struct ListRegexPatternSetsInput: Swift.Equatable {
     }
 }
 
-struct ListRegexPatternSetsInputBody: Swift.Equatable {
+struct ListRegexPatternSetsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -9958,7 +9958,7 @@ extension ListRegexPatternSetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRegexPatternSetsOutput: Swift.Equatable {
+public struct ListRegexPatternSetsOutput {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// Array of regex pattern sets. If you specified a Limit in your request, this might not be the full list.
@@ -9974,7 +9974,7 @@ public struct ListRegexPatternSetsOutput: Swift.Equatable {
     }
 }
 
-struct ListRegexPatternSetsOutputBody: Swift.Equatable {
+struct ListRegexPatternSetsOutputBody {
     let nextMarker: Swift.String?
     let regexPatternSets: [WAFV2ClientTypes.RegexPatternSetSummary]?
 }
@@ -10040,7 +10040,7 @@ extension ListResourcesForWebACLInput {
     }
 }
 
-public struct ListResourcesForWebACLInput: Swift.Equatable {
+public struct ListResourcesForWebACLInput {
     /// Used for web ACLs that are scoped for regional applications. A regional application can be an Application Load Balancer (ALB), an Amazon API Gateway REST API, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance. If you don't provide a resource type, the call uses the resource type APPLICATION_LOAD_BALANCER. Default: APPLICATION_LOAD_BALANCER
     public var resourceType: WAFV2ClientTypes.ResourceType?
     /// The Amazon Resource Name (ARN) of the web ACL.
@@ -10057,7 +10057,7 @@ public struct ListResourcesForWebACLInput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForWebACLInputBody: Swift.Equatable {
+struct ListResourcesForWebACLInputBody {
     let webACLArn: Swift.String?
     let resourceType: WAFV2ClientTypes.ResourceType?
 }
@@ -10089,7 +10089,7 @@ extension ListResourcesForWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListResourcesForWebACLOutput: Swift.Equatable {
+public struct ListResourcesForWebACLOutput {
     /// The array of Amazon Resource Names (ARNs) of the associated resources.
     public var resourceArns: [Swift.String]?
 
@@ -10101,7 +10101,7 @@ public struct ListResourcesForWebACLOutput: Swift.Equatable {
     }
 }
 
-struct ListResourcesForWebACLOutputBody: Swift.Equatable {
+struct ListResourcesForWebACLOutputBody {
     let resourceArns: [Swift.String]?
 }
 
@@ -10168,7 +10168,7 @@ extension ListRuleGroupsInput {
     }
 }
 
-public struct ListRuleGroupsInput: Swift.Equatable {
+public struct ListRuleGroupsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -10193,7 +10193,7 @@ public struct ListRuleGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsInputBody: Swift.Equatable {
+struct ListRuleGroupsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -10231,7 +10231,7 @@ extension ListRuleGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRuleGroupsOutput: Swift.Equatable {
+public struct ListRuleGroupsOutput {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// Array of rule groups. If you specified a Limit in your request, this might not be the full list.
@@ -10247,7 +10247,7 @@ public struct ListRuleGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListRuleGroupsOutputBody: Swift.Equatable {
+struct ListRuleGroupsOutputBody {
     let nextMarker: Swift.String?
     let ruleGroups: [WAFV2ClientTypes.RuleGroupSummary]?
 }
@@ -10317,7 +10317,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -10338,7 +10338,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let nextMarker: Swift.String?
     let limit: Swift.Int?
     let resourceARN: Swift.String?
@@ -10376,7 +10376,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// The collection of tagging definitions for the resource. If you specified a Limit in your request, this might not be the full list.
@@ -10392,7 +10392,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let nextMarker: Swift.String?
     let tagInfoForResource: WAFV2ClientTypes.TagInfoForResource?
 }
@@ -10456,7 +10456,7 @@ extension ListWebACLsInput {
     }
 }
 
-public struct ListWebACLsInput: Swift.Equatable {
+public struct ListWebACLsInput {
     /// The maximum number of objects that you want WAF to return for this request. If more objects are available, in the response, WAF provides a NextMarker value that you can use in a subsequent call to get the next batch of objects.
     public var limit: Swift.Int?
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
@@ -10481,7 +10481,7 @@ public struct ListWebACLsInput: Swift.Equatable {
     }
 }
 
-struct ListWebACLsInputBody: Swift.Equatable {
+struct ListWebACLsInputBody {
     let scope: WAFV2ClientTypes.Scope?
     let nextMarker: Swift.String?
     let limit: Swift.Int?
@@ -10519,7 +10519,7 @@ extension ListWebACLsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWebACLsOutput: Swift.Equatable {
+public struct ListWebACLsOutput {
     /// When you request a list of objects with a Limit setting, if the number of objects that are still available for retrieval exceeds the limit, WAF returns a NextMarker value in the response. To retrieve the next batch of objects, provide the marker from the prior call in your next request.
     public var nextMarker: Swift.String?
     /// Array of web ACLs. If you specified a Limit in your request, this might not be the full list.
@@ -10535,7 +10535,7 @@ public struct ListWebACLsOutput: Swift.Equatable {
     }
 }
 
-struct ListWebACLsOutputBody: Swift.Equatable {
+struct ListWebACLsOutputBody {
     let nextMarker: Swift.String?
     let webACLs: [WAFV2ClientTypes.WebACLSummary]?
 }
@@ -10653,7 +10653,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// When you successfully enable logging using a PutLoggingConfiguration request, WAF creates an additional role or policy that is required to write logs to the logging destination. For an Amazon CloudWatch Logs log group, WAF creates a resource policy on the log group. For an Amazon S3 bucket, WAF creates a bucket policy. For an Amazon Kinesis Data Firehose, WAF creates a service-linked role. For additional information about web ACL logging, see [Logging web ACL traffic information](https://docs.aws.amazon.com/waf/latest/developerguide/logging.html) in the WAF Developer Guide.
-    public struct LoggingConfiguration: Swift.Equatable {
+    public struct LoggingConfiguration {
         /// The logging destination configuration that you want to associate with the web ACL. You can associate one logging destination to a web ACL.
         /// This member is required.
         public var logDestinationConfigs: [Swift.String]?
@@ -10724,7 +10724,7 @@ extension WAFV2ClientTypes.LoggingFilter: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Filtering that specifies which web requests are kept in the logs and which are dropped, defined for a web ACL's [LoggingConfiguration]. You can filter on the rule action and on the web request labels that were applied by matching rules during web ACL evaluation.
-    public struct LoggingFilter: Swift.Equatable {
+    public struct LoggingFilter {
         /// Default handling for logs that don't match any of the specified filtering conditions.
         /// This member is required.
         public var defaultBehavior: WAFV2ClientTypes.FilterBehavior?
@@ -10813,7 +10813,7 @@ extension WAFV2ClientTypes.ManagedProductDescriptor: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The properties of a managed product, such as an Amazon Web Services Managed Rules rule group or an Amazon Web Services Marketplace managed rule group.
-    public struct ManagedProductDescriptor: Swift.Equatable {
+    public struct ManagedProductDescriptor {
         /// Indicates whether the rule group provides an advanced set of protections, such as the the Amazon Web Services Managed Rules rule groups that are used for WAF intelligent threat mitigation.
         public var isAdvancedManagedRuleSet: Swift.Bool
         /// Indicates whether the rule group is versioned.
@@ -10925,7 +10925,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// For example specifications, see the examples section of [CreateWebACL].
-    public struct ManagedRuleGroupConfig: Swift.Equatable {
+    public struct ManagedRuleGroupConfig {
         /// Additional configuration for using the account creation fraud prevention (ACFP) managed rule group, AWSManagedRulesACFPRuleSet. Use this to provide account creation request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to account creation requests. For information about using the ACFP managed rule group, see [WAF Fraud Control account creation fraud prevention (ACFP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-acfp.html) and [WAF Fraud Control account creation fraud prevention (ACFP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-acfp.html) in the WAF Developer Guide.
         public var awsManagedRulesACFPRuleSet: WAFV2ClientTypes.AWSManagedRulesACFPRuleSet?
         /// Additional configuration for using the account takeover prevention (ATP) managed rule group, AWSManagedRulesATPRuleSet. Use this to provide login request information to the rule group. For web ACLs that protect CloudFront distributions, use this to also provide the information about how your distribution responds to login requests. This configuration replaces the individual configuration fields in ManagedRuleGroupConfig and provides additional feature configuration. For information about using the ATP managed rule group, see [WAF Fraud Control account takeover prevention (ATP) rule group](https://docs.aws.amazon.com/waf/latest/developerguide/aws-managed-rule-groups-atp.html) and [WAF Fraud Control account takeover prevention (ATP)](https://docs.aws.amazon.com/waf/latest/developerguide/waf-atp.html) in the WAF Developer Guide.
@@ -11060,7 +11060,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement used to run the rules that are defined in a managed rule group. To use this, provide the vendor name and the name of the rule group in this statement. You can retrieve the required names by calling [ListAvailableManagedRuleGroups]. You cannot nest a ManagedRuleGroupStatement, for example for use inside a NotStatement or OrStatement. You cannot use a managed rule group inside another rule group. You can only reference a managed rule group as a top-level statement within a rule that you define in a web ACL. You are charged additional fees when you use the WAF Bot Control managed rule group AWSManagedRulesBotControlRuleSet, the WAF Fraud Control account takeover prevention (ATP) managed rule group AWSManagedRulesATPRuleSet, or the WAF Fraud Control account creation fraud prevention (ACFP) managed rule group AWSManagedRulesACFPRuleSet. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/).
-    public struct ManagedRuleGroupStatement: Swift.Equatable {
+    public struct ManagedRuleGroupStatement {
         /// Rules in the referenced rule group whose actions are set to Count. Instead of this option, use RuleActionOverrides. It accepts any valid action setting, including Count.
         public var excludedRules: [WAFV2ClientTypes.ExcludedRule]?
         /// Additional information that's used by a managed rule group. Many managed rule groups don't require this. The rule groups used for intelligent threat mitigation require additional configuration:
@@ -11145,7 +11145,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about a managed rule group, returned by [ListAvailableManagedRuleGroups]. This provides information like the name and vendor name, that you provide when you add a [ManagedRuleGroupStatement] to a web ACL. Managed rule groups include Amazon Web Services Managed Rules rule groups and Amazon Web Services Marketplace managed rule groups. To use any Amazon Web Services Marketplace managed rule group, first subscribe to the rule group through Amazon Web Services Marketplace.
-    public struct ManagedRuleGroupSummary: Swift.Equatable {
+    public struct ManagedRuleGroupSummary {
         /// The description of the managed rule group, provided by Amazon Web Services Managed Rules or the Amazon Web Services Marketplace seller who manages it.
         public var description: Swift.String?
         /// The name of the managed rule group. You use this, along with the vendor name, to identify the rule group.
@@ -11198,7 +11198,7 @@ extension WAFV2ClientTypes.ManagedRuleGroupVersion: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Describes a single version of a managed rule group.
-    public struct ManagedRuleGroupVersion: Swift.Equatable {
+    public struct ManagedRuleGroupVersion {
         /// The date and time that the managed rule group owner updated the rule group version information.
         public var lastUpdateTimestamp: ClientRuntime.Date?
         /// The version name.
@@ -11285,7 +11285,7 @@ extension WAFV2ClientTypes.ManagedRuleSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A set of rules that is managed by Amazon Web Services and Amazon Web Services Marketplace sellers to provide versioned managed rule groups for customers of WAF. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
-    public struct ManagedRuleSet: Swift.Equatable {
+    public struct ManagedRuleSet {
         /// The Amazon Resource Name (ARN) of the entity.
         /// This member is required.
         public var arn: Swift.String?
@@ -11381,7 +11381,7 @@ extension WAFV2ClientTypes.ManagedRuleSetSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information for a managed rule set. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
-    public struct ManagedRuleSetSummary: Swift.Equatable {
+    public struct ManagedRuleSetSummary {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the set that helps with identification.
@@ -11470,7 +11470,7 @@ extension WAFV2ClientTypes.ManagedRuleSetVersion: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Information for a single version of a managed rule set. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
-    public struct ManagedRuleSetVersion: Swift.Equatable {
+    public struct ManagedRuleSetVersion {
         /// The Amazon Resource Name (ARN) of the vendor rule group that's used to define the published version of your managed rule group.
         public var associatedRuleGroupArn: Swift.String?
         /// The web ACL capacity units (WCUs) required for this rule group. WAF uses WCUs to calculate and control the operating resources that are used to run your rules, rule groups, and web ACLs. WAF calculates capacity differently for each rule type, to reflect the relative cost of each rule. Simple rules that cost little to run use fewer WCUs than more complex rules that use more processing power. Rule group capacity is fixed at creation, which helps users plan their web ACL WCU usage when they use a rule group. For more information, see [WAF web ACL capacity units (WCU)](https://docs.aws.amazon.com/waf/latest/developerguide/aws-waf-capacity-units.html) in the WAF Developer Guide.
@@ -11552,7 +11552,7 @@ extension WAFV2ClientTypes.Method: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the HTTP method of the web request. The method indicates the type of operation that the request is asking the origin to perform. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "Method": {}
-    public struct Method: Swift.Equatable {
+    public struct Method {
 
         public init() { }
     }
@@ -11610,7 +11610,7 @@ extension WAFV2ClientTypes.MobileSdkRelease: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Information for a release of the mobile SDK, including release notes and tags. The mobile SDK is not generally available. Customers who have access to the mobile SDK can use it to establish and manage WAF tokens for use in HTTP(S) requests from a mobile device to WAF. For more information, see [WAF client application integration](https://docs.aws.amazon.com/waf/latest/developerguide/waf-application-integration.html) in the WAF Developer Guide.
-    public struct MobileSdkRelease: Swift.Equatable {
+    public struct MobileSdkRelease {
         /// Notes describing the release.
         public var releaseNotes: Swift.String?
         /// The release version.
@@ -11649,7 +11649,7 @@ extension WAFV2ClientTypes.NoneAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies that WAF should do nothing. This is used for the OverrideAction setting on a [Rule] when the rule uses a rule group reference statement. This is used in the context of other settings, for example to specify values for [RuleAction] and web ACL [DefaultAction]. JSON specification: "None": {}
-    public struct NoneAction: Swift.Equatable {
+    public struct NoneAction {
 
         public init() { }
     }
@@ -11677,7 +11677,7 @@ extension WAFV2ClientTypes.NotStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A logical rule statement used to negate the results of another rule statement. You provide one [Statement] within the NotStatement.
-    public struct NotStatement: Swift.Equatable {
+    public struct NotStatement {
         /// The statement to negate. You can use any statement that can be nested.
         /// This member is required.
         @Indirect public var statement: WAFV2ClientTypes.Statement?
@@ -11725,7 +11725,7 @@ extension WAFV2ClientTypes.OrStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A logical rule statement used to combine other rule statements with OR logic. You provide more than one [Statement] within the OrStatement.
-    public struct OrStatement: Swift.Equatable {
+    public struct OrStatement {
         /// The statements to combine with OR logic. You can use any statements that can be nested.
         /// This member is required.
         public var statements: [WAFV2ClientTypes.Statement]?
@@ -11767,7 +11767,7 @@ extension WAFV2ClientTypes.OverrideAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The action to use in the place of the action that results from the rule group evaluation. Set the override action to none to leave the result of the rule group alone. Set it to count to override the result to count only. You can only use this for rule statements that reference a rule group, like RuleGroupReferenceStatement and ManagedRuleGroupStatement. This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count matches, do not use this and instead use the rule action override option, with Count action, in your rule group reference statement settings.
-    public struct OverrideAction: Swift.Equatable {
+    public struct OverrideAction {
         /// Override the rule group evaluation result to count only. This option is usually set to none. It does not affect how the rules in the rule group are evaluated. If you want the rules in the rule group to only count matches, do not use this and instead use the rule action override option, with Count action, in your rule group reference statement settings.
         public var count: WAFV2ClientTypes.CountAction?
         /// Don't override the rule group evaluation result. This is the most common setting.
@@ -12077,7 +12077,7 @@ extension WAFV2ClientTypes.PasswordField: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The name of the field in the request payload that contains your customer's password. This data type is used in the RequestInspection and RequestInspectionACFP data types.
-    public struct PasswordField: Swift.Equatable {
+    public struct PasswordField {
         /// The name of the password field. How you specify this depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } }, the password field specification is /form/password.
@@ -12149,7 +12149,7 @@ extension WAFV2ClientTypes.PhoneNumberField: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The name of a field in the request payload that contains part or all of your customer's primary phone number. This data type is used in the RequestInspectionACFP data type.
-    public struct PhoneNumberField: Swift.Equatable {
+    public struct PhoneNumberField {
         /// The name of a single primary phone number field. How you specify the phone number fields depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryphoneline1": "THE_PHONE1", "primaryphoneline2": "THE_PHONE2", "primaryphoneline3": "THE_PHONE3" } }, the phone number field identifiers are /form/primaryphoneline1, /form/primaryphoneline2, and /form/primaryphoneline3.
@@ -12261,7 +12261,7 @@ extension PutLoggingConfigurationInput {
     }
 }
 
-public struct PutLoggingConfigurationInput: Swift.Equatable {
+public struct PutLoggingConfigurationInput {
     ///
     /// This member is required.
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
@@ -12274,7 +12274,7 @@ public struct PutLoggingConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutLoggingConfigurationInputBody: Swift.Equatable {
+struct PutLoggingConfigurationInputBody {
     let loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 }
 
@@ -12302,7 +12302,7 @@ extension PutLoggingConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutLoggingConfigurationOutput: Swift.Equatable {
+public struct PutLoggingConfigurationOutput {
     ///
     public var loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 
@@ -12314,7 +12314,7 @@ public struct PutLoggingConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct PutLoggingConfigurationOutputBody: Swift.Equatable {
+struct PutLoggingConfigurationOutputBody {
     let loggingConfiguration: WAFV2ClientTypes.LoggingConfiguration?
 }
 
@@ -12391,7 +12391,7 @@ extension PutManagedRuleSetVersionsInput {
     }
 }
 
-public struct PutManagedRuleSetVersionsInput: Swift.Equatable {
+public struct PutManagedRuleSetVersionsInput {
     /// A unique identifier for the managed rule set. The ID is returned in the responses to commands like list. You provide it to operations like get and update.
     /// This member is required.
     public var id: Swift.String?
@@ -12431,7 +12431,7 @@ public struct PutManagedRuleSetVersionsInput: Swift.Equatable {
     }
 }
 
-struct PutManagedRuleSetVersionsInputBody: Swift.Equatable {
+struct PutManagedRuleSetVersionsInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -12488,7 +12488,7 @@ extension PutManagedRuleSetVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutManagedRuleSetVersionsOutput: Swift.Equatable {
+public struct PutManagedRuleSetVersionsOutput {
     /// A token used for optimistic locking. WAF returns a token to your get and list requests, to mark the state of the entity at the time of the request. To make changes to the entity associated with the token, you provide the token to operations like update and delete. WAF uses the token to ensure that no changes have been made to the entity since you last retrieved it. If a change has been made, the update fails with a WAFOptimisticLockException. If this happens, perform another get, and use the new token returned by that operation.
     public var nextLockToken: Swift.String?
 
@@ -12500,7 +12500,7 @@ public struct PutManagedRuleSetVersionsOutput: Swift.Equatable {
     }
 }
 
-struct PutManagedRuleSetVersionsOutputBody: Swift.Equatable {
+struct PutManagedRuleSetVersionsOutputBody {
     let nextLockToken: Swift.String?
 }
 
@@ -12555,7 +12555,7 @@ extension PutPermissionPolicyInput {
     }
 }
 
-public struct PutPermissionPolicyInput: Swift.Equatable {
+public struct PutPermissionPolicyInput {
     /// The policy to attach to the specified rule group. The policy specifications must conform to the following:
     ///
     /// * The policy must be composed using IAM Policy version 2012-10-17.
@@ -12586,7 +12586,7 @@ public struct PutPermissionPolicyInput: Swift.Equatable {
     }
 }
 
-struct PutPermissionPolicyInputBody: Swift.Equatable {
+struct PutPermissionPolicyInputBody {
     let resourceArn: Swift.String?
     let policy: Swift.String?
 }
@@ -12611,7 +12611,7 @@ extension PutPermissionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutPermissionPolicyOutput: Swift.Equatable {
+public struct PutPermissionPolicyOutput {
 
     public init() { }
 }
@@ -12643,7 +12643,7 @@ extension WAFV2ClientTypes.QueryString: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the query string of the web request. This is the part of a URL that appears after a ? character, if any. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "QueryString": {}
-    public struct QueryString: Swift.Equatable {
+    public struct QueryString {
 
         public init() { }
     }
@@ -12756,7 +12756,7 @@ extension WAFV2ClientTypes {
     ///
     ///
     /// For any n-tuple of aggregation keys, each unique combination of values for the keys defines a separate aggregation instance, which WAF counts and rate-limits individually. You can optionally nest another statement inside the rate-based statement, to narrow the scope of the rule so that it only counts and rate limits requests that match the nested statement. You can use this nested scope-down statement in conjunction with your aggregation key specifications or you can just count and rate limit all requests that match the scope-down statement, without additional aggregation. When you choose to just manage all requests that match a scope-down statement, the aggregation instance is singular for the rule. You cannot nest a RateBasedStatement inside another statement, for example inside a NotStatement or OrStatement. You can define a RateBasedStatement inside a web ACL and inside a rule group. For additional information about the options, see [Rate limiting web requests using rate-based rules](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rate-based-rules.html) in the WAF Developer Guide. If you only aggregate on the individual IP address or forwarded IP address, you can retrieve the list of IP addresses that WAF is currently rate limiting for a rule through the API call GetRateBasedStatementManagedKeys. This option is not available for other aggregation configurations. WAF tracks and manages web requests separately for each instance of a rate-based rule that you use. For example, if you provide the same rate-based rule settings in two web ACLs, each of the two rule statements represents a separate instance of the rate-based rule and gets its own tracking and management by WAF. If you define a rate-based rule inside a rule group, and then use that rule group in multiple places, each use creates a separate instance of the rate-based rule that gets its own tracking and management by WAF.
-    public struct RateBasedStatement: Swift.Equatable {
+    public struct RateBasedStatement {
         /// Setting that indicates how to aggregate the request counts. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
         ///
         /// * CONSTANT - Count and limit the requests that match the rate-based rule's scope-down statement. With this option, the counted requests aren't further aggregated. The scope-down statement is the only specification used. When the count of all requests that satisfy the scope-down statement goes over the limit, WAF applies the rule action to all requests that satisfy the scope-down statement. With this option, you must configure the ScopeDownStatement property.
@@ -12911,7 +12911,7 @@ extension WAFV2ClientTypes.RateBasedStatementCustomKey: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a single custom aggregate key for a rate-base rule. Web requests that are missing any of the components specified in the aggregation keys are omitted from the rate-based rule evaluation and handling.
-    public struct RateBasedStatementCustomKey: Swift.Equatable {
+    public struct RateBasedStatementCustomKey {
         /// Use the value of a cookie in the request as an aggregate key. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
         public var cookie: WAFV2ClientTypes.RateLimitCookie?
         /// Use the first IP address in an HTTP header as an aggregate key. Each distinct forwarded IP address contributes to the aggregation instance. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. With this option, you must specify the header to use in the rate-based rule's ForwardedIPConfig property.
@@ -12996,7 +12996,7 @@ extension WAFV2ClientTypes.RateBasedStatementManagedKeysIPSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The set of IP addresses that are currently blocked for a [RateBasedStatement]. This is only available for rate-based rules that aggregate on just the IP address, with the AggregateKeyType set to IP or FORWARDED_IP. A rate-based rule applies its rule action to requests from IP addresses that are in the rule's managed keys list and that match the rule's scope-down statement. When a rule has no scope-down statement, it applies the action to all requests from the IP addresses that are in the list. The rule applies its rule action to rate limit the matching requests. The action is usually Block but it can be any valid rule action except for Allow. The maximum number of IP addresses that can be rate limited by a single rate-based rule instance is 10,000. If more than 10,000 addresses exceed the rate limit, WAF limits those with the highest rates.
-    public struct RateBasedStatementManagedKeysIPSet: Swift.Equatable {
+    public struct RateBasedStatementManagedKeysIPSet {
         /// The IP addresses that are currently blocked.
         public var addresses: [Swift.String]?
         /// The version of the IP addresses, either IPV4 or IPV6.
@@ -13053,7 +13053,7 @@ extension WAFV2ClientTypes.RateLimitCookie: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a cookie as an aggregate key for a rate-based rule. Each distinct value in the cookie contributes to the aggregation instance. If you use a single cookie as your custom key, then each value fully defines an aggregation instance.
-    public struct RateLimitCookie: Swift.Equatable {
+    public struct RateLimitCookie {
         /// The name of the cookie to use.
         /// This member is required.
         public var name: Swift.String?
@@ -13086,7 +13086,7 @@ extension WAFV2ClientTypes.RateLimitForwardedIP: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies the first IP address in an HTTP header as an aggregate key for a rate-based rule. Each distinct forwarded IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. When you specify an IP or forwarded IP in the custom key settings, you must also specify at least one other key to use. You can aggregate on only the forwarded IP address by specifying FORWARDED_IP in your rate-based statement's AggregateKeyType. This data type supports using the forwarded IP address in the web request aggregation for a rate-based rule, in RateBasedStatementCustomKey. The JSON specification for using the forwarded IP address doesn't explicitly use this data type. JSON specification: "ForwardedIP": {} When you use this specification, you must also configure the forwarded IP address in the rate-based statement's ForwardedIPConfig.
-    public struct RateLimitForwardedIP: Swift.Equatable {
+    public struct RateLimitForwardedIP {
 
         public init() { }
     }
@@ -13106,7 +13106,7 @@ extension WAFV2ClientTypes.RateLimitHTTPMethod: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies the request's HTTP method as an aggregate key for a rate-based rule. Each distinct HTTP method contributes to the aggregation instance. If you use just the HTTP method as your custom key, then each method fully defines an aggregation instance. JSON specification: "RateLimitHTTPMethod": {}
-    public struct RateLimitHTTPMethod: Swift.Equatable {
+    public struct RateLimitHTTPMethod {
 
         public init() { }
     }
@@ -13152,7 +13152,7 @@ extension WAFV2ClientTypes.RateLimitHeader: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a header as an aggregate key for a rate-based rule. Each distinct value in the header contributes to the aggregation instance. If you use a single header as your custom key, then each value fully defines an aggregation instance.
-    public struct RateLimitHeader: Swift.Equatable {
+    public struct RateLimitHeader {
         /// The name of the header to use.
         /// This member is required.
         public var name: Swift.String?
@@ -13185,7 +13185,7 @@ extension WAFV2ClientTypes.RateLimitIP: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies the IP address in the web request as an aggregate key for a rate-based rule. Each distinct IP address contributes to the aggregation instance. This setting is used only in the RateBasedStatementCustomKey specification of a rate-based rule statement. To use this in the custom key settings, you must specify at least one other key to use, along with the IP address. To aggregate on only the IP address, in your rate-based statement's AggregateKeyType, specify IP. JSON specification: "RateLimitIP": {}
-    public struct RateLimitIP: Swift.Equatable {
+    public struct RateLimitIP {
 
         public init() { }
     }
@@ -13213,7 +13213,7 @@ extension WAFV2ClientTypes.RateLimitLabelNamespace: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a label namespace to use as an aggregate key for a rate-based rule. Each distinct fully qualified label name that has the specified label namespace contributes to the aggregation instance. If you use just one label namespace as your custom key, then each label name fully defines an aggregation instance. This uses only labels that have been added to the request by rules that are evaluated before this rate-based rule in the web ACL. For information about label namespaces and names, see [Label syntax and naming requirements](https://docs.aws.amazon.com/waf/latest/developerguide/waf-rule-label-requirements.html) in the WAF Developer Guide.
-    public struct RateLimitLabelNamespace: Swift.Equatable {
+    public struct RateLimitLabelNamespace {
         /// The namespace to use for aggregation.
         /// This member is required.
         public var namespace: Swift.String?
@@ -13267,7 +13267,7 @@ extension WAFV2ClientTypes.RateLimitQueryArgument: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies a query argument in the request as an aggregate key for a rate-based rule. Each distinct value for the named query argument contributes to the aggregation instance. If you use a single query argument as your custom key, then each value fully defines an aggregation instance.
-    public struct RateLimitQueryArgument: Swift.Equatable {
+    public struct RateLimitQueryArgument {
         /// The name of the query argument to use.
         /// This member is required.
         public var name: Swift.String?
@@ -13320,7 +13320,7 @@ extension WAFV2ClientTypes.RateLimitQueryString: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies the request's query string as an aggregate key for a rate-based rule. Each distinct string contributes to the aggregation instance. If you use just the query string as your custom key, then each string fully defines an aggregation instance.
-    public struct RateLimitQueryString: Swift.Equatable {
+    public struct RateLimitQueryString {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
@@ -13368,7 +13368,7 @@ extension WAFV2ClientTypes.RateLimitUriPath: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Specifies the request's URI path as an aggregate key for a rate-based rule. Each distinct URI path contributes to the aggregation instance. If you use just the URI path as your custom key, then each URI path fully defines an aggregation instance.
-    public struct RateLimitUriPath: Swift.Equatable {
+    public struct RateLimitUriPath {
         /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection. Text transformations are used in rule match statements, to transform the FieldToMatch request component before inspecting it, and they're used in rate-based rule statements, to transform request components before using them as custom aggregation keys. If you specify one or more transformations to apply, WAF performs all transformations on the specified content, starting from the lowest priority setting, and then uses the transformed component contents.
         /// This member is required.
         public var textTransformations: [WAFV2ClientTypes.TextTransformation]?
@@ -13404,7 +13404,7 @@ extension WAFV2ClientTypes.Regex: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single regular expression. This is used in a [RegexPatternSet].
-    public struct Regex: Swift.Equatable {
+    public struct Regex {
         /// The string representing the regular expression.
         public var regexString: Swift.String?
 
@@ -13463,7 +13463,7 @@ extension WAFV2ClientTypes.RegexMatchStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement used to search web request components for a match against a single regular expression.
-    public struct RegexMatchStatement: Swift.Equatable {
+    public struct RegexMatchStatement {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
@@ -13545,7 +13545,7 @@ extension WAFV2ClientTypes.RegexPatternSet: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Contains one or more regular expressions. WAF assigns an ARN to each RegexPatternSet that you create. To use a set in a rule, you provide the ARN to the [Rule] statement [RegexPatternSetReferenceStatement].
-    public struct RegexPatternSet: Swift.Equatable {
+    public struct RegexPatternSet {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the set that helps with identification.
@@ -13620,7 +13620,7 @@ extension WAFV2ClientTypes.RegexPatternSetReferenceStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement used to search web request components for matches with regular expressions. To use this, create a [RegexPatternSet] that specifies the expressions that you want to detect, then use the ARN of that set in this statement. A web request matches the pattern set rule statement if the request component matches any of the patterns in the set. To create a regex pattern set, see [CreateRegexPatternSet]. Each regex pattern set rule statement references a regex pattern set. You create and maintain the set independent of your rules. This allows you to use the single set in multiple rules. When you update the referenced set, WAF automatically updates all rules that reference it.
-    public struct RegexPatternSetReferenceStatement: Swift.Equatable {
+    public struct RegexPatternSetReferenceStatement {
         /// The Amazon Resource Name (ARN) of the [RegexPatternSet] that this statement references.
         /// This member is required.
         public var arn: Swift.String?
@@ -13690,7 +13690,7 @@ extension WAFV2ClientTypes.RegexPatternSetSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about a [RegexPatternSet], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RegexPatternSet, and the ARN, that you provide to the [RegexPatternSetReferenceStatement] to use the pattern set in a [Rule].
-    public struct RegexPatternSetSummary: Swift.Equatable {
+    public struct RegexPatternSetSummary {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the set that helps with identification.
@@ -13747,7 +13747,7 @@ extension WAFV2ClientTypes.ReleaseSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High level information for an SDK release.
-    public struct ReleaseSummary: Swift.Equatable {
+    public struct ReleaseSummary {
         /// The release version.
         public var releaseVersion: Swift.String?
         /// The timestamp of the release.
@@ -13786,7 +13786,7 @@ extension WAFV2ClientTypes.RequestBodyAssociatedResourceTypeConfig: Swift.Codabl
 
 extension WAFV2ClientTypes {
     /// Customizes the maximum size of the request body that your protected CloudFront, API Gateway, Amazon Cognito, App Runner, and Verified Access resources forward to WAF for inspection. The default size is 16 KB (16,384 bytes). You can change the setting for any of the available resource types. You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). Example JSON:  { "API_GATEWAY": "KB_48", "APP_RUNNER_SERVICE": "KB_32" } For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes). This is used in the AssociationConfig of the web ACL.
-    public struct RequestBodyAssociatedResourceTypeConfig: Swift.Equatable {
+    public struct RequestBodyAssociatedResourceTypeConfig {
         /// Specifies the maximum size of the web request body component that an associated CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resource should send to WAF for inspection. This applies to statements in the web ACL that inspect the body or JSON body. Default: 16 KB (16,384 bytes)
         /// This member is required.
         public var defaultSizeInspectionLimit: WAFV2ClientTypes.SizeInspectionLimit?
@@ -13834,7 +13834,7 @@ extension WAFV2ClientTypes.RequestInspection: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The criteria for inspecting login requests, used by the ATP rule group to validate credentials usage. This is part of the AWSManagedRulesATPRuleSet configuration in ManagedRuleGroupConfig. In these settings, you specify how your application accepts login attempts by providing the request payload type and the names of the fields within the request body where the username and password are provided.
-    public struct RequestInspection: Swift.Equatable {
+    public struct RequestInspection {
         /// The name of the field in the request payload that contains your customer's password. How you specify this depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "password": "THE_PASSWORD" } }, the password field specification is /form/password.
@@ -13942,7 +13942,7 @@ extension WAFV2ClientTypes.RequestInspectionACFP: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The criteria for inspecting account creation requests, used by the ACFP rule group to validate and track account creation attempts. This is part of the AWSManagedRulesACFPRuleSet configuration in ManagedRuleGroupConfig. In these settings, you specify how your application accepts account creation attempts by providing the request payload type and the names of the fields within the request body where the username, password, email, and primary address and phone number fields are provided.
-    public struct RequestInspectionACFP: Swift.Equatable {
+    public struct RequestInspectionACFP {
         /// The names of the fields in the request payload that contain your customer's primary physical address. Order the address fields in the array exactly as they are ordered in the request payload. How you specify the address fields depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field identifiers in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "primaryaddressline1": "THE_ADDRESS1", "primaryaddressline2": "THE_ADDRESS2", "primaryaddressline3": "THE_ADDRESS3" } }, the address field idenfiers are /form/primaryaddressline1, /form/primaryaddressline2, and /form/primaryaddressline3.
@@ -14115,7 +14115,7 @@ extension WAFV2ClientTypes.ResponseInspection: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The criteria for inspecting responses to login requests and account creation requests, used by the ATP and ACFP rule groups to track login and account creation success and failure rates. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions. The rule groups evaluates the responses that your protected resources send back to client login and account creation attempts, keeping count of successful and failed attempts from each IP address and client session. Using this information, the rule group labels and mitigates requests from client sessions and IP addresses with too much suspicious activity in a short amount of time. This is part of the AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet configurations in ManagedRuleGroupConfig. Enable response inspection by configuring exactly one component of the response to inspect, for example, Header or StatusCode. You can't configure more than one component for inspection. If you don't configure any of the response inspection options, response inspection is disabled.
-    public struct ResponseInspection: Swift.Equatable {
+    public struct ResponseInspection {
         /// Configures inspection of the response body for success and failure indicators. WAF can inspect the first 65,536 bytes (64 KB) of the response body.
         public var bodyContains: WAFV2ClientTypes.ResponseInspectionBodyContains?
         /// Configures inspection of the response header for success and failure indicators.
@@ -14192,7 +14192,7 @@ extension WAFV2ClientTypes.ResponseInspectionBodyContains: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Configures inspection of the response body. WAF can inspect the first 65,536 bytes (64 KB) of the response body. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
-    public struct ResponseInspectionBodyContains: Swift.Equatable {
+    public struct ResponseInspectionBodyContains {
         /// Strings in the body of the response that indicate a failed login or account creation attempt. To be counted as a failure, the string can be anywhere in the body and must be an exact match, including case. Each string must be unique among the success and failure strings. JSON example: "FailureStrings": [ "Request failed" ]
         /// This member is required.
         public var failureStrings: [Swift.String]?
@@ -14269,7 +14269,7 @@ extension WAFV2ClientTypes.ResponseInspectionHeader: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Configures inspection of the response header. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
-    public struct ResponseInspectionHeader: Swift.Equatable {
+    public struct ResponseInspectionHeader {
         /// Values in the response header with the specified name that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON examples: "FailureValues": [ "LoginFailed", "Failed login" ] and "FailureValues": [ "AccountCreationFailed" ]
         /// This member is required.
         public var failureValues: [Swift.String]?
@@ -14351,7 +14351,7 @@ extension WAFV2ClientTypes.ResponseInspectionJson: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Configures inspection of the response JSON. WAF can inspect the first 65,536 bytes (64 KB) of the response JSON. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
-    public struct ResponseInspectionJson: Swift.Equatable {
+    public struct ResponseInspectionJson {
         /// Values for the specified identifier in the response JSON that indicate a failed login or account creation attempt. To be counted as a failure, the value must be an exact match, including case. Each value must be unique among the success and failure values. JSON example: "FailureValues": [ "False", "Failed" ]
         /// This member is required.
         public var failureValues: [Swift.String]?
@@ -14427,7 +14427,7 @@ extension WAFV2ClientTypes.ResponseInspectionStatusCode: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Configures inspection of the response status code. This is part of the ResponseInspection configuration for AWSManagedRulesATPRuleSet and AWSManagedRulesACFPRuleSet. Response inspection is available only in web ACLs that protect Amazon CloudFront distributions.
-    public struct ResponseInspectionStatusCode: Swift.Equatable {
+    public struct ResponseInspectionStatusCode {
         /// Status codes in the response that indicate a failed login or account creation attempt. To be counted as a failure, the response status code must match one of these. Each code must be unique among the success and failure status codes. JSON example: "FailureCodes": [ 400, 404 ]
         /// This member is required.
         public var failureCodes: [Swift.Int]?
@@ -14528,7 +14528,7 @@ extension WAFV2ClientTypes.Rule: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A single rule, which you can use in a [WebACL] or [RuleGroup] to identify web requests that you want to manage in some way. Each rule includes one top-level [Statement] that WAF uses to identify matching web requests, and parameters that govern how WAF handles them.
-    public struct Rule: Swift.Equatable {
+    public struct Rule {
         /// The action that WAF should take on a web request when it matches the rule statement. Settings at the web ACL level can override the rule action setting. This is used only for rules whose statements do not reference a rule group. Rule statements that reference a rule group include RuleGroupReferenceStatement and ManagedRuleGroupStatement. You must specify either this Action setting or the rule OverrideAction setting, but not both:
         ///
         /// * If the rule statement does not reference a rule group, use this rule action setting and not the rule override action setting.
@@ -14638,7 +14638,7 @@ extension WAFV2ClientTypes.RuleAction: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The action that WAF should take on a web request when it matches a rule's statement. Settings at the web ACL level can override the rule action setting.
-    public struct RuleAction: Swift.Equatable {
+    public struct RuleAction {
         /// Instructs WAF to allow the web request.
         public var allow: WAFV2ClientTypes.AllowAction?
         /// Instructs WAF to block the web request.
@@ -14695,7 +14695,7 @@ extension WAFV2ClientTypes.RuleActionOverride: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Action setting to use in the place of a rule action that is configured inside the rule group. You specify one override for each rule whose action you want to change. You can use overrides for testing, for example you can override all of rule actions to Count and then monitor the resulting count metrics to understand how the rule group would handle your web traffic. You can also permanently override some or all actions, to modify how the rule group manages your web traffic.
-    public struct RuleActionOverride: Swift.Equatable {
+    public struct RuleActionOverride {
         /// The override action to use, in place of the configured action of the rule in the rule group.
         /// This member is required.
         public var actionToUse: WAFV2ClientTypes.RuleAction?
@@ -14844,7 +14844,7 @@ extension WAFV2ClientTypes.RuleGroup: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule group defines a collection of rules to inspect and control web requests that you can use in a [WebACL]. When you create a rule group, you define an immutable capacity limit. If you update a rule group, you must stay within the capacity. This allows others to reuse the rule group with confidence in its capacity requirements.
-    public struct RuleGroup: Swift.Equatable {
+    public struct RuleGroup {
         /// The Amazon Resource Name (ARN) of the entity.
         /// This member is required.
         public var arn: Swift.String?
@@ -14964,7 +14964,7 @@ extension WAFV2ClientTypes.RuleGroupReferenceStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement used to run the rules that are defined in a [RuleGroup]. To use this, create a rule group with your rules, then provide the ARN of the rule group in this statement. You cannot nest a RuleGroupReferenceStatement, for example for use inside a NotStatement or OrStatement. You cannot use a rule group reference statement inside another rule group. You can only reference a rule group as a top-level statement within a rule that you define in a web ACL.
-    public struct RuleGroupReferenceStatement: Swift.Equatable {
+    public struct RuleGroupReferenceStatement {
         /// The Amazon Resource Name (ARN) of the entity.
         /// This member is required.
         public var arn: Swift.String?
@@ -15032,7 +15032,7 @@ extension WAFV2ClientTypes.RuleGroupSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about a [RuleGroup], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the [RuleGroupReferenceStatement] to use the rule group in a [Rule].
-    public struct RuleGroupSummary: Swift.Equatable {
+    public struct RuleGroupSummary {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the rule group that helps with identification.
@@ -15089,7 +15089,7 @@ extension WAFV2ClientTypes.RuleSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about a [Rule], returned by operations like [DescribeManagedRuleGroup]. This provides information like the ID, that you can use to retrieve and manage a RuleGroup, and the ARN, that you provide to the [RuleGroupReferenceStatement] to use the rule group in a [Rule].
-    public struct RuleSummary: Swift.Equatable {
+    public struct RuleSummary {
         /// The action that WAF should take on a web request when it matches a rule's statement. Settings at the web ACL level can override the rule action setting.
         public var action: WAFV2ClientTypes.RuleAction?
         /// The name of the rule.
@@ -15212,7 +15212,7 @@ extension WAFV2ClientTypes.SampledHTTPRequest: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Represents a single sampled web request. The response from [GetSampledRequests] includes a SampledHTTPRequests complex type that appears as SampledRequests in the response syntax. SampledHTTPRequests contains an array of SampledHTTPRequest objects.
-    public struct SampledHTTPRequest: Swift.Equatable {
+    public struct SampledHTTPRequest {
         /// The action that WAF applied to the request.
         public var action: Swift.String?
         /// The CAPTCHA response for the request.
@@ -15353,7 +15353,7 @@ extension WAFV2ClientTypes.SingleHeader: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect one of the headers in the web request, identified by name, for example, User-Agent or Referer. The name isn't case sensitive. You can filter and inspect all headers with the FieldToMatch setting Headers. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "SingleHeader": { "Name": "haystack" }
-    public struct SingleHeader: Swift.Equatable {
+    public struct SingleHeader {
         /// The name of the query header to inspect.
         /// This member is required.
         public var name: Swift.String?
@@ -15389,7 +15389,7 @@ extension WAFV2ClientTypes.SingleQueryArgument: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect one query argument in the web request, identified by name, for example UserName or SalesRegion. The name isn't case sensitive. This is used to indicate the web request component to inspect, in the [FieldToMatch] specification. Example JSON: "SingleQueryArgument": { "Name": "myArgument" }
-    public struct SingleQueryArgument: Swift.Equatable {
+    public struct SingleQueryArgument {
         /// The name of the query argument to inspect.
         /// This member is required.
         public var name: Swift.String?
@@ -15455,7 +15455,7 @@ extension WAFV2ClientTypes.SizeConstraintStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement that compares a number of bytes against the size of a request component, using a comparison operator, such as greater than (>) or less than (<). For example, you can use a size constraint statement to look for query strings that are longer than 100 bytes. If you configure WAF to inspect the request body, WAF inspects only the number of bytes in the body up to the limit for the web ACL and protected resource type. If you know that the request body for your web requests should never exceed the inspection limit, you can use a size constraint statement to block requests that have a larger request body size. For more information about the inspection limits, see Body and JsonBody settings for the FieldToMatch data type. If you choose URI for the value of Part of the request to filter on, the slash (/) in the URI counts as one character. For example, the URI /logo.jpg is nine characters long.
-    public struct SizeConstraintStatement: Swift.Equatable {
+    public struct SizeConstraintStatement {
         /// The operator to use to compare the request part to the size setting.
         /// This member is required.
         public var comparisonOperator: WAFV2ClientTypes.ComparisonOperator?
@@ -15568,7 +15568,7 @@ extension WAFV2ClientTypes.SqliMatchStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement that inspects for malicious SQL code. Attackers insert malicious SQL code into web requests to do things like modify your database or extract data from it.
-    public struct SqliMatchStatement: Swift.Equatable {
+    public struct SqliMatchStatement {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?
@@ -15697,7 +15697,7 @@ extension WAFV2ClientTypes.Statement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The processing guidance for a [Rule], used by WAF to determine whether a web request matches the rule. For example specifications, see the examples section of [CreateWebACL].
-    public struct Statement: Swift.Equatable {
+    public struct Statement {
         /// A logical rule statement used to combine other rule statements with AND logic. You provide more than one [Statement] within the AndStatement.
         public var andStatement: WAFV2ClientTypes.AndStatement?
         /// A rule statement that defines a string match search for WAF to apply to web requests. The byte match statement provides the bytes to search for, the location in requests that you want WAF to search, and other settings. The bytes to search for are typically a string that corresponds with ASCII characters. In the WAF console and the developer guide, this is called a string match statement.
@@ -15844,7 +15844,7 @@ extension WAFV2ClientTypes.Tag: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A tag associated with an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// Part of the key:value pair that defines a tag. You can use a tag key to describe a category of information, such as "customer." Tag keys are case-sensitive.
         /// This member is required.
         public var key: Swift.String?
@@ -15903,7 +15903,7 @@ extension WAFV2ClientTypes.TagInfoForResource: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The collection of tagging definitions for an Amazon Web Services resource. Tags are key:value pairs that you can use to categorize and manage your resources, for purposes like billing or other management. Typically, the tag key represents a category, such as "environment", and the tag value represents a specific value within that category, such as "test," "development," or "production". Or you might set the tag key to "customer" and the value to the customer name or ID. You can specify one or more tags to add to each Amazon Web Services resource, up to 50 tags for a resource. You can tag the Amazon Web Services resources that you manage through WAF: web ACLs, rule groups, IP sets, and regex pattern sets. You can't manage or view tags through the WAF console.
-    public struct TagInfoForResource: Swift.Equatable {
+    public struct TagInfoForResource {
         /// The Amazon Resource Name (ARN) of the resource.
         public var resourceARN: Swift.String?
         /// The array of [Tag] objects defined for the resource.
@@ -15948,7 +15948,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -15966,7 +15966,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [WAFV2ClientTypes.Tag]?
 }
@@ -16000,7 +16000,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -16049,7 +16049,7 @@ extension WAFV2ClientTypes.TextTransformation: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Text transformations eliminate some of the unusual formatting that attackers use in web requests in an effort to bypass detection.
-    public struct TextTransformation: Swift.Equatable {
+    public struct TextTransformation {
         /// Sets the relative processing order for multiple transformations. WAF processes all transformations, from lowest priority to highest, before inspecting the transformed content. The priorities don't need to be consecutive, but they must all be different.
         /// This member is required.
         public var priority: Swift.Int
@@ -16185,7 +16185,7 @@ extension WAFV2ClientTypes.TimeWindow: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// In a [GetSampledRequests] request, the StartTime and EndTime objects specify the time range for which you want WAF to return a sample of web requests. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours. In a [GetSampledRequests] response, the StartTime and EndTime objects specify the time range for which WAF actually returned a sample of web requests. WAF gets the specified number of requests from among the first 5,000 requests that your Amazon Web Services resource receives during the specified time period. If your resource receives more than 5,000 requests during that period, WAF stops sampling after the 5,000th request. In that case, EndTime is the time that WAF received the 5,000th request.
-    public struct TimeWindow: Swift.Equatable {
+    public struct TimeWindow {
         /// The end of the time range from which you want GetSampledRequests to return a sample of the requests that your Amazon Web Services resource received. You must specify the times in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z". You can specify any time range in the previous three hours.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -16232,7 +16232,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -16250,7 +16250,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -16284,7 +16284,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -16348,7 +16348,7 @@ extension UpdateIPSetInput {
     }
 }
 
-public struct UpdateIPSetInput: Swift.Equatable {
+public struct UpdateIPSetInput {
     /// Contains an array of strings that specifies zero or more IP addresses or blocks of IP addresses that you want WAF to inspect for in incoming requests. All addresses must be specified using Classless Inter-Domain Routing (CIDR) notation. WAF supports all IPv4 and IPv6 CIDR ranges except for /0. Example address strings:
     ///
     /// * For requests that originated from the IP address 192.0.2.44, specify 192.0.2.44/32.
@@ -16408,7 +16408,7 @@ public struct UpdateIPSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateIPSetInputBody: Swift.Equatable {
+struct UpdateIPSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -16465,7 +16465,7 @@ extension UpdateIPSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIPSetOutput: Swift.Equatable {
+public struct UpdateIPSetOutput {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
@@ -16477,7 +16477,7 @@ public struct UpdateIPSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateIPSetOutputBody: Swift.Equatable {
+struct UpdateIPSetOutputBody {
     let nextLockToken: Swift.String?
 }
 
@@ -16550,7 +16550,7 @@ extension UpdateManagedRuleSetVersionExpiryDateInput {
     }
 }
 
-public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Equatable {
+public struct UpdateManagedRuleSetVersionExpiryDateInput {
     /// The time that you want the version to expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
     /// This member is required.
     public var expiryTimestamp: ClientRuntime.Date?
@@ -16592,7 +16592,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateInput: Swift.Equatable {
     }
 }
 
-struct UpdateManagedRuleSetVersionExpiryDateInputBody: Swift.Equatable {
+struct UpdateManagedRuleSetVersionExpiryDateInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -16644,7 +16644,7 @@ extension UpdateManagedRuleSetVersionExpiryDateOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct UpdateManagedRuleSetVersionExpiryDateOutput: Swift.Equatable {
+public struct UpdateManagedRuleSetVersionExpiryDateOutput {
     /// The version that is set to expire.
     public var expiringVersion: Swift.String?
     /// The time that the version will expire. Times are in Coordinated Universal Time (UTC) format. UTC format includes the special designator, Z. For example, "2016-09-27T14:50Z".
@@ -16664,7 +16664,7 @@ public struct UpdateManagedRuleSetVersionExpiryDateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateManagedRuleSetVersionExpiryDateOutputBody: Swift.Equatable {
+struct UpdateManagedRuleSetVersionExpiryDateOutputBody {
     let expiringVersion: Swift.String?
     let expiryTimestamp: ClientRuntime.Date?
     let nextLockToken: Swift.String?
@@ -16746,7 +16746,7 @@ extension UpdateRegexPatternSetInput {
     }
 }
 
-public struct UpdateRegexPatternSetInput: Swift.Equatable {
+public struct UpdateRegexPatternSetInput {
     /// A description of the set that helps with identification.
     public var description: Swift.String?
     /// A unique identifier for the set. This ID is returned in the responses to create and list commands. You provide it to operations like update and delete.
@@ -16787,7 +16787,7 @@ public struct UpdateRegexPatternSetInput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexPatternSetInputBody: Swift.Equatable {
+struct UpdateRegexPatternSetInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -16844,7 +16844,7 @@ extension UpdateRegexPatternSetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRegexPatternSetOutput: Swift.Equatable {
+public struct UpdateRegexPatternSetOutput {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
@@ -16856,7 +16856,7 @@ public struct UpdateRegexPatternSetOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRegexPatternSetOutputBody: Swift.Equatable {
+struct UpdateRegexPatternSetOutputBody {
     let nextLockToken: Swift.String?
 }
 
@@ -16943,7 +16943,7 @@ extension UpdateRuleGroupInput {
     }
 }
 
-public struct UpdateRuleGroupInput: Swift.Equatable {
+public struct UpdateRuleGroupInput {
     /// A map of custom response keys and content bodies. When you create a rule with a block action, you can send a custom response to the web request. You define these for the rule group, and then use them in the rules that you define in the rule group. For information about customizing web requests and responses, see [Customizing web requests and responses in WAF](https://docs.aws.amazon.com/waf/latest/developerguide/waf-custom-request-response.html) in the WAF Developer Guide. For information about the limits on count and size for custom request and response settings, see [WAF quotas](https://docs.aws.amazon.com/waf/latest/developerguide/limits.html) in the WAF Developer Guide.
     public var customResponseBodies: [Swift.String:WAFV2ClientTypes.CustomResponseBody]?
     /// A description of the rule group that helps with identification.
@@ -16992,7 +16992,7 @@ public struct UpdateRuleGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleGroupInputBody: Swift.Equatable {
+struct UpdateRuleGroupInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -17066,7 +17066,7 @@ extension UpdateRuleGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateRuleGroupOutput: Swift.Equatable {
+public struct UpdateRuleGroupOutput {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
@@ -17078,7 +17078,7 @@ public struct UpdateRuleGroupOutput: Swift.Equatable {
     }
 }
 
-struct UpdateRuleGroupOutputBody: Swift.Equatable {
+struct UpdateRuleGroupOutputBody {
     let nextLockToken: Swift.String?
 }
 
@@ -17191,7 +17191,7 @@ extension UpdateWebACLInput {
     }
 }
 
-public struct UpdateWebACLInput: Swift.Equatable {
+public struct UpdateWebACLInput {
     /// Specifies custom configurations for the associations between the web ACL and protected resources. Use this to customize the maximum size of the request body that your protected resources forward to WAF for inspection. You can customize this setting for CloudFront, API Gateway, Amazon Cognito, App Runner, or Verified Access resources. The default setting is 16 KB (16,384 bytes). You are charged additional fees when your protected resources forward body sizes that are larger than the default. For more information, see [WAF Pricing](http://aws.amazon.com/waf/pricing/). For Application Load Balancer and AppSync, the limit is fixed at 8 KB (8,192 bytes).
     public var associationConfig: WAFV2ClientTypes.AssociationConfig?
     /// Specifies how WAF should handle CAPTCHA evaluations for rules that don't have their own CaptchaConfig settings. If you don't specify this, WAF uses its default settings for CaptchaConfig.
@@ -17261,7 +17261,7 @@ public struct UpdateWebACLInput: Swift.Equatable {
     }
 }
 
-struct UpdateWebACLInputBody: Swift.Equatable {
+struct UpdateWebACLInputBody {
     let name: Swift.String?
     let scope: WAFV2ClientTypes.Scope?
     let id: Swift.String?
@@ -17364,7 +17364,7 @@ extension UpdateWebACLOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWebACLOutput: Swift.Equatable {
+public struct UpdateWebACLOutput {
     /// A token used for optimistic locking. WAF returns this token to your update requests. You use NextLockToken in the same manner as you use LockToken.
     public var nextLockToken: Swift.String?
 
@@ -17376,7 +17376,7 @@ public struct UpdateWebACLOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWebACLOutputBody: Swift.Equatable {
+struct UpdateWebACLOutputBody {
     let nextLockToken: Swift.String?
 }
 
@@ -17427,7 +17427,7 @@ extension WAFV2ClientTypes.UriPath: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Inspect the path component of the URI of the web request. This is the part of the web request that identifies a resource. For example, /images/daily-ad.jpg. This is used in the [FieldToMatch] specification for some web request component types. JSON specification: "UriPath": {}
-    public struct UriPath: Swift.Equatable {
+    public struct UriPath {
 
         public init() { }
     }
@@ -17455,7 +17455,7 @@ extension WAFV2ClientTypes.UsernameField: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// The name of the field in the request payload that contains your customer's username. This data type is used in the RequestInspection and RequestInspectionACFP data types.
-    public struct UsernameField: Swift.Equatable {
+    public struct UsernameField {
         /// The name of the username field. How you specify this depends on the request inspection payload type.
         ///
         /// * For JSON payloads, specify the field name in JSON pointer syntax. For information about the JSON Pointer syntax, see the Internet Engineering Task Force (IETF) documentation [JavaScript Object Notation (JSON) Pointer](https://tools.ietf.org/html/rfc6901). For example, for the JSON payload { "form": { "username": "THE_USERNAME" } }, the username field specification is /form/username.
@@ -17501,7 +17501,7 @@ extension WAFV2ClientTypes.VersionToPublish: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A version of the named managed rule group, that the rule group's vendor publishes for use by customers. This is intended for use only by vendors of managed rule sets. Vendors are Amazon Web Services and Amazon Web Services Marketplace sellers. Vendors, you can use the managed rule set APIs to provide controlled rollout of your versioned managed rule group offerings for your customers. The APIs are ListManagedRuleSets, GetManagedRuleSet, PutManagedRuleSetVersions, and UpdateManagedRuleSetVersionExpiryDate.
-    public struct VersionToPublish: Swift.Equatable {
+    public struct VersionToPublish {
         /// The Amazon Resource Name (ARN) of the vendor's rule group that's used in the published managed rule group version.
         public var associatedRuleGroupArn: Swift.String?
         /// The amount of time the vendor expects this version of the managed rule group to last, in days.
@@ -17552,7 +17552,7 @@ extension WAFV2ClientTypes.VisibilityConfig: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// Defines and enables Amazon CloudWatch metrics and web request sample collection.
-    public struct VisibilityConfig: Swift.Equatable {
+    public struct VisibilityConfig {
         /// Indicates whether the associated resource sends metrics to Amazon CloudWatch. For the list of available metrics, see [WAF Metrics](https://docs.aws.amazon.com/waf/latest/developerguide/monitoring-cloudwatch.html#waf-metrics) in the WAF Developer Guide. For web ACLs, the metrics are for web requests that have the web ACL default action applied. WAF applies the default action to web requests that pass the inspection of all rules in the web ACL without being either allowed or blocked. For more information, see [The web ACL default action](https://docs.aws.amazon.com/waf/latest/developerguide/web-acl-default-action.html) in the WAF Developer Guide.
         /// This member is required.
         public var cloudWatchMetricsEnabled: Swift.Bool
@@ -17616,7 +17616,7 @@ public struct WAFAssociatedItemException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFAssociatedItemExceptionBody: Swift.Equatable {
+struct WAFAssociatedItemExceptionBody {
     let message: Swift.String?
 }
 
@@ -17671,7 +17671,7 @@ public struct WAFConfigurationWarningException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct WAFConfigurationWarningExceptionBody: Swift.Equatable {
+struct WAFConfigurationWarningExceptionBody {
     let message: Swift.String?
 }
 
@@ -17726,7 +17726,7 @@ public struct WAFDuplicateItemException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct WAFDuplicateItemExceptionBody: Swift.Equatable {
+struct WAFDuplicateItemExceptionBody {
     let message: Swift.String?
 }
 
@@ -17781,7 +17781,7 @@ public struct WAFExpiredManagedRuleGroupVersionException: ClientRuntime.ModeledE
     }
 }
 
-struct WAFExpiredManagedRuleGroupVersionExceptionBody: Swift.Equatable {
+struct WAFExpiredManagedRuleGroupVersionExceptionBody {
     let message: Swift.String?
 }
 
@@ -17836,7 +17836,7 @@ public struct WAFInternalErrorException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct WAFInternalErrorExceptionBody: Swift.Equatable {
+struct WAFInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -17891,7 +17891,7 @@ public struct WAFInvalidOperationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct WAFInvalidOperationExceptionBody: Swift.Equatable {
+struct WAFInvalidOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -17972,7 +17972,7 @@ public struct WAFInvalidParameterException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct WAFInvalidParameterExceptionBody: Swift.Equatable {
+struct WAFInvalidParameterExceptionBody {
     let message: Swift.String?
     let field: WAFV2ClientTypes.ParameterExceptionField?
     let parameter: Swift.String?
@@ -18052,7 +18052,7 @@ public struct WAFInvalidPermissionPolicyException: ClientRuntime.ModeledError, A
     }
 }
 
-struct WAFInvalidPermissionPolicyExceptionBody: Swift.Equatable {
+struct WAFInvalidPermissionPolicyExceptionBody {
     let message: Swift.String?
 }
 
@@ -18107,7 +18107,7 @@ public struct WAFInvalidResourceException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct WAFInvalidResourceExceptionBody: Swift.Equatable {
+struct WAFInvalidResourceExceptionBody {
     let message: Swift.String?
 }
 
@@ -18168,7 +18168,7 @@ public struct WAFLimitsExceededException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFLimitsExceededExceptionBody: Swift.Equatable {
+struct WAFLimitsExceededExceptionBody {
     let message: Swift.String?
     let sourceType: Swift.String?
 }
@@ -18227,7 +18227,7 @@ public struct WAFLogDestinationPermissionIssueException: ClientRuntime.ModeledEr
     }
 }
 
-struct WAFLogDestinationPermissionIssueExceptionBody: Swift.Equatable {
+struct WAFLogDestinationPermissionIssueExceptionBody {
     let message: Swift.String?
 }
 
@@ -18282,7 +18282,7 @@ public struct WAFNonexistentItemException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct WAFNonexistentItemExceptionBody: Swift.Equatable {
+struct WAFNonexistentItemExceptionBody {
     let message: Swift.String?
 }
 
@@ -18337,7 +18337,7 @@ public struct WAFOptimisticLockException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct WAFOptimisticLockExceptionBody: Swift.Equatable {
+struct WAFOptimisticLockExceptionBody {
     let message: Swift.String?
 }
 
@@ -18392,7 +18392,7 @@ public struct WAFServiceLinkedRoleErrorException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct WAFServiceLinkedRoleErrorExceptionBody: Swift.Equatable {
+struct WAFServiceLinkedRoleErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -18447,7 +18447,7 @@ public struct WAFSubscriptionNotFoundException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct WAFSubscriptionNotFoundExceptionBody: Swift.Equatable {
+struct WAFSubscriptionNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -18502,7 +18502,7 @@ public struct WAFTagOperationException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct WAFTagOperationExceptionBody: Swift.Equatable {
+struct WAFTagOperationExceptionBody {
     let message: Swift.String?
 }
 
@@ -18557,7 +18557,7 @@ public struct WAFTagOperationInternalErrorException: ClientRuntime.ModeledError,
     }
 }
 
-struct WAFTagOperationInternalErrorExceptionBody: Swift.Equatable {
+struct WAFTagOperationInternalErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -18612,7 +18612,7 @@ public struct WAFUnavailableEntityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct WAFUnavailableEntityExceptionBody: Swift.Equatable {
+struct WAFUnavailableEntityExceptionBody {
     let message: Swift.String?
 }
 
@@ -18667,7 +18667,7 @@ public struct WAFUnsupportedAggregateKeyTypeException: ClientRuntime.ModeledErro
     }
 }
 
-struct WAFUnsupportedAggregateKeyTypeExceptionBody: Swift.Equatable {
+struct WAFUnsupportedAggregateKeyTypeExceptionBody {
     let message: Swift.String?
 }
 
@@ -18862,7 +18862,7 @@ extension WAFV2ClientTypes.WebACL: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A web ACL defines a collection of rules to use to inspect and control web requests. Each rule has a statement that defines what to look for in web requests and an action that WAF applies to requests that match the statement. In the web ACL, you assign a default action to take (allow, block) for any request that does not match any of the rules. The rules in a web ACL can be a combination of the types [Rule], [RuleGroup], and managed rule group. You can associate a web ACL with one or more Amazon Web Services resources to protect. The resources can be an Amazon CloudFront distribution, an Amazon API Gateway REST API, an Application Load Balancer, an AppSync GraphQL API, an Amazon Cognito user pool, an App Runner service, or an Amazon Web Services Verified Access instance.
-    public struct WebACL: Swift.Equatable {
+    public struct WebACL {
         /// The Amazon Resource Name (ARN) of the web ACL that you want to associate with the resource.
         /// This member is required.
         public var arn: Swift.String?
@@ -18994,7 +18994,7 @@ extension WAFV2ClientTypes.WebACLSummary: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// High-level information about a [WebACL], returned by operations like create and list. This provides information like the ID, that you can use to retrieve and manage a WebACL, and the ARN, that you provide to operations like [AssociateWebACL].
-    public struct WebACLSummary: Swift.Equatable {
+    public struct WebACLSummary {
         /// The Amazon Resource Name (ARN) of the entity.
         public var arn: Swift.String?
         /// A description of the web ACL that helps with identification.
@@ -19063,7 +19063,7 @@ extension WAFV2ClientTypes.XssMatchStatement: Swift.Codable {
 
 extension WAFV2ClientTypes {
     /// A rule statement that inspects for cross-site scripting (XSS) attacks. In XSS attacks, the attacker uses vulnerabilities in a benign website as a vehicle to inject malicious client-site scripts into other legitimate web browsers.
-    public struct XssMatchStatement: Swift.Equatable {
+    public struct XssMatchStatement {
         /// The part of the web request that you want WAF to inspect.
         /// This member is required.
         public var fieldToMatch: WAFV2ClientTypes.FieldToMatch?

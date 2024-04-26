@@ -46,7 +46,7 @@ extension ChimeSDKMeetingsClientTypes.Attendee: Swift.CustomDebugStringConvertib
 
 extension ChimeSDKMeetingsClientTypes {
     /// An Amazon Chime SDK meeting attendee. Includes a unique AttendeeId and JoinToken. The JoinToken allows a client to authenticate and join as the specified attendee. The JoinToken expires when the meeting ends, or when [DeleteAttendee] is called. After that, the attendee is unable to join the meeting. We recommend securely transferring each JoinToken from your server application to the client so that no other client has access to the token except for the one authorized to represent the attendee.
-    public struct Attendee: Swift.Equatable {
+    public struct Attendee {
         /// The Amazon Chime SDK attendee ID.
         public var attendeeId: Swift.String?
         /// The capabilities assigned to an attendee: audio, video, or content. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
@@ -125,7 +125,7 @@ extension ChimeSDKMeetingsClientTypes {
     /// * When you change an audio capability from None or Receive to Send or SendReceive , and an attendee unmutes their microphone, audio flows from the attendee to the other meeting participants.
     ///
     /// * When you change a video or content capability from None or Receive to Send or SendReceive , and the attendee turns on their video or content streams, remote attendees can receive those streams, but only after media renegotiation between the client and the Amazon Chime back-end server.
-    public struct AttendeeCapabilities: Swift.Equatable {
+    public struct AttendeeCapabilities {
         /// The audio capability assigned to an attendee.
         /// This member is required.
         public var audio: ChimeSDKMeetingsClientTypes.MediaCapabilities?
@@ -171,7 +171,7 @@ extension ChimeSDKMeetingsClientTypes.AttendeeFeatures: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// Lists the maximum number of attendees allowed into the meeting. If you specify FHD for MeetingFeatures:Video:MaxResolution, or if you specify UHD for MeetingFeatures:Content:MaxResolution, the maximum number of attendees changes from the default of 250 to 25.
-    public struct AttendeeFeatures: Swift.Equatable {
+    public struct AttendeeFeatures {
         /// The maximum number of attendees allowed into the meeting.
         public var maxCount: Swift.Int?
 
@@ -206,7 +206,7 @@ extension ChimeSDKMeetingsClientTypes.AttendeeIdItem: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// A structure that contains one or more attendee IDs.
-    public struct AttendeeIdItem: Swift.Equatable {
+    public struct AttendeeIdItem {
         /// A list of one or more attendee IDs.
         /// This member is required.
         public var attendeeId: Swift.String?
@@ -242,7 +242,7 @@ extension ChimeSDKMeetingsClientTypes.AudioFeatures: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// An optional category of meeting features that contains audio-specific configurations, such as operating parameters for Amazon Voice Focus.
-    public struct AudioFeatures: Swift.Equatable {
+    public struct AudioFeatures {
         /// Makes echo reduction available to clients who connect to the meeting.
         public var echoReduction: ChimeSDKMeetingsClientTypes.MeetingFeatureStatus?
 
@@ -306,7 +306,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -365,7 +365,7 @@ extension BatchCreateAttendeeInput {
     }
 }
 
-public struct BatchCreateAttendeeInput: Swift.Equatable {
+public struct BatchCreateAttendeeInput {
     /// The attendee information, including attendees' IDs and join tokens.
     /// This member is required.
     public var attendees: [ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem]?
@@ -383,7 +383,7 @@ public struct BatchCreateAttendeeInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateAttendeeInputBody: Swift.Equatable {
+struct BatchCreateAttendeeInputBody {
     let attendees: [ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem]?
 }
 
@@ -422,7 +422,7 @@ extension BatchCreateAttendeeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreateAttendeeOutput: Swift.Equatable {
+public struct BatchCreateAttendeeOutput {
     /// The attendee information, including attendees' IDs and join tokens.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -438,7 +438,7 @@ public struct BatchCreateAttendeeOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateAttendeeOutputBody: Swift.Equatable {
+struct BatchCreateAttendeeOutputBody {
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]?
 }
@@ -534,7 +534,7 @@ extension BatchUpdateAttendeeCapabilitiesExceptInput {
     }
 }
 
-public struct BatchUpdateAttendeeCapabilitiesExceptInput: Swift.Equatable {
+public struct BatchUpdateAttendeeCapabilitiesExceptInput {
     /// The capabilities (audio, video, or content) that you want to update.
     /// This member is required.
     public var capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
@@ -557,7 +557,7 @@ public struct BatchUpdateAttendeeCapabilitiesExceptInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateAttendeeCapabilitiesExceptInputBody: Swift.Equatable {
+struct BatchUpdateAttendeeCapabilitiesExceptInputBody {
     let excludedAttendeeIds: [ChimeSDKMeetingsClientTypes.AttendeeIdItem]?
     let capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
 }
@@ -591,7 +591,7 @@ extension BatchUpdateAttendeeCapabilitiesExceptOutput: ClientRuntime.HttpRespons
     }
 }
 
-public struct BatchUpdateAttendeeCapabilitiesExceptOutput: Swift.Equatable {
+public struct BatchUpdateAttendeeCapabilitiesExceptOutput {
 
     public init() { }
 }
@@ -666,7 +666,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -711,7 +711,7 @@ extension ChimeSDKMeetingsClientTypes.ContentFeatures: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// Lists the content (screen share) features for the meeting. Applies to all attendees. If you specify MeetingFeatures:Content:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Content will be rejected with ValidationError 400.
-    public struct ContentFeatures: Swift.Equatable {
+    public struct ContentFeatures {
         /// The maximum resolution for the meeting content. Defaults to FHD. To use UHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees.
         public var maxResolution: ChimeSDKMeetingsClientTypes.ContentResolution?
 
@@ -798,7 +798,7 @@ extension ChimeSDKMeetingsClientTypes.CreateAttendeeError: Swift.CustomDebugStri
 
 extension ChimeSDKMeetingsClientTypes {
     /// The list of errors returned when errors are encountered during the BatchCreateAttendee and CreateAttendee actions. This includes external user IDs, error codes, and error messages.
-    public struct CreateAttendeeError: Swift.Equatable {
+    public struct CreateAttendeeError {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -852,7 +852,7 @@ extension CreateAttendeeInput {
     }
 }
 
-public struct CreateAttendeeInput: Swift.Equatable {
+public struct CreateAttendeeInput {
     /// The capabilities (audio, video, or content) that you want to grant an attendee. If you don't specify capabilities, all users have send and receive capabilities on all media channels by default. You use the capabilities with a set of values that control what the capabilities can do, such as SendReceive data. For more information about those values, see . When using capabilities, be aware of these corner cases:
     ///
     /// * If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
@@ -884,7 +884,7 @@ public struct CreateAttendeeInput: Swift.Equatable {
     }
 }
 
-struct CreateAttendeeInputBody: Swift.Equatable {
+struct CreateAttendeeInputBody {
     let externalUserId: Swift.String?
     let capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
 }
@@ -916,7 +916,7 @@ extension CreateAttendeeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAttendeeOutput: Swift.Equatable {
+public struct CreateAttendeeOutput {
     /// The attendee information, including attendee ID and join token.
     public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
 
@@ -928,7 +928,7 @@ public struct CreateAttendeeOutput: Swift.Equatable {
     }
 }
 
-struct CreateAttendeeOutputBody: Swift.Equatable {
+struct CreateAttendeeOutputBody {
     let attendee: ChimeSDKMeetingsClientTypes.Attendee?
 }
 
@@ -995,7 +995,7 @@ extension ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem: Swift.CustomDeb
 
 extension ChimeSDKMeetingsClientTypes {
     /// The Amazon Chime SDK attendee fields to create, used with the BatchCreateAttendee action.
-    public struct CreateAttendeeRequestItem: Swift.Equatable {
+    public struct CreateAttendeeRequestItem {
         /// A list of one or more capabilities.
         public var capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
         /// The Amazon Chime SDK external user ID. An idempotency token. Links the attendee to an identity managed by a builder application. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
@@ -1077,7 +1077,7 @@ extension CreateMeetingInput {
     }
 }
 
-public struct CreateMeetingInput: Swift.Equatable {
+public struct CreateMeetingInput {
     /// The unique identifier for the client request. Use a different token for different meetings.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -1135,7 +1135,7 @@ public struct CreateMeetingInput: Swift.Equatable {
     }
 }
 
-struct CreateMeetingInputBody: Swift.Equatable {
+struct CreateMeetingInputBody {
     let clientRequestToken: Swift.String?
     let mediaRegion: Swift.String?
     let meetingHostId: Swift.String?
@@ -1213,7 +1213,7 @@ extension CreateMeetingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMeetingOutput: Swift.Equatable {
+public struct CreateMeetingOutput {
     /// The meeting information, including the meeting ID and MediaPlacement.
     public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
 
@@ -1225,7 +1225,7 @@ public struct CreateMeetingOutput: Swift.Equatable {
     }
 }
 
-struct CreateMeetingOutputBody: Swift.Equatable {
+struct CreateMeetingOutputBody {
     let meeting: ChimeSDKMeetingsClientTypes.Meeting?
 }
 
@@ -1338,7 +1338,7 @@ extension CreateMeetingWithAttendeesInput {
     }
 }
 
-public struct CreateMeetingWithAttendeesInput: Swift.Equatable {
+public struct CreateMeetingWithAttendeesInput {
     /// The attendee information, including attendees' IDs and join tokens.
     /// This member is required.
     public var attendees: [ChimeSDKMeetingsClientTypes.CreateAttendeeRequestItem]?
@@ -1390,7 +1390,7 @@ public struct CreateMeetingWithAttendeesInput: Swift.Equatable {
     }
 }
 
-struct CreateMeetingWithAttendeesInputBody: Swift.Equatable {
+struct CreateMeetingWithAttendeesInputBody {
     let clientRequestToken: Swift.String?
     let mediaRegion: Swift.String?
     let meetingHostId: Swift.String?
@@ -1485,7 +1485,7 @@ extension CreateMeetingWithAttendeesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMeetingWithAttendeesOutput: Swift.Equatable {
+public struct CreateMeetingWithAttendeesOutput {
     /// The attendee information, including attendees' IDs and join tokens.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// If the action fails for one or more of the attendees in the request, a list of the attendees is returned, along with error codes and error messages.
@@ -1505,7 +1505,7 @@ public struct CreateMeetingWithAttendeesOutput: Swift.Equatable {
     }
 }
 
-struct CreateMeetingWithAttendeesOutputBody: Swift.Equatable {
+struct CreateMeetingWithAttendeesOutputBody {
     let meeting: ChimeSDKMeetingsClientTypes.Meeting?
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let errors: [ChimeSDKMeetingsClientTypes.CreateAttendeeError]?
@@ -1578,7 +1578,7 @@ extension DeleteAttendeeInput {
     }
 }
 
-public struct DeleteAttendeeInput: Swift.Equatable {
+public struct DeleteAttendeeInput {
     /// The Amazon Chime SDK attendee ID.
     /// This member is required.
     public var attendeeId: Swift.String?
@@ -1596,7 +1596,7 @@ public struct DeleteAttendeeInput: Swift.Equatable {
     }
 }
 
-struct DeleteAttendeeInputBody: Swift.Equatable {
+struct DeleteAttendeeInputBody {
 }
 
 extension DeleteAttendeeInputBody: Swift.Decodable {
@@ -1610,7 +1610,7 @@ extension DeleteAttendeeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAttendeeOutput: Swift.Equatable {
+public struct DeleteAttendeeOutput {
 
     public init() { }
 }
@@ -1642,7 +1642,7 @@ extension DeleteMeetingInput {
     }
 }
 
-public struct DeleteMeetingInput: Swift.Equatable {
+public struct DeleteMeetingInput {
     /// The Amazon Chime SDK meeting ID.
     /// This member is required.
     public var meetingId: Swift.String?
@@ -1655,7 +1655,7 @@ public struct DeleteMeetingInput: Swift.Equatable {
     }
 }
 
-struct DeleteMeetingInputBody: Swift.Equatable {
+struct DeleteMeetingInputBody {
 }
 
 extension DeleteMeetingInputBody: Swift.Decodable {
@@ -1669,7 +1669,7 @@ extension DeleteMeetingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMeetingOutput: Swift.Equatable {
+public struct DeleteMeetingOutput {
 
     public init() { }
 }
@@ -1742,7 +1742,7 @@ extension ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings: Swift.Cod
 
 extension ChimeSDKMeetingsClientTypes {
     /// Settings specific to the Amazon Transcribe Medical engine.
-    public struct EngineTranscribeMedicalSettings: Swift.Equatable {
+    public struct EngineTranscribeMedicalSettings {
         /// Set this field to PHI to identify personal health information in the transcription output.
         public var contentIdentificationType: ChimeSDKMeetingsClientTypes.TranscribeMedicalContentIdentificationType?
         /// The language code specified for the Amazon Transcribe Medical engine.
@@ -1890,7 +1890,7 @@ extension ChimeSDKMeetingsClientTypes.EngineTranscribeSettings: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// Settings specific for Amazon Transcribe as the live transcription engine. If you specify an invalid combination of parameters, a TranscriptFailed event will be sent with the contents of the BadRequestException generated by Amazon Transcribe. For more information on each parameter and which combinations are valid, refer to the [StartStreamTranscription](https://docs.aws.amazon.com/transcribe/latest/APIReference/API_streaming_StartStreamTranscription.html) API in the Amazon Transcribe Developer Guide.
-    public struct EngineTranscribeSettings: Swift.Equatable {
+    public struct EngineTranscribeSettings {
         /// Labels all personally identifiable information (PII) identified in your transcript. If you don't include PiiEntityTypes, all PII is identified. You can’t set ContentIdentificationType and ContentRedactionType.
         public var contentIdentificationType: ChimeSDKMeetingsClientTypes.TranscribeContentIdentificationType?
         /// Content redaction is performed at the segment level. If you don't include PiiEntityTypes, all PII is redacted. You can’t set ContentRedactionType and ContentIdentificationType.
@@ -2014,7 +2014,7 @@ public struct ForbiddenException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct ForbiddenExceptionBody: Swift.Equatable {
+struct ForbiddenExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -2051,7 +2051,7 @@ extension GetAttendeeInput {
     }
 }
 
-public struct GetAttendeeInput: Swift.Equatable {
+public struct GetAttendeeInput {
     /// The Amazon Chime SDK attendee ID.
     /// This member is required.
     public var attendeeId: Swift.String?
@@ -2069,7 +2069,7 @@ public struct GetAttendeeInput: Swift.Equatable {
     }
 }
 
-struct GetAttendeeInputBody: Swift.Equatable {
+struct GetAttendeeInputBody {
 }
 
 extension GetAttendeeInputBody: Swift.Decodable {
@@ -2090,7 +2090,7 @@ extension GetAttendeeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAttendeeOutput: Swift.Equatable {
+public struct GetAttendeeOutput {
     /// The Amazon Chime SDK attendee information.
     public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
 
@@ -2102,7 +2102,7 @@ public struct GetAttendeeOutput: Swift.Equatable {
     }
 }
 
-struct GetAttendeeOutputBody: Swift.Equatable {
+struct GetAttendeeOutputBody {
     let attendee: ChimeSDKMeetingsClientTypes.Attendee?
 }
 
@@ -2145,7 +2145,7 @@ extension GetMeetingInput {
     }
 }
 
-public struct GetMeetingInput: Swift.Equatable {
+public struct GetMeetingInput {
     /// The Amazon Chime SDK meeting ID.
     /// This member is required.
     public var meetingId: Swift.String?
@@ -2158,7 +2158,7 @@ public struct GetMeetingInput: Swift.Equatable {
     }
 }
 
-struct GetMeetingInputBody: Swift.Equatable {
+struct GetMeetingInputBody {
 }
 
 extension GetMeetingInputBody: Swift.Decodable {
@@ -2179,7 +2179,7 @@ extension GetMeetingOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMeetingOutput: Swift.Equatable {
+public struct GetMeetingOutput {
     /// The Amazon Chime SDK meeting information.
     public var meeting: ChimeSDKMeetingsClientTypes.Meeting?
 
@@ -2191,7 +2191,7 @@ public struct GetMeetingOutput: Swift.Equatable {
     }
 }
 
-struct GetMeetingOutputBody: Swift.Equatable {
+struct GetMeetingOutputBody {
     let meeting: ChimeSDKMeetingsClientTypes.Meeting?
 }
 
@@ -2274,7 +2274,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -2324,7 +2324,7 @@ extension ListAttendeesInput {
     }
 }
 
-public struct ListAttendeesInput: Swift.Equatable {
+public struct ListAttendeesInput {
     /// The maximum number of results to return in a single call.
     public var maxResults: Swift.Int?
     /// The Amazon Chime SDK meeting ID.
@@ -2345,7 +2345,7 @@ public struct ListAttendeesInput: Swift.Equatable {
     }
 }
 
-struct ListAttendeesInputBody: Swift.Equatable {
+struct ListAttendeesInputBody {
 }
 
 extension ListAttendeesInputBody: Swift.Decodable {
@@ -2368,7 +2368,7 @@ extension ListAttendeesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAttendeesOutput: Swift.Equatable {
+public struct ListAttendeesOutput {
     /// The Amazon Chime SDK attendee information.
     public var attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     /// The token to use to retrieve the next page of results.
@@ -2384,7 +2384,7 @@ public struct ListAttendeesOutput: Swift.Equatable {
     }
 }
 
-struct ListAttendeesOutputBody: Swift.Equatable {
+struct ListAttendeesOutputBody {
     let attendees: [ChimeSDKMeetingsClientTypes.Attendee]?
     let nextToken: Swift.String?
 }
@@ -2451,7 +2451,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -2464,7 +2464,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2485,7 +2485,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags requested for the specified resource.
     public var tags: [ChimeSDKMeetingsClientTypes.Tag]?
 
@@ -2497,7 +2497,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [ChimeSDKMeetingsClientTypes.Tag]?
 }
 
@@ -2641,7 +2641,7 @@ extension ChimeSDKMeetingsClientTypes.MediaPlacement: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// A set of endpoints used by clients to connect to the media service group for an Amazon Chime SDK meeting.
-    public struct MediaPlacement: Swift.Equatable {
+    public struct MediaPlacement {
         /// The audio fallback URL.
         public var audioFallbackUrl: Swift.String?
         /// The audio host URL.
@@ -2769,7 +2769,7 @@ extension ChimeSDKMeetingsClientTypes.Meeting: Swift.CustomDebugStringConvertibl
 
 extension ChimeSDKMeetingsClientTypes {
     /// A meeting created using the Amazon Chime SDK.
-    public struct Meeting: Swift.Equatable {
+    public struct Meeting {
         /// The external meeting ID. Pattern: [-_&@+=,(){}\[\]\/«».:|'"#a-zA-Z0-9À-ÿ\s]* Values that begin with aws: are reserved. You can't configure a value that uses this prefix. Case insensitive.
         public var externalMeetingId: Swift.String?
         /// The media placement for the meeting.
@@ -2886,7 +2886,7 @@ extension ChimeSDKMeetingsClientTypes.MeetingFeaturesConfiguration: Swift.Codabl
 
 extension ChimeSDKMeetingsClientTypes {
     /// The configuration settings of the features available to a meeting.
-    public struct MeetingFeaturesConfiguration: Swift.Equatable {
+    public struct MeetingFeaturesConfiguration {
         /// The configuration settings for the attendee features available to a meeting.
         public var attendee: ChimeSDKMeetingsClientTypes.AttendeeFeatures?
         /// The configuration settings for the audio features available to a meeting.
@@ -2962,7 +2962,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -3024,7 +3024,7 @@ extension ChimeSDKMeetingsClientTypes.NotificationsConfiguration: Swift.CustomDe
 
 extension ChimeSDKMeetingsClientTypes {
     /// The configuration for resource targets to receive notifications when meeting and attendee events occur.
-    public struct NotificationsConfiguration: Swift.Equatable {
+    public struct NotificationsConfiguration {
         /// The ARN of the Amazon Web Services Lambda function in the notifications configuration.
         public var lambdaFunctionArn: Swift.String?
         /// The ARN of the SNS topic.
@@ -3102,7 +3102,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -3180,7 +3180,7 @@ public struct ServiceFailureException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct ServiceFailureExceptionBody: Swift.Equatable {
+struct ServiceFailureExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -3263,7 +3263,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -3319,7 +3319,7 @@ extension StartMeetingTranscriptionInput {
     }
 }
 
-public struct StartMeetingTranscriptionInput: Swift.Equatable {
+public struct StartMeetingTranscriptionInput {
     /// The unique ID of the meeting being transcribed.
     /// This member is required.
     public var meetingId: Swift.String?
@@ -3337,7 +3337,7 @@ public struct StartMeetingTranscriptionInput: Swift.Equatable {
     }
 }
 
-struct StartMeetingTranscriptionInputBody: Swift.Equatable {
+struct StartMeetingTranscriptionInputBody {
     let transcriptionConfiguration: ChimeSDKMeetingsClientTypes.TranscriptionConfiguration?
 }
 
@@ -3358,7 +3358,7 @@ extension StartMeetingTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartMeetingTranscriptionOutput: Swift.Equatable {
+public struct StartMeetingTranscriptionOutput {
 
     public init() { }
 }
@@ -3401,7 +3401,7 @@ extension StopMeetingTranscriptionInput {
     }
 }
 
-public struct StopMeetingTranscriptionInput: Swift.Equatable {
+public struct StopMeetingTranscriptionInput {
     /// The unique ID of the meeting for which you stop transcription.
     /// This member is required.
     public var meetingId: Swift.String?
@@ -3414,7 +3414,7 @@ public struct StopMeetingTranscriptionInput: Swift.Equatable {
     }
 }
 
-struct StopMeetingTranscriptionInputBody: Swift.Equatable {
+struct StopMeetingTranscriptionInputBody {
 }
 
 extension StopMeetingTranscriptionInputBody: Swift.Decodable {
@@ -3428,7 +3428,7 @@ extension StopMeetingTranscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopMeetingTranscriptionOutput: Swift.Equatable {
+public struct StopMeetingTranscriptionOutput {
 
     public init() { }
 }
@@ -3478,7 +3478,7 @@ extension ChimeSDKMeetingsClientTypes.Tag: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// A key-value pair that you define.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The tag's key.
         /// This member is required.
         public var key: Swift.String?
@@ -3534,7 +3534,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -3552,7 +3552,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [ChimeSDKMeetingsClientTypes.Tag]?
 }
@@ -3586,7 +3586,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3660,7 +3660,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -3740,7 +3740,7 @@ public struct TooManyTagsException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct TooManyTagsExceptionBody: Swift.Equatable {
+struct TooManyTagsExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -4237,7 +4237,7 @@ extension ChimeSDKMeetingsClientTypes.TranscriptionConfiguration: Swift.Codable 
 
 extension ChimeSDKMeetingsClientTypes {
     /// The configuration for the current transcription operation. Must contain EngineTranscribeSettings or EngineTranscribeMedicalSettings.
-    public struct TranscriptionConfiguration: Swift.Equatable {
+    public struct TranscriptionConfiguration {
         /// The transcription configuration settings passed to Amazon Transcribe Medical.
         public var engineTranscribeMedicalSettings: ChimeSDKMeetingsClientTypes.EngineTranscribeMedicalSettings?
         /// The transcription configuration settings passed to Amazon Transcribe.
@@ -4305,7 +4305,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -4379,7 +4379,7 @@ public struct UnprocessableEntityException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnprocessableEntityExceptionBody: Swift.Equatable {
+struct UnprocessableEntityExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
     let requestId: Swift.String?
@@ -4439,7 +4439,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource that you're removing tags from.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -4457,7 +4457,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -4491,7 +4491,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4540,7 +4540,7 @@ extension UpdateAttendeeCapabilitiesInput {
     }
 }
 
-public struct UpdateAttendeeCapabilitiesInput: Swift.Equatable {
+public struct UpdateAttendeeCapabilitiesInput {
     /// The ID of the attendee associated with the update request.
     /// This member is required.
     public var attendeeId: Swift.String?
@@ -4563,7 +4563,7 @@ public struct UpdateAttendeeCapabilitiesInput: Swift.Equatable {
     }
 }
 
-struct UpdateAttendeeCapabilitiesInputBody: Swift.Equatable {
+struct UpdateAttendeeCapabilitiesInputBody {
     let capabilities: ChimeSDKMeetingsClientTypes.AttendeeCapabilities?
 }
 
@@ -4591,7 +4591,7 @@ extension UpdateAttendeeCapabilitiesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAttendeeCapabilitiesOutput: Swift.Equatable {
+public struct UpdateAttendeeCapabilitiesOutput {
     /// The updated attendee data.
     public var attendee: ChimeSDKMeetingsClientTypes.Attendee?
 
@@ -4603,7 +4603,7 @@ public struct UpdateAttendeeCapabilitiesOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAttendeeCapabilitiesOutputBody: Swift.Equatable {
+struct UpdateAttendeeCapabilitiesOutputBody {
     let attendee: ChimeSDKMeetingsClientTypes.Attendee?
 }
 
@@ -4658,7 +4658,7 @@ extension ChimeSDKMeetingsClientTypes.VideoFeatures: Swift.Codable {
 
 extension ChimeSDKMeetingsClientTypes {
     /// The video features set for the meeting. Applies to all attendees. If you specify MeetingFeatures:Video:MaxResolution:None when you create a meeting, all API requests that include SendReceive, Send, or Receive for AttendeeCapabilities:Video will be rejected with ValidationError 400.
-    public struct VideoFeatures: Swift.Equatable {
+    public struct VideoFeatures {
         /// The maximum video resolution for the meeting. Applies to all attendees. Defaults to HD. To use FHD, you must also provide a MeetingFeatures:Attendee:MaxCount value and override the default size limit of 250 attendees.
         public var maxResolution: ChimeSDKMeetingsClientTypes.VideoResolution?
 

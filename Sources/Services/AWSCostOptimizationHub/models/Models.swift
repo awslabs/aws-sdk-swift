@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -97,7 +97,7 @@ extension CostOptimizationHubClientTypes.AccountEnrollmentStatus: Swift.Codable 
 
 extension CostOptimizationHubClientTypes {
     /// Describes the enrollment status of an organization's member accounts in Cost Optimization Hub.
-    public struct AccountEnrollmentStatus: Swift.Equatable {
+    public struct AccountEnrollmentStatus {
         /// The Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The time when the account enrollment status was created.
@@ -194,7 +194,7 @@ extension CostOptimizationHubClientTypes.BlockStoragePerformanceConfiguration: S
 
 extension CostOptimizationHubClientTypes {
     /// Describes the Amazon Elastic Block Store performance configuration of the current and recommended resource configuration for a recommendation.
-    public struct BlockStoragePerformanceConfiguration: Swift.Equatable {
+    public struct BlockStoragePerformanceConfiguration {
         /// The number of I/O operations per second.
         public var iops: Swift.Double?
         /// The throughput that the volume supports.
@@ -251,7 +251,7 @@ extension CostOptimizationHubClientTypes.ComputeConfiguration: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Describes the performance configuration for compute services such as Amazon EC2, Lambda, and ECS.
-    public struct ComputeConfiguration: Swift.Equatable {
+    public struct ComputeConfiguration {
         /// The architecture of the resource.
         public var architecture: Swift.String?
         /// The memory size of the resource.
@@ -304,7 +304,7 @@ extension CostOptimizationHubClientTypes.ComputeSavingsPlans: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The Compute Savings Plans recommendation details.
-    public struct ComputeSavingsPlans: Swift.Equatable {
+    public struct ComputeSavingsPlans {
         /// Configuration details of the Compute Savings Plans to purchase.
         public var configuration: CostOptimizationHubClientTypes.ComputeSavingsPlansConfiguration?
         /// Cost impact of the Savings Plans purchase recommendation.
@@ -361,7 +361,7 @@ extension CostOptimizationHubClientTypes.ComputeSavingsPlansConfiguration: Swift
 
 extension CostOptimizationHubClientTypes {
     /// The Compute Savings Plans configuration used for recommendations.
-    public struct ComputeSavingsPlansConfiguration: Swift.Equatable {
+    public struct ComputeSavingsPlansConfiguration {
         /// The account scope that you want your recommendations for. Amazon Web Services calculates recommendations including the management account and member accounts if the value is set to PAYER. If the value is LINKED, recommendations are calculated for individual member accounts only.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
@@ -416,7 +416,7 @@ extension CostOptimizationHubClientTypes.EbsVolume: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Describes the Amazon Elastic Block Store volume configuration of the current and recommended resource configuration for a recommendation.
-    public struct EbsVolume: Swift.Equatable {
+    public struct EbsVolume {
         /// The Amazon Elastic Block Store volume configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.EbsVolumeConfiguration?
         /// Cost impact of the recommendation.
@@ -467,7 +467,7 @@ extension CostOptimizationHubClientTypes.EbsVolumeConfiguration: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The Amazon Elastic Block Store volume configuration used for recommendations.
-    public struct EbsVolumeConfiguration: Swift.Equatable {
+    public struct EbsVolumeConfiguration {
         /// The Amazon Elastic Block Store attachment state.
         public var attachmentState: Swift.String?
         /// The Amazon Elastic Block Store performance configuration.
@@ -516,7 +516,7 @@ extension CostOptimizationHubClientTypes.Ec2AutoScalingGroup: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 Auto Scaling group recommendation details.
-    public struct Ec2AutoScalingGroup: Swift.Equatable {
+    public struct Ec2AutoScalingGroup {
         /// The EC2 Auto Scaling group configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration?
         /// Cost impact of the recommendation.
@@ -555,7 +555,7 @@ extension CostOptimizationHubClientTypes.Ec2AutoScalingGroupConfiguration: Swift
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 auto scaling group configuration used for recommendations.
-    public struct Ec2AutoScalingGroupConfiguration: Swift.Equatable {
+    public struct Ec2AutoScalingGroupConfiguration {
         /// Details about the instance.
         public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
 
@@ -596,7 +596,7 @@ extension CostOptimizationHubClientTypes.Ec2Instance: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Describes the EC2 instance configuration of the current and recommended resource configuration for a recommendation.
-    public struct Ec2Instance: Swift.Equatable {
+    public struct Ec2Instance {
         /// The EC2 instance configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.Ec2InstanceConfiguration?
         /// Cost impact of the recommendation.
@@ -635,7 +635,7 @@ extension CostOptimizationHubClientTypes.Ec2InstanceConfiguration: Swift.Codable
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 instance configuration used for recommendations.
-    public struct Ec2InstanceConfiguration: Swift.Equatable {
+    public struct Ec2InstanceConfiguration {
         /// Details about the instance.
         public var instance: CostOptimizationHubClientTypes.InstanceConfiguration?
 
@@ -676,7 +676,7 @@ extension CostOptimizationHubClientTypes.Ec2InstanceSavingsPlans: Swift.Codable 
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 instance Savings Plans recommendation details.
-    public struct Ec2InstanceSavingsPlans: Swift.Equatable {
+    public struct Ec2InstanceSavingsPlans {
         /// The EC2 instance Savings Plans configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.Ec2InstanceSavingsPlansConfiguration?
         /// Cost impact of the Savings Plans purchase recommendation.
@@ -745,7 +745,7 @@ extension CostOptimizationHubClientTypes.Ec2InstanceSavingsPlansConfiguration: S
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 instance Savings Plans configuration used for recommendations.
-    public struct Ec2InstanceSavingsPlansConfiguration: Swift.Equatable {
+    public struct Ec2InstanceSavingsPlansConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
@@ -806,7 +806,7 @@ extension CostOptimizationHubClientTypes.Ec2ReservedInstances: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 reserved instances recommendation details.
-    public struct Ec2ReservedInstances: Swift.Equatable {
+    public struct Ec2ReservedInstances {
         /// The EC2 reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.Ec2ReservedInstancesConfiguration?
         /// Cost impact of the purchase recommendation.
@@ -935,7 +935,7 @@ extension CostOptimizationHubClientTypes.Ec2ReservedInstancesConfiguration: Swif
 
 extension CostOptimizationHubClientTypes {
     /// The EC2 reserved instances configuration used for recommendations.
-    public struct Ec2ReservedInstancesConfiguration: Swift.Equatable {
+    public struct Ec2ReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
@@ -1036,7 +1036,7 @@ extension CostOptimizationHubClientTypes.EcsService: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The ECS service recommendation details.
-    public struct EcsService: Swift.Equatable {
+    public struct EcsService {
         /// The ECS service configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.EcsServiceConfiguration?
         /// Cost impact of the recommendation.
@@ -1075,7 +1075,7 @@ extension CostOptimizationHubClientTypes.EcsServiceConfiguration: Swift.Codable 
 
 extension CostOptimizationHubClientTypes {
     /// The ECS service configuration used for recommendations.
-    public struct EcsServiceConfiguration: Swift.Equatable {
+    public struct EcsServiceConfiguration {
         /// Details about the compute configuration.
         public var compute: CostOptimizationHubClientTypes.ComputeConfiguration?
 
@@ -1116,7 +1116,7 @@ extension CostOptimizationHubClientTypes.ElastiCacheReservedInstances: Swift.Cod
 
 extension CostOptimizationHubClientTypes {
     /// The ElastiCache reserved instances recommendation details.
-    public struct ElastiCacheReservedInstances: Swift.Equatable {
+    public struct ElastiCacheReservedInstances {
         /// The ElastiCache reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.ElastiCacheReservedInstancesConfiguration?
         /// Cost impact of the purchase recommendation.
@@ -1227,7 +1227,7 @@ extension CostOptimizationHubClientTypes.ElastiCacheReservedInstancesConfigurati
 
 extension CostOptimizationHubClientTypes {
     /// The ElastiCache reserved instances configuration used for recommendations.
-    public struct ElastiCacheReservedInstancesConfiguration: Swift.Equatable {
+    public struct ElastiCacheReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
@@ -1354,7 +1354,7 @@ extension CostOptimizationHubClientTypes.EstimatedDiscounts: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Estimated discount details of the current and recommended resource configuration for a recommendation.
-    public struct EstimatedDiscounts: Swift.Equatable {
+    public struct EstimatedDiscounts {
         /// Estimated other discounts include all discounts that are not itemized. Itemized discounts include reservedInstanceDiscount and savingsPlansDiscount.
         public var otherDiscount: Swift.Double?
         /// Estimated reserved instance discounts.
@@ -1565,7 +1565,7 @@ extension CostOptimizationHubClientTypes.Filter: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Describes a filter that returns a more specific list of recommendations. Filters recommendations by different dimensions.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The account that the recommendation is for.
         public var accountIds: [Swift.String]?
         /// The type of action you can take by adopting the recommendation.
@@ -1634,12 +1634,12 @@ extension GetPreferencesInput {
     }
 }
 
-public struct GetPreferencesInput: Swift.Equatable {
+public struct GetPreferencesInput {
 
     public init() { }
 }
 
-struct GetPreferencesInputBody: Swift.Equatable {
+struct GetPreferencesInputBody {
 }
 
 extension GetPreferencesInputBody: Swift.Decodable {
@@ -1662,7 +1662,7 @@ extension GetPreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPreferencesOutput: Swift.Equatable {
+public struct GetPreferencesOutput {
     /// Retrieves the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
     /// Retrieves the status of the "savings estimation mode" preference.
@@ -1678,7 +1678,7 @@ public struct GetPreferencesOutput: Swift.Equatable {
     }
 }
 
-struct GetPreferencesOutputBody: Swift.Equatable {
+struct GetPreferencesOutputBody {
     let savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
     let memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
 }
@@ -1732,7 +1732,7 @@ extension GetRecommendationInput {
     }
 }
 
-public struct GetRecommendationInput: Swift.Equatable {
+public struct GetRecommendationInput {
     /// The ID for the recommendation.
     /// This member is required.
     public var recommendationId: Swift.String?
@@ -1745,7 +1745,7 @@ public struct GetRecommendationInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationInputBody: Swift.Equatable {
+struct GetRecommendationInputBody {
     let recommendationId: Swift.String?
 }
 
@@ -1817,7 +1817,7 @@ extension GetRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationOutput: Swift.Equatable {
+public struct GetRecommendationOutput {
     /// The account that the recommendation is for.
     public var accountId: Swift.String?
     /// The type of action you can take by adopting the recommendation.
@@ -1917,7 +1917,7 @@ public struct GetRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationOutputBody: Swift.Equatable {
+struct GetRecommendationOutputBody {
     let recommendationId: Swift.String?
     let resourceId: Swift.String?
     let resourceArn: Swift.String?
@@ -2107,7 +2107,7 @@ extension CostOptimizationHubClientTypes.InstanceConfiguration: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The Instance configuration used for recommendations.
-    public struct InstanceConfiguration: Swift.Equatable {
+    public struct InstanceConfiguration {
         /// Details about the type.
         public var type: Swift.String?
 
@@ -2161,7 +2161,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2204,7 +2204,7 @@ extension CostOptimizationHubClientTypes.LambdaFunction: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The Lambda function recommendation details.
-    public struct LambdaFunction: Swift.Equatable {
+    public struct LambdaFunction {
         /// The Lambda function configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.LambdaFunctionConfiguration?
         /// Cost impact of the recommendation.
@@ -2243,7 +2243,7 @@ extension CostOptimizationHubClientTypes.LambdaFunctionConfiguration: Swift.Coda
 
 extension CostOptimizationHubClientTypes {
     /// The Lambda function configuration used for recommendations.
-    public struct LambdaFunctionConfiguration: Swift.Equatable {
+    public struct LambdaFunctionConfiguration {
         /// Details about the compute configuration.
         public var compute: CostOptimizationHubClientTypes.ComputeConfiguration?
 
@@ -2289,7 +2289,7 @@ extension ListEnrollmentStatusesInput {
     }
 }
 
-public struct ListEnrollmentStatusesInput: Swift.Equatable {
+public struct ListEnrollmentStatusesInput {
     /// The account ID of a member account in the organization.
     public var accountId: Swift.String?
     /// Indicates whether to return the enrollment status for the organization.
@@ -2313,7 +2313,7 @@ public struct ListEnrollmentStatusesInput: Swift.Equatable {
     }
 }
 
-struct ListEnrollmentStatusesInputBody: Swift.Equatable {
+struct ListEnrollmentStatusesInputBody {
     let includeOrganizationInfo: Swift.Bool?
     let accountId: Swift.String?
     let nextToken: Swift.String?
@@ -2357,7 +2357,7 @@ extension ListEnrollmentStatusesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEnrollmentStatusesOutput: Swift.Equatable {
+public struct ListEnrollmentStatusesOutput {
     /// The enrollment status of all member accounts in the organization if the account is the management account.
     public var includeMemberAccounts: Swift.Bool?
     /// The enrollment status of a specific account ID, including creation and last updated timestamps.
@@ -2377,7 +2377,7 @@ public struct ListEnrollmentStatusesOutput: Swift.Equatable {
     }
 }
 
-struct ListEnrollmentStatusesOutputBody: Swift.Equatable {
+struct ListEnrollmentStatusesOutputBody {
     let items: [CostOptimizationHubClientTypes.AccountEnrollmentStatus]?
     let includeMemberAccounts: Swift.Bool?
     let nextToken: Swift.String?
@@ -2456,7 +2456,7 @@ extension ListRecommendationSummariesInput {
     }
 }
 
-public struct ListRecommendationSummariesInput: Swift.Equatable {
+public struct ListRecommendationSummariesInput {
     /// Describes a filter that returns a more specific list of recommendations. Filters recommendations by different dimensions.
     public var filter: CostOptimizationHubClientTypes.Filter?
     /// The grouping of recommendations by a dimension.
@@ -2481,7 +2481,7 @@ public struct ListRecommendationSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationSummariesInputBody: Swift.Equatable {
+struct ListRecommendationSummariesInputBody {
     let filter: CostOptimizationHubClientTypes.Filter?
     let groupBy: Swift.String?
     let maxResults: Swift.Int?
@@ -2529,7 +2529,7 @@ extension ListRecommendationSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationSummariesOutput: Swift.Equatable {
+public struct ListRecommendationSummariesOutput {
     /// The currency code used for the recommendation.
     public var currencyCode: Swift.String?
     /// The total overall savings for the aggregated view.
@@ -2557,7 +2557,7 @@ public struct ListRecommendationSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationSummariesOutputBody: Swift.Equatable {
+struct ListRecommendationSummariesOutputBody {
     let estimatedTotalDedupedSavings: Swift.Double?
     let items: [CostOptimizationHubClientTypes.RecommendationSummary]?
     let groupBy: Swift.String?
@@ -2648,7 +2648,7 @@ extension ListRecommendationsInput {
     }
 }
 
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// The constraints that you want all returned recommendations to match.
     public var filter: CostOptimizationHubClientTypes.Filter?
     /// List of all recommendations for a resource, or a single recommendation if de-duped by resourceId.
@@ -2676,7 +2676,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsInputBody: Swift.Equatable {
+struct ListRecommendationsInputBody {
     let filter: CostOptimizationHubClientTypes.Filter?
     let orderBy: CostOptimizationHubClientTypes.OrderBy?
     let includeAllRecommendations: Swift.Bool?
@@ -2722,7 +2722,7 @@ extension ListRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// List of all savings recommendations.
     public var items: [CostOptimizationHubClientTypes.Recommendation]?
     /// The token to retrieve the next set of results.
@@ -2738,7 +2738,7 @@ public struct ListRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsOutputBody: Swift.Equatable {
+struct ListRecommendationsOutputBody {
     let items: [CostOptimizationHubClientTypes.Recommendation]?
     let nextToken: Swift.String?
 }
@@ -2840,7 +2840,7 @@ extension CostOptimizationHubClientTypes.OpenSearchReservedInstances: Swift.Coda
 
 extension CostOptimizationHubClientTypes {
     /// The OpenSearch reserved instances recommendation details.
-    public struct OpenSearchReservedInstances: Swift.Equatable {
+    public struct OpenSearchReservedInstances {
         /// The OpenSearch reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.OpenSearchReservedInstancesConfiguration?
         /// Cost impact of the purchase recommendation.
@@ -2945,7 +2945,7 @@ extension CostOptimizationHubClientTypes.OpenSearchReservedInstancesConfiguratio
 
 extension CostOptimizationHubClientTypes {
     /// The OpenSearch reserved instances configuration used for recommendations.
-    public struct OpenSearchReservedInstancesConfiguration: Swift.Equatable {
+    public struct OpenSearchReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
@@ -3062,7 +3062,7 @@ extension CostOptimizationHubClientTypes.OrderBy: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Defines how rows will be sorted in the response.
-    public struct OrderBy: Swift.Equatable {
+    public struct OrderBy {
         /// Sorts by dimension values.
         public var dimension: Swift.String?
         /// The order that's used to sort the data.
@@ -3107,7 +3107,7 @@ extension CostOptimizationHubClientTypes.RdsReservedInstances: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The RDS reserved instances recommendation details.
-    public struct RdsReservedInstances: Swift.Equatable {
+    public struct RdsReservedInstances {
         /// The RDS reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.RdsReservedInstancesConfiguration?
         /// Cost impact of the purchase recommendation.
@@ -3242,7 +3242,7 @@ extension CostOptimizationHubClientTypes.RdsReservedInstancesConfiguration: Swif
 
 extension CostOptimizationHubClientTypes {
     /// The RDS reserved instances configuration used for recommendations.
-    public struct RdsReservedInstancesConfiguration: Swift.Equatable {
+    public struct RdsReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
@@ -3473,7 +3473,7 @@ extension CostOptimizationHubClientTypes.Recommendation: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Describes a recommendation.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The account that the recommendation is for.
         public var accountId: Swift.String?
         /// The type of tasks that can be carried out by this action.
@@ -3600,7 +3600,7 @@ extension CostOptimizationHubClientTypes.RecommendationSummary: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The summary of rightsizing recommendations, including de-duped savings from all types of recommendations.
-    public struct RecommendationSummary: Swift.Equatable {
+    public struct RecommendationSummary {
         /// The estimated total savings resulting from modifications, on a monthly basis.
         public var estimatedMonthlySavings: Swift.Double?
         /// The grouping of recommendations.
@@ -3649,7 +3649,7 @@ extension CostOptimizationHubClientTypes.RedshiftReservedInstances: Swift.Codabl
 
 extension CostOptimizationHubClientTypes {
     /// The Redshift reserved instances recommendation details.
-    public struct RedshiftReservedInstances: Swift.Equatable {
+    public struct RedshiftReservedInstances {
         /// The Redshift reserved instances configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration?
         /// Cost impact of the purchase recommendation.
@@ -3760,7 +3760,7 @@ extension CostOptimizationHubClientTypes.RedshiftReservedInstancesConfiguration:
 
 extension CostOptimizationHubClientTypes {
     /// The Redshift reserved instances configuration used for recommendations.
-    public struct RedshiftReservedInstancesConfiguration: Swift.Equatable {
+    public struct RedshiftReservedInstancesConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// Determines whether the recommendation is for a current generation instance.
@@ -3843,7 +3843,7 @@ extension CostOptimizationHubClientTypes.ReservedInstancesCostCalculation: Swift
 
 extension CostOptimizationHubClientTypes {
     /// Cost impact of the purchase recommendation.
-    public struct ReservedInstancesCostCalculation: Swift.Equatable {
+    public struct ReservedInstancesCostCalculation {
         /// Pricing details of the purchase recommendation.
         public var pricing: CostOptimizationHubClientTypes.ReservedInstancesPricing?
 
@@ -3896,7 +3896,7 @@ extension CostOptimizationHubClientTypes.ReservedInstancesPricing: Swift.Codable
 
 extension CostOptimizationHubClientTypes {
     /// Pricing details for your recommended reserved instance.
-    public struct ReservedInstancesPricing: Swift.Equatable {
+    public struct ReservedInstancesPricing {
         /// The estimated cost of your recurring monthly fees for the recommended reserved instance across the month.
         public var estimatedMonthlyAmortizedReservationCost: Swift.Double?
         /// The remaining On-Demand cost estimated to not be covered by the recommended reserved instance, over the length of the lookback period.
@@ -3961,7 +3961,7 @@ extension CostOptimizationHubClientTypes.ResourceCostCalculation: Swift.Codable 
 
 extension CostOptimizationHubClientTypes {
     /// Cost impact of the resource recommendation.
-    public struct ResourceCostCalculation: Swift.Equatable {
+    public struct ResourceCostCalculation {
         /// Pricing details of the resource recommendation.
         public var pricing: CostOptimizationHubClientTypes.ResourcePricing?
         /// Usage details of the resource recommendation.
@@ -4104,7 +4104,7 @@ extension CostOptimizationHubClientTypes.ResourceDetails: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Contains detailed information about the specified resource.
-    public enum ResourceDetails: Swift.Equatable {
+    public enum ResourceDetails {
         /// The Lambda function recommendation details.
         case lambdafunction(CostOptimizationHubClientTypes.LambdaFunction)
         /// The ECS service recommendation details.
@@ -4183,7 +4183,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
 }
@@ -4242,7 +4242,7 @@ extension CostOptimizationHubClientTypes.ResourcePricing: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Contains pricing information about the specified resource.
-    public struct ResourcePricing: Swift.Equatable {
+    public struct ResourcePricing {
         /// The savings estimate incorporating all discounts with Amazon Web Services, such as Reserved Instances and Savings Plans.
         public var estimatedCostAfterDiscounts: Swift.Double?
         /// The savings estimate using Amazon Web Services public pricing without incorporating any discounts.
@@ -4360,7 +4360,7 @@ extension CostOptimizationHubClientTypes.SageMakerSavingsPlans: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The SageMaker Savings Plans recommendation details.
-    public struct SageMakerSavingsPlans: Swift.Equatable {
+    public struct SageMakerSavingsPlans {
         /// The SageMaker Savings Plans configuration used for recommendations.
         public var configuration: CostOptimizationHubClientTypes.SageMakerSavingsPlansConfiguration?
         /// Cost impact of the Savings Plans purchase recommendation.
@@ -4417,7 +4417,7 @@ extension CostOptimizationHubClientTypes.SageMakerSavingsPlansConfiguration: Swi
 
 extension CostOptimizationHubClientTypes {
     /// The SageMaker Savings Plans configuration used for recommendations.
-    public struct SageMakerSavingsPlansConfiguration: Swift.Equatable {
+    public struct SageMakerSavingsPlansConfiguration {
         /// The account scope that you want your recommendations for.
         public var accountScope: Swift.String?
         /// The hourly commitment for the Savings Plans type.
@@ -4496,7 +4496,7 @@ extension CostOptimizationHubClientTypes.SavingsPlansCostCalculation: Swift.Coda
 
 extension CostOptimizationHubClientTypes {
     /// Cost impact of the purchase recommendation.
-    public struct SavingsPlansCostCalculation: Swift.Equatable {
+    public struct SavingsPlansCostCalculation {
         /// Pricing details of the purchase recommendation.
         public var pricing: CostOptimizationHubClientTypes.SavingsPlansPricing?
 
@@ -4549,7 +4549,7 @@ extension CostOptimizationHubClientTypes.SavingsPlansPricing: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Pricing information about a Savings Plan.
-    public struct SavingsPlansPricing: Swift.Equatable {
+    public struct SavingsPlansPricing {
         /// Estimated monthly commitment for the Savings Plan.
         public var estimatedMonthlyCommitment: Swift.Double?
         /// Estimated On-Demand cost you will pay after buying the Savings Plan.
@@ -4634,7 +4634,7 @@ extension CostOptimizationHubClientTypes.StorageConfiguration: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The storage configuration used for recommendations.
-    public struct StorageConfiguration: Swift.Equatable {
+    public struct StorageConfiguration {
         /// The storage volume.
         public var sizeInGb: Swift.Double?
         /// The storage type.
@@ -4679,7 +4679,7 @@ extension CostOptimizationHubClientTypes.Tag: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// The tag structure that contains a tag key and value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The key that's associated with the tag.
         public var key: Swift.String?
         /// The value that's associated with the tag.
@@ -4736,7 +4736,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4776,7 +4776,7 @@ extension UpdateEnrollmentStatusInput {
     }
 }
 
-public struct UpdateEnrollmentStatusInput: Swift.Equatable {
+public struct UpdateEnrollmentStatusInput {
     /// Indicates whether to enroll member accounts of the organization if the account is the management account.
     public var includeMemberAccounts: Swift.Bool?
     /// Sets the account status.
@@ -4793,7 +4793,7 @@ public struct UpdateEnrollmentStatusInput: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusInputBody: Swift.Equatable {
+struct UpdateEnrollmentStatusInputBody {
     let status: CostOptimizationHubClientTypes.EnrollmentStatus?
     let includeMemberAccounts: Swift.Bool?
 }
@@ -4825,7 +4825,7 @@ extension UpdateEnrollmentStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
+public struct UpdateEnrollmentStatusOutput {
     /// The enrollment status of the account.
     public var status: Swift.String?
 
@@ -4837,7 +4837,7 @@ public struct UpdateEnrollmentStatusOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEnrollmentStatusOutputBody: Swift.Equatable {
+struct UpdateEnrollmentStatusOutputBody {
     let status: Swift.String?
 }
 
@@ -4891,7 +4891,7 @@ extension UpdatePreferencesInput {
     }
 }
 
-public struct UpdatePreferencesInput: Swift.Equatable {
+public struct UpdatePreferencesInput {
     /// Sets the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
     /// Sets the "savings estimation mode" preference.
@@ -4907,7 +4907,7 @@ public struct UpdatePreferencesInput: Swift.Equatable {
     }
 }
 
-struct UpdatePreferencesInputBody: Swift.Equatable {
+struct UpdatePreferencesInputBody {
     let savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
     let memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
 }
@@ -4941,7 +4941,7 @@ extension UpdatePreferencesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePreferencesOutput: Swift.Equatable {
+public struct UpdatePreferencesOutput {
     /// Shows the status of the "member account discount visibility" preference.
     public var memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
     /// Shows the status of the "savings estimation mode" preference.
@@ -4957,7 +4957,7 @@ public struct UpdatePreferencesOutput: Swift.Equatable {
     }
 }
 
-struct UpdatePreferencesOutputBody: Swift.Equatable {
+struct UpdatePreferencesOutputBody {
     let savingsEstimationMode: CostOptimizationHubClientTypes.SavingsEstimationMode?
     let memberAccountDiscountVisibility: CostOptimizationHubClientTypes.MemberAccountDiscountVisibility?
 }
@@ -5036,7 +5036,7 @@ extension CostOptimizationHubClientTypes.Usage: Swift.Codable {
 
 extension CostOptimizationHubClientTypes {
     /// Details about the usage.
-    public struct Usage: Swift.Equatable {
+    public struct Usage {
         /// The operation value.
         public var operation: Swift.String?
         /// The product code.
@@ -5118,7 +5118,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: CostOptimizationHubClientTypes.ValidationExceptionReason?
     let fields: [CostOptimizationHubClientTypes.ValidationExceptionDetail]?
@@ -5178,7 +5178,7 @@ extension CostOptimizationHubClientTypes.ValidationExceptionDetail: Swift.Codabl
 
 extension CostOptimizationHubClientTypes {
     /// The input failed to meet the constraints specified by the Amazon Web Services service in a specified field.
-    public struct ValidationExceptionDetail: Swift.Equatable {
+    public struct ValidationExceptionDetail {
         /// The field name where the invalid entry was detected.
         /// This member is required.
         public var fieldName: Swift.String?

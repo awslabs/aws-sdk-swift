@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -126,7 +126,7 @@ extension TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary: Swift
 
 extension TrustedAdvisorClientTypes {
     /// Summary of an AccountRecommendationLifecycle for an Organization Recommendation
-    public struct AccountRecommendationLifecycleSummary: Swift.Equatable {
+    public struct AccountRecommendationLifecycleSummary {
         /// The AWS account ID
         public var accountId: Swift.String?
         /// The Recommendation ARN
@@ -267,7 +267,7 @@ extension TrustedAdvisorClientTypes.CheckSummary: Swift.Codable {
 
 extension TrustedAdvisorClientTypes {
     /// A summary of an AWS Trusted Advisor Check
-    public struct CheckSummary: Swift.Equatable {
+    public struct CheckSummary {
         /// The ARN of the AWS Trusted Advisor Check
         /// This member is required.
         public var arn: Swift.String?
@@ -357,7 +357,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -383,7 +383,7 @@ extension GetOrganizationRecommendationInput {
     }
 }
 
-public struct GetOrganizationRecommendationInput: Swift.Equatable {
+public struct GetOrganizationRecommendationInput {
     /// The Recommendation identifier
     /// This member is required.
     public var organizationRecommendationIdentifier: Swift.String?
@@ -396,7 +396,7 @@ public struct GetOrganizationRecommendationInput: Swift.Equatable {
     }
 }
 
-struct GetOrganizationRecommendationInputBody: Swift.Equatable {
+struct GetOrganizationRecommendationInputBody {
 }
 
 extension GetOrganizationRecommendationInputBody: Swift.Decodable {
@@ -417,7 +417,7 @@ extension GetOrganizationRecommendationOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetOrganizationRecommendationOutput: Swift.Equatable {
+public struct GetOrganizationRecommendationOutput {
     /// The Recommendation
     public var organizationRecommendation: TrustedAdvisorClientTypes.OrganizationRecommendation?
 
@@ -429,7 +429,7 @@ public struct GetOrganizationRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct GetOrganizationRecommendationOutputBody: Swift.Equatable {
+struct GetOrganizationRecommendationOutputBody {
     let organizationRecommendation: TrustedAdvisorClientTypes.OrganizationRecommendation?
 }
 
@@ -470,7 +470,7 @@ extension GetRecommendationInput {
     }
 }
 
-public struct GetRecommendationInput: Swift.Equatable {
+public struct GetRecommendationInput {
     /// The Recommendation identifier
     /// This member is required.
     public var recommendationIdentifier: Swift.String?
@@ -483,7 +483,7 @@ public struct GetRecommendationInput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationInputBody: Swift.Equatable {
+struct GetRecommendationInputBody {
 }
 
 extension GetRecommendationInputBody: Swift.Decodable {
@@ -504,7 +504,7 @@ extension GetRecommendationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRecommendationOutput: Swift.Equatable {
+public struct GetRecommendationOutput {
     /// The Recommendation
     public var recommendation: TrustedAdvisorClientTypes.Recommendation?
 
@@ -516,7 +516,7 @@ public struct GetRecommendationOutput: Swift.Equatable {
     }
 }
 
-struct GetRecommendationOutputBody: Swift.Equatable {
+struct GetRecommendationOutputBody {
     let recommendation: TrustedAdvisorClientTypes.Recommendation?
 }
 
@@ -587,7 +587,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -642,7 +642,7 @@ extension ListChecksInput {
     }
 }
 
-public struct ListChecksInput: Swift.Equatable {
+public struct ListChecksInput {
     /// The aws service associated with the check
     public var awsService: Swift.String?
     /// The ISO 639-1 code for the language that you want your checks to appear in.
@@ -674,7 +674,7 @@ public struct ListChecksInput: Swift.Equatable {
     }
 }
 
-struct ListChecksInputBody: Swift.Equatable {
+struct ListChecksInputBody {
 }
 
 extension ListChecksInputBody: Swift.Decodable {
@@ -697,7 +697,7 @@ extension ListChecksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListChecksOutput: Swift.Equatable {
+public struct ListChecksOutput {
     /// The list of Checks
     /// This member is required.
     public var checkSummaries: [TrustedAdvisorClientTypes.CheckSummary]?
@@ -714,7 +714,7 @@ public struct ListChecksOutput: Swift.Equatable {
     }
 }
 
-struct ListChecksOutputBody: Swift.Equatable {
+struct ListChecksOutputBody {
     let nextToken: Swift.String?
     let checkSummaries: [TrustedAdvisorClientTypes.CheckSummary]?
 }
@@ -787,7 +787,7 @@ extension ListOrganizationRecommendationAccountsInput {
     }
 }
 
-public struct ListOrganizationRecommendationAccountsInput: Swift.Equatable {
+public struct ListOrganizationRecommendationAccountsInput {
     /// An account affected by this organization recommendation
     public var affectedAccountId: Swift.String?
     /// The maximum number of results to return per page.
@@ -812,7 +812,7 @@ public struct ListOrganizationRecommendationAccountsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationAccountsInputBody: Swift.Equatable {
+struct ListOrganizationRecommendationAccountsInputBody {
 }
 
 extension ListOrganizationRecommendationAccountsInputBody: Swift.Decodable {
@@ -835,7 +835,7 @@ extension ListOrganizationRecommendationAccountsOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct ListOrganizationRecommendationAccountsOutput: Swift.Equatable {
+public struct ListOrganizationRecommendationAccountsOutput {
     /// The account recommendations lifecycles that are applicable to the Recommendation
     /// This member is required.
     public var accountRecommendationLifecycleSummaries: [TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary]?
@@ -852,7 +852,7 @@ public struct ListOrganizationRecommendationAccountsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationAccountsOutputBody: Swift.Equatable {
+struct ListOrganizationRecommendationAccountsOutputBody {
     let nextToken: Swift.String?
     let accountRecommendationLifecycleSummaries: [TrustedAdvisorClientTypes.AccountRecommendationLifecycleSummary]?
 }
@@ -934,7 +934,7 @@ extension ListOrganizationRecommendationResourcesInput {
     }
 }
 
-public struct ListOrganizationRecommendationResourcesInput: Swift.Equatable {
+public struct ListOrganizationRecommendationResourcesInput {
     /// An account affected by this organization recommendation
     public var affectedAccountId: Swift.String?
     /// The maximum number of results to return per page.
@@ -967,7 +967,7 @@ public struct ListOrganizationRecommendationResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationResourcesInputBody: Swift.Equatable {
+struct ListOrganizationRecommendationResourcesInputBody {
 }
 
 extension ListOrganizationRecommendationResourcesInputBody: Swift.Decodable {
@@ -990,7 +990,7 @@ extension ListOrganizationRecommendationResourcesOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct ListOrganizationRecommendationResourcesOutput: Swift.Equatable {
+public struct ListOrganizationRecommendationResourcesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of Recommendation Resources
@@ -1007,7 +1007,7 @@ public struct ListOrganizationRecommendationResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationResourcesOutputBody: Swift.Equatable {
+struct ListOrganizationRecommendationResourcesOutputBody {
     let nextToken: Swift.String?
     let organizationRecommendationResourceSummaries: [TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary]?
 }
@@ -1106,7 +1106,7 @@ extension ListOrganizationRecommendationsInput {
     }
 }
 
-public struct ListOrganizationRecommendationsInput: Swift.Equatable {
+public struct ListOrganizationRecommendationsInput {
     /// After the last update of the Recommendation
     public var afterLastUpdatedAt: ClientRuntime.Date?
     /// The aws service associated with the Recommendation
@@ -1154,7 +1154,7 @@ public struct ListOrganizationRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationsInputBody: Swift.Equatable {
+struct ListOrganizationRecommendationsInputBody {
 }
 
 extension ListOrganizationRecommendationsInputBody: Swift.Decodable {
@@ -1177,7 +1177,7 @@ extension ListOrganizationRecommendationsOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct ListOrganizationRecommendationsOutput: Swift.Equatable {
+public struct ListOrganizationRecommendationsOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of Recommendations
@@ -1194,7 +1194,7 @@ public struct ListOrganizationRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListOrganizationRecommendationsOutputBody: Swift.Equatable {
+struct ListOrganizationRecommendationsOutputBody {
     let nextToken: Swift.String?
     let organizationRecommendationSummaries: [TrustedAdvisorClientTypes.OrganizationRecommendationSummary]?
 }
@@ -1271,7 +1271,7 @@ extension ListRecommendationResourcesInput {
     }
 }
 
-public struct ListRecommendationResourcesInput: Swift.Equatable {
+public struct ListRecommendationResourcesInput {
     /// The maximum number of results to return per page.
     public var maxResults: Swift.Int?
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
@@ -1300,7 +1300,7 @@ public struct ListRecommendationResourcesInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationResourcesInputBody: Swift.Equatable {
+struct ListRecommendationResourcesInputBody {
 }
 
 extension ListRecommendationResourcesInputBody: Swift.Decodable {
@@ -1323,7 +1323,7 @@ extension ListRecommendationResourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationResourcesOutput: Swift.Equatable {
+public struct ListRecommendationResourcesOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of Recommendation Resources
@@ -1340,7 +1340,7 @@ public struct ListRecommendationResourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationResourcesOutputBody: Swift.Equatable {
+struct ListRecommendationResourcesOutputBody {
     let nextToken: Swift.String?
     let recommendationResourceSummaries: [TrustedAdvisorClientTypes.RecommendationResourceSummary]?
 }
@@ -1439,7 +1439,7 @@ extension ListRecommendationsInput {
     }
 }
 
-public struct ListRecommendationsInput: Swift.Equatable {
+public struct ListRecommendationsInput {
     /// After the last update of the Recommendation
     public var afterLastUpdatedAt: ClientRuntime.Date?
     /// The aws service associated with the Recommendation
@@ -1487,7 +1487,7 @@ public struct ListRecommendationsInput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsInputBody: Swift.Equatable {
+struct ListRecommendationsInputBody {
 }
 
 extension ListRecommendationsInputBody: Swift.Decodable {
@@ -1510,7 +1510,7 @@ extension ListRecommendationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListRecommendationsOutput: Swift.Equatable {
+public struct ListRecommendationsOutput {
     /// The token for the next set of results. Use the value returned in the previous response in the next request to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The list of Recommendations
@@ -1527,7 +1527,7 @@ public struct ListRecommendationsOutput: Swift.Equatable {
     }
 }
 
-struct ListRecommendationsOutputBody: Swift.Equatable {
+struct ListRecommendationsOutputBody {
     let nextToken: Swift.String?
     let recommendationSummaries: [TrustedAdvisorClientTypes.RecommendationSummary]?
 }
@@ -1740,7 +1740,7 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendation: Swift.CustomDebu
 
 extension TrustedAdvisorClientTypes {
     /// A Recommendation for accounts within an Organization
-    public struct OrganizationRecommendation: Swift.Equatable {
+    public struct OrganizationRecommendation {
         /// The ARN of the Recommendation
         /// This member is required.
         public var arn: Swift.String?
@@ -1924,7 +1924,7 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationResourceSummary: S
 
 extension TrustedAdvisorClientTypes {
     /// Organization Recommendation Resource Summary
-    public struct OrganizationRecommendationResourceSummary: Swift.Equatable {
+    public struct OrganizationRecommendationResourceSummary {
         /// The AWS account ID
         public var accountId: Swift.String?
         /// The ARN of the Recommendation Resource
@@ -2101,7 +2101,7 @@ extension TrustedAdvisorClientTypes.OrganizationRecommendationSummary: Swift.Cod
 
 extension TrustedAdvisorClientTypes {
     /// Summary of recommendation for accounts within an Organization
-    public struct OrganizationRecommendationSummary: Swift.Equatable {
+    public struct OrganizationRecommendationSummary {
         /// The ARN of the Recommendation
         /// This member is required.
         public var arn: Swift.String?
@@ -2345,7 +2345,7 @@ extension TrustedAdvisorClientTypes.Recommendation: Swift.CustomDebugStringConve
 
 extension TrustedAdvisorClientTypes {
     /// A Recommendation for an Account
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The ARN of the Recommendation
         /// This member is required.
         public var arn: Swift.String?
@@ -2475,7 +2475,7 @@ extension TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates: Swif
 
 extension TrustedAdvisorClientTypes {
     /// Cost optimizing aggregates for a Recommendation
-    public struct RecommendationCostOptimizingAggregates: Swift.Equatable {
+    public struct RecommendationCostOptimizingAggregates {
         /// The estimated monthly savings
         /// This member is required.
         public var estimatedMonthlySavings: Swift.Double?
@@ -2657,7 +2657,7 @@ extension TrustedAdvisorClientTypes.RecommendationPillarSpecificAggregates: Swif
 
 extension TrustedAdvisorClientTypes {
     /// Recommendation pillar aggregates
-    public struct RecommendationPillarSpecificAggregates: Swift.Equatable {
+    public struct RecommendationPillarSpecificAggregates {
         /// Cost optimizing aggregates
         public var costOptimizing: TrustedAdvisorClientTypes.RecommendationCostOptimizingAggregates?
 
@@ -2746,7 +2746,7 @@ extension TrustedAdvisorClientTypes.RecommendationResourceSummary: Swift.Codable
 
 extension TrustedAdvisorClientTypes {
     /// Summary of a Recommendation Resource
-    public struct RecommendationResourceSummary: Swift.Equatable {
+    public struct RecommendationResourceSummary {
         /// The ARN of the Recommendation Resource
         /// This member is required.
         public var arn: Swift.String?
@@ -2829,7 +2829,7 @@ extension TrustedAdvisorClientTypes.RecommendationResourcesAggregates: Swift.Cod
 
 extension TrustedAdvisorClientTypes {
     /// Aggregation of Recommendation Resources
-    public struct RecommendationResourcesAggregates: Swift.Equatable {
+    public struct RecommendationResourcesAggregates {
         /// The number of AWS resources that were flagged to have errors according to the Trusted Advisor check
         /// This member is required.
         public var errorCount: Swift.Int?
@@ -3077,7 +3077,7 @@ extension TrustedAdvisorClientTypes.RecommendationSummary: Swift.Codable {
 
 extension TrustedAdvisorClientTypes {
     /// Summary of Recommendation for an Account
-    public struct RecommendationSummary: Swift.Equatable {
+    public struct RecommendationSummary {
         /// The ARN of the Recommendation
         /// This member is required.
         public var arn: Swift.String?
@@ -3223,7 +3223,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3314,7 +3314,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -3368,7 +3368,7 @@ extension UpdateOrganizationRecommendationLifecycleInput {
     }
 }
 
-public struct UpdateOrganizationRecommendationLifecycleInput: Swift.Equatable {
+public struct UpdateOrganizationRecommendationLifecycleInput {
     /// The new lifecycle stage
     /// This member is required.
     public var lifecycleStage: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStage?
@@ -3394,7 +3394,7 @@ public struct UpdateOrganizationRecommendationLifecycleInput: Swift.Equatable {
     }
 }
 
-struct UpdateOrganizationRecommendationLifecycleInputBody: Swift.Equatable {
+struct UpdateOrganizationRecommendationLifecycleInputBody {
     let lifecycleStage: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStage?
     let updateReason: Swift.String?
     let updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode?
@@ -3423,7 +3423,7 @@ extension UpdateOrganizationRecommendationLifecycleOutput: ClientRuntime.HttpRes
     }
 }
 
-public struct UpdateOrganizationRecommendationLifecycleOutput: Swift.Equatable {
+public struct UpdateOrganizationRecommendationLifecycleOutput {
 
     public init() { }
 }
@@ -3480,7 +3480,7 @@ extension UpdateRecommendationLifecycleInput {
     }
 }
 
-public struct UpdateRecommendationLifecycleInput: Swift.Equatable {
+public struct UpdateRecommendationLifecycleInput {
     /// The new lifecycle stage
     /// This member is required.
     public var lifecycleStage: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStage?
@@ -3506,7 +3506,7 @@ public struct UpdateRecommendationLifecycleInput: Swift.Equatable {
     }
 }
 
-struct UpdateRecommendationLifecycleInputBody: Swift.Equatable {
+struct UpdateRecommendationLifecycleInputBody {
     let lifecycleStage: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStage?
     let updateReason: Swift.String?
     let updateReasonCode: TrustedAdvisorClientTypes.UpdateRecommendationLifecycleStageReasonCode?
@@ -3535,7 +3535,7 @@ extension UpdateRecommendationLifecycleOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct UpdateRecommendationLifecycleOutput: Swift.Equatable {
+public struct UpdateRecommendationLifecycleOutput {
 
     public init() { }
 }
@@ -3681,7 +3681,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 

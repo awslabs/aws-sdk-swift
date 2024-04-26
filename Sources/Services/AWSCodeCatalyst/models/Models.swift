@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -91,7 +91,7 @@ extension CodeCatalystClientTypes.AccessTokenSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a specified personal access token (PAT).
-    public struct AccessTokenSummary: Swift.Equatable {
+    public struct AccessTokenSummary {
         /// The date and time when the personal access token will expire, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         public var expiresTime: ClientRuntime.Date?
         /// The system-generated ID of the personal access token.
@@ -215,7 +215,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -255,7 +255,7 @@ extension CreateAccessTokenInput {
     }
 }
 
-public struct CreateAccessTokenInput: Swift.Equatable {
+public struct CreateAccessTokenInput {
     /// The date and time the personal access token expires, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
     public var expiresTime: ClientRuntime.Date?
     /// The friendly name of the personal access token.
@@ -272,7 +272,7 @@ public struct CreateAccessTokenInput: Swift.Equatable {
     }
 }
 
-struct CreateAccessTokenInputBody: Swift.Equatable {
+struct CreateAccessTokenInputBody {
     let name: Swift.String?
     let expiresTime: ClientRuntime.Date?
 }
@@ -315,7 +315,7 @@ extension CreateAccessTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAccessTokenOutput: Swift.Equatable {
+public struct CreateAccessTokenOutput {
     /// The system-generated unique ID of the access token.
     /// This member is required.
     public var accessTokenId: Swift.String?
@@ -343,7 +343,7 @@ public struct CreateAccessTokenOutput: Swift.Equatable {
     }
 }
 
-struct CreateAccessTokenOutputBody: Swift.Equatable {
+struct CreateAccessTokenOutputBody {
     let secret: Swift.String?
     let name: Swift.String?
     let expiresTime: ClientRuntime.Date?
@@ -443,7 +443,7 @@ extension CreateDevEnvironmentInput {
     }
 }
 
-public struct CreateDevEnvironmentInput: Swift.Equatable {
+public struct CreateDevEnvironmentInput {
     /// The user-defined alias for a Dev Environment.
     public var alias: Swift.String?
     /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
@@ -495,7 +495,7 @@ public struct CreateDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateDevEnvironmentInputBody: Swift.Equatable {
+struct CreateDevEnvironmentInputBody {
     let repositories: [CodeCatalystClientTypes.RepositoryInput]?
     let clientToken: Swift.String?
     let alias: Swift.String?
@@ -575,7 +575,7 @@ extension CreateDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDevEnvironmentOutput: Swift.Equatable {
+public struct CreateDevEnvironmentOutput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -602,7 +602,7 @@ public struct CreateDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDevEnvironmentOutputBody: Swift.Equatable {
+struct CreateDevEnvironmentOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -669,7 +669,7 @@ extension CreateProjectInput {
     }
 }
 
-public struct CreateProjectInput: Swift.Equatable {
+public struct CreateProjectInput {
     /// The description of the project. This description will be displayed to all users of the project. We recommend providing a brief description of the project and its intended purpose.
     public var description: Swift.String?
     /// The friendly name of the project that will be displayed to users.
@@ -691,7 +691,7 @@ public struct CreateProjectInput: Swift.Equatable {
     }
 }
 
-struct CreateProjectInputBody: Swift.Equatable {
+struct CreateProjectInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
 }
@@ -729,7 +729,7 @@ extension CreateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProjectOutput: Swift.Equatable {
+public struct CreateProjectOutput {
     /// The description of the project.
     public var description: Swift.String?
     /// The friendly name of the project.
@@ -754,7 +754,7 @@ public struct CreateProjectOutput: Swift.Equatable {
     }
 }
 
-struct CreateProjectOutputBody: Swift.Equatable {
+struct CreateProjectOutputBody {
     let spaceName: Swift.String?
     let name: Swift.String?
     let displayName: Swift.String?
@@ -826,7 +826,7 @@ extension CreateSourceRepositoryBranchInput {
     }
 }
 
-public struct CreateSourceRepositoryBranchInput: Swift.Equatable {
+public struct CreateSourceRepositoryBranchInput {
     /// The commit ID in an existing branch from which you want to create the new branch.
     public var headCommitId: Swift.String?
     /// The name for the branch you're creating.
@@ -858,7 +858,7 @@ public struct CreateSourceRepositoryBranchInput: Swift.Equatable {
     }
 }
 
-struct CreateSourceRepositoryBranchInputBody: Swift.Equatable {
+struct CreateSourceRepositoryBranchInputBody {
     let headCommitId: Swift.String?
 }
 
@@ -892,7 +892,7 @@ extension CreateSourceRepositoryBranchOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateSourceRepositoryBranchOutput: Swift.Equatable {
+public struct CreateSourceRepositoryBranchOutput {
     /// The commit ID of the tip of the newly created branch.
     public var headCommitId: Swift.String?
     /// The time the branch was last updated, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
@@ -916,7 +916,7 @@ public struct CreateSourceRepositoryBranchOutput: Swift.Equatable {
     }
 }
 
-struct CreateSourceRepositoryBranchOutputBody: Swift.Equatable {
+struct CreateSourceRepositoryBranchOutputBody {
     let ref: Swift.String?
     let name: Swift.String?
     let lastUpdatedTime: ClientRuntime.Date?
@@ -985,7 +985,7 @@ extension CreateSourceRepositoryInput {
     }
 }
 
-public struct CreateSourceRepositoryInput: Swift.Equatable {
+public struct CreateSourceRepositoryInput {
     /// The description of the source repository.
     public var description: Swift.String?
     /// The name of the source repository. For more information about name requirements, see [Quotas for source repositories](https://docs.aws.amazon.com/codecatalyst/latest/userguide/source-quotas.html).
@@ -1012,7 +1012,7 @@ public struct CreateSourceRepositoryInput: Swift.Equatable {
     }
 }
 
-struct CreateSourceRepositoryInputBody: Swift.Equatable {
+struct CreateSourceRepositoryInputBody {
     let description: Swift.String?
 }
 
@@ -1046,7 +1046,7 @@ extension CreateSourceRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSourceRepositoryOutput: Swift.Equatable {
+public struct CreateSourceRepositoryOutput {
     /// The description of the source repository.
     public var description: Swift.String?
     /// The name of the source repository.
@@ -1073,7 +1073,7 @@ public struct CreateSourceRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct CreateSourceRepositoryOutputBody: Swift.Equatable {
+struct CreateSourceRepositoryOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let name: Swift.String?
@@ -1123,7 +1123,7 @@ extension DeleteAccessTokenInput {
     }
 }
 
-public struct DeleteAccessTokenInput: Swift.Equatable {
+public struct DeleteAccessTokenInput {
     /// The ID of the personal access token to delete. You can find the IDs of all PATs associated with your Amazon Web Services Builder ID in a space by calling [ListAccessTokens].
     /// This member is required.
     public var id: Swift.String?
@@ -1136,7 +1136,7 @@ public struct DeleteAccessTokenInput: Swift.Equatable {
     }
 }
 
-struct DeleteAccessTokenInputBody: Swift.Equatable {
+struct DeleteAccessTokenInputBody {
 }
 
 extension DeleteAccessTokenInputBody: Swift.Decodable {
@@ -1150,7 +1150,7 @@ extension DeleteAccessTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAccessTokenOutput: Swift.Equatable {
+public struct DeleteAccessTokenOutput {
 
     public init() { }
 }
@@ -1183,7 +1183,7 @@ extension DeleteDevEnvironmentInput {
     }
 }
 
-public struct DeleteDevEnvironmentInput: Swift.Equatable {
+public struct DeleteDevEnvironmentInput {
     /// The system-generated unique ID of the Dev Environment you want to delete. To retrieve a list of Dev Environment IDs, use [ListDevEnvironments].
     /// This member is required.
     public var id: Swift.String?
@@ -1206,7 +1206,7 @@ public struct DeleteDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteDevEnvironmentInputBody: Swift.Equatable {
+struct DeleteDevEnvironmentInputBody {
 }
 
 extension DeleteDevEnvironmentInputBody: Swift.Decodable {
@@ -1231,7 +1231,7 @@ extension DeleteDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDevEnvironmentOutput: Swift.Equatable {
+public struct DeleteDevEnvironmentOutput {
     /// The system-generated unique ID of the deleted Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -1254,7 +1254,7 @@ public struct DeleteDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDevEnvironmentOutputBody: Swift.Equatable {
+struct DeleteDevEnvironmentOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -1303,7 +1303,7 @@ extension DeleteProjectInput {
     }
 }
 
-public struct DeleteProjectInput: Swift.Equatable {
+public struct DeleteProjectInput {
     /// The name of the project in the space. To retrieve a list of project names, use [ListProjects].
     /// This member is required.
     public var name: Swift.String?
@@ -1321,7 +1321,7 @@ public struct DeleteProjectInput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectInputBody: Swift.Equatable {
+struct DeleteProjectInputBody {
 }
 
 extension DeleteProjectInputBody: Swift.Decodable {
@@ -1346,7 +1346,7 @@ extension DeleteProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProjectOutput: Swift.Equatable {
+public struct DeleteProjectOutput {
     /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
     public var displayName: Swift.String?
     /// The name of the project in the space.
@@ -1368,7 +1368,7 @@ public struct DeleteProjectOutput: Swift.Equatable {
     }
 }
 
-struct DeleteProjectOutputBody: Swift.Equatable {
+struct DeleteProjectOutputBody {
     let spaceName: Swift.String?
     let name: Swift.String?
     let displayName: Swift.String?
@@ -1420,7 +1420,7 @@ extension DeleteSourceRepositoryInput {
     }
 }
 
-public struct DeleteSourceRepositoryInput: Swift.Equatable {
+public struct DeleteSourceRepositoryInput {
     /// The name of the source repository.
     /// This member is required.
     public var name: Swift.String?
@@ -1443,7 +1443,7 @@ public struct DeleteSourceRepositoryInput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceRepositoryInputBody: Swift.Equatable {
+struct DeleteSourceRepositoryInputBody {
 }
 
 extension DeleteSourceRepositoryInputBody: Swift.Decodable {
@@ -1468,7 +1468,7 @@ extension DeleteSourceRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSourceRepositoryOutput: Swift.Equatable {
+public struct DeleteSourceRepositoryOutput {
     /// The name of the repository.
     /// This member is required.
     public var name: Swift.String?
@@ -1491,7 +1491,7 @@ public struct DeleteSourceRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSourceRepositoryOutputBody: Swift.Equatable {
+struct DeleteSourceRepositoryOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let name: Swift.String?
@@ -1537,7 +1537,7 @@ extension DeleteSpaceInput {
     }
 }
 
-public struct DeleteSpaceInput: Swift.Equatable {
+public struct DeleteSpaceInput {
     /// The name of the space. To retrieve a list of space names, use [ListSpaces].
     /// This member is required.
     public var name: Swift.String?
@@ -1550,7 +1550,7 @@ public struct DeleteSpaceInput: Swift.Equatable {
     }
 }
 
-struct DeleteSpaceInputBody: Swift.Equatable {
+struct DeleteSpaceInputBody {
 }
 
 extension DeleteSpaceInputBody: Swift.Decodable {
@@ -1573,7 +1573,7 @@ extension DeleteSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSpaceOutput: Swift.Equatable {
+public struct DeleteSpaceOutput {
     /// The friendly name of the space displayed to users of the space in Amazon CodeCatalyst.
     public var displayName: Swift.String?
     /// The name of the space.
@@ -1590,7 +1590,7 @@ public struct DeleteSpaceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteSpaceOutputBody: Swift.Equatable {
+struct DeleteSpaceOutputBody {
     let name: Swift.String?
     let displayName: Swift.String?
 }
@@ -1655,7 +1655,7 @@ extension CodeCatalystClientTypes.DevEnvironmentAccessDetails: Swift.CustomDebug
 
 extension CodeCatalystClientTypes {
     /// Information about connection details for a Dev Environment.
-    public struct DevEnvironmentAccessDetails: Swift.Equatable {
+    public struct DevEnvironmentAccessDetails {
         /// The URL used to send commands to and from the Dev Environment.
         /// This member is required.
         public var streamUrl: Swift.String?
@@ -1702,7 +1702,7 @@ extension CodeCatalystClientTypes.DevEnvironmentRepositorySummary: Swift.Codable
 
 extension CodeCatalystClientTypes {
     /// Information about the source repsitory for a Dev Environment.
-    public struct DevEnvironmentRepositorySummary: Swift.Equatable {
+    public struct DevEnvironmentRepositorySummary {
         /// The name of the branch in a source repository cloned into the Dev Environment.
         public var branchName: Swift.String?
         /// The name of the source repository.
@@ -1748,7 +1748,7 @@ extension CodeCatalystClientTypes.DevEnvironmentSessionConfiguration: Swift.Coda
 
 extension CodeCatalystClientTypes {
     /// Information about the configuration of a Dev Environment session.
-    public struct DevEnvironmentSessionConfiguration: Swift.Equatable {
+    public struct DevEnvironmentSessionConfiguration {
         /// Information about optional commands that will be run on the Dev Environment when the SSH session begins.
         public var executeCommandSessionConfiguration: CodeCatalystClientTypes.ExecuteCommandSessionConfiguration?
         /// The type of the session.
@@ -1812,7 +1812,7 @@ extension CodeCatalystClientTypes.DevEnvironmentSessionSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about active sessions for a Dev Environment.
-    public struct DevEnvironmentSessionSummary: Swift.Equatable {
+    public struct DevEnvironmentSessionSummary {
         /// The system-generated unique ID of the Dev Environment.
         /// This member is required.
         public var devEnvironmentId: Swift.String?
@@ -2052,7 +2052,7 @@ extension CodeCatalystClientTypes.DevEnvironmentSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a Dev Environment.
-    public struct DevEnvironmentSummary: Swift.Equatable {
+    public struct DevEnvironmentSummary {
         /// The user-specified alias for the Dev Environment.
         public var alias: Swift.String?
         /// The system-generated unique ID of the user who created the Dev Environment.
@@ -2153,7 +2153,7 @@ extension CodeCatalystClientTypes.EmailAddress: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about an email address.
-    public struct EmailAddress: Swift.Equatable {
+    public struct EmailAddress {
         /// The email address.
         public var email: Swift.String?
         /// Whether the email address has been verified.
@@ -2276,7 +2276,7 @@ extension CodeCatalystClientTypes.EventLogEntry: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about an entry in an event log of Amazon CodeCatalyst activity.
-    public struct EventLogEntry: Swift.Equatable {
+    public struct EventLogEntry {
         /// The code of the error, if any.
         public var errorCode: Swift.String?
         /// The category for the event.
@@ -2381,7 +2381,7 @@ extension CodeCatalystClientTypes.EventPayload: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about the payload of an event recording Amazon CodeCatalyst activity.
-    public struct EventPayload: Swift.Equatable {
+    public struct EventPayload {
         /// The type of content in the event payload.
         public var contentType: Swift.String?
         /// The data included in the event payload.
@@ -2438,7 +2438,7 @@ extension CodeCatalystClientTypes.ExecuteCommandSessionConfiguration: Swift.Coda
 
 extension CodeCatalystClientTypes {
     /// Information about the commands that will be run on a Dev Environment when an SSH session begins.
-    public struct ExecuteCommandSessionConfiguration: Swift.Equatable {
+    public struct ExecuteCommandSessionConfiguration {
         /// An array of arguments containing arguments and members.
         public var arguments: [Swift.String]?
         /// The command used at the beginning of the SSH session to a Dev Environment.
@@ -2502,7 +2502,7 @@ extension CodeCatalystClientTypes.Filter: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a filter used to limit results of a query.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The operator used to compare the fields.
         public var comparisonOperator: Swift.String?
         /// A key that can be used to sort results.
@@ -2574,7 +2574,7 @@ extension GetDevEnvironmentInput {
     }
 }
 
-public struct GetDevEnvironmentInput: Swift.Equatable {
+public struct GetDevEnvironmentInput {
     /// The system-generated unique ID of the Dev Environment for which you want to view information. To retrieve a list of Dev Environment IDs, use [ListDevEnvironments].
     /// This member is required.
     public var id: Swift.String?
@@ -2597,7 +2597,7 @@ public struct GetDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetDevEnvironmentInputBody: Swift.Equatable {
+struct GetDevEnvironmentInputBody {
 }
 
 extension GetDevEnvironmentInputBody: Swift.Decodable {
@@ -2644,7 +2644,7 @@ extension GetDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDevEnvironmentOutput: Swift.Equatable {
+public struct GetDevEnvironmentOutput {
     /// The user-specified alias for the Dev Environment.
     public var alias: Swift.String?
     /// The system-generated unique ID of the user who created the Dev Environment.
@@ -2718,7 +2718,7 @@ public struct GetDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetDevEnvironmentOutputBody: Swift.Equatable {
+struct GetDevEnvironmentOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -2829,7 +2829,7 @@ extension GetProjectInput {
     }
 }
 
-public struct GetProjectInput: Swift.Equatable {
+public struct GetProjectInput {
     /// The name of the project in the space.
     /// This member is required.
     public var name: Swift.String?
@@ -2847,7 +2847,7 @@ public struct GetProjectInput: Swift.Equatable {
     }
 }
 
-struct GetProjectInputBody: Swift.Equatable {
+struct GetProjectInputBody {
 }
 
 extension GetProjectInputBody: Swift.Decodable {
@@ -2874,7 +2874,7 @@ extension GetProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProjectOutput: Swift.Equatable {
+public struct GetProjectOutput {
     /// The description of the project.
     public var description: Swift.String?
     /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
@@ -2899,7 +2899,7 @@ public struct GetProjectOutput: Swift.Equatable {
     }
 }
 
-struct GetProjectOutputBody: Swift.Equatable {
+struct GetProjectOutputBody {
     let spaceName: Swift.String?
     let name: Swift.String?
     let displayName: Swift.String?
@@ -2955,7 +2955,7 @@ extension GetSourceRepositoryCloneUrlsInput {
     }
 }
 
-public struct GetSourceRepositoryCloneUrlsInput: Swift.Equatable {
+public struct GetSourceRepositoryCloneUrlsInput {
     /// The name of the project in the space.
     /// This member is required.
     public var projectName: Swift.String?
@@ -2978,7 +2978,7 @@ public struct GetSourceRepositoryCloneUrlsInput: Swift.Equatable {
     }
 }
 
-struct GetSourceRepositoryCloneUrlsInputBody: Swift.Equatable {
+struct GetSourceRepositoryCloneUrlsInputBody {
 }
 
 extension GetSourceRepositoryCloneUrlsInputBody: Swift.Decodable {
@@ -2999,7 +2999,7 @@ extension GetSourceRepositoryCloneUrlsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetSourceRepositoryCloneUrlsOutput: Swift.Equatable {
+public struct GetSourceRepositoryCloneUrlsOutput {
     /// The HTTPS URL to use when cloning the source repository.
     /// This member is required.
     public var https: Swift.String?
@@ -3012,7 +3012,7 @@ public struct GetSourceRepositoryCloneUrlsOutput: Swift.Equatable {
     }
 }
 
-struct GetSourceRepositoryCloneUrlsOutputBody: Swift.Equatable {
+struct GetSourceRepositoryCloneUrlsOutputBody {
     let https: Swift.String?
 }
 
@@ -3056,7 +3056,7 @@ extension GetSourceRepositoryInput {
     }
 }
 
-public struct GetSourceRepositoryInput: Swift.Equatable {
+public struct GetSourceRepositoryInput {
     /// The name of the source repository.
     /// This member is required.
     public var name: Swift.String?
@@ -3079,7 +3079,7 @@ public struct GetSourceRepositoryInput: Swift.Equatable {
     }
 }
 
-struct GetSourceRepositoryInputBody: Swift.Equatable {
+struct GetSourceRepositoryInputBody {
 }
 
 extension GetSourceRepositoryInputBody: Swift.Decodable {
@@ -3110,7 +3110,7 @@ extension GetSourceRepositoryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSourceRepositoryOutput: Swift.Equatable {
+public struct GetSourceRepositoryOutput {
     /// The time the source repository was created, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
     /// This member is required.
     public var createdTime: ClientRuntime.Date?
@@ -3147,7 +3147,7 @@ public struct GetSourceRepositoryOutput: Swift.Equatable {
     }
 }
 
-struct GetSourceRepositoryOutputBody: Swift.Equatable {
+struct GetSourceRepositoryOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let name: Swift.String?
@@ -3205,7 +3205,7 @@ extension GetSpaceInput {
     }
 }
 
-public struct GetSpaceInput: Swift.Equatable {
+public struct GetSpaceInput {
     /// The name of the space.
     /// This member is required.
     public var name: Swift.String?
@@ -3218,7 +3218,7 @@ public struct GetSpaceInput: Swift.Equatable {
     }
 }
 
-struct GetSpaceInputBody: Swift.Equatable {
+struct GetSpaceInputBody {
 }
 
 extension GetSpaceInputBody: Swift.Decodable {
@@ -3245,7 +3245,7 @@ extension GetSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSpaceOutput: Swift.Equatable {
+public struct GetSpaceOutput {
     /// The description of the space.
     public var description: Swift.String?
     /// The friendly name of the space displayed to users.
@@ -3271,7 +3271,7 @@ public struct GetSpaceOutput: Swift.Equatable {
     }
 }
 
-struct GetSpaceOutputBody: Swift.Equatable {
+struct GetSpaceOutputBody {
     let name: Swift.String?
     let regionName: Swift.String?
     let displayName: Swift.String?
@@ -3321,7 +3321,7 @@ extension GetSubscriptionInput {
     }
 }
 
-public struct GetSubscriptionInput: Swift.Equatable {
+public struct GetSubscriptionInput {
     /// The name of the space.
     /// This member is required.
     public var spaceName: Swift.String?
@@ -3334,7 +3334,7 @@ public struct GetSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionInputBody: Swift.Equatable {
+struct GetSubscriptionInputBody {
 }
 
 extension GetSubscriptionInputBody: Swift.Decodable {
@@ -3361,7 +3361,7 @@ extension GetSubscriptionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSubscriptionOutput: Swift.Equatable {
+public struct GetSubscriptionOutput {
     /// The display name of the Amazon Web Services account used for billing for the space.
     public var awsAccountName: Swift.String?
     /// The day and time the pending change will be applied to the space, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
@@ -3385,7 +3385,7 @@ public struct GetSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct GetSubscriptionOutputBody: Swift.Equatable {
+struct GetSubscriptionOutputBody {
     let subscriptionType: Swift.String?
     let awsAccountName: Swift.String?
     let pendingSubscriptionType: Swift.String?
@@ -3448,7 +3448,7 @@ extension GetUserDetailsInput {
     }
 }
 
-public struct GetUserDetailsInput: Swift.Equatable {
+public struct GetUserDetailsInput {
     /// The system-generated unique ID of the user.
     public var id: Swift.String?
     /// The name of the user as displayed in Amazon CodeCatalyst.
@@ -3464,7 +3464,7 @@ public struct GetUserDetailsInput: Swift.Equatable {
     }
 }
 
-struct GetUserDetailsInputBody: Swift.Equatable {
+struct GetUserDetailsInputBody {
 }
 
 extension GetUserDetailsInputBody: Swift.Decodable {
@@ -3493,7 +3493,7 @@ extension GetUserDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetUserDetailsOutput: Swift.Equatable {
+public struct GetUserDetailsOutput {
     /// The friendly name displayed for the user in Amazon CodeCatalyst.
     public var displayName: Swift.String?
     /// The email address provided by the user when they signed up.
@@ -3521,7 +3521,7 @@ public struct GetUserDetailsOutput: Swift.Equatable {
     }
 }
 
-struct GetUserDetailsOutputBody: Swift.Equatable {
+struct GetUserDetailsOutputBody {
     let userId: Swift.String?
     let userName: Swift.String?
     let displayName: Swift.String?
@@ -3581,7 +3581,7 @@ extension GetWorkflowInput {
     }
 }
 
-public struct GetWorkflowInput: Swift.Equatable {
+public struct GetWorkflowInput {
     /// The ID of the workflow. To rerieve a list of workflow IDs, use [ListWorkflows].
     /// This member is required.
     public var id: Swift.String?
@@ -3604,7 +3604,7 @@ public struct GetWorkflowInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowInputBody: Swift.Equatable {
+struct GetWorkflowInputBody {
 }
 
 extension GetWorkflowInputBody: Swift.Decodable {
@@ -3645,7 +3645,7 @@ extension GetWorkflowOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowOutput: Swift.Equatable {
+public struct GetWorkflowOutput {
     /// The date and time the workflow was created, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
     /// This member is required.
     public var createdTime: ClientRuntime.Date?
@@ -3706,7 +3706,7 @@ public struct GetWorkflowOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowOutputBody: Swift.Equatable {
+struct GetWorkflowOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -3790,7 +3790,7 @@ extension GetWorkflowRunInput {
     }
 }
 
-public struct GetWorkflowRunInput: Swift.Equatable {
+public struct GetWorkflowRunInput {
     /// The ID of the workflow run. To retrieve a list of workflow run IDs, use [ListWorkflowRuns].
     /// This member is required.
     public var id: Swift.String?
@@ -3813,7 +3813,7 @@ public struct GetWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunInputBody: Swift.Equatable {
+struct GetWorkflowRunInputBody {
 }
 
 extension GetWorkflowRunInputBody: Swift.Decodable {
@@ -3850,7 +3850,7 @@ extension GetWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkflowRunOutput: Swift.Equatable {
+public struct GetWorkflowRunOutput {
     /// The date and time the workflow run ended, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
     public var endTime: ClientRuntime.Date?
     /// The ID of the workflow run.
@@ -3901,7 +3901,7 @@ public struct GetWorkflowRunOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkflowRunOutputBody: Swift.Equatable {
+struct GetWorkflowRunOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -3997,7 +3997,7 @@ extension CodeCatalystClientTypes.Ide: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about an integrated development environment (IDE) used in a Dev Environment.
-    public struct Ide: Swift.Equatable {
+    public struct Ide {
         /// The name of the IDE.
         public var name: Swift.String?
         /// A link to the IDE runtime image.
@@ -4042,7 +4042,7 @@ extension CodeCatalystClientTypes.IdeConfiguration: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about the configuration of an integrated development environment (IDE) for a Dev Environment.
-    public struct IdeConfiguration: Swift.Equatable {
+    public struct IdeConfiguration {
         /// The name of the IDE. Valid values include Cloud9, IntelliJ, PyCharm, GoLand, and VSCode.
         public var name: Swift.String?
         /// A link to the IDE runtime image. This parameter is not required for VSCode.
@@ -4122,7 +4122,7 @@ extension ListAccessTokensInput {
     }
 }
 
-public struct ListAccessTokensInput: Swift.Equatable {
+public struct ListAccessTokensInput {
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
     public var maxResults: Swift.Int?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -4138,7 +4138,7 @@ public struct ListAccessTokensInput: Swift.Equatable {
     }
 }
 
-struct ListAccessTokensInputBody: Swift.Equatable {
+struct ListAccessTokensInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -4172,7 +4172,7 @@ extension ListAccessTokensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAccessTokensOutput: Swift.Equatable {
+public struct ListAccessTokensOutput {
     /// A list of personal access tokens (PATs) associated with the calling user identity.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.AccessTokenSummary]?
@@ -4189,7 +4189,7 @@ public struct ListAccessTokensOutput: Swift.Equatable {
     }
 }
 
-struct ListAccessTokensOutputBody: Swift.Equatable {
+struct ListAccessTokensOutputBody {
     let items: [CodeCatalystClientTypes.AccessTokenSummary]?
     let nextToken: Swift.String?
 }
@@ -4263,7 +4263,7 @@ extension ListDevEnvironmentSessionsInput {
     }
 }
 
-public struct ListDevEnvironmentSessionsInput: Swift.Equatable {
+public struct ListDevEnvironmentSessionsInput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var devEnvironmentId: Swift.String?
@@ -4294,7 +4294,7 @@ public struct ListDevEnvironmentSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListDevEnvironmentSessionsInputBody: Swift.Equatable {
+struct ListDevEnvironmentSessionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -4328,7 +4328,7 @@ extension ListDevEnvironmentSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevEnvironmentSessionsOutput: Swift.Equatable {
+public struct ListDevEnvironmentSessionsOutput {
     /// Information about each session retrieved in the list.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]?
@@ -4345,7 +4345,7 @@ public struct ListDevEnvironmentSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevEnvironmentSessionsOutputBody: Swift.Equatable {
+struct ListDevEnvironmentSessionsOutputBody {
     let items: [CodeCatalystClientTypes.DevEnvironmentSessionSummary]?
     let nextToken: Swift.String?
 }
@@ -4424,7 +4424,7 @@ extension ListDevEnvironmentsInput {
     }
 }
 
-public struct ListDevEnvironmentsInput: Swift.Equatable {
+public struct ListDevEnvironmentsInput {
     /// Information about filters to apply to narrow the results returned in the list.
     public var filters: [CodeCatalystClientTypes.Filter]?
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
@@ -4453,7 +4453,7 @@ public struct ListDevEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListDevEnvironmentsInputBody: Swift.Equatable {
+struct ListDevEnvironmentsInputBody {
     let projectName: Swift.String?
     let filters: [CodeCatalystClientTypes.Filter]?
     let nextToken: Swift.String?
@@ -4504,7 +4504,7 @@ extension ListDevEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDevEnvironmentsOutput: Swift.Equatable {
+public struct ListDevEnvironmentsOutput {
     /// Information about the Dev Environments in a project.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.DevEnvironmentSummary]?
@@ -4521,7 +4521,7 @@ public struct ListDevEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListDevEnvironmentsOutputBody: Swift.Equatable {
+struct ListDevEnvironmentsOutputBody {
     let items: [CodeCatalystClientTypes.DevEnvironmentSummary]?
     let nextToken: Swift.String?
 }
@@ -4601,7 +4601,7 @@ extension ListEventLogsInput {
     }
 }
 
-public struct ListEventLogsInput: Swift.Equatable {
+public struct ListEventLogsInput {
     /// The time after which you do not want any events retrieved, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -4636,7 +4636,7 @@ public struct ListEventLogsInput: Swift.Equatable {
     }
 }
 
-struct ListEventLogsInputBody: Swift.Equatable {
+struct ListEventLogsInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let eventName: Swift.String?
@@ -4682,7 +4682,7 @@ extension ListEventLogsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventLogsOutput: Swift.Equatable {
+public struct ListEventLogsOutput {
     /// Information about each event retrieved in the list.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.EventLogEntry]?
@@ -4699,7 +4699,7 @@ public struct ListEventLogsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventLogsOutputBody: Swift.Equatable {
+struct ListEventLogsOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.EventLogEntry]?
 }
@@ -4774,7 +4774,7 @@ extension ListProjectsInput {
     }
 }
 
-public struct ListProjectsInput: Swift.Equatable {
+public struct ListProjectsInput {
     /// Information about filters to apply to narrow the results returned in the list.
     public var filters: [CodeCatalystClientTypes.ProjectListFilter]?
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
@@ -4799,7 +4799,7 @@ public struct ListProjectsInput: Swift.Equatable {
     }
 }
 
-struct ListProjectsInputBody: Swift.Equatable {
+struct ListProjectsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let filters: [CodeCatalystClientTypes.ProjectListFilter]?
@@ -4846,7 +4846,7 @@ extension ListProjectsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProjectsOutput: Swift.Equatable {
+public struct ListProjectsOutput {
     /// Information about the projects.
     public var items: [CodeCatalystClientTypes.ProjectSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -4862,7 +4862,7 @@ public struct ListProjectsOutput: Swift.Equatable {
     }
 }
 
-struct ListProjectsOutputBody: Swift.Equatable {
+struct ListProjectsOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.ProjectSummary]?
 }
@@ -4933,7 +4933,7 @@ extension ListSourceRepositoriesInput {
     }
 }
 
-public struct ListSourceRepositoriesInput: Swift.Equatable {
+public struct ListSourceRepositoriesInput {
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
     public var maxResults: Swift.Int?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -4959,7 +4959,7 @@ public struct ListSourceRepositoriesInput: Swift.Equatable {
     }
 }
 
-struct ListSourceRepositoriesInputBody: Swift.Equatable {
+struct ListSourceRepositoriesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5024,7 +5024,7 @@ extension CodeCatalystClientTypes.ListSourceRepositoriesItem: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a source repository returned in a list of source repositories.
-    public struct ListSourceRepositoriesItem: Swift.Equatable {
+    public struct ListSourceRepositoriesItem {
         /// The time the source repository was created, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
         /// This member is required.
         public var createdTime: ClientRuntime.Date?
@@ -5072,7 +5072,7 @@ extension ListSourceRepositoriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSourceRepositoriesOutput: Swift.Equatable {
+public struct ListSourceRepositoriesOutput {
     /// Information about the source repositories.
     public var items: [CodeCatalystClientTypes.ListSourceRepositoriesItem]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5088,7 +5088,7 @@ public struct ListSourceRepositoriesOutput: Swift.Equatable {
     }
 }
 
-struct ListSourceRepositoriesOutputBody: Swift.Equatable {
+struct ListSourceRepositoriesOutputBody {
     let items: [CodeCatalystClientTypes.ListSourceRepositoriesItem]?
     let nextToken: Swift.String?
 }
@@ -5162,7 +5162,7 @@ extension ListSourceRepositoryBranchesInput {
     }
 }
 
-public struct ListSourceRepositoryBranchesInput: Swift.Equatable {
+public struct ListSourceRepositoryBranchesInput {
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
     public var maxResults: Swift.Int?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5193,7 +5193,7 @@ public struct ListSourceRepositoryBranchesInput: Swift.Equatable {
     }
 }
 
-struct ListSourceRepositoryBranchesInputBody: Swift.Equatable {
+struct ListSourceRepositoryBranchesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -5252,7 +5252,7 @@ extension CodeCatalystClientTypes.ListSourceRepositoryBranchesItem: Swift.Codabl
 
 extension CodeCatalystClientTypes {
     /// Information about a branch of a source repository returned in a list of branches.
-    public struct ListSourceRepositoryBranchesItem: Swift.Equatable {
+    public struct ListSourceRepositoryBranchesItem {
         /// The commit ID of the tip of the branch at the time of the request, also known as the head commit.
         public var headCommitId: Swift.String?
         /// The time the branch was last updated, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6).
@@ -5292,7 +5292,7 @@ extension ListSourceRepositoryBranchesOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListSourceRepositoryBranchesOutput: Swift.Equatable {
+public struct ListSourceRepositoryBranchesOutput {
     /// Information about the source branches.
     /// This member is required.
     public var items: [CodeCatalystClientTypes.ListSourceRepositoryBranchesItem]?
@@ -5309,7 +5309,7 @@ public struct ListSourceRepositoryBranchesOutput: Swift.Equatable {
     }
 }
 
-struct ListSourceRepositoryBranchesOutputBody: Swift.Equatable {
+struct ListSourceRepositoryBranchesOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.ListSourceRepositoryBranchesItem]?
 }
@@ -5370,7 +5370,7 @@ extension ListSpacesInput {
     }
 }
 
-public struct ListSpacesInput: Swift.Equatable {
+public struct ListSpacesInput {
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
     public var nextToken: Swift.String?
 
@@ -5382,7 +5382,7 @@ public struct ListSpacesInput: Swift.Equatable {
     }
 }
 
-struct ListSpacesInputBody: Swift.Equatable {
+struct ListSpacesInputBody {
     let nextToken: Swift.String?
 }
 
@@ -5412,7 +5412,7 @@ extension ListSpacesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSpacesOutput: Swift.Equatable {
+public struct ListSpacesOutput {
     /// Information about the spaces.
     public var items: [CodeCatalystClientTypes.SpaceSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5428,7 +5428,7 @@ public struct ListSpacesOutput: Swift.Equatable {
     }
 }
 
-struct ListSpacesOutputBody: Swift.Equatable {
+struct ListSpacesOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.SpaceSummary]?
 }
@@ -5518,7 +5518,7 @@ extension ListWorkflowRunsInput {
     }
 }
 
-public struct ListWorkflowRunsInput: Swift.Equatable {
+public struct ListWorkflowRunsInput {
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
     public var maxResults: Swift.Int?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5552,7 +5552,7 @@ public struct ListWorkflowRunsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowRunsInputBody: Swift.Equatable {
+struct ListWorkflowRunsInputBody {
     let sortBy: [CodeCatalystClientTypes.WorkflowRunSortCriteria]?
 }
 
@@ -5591,7 +5591,7 @@ extension ListWorkflowRunsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowRunsOutput: Swift.Equatable {
+public struct ListWorkflowRunsOutput {
     /// Information about the runs of a workflow.
     public var items: [CodeCatalystClientTypes.WorkflowRunSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5607,7 +5607,7 @@ public struct ListWorkflowRunsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowRunsOutputBody: Swift.Equatable {
+struct ListWorkflowRunsOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.WorkflowRunSummary]?
 }
@@ -5693,7 +5693,7 @@ extension ListWorkflowsInput {
     }
 }
 
-public struct ListWorkflowsInput: Swift.Equatable {
+public struct ListWorkflowsInput {
     /// The maximum number of results to show in a single call to this API. If the number of results is larger than the number you specified, the response will include a NextToken element, which you can use to obtain additional results.
     public var maxResults: Swift.Int?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5723,7 +5723,7 @@ public struct ListWorkflowsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsInputBody: Swift.Equatable {
+struct ListWorkflowsInputBody {
     let sortBy: [CodeCatalystClientTypes.WorkflowSortCriteria]?
 }
 
@@ -5762,7 +5762,7 @@ extension ListWorkflowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkflowsOutput: Swift.Equatable {
+public struct ListWorkflowsOutput {
     /// Information about the workflows in a project.
     public var items: [CodeCatalystClientTypes.WorkflowSummary]?
     /// A token returned from a call to this API to indicate the next batch of results to return, if any.
@@ -5778,7 +5778,7 @@ public struct ListWorkflowsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkflowsOutputBody: Swift.Equatable {
+struct ListWorkflowsOutputBody {
     let nextToken: Swift.String?
     let items: [CodeCatalystClientTypes.WorkflowSummary]?
 }
@@ -5872,7 +5872,7 @@ extension CodeCatalystClientTypes.PersistentStorage: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about the persistent storage for a Dev Environment.
-    public struct PersistentStorage: Swift.Equatable {
+    public struct PersistentStorage {
         /// The size of the persistent storage in gigabytes (specifically GiB). Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
         /// This member is required.
         public var sizeInGiB: Swift.Int?
@@ -5908,7 +5908,7 @@ extension CodeCatalystClientTypes.PersistentStorageConfiguration: Swift.Codable 
 
 extension CodeCatalystClientTypes {
     /// Information about the configuration of persistent storage for a Dev Environment.
-    public struct PersistentStorageConfiguration: Swift.Equatable {
+    public struct PersistentStorageConfiguration {
         /// The size of the persistent storage in gigabytes (specifically GiB). Valid values for storage are based on memory sizes in 16GB increments. Valid values are 16, 32, and 64.
         /// This member is required.
         public var sizeInGiB: Swift.Int?
@@ -5950,7 +5950,7 @@ extension CodeCatalystClientTypes.ProjectInformation: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a project in a space.
-    public struct ProjectInformation: Swift.Equatable {
+    public struct ProjectInformation {
         /// The name of the project in the space.
         public var name: Swift.String?
         /// The system-generated unique ID of the project.
@@ -6013,7 +6013,7 @@ extension CodeCatalystClientTypes.ProjectListFilter: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// nformation about the filter used to narrow the results returned in a list of projects.
-    public struct ProjectListFilter: Swift.Equatable {
+    public struct ProjectListFilter {
         /// The operator used to compare the fields.
         public var comparisonOperator: CodeCatalystClientTypes.ComparisonOperator?
         /// A key that can be used to sort results.
@@ -6070,7 +6070,7 @@ extension CodeCatalystClientTypes.ProjectSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a project.
-    public struct ProjectSummary: Swift.Equatable {
+    public struct ProjectSummary {
         /// The description of the project.
         public var description: Swift.String?
         /// The friendly name displayed to users of the project in Amazon CodeCatalyst.
@@ -6120,7 +6120,7 @@ extension CodeCatalystClientTypes.RepositoryInput: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a repository that will be cloned to a Dev Environment.
-    public struct RepositoryInput: Swift.Equatable {
+    public struct RepositoryInput {
         /// The name of the branch in a source repository.
         public var branchName: Swift.String?
         /// The name of the source repository.
@@ -6179,7 +6179,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -6235,7 +6235,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -6290,7 +6290,7 @@ extension CodeCatalystClientTypes.SpaceSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about an space.
-    public struct SpaceSummary: Swift.Equatable {
+    public struct SpaceSummary {
         /// The description of the space.
         public var description: Swift.String?
         /// The friendly name of the space displayed to users.
@@ -6358,7 +6358,7 @@ extension StartDevEnvironmentInput {
     }
 }
 
-public struct StartDevEnvironmentInput: Swift.Equatable {
+public struct StartDevEnvironmentInput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -6393,7 +6393,7 @@ public struct StartDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct StartDevEnvironmentInputBody: Swift.Equatable {
+struct StartDevEnvironmentInputBody {
     let ides: [CodeCatalystClientTypes.IdeConfiguration]?
     let instanceType: CodeCatalystClientTypes.InstanceType?
     let inactivityTimeoutMinutes: Swift.Int?
@@ -6444,7 +6444,7 @@ extension StartDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDevEnvironmentOutput: Swift.Equatable {
+public struct StartDevEnvironmentOutput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -6472,7 +6472,7 @@ public struct StartDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct StartDevEnvironmentOutputBody: Swift.Equatable {
+struct StartDevEnvironmentOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -6541,7 +6541,7 @@ extension StartDevEnvironmentSessionInput {
     }
 }
 
-public struct StartDevEnvironmentSessionInput: Swift.Equatable {
+public struct StartDevEnvironmentSessionInput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -6569,7 +6569,7 @@ public struct StartDevEnvironmentSessionInput: Swift.Equatable {
     }
 }
 
-struct StartDevEnvironmentSessionInputBody: Swift.Equatable {
+struct StartDevEnvironmentSessionInputBody {
     let sessionConfiguration: CodeCatalystClientTypes.DevEnvironmentSessionConfiguration?
 }
 
@@ -6610,7 +6610,7 @@ extension StartDevEnvironmentSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDevEnvironmentSessionOutput: Swift.Equatable {
+public struct StartDevEnvironmentSessionOutput {
     /// Information about connection details for a Dev Environment.
     /// This member is required.
     public var accessDetails: CodeCatalystClientTypes.DevEnvironmentAccessDetails?
@@ -6642,7 +6642,7 @@ public struct StartDevEnvironmentSessionOutput: Swift.Equatable {
     }
 }
 
-struct StartDevEnvironmentSessionOutputBody: Swift.Equatable {
+struct StartDevEnvironmentSessionOutputBody {
     let accessDetails: CodeCatalystClientTypes.DevEnvironmentAccessDetails?
     let sessionId: Swift.String?
     let spaceName: Swift.String?
@@ -6726,7 +6726,7 @@ extension StartWorkflowRunInput {
     }
 }
 
-public struct StartWorkflowRunInput: Swift.Equatable {
+public struct StartWorkflowRunInput {
     /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
     public var clientToken: Swift.String?
     /// The name of the project in the space.
@@ -6753,7 +6753,7 @@ public struct StartWorkflowRunInput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowRunInputBody: Swift.Equatable {
+struct StartWorkflowRunInputBody {
     let clientToken: Swift.String?
 }
 
@@ -6787,7 +6787,7 @@ extension StartWorkflowRunOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartWorkflowRunOutput: Swift.Equatable {
+public struct StartWorkflowRunOutput {
     /// The system-generated unique ID of the workflow run.
     /// This member is required.
     public var id: Swift.String?
@@ -6815,7 +6815,7 @@ public struct StartWorkflowRunOutput: Swift.Equatable {
     }
 }
 
-struct StartWorkflowRunOutputBody: Swift.Equatable {
+struct StartWorkflowRunOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -6871,7 +6871,7 @@ extension StopDevEnvironmentInput {
     }
 }
 
-public struct StopDevEnvironmentInput: Swift.Equatable {
+public struct StopDevEnvironmentInput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -6894,7 +6894,7 @@ public struct StopDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct StopDevEnvironmentInputBody: Swift.Equatable {
+struct StopDevEnvironmentInputBody {
 }
 
 extension StopDevEnvironmentInputBody: Swift.Decodable {
@@ -6921,7 +6921,7 @@ extension StopDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDevEnvironmentOutput: Swift.Equatable {
+public struct StopDevEnvironmentOutput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -6949,7 +6949,7 @@ public struct StopDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct StopDevEnvironmentOutputBody: Swift.Equatable {
+struct StopDevEnvironmentOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -7008,7 +7008,7 @@ extension StopDevEnvironmentSessionInput {
     }
 }
 
-public struct StopDevEnvironmentSessionInput: Swift.Equatable {
+public struct StopDevEnvironmentSessionInput {
     /// The system-generated unique ID of the Dev Environment. To obtain this ID, use [ListDevEnvironments].
     /// This member is required.
     public var id: Swift.String?
@@ -7036,7 +7036,7 @@ public struct StopDevEnvironmentSessionInput: Swift.Equatable {
     }
 }
 
-struct StopDevEnvironmentSessionInputBody: Swift.Equatable {
+struct StopDevEnvironmentSessionInputBody {
 }
 
 extension StopDevEnvironmentSessionInputBody: Swift.Decodable {
@@ -7063,7 +7063,7 @@ extension StopDevEnvironmentSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopDevEnvironmentSessionOutput: Swift.Equatable {
+public struct StopDevEnvironmentSessionOutput {
     /// The system-generated unique ID of the Dev Environment.
     /// This member is required.
     public var id: Swift.String?
@@ -7091,7 +7091,7 @@ public struct StopDevEnvironmentSessionOutput: Swift.Equatable {
     }
 }
 
-struct StopDevEnvironmentSessionOutputBody: Swift.Equatable {
+struct StopDevEnvironmentSessionOutputBody {
     let spaceName: Swift.String?
     let projectName: Swift.String?
     let id: Swift.String?
@@ -7171,7 +7171,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -7235,7 +7235,7 @@ extension UpdateDevEnvironmentInput {
     }
 }
 
-public struct UpdateDevEnvironmentInput: Swift.Equatable {
+public struct UpdateDevEnvironmentInput {
     /// The user-specified alias for the Dev Environment. Changing this value will not cause a restart.
     public var alias: Swift.String?
     /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
@@ -7278,7 +7278,7 @@ public struct UpdateDevEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateDevEnvironmentInputBody: Swift.Equatable {
+struct UpdateDevEnvironmentInputBody {
     let alias: Swift.String?
     let ides: [CodeCatalystClientTypes.IdeConfiguration]?
     let instanceType: CodeCatalystClientTypes.InstanceType?
@@ -7345,7 +7345,7 @@ extension UpdateDevEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDevEnvironmentOutput: Swift.Equatable {
+public struct UpdateDevEnvironmentOutput {
     /// The user-specified alias for the Dev Environment.
     public var alias: Swift.String?
     /// A user-specified idempotency token. Idempotency ensures that an API request completes only once. With an idempotent request, if the original request completes successfully, the subsequent retries return the result from the original successful request and have no additional effect.
@@ -7388,7 +7388,7 @@ public struct UpdateDevEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDevEnvironmentOutputBody: Swift.Equatable {
+struct UpdateDevEnvironmentOutputBody {
     let id: Swift.String?
     let spaceName: Swift.String?
     let projectName: Swift.String?
@@ -7479,7 +7479,7 @@ extension UpdateProjectInput {
     }
 }
 
-public struct UpdateProjectInput: Swift.Equatable {
+public struct UpdateProjectInput {
     /// The description of the project.
     public var description: Swift.String?
     /// The name of the project.
@@ -7501,7 +7501,7 @@ public struct UpdateProjectInput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectInputBody: Swift.Equatable {
+struct UpdateProjectInputBody {
     let description: Swift.String?
 }
 
@@ -7535,7 +7535,7 @@ extension UpdateProjectOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProjectOutput: Swift.Equatable {
+public struct UpdateProjectOutput {
     /// The description of the project.
     public var description: Swift.String?
     /// The friendly name of the project displayed to users in Amazon CodeCatalyst.
@@ -7559,7 +7559,7 @@ public struct UpdateProjectOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProjectOutputBody: Swift.Equatable {
+struct UpdateProjectOutputBody {
     let spaceName: Swift.String?
     let name: Swift.String?
     let displayName: Swift.String?
@@ -7622,7 +7622,7 @@ extension UpdateSpaceInput {
     }
 }
 
-public struct UpdateSpaceInput: Swift.Equatable {
+public struct UpdateSpaceInput {
     /// The description of the space.
     public var description: Swift.String?
     /// The name of the space.
@@ -7639,7 +7639,7 @@ public struct UpdateSpaceInput: Swift.Equatable {
     }
 }
 
-struct UpdateSpaceInputBody: Swift.Equatable {
+struct UpdateSpaceInputBody {
     let description: Swift.String?
 }
 
@@ -7671,7 +7671,7 @@ extension UpdateSpaceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSpaceOutput: Swift.Equatable {
+public struct UpdateSpaceOutput {
     /// The description of the space.
     public var description: Swift.String?
     /// The friendly name of the space displayed to users in Amazon CodeCatalyst.
@@ -7691,7 +7691,7 @@ public struct UpdateSpaceOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSpaceOutputBody: Swift.Equatable {
+struct UpdateSpaceOutputBody {
     let name: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -7766,7 +7766,7 @@ extension CodeCatalystClientTypes.UserIdentity: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a user whose activity is recorded in an event for a space.
-    public struct UserIdentity: Swift.Equatable {
+    public struct UserIdentity {
         /// The Amazon Web Services account number of the user in Amazon Web Services, if any.
         public var awsAccountId: Swift.String?
         /// The ID of the Amazon CodeCatalyst service principal.
@@ -7869,7 +7869,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -7892,12 +7892,12 @@ extension VerifySessionInput {
     }
 }
 
-public struct VerifySessionInput: Swift.Equatable {
+public struct VerifySessionInput {
 
     public init() { }
 }
 
-struct VerifySessionInputBody: Swift.Equatable {
+struct VerifySessionInputBody {
 }
 
 extension VerifySessionInputBody: Swift.Decodable {
@@ -7918,7 +7918,7 @@ extension VerifySessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct VerifySessionOutput: Swift.Equatable {
+public struct VerifySessionOutput {
     /// The system-generated unique ID of the user in Amazon CodeCatalyst.
     public var identity: Swift.String?
 
@@ -7930,7 +7930,7 @@ public struct VerifySessionOutput: Swift.Equatable {
     }
 }
 
-struct VerifySessionOutputBody: Swift.Equatable {
+struct VerifySessionOutputBody {
     let identity: Swift.String?
 }
 
@@ -7979,7 +7979,7 @@ extension CodeCatalystClientTypes.WorkflowDefinition: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a workflow definition file.
-    public struct WorkflowDefinition: Swift.Equatable {
+    public struct WorkflowDefinition {
         /// The path to the workflow definition file stored in the source repository for the project, including the file name.
         /// This member is required.
         public var path: Swift.String?
@@ -8015,7 +8015,7 @@ extension CodeCatalystClientTypes.WorkflowDefinitionSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a workflow definition.
-    public struct WorkflowDefinitionSummary: Swift.Equatable {
+    public struct WorkflowDefinitionSummary {
         /// The path to the workflow definition file stored in the source repository for the project, including the file name.
         /// This member is required.
         public var path: Swift.String?
@@ -8078,7 +8078,7 @@ extension CodeCatalystClientTypes.WorkflowRunSortCriteria: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information used to sort workflow runs in the returned list.
-    public struct WorkflowRunSortCriteria: Swift.Equatable {
+    public struct WorkflowRunSortCriteria {
 
         public init() { }
     }
@@ -8157,7 +8157,7 @@ extension CodeCatalystClientTypes.WorkflowRunStatusReason: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about the status of a workflow run.
-    public struct WorkflowRunStatusReason: Swift.Equatable {
+    public struct WorkflowRunStatusReason {
 
         public init() { }
     }
@@ -8239,7 +8239,7 @@ extension CodeCatalystClientTypes.WorkflowRunSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a workflow run.
-    public struct WorkflowRunSummary: Swift.Equatable {
+    public struct WorkflowRunSummary {
         /// The date and time the workflow run ended, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
         public var endTime: ClientRuntime.Date?
         /// The system-generated unique ID of the workflow run.
@@ -8300,7 +8300,7 @@ extension CodeCatalystClientTypes.WorkflowSortCriteria: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information used to sort workflows in the returned list.
-    public struct WorkflowSortCriteria: Swift.Equatable {
+    public struct WorkflowSortCriteria {
 
         public init() { }
     }
@@ -8408,7 +8408,7 @@ extension CodeCatalystClientTypes.WorkflowSummary: Swift.Codable {
 
 extension CodeCatalystClientTypes {
     /// Information about a workflow.
-    public struct WorkflowSummary: Swift.Equatable {
+    public struct WorkflowSummary {
         /// The date and time the workflow was created, in coordinated universal time (UTC) timestamp format as specified in [RFC 3339](https://www.rfc-editor.org/rfc/rfc3339#section-5.6)
         /// This member is required.
         public var createdTime: ClientRuntime.Date?

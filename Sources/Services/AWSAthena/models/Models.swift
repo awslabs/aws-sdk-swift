@@ -23,7 +23,7 @@ extension AthenaClientTypes.AclConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. When Athena stores query results in Amazon S3, the canned ACL is set with the x-amz-acl request header. For more information about S3 Object Ownership, see [Object Ownership settings](https://docs.aws.amazon.com/AmazonS3/latest/userguide/about-object-ownership.html#object-ownership-overview) in the Amazon S3 User Guide.
-    public struct AclConfiguration: Swift.Equatable {
+    public struct AclConfiguration {
         /// The Amazon S3 canned ACL that Athena should specify when storing query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. If a query runs in a workgroup and the workgroup overrides client-side settings, then the Amazon S3 canned ACL specified in the workgroup's settings is used for all queries that run in the workgroup. For more information about Amazon S3 canned ACLs, see [Canned ACL](https://docs.aws.amazon.com/AmazonS3/latest/userguide/acl-overview.html#canned-acl) in the Amazon S3 User Guide.
         /// This member is required.
         public var s3AclOption: AthenaClientTypes.S3AclOption?
@@ -77,7 +77,7 @@ extension AthenaClientTypes.ApplicationDPUSizes: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains the application runtime IDs and their supported DPU sizes.
-    public struct ApplicationDPUSizes: Swift.Equatable {
+    public struct ApplicationDPUSizes {
         /// The name of the supported application runtime (for example, Athena notebook version 1).
         public var applicationRuntimeId: Swift.String?
         /// A list of the supported DPU sizes that the application runtime supports.
@@ -136,7 +136,7 @@ extension AthenaClientTypes.AthenaError: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Provides information about an Athena query error. The AthenaError feature provides standardized error information to help you understand failed queries and take steps after a query failure occurs. AthenaError includes an ErrorCategory field that specifies whether the cause of the failed query is due to system error, user error, or other error.
-    public struct AthenaError: Swift.Equatable {
+    public struct AthenaError {
         /// An integer value that specifies the category of a query failure error. The following list shows the category for each integer value. 1 - System 2 - User 3 - Other
         public var errorCategory: Swift.Int?
         /// Contains a short description of the error that occurred.
@@ -215,7 +215,7 @@ extension BatchGetNamedQueryInput {
 }
 
 /// Contains an array of named query IDs.
-public struct BatchGetNamedQueryInput: Swift.Equatable {
+public struct BatchGetNamedQueryInput {
     /// An array of query IDs.
     /// This member is required.
     public var namedQueryIds: [Swift.String]?
@@ -228,7 +228,7 @@ public struct BatchGetNamedQueryInput: Swift.Equatable {
     }
 }
 
-struct BatchGetNamedQueryInputBody: Swift.Equatable {
+struct BatchGetNamedQueryInputBody {
     let namedQueryIds: [Swift.String]?
 }
 
@@ -267,7 +267,7 @@ extension BatchGetNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetNamedQueryOutput: Swift.Equatable {
+public struct BatchGetNamedQueryOutput {
     /// Information about the named query IDs submitted.
     public var namedQueries: [AthenaClientTypes.NamedQuery]?
     /// Information about provided query IDs.
@@ -283,7 +283,7 @@ public struct BatchGetNamedQueryOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetNamedQueryOutputBody: Swift.Equatable {
+struct BatchGetNamedQueryOutputBody {
     let namedQueries: [AthenaClientTypes.NamedQuery]?
     let unprocessedNamedQueryIds: [AthenaClientTypes.UnprocessedNamedQueryId]?
 }
@@ -360,7 +360,7 @@ extension BatchGetPreparedStatementInput {
     }
 }
 
-public struct BatchGetPreparedStatementInput: Swift.Equatable {
+public struct BatchGetPreparedStatementInput {
     /// A list of prepared statement names to return.
     /// This member is required.
     public var preparedStatementNames: [Swift.String]?
@@ -378,7 +378,7 @@ public struct BatchGetPreparedStatementInput: Swift.Equatable {
     }
 }
 
-struct BatchGetPreparedStatementInputBody: Swift.Equatable {
+struct BatchGetPreparedStatementInputBody {
     let preparedStatementNames: [Swift.String]?
     let workGroup: Swift.String?
 }
@@ -421,7 +421,7 @@ extension BatchGetPreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetPreparedStatementOutput: Swift.Equatable {
+public struct BatchGetPreparedStatementOutput {
     /// The list of prepared statements returned.
     public var preparedStatements: [AthenaClientTypes.PreparedStatement]?
     /// A list of one or more prepared statements that were requested but could not be returned.
@@ -437,7 +437,7 @@ public struct BatchGetPreparedStatementOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetPreparedStatementOutputBody: Swift.Equatable {
+struct BatchGetPreparedStatementOutputBody {
     let preparedStatements: [AthenaClientTypes.PreparedStatement]?
     let unprocessedPreparedStatementNames: [AthenaClientTypes.UnprocessedPreparedStatementName]?
 }
@@ -511,7 +511,7 @@ extension BatchGetQueryExecutionInput {
 }
 
 /// Contains an array of query execution IDs.
-public struct BatchGetQueryExecutionInput: Swift.Equatable {
+public struct BatchGetQueryExecutionInput {
     /// An array of query execution IDs.
     /// This member is required.
     public var queryExecutionIds: [Swift.String]?
@@ -524,7 +524,7 @@ public struct BatchGetQueryExecutionInput: Swift.Equatable {
     }
 }
 
-struct BatchGetQueryExecutionInputBody: Swift.Equatable {
+struct BatchGetQueryExecutionInputBody {
     let queryExecutionIds: [Swift.String]?
 }
 
@@ -563,7 +563,7 @@ extension BatchGetQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetQueryExecutionOutput: Swift.Equatable {
+public struct BatchGetQueryExecutionOutput {
     /// Information about a query execution.
     public var queryExecutions: [AthenaClientTypes.QueryExecution]?
     /// Information about the query executions that failed to run.
@@ -579,7 +579,7 @@ public struct BatchGetQueryExecutionOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetQueryExecutionOutputBody: Swift.Equatable {
+struct BatchGetQueryExecutionOutputBody {
     let queryExecutions: [AthenaClientTypes.QueryExecution]?
     let unprocessedQueryExecutionIds: [AthenaClientTypes.UnprocessedQueryExecutionId]?
 }
@@ -650,7 +650,7 @@ extension AthenaClientTypes.CalculationConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains configuration information for the calculation.
-    public struct CalculationConfiguration: Swift.Equatable {
+    public struct CalculationConfiguration {
         /// A string that contains the code for the calculation.
         public var codeBlock: Swift.String?
 
@@ -753,7 +753,7 @@ extension AthenaClientTypes.CalculationResult: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains information about an application-specific calculation result.
-    public struct CalculationResult: Swift.Equatable {
+    public struct CalculationResult {
         /// The Amazon S3 location of the folder for the calculation results.
         public var resultS3Uri: Swift.String?
         /// The data format of the calculation result.
@@ -806,7 +806,7 @@ extension AthenaClientTypes.CalculationStatistics: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains statistics for a notebook calculation.
-    public struct CalculationStatistics: Swift.Equatable {
+    public struct CalculationStatistics {
         /// The data processing unit execution time in milliseconds for the calculation.
         public var dpuExecutionInMillis: Swift.Int?
         /// The progress of the calculation.
@@ -863,7 +863,7 @@ extension AthenaClientTypes.CalculationStatus: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains information about the status of a notebook calculation.
-    public struct CalculationStatus: Swift.Equatable {
+    public struct CalculationStatus {
         /// The date and time the calculation completed processing.
         public var completionDateTime: ClientRuntime.Date?
         /// The state of the calculation execution. A description of each state follows. CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
@@ -922,7 +922,7 @@ extension AthenaClientTypes.CalculationSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Summary information for a notebook calculation.
-    public struct CalculationSummary: Swift.Equatable {
+    public struct CalculationSummary {
         /// The calculation execution UUID.
         public var calculationExecutionId: Swift.String?
         /// A description of the calculation.
@@ -964,7 +964,7 @@ extension CancelCapacityReservationInput {
     }
 }
 
-public struct CancelCapacityReservationInput: Swift.Equatable {
+public struct CancelCapacityReservationInput {
     /// The name of the capacity reservation to cancel.
     /// This member is required.
     public var name: Swift.String?
@@ -977,7 +977,7 @@ public struct CancelCapacityReservationInput: Swift.Equatable {
     }
 }
 
-struct CancelCapacityReservationInputBody: Swift.Equatable {
+struct CancelCapacityReservationInputBody {
     let name: Swift.String?
 }
 
@@ -998,7 +998,7 @@ extension CancelCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CancelCapacityReservationOutput: Swift.Equatable {
+public struct CancelCapacityReservationOutput {
 
     public init() { }
 }
@@ -1054,7 +1054,7 @@ extension AthenaClientTypes.CapacityAllocation: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains the submission time of a single allocation request for a capacity reservation and the most recent status of the attempted allocation.
-    public struct CapacityAllocation: Swift.Equatable {
+    public struct CapacityAllocation {
         /// The time when the capacity allocation request was completed.
         public var requestCompletionTime: ClientRuntime.Date?
         /// The time when the capacity allocation was requested.
@@ -1150,7 +1150,7 @@ extension AthenaClientTypes.CapacityAssignment: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A mapping between one or more workgroups and a capacity reservation.
-    public struct CapacityAssignment: Swift.Equatable {
+    public struct CapacityAssignment {
         /// The list of workgroup names for the capacity assignment.
         public var workGroupNames: [Swift.String]?
 
@@ -1203,7 +1203,7 @@ extension AthenaClientTypes.CapacityAssignmentConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Assigns Athena workgroups (and hence their queries) to capacity reservations. A capacity reservation can have only one capacity assignment configuration, but the capacity assignment configuration can be made up of multiple individual assignments. Each assignment specifies how Athena queries can consume capacity from the capacity reservation that their workgroup is mapped to.
-    public struct CapacityAssignmentConfiguration: Swift.Equatable {
+    public struct CapacityAssignmentConfiguration {
         /// The list of assignments that make up the capacity assignment configuration.
         public var capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
         /// The name of the reservation that the capacity assignment configuration is for.
@@ -1278,7 +1278,7 @@ extension AthenaClientTypes.CapacityReservation: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A reservation for a specified number of data processing units (DPUs). When a reservation is initially created, it has no DPUs. Athena allocates DPUs until the allocated amount equals the requested amount.
-    public struct CapacityReservation: Swift.Equatable {
+    public struct CapacityReservation {
         /// The number of data processing units currently allocated.
         /// This member is required.
         public var allocatedDpus: Swift.Int?
@@ -1398,7 +1398,7 @@ extension AthenaClientTypes.Column: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains metadata for a column in a table.
-    public struct Column: Swift.Equatable {
+    public struct Column {
         /// Optional information about the column.
         public var comment: Swift.String?
         /// The name of the column.
@@ -1496,7 +1496,7 @@ extension AthenaClientTypes.ColumnInfo: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Information about the columns in a query execution result.
-    public struct ColumnInfo: Swift.Equatable {
+    public struct ColumnInfo {
         /// Indicates whether values in the column are case-sensitive.
         public var caseSensitive: Swift.Bool
         /// The catalog to which the query results belong.
@@ -1614,7 +1614,7 @@ extension CreateCapacityReservationInput {
     }
 }
 
-public struct CreateCapacityReservationInput: Swift.Equatable {
+public struct CreateCapacityReservationInput {
     /// The name of the capacity reservation to create.
     /// This member is required.
     public var name: Swift.String?
@@ -1636,7 +1636,7 @@ public struct CreateCapacityReservationInput: Swift.Equatable {
     }
 }
 
-struct CreateCapacityReservationInputBody: Swift.Equatable {
+struct CreateCapacityReservationInputBody {
     let targetDpus: Swift.Int?
     let name: Swift.String?
     let tags: [AthenaClientTypes.Tag]?
@@ -1674,7 +1674,7 @@ extension CreateCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCapacityReservationOutput: Swift.Equatable {
+public struct CreateCapacityReservationOutput {
 
     public init() { }
 }
@@ -1733,7 +1733,7 @@ extension CreateDataCatalogInput {
     }
 }
 
-public struct CreateDataCatalogInput: Swift.Equatable {
+public struct CreateDataCatalogInput {
     /// A description of the data catalog to be created.
     public var description: Swift.String?
     /// The name of the data catalog to create. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
@@ -1778,7 +1778,7 @@ public struct CreateDataCatalogInput: Swift.Equatable {
     }
 }
 
-struct CreateDataCatalogInputBody: Swift.Equatable {
+struct CreateDataCatalogInputBody {
     let name: Swift.String?
     let type: AthenaClientTypes.DataCatalogType?
     let description: Swift.String?
@@ -1833,7 +1833,7 @@ extension CreateDataCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataCatalogOutput: Swift.Equatable {
+public struct CreateDataCatalogOutput {
 
     public init() { }
 }
@@ -1890,7 +1890,7 @@ extension CreateNamedQueryInput {
     }
 }
 
-public struct CreateNamedQueryInput: Swift.Equatable {
+public struct CreateNamedQueryInput {
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another CreateNamedQuery request is received, the same response is returned and another query is not created. If a parameter has changed, for example, the QueryString, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The database to which the query belongs.
@@ -1925,7 +1925,7 @@ public struct CreateNamedQueryInput: Swift.Equatable {
     }
 }
 
-struct CreateNamedQueryInputBody: Swift.Equatable {
+struct CreateNamedQueryInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let database: Swift.String?
@@ -1973,7 +1973,7 @@ extension CreateNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNamedQueryOutput: Swift.Equatable {
+public struct CreateNamedQueryOutput {
     /// The unique ID of the query.
     public var namedQueryId: Swift.String?
 
@@ -1985,7 +1985,7 @@ public struct CreateNamedQueryOutput: Swift.Equatable {
     }
 }
 
-struct CreateNamedQueryOutputBody: Swift.Equatable {
+struct CreateNamedQueryOutputBody {
     let namedQueryId: Swift.String?
 }
 
@@ -2041,7 +2041,7 @@ extension CreateNotebookInput {
     }
 }
 
-public struct CreateNotebookInput: Swift.Equatable {
+public struct CreateNotebookInput {
     /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The name of the ipynb file to be created in the Spark workgroup, without the .ipynb extension.
@@ -2063,7 +2063,7 @@ public struct CreateNotebookInput: Swift.Equatable {
     }
 }
 
-struct CreateNotebookInputBody: Swift.Equatable {
+struct CreateNotebookInputBody {
     let workGroup: Swift.String?
     let name: Swift.String?
     let clientRequestToken: Swift.String?
@@ -2099,7 +2099,7 @@ extension CreateNotebookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateNotebookOutput: Swift.Equatable {
+public struct CreateNotebookOutput {
     /// A unique identifier for the notebook.
     public var notebookId: Swift.String?
 
@@ -2111,7 +2111,7 @@ public struct CreateNotebookOutput: Swift.Equatable {
     }
 }
 
-struct CreateNotebookOutputBody: Swift.Equatable {
+struct CreateNotebookOutputBody {
     let notebookId: Swift.String?
 }
 
@@ -2172,7 +2172,7 @@ extension CreatePreparedStatementInput {
     }
 }
 
-public struct CreatePreparedStatementInput: Swift.Equatable {
+public struct CreatePreparedStatementInput {
     /// The description of the prepared statement.
     public var description: Swift.String?
     /// The query string for the prepared statement.
@@ -2199,7 +2199,7 @@ public struct CreatePreparedStatementInput: Swift.Equatable {
     }
 }
 
-struct CreatePreparedStatementInputBody: Swift.Equatable {
+struct CreatePreparedStatementInputBody {
     let statementName: Swift.String?
     let workGroup: Swift.String?
     let queryStatement: Swift.String?
@@ -2232,7 +2232,7 @@ extension CreatePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePreparedStatementOutput: Swift.Equatable {
+public struct CreatePreparedStatementOutput {
 
     public init() { }
 }
@@ -2269,7 +2269,7 @@ extension CreatePresignedNotebookUrlInput {
     }
 }
 
-public struct CreatePresignedNotebookUrlInput: Swift.Equatable {
+public struct CreatePresignedNotebookUrlInput {
     /// The session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -2282,7 +2282,7 @@ public struct CreatePresignedNotebookUrlInput: Swift.Equatable {
     }
 }
 
-struct CreatePresignedNotebookUrlInputBody: Swift.Equatable {
+struct CreatePresignedNotebookUrlInputBody {
     let sessionId: Swift.String?
 }
 
@@ -2314,7 +2314,7 @@ extension CreatePresignedNotebookUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreatePresignedNotebookUrlOutput: Swift.Equatable {
+public struct CreatePresignedNotebookUrlOutput {
     /// The authentication token for the notebook.
     /// This member is required.
     public var authToken: Swift.String?
@@ -2337,7 +2337,7 @@ public struct CreatePresignedNotebookUrlOutput: Swift.Equatable {
     }
 }
 
-struct CreatePresignedNotebookUrlOutputBody: Swift.Equatable {
+struct CreatePresignedNotebookUrlOutputBody {
     let notebookUrl: Swift.String?
     let authToken: Swift.String?
     let authTokenExpirationTime: Swift.Int?
@@ -2409,7 +2409,7 @@ extension CreateWorkGroupInput {
     }
 }
 
-public struct CreateWorkGroupInput: Swift.Equatable {
+public struct CreateWorkGroupInput {
     /// Contains configuration information for creating an Athena SQL workgroup or Spark enabled Athena workgroup. Athena SQL workgroup configuration includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for encrypting query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, the limit for the amount of bytes scanned (cutoff) per query, if it is specified, and whether workgroup's settings (specified with EnforceWorkGroupConfiguration) in the WorkGroupConfiguration override client-side settings. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
     public var configuration: AthenaClientTypes.WorkGroupConfiguration?
     /// The workgroup description.
@@ -2434,7 +2434,7 @@ public struct CreateWorkGroupInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkGroupInputBody: Swift.Equatable {
+struct CreateWorkGroupInputBody {
     let name: Swift.String?
     let configuration: AthenaClientTypes.WorkGroupConfiguration?
     let description: Swift.String?
@@ -2476,7 +2476,7 @@ extension CreateWorkGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkGroupOutput: Swift.Equatable {
+public struct CreateWorkGroupOutput {
 
     public init() { }
 }
@@ -2514,7 +2514,7 @@ extension AthenaClientTypes.CustomerContentEncryptionConfiguration: Swift.Codabl
 
 extension AthenaClientTypes {
     /// Specifies the customer managed KMS key that is used to encrypt the user's data stores in Athena. When an Amazon Web Services managed key is used, this value is null. This setting does not apply to Athena SQL workgroups.
-    public struct CustomerContentEncryptionConfiguration: Swift.Equatable {
+    public struct CustomerContentEncryptionConfiguration {
         /// The customer managed KMS key that is used to encrypt the user's data stores in Athena.
         /// This member is required.
         public var kmsKey: Swift.String?
@@ -2580,7 +2580,7 @@ extension AthenaClientTypes.DataCatalog: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains information about a data catalog in an Amazon Web Services account. In the Athena console, data catalogs are listed as "data sources" on the Data sources page under the Data source name column.
-    public struct DataCatalog: Swift.Equatable {
+    public struct DataCatalog {
         /// An optional description of the data catalog.
         public var description: Swift.String?
         /// The name of the data catalog. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
@@ -2650,7 +2650,7 @@ extension AthenaClientTypes.DataCatalogSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The summary information for the data catalog, which includes its name and type.
-    public struct DataCatalogSummary: Swift.Equatable {
+    public struct DataCatalogSummary {
         /// The name of the data catalog. The catalog name is unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
         public var catalogName: Swift.String?
         /// The data catalog type.
@@ -2748,7 +2748,7 @@ extension AthenaClientTypes.Database: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains metadata information for a database in a data catalog.
-    public struct Database: Swift.Equatable {
+    public struct Database {
         /// An optional description of the database.
         public var description: Swift.String?
         /// The name of the database.
@@ -2792,7 +2792,7 @@ extension AthenaClientTypes.Datum: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A piece of data (a field in the table).
-    public struct Datum: Swift.Equatable {
+    public struct Datum {
         /// The value of the datum.
         public var varCharValue: Swift.String?
 
@@ -2826,7 +2826,7 @@ extension DeleteCapacityReservationInput {
     }
 }
 
-public struct DeleteCapacityReservationInput: Swift.Equatable {
+public struct DeleteCapacityReservationInput {
     /// The name of the capacity reservation to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -2839,7 +2839,7 @@ public struct DeleteCapacityReservationInput: Swift.Equatable {
     }
 }
 
-struct DeleteCapacityReservationInputBody: Swift.Equatable {
+struct DeleteCapacityReservationInputBody {
     let name: Swift.String?
 }
 
@@ -2860,7 +2860,7 @@ extension DeleteCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCapacityReservationOutput: Swift.Equatable {
+public struct DeleteCapacityReservationOutput {
 
     public init() { }
 }
@@ -2897,7 +2897,7 @@ extension DeleteDataCatalogInput {
     }
 }
 
-public struct DeleteDataCatalogInput: Swift.Equatable {
+public struct DeleteDataCatalogInput {
     /// The name of the data catalog to delete.
     /// This member is required.
     public var name: Swift.String?
@@ -2910,7 +2910,7 @@ public struct DeleteDataCatalogInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataCatalogInputBody: Swift.Equatable {
+struct DeleteDataCatalogInputBody {
     let name: Swift.String?
 }
 
@@ -2931,7 +2931,7 @@ extension DeleteDataCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataCatalogOutput: Swift.Equatable {
+public struct DeleteDataCatalogOutput {
 
     public init() { }
 }
@@ -2968,7 +2968,7 @@ extension DeleteNamedQueryInput {
     }
 }
 
-public struct DeleteNamedQueryInput: Swift.Equatable {
+public struct DeleteNamedQueryInput {
     /// The unique ID of the query to delete.
     /// This member is required.
     public var namedQueryId: Swift.String?
@@ -2981,7 +2981,7 @@ public struct DeleteNamedQueryInput: Swift.Equatable {
     }
 }
 
-struct DeleteNamedQueryInputBody: Swift.Equatable {
+struct DeleteNamedQueryInputBody {
     let namedQueryId: Swift.String?
 }
 
@@ -3002,7 +3002,7 @@ extension DeleteNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNamedQueryOutput: Swift.Equatable {
+public struct DeleteNamedQueryOutput {
 
     public init() { }
 }
@@ -3039,7 +3039,7 @@ extension DeleteNotebookInput {
     }
 }
 
-public struct DeleteNotebookInput: Swift.Equatable {
+public struct DeleteNotebookInput {
     /// The ID of the notebook to delete.
     /// This member is required.
     public var notebookId: Swift.String?
@@ -3052,7 +3052,7 @@ public struct DeleteNotebookInput: Swift.Equatable {
     }
 }
 
-struct DeleteNotebookInputBody: Swift.Equatable {
+struct DeleteNotebookInputBody {
     let notebookId: Swift.String?
 }
 
@@ -3073,7 +3073,7 @@ extension DeleteNotebookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteNotebookOutput: Swift.Equatable {
+public struct DeleteNotebookOutput {
 
     public init() { }
 }
@@ -3115,7 +3115,7 @@ extension DeletePreparedStatementInput {
     }
 }
 
-public struct DeletePreparedStatementInput: Swift.Equatable {
+public struct DeletePreparedStatementInput {
     /// The name of the prepared statement to delete.
     /// This member is required.
     public var statementName: Swift.String?
@@ -3133,7 +3133,7 @@ public struct DeletePreparedStatementInput: Swift.Equatable {
     }
 }
 
-struct DeletePreparedStatementInputBody: Swift.Equatable {
+struct DeletePreparedStatementInputBody {
     let statementName: Swift.String?
     let workGroup: Swift.String?
 }
@@ -3158,7 +3158,7 @@ extension DeletePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeletePreparedStatementOutput: Swift.Equatable {
+public struct DeletePreparedStatementOutput {
 
     public init() { }
 }
@@ -3200,7 +3200,7 @@ extension DeleteWorkGroupInput {
     }
 }
 
-public struct DeleteWorkGroupInput: Swift.Equatable {
+public struct DeleteWorkGroupInput {
     /// The option to delete the workgroup and its contents even if the workgroup contains any named queries, query executions, or notebooks.
     public var recursiveDeleteOption: Swift.Bool?
     /// The unique name of the workgroup to delete.
@@ -3217,7 +3217,7 @@ public struct DeleteWorkGroupInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkGroupInputBody: Swift.Equatable {
+struct DeleteWorkGroupInputBody {
     let workGroup: Swift.String?
     let recursiveDeleteOption: Swift.Bool?
 }
@@ -3242,7 +3242,7 @@ extension DeleteWorkGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkGroupOutput: Swift.Equatable {
+public struct DeleteWorkGroupOutput {
 
     public init() { }
 }
@@ -3286,7 +3286,7 @@ extension AthenaClientTypes.EncryptionConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
-    public struct EncryptionConfiguration: Swift.Equatable {
+    public struct EncryptionConfiguration {
         /// Indicates whether Amazon S3 server-side encryption with Amazon S3-managed keys (SSE_S3), server-side encryption with KMS-managed keys (SSE_KMS), or client-side encryption with KMS-managed keys (CSE_KMS) is used. If a query runs in a workgroup and the workgroup overrides client-side settings, then the workgroup's setting for encryption is used. It specifies whether query results must be encrypted, for all queries that run in this workgroup.
         /// This member is required.
         public var encryptionOption: AthenaClientTypes.EncryptionOption?
@@ -3409,7 +3409,7 @@ extension AthenaClientTypes.EngineConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains data processing unit (DPU) configuration settings and parameter mappings for a notebook engine.
-    public struct EngineConfiguration: Swift.Equatable {
+    public struct EngineConfiguration {
         /// Contains additional notebook engine MAP parameter mappings in the form of key-value pairs. To specify an Athena notebook that the Jupyter server will download and serve, specify a value for the [StartSessionRequest$NotebookVersion] field, and then add a key named NotebookId to AdditionalConfigs that has the value of the Athena notebook ID.
         public var additionalConfigs: [Swift.String:Swift.String]?
         /// The number of DPUs to use for the coordinator. A coordinator is a special executor that orchestrates processing work and manages other executors in a notebook session. The default is 1.
@@ -3467,7 +3467,7 @@ extension AthenaClientTypes.EngineVersion: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The Athena engine version for running queries, or the PySpark engine version for running sessions.
-    public struct EngineVersion: Swift.Equatable {
+    public struct EngineVersion {
         /// Read only. The engine version on which the query runs. If the user requests a valid engine version other than Auto, the effective engine version is the same as the engine version that the user requested. If the user requests Auto, the effective engine version is chosen by Athena. When a request to update the engine version is made by a CreateWorkGroup or UpdateWorkGroup operation, the EffectiveEngineVersion field is ignored.
         public var effectiveEngineVersion: Swift.String?
         /// The engine version requested by the user. Possible values are determined by the output of ListEngineVersions, including AUTO. The default is AUTO.
@@ -3615,7 +3615,7 @@ extension AthenaClientTypes.ExecutorsSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains summary information about an executor.
-    public struct ExecutorsSummary: Swift.Equatable {
+    public struct ExecutorsSummary {
         /// The UUID of the executor.
         /// This member is required.
         public var executorId: Swift.String?
@@ -3670,7 +3670,7 @@ extension ExportNotebookInput {
     }
 }
 
-public struct ExportNotebookInput: Swift.Equatable {
+public struct ExportNotebookInput {
     /// The ID of the notebook to export.
     /// This member is required.
     public var notebookId: Swift.String?
@@ -3683,7 +3683,7 @@ public struct ExportNotebookInput: Swift.Equatable {
     }
 }
 
-struct ExportNotebookInputBody: Swift.Equatable {
+struct ExportNotebookInputBody {
     let notebookId: Swift.String?
 }
 
@@ -3713,7 +3713,7 @@ extension ExportNotebookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportNotebookOutput: Swift.Equatable {
+public struct ExportNotebookOutput {
     /// The notebook metadata, including notebook ID, notebook name, and workgroup name.
     public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
     /// The content of the exported notebook.
@@ -3729,7 +3729,7 @@ public struct ExportNotebookOutput: Swift.Equatable {
     }
 }
 
-struct ExportNotebookOutputBody: Swift.Equatable {
+struct ExportNotebookOutputBody {
     let notebookMetadata: AthenaClientTypes.NotebookMetadata?
     let payload: Swift.String?
 }
@@ -3783,7 +3783,7 @@ extension AthenaClientTypes.FilterDefinition: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A string for searching notebook names.
-    public struct FilterDefinition: Swift.Equatable {
+    public struct FilterDefinition {
         /// The name of the notebook to search for.
         public var name: Swift.String?
 
@@ -3817,7 +3817,7 @@ extension GetCalculationExecutionCodeInput {
     }
 }
 
-public struct GetCalculationExecutionCodeInput: Swift.Equatable {
+public struct GetCalculationExecutionCodeInput {
     /// The calculation execution UUID.
     /// This member is required.
     public var calculationExecutionId: Swift.String?
@@ -3830,7 +3830,7 @@ public struct GetCalculationExecutionCodeInput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionCodeInputBody: Swift.Equatable {
+struct GetCalculationExecutionCodeInputBody {
     let calculationExecutionId: Swift.String?
 }
 
@@ -3858,7 +3858,7 @@ extension GetCalculationExecutionCodeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCalculationExecutionCodeOutput: Swift.Equatable {
+public struct GetCalculationExecutionCodeOutput {
     /// The unencrypted code that was executed for the calculation.
     public var codeBlock: Swift.String?
 
@@ -3870,7 +3870,7 @@ public struct GetCalculationExecutionCodeOutput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionCodeOutputBody: Swift.Equatable {
+struct GetCalculationExecutionCodeOutputBody {
     let codeBlock: Swift.String?
 }
 
@@ -3919,7 +3919,7 @@ extension GetCalculationExecutionInput {
     }
 }
 
-public struct GetCalculationExecutionInput: Swift.Equatable {
+public struct GetCalculationExecutionInput {
     /// The calculation execution UUID.
     /// This member is required.
     public var calculationExecutionId: Swift.String?
@@ -3932,7 +3932,7 @@ public struct GetCalculationExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionInputBody: Swift.Equatable {
+struct GetCalculationExecutionInputBody {
     let calculationExecutionId: Swift.String?
 }
 
@@ -3972,7 +3972,7 @@ extension GetCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCalculationExecutionOutput: Swift.Equatable {
+public struct GetCalculationExecutionOutput {
     /// The calculation execution UUID.
     public var calculationExecutionId: Swift.String?
     /// The description of the calculation execution.
@@ -4008,7 +4008,7 @@ public struct GetCalculationExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionOutputBody: Swift.Equatable {
+struct GetCalculationExecutionOutputBody {
     let calculationExecutionId: Swift.String?
     let sessionId: Swift.String?
     let description: Swift.String?
@@ -4081,7 +4081,7 @@ extension GetCalculationExecutionStatusInput {
     }
 }
 
-public struct GetCalculationExecutionStatusInput: Swift.Equatable {
+public struct GetCalculationExecutionStatusInput {
     /// The calculation execution UUID.
     /// This member is required.
     public var calculationExecutionId: Swift.String?
@@ -4094,7 +4094,7 @@ public struct GetCalculationExecutionStatusInput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionStatusInputBody: Swift.Equatable {
+struct GetCalculationExecutionStatusInputBody {
     let calculationExecutionId: Swift.String?
 }
 
@@ -4124,7 +4124,7 @@ extension GetCalculationExecutionStatusOutput: ClientRuntime.HttpResponseBinding
     }
 }
 
-public struct GetCalculationExecutionStatusOutput: Swift.Equatable {
+public struct GetCalculationExecutionStatusOutput {
     /// Contains information about the DPU execution time and progress.
     public var statistics: AthenaClientTypes.CalculationStatistics?
     /// Contains information about the calculation execution status.
@@ -4140,7 +4140,7 @@ public struct GetCalculationExecutionStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetCalculationExecutionStatusOutputBody: Swift.Equatable {
+struct GetCalculationExecutionStatusOutputBody {
     let status: AthenaClientTypes.CalculationStatus?
     let statistics: AthenaClientTypes.CalculationStatistics?
 }
@@ -4193,7 +4193,7 @@ extension GetCapacityAssignmentConfigurationInput {
     }
 }
 
-public struct GetCapacityAssignmentConfigurationInput: Swift.Equatable {
+public struct GetCapacityAssignmentConfigurationInput {
     /// The name of the capacity reservation to retrieve the capacity assignment configuration for.
     /// This member is required.
     public var capacityReservationName: Swift.String?
@@ -4206,7 +4206,7 @@ public struct GetCapacityAssignmentConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetCapacityAssignmentConfigurationInputBody: Swift.Equatable {
+struct GetCapacityAssignmentConfigurationInputBody {
     let capacityReservationName: Swift.String?
 }
 
@@ -4234,7 +4234,7 @@ extension GetCapacityAssignmentConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct GetCapacityAssignmentConfigurationOutput: Swift.Equatable {
+public struct GetCapacityAssignmentConfigurationOutput {
     /// The requested capacity assignment configuration for the specified capacity reservation.
     /// This member is required.
     public var capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
@@ -4247,7 +4247,7 @@ public struct GetCapacityAssignmentConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetCapacityAssignmentConfigurationOutputBody: Swift.Equatable {
+struct GetCapacityAssignmentConfigurationOutputBody {
     let capacityAssignmentConfiguration: AthenaClientTypes.CapacityAssignmentConfiguration?
 }
 
@@ -4295,7 +4295,7 @@ extension GetCapacityReservationInput {
     }
 }
 
-public struct GetCapacityReservationInput: Swift.Equatable {
+public struct GetCapacityReservationInput {
     /// The name of the capacity reservation.
     /// This member is required.
     public var name: Swift.String?
@@ -4308,7 +4308,7 @@ public struct GetCapacityReservationInput: Swift.Equatable {
     }
 }
 
-struct GetCapacityReservationInputBody: Swift.Equatable {
+struct GetCapacityReservationInputBody {
     let name: Swift.String?
 }
 
@@ -4336,7 +4336,7 @@ extension GetCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCapacityReservationOutput: Swift.Equatable {
+public struct GetCapacityReservationOutput {
     /// The requested capacity reservation structure.
     /// This member is required.
     public var capacityReservation: AthenaClientTypes.CapacityReservation?
@@ -4349,7 +4349,7 @@ public struct GetCapacityReservationOutput: Swift.Equatable {
     }
 }
 
-struct GetCapacityReservationOutputBody: Swift.Equatable {
+struct GetCapacityReservationOutputBody {
     let capacityReservation: AthenaClientTypes.CapacityReservation?
 }
 
@@ -4401,7 +4401,7 @@ extension GetDataCatalogInput {
     }
 }
 
-public struct GetDataCatalogInput: Swift.Equatable {
+public struct GetDataCatalogInput {
     /// The name of the data catalog to return.
     /// This member is required.
     public var name: Swift.String?
@@ -4418,7 +4418,7 @@ public struct GetDataCatalogInput: Swift.Equatable {
     }
 }
 
-struct GetDataCatalogInputBody: Swift.Equatable {
+struct GetDataCatalogInputBody {
     let name: Swift.String?
     let workGroup: Swift.String?
 }
@@ -4450,7 +4450,7 @@ extension GetDataCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataCatalogOutput: Swift.Equatable {
+public struct GetDataCatalogOutput {
     /// The data catalog returned.
     public var dataCatalog: AthenaClientTypes.DataCatalog?
 
@@ -4462,7 +4462,7 @@ public struct GetDataCatalogOutput: Swift.Equatable {
     }
 }
 
-struct GetDataCatalogOutputBody: Swift.Equatable {
+struct GetDataCatalogOutputBody {
     let dataCatalog: AthenaClientTypes.DataCatalog?
 }
 
@@ -4518,7 +4518,7 @@ extension GetDatabaseInput {
     }
 }
 
-public struct GetDatabaseInput: Swift.Equatable {
+public struct GetDatabaseInput {
     /// The name of the data catalog that contains the database to return.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -4540,7 +4540,7 @@ public struct GetDatabaseInput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseInputBody: Swift.Equatable {
+struct GetDatabaseInputBody {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
     let workGroup: Swift.String?
@@ -4576,7 +4576,7 @@ extension GetDatabaseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDatabaseOutput: Swift.Equatable {
+public struct GetDatabaseOutput {
     /// The database returned.
     public var database: AthenaClientTypes.Database?
 
@@ -4588,7 +4588,7 @@ public struct GetDatabaseOutput: Swift.Equatable {
     }
 }
 
-struct GetDatabaseOutputBody: Swift.Equatable {
+struct GetDatabaseOutputBody {
     let database: AthenaClientTypes.Database?
 }
 
@@ -4637,7 +4637,7 @@ extension GetNamedQueryInput {
     }
 }
 
-public struct GetNamedQueryInput: Swift.Equatable {
+public struct GetNamedQueryInput {
     /// The unique ID of the query. Use [ListNamedQueries] to get query IDs.
     /// This member is required.
     public var namedQueryId: Swift.String?
@@ -4650,7 +4650,7 @@ public struct GetNamedQueryInput: Swift.Equatable {
     }
 }
 
-struct GetNamedQueryInputBody: Swift.Equatable {
+struct GetNamedQueryInputBody {
     let namedQueryId: Swift.String?
 }
 
@@ -4678,7 +4678,7 @@ extension GetNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNamedQueryOutput: Swift.Equatable {
+public struct GetNamedQueryOutput {
     /// Information about the query.
     public var namedQuery: AthenaClientTypes.NamedQuery?
 
@@ -4690,7 +4690,7 @@ public struct GetNamedQueryOutput: Swift.Equatable {
     }
 }
 
-struct GetNamedQueryOutputBody: Swift.Equatable {
+struct GetNamedQueryOutputBody {
     let namedQuery: AthenaClientTypes.NamedQuery?
 }
 
@@ -4738,7 +4738,7 @@ extension GetNotebookMetadataInput {
     }
 }
 
-public struct GetNotebookMetadataInput: Swift.Equatable {
+public struct GetNotebookMetadataInput {
     /// The ID of the notebook whose metadata is to be retrieved.
     /// This member is required.
     public var notebookId: Swift.String?
@@ -4751,7 +4751,7 @@ public struct GetNotebookMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetNotebookMetadataInputBody: Swift.Equatable {
+struct GetNotebookMetadataInputBody {
     let notebookId: Swift.String?
 }
 
@@ -4779,7 +4779,7 @@ extension GetNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetNotebookMetadataOutput: Swift.Equatable {
+public struct GetNotebookMetadataOutput {
     /// The metadata that is returned for the specified notebook ID.
     public var notebookMetadata: AthenaClientTypes.NotebookMetadata?
 
@@ -4791,7 +4791,7 @@ public struct GetNotebookMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetNotebookMetadataOutputBody: Swift.Equatable {
+struct GetNotebookMetadataOutputBody {
     let notebookMetadata: AthenaClientTypes.NotebookMetadata?
 }
 
@@ -4844,7 +4844,7 @@ extension GetPreparedStatementInput {
     }
 }
 
-public struct GetPreparedStatementInput: Swift.Equatable {
+public struct GetPreparedStatementInput {
     /// The name of the prepared statement to retrieve.
     /// This member is required.
     public var statementName: Swift.String?
@@ -4862,7 +4862,7 @@ public struct GetPreparedStatementInput: Swift.Equatable {
     }
 }
 
-struct GetPreparedStatementInputBody: Swift.Equatable {
+struct GetPreparedStatementInputBody {
     let statementName: Swift.String?
     let workGroup: Swift.String?
 }
@@ -4894,7 +4894,7 @@ extension GetPreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPreparedStatementOutput: Swift.Equatable {
+public struct GetPreparedStatementOutput {
     /// The name of the prepared statement that was retrieved.
     public var preparedStatement: AthenaClientTypes.PreparedStatement?
 
@@ -4906,7 +4906,7 @@ public struct GetPreparedStatementOutput: Swift.Equatable {
     }
 }
 
-struct GetPreparedStatementOutputBody: Swift.Equatable {
+struct GetPreparedStatementOutputBody {
     let preparedStatement: AthenaClientTypes.PreparedStatement?
 }
 
@@ -4955,7 +4955,7 @@ extension GetQueryExecutionInput {
     }
 }
 
-public struct GetQueryExecutionInput: Swift.Equatable {
+public struct GetQueryExecutionInput {
     /// The unique ID of the query execution.
     /// This member is required.
     public var queryExecutionId: Swift.String?
@@ -4968,7 +4968,7 @@ public struct GetQueryExecutionInput: Swift.Equatable {
     }
 }
 
-struct GetQueryExecutionInputBody: Swift.Equatable {
+struct GetQueryExecutionInputBody {
     let queryExecutionId: Swift.String?
 }
 
@@ -4996,7 +4996,7 @@ extension GetQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryExecutionOutput: Swift.Equatable {
+public struct GetQueryExecutionOutput {
     /// Information about the query execution.
     public var queryExecution: AthenaClientTypes.QueryExecution?
 
@@ -5008,7 +5008,7 @@ public struct GetQueryExecutionOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryExecutionOutputBody: Swift.Equatable {
+struct GetQueryExecutionOutputBody {
     let queryExecution: AthenaClientTypes.QueryExecution?
 }
 
@@ -5064,7 +5064,7 @@ extension GetQueryResultsInput {
     }
 }
 
-public struct GetQueryResultsInput: Swift.Equatable {
+public struct GetQueryResultsInput {
     /// The maximum number of results (rows) to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -5085,7 +5085,7 @@ public struct GetQueryResultsInput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsInputBody: Swift.Equatable {
+struct GetQueryResultsInputBody {
     let queryExecutionId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -5125,7 +5125,7 @@ extension GetQueryResultsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryResultsOutput: Swift.Equatable {
+public struct GetQueryResultsOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The results of the query execution.
@@ -5145,7 +5145,7 @@ public struct GetQueryResultsOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryResultsOutputBody: Swift.Equatable {
+struct GetQueryResultsOutputBody {
     let updateCount: Swift.Int?
     let resultSet: AthenaClientTypes.ResultSet?
     let nextToken: Swift.String?
@@ -5202,7 +5202,7 @@ extension GetQueryRuntimeStatisticsInput {
     }
 }
 
-public struct GetQueryRuntimeStatisticsInput: Swift.Equatable {
+public struct GetQueryRuntimeStatisticsInput {
     /// The unique ID of the query execution.
     /// This member is required.
     public var queryExecutionId: Swift.String?
@@ -5215,7 +5215,7 @@ public struct GetQueryRuntimeStatisticsInput: Swift.Equatable {
     }
 }
 
-struct GetQueryRuntimeStatisticsInputBody: Swift.Equatable {
+struct GetQueryRuntimeStatisticsInputBody {
     let queryExecutionId: Swift.String?
 }
 
@@ -5243,7 +5243,7 @@ extension GetQueryRuntimeStatisticsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueryRuntimeStatisticsOutput: Swift.Equatable {
+public struct GetQueryRuntimeStatisticsOutput {
     /// Runtime statistics about the query execution.
     public var queryRuntimeStatistics: AthenaClientTypes.QueryRuntimeStatistics?
 
@@ -5255,7 +5255,7 @@ public struct GetQueryRuntimeStatisticsOutput: Swift.Equatable {
     }
 }
 
-struct GetQueryRuntimeStatisticsOutputBody: Swift.Equatable {
+struct GetQueryRuntimeStatisticsOutputBody {
     let queryRuntimeStatistics: AthenaClientTypes.QueryRuntimeStatistics?
 }
 
@@ -5303,7 +5303,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -5316,7 +5316,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
     let sessionId: Swift.String?
 }
 
@@ -5360,7 +5360,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// The session description.
     public var description: Swift.String?
     /// Contains engine configuration information like DPU usage.
@@ -5404,7 +5404,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let sessionId: Swift.String?
     let description: Swift.String?
     let workGroup: Swift.String?
@@ -5485,7 +5485,7 @@ extension GetSessionStatusInput {
     }
 }
 
-public struct GetSessionStatusInput: Swift.Equatable {
+public struct GetSessionStatusInput {
     /// The session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -5498,7 +5498,7 @@ public struct GetSessionStatusInput: Swift.Equatable {
     }
 }
 
-struct GetSessionStatusInputBody: Swift.Equatable {
+struct GetSessionStatusInputBody {
     let sessionId: Swift.String?
 }
 
@@ -5528,7 +5528,7 @@ extension GetSessionStatusOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionStatusOutput: Swift.Equatable {
+public struct GetSessionStatusOutput {
     /// The session ID.
     public var sessionId: Swift.String?
     /// Contains information about the status of the session.
@@ -5544,7 +5544,7 @@ public struct GetSessionStatusOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionStatusOutputBody: Swift.Equatable {
+struct GetSessionStatusOutputBody {
     let sessionId: Swift.String?
     let status: AthenaClientTypes.SessionStatus?
 }
@@ -5609,7 +5609,7 @@ extension GetTableMetadataInput {
     }
 }
 
-public struct GetTableMetadataInput: Swift.Equatable {
+public struct GetTableMetadataInput {
     /// The name of the data catalog that contains the database and table metadata to return.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -5636,7 +5636,7 @@ public struct GetTableMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetTableMetadataInputBody: Swift.Equatable {
+struct GetTableMetadataInputBody {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
     let tableName: Swift.String?
@@ -5676,7 +5676,7 @@ extension GetTableMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTableMetadataOutput: Swift.Equatable {
+public struct GetTableMetadataOutput {
     /// An object that contains table metadata.
     public var tableMetadata: AthenaClientTypes.TableMetadata?
 
@@ -5688,7 +5688,7 @@ public struct GetTableMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetTableMetadataOutputBody: Swift.Equatable {
+struct GetTableMetadataOutputBody {
     let tableMetadata: AthenaClientTypes.TableMetadata?
 }
 
@@ -5737,7 +5737,7 @@ extension GetWorkGroupInput {
     }
 }
 
-public struct GetWorkGroupInput: Swift.Equatable {
+public struct GetWorkGroupInput {
     /// The name of the workgroup.
     /// This member is required.
     public var workGroup: Swift.String?
@@ -5750,7 +5750,7 @@ public struct GetWorkGroupInput: Swift.Equatable {
     }
 }
 
-struct GetWorkGroupInputBody: Swift.Equatable {
+struct GetWorkGroupInputBody {
     let workGroup: Swift.String?
 }
 
@@ -5778,7 +5778,7 @@ extension GetWorkGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkGroupOutput: Swift.Equatable {
+public struct GetWorkGroupOutput {
     /// Information about the workgroup.
     public var workGroup: AthenaClientTypes.WorkGroup?
 
@@ -5790,7 +5790,7 @@ public struct GetWorkGroupOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkGroupOutputBody: Swift.Equatable {
+struct GetWorkGroupOutputBody {
     let workGroup: AthenaClientTypes.WorkGroup?
 }
 
@@ -5845,7 +5845,7 @@ extension AthenaClientTypes.IdentityCenterConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Specifies whether the workgroup is IAM Identity Center supported.
-    public struct IdentityCenterConfiguration: Swift.Equatable {
+    public struct IdentityCenterConfiguration {
         /// Specifies whether the workgroup is IAM Identity Center supported.
         public var enableIdentityCenter: Swift.Bool?
         /// The IAM Identity Center instance ARN that the workgroup associates to.
@@ -5903,7 +5903,7 @@ extension ImportNotebookInput {
     }
 }
 
-public struct ImportNotebookInput: Swift.Equatable {
+public struct ImportNotebookInput {
     /// A unique case-sensitive string used to ensure the request to import the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The name of the notebook to import.
@@ -5938,7 +5938,7 @@ public struct ImportNotebookInput: Swift.Equatable {
     }
 }
 
-struct ImportNotebookInputBody: Swift.Equatable {
+struct ImportNotebookInputBody {
     let workGroup: Swift.String?
     let name: Swift.String?
     let payload: Swift.String?
@@ -5986,7 +5986,7 @@ extension ImportNotebookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportNotebookOutput: Swift.Equatable {
+public struct ImportNotebookOutput {
     /// The ID assigned to the imported notebook.
     public var notebookId: Swift.String?
 
@@ -5998,7 +5998,7 @@ public struct ImportNotebookOutput: Swift.Equatable {
     }
 }
 
-struct ImportNotebookOutputBody: Swift.Equatable {
+struct ImportNotebookOutputBody {
     let notebookId: Swift.String?
 }
 
@@ -6066,7 +6066,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6127,7 +6127,7 @@ public struct InvalidRequestException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRequestExceptionBody: Swift.Equatable {
+struct InvalidRequestExceptionBody {
     let athenaErrorCode: Swift.String?
     let message: Swift.String?
 }
@@ -6171,7 +6171,7 @@ extension ListApplicationDPUSizesInput {
     }
 }
 
-public struct ListApplicationDPUSizesInput: Swift.Equatable {
+public struct ListApplicationDPUSizesInput {
     /// Specifies the maximum number of results to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
@@ -6187,7 +6187,7 @@ public struct ListApplicationDPUSizesInput: Swift.Equatable {
     }
 }
 
-struct ListApplicationDPUSizesInputBody: Swift.Equatable {
+struct ListApplicationDPUSizesInputBody {
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
 }
@@ -6221,7 +6221,7 @@ extension ListApplicationDPUSizesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListApplicationDPUSizesOutput: Swift.Equatable {
+public struct ListApplicationDPUSizesOutput {
     /// A list of the supported DPU sizes that the application runtime supports.
     public var applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6237,7 +6237,7 @@ public struct ListApplicationDPUSizesOutput: Swift.Equatable {
     }
 }
 
-struct ListApplicationDPUSizesOutputBody: Swift.Equatable {
+struct ListApplicationDPUSizesOutputBody {
     let applicationDPUSizes: [AthenaClientTypes.ApplicationDPUSizes]?
     let nextToken: Swift.String?
 }
@@ -6311,7 +6311,7 @@ extension ListCalculationExecutionsInput {
     }
 }
 
-public struct ListCalculationExecutionsInput: Swift.Equatable {
+public struct ListCalculationExecutionsInput {
     /// The maximum number of calculation executions to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6336,7 +6336,7 @@ public struct ListCalculationExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListCalculationExecutionsInputBody: Swift.Equatable {
+struct ListCalculationExecutionsInputBody {
     let sessionId: Swift.String?
     let stateFilter: AthenaClientTypes.CalculationExecutionState?
     let maxResults: Swift.Int?
@@ -6378,7 +6378,7 @@ extension ListCalculationExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCalculationExecutionsOutput: Swift.Equatable {
+public struct ListCalculationExecutionsOutput {
     /// A list of [CalculationSummary] objects.
     public var calculations: [AthenaClientTypes.CalculationSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6394,7 +6394,7 @@ public struct ListCalculationExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListCalculationExecutionsOutputBody: Swift.Equatable {
+struct ListCalculationExecutionsOutputBody {
     let nextToken: Swift.String?
     let calculations: [AthenaClientTypes.CalculationSummary]?
 }
@@ -6460,7 +6460,7 @@ extension ListCapacityReservationsInput {
     }
 }
 
-public struct ListCapacityReservationsInput: Swift.Equatable {
+public struct ListCapacityReservationsInput {
     /// Specifies the maximum number of results to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated.
@@ -6476,7 +6476,7 @@ public struct ListCapacityReservationsInput: Swift.Equatable {
     }
 }
 
-struct ListCapacityReservationsInputBody: Swift.Equatable {
+struct ListCapacityReservationsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -6510,7 +6510,7 @@ extension ListCapacityReservationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCapacityReservationsOutput: Swift.Equatable {
+public struct ListCapacityReservationsOutput {
     /// The capacity reservations for the current account.
     /// This member is required.
     public var capacityReservations: [AthenaClientTypes.CapacityReservation]?
@@ -6527,7 +6527,7 @@ public struct ListCapacityReservationsOutput: Swift.Equatable {
     }
 }
 
-struct ListCapacityReservationsOutputBody: Swift.Equatable {
+struct ListCapacityReservationsOutputBody {
     let nextToken: Swift.String?
     let capacityReservations: [AthenaClientTypes.CapacityReservation]?
 }
@@ -6596,7 +6596,7 @@ extension ListDataCatalogsInput {
     }
 }
 
-public struct ListDataCatalogsInput: Swift.Equatable {
+public struct ListDataCatalogsInput {
     /// Specifies the maximum number of data catalogs to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6616,7 +6616,7 @@ public struct ListDataCatalogsInput: Swift.Equatable {
     }
 }
 
-struct ListDataCatalogsInputBody: Swift.Equatable {
+struct ListDataCatalogsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let workGroup: Swift.String?
@@ -6654,7 +6654,7 @@ extension ListDataCatalogsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataCatalogsOutput: Swift.Equatable {
+public struct ListDataCatalogsOutput {
     /// A summary list of data catalogs.
     public var dataCatalogsSummary: [AthenaClientTypes.DataCatalogSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6670,7 +6670,7 @@ public struct ListDataCatalogsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataCatalogsOutputBody: Swift.Equatable {
+struct ListDataCatalogsOutputBody {
     let dataCatalogsSummary: [AthenaClientTypes.DataCatalogSummary]?
     let nextToken: Swift.String?
 }
@@ -6743,7 +6743,7 @@ extension ListDatabasesInput {
     }
 }
 
-public struct ListDatabasesInput: Swift.Equatable {
+public struct ListDatabasesInput {
     /// The name of the data catalog that contains the databases to return.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -6768,7 +6768,7 @@ public struct ListDatabasesInput: Swift.Equatable {
     }
 }
 
-struct ListDatabasesInputBody: Swift.Equatable {
+struct ListDatabasesInputBody {
     let catalogName: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -6810,7 +6810,7 @@ extension ListDatabasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDatabasesOutput: Swift.Equatable {
+public struct ListDatabasesOutput {
     /// A list of databases from a data catalog.
     public var databaseList: [AthenaClientTypes.Database]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6826,7 +6826,7 @@ public struct ListDatabasesOutput: Swift.Equatable {
     }
 }
 
-struct ListDatabasesOutputBody: Swift.Equatable {
+struct ListDatabasesOutputBody {
     let databaseList: [AthenaClientTypes.Database]?
     let nextToken: Swift.String?
 }
@@ -6892,7 +6892,7 @@ extension ListEngineVersionsInput {
     }
 }
 
-public struct ListEngineVersionsInput: Swift.Equatable {
+public struct ListEngineVersionsInput {
     /// The maximum number of engine versions to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6908,7 +6908,7 @@ public struct ListEngineVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListEngineVersionsInputBody: Swift.Equatable {
+struct ListEngineVersionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -6942,7 +6942,7 @@ extension ListEngineVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEngineVersionsOutput: Swift.Equatable {
+public struct ListEngineVersionsOutput {
     /// A list of engine versions that are available to choose from.
     public var engineVersions: [AthenaClientTypes.EngineVersion]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -6958,7 +6958,7 @@ public struct ListEngineVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListEngineVersionsOutputBody: Swift.Equatable {
+struct ListEngineVersionsOutputBody {
     let engineVersions: [AthenaClientTypes.EngineVersion]?
     let nextToken: Swift.String?
 }
@@ -7031,7 +7031,7 @@ extension ListExecutorsInput {
     }
 }
 
-public struct ListExecutorsInput: Swift.Equatable {
+public struct ListExecutorsInput {
     /// A filter for a specific executor state. A description of each state follows. CREATING - The executor is being started, including acquiring resources. CREATED - The executor has been started. REGISTERED - The executor has been registered. TERMINATING - The executor is in the process of shutting down. TERMINATED - The executor is no longer running. FAILED - Due to a failure, the executor is no longer running.
     public var executorStateFilter: AthenaClientTypes.ExecutorState?
     /// The maximum number of executors to return.
@@ -7056,7 +7056,7 @@ public struct ListExecutorsInput: Swift.Equatable {
     }
 }
 
-struct ListExecutorsInputBody: Swift.Equatable {
+struct ListExecutorsInputBody {
     let sessionId: Swift.String?
     let executorStateFilter: AthenaClientTypes.ExecutorState?
     let maxResults: Swift.Int?
@@ -7100,7 +7100,7 @@ extension ListExecutorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListExecutorsOutput: Swift.Equatable {
+public struct ListExecutorsOutput {
     /// Contains summary information about the executor.
     public var executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7121,7 +7121,7 @@ public struct ListExecutorsOutput: Swift.Equatable {
     }
 }
 
-struct ListExecutorsOutputBody: Swift.Equatable {
+struct ListExecutorsOutputBody {
     let sessionId: Swift.String?
     let nextToken: Swift.String?
     let executorsSummary: [AthenaClientTypes.ExecutorsSummary]?
@@ -7195,7 +7195,7 @@ extension ListNamedQueriesInput {
     }
 }
 
-public struct ListNamedQueriesInput: Swift.Equatable {
+public struct ListNamedQueriesInput {
     /// The maximum number of queries to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7215,7 +7215,7 @@ public struct ListNamedQueriesInput: Swift.Equatable {
     }
 }
 
-struct ListNamedQueriesInputBody: Swift.Equatable {
+struct ListNamedQueriesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let workGroup: Swift.String?
@@ -7253,7 +7253,7 @@ extension ListNamedQueriesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNamedQueriesOutput: Swift.Equatable {
+public struct ListNamedQueriesOutput {
     /// The list of unique query IDs.
     public var namedQueryIds: [Swift.String]?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7269,7 +7269,7 @@ public struct ListNamedQueriesOutput: Swift.Equatable {
     }
 }
 
-struct ListNamedQueriesOutputBody: Swift.Equatable {
+struct ListNamedQueriesOutputBody {
     let namedQueryIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7342,7 +7342,7 @@ extension ListNotebookMetadataInput {
     }
 }
 
-public struct ListNotebookMetadataInput: Swift.Equatable {
+public struct ListNotebookMetadataInput {
     /// Search filter string.
     public var filters: AthenaClientTypes.FilterDefinition?
     /// Specifies the maximum number of results to return.
@@ -7367,7 +7367,7 @@ public struct ListNotebookMetadataInput: Swift.Equatable {
     }
 }
 
-struct ListNotebookMetadataInputBody: Swift.Equatable {
+struct ListNotebookMetadataInputBody {
     let filters: AthenaClientTypes.FilterDefinition?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7409,7 +7409,7 @@ extension ListNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotebookMetadataOutput: Swift.Equatable {
+public struct ListNotebookMetadataOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The list of notebook metadata for the specified workgroup.
@@ -7425,7 +7425,7 @@ public struct ListNotebookMetadataOutput: Swift.Equatable {
     }
 }
 
-struct ListNotebookMetadataOutputBody: Swift.Equatable {
+struct ListNotebookMetadataOutputBody {
     let nextToken: Swift.String?
     let notebookMetadataList: [AthenaClientTypes.NotebookMetadata]?
 }
@@ -7495,7 +7495,7 @@ extension ListNotebookSessionsInput {
     }
 }
 
-public struct ListNotebookSessionsInput: Swift.Equatable {
+public struct ListNotebookSessionsInput {
     /// The maximum number of notebook sessions to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7516,7 +7516,7 @@ public struct ListNotebookSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListNotebookSessionsInputBody: Swift.Equatable {
+struct ListNotebookSessionsInputBody {
     let notebookId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -7554,7 +7554,7 @@ extension ListNotebookSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotebookSessionsOutput: Swift.Equatable {
+public struct ListNotebookSessionsOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of the sessions belonging to the notebook.
@@ -7571,7 +7571,7 @@ public struct ListNotebookSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListNotebookSessionsOutputBody: Swift.Equatable {
+struct ListNotebookSessionsOutputBody {
     let notebookSessionsList: [AthenaClientTypes.NotebookSessionSummary]?
     let nextToken: Swift.String?
 }
@@ -7641,7 +7641,7 @@ extension ListPreparedStatementsInput {
     }
 }
 
-public struct ListPreparedStatementsInput: Swift.Equatable {
+public struct ListPreparedStatementsInput {
     /// The maximum number of results to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7662,7 +7662,7 @@ public struct ListPreparedStatementsInput: Swift.Equatable {
     }
 }
 
-struct ListPreparedStatementsInputBody: Swift.Equatable {
+struct ListPreparedStatementsInputBody {
     let workGroup: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -7700,7 +7700,7 @@ extension ListPreparedStatementsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListPreparedStatementsOutput: Swift.Equatable {
+public struct ListPreparedStatementsOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// The list of prepared statements for the workgroup.
@@ -7716,7 +7716,7 @@ public struct ListPreparedStatementsOutput: Swift.Equatable {
     }
 }
 
-struct ListPreparedStatementsOutputBody: Swift.Equatable {
+struct ListPreparedStatementsOutputBody {
     let preparedStatements: [AthenaClientTypes.PreparedStatementSummary]?
     let nextToken: Swift.String?
 }
@@ -7785,7 +7785,7 @@ extension ListQueryExecutionsInput {
     }
 }
 
-public struct ListQueryExecutionsInput: Swift.Equatable {
+public struct ListQueryExecutionsInput {
     /// The maximum number of query executions to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7805,7 +7805,7 @@ public struct ListQueryExecutionsInput: Swift.Equatable {
     }
 }
 
-struct ListQueryExecutionsInputBody: Swift.Equatable {
+struct ListQueryExecutionsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let workGroup: Swift.String?
@@ -7843,7 +7843,7 @@ extension ListQueryExecutionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueryExecutionsOutput: Swift.Equatable {
+public struct ListQueryExecutionsOutput {
     /// A token to be used by the next request if this request is truncated.
     public var nextToken: Swift.String?
     /// The unique IDs of each query execution as an array of strings.
@@ -7859,7 +7859,7 @@ public struct ListQueryExecutionsOutput: Swift.Equatable {
     }
 }
 
-struct ListQueryExecutionsOutputBody: Swift.Equatable {
+struct ListQueryExecutionsOutputBody {
     let queryExecutionIds: [Swift.String]?
     let nextToken: Swift.String?
 }
@@ -7932,7 +7932,7 @@ extension ListSessionsInput {
     }
 }
 
-public struct ListSessionsInput: Swift.Equatable {
+public struct ListSessionsInput {
     /// The maximum number of sessions to return.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -7957,7 +7957,7 @@ public struct ListSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListSessionsInputBody: Swift.Equatable {
+struct ListSessionsInputBody {
     let workGroup: Swift.String?
     let stateFilter: AthenaClientTypes.SessionState?
     let maxResults: Swift.Int?
@@ -7999,7 +7999,7 @@ extension ListSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionsOutput: Swift.Equatable {
+public struct ListSessionsOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of sessions.
@@ -8015,7 +8015,7 @@ public struct ListSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionsOutputBody: Swift.Equatable {
+struct ListSessionsOutputBody {
     let nextToken: Swift.String?
     let sessions: [AthenaClientTypes.SessionSummary]?
 }
@@ -8097,7 +8097,7 @@ extension ListTableMetadataInput {
     }
 }
 
-public struct ListTableMetadataInput: Swift.Equatable {
+public struct ListTableMetadataInput {
     /// The name of the data catalog for which table metadata should be returned.
     /// This member is required.
     public var catalogName: Swift.String?
@@ -8131,7 +8131,7 @@ public struct ListTableMetadataInput: Swift.Equatable {
     }
 }
 
-struct ListTableMetadataInputBody: Swift.Equatable {
+struct ListTableMetadataInputBody {
     let catalogName: Swift.String?
     let databaseName: Swift.String?
     let expression: Swift.String?
@@ -8181,7 +8181,7 @@ extension ListTableMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableMetadataOutput: Swift.Equatable {
+public struct ListTableMetadataOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of table metadata.
@@ -8197,7 +8197,7 @@ public struct ListTableMetadataOutput: Swift.Equatable {
     }
 }
 
-struct ListTableMetadataOutputBody: Swift.Equatable {
+struct ListTableMetadataOutputBody {
     let tableMetadataList: [AthenaClientTypes.TableMetadata]?
     let nextToken: Swift.String?
 }
@@ -8267,7 +8267,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The maximum number of results to be returned per request that lists the tags for the resource.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null if there are no additional results for this request, where the request lists the tags for the resource with the specified ARN.
@@ -8288,7 +8288,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -8326,7 +8326,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A token to be used by the next request if this request is truncated.
     public var nextToken: Swift.String?
     /// The list of tags associated with the specified resource.
@@ -8342,7 +8342,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [AthenaClientTypes.Tag]?
     let nextToken: Swift.String?
 }
@@ -8408,7 +8408,7 @@ extension ListWorkGroupsInput {
     }
 }
 
-public struct ListWorkGroupsInput: Swift.Equatable {
+public struct ListWorkGroupsInput {
     /// The maximum number of workgroups to return in this request.
     public var maxResults: Swift.Int?
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
@@ -8424,7 +8424,7 @@ public struct ListWorkGroupsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkGroupsInputBody: Swift.Equatable {
+struct ListWorkGroupsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -8458,7 +8458,7 @@ extension ListWorkGroupsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkGroupsOutput: Swift.Equatable {
+public struct ListWorkGroupsOutput {
     /// A token generated by the Athena service that specifies where to continue pagination if a previous request was truncated. To obtain the next set of pages, pass in the NextToken from the response object of the previous page call.
     public var nextToken: Swift.String?
     /// A list of [WorkGroupSummary] objects that include the names, descriptions, creation times, and states for each workgroup.
@@ -8474,7 +8474,7 @@ public struct ListWorkGroupsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkGroupsOutputBody: Swift.Equatable {
+struct ListWorkGroupsOutputBody {
     let workGroups: [AthenaClientTypes.WorkGroupSummary]?
     let nextToken: Swift.String?
 }
@@ -8554,7 +8554,7 @@ public struct MetadataException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct MetadataExceptionBody: Swift.Equatable {
+struct MetadataExceptionBody {
     let message: Swift.String?
 }
 
@@ -8621,7 +8621,7 @@ extension AthenaClientTypes.NamedQuery: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A query, where QueryString contains the SQL statements that make up the query.
-    public struct NamedQuery: Swift.Equatable {
+    public struct NamedQuery {
         /// The database to which the query belongs.
         /// This member is required.
         public var database: Swift.String?
@@ -8709,7 +8709,7 @@ extension AthenaClientTypes.NotebookMetadata: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains metadata for notebook, including the notebook name, ID, workgroup, and time created.
-    public struct NotebookMetadata: Swift.Equatable {
+    public struct NotebookMetadata {
         /// The time when the notebook was created.
         public var creationTime: ClientRuntime.Date?
         /// The time when the notebook was last modified.
@@ -8770,7 +8770,7 @@ extension AthenaClientTypes.NotebookSessionSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains the notebook session ID and notebook session creation time.
-    public struct NotebookSessionSummary: Swift.Equatable {
+    public struct NotebookSessionSummary {
         /// The time when the notebook session was created.
         public var creationTime: ClientRuntime.Date?
         /// The notebook session ID.
@@ -8862,7 +8862,7 @@ extension AthenaClientTypes.PreparedStatement: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A prepared SQL statement for use with Athena.
-    public struct PreparedStatement: Swift.Equatable {
+    public struct PreparedStatement {
         /// The description of the prepared statement.
         public var description: Swift.String?
         /// The last modified time of the prepared statement.
@@ -8919,7 +8919,7 @@ extension AthenaClientTypes.PreparedStatementSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The name and last modified time of the prepared statement.
-    public struct PreparedStatementSummary: Swift.Equatable {
+    public struct PreparedStatementSummary {
         /// The last modified time of the prepared statement.
         public var lastModifiedTime: ClientRuntime.Date?
         /// The name of the prepared statement.
@@ -8964,7 +8964,7 @@ extension PutCapacityAssignmentConfigurationInput {
     }
 }
 
-public struct PutCapacityAssignmentConfigurationInput: Swift.Equatable {
+public struct PutCapacityAssignmentConfigurationInput {
     /// The list of assignments for the capacity assignment configuration.
     /// This member is required.
     public var capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
@@ -8982,7 +8982,7 @@ public struct PutCapacityAssignmentConfigurationInput: Swift.Equatable {
     }
 }
 
-struct PutCapacityAssignmentConfigurationInputBody: Swift.Equatable {
+struct PutCapacityAssignmentConfigurationInputBody {
     let capacityReservationName: Swift.String?
     let capacityAssignments: [AthenaClientTypes.CapacityAssignment]?
 }
@@ -9016,7 +9016,7 @@ extension PutCapacityAssignmentConfigurationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct PutCapacityAssignmentConfigurationOutput: Swift.Equatable {
+public struct PutCapacityAssignmentConfigurationOutput {
 
     public init() { }
 }
@@ -9138,7 +9138,7 @@ extension AthenaClientTypes.QueryExecution: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Information about a single instance of a query execution.
-    public struct QueryExecution: Swift.Equatable {
+    public struct QueryExecution {
         /// The engine version that executed the query.
         public var engineVersion: AthenaClientTypes.EngineVersion?
         /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur. The list of parameters is not returned in the response.
@@ -9227,7 +9227,7 @@ extension AthenaClientTypes.QueryExecutionContext: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The database and data catalog context in which the query execution occurs.
-    public struct QueryExecutionContext: Swift.Equatable {
+    public struct QueryExecutionContext {
         /// The name of the data catalog used in the query execution.
         public var catalog: Swift.String?
         /// The name of the database used in the query execution. The database must exist in the catalog.
@@ -9355,7 +9355,7 @@ extension AthenaClientTypes.QueryExecutionStatistics: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The amount of data scanned during the query execution and the amount of time that it took to execute, and the type of statement that was run.
-    public struct QueryExecutionStatistics: Swift.Equatable {
+    public struct QueryExecutionStatistics {
         /// The location and file name of a data manifest file. The manifest file is saved to the Athena query results location in Amazon S3. The manifest file tracks files that the query wrote to Amazon S3. If the query fails, the manifest file also tracks files that the query intended to write. The manifest is useful for identifying orphaned files resulting from a failed query. For more information, see [Working with Query Results, Output Files, and Query History](https://docs.aws.amazon.com/athena/latest/ug/querying.html) in the Amazon Athena User Guide.
         public var dataManifestLocation: Swift.String?
         /// The number of bytes in the data that was queried.
@@ -9446,7 +9446,7 @@ extension AthenaClientTypes.QueryExecutionStatus: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The completion date, current state, submission time, and state change reason (if applicable) for the query execution.
-    public struct QueryExecutionStatus: Swift.Equatable {
+    public struct QueryExecutionStatus {
         /// Provides information about an Athena query error.
         public var athenaError: AthenaClientTypes.AthenaError?
         /// The date and time that the query completed.
@@ -9509,7 +9509,7 @@ extension AthenaClientTypes.QueryResultsS3AccessGrantsConfiguration: Swift.Codab
 
 extension AthenaClientTypes {
     /// Specifies whether Amazon S3 access grants are enabled for query results.
-    public struct QueryResultsS3AccessGrantsConfiguration: Swift.Equatable {
+    public struct QueryResultsS3AccessGrantsConfiguration {
         /// The authentication type used for Amazon S3 access grants. Currently, only DIRECTORY_IDENTITY is supported.
         /// This member is required.
         public var authenticationType: AthenaClientTypes.AuthenticationType?
@@ -9566,7 +9566,7 @@ extension AthenaClientTypes.QueryRuntimeStatistics: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The query execution timeline, statistics on input and output rows and bytes, and the different query stages that form the query execution plan.
-    public struct QueryRuntimeStatistics: Swift.Equatable {
+    public struct QueryRuntimeStatistics {
         /// Stage statistics such as input and output rows and bytes, execution time, and stage state. This information also includes substages and the query stage plan.
         public var outputStage: AthenaClientTypes.QueryStage?
         /// Statistics such as input rows and bytes read by the query, rows and bytes output by the query, and the number of rows written by the query.
@@ -9627,7 +9627,7 @@ extension AthenaClientTypes.QueryRuntimeStatisticsRows: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Statistics such as input rows and bytes read by the query, rows and bytes output by the query, and the number of rows written by the query.
-    public struct QueryRuntimeStatisticsRows: Swift.Equatable {
+    public struct QueryRuntimeStatisticsRows {
         /// The number of bytes read to execute the query.
         public var inputBytes: Swift.Int?
         /// The number of rows read to execute the query.
@@ -9704,7 +9704,7 @@ extension AthenaClientTypes.QueryRuntimeStatisticsTimeline: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Timeline statistics such as query queue time, planning time, execution time, service processing time, and total execution time.
-    public struct QueryRuntimeStatisticsTimeline: Swift.Equatable {
+    public struct QueryRuntimeStatisticsTimeline {
         /// The number of milliseconds that the query took to execute.
         public var engineExecutionTimeInMillis: Swift.Int?
         /// The number of milliseconds that Athena took to plan the query processing flow. This includes the time spent retrieving table partitions from the data source. Note that because the query engine performs the query planning, query planning time is a subset of engine processing time.
@@ -9819,7 +9819,7 @@ extension AthenaClientTypes.QueryStage: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Stage statistics such as input and output rows and bytes, execution time and stage state. This information also includes substages and the query stage plan.
-    public struct QueryStage: Swift.Equatable {
+    public struct QueryStage {
         /// Time taken to execute this stage.
         public var executionTime: Swift.Int?
         /// The number of bytes input into the stage for execution.
@@ -9928,7 +9928,7 @@ extension AthenaClientTypes.QueryStagePlanNode: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Stage plan information such as name, identifier, sub plans, and remote sources.
-    public struct QueryStagePlanNode: Swift.Equatable {
+    public struct QueryStagePlanNode {
         /// Stage plan information such as name, identifier, sub plans, and remote sources of child plan nodes/
         public var children: [AthenaClientTypes.QueryStagePlanNode]?
         /// Information about the operation this query stage plan node is performing.
@@ -9999,7 +9999,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
 }
@@ -10058,7 +10058,7 @@ extension AthenaClientTypes.ResultConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The location in Amazon S3 where query and calculation results are stored and the encryption option, if any, used for query and calculation results. These are known as "client-side settings". If workgroup settings override client-side settings, then the query uses the workgroup settings.
-    public struct ResultConfiguration: Swift.Equatable {
+    public struct ResultConfiguration {
         /// Indicates that an Amazon S3 canned ACL should be set to control ownership of stored query results. Currently the only supported canned ACL is BUCKET_OWNER_FULL_CONTROL. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the ACL configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. For more information, see [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
         public var aclConfiguration: AthenaClientTypes.AclConfiguration?
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information. This is a client-side setting. If workgroup settings override client-side settings, then the query uses the encryption configuration that is specified for the workgroup, and also uses the location for storing query results specified in the workgroup. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration] and [Workgroup Settings Override Client-Side Settings](https://docs.aws.amazon.com/athena/latest/ug/workgroups-settings-override.html).
@@ -10147,7 +10147,7 @@ extension AthenaClientTypes.ResultConfigurationUpdates: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The information about the updates in the query results, such as output location and encryption configuration for the query results.
-    public struct ResultConfigurationUpdates: Swift.Equatable {
+    public struct ResultConfigurationUpdates {
         /// The ACL configuration for the query results.
         public var aclConfiguration: AthenaClientTypes.AclConfiguration?
         /// The encryption configuration for query and calculation results.
@@ -10216,7 +10216,7 @@ extension AthenaClientTypes.ResultReuseByAgeConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Specifies whether previous query results are reused, and if so, their maximum age.
-    public struct ResultReuseByAgeConfiguration: Swift.Equatable {
+    public struct ResultReuseByAgeConfiguration {
         /// True if previous query results can be reused when the query is run; otherwise, false. The default is false.
         /// This member is required.
         public var enabled: Swift.Bool
@@ -10256,7 +10256,7 @@ extension AthenaClientTypes.ResultReuseConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Specifies the query result reuse behavior for the query.
-    public struct ResultReuseConfiguration: Swift.Equatable {
+    public struct ResultReuseConfiguration {
         /// Specifies whether previous query results are reused, and if so, their maximum age.
         public var resultReuseByAgeConfiguration: AthenaClientTypes.ResultReuseByAgeConfiguration?
 
@@ -10291,7 +10291,7 @@ extension AthenaClientTypes.ResultReuseInformation: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains information about whether the result of a previous query was reused.
-    public struct ResultReuseInformation: Swift.Equatable {
+    public struct ResultReuseInformation {
         /// True if a previous query result was reused; false if the result was generated from a new run of the query.
         /// This member is required.
         public var reusedPreviousResult: Swift.Bool
@@ -10345,7 +10345,7 @@ extension AthenaClientTypes.ResultSet: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The metadata and rows that make up a query result set. The metadata describes the column structure and data types. To return a ResultSet object, use [GetQueryResults].
-    public struct ResultSet: Swift.Equatable {
+    public struct ResultSet {
         /// The metadata that describes the column structure and data types of a table of query results.
         public var resultSetMetadata: AthenaClientTypes.ResultSetMetadata?
         /// The rows in the table.
@@ -10396,7 +10396,7 @@ extension AthenaClientTypes.ResultSetMetadata: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The metadata that describes the column structure and data types of a table of query results. To return a ResultSetMetadata object, use [GetQueryResults].
-    public struct ResultSetMetadata: Swift.Equatable {
+    public struct ResultSetMetadata {
         /// Information about the columns returned in a query result metadata.
         public var columnInfo: [AthenaClientTypes.ColumnInfo]?
 
@@ -10443,7 +10443,7 @@ extension AthenaClientTypes.Row: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The rows that make up a query result table.
-    public struct Row: Swift.Equatable {
+    public struct Row {
         /// The data that populates a row in a query result table.
         public var data: [AthenaClientTypes.Datum]?
 
@@ -10525,7 +10525,7 @@ public struct SessionAlreadyExistsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct SessionAlreadyExistsExceptionBody: Swift.Equatable {
+struct SessionAlreadyExistsExceptionBody {
     let message: Swift.String?
 }
 
@@ -10580,7 +10580,7 @@ extension AthenaClientTypes.SessionConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains session configuration information.
-    public struct SessionConfiguration: Swift.Equatable {
+    public struct SessionConfiguration {
         /// If query and calculation results are encrypted in Amazon S3, indicates the encryption option used (for example, SSE_KMS or CSE_KMS) and key information.
         public var encryptionConfiguration: AthenaClientTypes.EncryptionConfiguration?
         /// The ARN of the execution role used to access user resources for Spark sessions and Identity Center enabled workgroups. This property applies only to Spark enabled workgroups and Identity Center enabled workgroups.
@@ -10677,7 +10677,7 @@ extension AthenaClientTypes.SessionStatistics: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains statistics for a session.
-    public struct SessionStatistics: Swift.Equatable {
+    public struct SessionStatistics {
         /// The data processing unit execution time for a session in milliseconds.
         public var dpuExecutionInMillis: Swift.Int?
 
@@ -10742,7 +10742,7 @@ extension AthenaClientTypes.SessionStatus: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains information about the status of a session.
-    public struct SessionStatus: Swift.Equatable {
+    public struct SessionStatus {
         /// The date and time that the session ended.
         public var endDateTime: ClientRuntime.Date?
         /// The date and time starting at which the session became idle. Can be empty if the session is not currently idle.
@@ -10821,7 +10821,7 @@ extension AthenaClientTypes.SessionSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains summary information about a session.
-    public struct SessionSummary: Swift.Equatable {
+    public struct SessionSummary {
         /// The session description.
         public var description: Swift.String?
         /// The engine version used by the session (for example, PySpark engine version 3).
@@ -10887,7 +10887,7 @@ extension StartCalculationExecutionInput {
     }
 }
 
-public struct StartCalculationExecutionInput: Swift.Equatable {
+public struct StartCalculationExecutionInput {
     /// Contains configuration information for the calculation.
     @available(*, deprecated, message: "Kepler Post GA Tasks : https://sim.amazon.com/issues/ATHENA-39828")
     public var calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
@@ -10917,7 +10917,7 @@ public struct StartCalculationExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartCalculationExecutionInputBody: Swift.Equatable {
+struct StartCalculationExecutionInputBody {
     let sessionId: Swift.String?
     let description: Swift.String?
     let calculationConfiguration: AthenaClientTypes.CalculationConfiguration?
@@ -10963,7 +10963,7 @@ extension StartCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCalculationExecutionOutput: Swift.Equatable {
+public struct StartCalculationExecutionOutput {
     /// The calculation execution UUID.
     public var calculationExecutionId: Swift.String?
     /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
@@ -10979,7 +10979,7 @@ public struct StartCalculationExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartCalculationExecutionOutputBody: Swift.Equatable {
+struct StartCalculationExecutionOutputBody {
     let calculationExecutionId: Swift.String?
     let state: AthenaClientTypes.CalculationExecutionState?
 }
@@ -11059,7 +11059,7 @@ extension StartQueryExecutionInput {
     }
 }
 
-public struct StartQueryExecutionInput: Swift.Equatable {
+public struct StartQueryExecutionInput {
     /// A unique case-sensitive string used to ensure the request to create the query is idempotent (executes only once). If another StartQueryExecution request is received, the same response is returned and another query is not created. An error is returned if a parameter, such as QueryString, has changed. A call to StartQueryExecution that uses a previous client request token returns the same QueryExecutionId even if the requester doesn't have permission on the tables specified in QueryString. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// A list of values for the parameters in a query. The values are applied sequentially to the parameters in the query in the order in which the parameters occur.
@@ -11096,7 +11096,7 @@ public struct StartQueryExecutionInput: Swift.Equatable {
     }
 }
 
-struct StartQueryExecutionInputBody: Swift.Equatable {
+struct StartQueryExecutionInputBody {
     let queryString: Swift.String?
     let clientRequestToken: Swift.String?
     let queryExecutionContext: AthenaClientTypes.QueryExecutionContext?
@@ -11157,7 +11157,7 @@ extension StartQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartQueryExecutionOutput: Swift.Equatable {
+public struct StartQueryExecutionOutput {
     /// The unique ID of the query that ran as a result of this request.
     public var queryExecutionId: Swift.String?
 
@@ -11169,7 +11169,7 @@ public struct StartQueryExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StartQueryExecutionOutputBody: Swift.Equatable {
+struct StartQueryExecutionOutputBody {
     let queryExecutionId: Swift.String?
 }
 
@@ -11238,7 +11238,7 @@ extension StartSessionInput {
     }
 }
 
-public struct StartSessionInput: Swift.Equatable {
+public struct StartSessionInput {
     /// A unique case-sensitive string used to ensure the request to create the session is idempotent (executes only once). If another StartSessionRequest is received, the same response is returned and another session is not created. If a parameter has changed, an error is returned. This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for users. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The session description.
@@ -11272,7 +11272,7 @@ public struct StartSessionInput: Swift.Equatable {
     }
 }
 
-struct StartSessionInputBody: Swift.Equatable {
+struct StartSessionInputBody {
     let description: Swift.String?
     let workGroup: Swift.String?
     let engineConfiguration: AthenaClientTypes.EngineConfiguration?
@@ -11322,7 +11322,7 @@ extension StartSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartSessionOutput: Swift.Equatable {
+public struct StartSessionOutput {
     /// The session ID.
     public var sessionId: Swift.String?
     /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
@@ -11338,7 +11338,7 @@ public struct StartSessionOutput: Swift.Equatable {
     }
 }
 
-struct StartSessionOutputBody: Swift.Equatable {
+struct StartSessionOutputBody {
     let sessionId: Swift.String?
     let state: AthenaClientTypes.SessionState?
 }
@@ -11428,7 +11428,7 @@ extension StopCalculationExecutionInput {
     }
 }
 
-public struct StopCalculationExecutionInput: Swift.Equatable {
+public struct StopCalculationExecutionInput {
     /// The calculation execution UUID.
     /// This member is required.
     public var calculationExecutionId: Swift.String?
@@ -11441,7 +11441,7 @@ public struct StopCalculationExecutionInput: Swift.Equatable {
     }
 }
 
-struct StopCalculationExecutionInputBody: Swift.Equatable {
+struct StopCalculationExecutionInputBody {
     let calculationExecutionId: Swift.String?
 }
 
@@ -11469,7 +11469,7 @@ extension StopCalculationExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopCalculationExecutionOutput: Swift.Equatable {
+public struct StopCalculationExecutionOutput {
     /// CREATING - The calculation is in the process of being created. CREATED - The calculation has been created and is ready to run. QUEUED - The calculation has been queued for processing. RUNNING - The calculation is running. CANCELING - A request to cancel the calculation has been received and the system is working to stop it. CANCELED - The calculation is no longer running as the result of a cancel request. COMPLETED - The calculation has completed without error. FAILED - The calculation failed and is no longer running.
     public var state: AthenaClientTypes.CalculationExecutionState?
 
@@ -11481,7 +11481,7 @@ public struct StopCalculationExecutionOutput: Swift.Equatable {
     }
 }
 
-struct StopCalculationExecutionOutputBody: Swift.Equatable {
+struct StopCalculationExecutionOutputBody {
     let state: AthenaClientTypes.CalculationExecutionState?
 }
 
@@ -11530,7 +11530,7 @@ extension StopQueryExecutionInput {
     }
 }
 
-public struct StopQueryExecutionInput: Swift.Equatable {
+public struct StopQueryExecutionInput {
     /// The unique ID of the query execution to stop.
     /// This member is required.
     public var queryExecutionId: Swift.String?
@@ -11543,7 +11543,7 @@ public struct StopQueryExecutionInput: Swift.Equatable {
     }
 }
 
-struct StopQueryExecutionInputBody: Swift.Equatable {
+struct StopQueryExecutionInputBody {
     let queryExecutionId: Swift.String?
 }
 
@@ -11564,7 +11564,7 @@ extension StopQueryExecutionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StopQueryExecutionOutput: Swift.Equatable {
+public struct StopQueryExecutionOutput {
 
     public init() { }
 }
@@ -11674,7 +11674,7 @@ extension AthenaClientTypes.TableMetadata: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Contains metadata for a table.
-    public struct TableMetadata: Swift.Equatable {
+    public struct TableMetadata {
         /// A list of the columns in the table.
         public var columns: [AthenaClientTypes.Column]?
         /// The time that the table was created.
@@ -11740,7 +11740,7 @@ extension AthenaClientTypes.Tag: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A label that you assign to a resource. Athena resources include workgroups, data catalogs, and capacity reservations. Each tag consists of a key and an optional value, both of which you define. For example, you can use tags to categorize Athena resources by purpose, owner, or environment. Use a consistent set of tag keys to make it easier to search and filter the resources in your account. For best practices, see [Tagging Best Practices](https://docs.aws.amazon.com/whitepapers/latest/tagging-best-practices/tagging-best-practices.html). Tag keys can be from 1 to 128 UTF-8 Unicode characters, and tag values can be from 0 to 256 UTF-8 Unicode characters. Tags can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys and values are case-sensitive. Tag keys must be unique per resource. If you specify more than one tag, separate them by commas.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// A tag key. The tag key length is from 1 to 128 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag keys are case-sensitive and must be unique per resource.
         public var key: Swift.String?
         /// A tag value. The tag value length is from 0 to 256 Unicode characters in UTF-8. You can use letters and numbers representable in UTF-8, and the following characters: + - = . _ : / @. Tag values are case-sensitive.
@@ -11785,7 +11785,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// Specifies the ARN of the Athena resource to which tags are to be added.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -11803,7 +11803,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [AthenaClientTypes.Tag]?
 }
@@ -11837,7 +11837,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -11875,7 +11875,7 @@ extension TerminateSessionInput {
     }
 }
 
-public struct TerminateSessionInput: Swift.Equatable {
+public struct TerminateSessionInput {
     /// The session ID.
     /// This member is required.
     public var sessionId: Swift.String?
@@ -11888,7 +11888,7 @@ public struct TerminateSessionInput: Swift.Equatable {
     }
 }
 
-struct TerminateSessionInputBody: Swift.Equatable {
+struct TerminateSessionInputBody {
     let sessionId: Swift.String?
 }
 
@@ -11916,7 +11916,7 @@ extension TerminateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TerminateSessionOutput: Swift.Equatable {
+public struct TerminateSessionOutput {
     /// The state of the session. A description of each state follows. CREATING - The session is being started, including acquiring resources. CREATED - The session has been started. IDLE - The session is able to accept a calculation. BUSY - The session is processing another task and is unable to accept a calculation. TERMINATING - The session is in the process of shutting down. TERMINATED - The session and its resources are no longer running. DEGRADED - The session has no healthy coordinators. FAILED - Due to a failure, the session and its resources are no longer running.
     public var state: AthenaClientTypes.SessionState?
 
@@ -11928,7 +11928,7 @@ public struct TerminateSessionOutput: Swift.Equatable {
     }
 }
 
-struct TerminateSessionOutputBody: Swift.Equatable {
+struct TerminateSessionOutputBody {
     let state: AthenaClientTypes.SessionState?
 }
 
@@ -12032,7 +12032,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let message: Swift.String?
     let reason: AthenaClientTypes.ThrottleReason?
 }
@@ -12085,7 +12085,7 @@ extension AthenaClientTypes.UnprocessedNamedQueryId: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Information about a named query ID that could not be processed.
-    public struct UnprocessedNamedQueryId: Swift.Equatable {
+    public struct UnprocessedNamedQueryId {
         /// The error code returned when the processing request for the named query failed, if applicable.
         public var errorCode: Swift.String?
         /// The error message returned when the processing request for the named query failed, if applicable.
@@ -12140,7 +12140,7 @@ extension AthenaClientTypes.UnprocessedPreparedStatementName: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The name of a prepared statement that could not be returned.
-    public struct UnprocessedPreparedStatementName: Swift.Equatable {
+    public struct UnprocessedPreparedStatementName {
         /// The error code returned when the request for the prepared statement failed.
         public var errorCode: Swift.String?
         /// The error message containing the reason why the prepared statement could not be returned. The following error messages are possible:
@@ -12201,7 +12201,7 @@ extension AthenaClientTypes.UnprocessedQueryExecutionId: Swift.Codable {
 
 extension AthenaClientTypes {
     /// Describes a query execution that failed to process.
-    public struct UnprocessedQueryExecutionId: Swift.Equatable {
+    public struct UnprocessedQueryExecutionId {
         /// The error code returned when the query execution failed to process, if applicable.
         public var errorCode: Swift.String?
         /// The error message returned when the query execution failed to process, if applicable.
@@ -12250,7 +12250,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// Specifies the ARN of the resource from which tags are to be removed.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -12268,7 +12268,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -12302,7 +12302,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -12344,7 +12344,7 @@ extension UpdateCapacityReservationInput {
     }
 }
 
-public struct UpdateCapacityReservationInput: Swift.Equatable {
+public struct UpdateCapacityReservationInput {
     /// The name of the capacity reservation.
     /// This member is required.
     public var name: Swift.String?
@@ -12362,7 +12362,7 @@ public struct UpdateCapacityReservationInput: Swift.Equatable {
     }
 }
 
-struct UpdateCapacityReservationInputBody: Swift.Equatable {
+struct UpdateCapacityReservationInputBody {
     let targetDpus: Swift.Int?
     let name: Swift.String?
 }
@@ -12387,7 +12387,7 @@ extension UpdateCapacityReservationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCapacityReservationOutput: Swift.Equatable {
+public struct UpdateCapacityReservationOutput {
 
     public init() { }
 }
@@ -12439,7 +12439,7 @@ extension UpdateDataCatalogInput {
     }
 }
 
-public struct UpdateDataCatalogInput: Swift.Equatable {
+public struct UpdateDataCatalogInput {
     /// New or modified text that describes the data catalog.
     public var description: Swift.String?
     /// The name of the data catalog to update. The catalog name must be unique for the Amazon Web Services account and can use a maximum of 127 alphanumeric, underscore, at sign, or hyphen characters. The remainder of the length constraint of 256 is reserved for use by Athena.
@@ -12473,7 +12473,7 @@ public struct UpdateDataCatalogInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataCatalogInputBody: Swift.Equatable {
+struct UpdateDataCatalogInputBody {
     let name: Swift.String?
     let type: AthenaClientTypes.DataCatalogType?
     let description: Swift.String?
@@ -12515,7 +12515,7 @@ extension UpdateDataCatalogOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataCatalogOutput: Swift.Equatable {
+public struct UpdateDataCatalogOutput {
 
     public init() { }
 }
@@ -12564,7 +12564,7 @@ extension UpdateNamedQueryInput {
     }
 }
 
-public struct UpdateNamedQueryInput: Swift.Equatable {
+public struct UpdateNamedQueryInput {
     /// The query description.
     public var description: Swift.String?
     /// The name of the query.
@@ -12591,7 +12591,7 @@ public struct UpdateNamedQueryInput: Swift.Equatable {
     }
 }
 
-struct UpdateNamedQueryInputBody: Swift.Equatable {
+struct UpdateNamedQueryInputBody {
     let namedQueryId: Swift.String?
     let name: Swift.String?
     let description: Swift.String?
@@ -12624,7 +12624,7 @@ extension UpdateNamedQueryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNamedQueryOutput: Swift.Equatable {
+public struct UpdateNamedQueryOutput {
 
     public init() { }
 }
@@ -12677,7 +12677,7 @@ extension UpdateNotebookInput {
     }
 }
 
-public struct UpdateNotebookInput: Swift.Equatable {
+public struct UpdateNotebookInput {
     /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The ID of the notebook to update.
@@ -12708,7 +12708,7 @@ public struct UpdateNotebookInput: Swift.Equatable {
     }
 }
 
-struct UpdateNotebookInputBody: Swift.Equatable {
+struct UpdateNotebookInputBody {
     let notebookId: Swift.String?
     let payload: Swift.String?
     let type: AthenaClientTypes.NotebookType?
@@ -12768,7 +12768,7 @@ extension UpdateNotebookMetadataInput {
     }
 }
 
-public struct UpdateNotebookMetadataInput: Swift.Equatable {
+public struct UpdateNotebookMetadataInput {
     /// A unique case-sensitive string used to ensure the request to create the notebook is idempotent (executes only once). This token is listed as not required because Amazon Web Services SDKs (for example the Amazon Web Services SDK for Java) auto-generate the token for you. If you are not using the Amazon Web Services SDK or the Amazon Web Services CLI, you must provide this token or the action will fail.
     public var clientRequestToken: Swift.String?
     /// The name to update the notebook to.
@@ -12790,7 +12790,7 @@ public struct UpdateNotebookMetadataInput: Swift.Equatable {
     }
 }
 
-struct UpdateNotebookMetadataInputBody: Swift.Equatable {
+struct UpdateNotebookMetadataInputBody {
     let notebookId: Swift.String?
     let clientRequestToken: Swift.String?
     let name: Swift.String?
@@ -12819,7 +12819,7 @@ extension UpdateNotebookMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNotebookMetadataOutput: Swift.Equatable {
+public struct UpdateNotebookMetadataOutput {
 
     public init() { }
 }
@@ -12842,7 +12842,7 @@ extension UpdateNotebookOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateNotebookOutput: Swift.Equatable {
+public struct UpdateNotebookOutput {
 
     public init() { }
 }
@@ -12892,7 +12892,7 @@ extension UpdatePreparedStatementInput {
     }
 }
 
-public struct UpdatePreparedStatementInput: Swift.Equatable {
+public struct UpdatePreparedStatementInput {
     /// The description of the prepared statement.
     public var description: Swift.String?
     /// The query string for the prepared statement.
@@ -12919,7 +12919,7 @@ public struct UpdatePreparedStatementInput: Swift.Equatable {
     }
 }
 
-struct UpdatePreparedStatementInputBody: Swift.Equatable {
+struct UpdatePreparedStatementInputBody {
     let statementName: Swift.String?
     let workGroup: Swift.String?
     let queryStatement: Swift.String?
@@ -12952,7 +12952,7 @@ extension UpdatePreparedStatementOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdatePreparedStatementOutput: Swift.Equatable {
+public struct UpdatePreparedStatementOutput {
 
     public init() { }
 }
@@ -13002,7 +13002,7 @@ extension UpdateWorkGroupInput {
     }
 }
 
-public struct UpdateWorkGroupInput: Swift.Equatable {
+public struct UpdateWorkGroupInput {
     /// Contains configuration updates for an Athena SQL workgroup.
     public var configurationUpdates: AthenaClientTypes.WorkGroupConfigurationUpdates?
     /// The workgroup description.
@@ -13027,7 +13027,7 @@ public struct UpdateWorkGroupInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkGroupInputBody: Swift.Equatable {
+struct UpdateWorkGroupInputBody {
     let workGroup: Swift.String?
     let description: Swift.String?
     let configurationUpdates: AthenaClientTypes.WorkGroupConfigurationUpdates?
@@ -13060,7 +13060,7 @@ extension UpdateWorkGroupOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkGroupOutput: Swift.Equatable {
+public struct UpdateWorkGroupOutput {
 
     public init() { }
 }
@@ -13128,7 +13128,7 @@ extension AthenaClientTypes.WorkGroup: Swift.Codable {
 
 extension AthenaClientTypes {
     /// A workgroup, which contains a name, description, creation time, state, and other configuration, listed under [WorkGroup$Configuration]. Each workgroup enables you to isolate queries for you or your group of users from other queries in the same account, to configure the query results location and the encryption configuration (known as workgroup settings), to enable sending query metrics to Amazon CloudWatch, and to establish per-query data usage control limits for all queries in a workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
-    public struct WorkGroup: Swift.Equatable {
+    public struct WorkGroup {
         /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption configuration, if any, used for query and calculation results; whether the Amazon CloudWatch Metrics are enabled for the workgroup; whether workgroup settings override client-side settings; and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
         public var configuration: AthenaClientTypes.WorkGroupConfiguration?
         /// The date and time the workgroup was created.
@@ -13250,7 +13250,7 @@ extension AthenaClientTypes.WorkGroupConfiguration: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The configuration of the workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query and calculation results, whether the Amazon CloudWatch Metrics are enabled for the workgroup and whether workgroup settings override query settings, and the data usage limits for the amount of data scanned per query or per workgroup. The workgroup settings override is specified in EnforceWorkGroupConfiguration (true/false) in the WorkGroupConfiguration. See [WorkGroupConfiguration$EnforceWorkGroupConfiguration].
-    public struct WorkGroupConfiguration: Swift.Equatable {
+    public struct WorkGroupConfiguration {
         /// Specifies a user defined JSON string that is passed to the notebook engine.
         public var additionalConfiguration: Swift.String?
         /// The upper data usage limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
@@ -13401,7 +13401,7 @@ extension AthenaClientTypes.WorkGroupConfigurationUpdates: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The configuration information that will be updated for this workgroup, which includes the location in Amazon S3 where query and calculation results are stored, the encryption option, if any, used for query results, whether the Amazon CloudWatch Metrics are enabled for the workgroup, whether the workgroup settings override the client-side settings, and the data usage limit for the amount of bytes scanned per query, if it is specified.
-    public struct WorkGroupConfigurationUpdates: Swift.Equatable {
+    public struct WorkGroupConfigurationUpdates {
         /// Contains a user defined string in JSON format for a Spark-enabled workgroup.
         public var additionalConfiguration: Swift.String?
         /// The upper limit (cutoff) for the amount of bytes a single query in a workgroup is allowed to scan.
@@ -13546,7 +13546,7 @@ extension AthenaClientTypes.WorkGroupSummary: Swift.Codable {
 
 extension AthenaClientTypes {
     /// The summary information for the workgroup, which includes its name, state, description, and the date and time it was created.
-    public struct WorkGroupSummary: Swift.Equatable {
+    public struct WorkGroupSummary {
         /// The workgroup creation date and time.
         public var creationTime: ClientRuntime.Date?
         /// The workgroup description.

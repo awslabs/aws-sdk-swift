@@ -41,7 +41,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -96,7 +96,7 @@ public struct AutomationExecutionException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct AutomationExecutionExceptionBody: Swift.Equatable {
+struct AutomationExecutionExceptionBody {
     let message: Swift.String?
 }
 
@@ -151,7 +151,7 @@ public struct AutomationExecutionTimeoutException: ClientRuntime.ModeledError, A
     }
 }
 
-struct AutomationExecutionTimeoutExceptionBody: Swift.Equatable {
+struct AutomationExecutionTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -200,7 +200,7 @@ extension BatchCreateTableRowsInput {
     }
 }
 
-public struct BatchCreateTableRowsInput: Swift.Equatable {
+public struct BatchCreateTableRowsInput {
     /// The request token for performing the batch create operation. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the operation again. Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
     public var clientRequestToken: Swift.String?
     /// The list of rows to create at the end of the table. Each item in this list needs to have a batch item id to uniquely identify the element in the request and the cells to create for that row. You need to specify at least one item in this list. Note that if one of the column ids in any of the rows in the request does not exist in the table, then the request fails and no updates are made to the table.
@@ -227,7 +227,7 @@ public struct BatchCreateTableRowsInput: Swift.Equatable {
     }
 }
 
-struct BatchCreateTableRowsInputBody: Swift.Equatable {
+struct BatchCreateTableRowsInputBody {
     let rowsToCreate: [HoneycodeClientTypes.CreateRowData]?
     let clientRequestToken: Swift.String?
 }
@@ -272,7 +272,7 @@ extension BatchCreateTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchCreateTableRowsOutput: Swift.Equatable {
+public struct BatchCreateTableRowsOutput {
     /// The map of batch item id to the row id that was created for that item.
     /// This member is required.
     public var createdRows: [Swift.String:Swift.String]?
@@ -294,7 +294,7 @@ public struct BatchCreateTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct BatchCreateTableRowsOutputBody: Swift.Equatable {
+struct BatchCreateTableRowsOutputBody {
     let workbookCursor: Swift.Int
     let createdRows: [Swift.String:Swift.String]?
     let failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
@@ -387,7 +387,7 @@ extension BatchDeleteTableRowsInput {
     }
 }
 
-public struct BatchDeleteTableRowsInput: Swift.Equatable {
+public struct BatchDeleteTableRowsInput {
     /// The request token for performing the delete action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again. Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
     public var clientRequestToken: Swift.String?
     /// The list of row ids to delete from the table. You need to specify at least one row id in this list. Note that if one of the row ids provided in the request does not exist in the table, then the request fails and no rows are deleted from the table.
@@ -414,7 +414,7 @@ public struct BatchDeleteTableRowsInput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableRowsInputBody: Swift.Equatable {
+struct BatchDeleteTableRowsInputBody {
     let rowIds: [Swift.String]?
     let clientRequestToken: Swift.String?
 }
@@ -457,7 +457,7 @@ extension BatchDeleteTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchDeleteTableRowsOutput: Swift.Equatable {
+public struct BatchDeleteTableRowsOutput {
     /// The list of row ids in the request that could not be deleted from the table. Each element in this list contains one row id from the request that could not be deleted along with the reason why that item could not be deleted.
     public var failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
     /// The updated workbook cursor after deleting the rows from the table.
@@ -474,7 +474,7 @@ public struct BatchDeleteTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct BatchDeleteTableRowsOutputBody: Swift.Equatable {
+struct BatchDeleteTableRowsOutputBody {
     let workbookCursor: Swift.Int
     let failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
 }
@@ -553,7 +553,7 @@ extension BatchUpdateTableRowsInput {
     }
 }
 
-public struct BatchUpdateTableRowsInput: Swift.Equatable {
+public struct BatchUpdateTableRowsInput {
     /// The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again. Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
     public var clientRequestToken: Swift.String?
     /// The list of rows to update in the table. Each item in this list needs to contain the row id to update along with the map of column id to cell values for each column in that row that needs to be updated. You need to specify at least one row in this list, and for each row, you need to specify at least one column to update. Note that if one of the row or column ids in the request does not exist in the table, then the request fails and no updates are made to the table.
@@ -580,7 +580,7 @@ public struct BatchUpdateTableRowsInput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateTableRowsInputBody: Swift.Equatable {
+struct BatchUpdateTableRowsInputBody {
     let rowsToUpdate: [HoneycodeClientTypes.UpdateRowData]?
     let clientRequestToken: Swift.String?
 }
@@ -623,7 +623,7 @@ extension BatchUpdateTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpdateTableRowsOutput: Swift.Equatable {
+public struct BatchUpdateTableRowsOutput {
     /// The list of batch items in the request that could not be updated in the table. Each element in this list contains one item from the request that could not be updated in the table along with the reason why that item could not be updated.
     public var failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
     /// The updated workbook cursor after adding the new rows at the end of the table.
@@ -640,7 +640,7 @@ public struct BatchUpdateTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpdateTableRowsOutputBody: Swift.Equatable {
+struct BatchUpdateTableRowsOutputBody {
     let workbookCursor: Swift.Int
     let failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
 }
@@ -719,7 +719,7 @@ extension BatchUpsertTableRowsInput {
     }
 }
 
-public struct BatchUpsertTableRowsInput: Swift.Equatable {
+public struct BatchUpsertTableRowsInput {
     /// The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again. Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
     public var clientRequestToken: Swift.String?
     /// The list of rows to upsert in the table. Each item in this list needs to have a batch item id to uniquely identify the element in the request, a filter expression to find the rows to update for that element and the cell values to set for each column in the upserted rows. You need to specify at least one item in this list. Note that if one of the filter formulas in the request fails to evaluate because of an error or one of the column ids in any of the rows does not exist in the table, then the request fails and no updates are made to the table.
@@ -746,7 +746,7 @@ public struct BatchUpsertTableRowsInput: Swift.Equatable {
     }
 }
 
-struct BatchUpsertTableRowsInputBody: Swift.Equatable {
+struct BatchUpsertTableRowsInputBody {
     let rowsToUpsert: [HoneycodeClientTypes.UpsertRowData]?
     let clientRequestToken: Swift.String?
 }
@@ -791,7 +791,7 @@ extension BatchUpsertTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchUpsertTableRowsOutput: Swift.Equatable {
+public struct BatchUpsertTableRowsOutput {
     /// The list of batch items in the request that could not be updated or appended in the table. Each element in this list contains one item from the request that could not be updated in the table along with the reason why that item could not be updated or appended.
     public var failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
     /// A map with the batch item id as the key and the result of the upsert operation as the value. The result of the upsert operation specifies whether existing rows were updated or a new row was appended, along with the list of row ids that were affected.
@@ -813,7 +813,7 @@ public struct BatchUpsertTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct BatchUpsertTableRowsOutputBody: Swift.Equatable {
+struct BatchUpsertTableRowsOutputBody {
     let rows: [Swift.String:HoneycodeClientTypes.UpsertRowsResult]?
     let workbookCursor: Swift.Int
     let failedBatchItems: [HoneycodeClientTypes.FailedBatchItem]?
@@ -936,7 +936,7 @@ extension HoneycodeClientTypes.Cell: Swift.CustomDebugStringConvertible {
 
 extension HoneycodeClientTypes {
     /// An object that represents a single cell in a table.
-    public struct Cell: Swift.Equatable {
+    public struct Cell {
         /// The format of the cell. If this field is empty, then the format is either not specified in the workbook or the format is set to AUTO.
         public var format: HoneycodeClientTypes.Format?
         /// The formatted value of the cell. This is the value that you see displayed in the cell in the UI. Note that the formatted value of a cell is always represented as a string irrespective of the data that is stored in the cell. For example, if a cell contains a date, the formatted value of the cell is the string representation of the formatted date being shown in the cell in the UI. See details in the rawValue field below for how cells of different formats will have different raw and formatted values.
@@ -1010,7 +1010,7 @@ extension HoneycodeClientTypes.CellInput: Swift.CustomDebugStringConvertible {
 
 extension HoneycodeClientTypes {
     /// CellInput object contains the data needed to create or update cells in a table. CellInput object has only a facts field or a fact field, but not both. A 400 bad request will be thrown if both fact and facts field are present.
-    public struct CellInput: Swift.Equatable {
+    public struct CellInput {
         /// Fact represents the data that is entered into a cell. This data can be free text or a formula. Formulas need to start with the equals (=) sign.
         public var fact: Swift.String?
         /// A list representing the values that are entered into a ROWSET cell. Facts list can have either only values or rowIDs, and rowIDs should from the same table.
@@ -1060,7 +1060,7 @@ extension HoneycodeClientTypes.ColumnMetadata: Swift.CustomDebugStringConvertibl
 
 extension HoneycodeClientTypes {
     /// Metadata for column in the table.
-    public struct ColumnMetadata: Swift.Equatable {
+    public struct ColumnMetadata {
         /// The format of the column.
         /// This member is required.
         public var format: HoneycodeClientTypes.Format?
@@ -1119,7 +1119,7 @@ extension HoneycodeClientTypes.CreateRowData: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// Data needed to create a single row in a table as part of the BatchCreateTableRows request.
-    public struct CreateRowData: Swift.Equatable {
+    public struct CreateRowData {
         /// An external identifier that represents the single row that is being created as part of the BatchCreateTableRows request. This can be any string that you can use to identify the row in the request. The BatchCreateTableRows API puts the batch item id in the results to allow you to link data in the request to data in the results.
         /// This member is required.
         public var batchItemId: Swift.String?
@@ -1178,7 +1178,7 @@ extension HoneycodeClientTypes.DataItem: Swift.CustomDebugStringConvertible {
 
 extension HoneycodeClientTypes {
     /// The data in a particular data cell defined on the screen.
-    public struct DataItem: Swift.Equatable {
+    public struct DataItem {
         /// The formatted value of the data. e.g. John Smith.
         public var formattedValue: Swift.String?
         /// The overrideFormat is optional and is specified only if a particular row of data has a different format for the data than the default format defined on the screen or the table.
@@ -1239,7 +1239,7 @@ extension HoneycodeClientTypes.DelimitedTextImportOptions: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains the options relating to parsing delimited text as part of an import request.
-    public struct DelimitedTextImportOptions: Swift.Equatable {
+    public struct DelimitedTextImportOptions {
         /// The encoding of the data in the input file.
         public var dataCharacterEncoding: HoneycodeClientTypes.ImportDataCharacterEncoding?
         /// The delimiter to use for separating columns in a single row of the input.
@@ -1282,7 +1282,7 @@ extension DescribeTableDataImportJobInput {
     }
 }
 
-public struct DescribeTableDataImportJobInput: Swift.Equatable {
+public struct DescribeTableDataImportJobInput {
     /// The ID of the job that was returned by the StartTableDataImportJob request. If a job with the specified id could not be found, this API throws ResourceNotFoundException.
     /// This member is required.
     public var jobId: Swift.String?
@@ -1305,7 +1305,7 @@ public struct DescribeTableDataImportJobInput: Swift.Equatable {
     }
 }
 
-struct DescribeTableDataImportJobInputBody: Swift.Equatable {
+struct DescribeTableDataImportJobInputBody {
 }
 
 extension DescribeTableDataImportJobInputBody: Swift.Decodable {
@@ -1332,7 +1332,7 @@ extension DescribeTableDataImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DescribeTableDataImportJobOutput: Swift.Equatable {
+public struct DescribeTableDataImportJobOutput {
     /// If job status is failed, error code to understand reason for the failure.
     public var errorCode: HoneycodeClientTypes.ErrorCode?
     /// The metadata about the job that was submitted for import.
@@ -1359,7 +1359,7 @@ public struct DescribeTableDataImportJobOutput: Swift.Equatable {
     }
 }
 
-struct DescribeTableDataImportJobOutputBody: Swift.Equatable {
+struct DescribeTableDataImportJobOutputBody {
     let jobStatus: HoneycodeClientTypes.TableDataImportJobStatus?
     let message: Swift.String?
     let jobMetadata: HoneycodeClientTypes.TableDataImportJobMetadata?
@@ -1437,7 +1437,7 @@ extension HoneycodeClientTypes.DestinationOptions: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains the options relating to the destination of the import request.
-    public struct DestinationOptions: Swift.Equatable {
+    public struct DestinationOptions {
         /// A map of the column id to the import properties for each column.
         public var columnMap: [Swift.String:HoneycodeClientTypes.SourceDataColumnProperties]?
 
@@ -1546,7 +1546,7 @@ extension HoneycodeClientTypes.FailedBatchItem: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// A single item in a batch that failed to perform the intended action because of an error preventing it from succeeding.
-    public struct FailedBatchItem: Swift.Equatable {
+    public struct FailedBatchItem {
         /// The error message that indicates why the batch item failed.
         /// This member is required.
         public var errorMessage: Swift.String?
@@ -1598,7 +1598,7 @@ extension HoneycodeClientTypes.Filter: Swift.CustomDebugStringConvertible {
 
 extension HoneycodeClientTypes {
     /// An object that represents a filter formula along with the id of the context row under which the filter function needs to evaluate.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// The optional contextRowId attribute can be used to specify the row id of the context row if the filter formula contains unqualified references to table columns and needs a context row to evaluate them successfully.
         public var contextRowId: Swift.String?
         /// A formula representing a filter function that returns zero or more matching rows from a table. Valid formulas in this field return a list of rows from a table. The most common ways of writing a formula to return a list of rows are to use the FindRow() or Filter() functions. Any other formula that returns zero or more rows is also acceptable. For example, you can use a formula that points to a cell that contains a filter function.
@@ -1727,7 +1727,7 @@ extension GetScreenDataInput {
     }
 }
 
-public struct GetScreenDataInput: Swift.Equatable {
+public struct GetScreenDataInput {
     /// The ID of the app that contains the screen.
     /// This member is required.
     public var appId: Swift.String?
@@ -1762,7 +1762,7 @@ public struct GetScreenDataInput: Swift.Equatable {
     }
 }
 
-struct GetScreenDataInputBody: Swift.Equatable {
+struct GetScreenDataInputBody {
     let workbookId: Swift.String?
     let appId: Swift.String?
     let screenId: Swift.String?
@@ -1823,7 +1823,7 @@ extension GetScreenDataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScreenDataOutput: Swift.Equatable {
+public struct GetScreenDataOutput {
     /// Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the query has been loaded.
     public var nextToken: Swift.String?
     /// A map of all the rows on the screen keyed by block name.
@@ -1845,7 +1845,7 @@ public struct GetScreenDataOutput: Swift.Equatable {
     }
 }
 
-struct GetScreenDataOutputBody: Swift.Equatable {
+struct GetScreenDataOutputBody {
     let results: [Swift.String:HoneycodeClientTypes.ResultSet]?
     let workbookCursor: Swift.Int
     let nextToken: Swift.String?
@@ -1962,7 +1962,7 @@ extension HoneycodeClientTypes.ImportDataSource: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that has details about the source of the data that was submitted for import.
-    public struct ImportDataSource: Swift.Equatable {
+    public struct ImportDataSource {
         /// The configuration parameters for the data source of the import
         /// This member is required.
         public var dataSourceConfig: HoneycodeClientTypes.ImportDataSourceConfig?
@@ -2003,7 +2003,7 @@ extension HoneycodeClientTypes.ImportDataSourceConfig: Swift.CustomDebugStringCo
 
 extension HoneycodeClientTypes {
     /// An object that contains the configuration parameters for the data source of an import request.
-    public struct ImportDataSourceConfig: Swift.Equatable {
+    public struct ImportDataSourceConfig {
         /// The URL from which source data will be downloaded for the import request.
         public var dataSourceUrl: Swift.String?
 
@@ -2049,7 +2049,7 @@ extension HoneycodeClientTypes.ImportJobSubmitter: Swift.CustomDebugStringConver
 
 extension HoneycodeClientTypes {
     /// An object that contains the attributes of the submitter of the import job.
-    public struct ImportJobSubmitter: Swift.Equatable {
+    public struct ImportJobSubmitter {
         /// The email id of the submitter of the import job, if available.
         public var email: Swift.String?
         /// The AWS user ARN of the submitter of the import job, if available.
@@ -2094,7 +2094,7 @@ extension HoneycodeClientTypes.ImportOptions: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains the options specified by the sumitter of the import request.
-    public struct ImportOptions: Swift.Equatable {
+    public struct ImportOptions {
         /// Options relating to parsing delimited text. Required if dataFormat is DELIMITED_TEXT.
         public var delimitedTextOptions: HoneycodeClientTypes.DelimitedTextImportOptions?
         /// Options relating to the destination of the import request.
@@ -2180,7 +2180,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -2244,7 +2244,7 @@ extension InvokeScreenAutomationInput {
     }
 }
 
-public struct InvokeScreenAutomationInput: Swift.Equatable {
+public struct InvokeScreenAutomationInput {
     /// The ID of the app that contains the screen automation.
     /// This member is required.
     public var appId: Swift.String?
@@ -2284,7 +2284,7 @@ public struct InvokeScreenAutomationInput: Swift.Equatable {
     }
 }
 
-struct InvokeScreenAutomationInputBody: Swift.Equatable {
+struct InvokeScreenAutomationInputBody {
     let variables: [Swift.String:HoneycodeClientTypes.VariableValue]?
     let rowId: Swift.String?
     let clientRequestToken: Swift.String?
@@ -2329,7 +2329,7 @@ extension InvokeScreenAutomationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeScreenAutomationOutput: Swift.Equatable {
+public struct InvokeScreenAutomationOutput {
     /// The updated workbook cursor after performing the automation action.
     /// This member is required.
     public var workbookCursor: Swift.Int
@@ -2342,7 +2342,7 @@ public struct InvokeScreenAutomationOutput: Swift.Equatable {
     }
 }
 
-struct InvokeScreenAutomationOutputBody: Swift.Equatable {
+struct InvokeScreenAutomationOutputBody {
     let workbookCursor: Swift.Int
 }
 
@@ -2403,7 +2403,7 @@ extension ListTableColumnsInput {
     }
 }
 
-public struct ListTableColumnsInput: Swift.Equatable {
+public struct ListTableColumnsInput {
     /// This parameter is optional. If a nextToken is not specified, the API returns the first page of data. Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
     public var nextToken: Swift.String?
     /// The ID of the table whose columns are being retrieved. If a table with the specified id could not be found, this API throws ResourceNotFoundException.
@@ -2425,7 +2425,7 @@ public struct ListTableColumnsInput: Swift.Equatable {
     }
 }
 
-struct ListTableColumnsInputBody: Swift.Equatable {
+struct ListTableColumnsInputBody {
 }
 
 extension ListTableColumnsInputBody: Swift.Decodable {
@@ -2450,7 +2450,7 @@ extension ListTableColumnsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableColumnsOutput: Swift.Equatable {
+public struct ListTableColumnsOutput {
     /// Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
     public var nextToken: Swift.String?
     /// The list of columns in the table.
@@ -2471,7 +2471,7 @@ public struct ListTableColumnsOutput: Swift.Equatable {
     }
 }
 
-struct ListTableColumnsOutputBody: Swift.Equatable {
+struct ListTableColumnsOutputBody {
     let tableColumns: [HoneycodeClientTypes.TableColumn]?
     let nextToken: Swift.String?
     let workbookCursor: Swift.Int
@@ -2558,7 +2558,7 @@ extension ListTableRowsInput {
     }
 }
 
-public struct ListTableRowsInput: Swift.Equatable {
+public struct ListTableRowsInput {
     /// The maximum number of rows to return in each page of the results.
     public var maxResults: Swift.Int?
     /// This parameter is optional. If a nextToken is not specified, the API returns the first page of data. Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
@@ -2588,7 +2588,7 @@ public struct ListTableRowsInput: Swift.Equatable {
     }
 }
 
-struct ListTableRowsInputBody: Swift.Equatable {
+struct ListTableRowsInputBody {
     let rowIds: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -2641,7 +2641,7 @@ extension ListTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTableRowsOutput: Swift.Equatable {
+public struct ListTableRowsOutput {
     /// The list of columns in the table whose row data is returned in the result.
     /// This member is required.
     public var columnIds: [Swift.String]?
@@ -2672,7 +2672,7 @@ public struct ListTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct ListTableRowsOutputBody: Swift.Equatable {
+struct ListTableRowsOutputBody {
     let columnIds: [Swift.String]?
     let rows: [HoneycodeClientTypes.TableRow]?
     let rowIdsNotFound: [Swift.String]?
@@ -2774,7 +2774,7 @@ extension ListTablesInput {
     }
 }
 
-public struct ListTablesInput: Swift.Equatable {
+public struct ListTablesInput {
     /// The maximum number of tables to return in each page of the results.
     public var maxResults: Swift.Int?
     /// This parameter is optional. If a nextToken is not specified, the API returns the first page of data. Pagination tokens expire after 1 hour. If you use a token that was returned more than an hour back, the API will throw ValidationException.
@@ -2795,7 +2795,7 @@ public struct ListTablesInput: Swift.Equatable {
     }
 }
 
-struct ListTablesInputBody: Swift.Equatable {
+struct ListTablesInputBody {
 }
 
 extension ListTablesInputBody: Swift.Decodable {
@@ -2820,7 +2820,7 @@ extension ListTablesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTablesOutput: Swift.Equatable {
+public struct ListTablesOutput {
     /// Provides the pagination token to load the next page if there are more results matching the request. If a pagination token is not present in the response, it means that all data matching the request has been loaded.
     public var nextToken: Swift.String?
     /// The list of tables in the workbook.
@@ -2841,7 +2841,7 @@ public struct ListTablesOutput: Swift.Equatable {
     }
 }
 
-struct ListTablesOutputBody: Swift.Equatable {
+struct ListTablesOutputBody {
     let tables: [HoneycodeClientTypes.Table]?
     let nextToken: Swift.String?
     let workbookCursor: Swift.Int
@@ -2901,7 +2901,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2914,7 +2914,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2935,7 +2935,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The resource's tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -2947,7 +2947,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3023,7 +3023,7 @@ extension QueryTableRowsInput {
     }
 }
 
-public struct QueryTableRowsInput: Swift.Equatable {
+public struct QueryTableRowsInput {
     /// An object that represents a filter formula along with the id of the context row under which the filter function needs to evaluate.
     /// This member is required.
     public var filterFormula: HoneycodeClientTypes.Filter?
@@ -3054,7 +3054,7 @@ public struct QueryTableRowsInput: Swift.Equatable {
     }
 }
 
-struct QueryTableRowsInputBody: Swift.Equatable {
+struct QueryTableRowsInputBody {
     let filterFormula: HoneycodeClientTypes.Filter?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3096,7 +3096,7 @@ extension QueryTableRowsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct QueryTableRowsOutput: Swift.Equatable {
+public struct QueryTableRowsOutput {
     /// The list of columns in the table whose row data is returned in the result.
     /// This member is required.
     public var columnIds: [Swift.String]?
@@ -3123,7 +3123,7 @@ public struct QueryTableRowsOutput: Swift.Equatable {
     }
 }
 
-struct QueryTableRowsOutputBody: Swift.Equatable {
+struct QueryTableRowsOutputBody {
     let columnIds: [Swift.String]?
     let rows: [HoneycodeClientTypes.TableRow]?
     let nextToken: Swift.String?
@@ -3225,7 +3225,7 @@ public struct RequestTimeoutException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct RequestTimeoutExceptionBody: Swift.Equatable {
+struct RequestTimeoutExceptionBody {
     let message: Swift.String?
 }
 
@@ -3280,7 +3280,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -3335,7 +3335,7 @@ extension HoneycodeClientTypes.ResultRow: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// A single row in the ResultSet.
-    public struct ResultRow: Swift.Equatable {
+    public struct ResultRow {
         /// List of all the data cells in a row.
         /// This member is required.
         public var dataItems: [HoneycodeClientTypes.DataItem]?
@@ -3405,7 +3405,7 @@ extension HoneycodeClientTypes.ResultSet: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// ResultSet contains the results of the request for a single block or list defined on the screen.
-    public struct ResultSet: Swift.Equatable {
+    public struct ResultSet {
         /// List of headers for all the data cells in the block. The header identifies the name and default format of the data cell. Data cells appear in the same order in all rows as defined in the header. The names and formats are not repeated in the rows. If a particular row does not have a value for a data cell, a blank value is used. For example, a task list that displays the task name, due date and assigned person might have headers [ { "name": "Task Name"}, {"name": "Due Date", "format": "DATE"}, {"name": "Assigned", "format": "CONTACT"} ]. Every row in the result will have the task name as the first item, due date as the second item and assigned person as the third item. If a particular task does not have a due date, that row will still have a blank value in the second element and the assigned person will still be in the third element.
         /// This member is required.
         public var headers: [HoneycodeClientTypes.ColumnMetadata]?
@@ -3465,7 +3465,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -3520,7 +3520,7 @@ public struct ServiceUnavailableException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct ServiceUnavailableExceptionBody: Swift.Equatable {
+struct ServiceUnavailableExceptionBody {
     let message: Swift.String?
 }
 
@@ -3557,7 +3557,7 @@ extension HoneycodeClientTypes.SourceDataColumnProperties: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains the properties for importing data to a specific column in a table.
-    public struct SourceDataColumnProperties: Swift.Equatable {
+    public struct SourceDataColumnProperties {
         /// The index of the column in the input file.
         public var columnIndex: Swift.Int?
 
@@ -3609,7 +3609,7 @@ extension StartTableDataImportJobInput {
     }
 }
 
-public struct StartTableDataImportJobInput: Swift.Equatable {
+public struct StartTableDataImportJobInput {
     /// The request token for performing the update action. Request tokens help to identify duplicate requests. If a call times out or fails due to a transient error like a failed network connection, you can retry the call with the same request token. The service ensures that if the first call using that request token is successfully performed, the second call will not perform the action again. Note that request tokens are valid only for a few minutes. You cannot use request tokens to dedupe requests spanning hours or days.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -3647,7 +3647,7 @@ public struct StartTableDataImportJobInput: Swift.Equatable {
     }
 }
 
-struct StartTableDataImportJobInputBody: Swift.Equatable {
+struct StartTableDataImportJobInputBody {
     let dataSource: HoneycodeClientTypes.ImportDataSource?
     let dataFormat: HoneycodeClientTypes.ImportSourceDataFormat?
     let importOptions: HoneycodeClientTypes.ImportOptions?
@@ -3689,7 +3689,7 @@ extension StartTableDataImportJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartTableDataImportJobOutput: Swift.Equatable {
+public struct StartTableDataImportJobOutput {
     /// The id that is assigned to this import job. Future requests to find out the status of this import job need to send this id in the appropriate parameter in the request.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3707,7 +3707,7 @@ public struct StartTableDataImportJobOutput: Swift.Equatable {
     }
 }
 
-struct StartTableDataImportJobOutputBody: Swift.Equatable {
+struct StartTableDataImportJobOutputBody {
     let jobId: Swift.String?
     let jobStatus: HoneycodeClientTypes.TableDataImportJobStatus?
 }
@@ -3772,7 +3772,7 @@ extension HoneycodeClientTypes.Table: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object representing the properties of a table in a workbook.
-    public struct Table: Swift.Equatable {
+    public struct Table {
         /// The id of the table.
         public var tableId: Swift.String?
         /// The name of the table.
@@ -3823,7 +3823,7 @@ extension HoneycodeClientTypes.TableColumn: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains attributes about a single column in a table
-    public struct TableColumn: Swift.Equatable {
+    public struct TableColumn {
         /// The column level format that is applied in the table. An empty value in this field means that the column format is the default value 'AUTO'.
         public var format: HoneycodeClientTypes.Format?
         /// The id of the column in the table.
@@ -3884,7 +3884,7 @@ extension HoneycodeClientTypes.TableDataImportJobMetadata: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// The metadata associated with the table data import job that was submitted.
-    public struct TableDataImportJobMetadata: Swift.Equatable {
+    public struct TableDataImportJobMetadata {
         /// The source of the data that was submitted for import.
         /// This member is required.
         public var dataSource: HoneycodeClientTypes.ImportDataSource?
@@ -3991,7 +3991,7 @@ extension HoneycodeClientTypes.TableRow: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that contains attributes about a single row in a table
-    public struct TableRow: Swift.Equatable {
+    public struct TableRow {
         /// A list of cells in the table row. The cells appear in the same order as the columns of the table.
         /// This member is required.
         public var cells: [HoneycodeClientTypes.Cell]?
@@ -4037,7 +4037,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4055,7 +4055,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -4085,7 +4085,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -4146,7 +4146,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -4188,7 +4188,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The resource's Amazon Resource Name (ARN).
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4206,7 +4206,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -4220,7 +4220,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -4281,7 +4281,7 @@ extension HoneycodeClientTypes.UpdateRowData: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// Data needed to create a single row in a table as part of the BatchCreateTableRows request.
-    public struct UpdateRowData: Swift.Equatable {
+    public struct UpdateRowData {
         /// A map representing the cells to update in the given row. The key is the column id of the cell and the value is the CellInput object that represents the data to set in that cell.
         /// This member is required.
         public var cellsToUpdate: [Swift.String:HoneycodeClientTypes.CellInput]?
@@ -4378,7 +4378,7 @@ extension HoneycodeClientTypes.UpsertRowData: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// Data needed to upsert rows in a table as part of a single item in the BatchUpsertTableRows request.
-    public struct UpsertRowData: Swift.Equatable {
+    public struct UpsertRowData {
         /// An external identifier that represents a single item in the request that is being upserted as part of the BatchUpsertTableRows request. This can be any string that you can use to identify the item in the request. The BatchUpsertTableRows API puts the batch item id in the results to allow you to link data in the request to data in the results.
         /// This member is required.
         public var batchItemId: Swift.String?
@@ -4442,7 +4442,7 @@ extension HoneycodeClientTypes.UpsertRowsResult: Swift.Codable {
 
 extension HoneycodeClientTypes {
     /// An object that represents the result of a single upsert row request.
-    public struct UpsertRowsResult: Swift.Equatable {
+    public struct UpsertRowsResult {
         /// The list of row ids that were changed as part of an upsert row operation. If the upsert resulted in an update, this list could potentially contain multiple rows that matched the filter and hence got updated. If the upsert resulted in an append, this list would only have the single row that was appended.
         /// This member is required.
         public var rowIds: [Swift.String]?
@@ -4502,7 +4502,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
 }
 
@@ -4545,7 +4545,7 @@ extension HoneycodeClientTypes.VariableValue: Swift.CustomDebugStringConvertible
 
 extension HoneycodeClientTypes {
     /// The input variables to the app to be used by the InvokeScreenAutomation action request.
-    public struct VariableValue: Swift.Equatable {
+    public struct VariableValue {
         /// Raw value of the variable.
         /// This member is required.
         public var rawValue: Swift.String?

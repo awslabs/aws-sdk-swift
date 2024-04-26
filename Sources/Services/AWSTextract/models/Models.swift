@@ -46,7 +46,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -111,7 +111,7 @@ extension TextractClientTypes.Adapter: Swift.Codable {
 
 extension TextractClientTypes {
     /// An adapter selected for use when analyzing documents. Contains an adapter ID and a version number. Contains information on pages selected for analysis when analyzing documents asychronously.
-    public struct Adapter: Swift.Equatable {
+    public struct Adapter {
         /// A unique identifier for the adapter resource.
         /// This member is required.
         public var adapterId: Swift.String?
@@ -196,7 +196,7 @@ extension TextractClientTypes.AdapterOverview: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information on the adapter, including the adapter ID, Name, Creation time, and feature types.
-    public struct AdapterOverview: Swift.Equatable {
+    public struct AdapterOverview {
         /// A unique identifier for the adapter resource.
         public var adapterId: Swift.String?
         /// A string naming the adapter resource.
@@ -243,7 +243,7 @@ extension TextractClientTypes.AdapterVersionDatasetConfig: Swift.Codable {
 
 extension TextractClientTypes {
     /// The dataset configuration options for a given version of an adapter. Can include an Amazon S3 bucket if specified.
-    public struct AdapterVersionDatasetConfig: Swift.Equatable {
+    public struct AdapterVersionDatasetConfig {
         /// The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file.
         public var manifestS3Object: TextractClientTypes.S3Object?
 
@@ -290,7 +290,7 @@ extension TextractClientTypes.AdapterVersionEvaluationMetric: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information on the metrics used to evalute the peformance of a given adapter version. Includes data for baseline model performance and individual adapter version perfromance.
-    public struct AdapterVersionEvaluationMetric: Swift.Equatable {
+    public struct AdapterVersionEvaluationMetric {
         /// The F1 score, precision, and recall metrics for the baseline model.
         public var adapterVersion: TextractClientTypes.EvaluationMetric?
         /// The F1 score, precision, and recall metrics for the baseline model.
@@ -375,7 +375,7 @@ extension TextractClientTypes.AdapterVersionOverview: Swift.Codable {
 
 extension TextractClientTypes {
     /// Summary info for an adapter version. Contains information on the AdapterId, AdapterVersion, CreationTime, FeatureTypes, and Status.
-    public struct AdapterVersionOverview: Swift.Equatable {
+    public struct AdapterVersionOverview {
         /// A unique identifier for the adapter associated with a given adapter version.
         public var adapterId: Swift.String?
         /// An identified for a given adapter version.
@@ -483,7 +483,7 @@ extension TextractClientTypes.AdaptersConfig: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information about adapters used when analyzing a document, with each adapter specified using an AdapterId and version
-    public struct AdaptersConfig: Swift.Equatable {
+    public struct AdaptersConfig {
         /// A list of adapters to be used when analyzing the specified document.
         /// This member is required.
         public var adapters: [TextractClientTypes.Adapter]?
@@ -537,7 +537,7 @@ extension AnalyzeDocumentInput {
     }
 }
 
-public struct AnalyzeDocumentInput: Swift.Equatable {
+public struct AnalyzeDocumentInput {
     /// Specifies the adapter to be used when analyzing a document.
     public var adaptersConfig: TextractClientTypes.AdaptersConfig?
     /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG, PNG, PDF, or TIFF format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
@@ -567,7 +567,7 @@ public struct AnalyzeDocumentInput: Swift.Equatable {
     }
 }
 
-struct AnalyzeDocumentInputBody: Swift.Equatable {
+struct AnalyzeDocumentInputBody {
     let document: TextractClientTypes.Document?
     let featureTypes: [TextractClientTypes.FeatureType]?
     let humanLoopConfig: TextractClientTypes.HumanLoopConfig?
@@ -626,7 +626,7 @@ extension AnalyzeDocumentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AnalyzeDocumentOutput: Swift.Equatable {
+public struct AnalyzeDocumentOutput {
     /// The version of the model used to analyze the document.
     public var analyzeDocumentModelVersion: Swift.String?
     /// The items that are detected and analyzed by AnalyzeDocument.
@@ -650,7 +650,7 @@ public struct AnalyzeDocumentOutput: Swift.Equatable {
     }
 }
 
-struct AnalyzeDocumentOutputBody: Swift.Equatable {
+struct AnalyzeDocumentOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let blocks: [TextractClientTypes.Block]?
     let humanLoopActivationOutput: TextractClientTypes.HumanLoopActivationOutput?
@@ -727,7 +727,7 @@ extension AnalyzeExpenseInput {
     }
 }
 
-public struct AnalyzeExpenseInput: Swift.Equatable {
+public struct AnalyzeExpenseInput {
     /// The input document, either as bytes or as an S3 object. You pass image bytes to an Amazon Textract API operation by using the Bytes property. For example, you would use the Bytes property to pass a document loaded from a local file system. Image bytes passed by using the Bytes property must be base64 encoded. Your code might not need to encode document file bytes if you're using an AWS SDK to call Amazon Textract API operations. You pass images stored in an S3 bucket to an Amazon Textract API operation by using the S3Object property. Documents stored in an S3 bucket don't need to be base64 encoded. The AWS Region for the S3 bucket that contains the S3 object must match the AWS Region that you use for Amazon Textract operations. If you use the AWS CLI to call Amazon Textract operations, passing image bytes using the Bytes property isn't supported. You must first upload the document to an Amazon S3 bucket, and then call the operation using the S3Object property. For Amazon Textract to process an S3 object, the user must have permission to access the S3 object.
     /// This member is required.
     public var document: TextractClientTypes.Document?
@@ -740,7 +740,7 @@ public struct AnalyzeExpenseInput: Swift.Equatable {
     }
 }
 
-struct AnalyzeExpenseInputBody: Swift.Equatable {
+struct AnalyzeExpenseInputBody {
     let document: TextractClientTypes.Document?
 }
 
@@ -770,7 +770,7 @@ extension AnalyzeExpenseOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AnalyzeExpenseOutput: Swift.Equatable {
+public struct AnalyzeExpenseOutput {
     /// Information about the input document.
     public var documentMetadata: TextractClientTypes.DocumentMetadata?
     /// The expenses detected by Amazon Textract.
@@ -786,7 +786,7 @@ public struct AnalyzeExpenseOutput: Swift.Equatable {
     }
 }
 
-struct AnalyzeExpenseOutputBody: Swift.Equatable {
+struct AnalyzeExpenseOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let expenseDocuments: [TextractClientTypes.ExpenseDocument]?
 }
@@ -867,7 +867,7 @@ extension TextractClientTypes.AnalyzeIDDetections: Swift.Codable {
 
 extension TextractClientTypes {
     /// Used to contain the information detected by an AnalyzeID operation.
-    public struct AnalyzeIDDetections: Swift.Equatable {
+    public struct AnalyzeIDDetections {
         /// The confidence score of the detected text.
         public var confidence: Swift.Float?
         /// Only returned for dates, returns the type of value detected and the date written in a more machine readable way.
@@ -913,7 +913,7 @@ extension AnalyzeIDInput {
     }
 }
 
-public struct AnalyzeIDInput: Swift.Equatable {
+public struct AnalyzeIDInput {
     /// The document being passed to AnalyzeID.
     /// This member is required.
     public var documentPages: [TextractClientTypes.Document]?
@@ -926,7 +926,7 @@ public struct AnalyzeIDInput: Swift.Equatable {
     }
 }
 
-struct AnalyzeIDInputBody: Swift.Equatable {
+struct AnalyzeIDInputBody {
     let documentPages: [TextractClientTypes.Document]?
 }
 
@@ -967,7 +967,7 @@ extension AnalyzeIDOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AnalyzeIDOutput: Swift.Equatable {
+public struct AnalyzeIDOutput {
     /// The version of the AnalyzeIdentity API being used to process documents.
     public var analyzeIDModelVersion: Swift.String?
     /// Information about the input document.
@@ -987,7 +987,7 @@ public struct AnalyzeIDOutput: Swift.Equatable {
     }
 }
 
-struct AnalyzeIDOutputBody: Swift.Equatable {
+struct AnalyzeIDOutputBody {
     let identityDocuments: [TextractClientTypes.IdentityDocument]?
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let analyzeIDModelVersion: Swift.String?
@@ -1115,7 +1115,7 @@ public struct BadDocumentException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct BadDocumentExceptionBody: Swift.Equatable {
+struct BadDocumentExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -1264,7 +1264,7 @@ extension TextractClientTypes.Block: Swift.Codable {
 
 extension TextractClientTypes {
     /// A Block represents items that are recognized in a document within a group of pixels close to each other. The information returned in a Block object depends on the type of operation. In text detection for documents (for example [DetectDocumentText]), you get information about the detected words and lines of text. In text analysis (for example [AnalyzeDocument]), you can also get information about the fields, tables, and selection elements that are detected in the document. An array of Block objects is returned by both synchronous and asynchronous operations. In synchronous operations, such as [DetectDocumentText], the array of Block objects is the entire set of results. In asynchronous operations, such as [GetDocumentAnalysis], the array is returned over one or more responses. For more information, see [How Amazon Textract Works](https://docs.aws.amazon.com/textract/latest/dg/how-it-works.html).
-    public struct Block: Swift.Equatable {
+    public struct Block {
         /// The type of text item that's recognized. In operations for text detection, the following types are returned:
         ///
         /// * PAGE - Contains a list of the LINE Block objects that are detected on a document page.
@@ -1553,7 +1553,7 @@ extension TextractClientTypes.BoundingBox: Swift.Codable {
 
 extension TextractClientTypes {
     /// The bounding box around the detected page, text, key-value pair, table, table cell, or selection element on a document page. The left (x-coordinate) and top (y-coordinate) are coordinates that represent the top and left sides of the bounding box. Note that the upper-left corner of the image is the origin (0,0). The top and left values returned are ratios of the overall document page size. For example, if the input image is 700 x 200 pixels, and the top-left coordinate of the bounding box is 350 x 50 pixels, the API returns a left value of 0.5 (350/700) and a top value of 0.25 (50/200). The width and height values represent the dimensions of the bounding box as a ratio of the overall document page dimension. For example, if the document page size is 700 x 200 pixels, and the bounding box width is 70 pixels, the width returned is 0.1.
-    public struct BoundingBox: Swift.Equatable {
+    public struct BoundingBox {
         /// The height of the bounding box as a ratio of the overall document page height.
         public var height: Swift.Float
         /// The left coordinate of the bounding box as a ratio of overall document page width.
@@ -1623,7 +1623,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -1721,7 +1721,7 @@ extension CreateAdapterInput {
     }
 }
 
-public struct CreateAdapterInput: Swift.Equatable {
+public struct CreateAdapterInput {
     /// The name to be assigned to the adapter being created.
     /// This member is required.
     public var adapterName: Swift.String?
@@ -1755,7 +1755,7 @@ public struct CreateAdapterInput: Swift.Equatable {
     }
 }
 
-struct CreateAdapterInputBody: Swift.Equatable {
+struct CreateAdapterInputBody {
     let adapterName: Swift.String?
     let clientRequestToken: Swift.String?
     let description: Swift.String?
@@ -1821,7 +1821,7 @@ extension CreateAdapterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAdapterOutput: Swift.Equatable {
+public struct CreateAdapterOutput {
     /// A string containing the unique ID for the adapter that has been created.
     public var adapterId: Swift.String?
 
@@ -1833,7 +1833,7 @@ public struct CreateAdapterOutput: Swift.Equatable {
     }
 }
 
-struct CreateAdapterOutputBody: Swift.Equatable {
+struct CreateAdapterOutputBody {
     let adapterId: Swift.String?
 }
 
@@ -1912,7 +1912,7 @@ extension CreateAdapterVersionInput {
     }
 }
 
-public struct CreateAdapterVersionInput: Swift.Equatable {
+public struct CreateAdapterVersionInput {
     /// A string containing a unique ID for the adapter that will receive a new version.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -1947,7 +1947,7 @@ public struct CreateAdapterVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateAdapterVersionInputBody: Swift.Equatable {
+struct CreateAdapterVersionInputBody {
     let adapterId: Swift.String?
     let clientRequestToken: Swift.String?
     let datasetConfig: TextractClientTypes.AdapterVersionDatasetConfig?
@@ -2006,7 +2006,7 @@ extension CreateAdapterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAdapterVersionOutput: Swift.Equatable {
+public struct CreateAdapterVersionOutput {
     /// A string containing the unique ID for the adapter that has received a new version.
     public var adapterId: Swift.String?
     /// A string describing the new version of the adapter.
@@ -2022,7 +2022,7 @@ public struct CreateAdapterVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateAdapterVersionOutputBody: Swift.Equatable {
+struct CreateAdapterVersionOutputBody {
     let adapterId: Swift.String?
     let adapterVersion: Swift.String?
 }
@@ -2085,7 +2085,7 @@ extension DeleteAdapterInput {
     }
 }
 
-public struct DeleteAdapterInput: Swift.Equatable {
+public struct DeleteAdapterInput {
     /// A string containing a unique ID for the adapter to be deleted.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -2098,7 +2098,7 @@ public struct DeleteAdapterInput: Swift.Equatable {
     }
 }
 
-struct DeleteAdapterInputBody: Swift.Equatable {
+struct DeleteAdapterInputBody {
     let adapterId: Swift.String?
 }
 
@@ -2119,7 +2119,7 @@ extension DeleteAdapterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAdapterOutput: Swift.Equatable {
+public struct DeleteAdapterOutput {
 
     public init() { }
 }
@@ -2166,7 +2166,7 @@ extension DeleteAdapterVersionInput {
     }
 }
 
-public struct DeleteAdapterVersionInput: Swift.Equatable {
+public struct DeleteAdapterVersionInput {
     /// A string containing a unique ID for the adapter version that will be deleted.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -2184,7 +2184,7 @@ public struct DeleteAdapterVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteAdapterVersionInputBody: Swift.Equatable {
+struct DeleteAdapterVersionInputBody {
     let adapterId: Swift.String?
     let adapterVersion: Swift.String?
 }
@@ -2209,7 +2209,7 @@ extension DeleteAdapterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAdapterVersionOutput: Swift.Equatable {
+public struct DeleteAdapterVersionOutput {
 
     public init() { }
 }
@@ -2252,7 +2252,7 @@ extension DetectDocumentTextInput {
     }
 }
 
-public struct DetectDocumentTextInput: Swift.Equatable {
+public struct DetectDocumentTextInput {
     /// The input document as base64-encoded bytes or an Amazon S3 object. If you use the AWS CLI to call Amazon Textract operations, you can't pass image bytes. The document must be an image in JPEG or PNG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes that are passed using the Bytes field.
     /// This member is required.
     public var document: TextractClientTypes.Document?
@@ -2265,7 +2265,7 @@ public struct DetectDocumentTextInput: Swift.Equatable {
     }
 }
 
-struct DetectDocumentTextInputBody: Swift.Equatable {
+struct DetectDocumentTextInputBody {
     let document: TextractClientTypes.Document?
 }
 
@@ -2297,7 +2297,7 @@ extension DetectDocumentTextOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DetectDocumentTextOutput: Swift.Equatable {
+public struct DetectDocumentTextOutput {
     /// An array of Block objects that contain the text that's detected in the document.
     public var blocks: [TextractClientTypes.Block]?
     ///
@@ -2317,7 +2317,7 @@ public struct DetectDocumentTextOutput: Swift.Equatable {
     }
 }
 
-struct DetectDocumentTextOutputBody: Swift.Equatable {
+struct DetectDocumentTextOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let blocks: [TextractClientTypes.Block]?
     let detectDocumentTextModelVersion: Swift.String?
@@ -2390,7 +2390,7 @@ extension TextractClientTypes.DetectedSignature: Swift.Codable {
 
 extension TextractClientTypes {
     /// A structure that holds information regarding a detected signature on a page.
-    public struct DetectedSignature: Swift.Equatable {
+    public struct DetectedSignature {
         /// The page a detected signature was found on.
         public var page: Swift.Int?
 
@@ -2431,7 +2431,7 @@ extension TextractClientTypes.Document: Swift.Codable {
 
 extension TextractClientTypes {
     /// The input document, either as bytes or as an S3 object. You pass image bytes to an Amazon Textract API operation by using the Bytes property. For example, you would use the Bytes property to pass a document loaded from a local file system. Image bytes passed by using the Bytes property must be base64 encoded. Your code might not need to encode document file bytes if you're using an AWS SDK to call Amazon Textract API operations. You pass images stored in an S3 bucket to an Amazon Textract API operation by using the S3Object property. Documents stored in an S3 bucket don't need to be base64 encoded. The AWS Region for the S3 bucket that contains the S3 object must match the AWS Region that you use for Amazon Textract operations. If you use the AWS CLI to call Amazon Textract operations, passing image bytes using the Bytes property isn't supported. You must first upload the document to an Amazon S3 bucket, and then call the operation using the S3Object property. For Amazon Textract to process an S3 object, the user must have permission to access the S3 object.
-    public struct Document: Swift.Equatable {
+    public struct Document {
         /// A blob of base64-encoded document bytes. The maximum size of a document that's provided in a blob of bytes is 5 MB. The document bytes must be in PNG or JPEG format. If you're using an AWS SDK to call Amazon Textract, you might not need to base64-encode image bytes passed using the Bytes field.
         public var bytes: ClientRuntime.Data?
         /// Identifies an S3 object as the document source. The maximum size of a document that's stored in an S3 bucket is 5 MB.
@@ -2524,7 +2524,7 @@ extension TextractClientTypes.DocumentGroup: Swift.Codable {
 
 extension TextractClientTypes {
     /// Summary information about documents grouped by the same document type.
-    public struct DocumentGroup: Swift.Equatable {
+    public struct DocumentGroup {
         /// A list of the detected signatures found in a document group.
         public var detectedSignatures: [TextractClientTypes.DetectedSignature]?
         /// An array that contains information about the pages of a document, defined by logical boundary.
@@ -2571,7 +2571,7 @@ extension TextractClientTypes.DocumentLocation: Swift.Codable {
 
 extension TextractClientTypes {
     /// The Amazon S3 bucket that contains the document to be processed. It's used by asynchronous operations. The input document can be an image file in JPEG or PNG format. It can also be a file in PDF format.
-    public struct DocumentLocation: Swift.Equatable {
+    public struct DocumentLocation {
         /// The Amazon S3 bucket that contains the input document.
         public var s3Object: TextractClientTypes.S3Object?
 
@@ -2606,7 +2606,7 @@ extension TextractClientTypes.DocumentMetadata: Swift.Codable {
 
 extension TextractClientTypes {
     /// Information about the input document.
-    public struct DocumentMetadata: Swift.Equatable {
+    public struct DocumentMetadata {
         /// The number of pages that are detected in the document.
         public var pages: Swift.Int?
 
@@ -2664,7 +2664,7 @@ public struct DocumentTooLargeException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DocumentTooLargeExceptionBody: Swift.Equatable {
+struct DocumentTooLargeExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -2770,7 +2770,7 @@ extension TextractClientTypes.EvaluationMetric: Swift.Codable {
 
 extension TextractClientTypes {
     /// The evaluation metrics (F1 score, Precision, and Recall) for an adapter version.
-    public struct EvaluationMetric: Swift.Equatable {
+    public struct EvaluationMetric {
         /// The F1 score for an adapter version.
         public var f1Score: Swift.Float
         /// The Precision score for an adapter version.
@@ -2819,7 +2819,7 @@ extension TextractClientTypes.ExpenseCurrency: Swift.Codable {
 
 extension TextractClientTypes {
     /// Returns the kind of currency detected.
-    public struct ExpenseCurrency: Swift.Equatable {
+    public struct ExpenseCurrency {
         /// Currency code for detected currency. the current supported codes are:
         ///
         /// * USD
@@ -2894,7 +2894,7 @@ extension TextractClientTypes.ExpenseDetection: Swift.Codable {
 
 extension TextractClientTypes {
     /// An object used to store information about the Value or Label detected by Amazon Textract.
-    public struct ExpenseDetection: Swift.Equatable {
+    public struct ExpenseDetection {
         /// The confidence in detection, as a percentage
         public var confidence: Swift.Float?
         /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
@@ -2991,7 +2991,7 @@ extension TextractClientTypes.ExpenseDocument: Swift.Codable {
 
 extension TextractClientTypes {
     /// The structure holding all the information returned by AnalyzeExpense
-    public struct ExpenseDocument: Swift.Equatable {
+    public struct ExpenseDocument {
         /// This is a block object, the same as reported when DetectDocumentText is run on a document. It provides word level recognition of text.
         public var blocks: [TextractClientTypes.Block]?
         /// Denotes which invoice or receipt in the document the information is coming from. First document will be 1, the second 2, and so on.
@@ -3080,7 +3080,7 @@ extension TextractClientTypes.ExpenseField: Swift.Codable {
 
 extension TextractClientTypes {
     /// Breakdown of detected information, seperated into the catagories Type, LabelDetection, and ValueDetection
-    public struct ExpenseField: Swift.Equatable {
+    public struct ExpenseField {
         /// Shows the kind of currency, both the code and confidence associated with any monatary value detected.
         public var currency: TextractClientTypes.ExpenseCurrency?
         /// Shows which group a response object belongs to, such as whether an address line belongs to the vendor's address or the recipent's address.
@@ -3153,7 +3153,7 @@ extension TextractClientTypes.ExpenseGroupProperty: Swift.Codable {
 
 extension TextractClientTypes {
     /// Shows the group that a certain key belongs to. This helps differentiate between names and addresses for different organizations, that can be hard to determine via JSON response.
-    public struct ExpenseGroupProperty: Swift.Equatable {
+    public struct ExpenseGroupProperty {
         /// Provides a group Id number, which will be the same for each in the group.
         public var id: Swift.String?
         /// Informs you on whether the expense group is a name or an address.
@@ -3198,7 +3198,7 @@ extension TextractClientTypes.ExpenseType: Swift.Codable {
 
 extension TextractClientTypes {
     /// An object used to store information about the Type detected by Amazon Textract.
-    public struct ExpenseType: Swift.Equatable {
+    public struct ExpenseType {
         /// The confidence of accuracy, as a percentage.
         public var confidence: Swift.Float?
         /// The word or line of text detected by Amazon Textract.
@@ -3249,7 +3249,7 @@ extension TextractClientTypes.Extraction: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information extracted by an analysis operation after using StartLendingAnalysis.
-    public struct Extraction: Swift.Equatable {
+    public struct Extraction {
         /// The structure holding all the information returned by AnalyzeExpense
         public var expenseDocument: TextractClientTypes.ExpenseDocument?
         /// The structure that lists each document processed in an AnalyzeID operation.
@@ -3351,7 +3351,7 @@ extension TextractClientTypes.Geometry: Swift.Codable {
 
 extension TextractClientTypes {
     /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
-    public struct Geometry: Swift.Equatable {
+    public struct Geometry {
         /// An axis-aligned coarse representation of the location of the recognized item on the document page.
         public var boundingBox: TextractClientTypes.BoundingBox?
         /// Within the bounding box, a fine-grained polygon around the recognized item.
@@ -3389,7 +3389,7 @@ extension GetAdapterInput {
     }
 }
 
-public struct GetAdapterInput: Swift.Equatable {
+public struct GetAdapterInput {
     /// A string containing a unique ID for the adapter.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -3402,7 +3402,7 @@ public struct GetAdapterInput: Swift.Equatable {
     }
 }
 
-struct GetAdapterInputBody: Swift.Equatable {
+struct GetAdapterInputBody {
     let adapterId: Swift.String?
 }
 
@@ -3442,7 +3442,7 @@ extension GetAdapterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdapterOutput: Swift.Equatable {
+public struct GetAdapterOutput {
     /// A string identifying the adapter that information has been retrieved for.
     public var adapterId: Swift.String?
     /// The name of the requested adapter.
@@ -3478,7 +3478,7 @@ public struct GetAdapterOutput: Swift.Equatable {
     }
 }
 
-struct GetAdapterOutputBody: Swift.Equatable {
+struct GetAdapterOutputBody {
     let adapterId: Swift.String?
     let adapterName: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -3577,7 +3577,7 @@ extension GetAdapterVersionInput {
     }
 }
 
-public struct GetAdapterVersionInput: Swift.Equatable {
+public struct GetAdapterVersionInput {
     /// A string specifying a unique ID for the adapter version you want to retrieve information for.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -3595,7 +3595,7 @@ public struct GetAdapterVersionInput: Swift.Equatable {
     }
 }
 
-struct GetAdapterVersionInputBody: Swift.Equatable {
+struct GetAdapterVersionInputBody {
     let adapterId: Swift.String?
     let adapterVersion: Swift.String?
 }
@@ -3647,7 +3647,7 @@ extension GetAdapterVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAdapterVersionOutput: Swift.Equatable {
+public struct GetAdapterVersionOutput {
     /// A string containing a unique ID for the adapter version being retrieved.
     public var adapterId: Swift.String?
     /// A string containing the adapter version that has been retrieved.
@@ -3699,7 +3699,7 @@ public struct GetAdapterVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetAdapterVersionOutputBody: Swift.Equatable {
+struct GetAdapterVersionOutputBody {
     let adapterId: Swift.String?
     let adapterVersion: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -3827,7 +3827,7 @@ extension GetDocumentAnalysisInput {
     }
 }
 
-public struct GetDocumentAnalysisInput: Swift.Equatable {
+public struct GetDocumentAnalysisInput {
     /// A unique identifier for the text-detection job. The JobId is returned from StartDocumentAnalysis. A JobId value is only valid for 7 days.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3848,7 +3848,7 @@ public struct GetDocumentAnalysisInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentAnalysisInputBody: Swift.Equatable {
+struct GetDocumentAnalysisInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3896,7 +3896,7 @@ extension GetDocumentAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentAnalysisOutput: Swift.Equatable {
+public struct GetDocumentAnalysisOutput {
     ///
     public var analyzeDocumentModelVersion: Swift.String?
     /// The results of the text-analysis operation.
@@ -3932,7 +3932,7 @@ public struct GetDocumentAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentAnalysisOutputBody: Swift.Equatable {
+struct GetDocumentAnalysisOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let jobStatus: TextractClientTypes.JobStatus?
     let nextToken: Swift.String?
@@ -4036,7 +4036,7 @@ extension GetDocumentTextDetectionInput {
     }
 }
 
-public struct GetDocumentTextDetectionInput: Swift.Equatable {
+public struct GetDocumentTextDetectionInput {
     /// A unique identifier for the text detection job. The JobId is returned from StartDocumentTextDetection. A JobId value is only valid for 7 days.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4057,7 +4057,7 @@ public struct GetDocumentTextDetectionInput: Swift.Equatable {
     }
 }
 
-struct GetDocumentTextDetectionInputBody: Swift.Equatable {
+struct GetDocumentTextDetectionInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4105,7 +4105,7 @@ extension GetDocumentTextDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDocumentTextDetectionOutput: Swift.Equatable {
+public struct GetDocumentTextDetectionOutput {
     /// The results of the text-detection operation.
     public var blocks: [TextractClientTypes.Block]?
     ///
@@ -4141,7 +4141,7 @@ public struct GetDocumentTextDetectionOutput: Swift.Equatable {
     }
 }
 
-struct GetDocumentTextDetectionOutputBody: Swift.Equatable {
+struct GetDocumentTextDetectionOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let jobStatus: TextractClientTypes.JobStatus?
     let nextToken: Swift.String?
@@ -4245,7 +4245,7 @@ extension GetExpenseAnalysisInput {
     }
 }
 
-public struct GetExpenseAnalysisInput: Swift.Equatable {
+public struct GetExpenseAnalysisInput {
     /// A unique identifier for the text detection job. The JobId is returned from StartExpenseAnalysis. A JobId value is only valid for 7 days.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4266,7 +4266,7 @@ public struct GetExpenseAnalysisInput: Swift.Equatable {
     }
 }
 
-struct GetExpenseAnalysisInputBody: Swift.Equatable {
+struct GetExpenseAnalysisInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4314,7 +4314,7 @@ extension GetExpenseAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetExpenseAnalysisOutput: Swift.Equatable {
+public struct GetExpenseAnalysisOutput {
     /// The current model version of AnalyzeExpense.
     public var analyzeExpenseModelVersion: Swift.String?
     /// Information about a document that Amazon Textract processed. DocumentMetadata is returned in every page of paginated responses from an Amazon Textract operation.
@@ -4350,7 +4350,7 @@ public struct GetExpenseAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct GetExpenseAnalysisOutputBody: Swift.Equatable {
+struct GetExpenseAnalysisOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let jobStatus: TextractClientTypes.JobStatus?
     let nextToken: Swift.String?
@@ -4454,7 +4454,7 @@ extension GetLendingAnalysisInput {
     }
 }
 
-public struct GetLendingAnalysisInput: Swift.Equatable {
+public struct GetLendingAnalysisInput {
     /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4475,7 +4475,7 @@ public struct GetLendingAnalysisInput: Swift.Equatable {
     }
 }
 
-struct GetLendingAnalysisInputBody: Swift.Equatable {
+struct GetLendingAnalysisInputBody {
     let jobId: Swift.String?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -4523,7 +4523,7 @@ extension GetLendingAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLendingAnalysisOutput: Swift.Equatable {
+public struct GetLendingAnalysisOutput {
     /// The current model version of the Analyze Lending API.
     public var analyzeLendingModelVersion: Swift.String?
     /// Information about the input document.
@@ -4559,7 +4559,7 @@ public struct GetLendingAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct GetLendingAnalysisOutputBody: Swift.Equatable {
+struct GetLendingAnalysisOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let jobStatus: TextractClientTypes.JobStatus?
     let nextToken: Swift.String?
@@ -4655,7 +4655,7 @@ extension GetLendingAnalysisSummaryInput {
     }
 }
 
-public struct GetLendingAnalysisSummaryInput: Swift.Equatable {
+public struct GetLendingAnalysisSummaryInput {
     /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
     /// This member is required.
     public var jobId: Swift.String?
@@ -4668,7 +4668,7 @@ public struct GetLendingAnalysisSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetLendingAnalysisSummaryInputBody: Swift.Equatable {
+struct GetLendingAnalysisSummaryInputBody {
     let jobId: Swift.String?
 }
 
@@ -4706,7 +4706,7 @@ extension GetLendingAnalysisSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLendingAnalysisSummaryOutput: Swift.Equatable {
+public struct GetLendingAnalysisSummaryOutput {
     /// The current model version of the Analyze Lending API.
     public var analyzeLendingModelVersion: Swift.String?
     /// Information about the input document.
@@ -4738,7 +4738,7 @@ public struct GetLendingAnalysisSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetLendingAnalysisSummaryOutputBody: Swift.Equatable {
+struct GetLendingAnalysisSummaryOutputBody {
     let documentMetadata: TextractClientTypes.DocumentMetadata?
     let jobStatus: TextractClientTypes.JobStatus?
     let summary: TextractClientTypes.LendingSummary?
@@ -4846,7 +4846,7 @@ extension TextractClientTypes.HumanLoopActivationOutput: Swift.Codable {
 
 extension TextractClientTypes {
     /// Shows the results of the human in the loop evaluation. If there is no HumanLoopArn, the input did not trigger human review.
-    public struct HumanLoopActivationOutput: Swift.Equatable {
+    public struct HumanLoopActivationOutput {
         /// Shows the result of condition evaluations, including those conditions which activated a human review.
         public var humanLoopActivationConditionsEvaluationResults: Swift.String?
         /// Shows if and why human review was needed.
@@ -4901,7 +4901,7 @@ extension TextractClientTypes.HumanLoopConfig: Swift.Codable {
 
 extension TextractClientTypes {
     /// Sets up the human review workflow the document will be sent to if one of the conditions is met. You can also set certain attributes of the image before review.
-    public struct HumanLoopConfig: Swift.Equatable {
+    public struct HumanLoopConfig {
         /// Sets attributes of the input data.
         public var dataAttributes: TextractClientTypes.HumanLoopDataAttributes?
         /// The Amazon Resource Name (ARN) of the flow definition.
@@ -4958,7 +4958,7 @@ extension TextractClientTypes.HumanLoopDataAttributes: Swift.Codable {
 
 extension TextractClientTypes {
     /// Allows you to set attributes of the image. Currently, you can declare an image as free of personally identifiable information and adult content.
-    public struct HumanLoopDataAttributes: Swift.Equatable {
+    public struct HumanLoopDataAttributes {
         /// Sets whether the input image is free of personally identifiable information or adult content.
         public var contentClassifiers: [TextractClientTypes.ContentClassifier]?
 
@@ -5034,7 +5034,7 @@ public struct HumanLoopQuotaExceededException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct HumanLoopQuotaExceededExceptionBody: Swift.Equatable {
+struct HumanLoopQuotaExceededExceptionBody {
     let resourceType: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -5110,7 +5110,7 @@ public struct IdempotentParameterMismatchException: ClientRuntime.ModeledError, 
     }
 }
 
-struct IdempotentParameterMismatchExceptionBody: Swift.Equatable {
+struct IdempotentParameterMismatchExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5187,7 +5187,7 @@ extension TextractClientTypes.IdentityDocument: Swift.Codable {
 
 extension TextractClientTypes {
     /// The structure that lists each document processed in an AnalyzeID operation.
-    public struct IdentityDocument: Swift.Equatable {
+    public struct IdentityDocument {
         /// Individual word recognition, as returned by document detection.
         public var blocks: [TextractClientTypes.Block]?
         /// Denotes the placement of a document in the IdentityDocument list. The first document is marked 1, the second 2 and so on.
@@ -5236,7 +5236,7 @@ extension TextractClientTypes.IdentityDocumentField: Swift.Codable {
 
 extension TextractClientTypes {
     /// Structure containing both the normalized type of the extracted information and the text associated with it. These are extracted as Type and Value respectively.
-    public struct IdentityDocumentField: Swift.Equatable {
+    public struct IdentityDocumentField {
         /// Used to contain the information detected by an AnalyzeID operation.
         public var type: TextractClientTypes.AnalyzeIDDetections?
         /// Used to contain the information detected by an AnalyzeID operation.
@@ -5298,7 +5298,7 @@ public struct InternalServerError: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InternalServerErrorBody: Swift.Equatable {
+struct InternalServerErrorBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5362,7 +5362,7 @@ public struct InvalidJobIdException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidJobIdExceptionBody: Swift.Equatable {
+struct InvalidJobIdExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5426,7 +5426,7 @@ public struct InvalidKMSKeyException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidKMSKeyExceptionBody: Swift.Equatable {
+struct InvalidKMSKeyExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5490,7 +5490,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5554,7 +5554,7 @@ public struct InvalidS3ObjectException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidS3ObjectExceptionBody: Swift.Equatable {
+struct InvalidS3ObjectExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -5651,7 +5651,7 @@ extension TextractClientTypes.LendingDetection: Swift.Codable {
 
 extension TextractClientTypes {
     /// The results extracted for a lending document.
-    public struct LendingDetection: Swift.Equatable {
+    public struct LendingDetection {
         /// The confidence level for the text of a detected value in a lending document.
         public var confidence: Swift.Float?
         /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
@@ -5728,7 +5728,7 @@ extension TextractClientTypes.LendingDocument: Swift.Codable {
 
 extension TextractClientTypes {
     /// Holds the structured data returned by AnalyzeDocument for lending documents.
-    public struct LendingDocument: Swift.Equatable {
+    public struct LendingDocument {
         /// An array of LendingField objects.
         public var lendingFields: [TextractClientTypes.LendingField]?
         /// A list of signatures detected in a lending document.
@@ -5791,7 +5791,7 @@ extension TextractClientTypes.LendingField: Swift.Codable {
 
 extension TextractClientTypes {
     /// Holds the normalized key-value pairs returned by AnalyzeDocument, including the document type, detected text, and geometry.
-    public struct LendingField: Swift.Equatable {
+    public struct LendingField {
         /// The results extracted for a lending document.
         public var keyDetection: TextractClientTypes.LendingDetection?
         /// The type of the lending document.
@@ -5858,7 +5858,7 @@ extension TextractClientTypes.LendingResult: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains the detections for each page analyzed through the Analyze Lending API.
-    public struct LendingResult: Swift.Equatable {
+    public struct LendingResult {
         /// An array of Extraction to hold structured data. e.g. normalized key value pairs instead of raw OCR detections .
         public var extractions: [TextractClientTypes.Extraction]?
         /// The page number for a page, with regard to whole submission.
@@ -5931,7 +5931,7 @@ extension TextractClientTypes.LendingSummary: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information regarding DocumentGroups and UndetectedDocumentTypes.
-    public struct LendingSummary: Swift.Equatable {
+    public struct LendingSummary {
         /// Contains an array of all DocumentGroup objects.
         public var documentGroups: [TextractClientTypes.DocumentGroup]?
         /// UndetectedDocumentTypes.
@@ -5993,7 +5993,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -6046,7 +6046,7 @@ extension TextractClientTypes.LineItemFields: Swift.Codable {
 
 extension TextractClientTypes {
     /// A structure that holds information about the different lines found in a document's tables.
-    public struct LineItemFields: Swift.Equatable {
+    public struct LineItemFields {
         /// ExpenseFields used to show information from detected lines on a table.
         public var lineItemExpenseFields: [TextractClientTypes.ExpenseField]?
 
@@ -6099,7 +6099,7 @@ extension TextractClientTypes.LineItemGroup: Swift.Codable {
 
 extension TextractClientTypes {
     /// A grouping of tables which contain LineItems, with each table identified by the table's LineItemGroupIndex.
-    public struct LineItemGroup: Swift.Equatable {
+    public struct LineItemGroup {
         /// The number used to identify a specific table in a document. The first table encountered will have a LineItemGroupIndex of 1, the second 2, etc.
         public var lineItemGroupIndex: Swift.Int?
         /// The breakdown of information on a particular line of a table.
@@ -6153,7 +6153,7 @@ extension ListAdapterVersionsInput {
     }
 }
 
-public struct ListAdapterVersionsInput: Swift.Equatable {
+public struct ListAdapterVersionsInput {
     /// A string containing a unique ID for the adapter to match for when listing adapter versions.
     public var adapterId: Swift.String?
     /// Specifies the lower bound for the ListAdapterVersions operation. Ensures ListAdapterVersions returns only adapter versions created after the specified creation time.
@@ -6181,7 +6181,7 @@ public struct ListAdapterVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListAdapterVersionsInputBody: Swift.Equatable {
+struct ListAdapterVersionsInputBody {
     let adapterId: Swift.String?
     let afterCreationTime: ClientRuntime.Date?
     let beforeCreationTime: ClientRuntime.Date?
@@ -6227,7 +6227,7 @@ extension ListAdapterVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAdapterVersionsOutput: Swift.Equatable {
+public struct ListAdapterVersionsOutput {
     /// Adapter versions that match the filtering criteria specified when calling ListAdapters.
     public var adapterVersions: [TextractClientTypes.AdapterVersionOverview]?
     /// Identifies the next page of results to return when listing adapter versions.
@@ -6243,7 +6243,7 @@ public struct ListAdapterVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListAdapterVersionsOutputBody: Swift.Equatable {
+struct ListAdapterVersionsOutputBody {
     let adapterVersions: [TextractClientTypes.AdapterVersionOverview]?
     let nextToken: Swift.String?
 }
@@ -6321,7 +6321,7 @@ extension ListAdaptersInput {
     }
 }
 
-public struct ListAdaptersInput: Swift.Equatable {
+public struct ListAdaptersInput {
     /// Specifies the lower bound for the ListAdapters operation. Ensures ListAdapters returns only adapters created after the specified creation time.
     public var afterCreationTime: ClientRuntime.Date?
     /// Specifies the upper bound for the ListAdapters operation. Ensures ListAdapters returns only adapters created before the specified creation time.
@@ -6345,7 +6345,7 @@ public struct ListAdaptersInput: Swift.Equatable {
     }
 }
 
-struct ListAdaptersInputBody: Swift.Equatable {
+struct ListAdaptersInputBody {
     let afterCreationTime: ClientRuntime.Date?
     let beforeCreationTime: ClientRuntime.Date?
     let maxResults: Swift.Int?
@@ -6387,7 +6387,7 @@ extension ListAdaptersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAdaptersOutput: Swift.Equatable {
+public struct ListAdaptersOutput {
     /// A list of adapters that matches the filtering criteria specified when calling ListAdapters.
     public var adapters: [TextractClientTypes.AdapterOverview]?
     /// Identifies the next page of results to return when listing adapters.
@@ -6403,7 +6403,7 @@ public struct ListAdaptersOutput: Swift.Equatable {
     }
 }
 
-struct ListAdaptersOutputBody: Swift.Equatable {
+struct ListAdaptersOutputBody {
     let adapters: [TextractClientTypes.AdapterOverview]?
     let nextToken: Swift.String?
 }
@@ -6468,7 +6468,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) that specifies the resource to list tags for.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -6481,7 +6481,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
     let resourceARN: Swift.String?
 }
 
@@ -6509,7 +6509,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A set of tags (key-value pairs) that are part of the requested resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -6521,7 +6521,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6590,7 +6590,7 @@ extension TextractClientTypes.NormalizedValue: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information relating to dates in a document, including the type of value, and the value.
-    public struct NormalizedValue: Swift.Equatable {
+    public struct NormalizedValue {
         /// The value of the date, written as Year-Month-DayTHour:Minute:Second.
         public var value: Swift.String?
         /// The normalized type of the value detected. In this case, DATE.
@@ -6635,7 +6635,7 @@ extension TextractClientTypes.NotificationChannel: Swift.Codable {
 
 extension TextractClientTypes {
     /// The Amazon Simple Notification Service (Amazon SNS) topic to which Amazon Textract publishes the completion status of an asynchronous document operation.
-    public struct NotificationChannel: Swift.Equatable {
+    public struct NotificationChannel {
         /// The Amazon Resource Name (ARN) of an IAM role that gives Amazon Textract publishing permissions to the Amazon SNS topic.
         /// This member is required.
         public var roleArn: Swift.String?
@@ -6682,7 +6682,7 @@ extension TextractClientTypes.OutputConfig: Swift.Codable {
 
 extension TextractClientTypes {
     /// Sets whether or not your output will go to a user created bucket. Used to set the name of the bucket, and the prefix on the output file. OutputConfig is an optional parameter which lets you adjust where your output will be placed. By default, Amazon Textract will store the results internally and can only be accessed by the Get API operations. With OutputConfig enabled, you can set the name of the bucket the output will be sent to the file prefix of the results where you can download your results. Additionally, you can set the KMSKeyID parameter to a customer master key (CMK) to encrypt your output. Without this parameter set Amazon Textract will encrypt server-side using the AWS managed CMK for Amazon S3. Decryption of Customer Content is necessary for processing of the documents by Amazon Textract. If your account is opted out under an AI services opt out policy then all unencrypted Customer Content is immediately and permanently deleted after the Customer Content has been processed by the service. No copy of of the output is retained by Amazon Textract. For information about how to opt out, see [ Managing AI services opt-out policy. ](https://docs.aws.amazon.com/organizations/latest/userguide/orgs_manage_policies_ai-opt-out.html) For more information on data privacy, see the [Data Privacy FAQ](https://aws.amazon.com/compliance/data-privacy-faq/).
-    public struct OutputConfig: Swift.Equatable {
+    public struct OutputConfig {
         /// The name of the bucket your output will go to.
         /// This member is required.
         public var s3Bucket: Swift.String?
@@ -6752,7 +6752,7 @@ extension TextractClientTypes.PageClassification: Swift.Codable {
 
 extension TextractClientTypes {
     /// The class assigned to a Page object detected in an input document. Contains information regarding the predicted type/class of a document's page and the page number that the Page object was detected on.
-    public struct PageClassification: Swift.Equatable {
+    public struct PageClassification {
         /// The page number the value was detected on, relative to Amazon Textract's starting position.
         /// This member is required.
         public var pageNumber: [TextractClientTypes.Prediction]?
@@ -6799,7 +6799,7 @@ extension TextractClientTypes.Point: Swift.Codable {
 
 extension TextractClientTypes {
     /// The X and Y coordinates of a point on a document page. The X and Y values that are returned are ratios of the overall document page size. For example, if the input document is 700 x 200 and the operation returns X=0.5 and Y=0.25, then the point is at the (350,50) pixel coordinate on the document page. An array of Point objects, Polygon, is returned by [DetectDocumentText]. Polygon represents a fine-grained polygon around detected text. For more information, see Geometry in the Amazon Textract Developer Guide.
-    public struct Point: Swift.Equatable {
+    public struct Point {
         /// The value of the X coordinate for a point on a Polygon.
         public var x: Swift.Float
         /// The value of the Y coordinate for a point on a Polygon.
@@ -6844,7 +6844,7 @@ extension TextractClientTypes.Prediction: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information regarding predicted values returned by Amazon Textract operations, including the predicted value and the confidence in the predicted value.
-    public struct Prediction: Swift.Equatable {
+    public struct Prediction {
         /// Amazon Textract's confidence in its predicted value.
         public var confidence: Swift.Float?
         /// The predicted value of a detected object.
@@ -6906,7 +6906,7 @@ public struct ProvisionedThroughputExceededException: ClientRuntime.ModeledError
     }
 }
 
-struct ProvisionedThroughputExceededExceptionBody: Swift.Equatable {
+struct ProvisionedThroughputExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -6959,7 +6959,7 @@ extension TextractClientTypes.QueriesConfig: Swift.Codable {
 
 extension TextractClientTypes {
     ///
-    public struct QueriesConfig: Swift.Equatable {
+    public struct QueriesConfig {
         ///
         /// This member is required.
         public var queries: [TextractClientTypes.Query]?
@@ -7019,7 +7019,7 @@ extension TextractClientTypes.Query: Swift.Codable {
 
 extension TextractClientTypes {
     /// Each query contains the question you want to ask in the Text and the alias you want to associate.
-    public struct Query: Swift.Equatable {
+    public struct Query {
         /// Alias attached to the query, for ease of location.
         public var alias: Swift.String?
         /// Pages is a parameter that the user inputs to specify which pages to apply a query to. The following is a list of rules for using this parameter.
@@ -7091,7 +7091,7 @@ extension TextractClientTypes.Relationship: Swift.Codable {
 
 extension TextractClientTypes {
     /// Information about how blocks are related to each other. A Block object contains 0 or more Relation objects in a list, Relationships. For more information, see [Block]. The Type element provides the type of the relationship for all blocks in the IDs array.
-    public struct Relationship: Swift.Equatable {
+    public struct Relationship {
         /// An array of IDs for related blocks. You can get the type of the relationship from the Type element.
         public var ids: [Swift.String]?
         /// The type of relationship between the blocks in the IDs array and the current block. The following list describes the relationship types that can be returned.
@@ -7220,7 +7220,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -7273,7 +7273,7 @@ extension TextractClientTypes.S3Object: Swift.Codable {
 
 extension TextractClientTypes {
     /// The S3 bucket name and file name that identifies the document. The AWS Region for the S3 bucket that contains the document must match the Region that you use for Amazon Textract operations. For Amazon Textract to process a file in an S3 bucket, the user must have permission to access the S3 bucket and file.
-    public struct S3Object: Swift.Equatable {
+    public struct S3Object {
         /// The name of the S3 bucket. Note that the # character is not valid in the file name.
         public var bucket: Swift.String?
         /// The file name of the input document. Synchronous operations can use image files that are in JPEG or PNG format. Asynchronous operations also support PDF and TIFF format files.
@@ -7371,7 +7371,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -7418,7 +7418,7 @@ extension TextractClientTypes.SignatureDetection: Swift.Codable {
 
 extension TextractClientTypes {
     /// Information regarding a detected signature on a page.
-    public struct SignatureDetection: Swift.Equatable {
+    public struct SignatureDetection {
         /// The confidence, from 0 to 100, in the predicted values for a detected signature.
         public var confidence: Swift.Float?
         /// Information about where the following items are located on a document page: detected page, text, key-value pairs, tables, table cells, and selection elements.
@@ -7475,7 +7475,7 @@ extension TextractClientTypes.SplitDocument: Swift.Codable {
 
 extension TextractClientTypes {
     /// Contains information about the pages of a document, defined by logical boundary.
-    public struct SplitDocument: Swift.Equatable {
+    public struct SplitDocument {
         /// The index for a given document in a DocumentGroup of a specific Type.
         public var index: Swift.Int?
         /// An array of page numbers for a for a given document, ordered by logical boundary.
@@ -7548,7 +7548,7 @@ extension StartDocumentAnalysisInput {
     }
 }
 
-public struct StartDocumentAnalysisInput: Swift.Equatable {
+public struct StartDocumentAnalysisInput {
     /// Specifies the adapter to be used when analyzing a document.
     public var adaptersConfig: TextractClientTypes.AdaptersConfig?
     /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartDocumentAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html).
@@ -7594,7 +7594,7 @@ public struct StartDocumentAnalysisInput: Swift.Equatable {
     }
 }
 
-struct StartDocumentAnalysisInputBody: Swift.Equatable {
+struct StartDocumentAnalysisInputBody {
     let documentLocation: TextractClientTypes.DocumentLocation?
     let featureTypes: [TextractClientTypes.FeatureType]?
     let clientRequestToken: Swift.String?
@@ -7663,7 +7663,7 @@ extension StartDocumentAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDocumentAnalysisOutput: Swift.Equatable {
+public struct StartDocumentAnalysisOutput {
     /// The identifier for the document text detection job. Use JobId to identify the job in a subsequent call to GetDocumentAnalysis. A JobId value is only valid for 7 days.
     public var jobId: Swift.String?
 
@@ -7675,7 +7675,7 @@ public struct StartDocumentAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct StartDocumentAnalysisOutputBody: Swift.Equatable {
+struct StartDocumentAnalysisOutputBody {
     let jobId: Swift.String?
 }
 
@@ -7753,7 +7753,7 @@ extension StartDocumentTextDetectionInput {
     }
 }
 
-public struct StartDocumentTextDetectionInput: Swift.Equatable {
+public struct StartDocumentTextDetectionInput {
     /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html).
     public var clientRequestToken: Swift.String?
     /// The location of the document to be processed.
@@ -7786,7 +7786,7 @@ public struct StartDocumentTextDetectionInput: Swift.Equatable {
     }
 }
 
-struct StartDocumentTextDetectionInputBody: Swift.Equatable {
+struct StartDocumentTextDetectionInputBody {
     let documentLocation: TextractClientTypes.DocumentLocation?
     let clientRequestToken: Swift.String?
     let jobTag: Swift.String?
@@ -7834,7 +7834,7 @@ extension StartDocumentTextDetectionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartDocumentTextDetectionOutput: Swift.Equatable {
+public struct StartDocumentTextDetectionOutput {
     /// The identifier of the text detection job for the document. Use JobId to identify the job in a subsequent call to GetDocumentTextDetection. A JobId value is only valid for 7 days.
     public var jobId: Swift.String?
 
@@ -7846,7 +7846,7 @@ public struct StartDocumentTextDetectionOutput: Swift.Equatable {
     }
 }
 
-struct StartDocumentTextDetectionOutputBody: Swift.Equatable {
+struct StartDocumentTextDetectionOutputBody {
     let jobId: Swift.String?
 }
 
@@ -7924,7 +7924,7 @@ extension StartExpenseAnalysisInput {
     }
 }
 
-public struct StartExpenseAnalysisInput: Swift.Equatable {
+public struct StartExpenseAnalysisInput {
     /// The idempotent token that's used to identify the start request. If you use the same token with multiple StartDocumentTextDetection requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-async.html)
     public var clientRequestToken: Swift.String?
     /// The location of the document to be processed.
@@ -7957,7 +7957,7 @@ public struct StartExpenseAnalysisInput: Swift.Equatable {
     }
 }
 
-struct StartExpenseAnalysisInputBody: Swift.Equatable {
+struct StartExpenseAnalysisInputBody {
     let documentLocation: TextractClientTypes.DocumentLocation?
     let clientRequestToken: Swift.String?
     let jobTag: Swift.String?
@@ -8005,7 +8005,7 @@ extension StartExpenseAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartExpenseAnalysisOutput: Swift.Equatable {
+public struct StartExpenseAnalysisOutput {
     /// A unique identifier for the text detection job. The JobId is returned from StartExpenseAnalysis. A JobId value is only valid for 7 days.
     public var jobId: Swift.String?
 
@@ -8017,7 +8017,7 @@ public struct StartExpenseAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct StartExpenseAnalysisOutputBody: Swift.Equatable {
+struct StartExpenseAnalysisOutputBody {
     let jobId: Swift.String?
 }
 
@@ -8095,7 +8095,7 @@ extension StartLendingAnalysisInput {
     }
 }
 
-public struct StartLendingAnalysisInput: Swift.Equatable {
+public struct StartLendingAnalysisInput {
     /// The idempotent token that you use to identify the start request. If you use the same token with multiple StartLendingAnalysis requests, the same JobId is returned. Use ClientRequestToken to prevent the same job from being accidentally started more than once. For more information, see [Calling Amazon Textract Asynchronous Operations](https://docs.aws.amazon.com/textract/latest/dg/api-sync.html).
     public var clientRequestToken: Swift.String?
     /// The Amazon S3 bucket that contains the document to be processed. It's used by asynchronous operations. The input document can be an image file in JPEG or PNG format. It can also be a file in PDF format.
@@ -8128,7 +8128,7 @@ public struct StartLendingAnalysisInput: Swift.Equatable {
     }
 }
 
-struct StartLendingAnalysisInputBody: Swift.Equatable {
+struct StartLendingAnalysisInputBody {
     let documentLocation: TextractClientTypes.DocumentLocation?
     let clientRequestToken: Swift.String?
     let jobTag: Swift.String?
@@ -8176,7 +8176,7 @@ extension StartLendingAnalysisOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartLendingAnalysisOutput: Swift.Equatable {
+public struct StartLendingAnalysisOutput {
     /// A unique identifier for the lending or text-detection job. The JobId is returned from StartLendingAnalysis. A JobId value is only valid for 7 days.
     public var jobId: Swift.String?
 
@@ -8188,7 +8188,7 @@ public struct StartLendingAnalysisOutput: Swift.Equatable {
     }
 }
 
-struct StartLendingAnalysisOutputBody: Swift.Equatable {
+struct StartLendingAnalysisOutputBody {
     let jobId: Swift.String?
 }
 
@@ -8253,7 +8253,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) that specifies the resource to be tagged.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -8271,7 +8271,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let resourceARN: Swift.String?
     let tags: [Swift.String:Swift.String]?
 }
@@ -8305,7 +8305,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8406,7 +8406,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -8447,7 +8447,7 @@ extension TextractClientTypes.UndetectedSignature: Swift.Codable {
 
 extension TextractClientTypes {
     /// A structure containing information about an undetected signature on a page where it was expected but not found.
-    public struct UndetectedSignature: Swift.Equatable {
+    public struct UndetectedSignature {
         /// The page where a signature was expected but not found.
         public var page: Swift.Int?
 
@@ -8505,7 +8505,7 @@ public struct UnsupportedDocumentException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct UnsupportedDocumentExceptionBody: Swift.Equatable {
+struct UnsupportedDocumentExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -8552,7 +8552,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) that specifies the resource to be untagged.
     /// This member is required.
     public var resourceARN: Swift.String?
@@ -8570,7 +8570,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
     let resourceARN: Swift.String?
     let tagKeys: [Swift.String]?
 }
@@ -8604,7 +8604,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -8658,7 +8658,7 @@ extension UpdateAdapterInput {
     }
 }
 
-public struct UpdateAdapterInput: Swift.Equatable {
+public struct UpdateAdapterInput {
     /// A string containing a unique ID for the adapter that will be updated.
     /// This member is required.
     public var adapterId: Swift.String?
@@ -8683,7 +8683,7 @@ public struct UpdateAdapterInput: Swift.Equatable {
     }
 }
 
-struct UpdateAdapterInputBody: Swift.Equatable {
+struct UpdateAdapterInputBody {
     let adapterId: Swift.String?
     let description: Swift.String?
     let adapterName: Swift.String?
@@ -8733,7 +8733,7 @@ extension UpdateAdapterOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAdapterOutput: Swift.Equatable {
+public struct UpdateAdapterOutput {
     /// A string containing a unique ID for the adapter that has been updated.
     public var adapterId: Swift.String?
     /// A string containing the name of the adapter that has been updated.
@@ -8765,7 +8765,7 @@ public struct UpdateAdapterOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAdapterOutputBody: Swift.Equatable {
+struct UpdateAdapterOutputBody {
     let adapterId: Swift.String?
     let adapterName: Swift.String?
     let creationTime: ClientRuntime.Date?
@@ -8872,7 +8872,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let code: Swift.String?
 }
@@ -8960,7 +8960,7 @@ extension TextractClientTypes.Warning: Swift.Codable {
 
 extension TextractClientTypes {
     /// A warning about an issue that occurred during asynchronous text analysis ([StartDocumentAnalysis]) or asynchronous document text detection ([StartDocumentTextDetection]).
-    public struct Warning: Swift.Equatable {
+    public struct Warning {
         /// The error code for the warning.
         public var errorCode: Swift.String?
         /// A list of the pages that the warning applies to.

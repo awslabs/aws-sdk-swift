@@ -83,7 +83,7 @@ extension AmplifyUIBuilderClientTypes.ActionParameters: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the event action configuration for an element of a Component or ComponentChild. Use for the workflow feature in Amplify Studio that allows you to bind events and actions to components. ActionParameters defines the action that is performed when an event occurs on the component.
-    public struct ActionParameters: Swift.Equatable {
+    public struct ActionParameters {
         /// The HTML anchor link to the location to open. Specify this value for a navigation action.
         public var anchor: AmplifyUIBuilderClientTypes.ComponentProperty?
         /// A dictionary of key-value pairs mapping Amplify Studio properties to fields in a data model. Use when the action performs an operation on an Amplify DataStore model.
@@ -176,7 +176,7 @@ extension AmplifyUIBuilderClientTypes.ApiConfiguration: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the API configuration for a code generation job.
-    public enum ApiConfiguration: Swift.Equatable {
+    public enum ApiConfiguration {
         /// The configuration for an application using GraphQL APIs.
         case graphqlconfig(AmplifyUIBuilderClientTypes.GraphQLRenderConfig)
         /// The configuration for an application using DataStore APIs.
@@ -227,7 +227,7 @@ extension AmplifyUIBuilderClientTypes.CodegenDependency: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Dependency package that may be required for the project code to run.
-    public struct CodegenDependency: Swift.Equatable {
+    public struct CodegenDependency {
         /// Determines if the dependency package is using Semantic versioning. If set to true, it indicates that the dependency package uses Semantic versioning.
         public var isSemVer: Swift.Bool?
         /// Name of the dependency package.
@@ -280,7 +280,7 @@ extension AmplifyUIBuilderClientTypes.CodegenFeatureFlags: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the feature flags that you can specify for a code generation job.
-    public struct CodegenFeatureFlags: Swift.Equatable {
+    public struct CodegenFeatureFlags {
         /// Specifies whether a code generation job supports non models.
         public var isNonModelSupported: Swift.Bool?
         /// Specifes whether a code generation job supports data relationships.
@@ -331,7 +331,7 @@ extension AmplifyUIBuilderClientTypes.CodegenGenericDataEnum: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the enums in a generic data schema.
-    public struct CodegenGenericDataEnum: Swift.Equatable {
+    public struct CodegenGenericDataEnum {
         /// The list of enum values in the generic data schema.
         /// This member is required.
         public var values: [Swift.String]?
@@ -397,7 +397,7 @@ extension AmplifyUIBuilderClientTypes.CodegenGenericDataField: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes a field in a generic data schema.
-    public struct CodegenGenericDataField: Swift.Equatable {
+    public struct CodegenGenericDataField {
         /// The data type for the generic data field.
         /// This member is required.
         public var dataType: AmplifyUIBuilderClientTypes.CodegenGenericDataFieldDataType?
@@ -570,7 +570,7 @@ extension AmplifyUIBuilderClientTypes.CodegenGenericDataModel: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes a model in a generic data schema.
-    public struct CodegenGenericDataModel: Swift.Equatable {
+    public struct CodegenGenericDataModel {
         /// The fields in the generic data model.
         /// This member is required.
         public var fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]?
@@ -627,7 +627,7 @@ extension AmplifyUIBuilderClientTypes.CodegenGenericDataNonModel: Swift.Codable 
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes a non-model in a generic data schema.
-    public struct CodegenGenericDataNonModel: Swift.Equatable {
+    public struct CodegenGenericDataNonModel {
         /// The fields in a generic data schema non model.
         /// This member is required.
         public var fields: [Swift.String:AmplifyUIBuilderClientTypes.CodegenGenericDataField]?
@@ -735,7 +735,7 @@ extension AmplifyUIBuilderClientTypes.CodegenGenericDataRelationshipType: Swift.
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the relationship between generic data models.
-    public struct CodegenGenericDataRelationshipType: Swift.Equatable {
+    public struct CodegenGenericDataRelationshipType {
         /// The associated fields of the data relationship.
         public var associatedFields: [Swift.String]?
         /// The value of the belongsTo field on the related data model.
@@ -906,7 +906,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJob: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for a code generation job that is associated with an Amplify app.
-    public struct CodegenJob: Swift.Equatable {
+    public struct CodegenJob {
         /// The ID of the Amplify app associated with the code generation job.
         /// This member is required.
         public var appId: Swift.String?
@@ -996,7 +996,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJobAsset: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes an asset for a code generation job.
-    public struct CodegenJobAsset: Swift.Equatable {
+    public struct CodegenJobAsset {
         /// The URL to use to access the asset.
         public var downloadUrl: Swift.String?
 
@@ -1085,7 +1085,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJobGenericDataSchema: Swift.Codable
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the data schema for a code generation job.
-    public struct CodegenJobGenericDataSchema: Swift.Equatable {
+    public struct CodegenJobGenericDataSchema {
         /// The type of the data source for the schema. Currently, the only valid value is an Amplify DataStore.
         /// This member is required.
         public var dataSourceType: AmplifyUIBuilderClientTypes.CodegenJobGenericDataSourceType?
@@ -1173,7 +1173,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJobRenderConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration information for rendering the UI component associated with the code generation job.
-    public enum CodegenJobRenderConfig: Swift.Equatable {
+    public enum CodegenJobRenderConfig {
         /// The name of the ReactStartCodegenJobData object.
         case react(AmplifyUIBuilderClientTypes.ReactStartCodegenJobData)
         case sdkUnknown(Swift.String)
@@ -1261,7 +1261,7 @@ extension AmplifyUIBuilderClientTypes.CodegenJobSummary: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// A summary of the basic information about the code generation job.
-    public struct CodegenJobSummary: Swift.Equatable {
+    public struct CodegenJobSummary {
         /// The unique ID of the Amplify app associated with the code generation job.
         /// This member is required.
         public var appId: Swift.String?
@@ -1517,7 +1517,7 @@ extension AmplifyUIBuilderClientTypes.Component: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Contains the configuration settings for a user interface (UI) element for an Amplify app. A component is configured as a primary, stand-alone UI element. Use ComponentChild to configure an instance of a Component. A ComponentChild instance inherits the configuration of the main Component.
-    public struct Component: Swift.Equatable {
+    public struct Component {
         /// The unique ID of the Amplify app associated with the component.
         /// This member is required.
         public var appId: Swift.String?
@@ -1638,7 +1638,7 @@ extension AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue: Swift.Cod
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a component at runtime. You can use ComponentBindingPropertiesValue to add exposed properties to a component to allow different values to be entered when a component is reused in different places in an app.
-    public struct ComponentBindingPropertiesValue: Swift.Equatable {
+    public struct ComponentBindingPropertiesValue {
         /// Describes the properties to customize with data at runtime.
         public var bindingProperties: AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValueProperties?
         /// The default value of the property.
@@ -1735,7 +1735,7 @@ extension AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValueProperties:
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a specific property using data stored in Amazon Web Services. For Amazon Web Services connected properties, you can bind a property to data stored in an Amazon S3 bucket, an Amplify DataStore model or an authenticated user attribute.
-    public struct ComponentBindingPropertiesValueProperties: Swift.Equatable {
+    public struct ComponentBindingPropertiesValueProperties {
         /// An Amazon S3 bucket.
         public var bucket: Swift.String?
         /// The default value to assign to the property.
@@ -1864,7 +1864,7 @@ extension AmplifyUIBuilderClientTypes.ComponentChild: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// A nested UI configuration within a parent Component.
-    public struct ComponentChild: Swift.Equatable {
+    public struct ComponentChild {
         /// The list of ComponentChild instances for this component.
         public var children: [AmplifyUIBuilderClientTypes.ComponentChild]?
         /// The type of the child component.
@@ -1958,7 +1958,7 @@ extension AmplifyUIBuilderClientTypes.ComponentConditionProperty: Swift.Codable 
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents a conditional expression to set a component property. Use ComponentConditionProperty to set a property to different values conditionally, based on the value of another property.
-    public struct ComponentConditionProperty: Swift.Equatable {
+    public struct ComponentConditionProperty {
         /// The value to assign to the property if the condition is not met.
         @Indirect public var `else`: AmplifyUIBuilderClientTypes.ComponentProperty?
         /// The name of a field. Specify this when the property is a data model.
@@ -2059,7 +2059,7 @@ extension AmplifyUIBuilderClientTypes.ComponentDataConfiguration: Swift.Codable 
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for binding a component's properties to data.
-    public struct ComponentDataConfiguration: Swift.Equatable {
+    public struct ComponentDataConfiguration {
         /// A list of IDs to use to bind data to a component. Use this property to bind specifically chosen data, rather than data retrieved from a query.
         public var identifiers: [Swift.String]?
         /// The name of the data model to use to bind data to a component.
@@ -2119,7 +2119,7 @@ extension AmplifyUIBuilderClientTypes.ComponentEvent: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration of an event. You can bind an event and a corresponding action to a Component or a ComponentChild. A button click is an example of an event.
-    public struct ComponentEvent: Swift.Equatable {
+    public struct ComponentEvent {
         /// The action to perform when a specific event is raised.
         public var action: Swift.String?
         /// Binds an event to an action on a component. When you specify a bindingEvent, the event is called when the action is performed.
@@ -2270,7 +2270,7 @@ extension AmplifyUIBuilderClientTypes.ComponentProperty: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for all of a component's properties. Use ComponentProperty to specify the values to render or bind by default.
-    public struct ComponentProperty: Swift.Equatable {
+    public struct ComponentProperty {
         /// The information to bind the component property to data at runtime.
         public var bindingProperties: AmplifyUIBuilderClientTypes.ComponentPropertyBindingProperties?
         /// The information to bind the component property to form data.
@@ -2367,7 +2367,7 @@ extension AmplifyUIBuilderClientTypes.ComponentPropertyBindingProperties: Swift.
 
 extension AmplifyUIBuilderClientTypes {
     /// Associates a component property to a binding property. This enables exposed properties on the top level component to propagate data to the component's property values.
-    public struct ComponentPropertyBindingProperties: Swift.Equatable {
+    public struct ComponentPropertyBindingProperties {
         /// The data field to bind the property to.
         public var field: Swift.String?
         /// The component property to bind to the data field.
@@ -2431,7 +2431,7 @@ extension AmplifyUIBuilderClientTypes.ComponentSummary: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Contains a summary of a component. This is a read-only data type that is returned by ListComponents.
-    public struct ComponentSummary: Swift.Equatable {
+    public struct ComponentSummary {
         /// The unique ID of the Amplify app associated with the component.
         /// This member is required.
         public var appId: Swift.String?
@@ -2527,7 +2527,7 @@ extension AmplifyUIBuilderClientTypes.ComponentVariant: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the style configuration of a unique variation of a main component.
-    public struct ComponentVariant: Swift.Equatable {
+    public struct ComponentVariant {
         /// The properties of the component variant that can be overriden when customizing an instance of the component. You can't specify tags as a valid property for overrides.
         public var overrides: [Swift.String:[Swift.String:Swift.String]]?
         /// The combination of variants that comprise this variant. You can't specify tags as a valid property for variantValues.
@@ -2738,7 +2738,7 @@ extension AmplifyUIBuilderClientTypes.CreateComponentData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents all of the information that is required to create a component.
-    public struct CreateComponentData: Swift.Equatable {
+    public struct CreateComponentData {
         /// The data binding information for the component's properties.
         /// This member is required.
         public var bindingProperties: [Swift.String:AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue]?
@@ -2840,7 +2840,7 @@ extension CreateComponentInput {
     }
 }
 
-public struct CreateComponentInput: Swift.Equatable {
+public struct CreateComponentInput {
     /// The unique ID of the Amplify app to associate with the component.
     /// This member is required.
     public var appId: Swift.String?
@@ -2867,7 +2867,7 @@ public struct CreateComponentInput: Swift.Equatable {
     }
 }
 
-struct CreateComponentInputBody: Swift.Equatable {
+struct CreateComponentInputBody {
     let componentToCreate: AmplifyUIBuilderClientTypes.CreateComponentData?
 }
 
@@ -2894,7 +2894,7 @@ extension CreateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateComponentOutput: Swift.Equatable {
+public struct CreateComponentOutput {
     /// Describes the configuration of the new component.
     public var entity: AmplifyUIBuilderClientTypes.Component?
 
@@ -2906,7 +2906,7 @@ public struct CreateComponentOutput: Swift.Equatable {
     }
 }
 
-struct CreateComponentOutputBody: Swift.Equatable {
+struct CreateComponentOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Component?
 }
 
@@ -3047,7 +3047,7 @@ extension AmplifyUIBuilderClientTypes.CreateFormData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents all of the information that is required to create a form.
-    public struct CreateFormData: Swift.Equatable {
+    public struct CreateFormData {
         /// The FormCTA object that stores the call to action configuration for the form.
         public var cta: AmplifyUIBuilderClientTypes.FormCTA?
         /// The type of data source to use to create the form.
@@ -3142,7 +3142,7 @@ extension CreateFormInput {
     }
 }
 
-public struct CreateFormInput: Swift.Equatable {
+public struct CreateFormInput {
     /// The unique ID of the Amplify app to associate with the form.
     /// This member is required.
     public var appId: Swift.String?
@@ -3169,7 +3169,7 @@ public struct CreateFormInput: Swift.Equatable {
     }
 }
 
-struct CreateFormInputBody: Swift.Equatable {
+struct CreateFormInputBody {
     let formToCreate: AmplifyUIBuilderClientTypes.CreateFormData?
 }
 
@@ -3196,7 +3196,7 @@ extension CreateFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFormOutput: Swift.Equatable {
+public struct CreateFormOutput {
     /// Describes the configuration of the new form.
     public var entity: AmplifyUIBuilderClientTypes.Form?
 
@@ -3208,7 +3208,7 @@ public struct CreateFormOutput: Swift.Equatable {
     }
 }
 
-struct CreateFormOutputBody: Swift.Equatable {
+struct CreateFormOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Form?
 }
 
@@ -3313,7 +3313,7 @@ extension AmplifyUIBuilderClientTypes.CreateThemeData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents all of the information that is required to create a theme.
-    public struct CreateThemeData: Swift.Equatable {
+    public struct CreateThemeData {
         /// The name of the theme.
         /// This member is required.
         public var name: Swift.String?
@@ -3379,7 +3379,7 @@ extension CreateThemeInput {
     }
 }
 
-public struct CreateThemeInput: Swift.Equatable {
+public struct CreateThemeInput {
     /// The unique ID of the Amplify app associated with the theme.
     /// This member is required.
     public var appId: Swift.String?
@@ -3406,7 +3406,7 @@ public struct CreateThemeInput: Swift.Equatable {
     }
 }
 
-struct CreateThemeInputBody: Swift.Equatable {
+struct CreateThemeInputBody {
     let themeToCreate: AmplifyUIBuilderClientTypes.CreateThemeData?
 }
 
@@ -3433,7 +3433,7 @@ extension CreateThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateThemeOutput: Swift.Equatable {
+public struct CreateThemeOutput {
     /// Describes the configuration of the new theme.
     public var entity: AmplifyUIBuilderClientTypes.Theme?
 
@@ -3445,7 +3445,7 @@ public struct CreateThemeOutput: Swift.Equatable {
     }
 }
 
-struct CreateThemeOutputBody: Swift.Equatable {
+struct CreateThemeOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Theme?
 }
 
@@ -3488,7 +3488,7 @@ extension AmplifyUIBuilderClientTypes.DataStoreRenderConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the DataStore configuration for an API for a code generation job.
-    public struct DataStoreRenderConfig: Swift.Equatable {
+    public struct DataStoreRenderConfig {
 
         public init() { }
     }
@@ -3511,7 +3511,7 @@ extension DeleteComponentInput {
     }
 }
 
-public struct DeleteComponentInput: Swift.Equatable {
+public struct DeleteComponentInput {
     /// The unique ID of the Amplify app associated with the component to delete.
     /// This member is required.
     public var appId: Swift.String?
@@ -3534,7 +3534,7 @@ public struct DeleteComponentInput: Swift.Equatable {
     }
 }
 
-struct DeleteComponentInputBody: Swift.Equatable {
+struct DeleteComponentInputBody {
 }
 
 extension DeleteComponentInputBody: Swift.Decodable {
@@ -3548,7 +3548,7 @@ extension DeleteComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteComponentOutput: Swift.Equatable {
+public struct DeleteComponentOutput {
 
     public init() { }
 }
@@ -3582,7 +3582,7 @@ extension DeleteFormInput {
     }
 }
 
-public struct DeleteFormInput: Swift.Equatable {
+public struct DeleteFormInput {
     /// The unique ID of the Amplify app associated with the form to delete.
     /// This member is required.
     public var appId: Swift.String?
@@ -3605,7 +3605,7 @@ public struct DeleteFormInput: Swift.Equatable {
     }
 }
 
-struct DeleteFormInputBody: Swift.Equatable {
+struct DeleteFormInputBody {
 }
 
 extension DeleteFormInputBody: Swift.Decodable {
@@ -3619,7 +3619,7 @@ extension DeleteFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFormOutput: Swift.Equatable {
+public struct DeleteFormOutput {
 
     public init() { }
 }
@@ -3653,7 +3653,7 @@ extension DeleteThemeInput {
     }
 }
 
-public struct DeleteThemeInput: Swift.Equatable {
+public struct DeleteThemeInput {
     /// The unique ID of the Amplify app associated with the theme to delete.
     /// This member is required.
     public var appId: Swift.String?
@@ -3676,7 +3676,7 @@ public struct DeleteThemeInput: Swift.Equatable {
     }
 }
 
-struct DeleteThemeInputBody: Swift.Equatable {
+struct DeleteThemeInputBody {
 }
 
 extension DeleteThemeInputBody: Swift.Decodable {
@@ -3690,7 +3690,7 @@ extension DeleteThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteThemeOutput: Swift.Equatable {
+public struct DeleteThemeOutput {
 
     public init() { }
 }
@@ -3731,7 +3731,7 @@ extension ExchangeCodeForTokenInput {
     }
 }
 
-public struct ExchangeCodeForTokenInput: Swift.Equatable {
+public struct ExchangeCodeForTokenInput {
     /// The third-party provider for the token. The only valid value is figma.
     /// This member is required.
     public var provider: AmplifyUIBuilderClientTypes.TokenProviders?
@@ -3749,7 +3749,7 @@ public struct ExchangeCodeForTokenInput: Swift.Equatable {
     }
 }
 
-struct ExchangeCodeForTokenInputBody: Swift.Equatable {
+struct ExchangeCodeForTokenInputBody {
     let request: AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody?
 }
 
@@ -3786,7 +3786,7 @@ extension ExchangeCodeForTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExchangeCodeForTokenOutput: Swift.Equatable {
+public struct ExchangeCodeForTokenOutput {
     /// The access token.
     /// This member is required.
     public var accessToken: Swift.String?
@@ -3809,7 +3809,7 @@ public struct ExchangeCodeForTokenOutput: Swift.Equatable {
     }
 }
 
-struct ExchangeCodeForTokenOutputBody: Swift.Equatable {
+struct ExchangeCodeForTokenOutputBody {
     let accessToken: Swift.String?
     let expiresIn: Swift.Int?
     let refreshToken: Swift.String?
@@ -3882,7 +3882,7 @@ extension AmplifyUIBuilderClientTypes.ExchangeCodeForTokenRequestBody: Swift.Cus
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration of a request to exchange an access code for a token.
-    public struct ExchangeCodeForTokenRequestBody: Swift.Equatable {
+    public struct ExchangeCodeForTokenRequestBody {
         /// The ID of the client to request the token from.
         public var clientId: Swift.String?
         /// The access code to send in the request.
@@ -3931,7 +3931,7 @@ extension ExportComponentsInput {
     }
 }
 
-public struct ExportComponentsInput: Swift.Equatable {
+public struct ExportComponentsInput {
     /// The unique ID of the Amplify app to export components to.
     /// This member is required.
     public var appId: Swift.String?
@@ -3953,7 +3953,7 @@ public struct ExportComponentsInput: Swift.Equatable {
     }
 }
 
-struct ExportComponentsInputBody: Swift.Equatable {
+struct ExportComponentsInputBody {
 }
 
 extension ExportComponentsInputBody: Swift.Decodable {
@@ -3976,7 +3976,7 @@ extension ExportComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportComponentsOutput: Swift.Equatable {
+public struct ExportComponentsOutput {
     /// Represents the configuration of the exported components.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.Component]?
@@ -3993,7 +3993,7 @@ public struct ExportComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ExportComponentsOutputBody: Swift.Equatable {
+struct ExportComponentsOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.Component]?
     let nextToken: Swift.String?
 }
@@ -4059,7 +4059,7 @@ extension ExportFormsInput {
     }
 }
 
-public struct ExportFormsInput: Swift.Equatable {
+public struct ExportFormsInput {
     /// The unique ID of the Amplify app to export forms to.
     /// This member is required.
     public var appId: Swift.String?
@@ -4081,7 +4081,7 @@ public struct ExportFormsInput: Swift.Equatable {
     }
 }
 
-struct ExportFormsInputBody: Swift.Equatable {
+struct ExportFormsInputBody {
 }
 
 extension ExportFormsInputBody: Swift.Decodable {
@@ -4104,7 +4104,7 @@ extension ExportFormsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportFormsOutput: Swift.Equatable {
+public struct ExportFormsOutput {
     /// Represents the configuration of the exported forms.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.Form]?
@@ -4121,7 +4121,7 @@ public struct ExportFormsOutput: Swift.Equatable {
     }
 }
 
-struct ExportFormsOutputBody: Swift.Equatable {
+struct ExportFormsOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.Form]?
     let nextToken: Swift.String?
 }
@@ -4187,7 +4187,7 @@ extension ExportThemesInput {
     }
 }
 
-public struct ExportThemesInput: Swift.Equatable {
+public struct ExportThemesInput {
     /// The unique ID of the Amplify app to export the themes to.
     /// This member is required.
     public var appId: Swift.String?
@@ -4209,7 +4209,7 @@ public struct ExportThemesInput: Swift.Equatable {
     }
 }
 
-struct ExportThemesInputBody: Swift.Equatable {
+struct ExportThemesInputBody {
 }
 
 extension ExportThemesInputBody: Swift.Decodable {
@@ -4232,7 +4232,7 @@ extension ExportThemesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportThemesOutput: Swift.Equatable {
+public struct ExportThemesOutput {
     /// Represents the configuration of the exported themes.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.Theme]?
@@ -4249,7 +4249,7 @@ public struct ExportThemesOutput: Swift.Equatable {
     }
 }
 
-struct ExportThemesOutputBody: Swift.Equatable {
+struct ExportThemesOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.Theme]?
     let nextToken: Swift.String?
 }
@@ -4347,7 +4347,7 @@ extension AmplifyUIBuilderClientTypes.FieldConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration information for a field in a table.
-    public struct FieldConfig: Swift.Equatable {
+    public struct FieldConfig {
         /// Specifies whether to hide a field.
         public var excluded: Swift.Bool?
         /// Describes the configuration for the default input value to display for a field.
@@ -4488,7 +4488,7 @@ extension AmplifyUIBuilderClientTypes.FieldInputConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for the default input values to display for a field.
-    public struct FieldInputConfig: Swift.Equatable {
+    public struct FieldInputConfig {
         /// Specifies whether a field has a default value.
         public var defaultChecked: Swift.Bool?
         /// The default country code for a phone number.
@@ -4608,7 +4608,7 @@ extension AmplifyUIBuilderClientTypes.FieldPosition: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the field position.
-    public enum FieldPosition: Swift.Equatable {
+    public enum FieldPosition {
         /// The field position is fixed and doesn't change in relation to other fields.
         case fixed(AmplifyUIBuilderClientTypes.FixedPosition)
         /// The field position is to the right of the field specified by the string.
@@ -4683,7 +4683,7 @@ extension AmplifyUIBuilderClientTypes.FieldValidationConfiguration: Swift.Codabl
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the validation configuration for a field.
-    public struct FieldValidationConfiguration: Swift.Equatable {
+    public struct FieldValidationConfiguration {
         /// The validation to perform on a number value.
         public var numValues: [Swift.Int]?
         /// The validation to perform on a string value.
@@ -4773,7 +4773,7 @@ extension AmplifyUIBuilderClientTypes.FileUploaderFieldConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for the file uploader field.
-    public struct FileUploaderFieldConfig: Swift.Equatable {
+    public struct FileUploaderFieldConfig {
         /// The file types that are allowed to be uploaded by the file uploader. Provide this information in an array of strings specifying the valid file extensions.
         /// This member is required.
         public var acceptedFileTypes: [Swift.String]?
@@ -4967,7 +4967,7 @@ extension AmplifyUIBuilderClientTypes.Form: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Contains the configuration settings for a Form user interface (UI) element for an Amplify app. A form is a component you can add to your project by specifying a data source as the default configuration for the form.
-    public struct Form: Swift.Equatable {
+    public struct Form {
         /// The unique ID of the Amplify app associated with the form.
         /// This member is required.
         public var appId: Swift.String?
@@ -5098,7 +5098,7 @@ extension AmplifyUIBuilderClientTypes.FormBindingElement: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes how to bind a component property to form data.
-    public struct FormBindingElement: Swift.Equatable {
+    public struct FormBindingElement {
         /// The name of the component to retrieve a value from.
         /// This member is required.
         public var element: Swift.String?
@@ -5151,7 +5151,7 @@ extension AmplifyUIBuilderClientTypes.FormButton: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for a button UI element that is a part of a form.
-    public struct FormButton: Swift.Equatable {
+    public struct FormButton {
         /// Describes the button's properties.
         public var children: Swift.String?
         /// Specifies whether the button is visible on the form.
@@ -5247,7 +5247,7 @@ extension AmplifyUIBuilderClientTypes.FormCTA: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the call to action button configuration for the form.
-    public struct FormCTA: Swift.Equatable {
+    public struct FormCTA {
         /// Displays a cancel button.
         public var cancel: AmplifyUIBuilderClientTypes.FormButton?
         /// Displays a clear button.
@@ -5334,7 +5334,7 @@ extension AmplifyUIBuilderClientTypes.FormDataTypeConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the data type configuration for the data source associated with a form.
-    public struct FormDataTypeConfig: Swift.Equatable {
+    public struct FormDataTypeConfig {
         /// The data source type, either an Amplify DataStore model or a custom data type.
         /// This member is required.
         public var dataSourceType: AmplifyUIBuilderClientTypes.FormDataSourceType?
@@ -5381,7 +5381,7 @@ extension AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue: Swift.Cod
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a form's input fields at runtime.You can use FormInputBindingPropertiesValue to add exposed properties to a form to allow different values to be entered when a form is reused in different places in an app.
-    public struct FormInputBindingPropertiesValue: Swift.Equatable {
+    public struct FormInputBindingPropertiesValue {
         /// Describes the properties to customize with data at runtime.
         public var bindingProperties: AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties?
         /// The property type.
@@ -5420,7 +5420,7 @@ extension AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValueProperties:
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a specific property using data stored in Amazon Web Services. For Amazon Web Services connected properties, you can bind a property to data stored in an Amplify DataStore model.
-    public struct FormInputBindingPropertiesValueProperties: Swift.Equatable {
+    public struct FormInputBindingPropertiesValueProperties {
         /// An Amplify DataStore model.
         public var model: Swift.String?
 
@@ -5479,7 +5479,7 @@ extension AmplifyUIBuilderClientTypes.FormInputValueProperty: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for an input field on a form. Use FormInputValueProperty to specify the values to render or bind by default.
-    public struct FormInputValueProperty: Swift.Equatable {
+    public struct FormInputValueProperty {
         /// The information to bind fields to data at runtime.
         public var bindingProperties: AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties?
         /// A list of form properties to concatenate to create the value to assign to this field property.
@@ -5528,7 +5528,7 @@ extension AmplifyUIBuilderClientTypes.FormInputValuePropertyBindingProperties: S
 
 extension AmplifyUIBuilderClientTypes {
     /// Associates a form property to a binding property. This enables exposed properties on the top level form to propagate data to the form's property values.
-    public struct FormInputValuePropertyBindingProperties: Swift.Equatable {
+    public struct FormInputValuePropertyBindingProperties {
         /// The data field to bind the property to.
         public var field: Swift.String?
         /// The form property to bind to the data field.
@@ -5580,7 +5580,7 @@ extension AmplifyUIBuilderClientTypes.FormStyle: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for the form's style.
-    public struct FormStyle: Swift.Equatable {
+    public struct FormStyle {
         /// The spacing for the horizontal gap.
         public var horizontalGap: AmplifyUIBuilderClientTypes.FormStyleConfig?
         /// The size of the outer padding for the form.
@@ -5639,7 +5639,7 @@ extension AmplifyUIBuilderClientTypes.FormStyleConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration settings for the form's style properties.
-    public enum FormStyleConfig: Swift.Equatable {
+    public enum FormStyleConfig {
         /// A reference to a design token to use to bind the form's style properties to an existing theme.
         case tokenreference(Swift.String)
         /// The value of the style setting.
@@ -5700,7 +5700,7 @@ extension AmplifyUIBuilderClientTypes.FormSummary: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the basic information about a form.
-    public struct FormSummary: Swift.Equatable {
+    public struct FormSummary {
         /// The unique ID for the app associated with the form summary.
         /// This member is required.
         public var appId: Swift.String?
@@ -5791,7 +5791,7 @@ extension GetCodegenJobInput {
     }
 }
 
-public struct GetCodegenJobInput: Swift.Equatable {
+public struct GetCodegenJobInput {
     /// The unique ID of the Amplify app associated with the code generation job.
     /// This member is required.
     public var appId: Swift.String?
@@ -5814,7 +5814,7 @@ public struct GetCodegenJobInput: Swift.Equatable {
     }
 }
 
-struct GetCodegenJobInputBody: Swift.Equatable {
+struct GetCodegenJobInputBody {
 }
 
 extension GetCodegenJobInputBody: Swift.Decodable {
@@ -5834,7 +5834,7 @@ extension GetCodegenJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCodegenJobOutput: Swift.Equatable {
+public struct GetCodegenJobOutput {
     /// The configuration settings for the code generation job.
     public var job: AmplifyUIBuilderClientTypes.CodegenJob?
 
@@ -5846,7 +5846,7 @@ public struct GetCodegenJobOutput: Swift.Equatable {
     }
 }
 
-struct GetCodegenJobOutputBody: Swift.Equatable {
+struct GetCodegenJobOutputBody {
     let job: AmplifyUIBuilderClientTypes.CodegenJob?
 }
 
@@ -5892,7 +5892,7 @@ extension GetComponentInput {
     }
 }
 
-public struct GetComponentInput: Swift.Equatable {
+public struct GetComponentInput {
     /// The unique ID of the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5915,7 +5915,7 @@ public struct GetComponentInput: Swift.Equatable {
     }
 }
 
-struct GetComponentInputBody: Swift.Equatable {
+struct GetComponentInputBody {
 }
 
 extension GetComponentInputBody: Swift.Decodable {
@@ -5935,7 +5935,7 @@ extension GetComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetComponentOutput: Swift.Equatable {
+public struct GetComponentOutput {
     /// Represents the configuration settings for the component.
     public var component: AmplifyUIBuilderClientTypes.Component?
 
@@ -5947,7 +5947,7 @@ public struct GetComponentOutput: Swift.Equatable {
     }
 }
 
-struct GetComponentOutputBody: Swift.Equatable {
+struct GetComponentOutputBody {
     let component: AmplifyUIBuilderClientTypes.Component?
 }
 
@@ -5992,7 +5992,7 @@ extension GetFormInput {
     }
 }
 
-public struct GetFormInput: Swift.Equatable {
+public struct GetFormInput {
     /// The unique ID of the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6015,7 +6015,7 @@ public struct GetFormInput: Swift.Equatable {
     }
 }
 
-struct GetFormInputBody: Swift.Equatable {
+struct GetFormInputBody {
 }
 
 extension GetFormInputBody: Swift.Decodable {
@@ -6035,7 +6035,7 @@ extension GetFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFormOutput: Swift.Equatable {
+public struct GetFormOutput {
     /// Represents the configuration settings for the form.
     public var form: AmplifyUIBuilderClientTypes.Form?
 
@@ -6047,7 +6047,7 @@ public struct GetFormOutput: Swift.Equatable {
     }
 }
 
-struct GetFormOutputBody: Swift.Equatable {
+struct GetFormOutputBody {
     let form: AmplifyUIBuilderClientTypes.Form?
 }
 
@@ -6089,7 +6089,7 @@ extension GetMetadataInput {
     }
 }
 
-public struct GetMetadataInput: Swift.Equatable {
+public struct GetMetadataInput {
     /// The unique ID of the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6107,7 +6107,7 @@ public struct GetMetadataInput: Swift.Equatable {
     }
 }
 
-struct GetMetadataInputBody: Swift.Equatable {
+struct GetMetadataInputBody {
 }
 
 extension GetMetadataInputBody: Swift.Decodable {
@@ -6128,7 +6128,7 @@ extension GetMetadataOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetadataOutput: Swift.Equatable {
+public struct GetMetadataOutput {
     /// Represents the configuration settings for the features metadata.
     /// This member is required.
     public var features: [Swift.String:Swift.String]?
@@ -6141,7 +6141,7 @@ public struct GetMetadataOutput: Swift.Equatable {
     }
 }
 
-struct GetMetadataOutputBody: Swift.Equatable {
+struct GetMetadataOutputBody {
     let features: [Swift.String:Swift.String]?
 }
 
@@ -6194,7 +6194,7 @@ extension GetThemeInput {
     }
 }
 
-public struct GetThemeInput: Swift.Equatable {
+public struct GetThemeInput {
     /// The unique ID of the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6217,7 +6217,7 @@ public struct GetThemeInput: Swift.Equatable {
     }
 }
 
-struct GetThemeInputBody: Swift.Equatable {
+struct GetThemeInputBody {
 }
 
 extension GetThemeInputBody: Swift.Decodable {
@@ -6237,7 +6237,7 @@ extension GetThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetThemeOutput: Swift.Equatable {
+public struct GetThemeOutput {
     /// Represents the configuration settings for the theme.
     public var theme: AmplifyUIBuilderClientTypes.Theme?
 
@@ -6249,7 +6249,7 @@ public struct GetThemeOutput: Swift.Equatable {
     }
 }
 
-struct GetThemeOutputBody: Swift.Equatable {
+struct GetThemeOutputBody {
     let theme: AmplifyUIBuilderClientTypes.Theme?
 }
 
@@ -6323,7 +6323,7 @@ extension AmplifyUIBuilderClientTypes.GraphQLRenderConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the GraphQL configuration for an API for a code generation job.
-    public struct GraphQLRenderConfig: Swift.Equatable {
+    public struct GraphQLRenderConfig {
         /// The path to the GraphQL fragments file, relative to the component output directory.
         /// This member is required.
         public var fragmentsFilePath: Swift.String?
@@ -6397,7 +6397,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6452,7 +6452,7 @@ public struct InvalidParameterException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct InvalidParameterExceptionBody: Swift.Equatable {
+struct InvalidParameterExceptionBody {
     let message: Swift.String?
 }
 
@@ -6631,7 +6631,7 @@ extension ListCodegenJobsInput {
     }
 }
 
-public struct ListCodegenJobsInput: Swift.Equatable {
+public struct ListCodegenJobsInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6657,7 +6657,7 @@ public struct ListCodegenJobsInput: Swift.Equatable {
     }
 }
 
-struct ListCodegenJobsInputBody: Swift.Equatable {
+struct ListCodegenJobsInputBody {
 }
 
 extension ListCodegenJobsInputBody: Swift.Decodable {
@@ -6680,7 +6680,7 @@ extension ListCodegenJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCodegenJobsOutput: Swift.Equatable {
+public struct ListCodegenJobsOutput {
     /// The list of code generation jobs for the Amplify app.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]?
@@ -6697,7 +6697,7 @@ public struct ListCodegenJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListCodegenJobsOutputBody: Swift.Equatable {
+struct ListCodegenJobsOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.CodegenJobSummary]?
     let nextToken: Swift.String?
 }
@@ -6768,7 +6768,7 @@ extension ListComponentsInput {
     }
 }
 
-public struct ListComponentsInput: Swift.Equatable {
+public struct ListComponentsInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6794,7 +6794,7 @@ public struct ListComponentsInput: Swift.Equatable {
     }
 }
 
-struct ListComponentsInputBody: Swift.Equatable {
+struct ListComponentsInputBody {
 }
 
 extension ListComponentsInputBody: Swift.Decodable {
@@ -6817,7 +6817,7 @@ extension ListComponentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListComponentsOutput: Swift.Equatable {
+public struct ListComponentsOutput {
     /// The list of components for the Amplify app.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.ComponentSummary]?
@@ -6834,7 +6834,7 @@ public struct ListComponentsOutput: Swift.Equatable {
     }
 }
 
-struct ListComponentsOutputBody: Swift.Equatable {
+struct ListComponentsOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.ComponentSummary]?
     let nextToken: Swift.String?
 }
@@ -6904,7 +6904,7 @@ extension ListFormsInput {
     }
 }
 
-public struct ListFormsInput: Swift.Equatable {
+public struct ListFormsInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6930,7 +6930,7 @@ public struct ListFormsInput: Swift.Equatable {
     }
 }
 
-struct ListFormsInputBody: Swift.Equatable {
+struct ListFormsInputBody {
 }
 
 extension ListFormsInputBody: Swift.Decodable {
@@ -6953,7 +6953,7 @@ extension ListFormsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFormsOutput: Swift.Equatable {
+public struct ListFormsOutput {
     /// The list of forms for the Amplify app.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.FormSummary]?
@@ -6970,7 +6970,7 @@ public struct ListFormsOutput: Swift.Equatable {
     }
 }
 
-struct ListFormsOutputBody: Swift.Equatable {
+struct ListFormsOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.FormSummary]?
     let nextToken: Swift.String?
 }
@@ -7021,7 +7021,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) to use to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -7034,7 +7034,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -7055,7 +7055,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tag key value pairs for a specified Amazon Resource Name (ARN).
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -7068,7 +7068,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -7137,7 +7137,7 @@ extension ListThemesInput {
     }
 }
 
-public struct ListThemesInput: Swift.Equatable {
+public struct ListThemesInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -7163,7 +7163,7 @@ public struct ListThemesInput: Swift.Equatable {
     }
 }
 
-struct ListThemesInputBody: Swift.Equatable {
+struct ListThemesInputBody {
 }
 
 extension ListThemesInputBody: Swift.Decodable {
@@ -7186,7 +7186,7 @@ extension ListThemesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListThemesOutput: Swift.Equatable {
+public struct ListThemesOutput {
     /// The list of themes for the Amplify app.
     /// This member is required.
     public var entities: [AmplifyUIBuilderClientTypes.ThemeSummary]?
@@ -7203,7 +7203,7 @@ public struct ListThemesOutput: Swift.Equatable {
     }
 }
 
-struct ListThemesOutputBody: Swift.Equatable {
+struct ListThemesOutputBody {
     let entities: [AmplifyUIBuilderClientTypes.ThemeSummary]?
     let nextToken: Swift.String?
 }
@@ -7277,7 +7277,7 @@ extension AmplifyUIBuilderClientTypes.MutationActionSetStateParameter: Swift.Cod
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the state configuration when an action modifies a property of another element within the same component.
-    public struct MutationActionSetStateParameter: Swift.Equatable {
+    public struct MutationActionSetStateParameter {
         /// The name of the component that is being modified.
         /// This member is required.
         public var componentName: Swift.String?
@@ -7315,7 +7315,7 @@ extension AmplifyUIBuilderClientTypes.NoApiRenderConfig: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration for an application with no API being used.
-    public struct NoApiRenderConfig: Swift.Equatable {
+    public struct NoApiRenderConfig {
 
         public init() { }
     }
@@ -7397,7 +7397,7 @@ extension AmplifyUIBuilderClientTypes.Predicate: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Stores information for generating Amplify DataStore queries. Use a Predicate to retrieve a subset of the data in a collection.
-    public struct Predicate: Swift.Equatable {
+    public struct Predicate {
         /// A list of predicates to combine logically.
         public var and: [AmplifyUIBuilderClientTypes.Predicate]?
         /// The field to query.
@@ -7452,7 +7452,7 @@ extension AmplifyUIBuilderClientTypes.PutMetadataFlagBody: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Stores the metadata information about a feature on a form.
-    public struct PutMetadataFlagBody: Swift.Equatable {
+    public struct PutMetadataFlagBody {
         /// The new information to store.
         /// This member is required.
         public var newValue: Swift.String?
@@ -7496,7 +7496,7 @@ extension PutMetadataFlagInput {
     }
 }
 
-public struct PutMetadataFlagInput: Swift.Equatable {
+public struct PutMetadataFlagInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -7524,7 +7524,7 @@ public struct PutMetadataFlagInput: Swift.Equatable {
     }
 }
 
-struct PutMetadataFlagInputBody: Swift.Equatable {
+struct PutMetadataFlagInputBody {
     let body: AmplifyUIBuilderClientTypes.PutMetadataFlagBody?
 }
 
@@ -7545,7 +7545,7 @@ extension PutMetadataFlagOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutMetadataFlagOutput: Swift.Equatable {
+public struct PutMetadataFlagOutput {
 
     public init() { }
 }
@@ -7631,7 +7631,7 @@ extension AmplifyUIBuilderClientTypes.ReactStartCodegenJobData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the code generation job configuration for a React project.
-    public struct ReactStartCodegenJobData: Swift.Equatable {
+    public struct ReactStartCodegenJobData {
         /// The API configuration for the code generation job.
         public var apiConfiguration: AmplifyUIBuilderClientTypes.ApiConfiguration?
         /// Lists the dependency packages that may be required for the project code to run.
@@ -7692,7 +7692,7 @@ extension RefreshTokenInput {
     }
 }
 
-public struct RefreshTokenInput: Swift.Equatable {
+public struct RefreshTokenInput {
     /// The third-party provider for the token. The only valid value is figma.
     /// This member is required.
     public var provider: AmplifyUIBuilderClientTypes.TokenProviders?
@@ -7710,7 +7710,7 @@ public struct RefreshTokenInput: Swift.Equatable {
     }
 }
 
-struct RefreshTokenInputBody: Swift.Equatable {
+struct RefreshTokenInputBody {
     let refreshTokenBody: AmplifyUIBuilderClientTypes.RefreshTokenRequestBody?
 }
 
@@ -7745,7 +7745,7 @@ extension RefreshTokenOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RefreshTokenOutput: Swift.Equatable {
+public struct RefreshTokenOutput {
     /// The access token.
     /// This member is required.
     public var accessToken: Swift.String?
@@ -7763,7 +7763,7 @@ public struct RefreshTokenOutput: Swift.Equatable {
     }
 }
 
-struct RefreshTokenOutputBody: Swift.Equatable {
+struct RefreshTokenOutputBody {
     let accessToken: Swift.String?
     let expiresIn: Swift.Int?
 }
@@ -7826,7 +7826,7 @@ extension AmplifyUIBuilderClientTypes.RefreshTokenRequestBody: Swift.CustomDebug
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes a refresh token.
-    public struct RefreshTokenRequestBody: Swift.Equatable {
+    public struct RefreshTokenRequestBody {
         /// The ID of the client to request the token from.
         public var clientId: Swift.String?
         /// The token to use to refresh a previously issued access token that might have expired.
@@ -7884,7 +7884,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let message: Swift.String?
 }
 
@@ -7939,7 +7939,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -8006,7 +8006,7 @@ extension AmplifyUIBuilderClientTypes.SectionalElement: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Stores the configuration information for a visual helper element for a form. A sectional element can be a header, a text block, or a divider. These elements are static and not associated with any data.
-    public struct SectionalElement: Swift.Equatable {
+    public struct SectionalElement {
         /// Excludes a sectional element that was generated by default for a specified data model.
         public var excluded: Swift.Bool?
         /// Specifies the size of the font for a Heading sectional element. Valid values are 1 | 2 | 3 | 4 | 5 | 6.
@@ -8080,7 +8080,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -8155,7 +8155,7 @@ extension AmplifyUIBuilderClientTypes.SortProperty: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes how to sort the data that you bind to a component.
-    public struct SortProperty: Swift.Equatable {
+    public struct SortProperty {
         /// The direction of the sort, either ascending or descending.
         /// This member is required.
         public var direction: AmplifyUIBuilderClientTypes.SortDirection?
@@ -8232,7 +8232,7 @@ extension AmplifyUIBuilderClientTypes.StartCodegenJobData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// The code generation job resource configuration.
-    public struct StartCodegenJobData: Swift.Equatable {
+    public struct StartCodegenJobData {
         /// Specifies whether to autogenerate forms in the code generation job.
         public var autoGenerateForms: Swift.Bool?
         /// The feature flags for a code generation job.
@@ -8301,7 +8301,7 @@ extension StartCodegenJobInput {
     }
 }
 
-public struct StartCodegenJobInput: Swift.Equatable {
+public struct StartCodegenJobInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -8328,7 +8328,7 @@ public struct StartCodegenJobInput: Swift.Equatable {
     }
 }
 
-struct StartCodegenJobInputBody: Swift.Equatable {
+struct StartCodegenJobInputBody {
     let codegenJobToCreate: AmplifyUIBuilderClientTypes.StartCodegenJobData?
 }
 
@@ -8355,7 +8355,7 @@ extension StartCodegenJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct StartCodegenJobOutput: Swift.Equatable {
+public struct StartCodegenJobOutput {
     /// The code generation job for a UI component that is associated with an Amplify app.
     public var entity: AmplifyUIBuilderClientTypes.CodegenJob?
 
@@ -8367,7 +8367,7 @@ public struct StartCodegenJobOutput: Swift.Equatable {
     }
 }
 
-struct StartCodegenJobOutputBody: Swift.Equatable {
+struct StartCodegenJobOutputBody {
     let entity: AmplifyUIBuilderClientTypes.CodegenJob?
 }
 
@@ -8457,7 +8457,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) to use to tag a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -8475,7 +8475,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -8505,7 +8505,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -8630,7 +8630,7 @@ extension AmplifyUIBuilderClientTypes.Theme: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// A theme is a collection of style settings that apply globally to the components associated with an Amplify application.
-    public struct Theme: Swift.Equatable {
+    public struct Theme {
         /// The unique ID for the Amplify app associated with the theme.
         /// This member is required.
         public var appId: Swift.String?
@@ -8721,7 +8721,7 @@ extension AmplifyUIBuilderClientTypes.ThemeSummary: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the basic information about a theme.
-    public struct ThemeSummary: Swift.Equatable {
+    public struct ThemeSummary {
         /// The unique ID for the app associated with the theme summary.
         /// This member is required.
         public var appId: Swift.String?
@@ -8790,7 +8790,7 @@ extension AmplifyUIBuilderClientTypes.ThemeValue: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Describes the configuration of a theme's properties.
-    public struct ThemeValue: Swift.Equatable {
+    public struct ThemeValue {
         /// A list of key-value pairs that define the theme's properties.
         public var children: [AmplifyUIBuilderClientTypes.ThemeValues]?
         /// The value of a theme property.
@@ -8835,7 +8835,7 @@ extension AmplifyUIBuilderClientTypes.ThemeValues: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// A key-value pair that defines a property of a theme.
-    public struct ThemeValues: Swift.Equatable {
+    public struct ThemeValues {
         /// The name of the property.
         public var key: Swift.String?
         /// The value of the property.
@@ -8892,7 +8892,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -8977,7 +8977,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -9019,7 +9019,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) to use to untag a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -9037,7 +9037,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -9051,7 +9051,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -9252,7 +9252,7 @@ extension AmplifyUIBuilderClientTypes.UpdateComponentData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Updates and saves all of the information about a component, based on component ID.
-    public struct UpdateComponentData: Swift.Equatable {
+    public struct UpdateComponentData {
         /// The data binding information for the component's properties.
         public var bindingProperties: [Swift.String:AmplifyUIBuilderClientTypes.ComponentBindingPropertiesValue]?
         /// The components that are instances of the main component.
@@ -9351,7 +9351,7 @@ extension UpdateComponentInput {
     }
 }
 
-public struct UpdateComponentInput: Swift.Equatable {
+public struct UpdateComponentInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -9383,7 +9383,7 @@ public struct UpdateComponentInput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentInputBody: Swift.Equatable {
+struct UpdateComponentInputBody {
     let updatedComponent: AmplifyUIBuilderClientTypes.UpdateComponentData?
 }
 
@@ -9410,7 +9410,7 @@ extension UpdateComponentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateComponentOutput: Swift.Equatable {
+public struct UpdateComponentOutput {
     /// Describes the configuration of the updated component.
     public var entity: AmplifyUIBuilderClientTypes.Component?
 
@@ -9422,7 +9422,7 @@ public struct UpdateComponentOutput: Swift.Equatable {
     }
 }
 
-struct UpdateComponentOutputBody: Swift.Equatable {
+struct UpdateComponentOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Component?
 }
 
@@ -9544,7 +9544,7 @@ extension AmplifyUIBuilderClientTypes.UpdateFormData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Updates and saves all of the information about a form, based on form ID.
-    public struct UpdateFormData: Swift.Equatable {
+    public struct UpdateFormData {
         /// The FormCTA object that stores the call to action configuration for the form.
         public var cta: AmplifyUIBuilderClientTypes.FormCTA?
         /// The type of data source to use to create the form.
@@ -9631,7 +9631,7 @@ extension UpdateFormInput {
     }
 }
 
-public struct UpdateFormInput: Swift.Equatable {
+public struct UpdateFormInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -9663,7 +9663,7 @@ public struct UpdateFormInput: Swift.Equatable {
     }
 }
 
-struct UpdateFormInputBody: Swift.Equatable {
+struct UpdateFormInputBody {
     let updatedForm: AmplifyUIBuilderClientTypes.UpdateFormData?
 }
 
@@ -9690,7 +9690,7 @@ extension UpdateFormOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFormOutput: Swift.Equatable {
+public struct UpdateFormOutput {
     /// Describes the configuration of the updated form.
     public var entity: AmplifyUIBuilderClientTypes.Form?
 
@@ -9702,7 +9702,7 @@ public struct UpdateFormOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFormOutputBody: Swift.Equatable {
+struct UpdateFormOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Form?
 }
 
@@ -9794,7 +9794,7 @@ extension AmplifyUIBuilderClientTypes.UpdateThemeData: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Saves the data binding information for a theme.
-    public struct UpdateThemeData: Swift.Equatable {
+    public struct UpdateThemeData {
         /// The unique ID of the theme to update.
         public var id: Swift.String?
         /// The name of the theme to update.
@@ -9862,7 +9862,7 @@ extension UpdateThemeInput {
     }
 }
 
-public struct UpdateThemeInput: Swift.Equatable {
+public struct UpdateThemeInput {
     /// The unique ID for the Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -9894,7 +9894,7 @@ public struct UpdateThemeInput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeInputBody: Swift.Equatable {
+struct UpdateThemeInputBody {
     let updatedTheme: AmplifyUIBuilderClientTypes.UpdateThemeData?
 }
 
@@ -9921,7 +9921,7 @@ extension UpdateThemeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateThemeOutput: Swift.Equatable {
+public struct UpdateThemeOutput {
     /// Describes the configuration of the updated theme.
     public var entity: AmplifyUIBuilderClientTypes.Theme?
 
@@ -9933,7 +9933,7 @@ public struct UpdateThemeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateThemeOutputBody: Swift.Equatable {
+struct UpdateThemeOutputBody {
     let entity: AmplifyUIBuilderClientTypes.Theme?
 }
 
@@ -9989,7 +9989,7 @@ extension AmplifyUIBuilderClientTypes.ValueMapping: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Associates a complex object with a display value. Use ValueMapping to store how to represent complex objects when they are displayed.
-    public struct ValueMapping: Swift.Equatable {
+    public struct ValueMapping {
         /// The value to display for the complex object.
         public var displayValue: AmplifyUIBuilderClientTypes.FormInputValueProperty?
         /// The complex object.
@@ -10059,7 +10059,7 @@ extension AmplifyUIBuilderClientTypes.ValueMappings: Swift.Codable {
 
 extension AmplifyUIBuilderClientTypes {
     /// Represents the data binding configuration for a value map.
-    public struct ValueMappings: Swift.Equatable {
+    public struct ValueMappings {
         /// The information to bind fields to data at runtime.
         public var bindingProperties: [Swift.String:AmplifyUIBuilderClientTypes.FormInputBindingPropertiesValue]?
         /// The value and display value pairs.

@@ -216,7 +216,7 @@ extension AmplifyClientTypes.App: Swift.CustomDebugStringConvertible {
 
 extension AmplifyClientTypes {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
-    public struct App: Swift.Equatable {
+    public struct App {
         /// The Amazon Resource Name (ARN) of the Amplify app.
         /// This member is required.
         public var appArn: Swift.String?
@@ -361,7 +361,7 @@ extension AmplifyClientTypes.Artifact: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes an artifact.
-    public struct Artifact: Swift.Equatable {
+    public struct Artifact {
         /// The file name for the artifact.
         /// This member is required.
         public var artifactFileName: Swift.String?
@@ -473,7 +473,7 @@ extension AmplifyClientTypes.AutoBranchCreationConfig: Swift.CustomDebugStringCo
 
 extension AmplifyClientTypes {
     /// Describes the automated branch creation configuration.
-    public struct AutoBranchCreationConfig: Swift.Equatable {
+    public struct AutoBranchCreationConfig {
         /// The basic authorization credentials for the autocreated branch. You must base64-encode the authorization credentials and provide them in the format user:password.
         public var basicAuthCredentials: Swift.String?
         /// The build specification (build spec) for the autocreated branch.
@@ -544,7 +544,7 @@ extension AmplifyClientTypes.Backend: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the backend properties associated with an Amplify Branch.
-    public struct Backend: Swift.Equatable {
+    public struct Backend {
         /// The Amazon Resource Name (ARN) for the CloudFormation stack.
         public var stackArn: Swift.String?
 
@@ -609,7 +609,7 @@ extension AmplifyClientTypes.BackendEnvironment: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the backend environment for an Amplify app.
-    public struct BackendEnvironment: Swift.Equatable {
+    public struct BackendEnvironment {
         /// The Amazon Resource Name (ARN) for a backend environment that is part of an Amplify app.
         /// This member is required.
         public var backendEnvironmentArn: Swift.String?
@@ -686,7 +686,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -938,7 +938,7 @@ extension AmplifyClientTypes.Branch: Swift.CustomDebugStringConvertible {
 
 extension AmplifyClientTypes {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
-    public struct Branch: Swift.Equatable {
+    public struct Branch {
         /// The ID of the active job for a branch of an Amplify app.
         /// This member is required.
         public var activeJobId: Swift.String?
@@ -1110,7 +1110,7 @@ extension AmplifyClientTypes.Certificate: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the current SSL/TLS certificate that is in use for the domain. If you are using CreateDomainAssociation to create a new domain association, Certificate describes the new certificate that you are creating.
-    public struct Certificate: Swift.Equatable {
+    public struct Certificate {
         /// The DNS record for certificate verification.
         public var certificateVerificationDNSRecord: Swift.String?
         /// The Amazon resource name (ARN) for a custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
@@ -1160,7 +1160,7 @@ extension AmplifyClientTypes.CertificateSettings: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// The type of SSL/TLS certificate to use for your custom domain. If a certificate type isn't specified, Amplify uses the default AMPLIFY_MANAGED certificate.
-    public struct CertificateSettings: Swift.Equatable {
+    public struct CertificateSettings {
         /// The Amazon resource name (ARN) for the custom certificate that you have already added to Certificate Manager in your Amazon Web Services account. This field is required only when the certificate type is CUSTOM.
         public var customCertificateArn: Swift.String?
         /// The certificate type. Specify AMPLIFY_MANAGED to use the default certificate that Amplify provisions for you. Specify CUSTOM to use your own certificate that you have already added to Certificate Manager in your Amazon Web Services account. Make sure you request (or import) the certificate in the US East (N. Virginia) Region (us-east-1). For more information about using ACM, see [Importing certificates into Certificate Manager](https://docs.aws.amazon.com/acm/latest/userguide/import-certificate.html) in the ACM User guide.
@@ -1321,7 +1321,7 @@ extension CreateAppInput {
 }
 
 /// The request structure used to create apps in Amplify.
-public struct CreateAppInput: Swift.Equatable {
+public struct CreateAppInput {
     /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you create a new app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The automated branch creation configuration for an Amplify app.
@@ -1406,7 +1406,7 @@ public struct CreateAppInput: Swift.Equatable {
     }
 }
 
-struct CreateAppInputBody: Swift.Equatable {
+struct CreateAppInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let repository: Swift.String?
@@ -1542,7 +1542,7 @@ extension CreateAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAppOutput: Swift.Equatable {
+public struct CreateAppOutput {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -1555,7 +1555,7 @@ public struct CreateAppOutput: Swift.Equatable {
     }
 }
 
-struct CreateAppOutputBody: Swift.Equatable {
+struct CreateAppOutputBody {
     let app: AmplifyClientTypes.App?
 }
 
@@ -1618,7 +1618,7 @@ extension CreateBackendEnvironmentInput {
 }
 
 /// The request structure for the backend environment create request.
-public struct CreateBackendEnvironmentInput: Swift.Equatable {
+public struct CreateBackendEnvironmentInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -1644,7 +1644,7 @@ public struct CreateBackendEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateBackendEnvironmentInputBody: Swift.Equatable {
+struct CreateBackendEnvironmentInputBody {
     let environmentName: Swift.String?
     let stackName: Swift.String?
     let deploymentArtifacts: Swift.String?
@@ -1681,7 +1681,7 @@ extension CreateBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create backend environment request.
-public struct CreateBackendEnvironmentOutput: Swift.Equatable {
+public struct CreateBackendEnvironmentOutput {
     /// Describes the backend environment for an Amplify app.
     /// This member is required.
     public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
@@ -1694,7 +1694,7 @@ public struct CreateBackendEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateBackendEnvironmentOutputBody: Swift.Equatable {
+struct CreateBackendEnvironmentOutputBody {
     let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
 }
 
@@ -1828,7 +1828,7 @@ extension CreateBranchInput {
 }
 
 /// The request structure for the create branch request.
-public struct CreateBranchInput: Swift.Equatable {
+public struct CreateBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -1914,7 +1914,7 @@ public struct CreateBranchInput: Swift.Equatable {
     }
 }
 
-struct CreateBranchInputBody: Swift.Equatable {
+struct CreateBranchInputBody {
     let branchName: Swift.String?
     let description: Swift.String?
     let stage: AmplifyClientTypes.Stage?
@@ -2029,7 +2029,7 @@ extension CreateBranchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for create branch request.
-public struct CreateBranchOutput: Swift.Equatable {
+public struct CreateBranchOutput {
     /// Describes the branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -2042,7 +2042,7 @@ public struct CreateBranchOutput: Swift.Equatable {
     }
 }
 
-struct CreateBranchOutputBody: Swift.Equatable {
+struct CreateBranchOutputBody {
     let branch: AmplifyClientTypes.Branch?
 }
 
@@ -2104,7 +2104,7 @@ extension CreateDeploymentInput {
 }
 
 /// The request structure for the create a new deployment request.
-public struct CreateDeploymentInput: Swift.Equatable {
+public struct CreateDeploymentInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2126,7 +2126,7 @@ public struct CreateDeploymentInput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentInputBody: Swift.Equatable {
+struct CreateDeploymentInputBody {
     let fileMap: [Swift.String:Swift.String]?
 }
 
@@ -2168,7 +2168,7 @@ extension CreateDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create a new deployment request.
-public struct CreateDeploymentOutput: Swift.Equatable {
+public struct CreateDeploymentOutput {
     /// When the fileMap argument is provided in the request, fileUploadUrls will contain a map of file names to upload URLs.
     /// This member is required.
     public var fileUploadUrls: [Swift.String:Swift.String]?
@@ -2190,7 +2190,7 @@ public struct CreateDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct CreateDeploymentOutputBody: Swift.Equatable {
+struct CreateDeploymentOutputBody {
     let jobId: Swift.String?
     let fileUploadUrls: [Swift.String:Swift.String]?
     let zipUploadUrl: Swift.String?
@@ -2287,7 +2287,7 @@ extension CreateDomainAssociationInput {
 }
 
 /// The request structure for the create domain association request.
-public struct CreateDomainAssociationInput: Swift.Equatable {
+public struct CreateDomainAssociationInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2326,7 +2326,7 @@ public struct CreateDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateDomainAssociationInputBody: Swift.Equatable {
+struct CreateDomainAssociationInputBody {
     let domainName: Swift.String?
     let enableAutoSubDomain: Swift.Bool?
     let subDomainSettings: [AmplifyClientTypes.SubDomainSetting]?
@@ -2393,7 +2393,7 @@ extension CreateDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create domain association request.
-public struct CreateDomainAssociationOutput: Swift.Equatable {
+public struct CreateDomainAssociationOutput {
     /// Describes the structure of a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -2406,7 +2406,7 @@ public struct CreateDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct CreateDomainAssociationOutputBody: Swift.Equatable {
+struct CreateDomainAssociationOutputBody {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
@@ -2466,7 +2466,7 @@ extension CreateWebhookInput {
 }
 
 /// The request structure for the create webhook request.
-public struct CreateWebhookInput: Swift.Equatable {
+public struct CreateWebhookInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2488,7 +2488,7 @@ public struct CreateWebhookInput: Swift.Equatable {
     }
 }
 
-struct CreateWebhookInputBody: Swift.Equatable {
+struct CreateWebhookInputBody {
     let branchName: Swift.String?
     let description: Swift.String?
 }
@@ -2521,7 +2521,7 @@ extension CreateWebhookOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the create webhook request.
-public struct CreateWebhookOutput: Swift.Equatable {
+public struct CreateWebhookOutput {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -2534,7 +2534,7 @@ public struct CreateWebhookOutput: Swift.Equatable {
     }
 }
 
-struct CreateWebhookOutputBody: Swift.Equatable {
+struct CreateWebhookOutputBody {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
@@ -2605,7 +2605,7 @@ extension AmplifyClientTypes.CustomRule: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes a custom rewrite or redirect rule.
-    public struct CustomRule: Swift.Equatable {
+    public struct CustomRule {
         /// The condition for a URL rewrite or redirect rule, such as a country code.
         public var condition: Swift.String?
         /// The source pattern for a URL rewrite or redirect rule.
@@ -2644,7 +2644,7 @@ extension DeleteAppInput {
 }
 
 /// Describes the request structure for the delete app request.
-public struct DeleteAppInput: Swift.Equatable {
+public struct DeleteAppInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2657,7 +2657,7 @@ public struct DeleteAppInput: Swift.Equatable {
     }
 }
 
-struct DeleteAppInputBody: Swift.Equatable {
+struct DeleteAppInputBody {
 }
 
 extension DeleteAppInputBody: Swift.Decodable {
@@ -2679,7 +2679,7 @@ extension DeleteAppOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete app request.
-public struct DeleteAppOutput: Swift.Equatable {
+public struct DeleteAppOutput {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -2692,7 +2692,7 @@ public struct DeleteAppOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAppOutputBody: Swift.Equatable {
+struct DeleteAppOutputBody {
     let app: AmplifyClientTypes.App?
 }
 
@@ -2737,7 +2737,7 @@ extension DeleteBackendEnvironmentInput {
 }
 
 /// The request structure for the delete backend environment request.
-public struct DeleteBackendEnvironmentInput: Swift.Equatable {
+public struct DeleteBackendEnvironmentInput {
     /// The unique ID of an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2755,7 +2755,7 @@ public struct DeleteBackendEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendEnvironmentInputBody: Swift.Equatable {
+struct DeleteBackendEnvironmentInputBody {
 }
 
 extension DeleteBackendEnvironmentInputBody: Swift.Decodable {
@@ -2777,7 +2777,7 @@ extension DeleteBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure of the delete backend environment result.
-public struct DeleteBackendEnvironmentOutput: Swift.Equatable {
+public struct DeleteBackendEnvironmentOutput {
     /// Describes the backend environment for an Amplify app.
     /// This member is required.
     public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
@@ -2790,7 +2790,7 @@ public struct DeleteBackendEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBackendEnvironmentOutputBody: Swift.Equatable {
+struct DeleteBackendEnvironmentOutputBody {
     let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
 }
 
@@ -2835,7 +2835,7 @@ extension DeleteBranchInput {
 }
 
 /// The request structure for the delete branch request.
-public struct DeleteBranchInput: Swift.Equatable {
+public struct DeleteBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2853,7 +2853,7 @@ public struct DeleteBranchInput: Swift.Equatable {
     }
 }
 
-struct DeleteBranchInputBody: Swift.Equatable {
+struct DeleteBranchInputBody {
 }
 
 extension DeleteBranchInputBody: Swift.Decodable {
@@ -2875,7 +2875,7 @@ extension DeleteBranchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete branch request.
-public struct DeleteBranchOutput: Swift.Equatable {
+public struct DeleteBranchOutput {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -2888,7 +2888,7 @@ public struct DeleteBranchOutput: Swift.Equatable {
     }
 }
 
-struct DeleteBranchOutputBody: Swift.Equatable {
+struct DeleteBranchOutputBody {
     let branch: AmplifyClientTypes.Branch?
 }
 
@@ -2933,7 +2933,7 @@ extension DeleteDomainAssociationInput {
 }
 
 /// The request structure for the delete domain association request.
-public struct DeleteDomainAssociationInput: Swift.Equatable {
+public struct DeleteDomainAssociationInput {
     /// The unique id for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -2951,7 +2951,7 @@ public struct DeleteDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainAssociationInputBody: Swift.Equatable {
+struct DeleteDomainAssociationInputBody {
 }
 
 extension DeleteDomainAssociationInputBody: Swift.Decodable {
@@ -2972,7 +2972,7 @@ extension DeleteDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDomainAssociationOutput: Swift.Equatable {
+public struct DeleteDomainAssociationOutput {
     /// Describes the association between a custom domain and an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -2985,7 +2985,7 @@ public struct DeleteDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct DeleteDomainAssociationOutputBody: Swift.Equatable {
+struct DeleteDomainAssociationOutputBody {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
@@ -3033,7 +3033,7 @@ extension DeleteJobInput {
 }
 
 /// The request structure for the delete job request.
-public struct DeleteJobInput: Swift.Equatable {
+public struct DeleteJobInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -3056,7 +3056,7 @@ public struct DeleteJobInput: Swift.Equatable {
     }
 }
 
-struct DeleteJobInputBody: Swift.Equatable {
+struct DeleteJobInputBody {
 }
 
 extension DeleteJobInputBody: Swift.Decodable {
@@ -3078,7 +3078,7 @@ extension DeleteJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete job request.
-public struct DeleteJobOutput: Swift.Equatable {
+public struct DeleteJobOutput {
     /// Describes the summary for an execution job for an Amplify app.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -3091,7 +3091,7 @@ public struct DeleteJobOutput: Swift.Equatable {
     }
 }
 
-struct DeleteJobOutputBody: Swift.Equatable {
+struct DeleteJobOutputBody {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
@@ -3133,7 +3133,7 @@ extension DeleteWebhookInput {
 }
 
 /// The request structure for the delete webhook request.
-public struct DeleteWebhookInput: Swift.Equatable {
+public struct DeleteWebhookInput {
     /// The unique ID for a webhook.
     /// This member is required.
     public var webhookId: Swift.String?
@@ -3146,7 +3146,7 @@ public struct DeleteWebhookInput: Swift.Equatable {
     }
 }
 
-struct DeleteWebhookInputBody: Swift.Equatable {
+struct DeleteWebhookInputBody {
 }
 
 extension DeleteWebhookInputBody: Swift.Decodable {
@@ -3168,7 +3168,7 @@ extension DeleteWebhookOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the delete webhook request.
-public struct DeleteWebhookOutput: Swift.Equatable {
+public struct DeleteWebhookOutput {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -3181,7 +3181,7 @@ public struct DeleteWebhookOutput: Swift.Equatable {
     }
 }
 
-struct DeleteWebhookOutputBody: Swift.Equatable {
+struct DeleteWebhookOutputBody {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
@@ -3251,7 +3251,7 @@ public struct DependentServiceFailureException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct DependentServiceFailureExceptionBody: Swift.Equatable {
+struct DependentServiceFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -3372,7 +3372,7 @@ extension AmplifyClientTypes.DomainAssociation: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the association between a custom domain and an Amplify app.
-    public struct DomainAssociation: Swift.Equatable {
+    public struct DomainAssociation {
         /// Sets branch patterns for automatic subdomain creation.
         public var autoSubDomainCreationPatterns: [Swift.String]?
         /// The required AWS Identity and Access Management (IAM) service role for the Amazon Resource Name (ARN) for automatically creating subdomains.
@@ -3520,7 +3520,7 @@ extension GenerateAccessLogsInput {
 }
 
 /// The request structure for the generate access logs request.
-public struct GenerateAccessLogsInput: Swift.Equatable {
+public struct GenerateAccessLogsInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -3546,7 +3546,7 @@ public struct GenerateAccessLogsInput: Swift.Equatable {
     }
 }
 
-struct GenerateAccessLogsInputBody: Swift.Equatable {
+struct GenerateAccessLogsInputBody {
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
     let domainName: Swift.String?
@@ -3583,7 +3583,7 @@ extension GenerateAccessLogsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the generate access logs request.
-public struct GenerateAccessLogsOutput: Swift.Equatable {
+public struct GenerateAccessLogsOutput {
     /// The pre-signed URL for the requested access logs.
     public var logUrl: Swift.String?
 
@@ -3595,7 +3595,7 @@ public struct GenerateAccessLogsOutput: Swift.Equatable {
     }
 }
 
-struct GenerateAccessLogsOutputBody: Swift.Equatable {
+struct GenerateAccessLogsOutputBody {
     let logUrl: Swift.String?
 }
 
@@ -3636,7 +3636,7 @@ extension GetAppInput {
 }
 
 /// The request structure for the get app request.
-public struct GetAppInput: Swift.Equatable {
+public struct GetAppInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -3649,7 +3649,7 @@ public struct GetAppInput: Swift.Equatable {
     }
 }
 
-struct GetAppInputBody: Swift.Equatable {
+struct GetAppInputBody {
 }
 
 extension GetAppInputBody: Swift.Decodable {
@@ -3670,7 +3670,7 @@ extension GetAppOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAppOutput: Swift.Equatable {
+public struct GetAppOutput {
     /// Represents the different branches of a repository for building, deploying, and hosting an Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -3683,7 +3683,7 @@ public struct GetAppOutput: Swift.Equatable {
     }
 }
 
-struct GetAppOutputBody: Swift.Equatable {
+struct GetAppOutputBody {
     let app: AmplifyClientTypes.App?
 }
 
@@ -3724,7 +3724,7 @@ extension GetArtifactUrlInput {
 }
 
 /// Returns the request structure for the get artifact request.
-public struct GetArtifactUrlInput: Swift.Equatable {
+public struct GetArtifactUrlInput {
     /// The unique ID for an artifact.
     /// This member is required.
     public var artifactId: Swift.String?
@@ -3737,7 +3737,7 @@ public struct GetArtifactUrlInput: Swift.Equatable {
     }
 }
 
-struct GetArtifactUrlInputBody: Swift.Equatable {
+struct GetArtifactUrlInputBody {
 }
 
 extension GetArtifactUrlInputBody: Swift.Decodable {
@@ -3761,7 +3761,7 @@ extension GetArtifactUrlOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Returns the result structure for the get artifact request.
-public struct GetArtifactUrlOutput: Swift.Equatable {
+public struct GetArtifactUrlOutput {
     /// The unique ID for an artifact.
     /// This member is required.
     public var artifactId: Swift.String?
@@ -3779,7 +3779,7 @@ public struct GetArtifactUrlOutput: Swift.Equatable {
     }
 }
 
-struct GetArtifactUrlOutputBody: Swift.Equatable {
+struct GetArtifactUrlOutputBody {
     let artifactId: Swift.String?
     let artifactUrl: Swift.String?
 }
@@ -3828,7 +3828,7 @@ extension GetBackendEnvironmentInput {
 }
 
 /// The request structure for the get backend environment request.
-public struct GetBackendEnvironmentInput: Swift.Equatable {
+public struct GetBackendEnvironmentInput {
     /// The unique id for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -3846,7 +3846,7 @@ public struct GetBackendEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetBackendEnvironmentInputBody: Swift.Equatable {
+struct GetBackendEnvironmentInputBody {
 }
 
 extension GetBackendEnvironmentInputBody: Swift.Decodable {
@@ -3868,7 +3868,7 @@ extension GetBackendEnvironmentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the get backend environment result.
-public struct GetBackendEnvironmentOutput: Swift.Equatable {
+public struct GetBackendEnvironmentOutput {
     /// Describes the backend environment for an Amplify app.
     /// This member is required.
     public var backendEnvironment: AmplifyClientTypes.BackendEnvironment?
@@ -3881,7 +3881,7 @@ public struct GetBackendEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetBackendEnvironmentOutputBody: Swift.Equatable {
+struct GetBackendEnvironmentOutputBody {
     let backendEnvironment: AmplifyClientTypes.BackendEnvironment?
 }
 
@@ -3925,7 +3925,7 @@ extension GetBranchInput {
 }
 
 /// The request structure for the get branch request.
-public struct GetBranchInput: Swift.Equatable {
+public struct GetBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -3943,7 +3943,7 @@ public struct GetBranchInput: Swift.Equatable {
     }
 }
 
-struct GetBranchInputBody: Swift.Equatable {
+struct GetBranchInputBody {
 }
 
 extension GetBranchInputBody: Swift.Decodable {
@@ -3964,7 +3964,7 @@ extension GetBranchOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBranchOutput: Swift.Equatable {
+public struct GetBranchOutput {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -3977,7 +3977,7 @@ public struct GetBranchOutput: Swift.Equatable {
     }
 }
 
-struct GetBranchOutputBody: Swift.Equatable {
+struct GetBranchOutputBody {
     let branch: AmplifyClientTypes.Branch?
 }
 
@@ -4021,7 +4021,7 @@ extension GetDomainAssociationInput {
 }
 
 /// The request structure for the get domain association request.
-public struct GetDomainAssociationInput: Swift.Equatable {
+public struct GetDomainAssociationInput {
     /// The unique id for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -4039,7 +4039,7 @@ public struct GetDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetDomainAssociationInputBody: Swift.Equatable {
+struct GetDomainAssociationInputBody {
 }
 
 extension GetDomainAssociationInputBody: Swift.Decodable {
@@ -4061,7 +4061,7 @@ extension GetDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the get domain association request.
-public struct GetDomainAssociationOutput: Swift.Equatable {
+public struct GetDomainAssociationOutput {
     /// Describes the structure of a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -4074,7 +4074,7 @@ public struct GetDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetDomainAssociationOutputBody: Swift.Equatable {
+struct GetDomainAssociationOutputBody {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
@@ -4121,7 +4121,7 @@ extension GetJobInput {
 }
 
 /// The request structure for the get job request.
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -4144,7 +4144,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
 }
 
 extension GetJobInputBody: Swift.Decodable {
@@ -4165,7 +4165,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// Describes an execution job for an Amplify app.
     /// This member is required.
     public var job: AmplifyClientTypes.Job?
@@ -4178,7 +4178,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let job: AmplifyClientTypes.Job?
 }
 
@@ -4220,7 +4220,7 @@ extension GetWebhookInput {
 }
 
 /// The request structure for the get webhook request.
-public struct GetWebhookInput: Swift.Equatable {
+public struct GetWebhookInput {
     /// The unique ID for a webhook.
     /// This member is required.
     public var webhookId: Swift.String?
@@ -4233,7 +4233,7 @@ public struct GetWebhookInput: Swift.Equatable {
     }
 }
 
-struct GetWebhookInputBody: Swift.Equatable {
+struct GetWebhookInputBody {
 }
 
 extension GetWebhookInputBody: Swift.Decodable {
@@ -4255,7 +4255,7 @@ extension GetWebhookOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the get webhook request.
-public struct GetWebhookOutput: Swift.Equatable {
+public struct GetWebhookOutput {
     /// Describes the structure of a webhook.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -4268,7 +4268,7 @@ public struct GetWebhookOutput: Swift.Equatable {
     }
 }
 
-struct GetWebhookOutputBody: Swift.Equatable {
+struct GetWebhookOutputBody {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
@@ -4338,7 +4338,7 @@ public struct InternalFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InternalFailureExceptionBody: Swift.Equatable {
+struct InternalFailureExceptionBody {
     let message: Swift.String?
 }
 
@@ -4393,7 +4393,7 @@ extension AmplifyClientTypes.Job: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes an execution job for an Amplify app.
-    public struct Job: Swift.Equatable {
+    public struct Job {
         /// The execution steps for an execution job, for an Amplify app.
         /// This member is required.
         public var steps: [AmplifyClientTypes.Step]?
@@ -4529,7 +4529,7 @@ extension AmplifyClientTypes.JobSummary: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the summary for an execution job for an Amplify app.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The commit ID from a third-party repository provider for the job.
         /// This member is required.
         public var commitId: Swift.String?
@@ -4660,7 +4660,7 @@ public struct LimitExceededException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct LimitExceededExceptionBody: Swift.Equatable {
+struct LimitExceededExceptionBody {
     let message: Swift.String?
 }
 
@@ -4700,7 +4700,7 @@ extension ListAppsInput {
 }
 
 /// The request structure for the list apps request.
-public struct ListAppsInput: Swift.Equatable {
+public struct ListAppsInput {
     /// The maximum number of records to list in a single response.
     public var maxResults: Swift.Int?
     /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
@@ -4716,7 +4716,7 @@ public struct ListAppsInput: Swift.Equatable {
     }
 }
 
-struct ListAppsInputBody: Swift.Equatable {
+struct ListAppsInputBody {
 }
 
 extension ListAppsInputBody: Swift.Decodable {
@@ -4740,7 +4740,7 @@ extension ListAppsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for an Amplify app list request.
-public struct ListAppsOutput: Swift.Equatable {
+public struct ListAppsOutput {
     /// A list of Amplify apps.
     /// This member is required.
     public var apps: [AmplifyClientTypes.App]?
@@ -4757,7 +4757,7 @@ public struct ListAppsOutput: Swift.Equatable {
     }
 }
 
-struct ListAppsOutputBody: Swift.Equatable {
+struct ListAppsOutputBody {
     let apps: [AmplifyClientTypes.App]?
     let nextToken: Swift.String?
 }
@@ -4832,7 +4832,7 @@ extension ListArtifactsInput {
 }
 
 /// Describes the request structure for the list artifacts request.
-public struct ListArtifactsInput: Swift.Equatable {
+public struct ListArtifactsInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -4863,7 +4863,7 @@ public struct ListArtifactsInput: Swift.Equatable {
     }
 }
 
-struct ListArtifactsInputBody: Swift.Equatable {
+struct ListArtifactsInputBody {
 }
 
 extension ListArtifactsInputBody: Swift.Decodable {
@@ -4887,7 +4887,7 @@ extension ListArtifactsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list artifacts request.
-public struct ListArtifactsOutput: Swift.Equatable {
+public struct ListArtifactsOutput {
     /// A list of artifacts.
     /// This member is required.
     public var artifacts: [AmplifyClientTypes.Artifact]?
@@ -4904,7 +4904,7 @@ public struct ListArtifactsOutput: Swift.Equatable {
     }
 }
 
-struct ListArtifactsOutputBody: Swift.Equatable {
+struct ListArtifactsOutputBody {
     let artifacts: [AmplifyClientTypes.Artifact]?
     let nextToken: Swift.String?
 }
@@ -4978,7 +4978,7 @@ extension ListBackendEnvironmentsInput {
 }
 
 /// The request structure for the list backend environments request.
-public struct ListBackendEnvironmentsInput: Swift.Equatable {
+public struct ListBackendEnvironmentsInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5003,7 +5003,7 @@ public struct ListBackendEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListBackendEnvironmentsInputBody: Swift.Equatable {
+struct ListBackendEnvironmentsInputBody {
 }
 
 extension ListBackendEnvironmentsInputBody: Swift.Decodable {
@@ -5027,7 +5027,7 @@ extension ListBackendEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list backend environments result.
-public struct ListBackendEnvironmentsOutput: Swift.Equatable {
+public struct ListBackendEnvironmentsOutput {
     /// The list of backend environments for an Amplify app.
     /// This member is required.
     public var backendEnvironments: [AmplifyClientTypes.BackendEnvironment]?
@@ -5044,7 +5044,7 @@ public struct ListBackendEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListBackendEnvironmentsOutputBody: Swift.Equatable {
+struct ListBackendEnvironmentsOutputBody {
     let backendEnvironments: [AmplifyClientTypes.BackendEnvironment]?
     let nextToken: Swift.String?
 }
@@ -5113,7 +5113,7 @@ extension ListBranchesInput {
 }
 
 /// The request structure for the list branches request.
-public struct ListBranchesInput: Swift.Equatable {
+public struct ListBranchesInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5134,7 +5134,7 @@ public struct ListBranchesInput: Swift.Equatable {
     }
 }
 
-struct ListBranchesInputBody: Swift.Equatable {
+struct ListBranchesInputBody {
 }
 
 extension ListBranchesInputBody: Swift.Decodable {
@@ -5158,7 +5158,7 @@ extension ListBranchesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list branches request.
-public struct ListBranchesOutput: Swift.Equatable {
+public struct ListBranchesOutput {
     /// A list of branches for an Amplify app.
     /// This member is required.
     public var branches: [AmplifyClientTypes.Branch]?
@@ -5175,7 +5175,7 @@ public struct ListBranchesOutput: Swift.Equatable {
     }
 }
 
-struct ListBranchesOutputBody: Swift.Equatable {
+struct ListBranchesOutputBody {
     let branches: [AmplifyClientTypes.Branch]?
     let nextToken: Swift.String?
 }
@@ -5244,7 +5244,7 @@ extension ListDomainAssociationsInput {
 }
 
 /// The request structure for the list domain associations request.
-public struct ListDomainAssociationsInput: Swift.Equatable {
+public struct ListDomainAssociationsInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5265,7 +5265,7 @@ public struct ListDomainAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListDomainAssociationsInputBody: Swift.Equatable {
+struct ListDomainAssociationsInputBody {
 }
 
 extension ListDomainAssociationsInputBody: Swift.Decodable {
@@ -5289,7 +5289,7 @@ extension ListDomainAssociationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list domain association request.
-public struct ListDomainAssociationsOutput: Swift.Equatable {
+public struct ListDomainAssociationsOutput {
     /// A list of domain associations.
     /// This member is required.
     public var domainAssociations: [AmplifyClientTypes.DomainAssociation]?
@@ -5306,7 +5306,7 @@ public struct ListDomainAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListDomainAssociationsOutputBody: Swift.Equatable {
+struct ListDomainAssociationsOutputBody {
     let domainAssociations: [AmplifyClientTypes.DomainAssociation]?
     let nextToken: Swift.String?
 }
@@ -5378,7 +5378,7 @@ extension ListJobsInput {
 }
 
 /// The request structure for the list jobs request.
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5404,7 +5404,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -5428,7 +5428,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The maximum number of records to list in a single response.
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// The result structure for the list job result request.
     /// This member is required.
     public var jobSummaries: [AmplifyClientTypes.JobSummary]?
@@ -5445,7 +5445,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobSummaries: [AmplifyClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -5499,7 +5499,7 @@ extension ListTagsForResourceInput {
 }
 
 /// The request structure to use to list tags for a resource.
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) to use to list tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5512,7 +5512,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -5534,7 +5534,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response for the list tags for resource request.
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// A list of tags for the specified The Amazon Resource Name (ARN).
     public var tags: [Swift.String:Swift.String]?
 
@@ -5546,7 +5546,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -5611,7 +5611,7 @@ extension ListWebhooksInput {
 }
 
 /// The request structure for the list webhooks request.
-public struct ListWebhooksInput: Swift.Equatable {
+public struct ListWebhooksInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -5632,7 +5632,7 @@ public struct ListWebhooksInput: Swift.Equatable {
     }
 }
 
-struct ListWebhooksInputBody: Swift.Equatable {
+struct ListWebhooksInputBody {
 }
 
 extension ListWebhooksInputBody: Swift.Decodable {
@@ -5656,7 +5656,7 @@ extension ListWebhooksOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the list webhooks request.
-public struct ListWebhooksOutput: Swift.Equatable {
+public struct ListWebhooksOutput {
     /// A pagination token. If non-null, the pagination token is returned in a result. Pass its value in another request to retrieve more entries.
     public var nextToken: Swift.String?
     /// A list of webhooks.
@@ -5673,7 +5673,7 @@ public struct ListWebhooksOutput: Swift.Equatable {
     }
 }
 
-struct ListWebhooksOutputBody: Swift.Equatable {
+struct ListWebhooksOutputBody {
     let webhooks: [AmplifyClientTypes.Webhook]?
     let nextToken: Swift.String?
 }
@@ -5755,7 +5755,7 @@ public struct NotFoundException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct NotFoundExceptionBody: Swift.Equatable {
+struct NotFoundExceptionBody {
     let message: Swift.String?
 }
 
@@ -5845,7 +5845,7 @@ extension AmplifyClientTypes.ProductionBranch: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the information about a production branch for an Amplify app.
-    public struct ProductionBranch: Swift.Equatable {
+    public struct ProductionBranch {
         /// The branch name for the production branch.
         public var branchName: Swift.String?
         /// The last deploy time of the production branch.
@@ -5952,7 +5952,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let code: Swift.String?
     let message: Swift.String?
 }
@@ -6044,7 +6044,7 @@ extension StartDeploymentInput {
 }
 
 /// The request structure for the start a deployment request.
-public struct StartDeploymentInput: Swift.Equatable {
+public struct StartDeploymentInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6070,7 +6070,7 @@ public struct StartDeploymentInput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentInputBody: Swift.Equatable {
+struct StartDeploymentInputBody {
     let jobId: Swift.String?
     let sourceUrl: Swift.String?
 }
@@ -6103,7 +6103,7 @@ extension StartDeploymentOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the start a deployment request.
-public struct StartDeploymentOutput: Swift.Equatable {
+public struct StartDeploymentOutput {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -6116,7 +6116,7 @@ public struct StartDeploymentOutput: Swift.Equatable {
     }
 }
 
-struct StartDeploymentOutputBody: Swift.Equatable {
+struct StartDeploymentOutputBody {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
@@ -6194,7 +6194,7 @@ extension StartJobInput {
 }
 
 /// The request structure for the start job request.
-public struct StartJobInput: Swift.Equatable {
+public struct StartJobInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6237,7 +6237,7 @@ public struct StartJobInput: Swift.Equatable {
     }
 }
 
-struct StartJobInputBody: Swift.Equatable {
+struct StartJobInputBody {
     let jobId: Swift.String?
     let jobType: AmplifyClientTypes.JobType?
     let jobReason: Swift.String?
@@ -6286,7 +6286,7 @@ extension StartJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the run job request.
-public struct StartJobOutput: Swift.Equatable {
+public struct StartJobOutput {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -6299,7 +6299,7 @@ public struct StartJobOutput: Swift.Equatable {
     }
 }
 
-struct StartJobOutputBody: Swift.Equatable {
+struct StartJobOutputBody {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
@@ -6423,7 +6423,7 @@ extension AmplifyClientTypes.Step: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes an execution step, for an execution job, for an Amplify app.
-    public struct Step: Swift.Equatable {
+    public struct Step {
         /// The URL to the artifact for the execution step.
         public var artifactsUrl: Swift.String?
         /// The context for the current step. Includes a build image if the step is build.
@@ -6498,7 +6498,7 @@ extension StopJobInput {
 }
 
 /// The request structure for the stop job request.
-public struct StopJobInput: Swift.Equatable {
+public struct StopJobInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -6521,7 +6521,7 @@ public struct StopJobInput: Swift.Equatable {
     }
 }
 
-struct StopJobInputBody: Swift.Equatable {
+struct StopJobInputBody {
 }
 
 extension StopJobInputBody: Swift.Decodable {
@@ -6543,7 +6543,7 @@ extension StopJobOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the stop job request.
-public struct StopJobOutput: Swift.Equatable {
+public struct StopJobOutput {
     /// The summary for the job.
     /// This member is required.
     public var jobSummary: AmplifyClientTypes.JobSummary?
@@ -6556,7 +6556,7 @@ public struct StopJobOutput: Swift.Equatable {
     }
 }
 
-struct StopJobOutputBody: Swift.Equatable {
+struct StopJobOutputBody {
     let jobSummary: AmplifyClientTypes.JobSummary?
 }
 
@@ -6620,7 +6620,7 @@ extension AmplifyClientTypes.SubDomain: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// The subdomain for the domain association.
-    public struct SubDomain: Swift.Equatable {
+    public struct SubDomain {
         /// The DNS record for the subdomain.
         /// This member is required.
         public var dnsRecord: Swift.String?
@@ -6672,7 +6672,7 @@ extension AmplifyClientTypes.SubDomainSetting: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes the settings for the subdomain.
-    public struct SubDomainSetting: Swift.Equatable {
+    public struct SubDomainSetting {
         /// The branch name setting for the subdomain.
         /// This member is required.
         public var branchName: Swift.String?
@@ -6719,7 +6719,7 @@ extension TagResourceInput {
 }
 
 /// The request structure to tag a resource with a tag key and value.
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) to use to tag a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6737,7 +6737,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -6768,7 +6768,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response for the tag resource request.
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -6825,7 +6825,7 @@ public struct UnauthorizedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct UnauthorizedExceptionBody: Swift.Equatable {
+struct UnauthorizedExceptionBody {
     let message: Swift.String?
 }
 
@@ -6868,7 +6868,7 @@ extension UntagResourceInput {
 }
 
 /// The request structure for the untag resource request.
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) to use to untag a resource.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -6886,7 +6886,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -6901,7 +6901,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The response for the untag resource request.
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -7025,7 +7025,7 @@ extension UpdateAppInput {
 }
 
 /// The request structure for the update app request.
-public struct UpdateAppInput: Swift.Equatable {
+public struct UpdateAppInput {
     /// The personal access token for a GitHub repository for an Amplify app. The personal access token is used to authorize access to a GitHub repository using the Amplify GitHub App. The token is not stored. Use accessToken for GitHub repositories only. To authorize access to a repository provider such as Bitbucket or CodeCommit, use oauthToken. You must specify either accessToken or oauthToken when you update an app. Existing Amplify apps deployed from a GitHub repository using OAuth continue to work with CI/CD. However, we strongly recommend that you migrate these apps to use the GitHub App. For more information, see [Migrating an existing OAuth app to the Amplify GitHub App](https://docs.aws.amazon.com/amplify/latest/userguide/setting-up-GitHub-access.html#migrating-to-github-app-auth) in the Amplify User Guide .
     public var accessToken: Swift.String?
     /// The unique ID for an Amplify app.
@@ -7110,7 +7110,7 @@ public struct UpdateAppInput: Swift.Equatable {
     }
 }
 
-struct UpdateAppInputBody: Swift.Equatable {
+struct UpdateAppInputBody {
     let name: Swift.String?
     let description: Swift.String?
     let platform: AmplifyClientTypes.Platform?
@@ -7234,7 +7234,7 @@ extension UpdateAppOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for an Amplify app update request.
-public struct UpdateAppOutput: Swift.Equatable {
+public struct UpdateAppOutput {
     /// Represents the updated Amplify app.
     /// This member is required.
     public var app: AmplifyClientTypes.App?
@@ -7247,7 +7247,7 @@ public struct UpdateAppOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAppOutputBody: Swift.Equatable {
+struct UpdateAppOutputBody {
     let app: AmplifyClientTypes.App?
 }
 
@@ -7372,7 +7372,7 @@ extension UpdateBranchInput {
 }
 
 /// The request structure for the update branch request.
-public struct UpdateBranchInput: Swift.Equatable {
+public struct UpdateBranchInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -7454,7 +7454,7 @@ public struct UpdateBranchInput: Swift.Equatable {
     }
 }
 
-struct UpdateBranchInputBody: Swift.Equatable {
+struct UpdateBranchInputBody {
     let description: Swift.String?
     let framework: Swift.String?
     let stage: AmplifyClientTypes.Stage?
@@ -7552,7 +7552,7 @@ extension UpdateBranchOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the update branch request.
-public struct UpdateBranchOutput: Swift.Equatable {
+public struct UpdateBranchOutput {
     /// The branch for an Amplify app, which maps to a third-party repository branch.
     /// This member is required.
     public var branch: AmplifyClientTypes.Branch?
@@ -7565,7 +7565,7 @@ public struct UpdateBranchOutput: Swift.Equatable {
     }
 }
 
-struct UpdateBranchOutputBody: Swift.Equatable {
+struct UpdateBranchOutputBody {
     let branch: AmplifyClientTypes.Branch?
 }
 
@@ -7645,7 +7645,7 @@ extension UpdateDomainAssociationInput {
 }
 
 /// The request structure for the update domain association request.
-public struct UpdateDomainAssociationInput: Swift.Equatable {
+public struct UpdateDomainAssociationInput {
     /// The unique ID for an Amplify app.
     /// This member is required.
     public var appId: Swift.String?
@@ -7683,7 +7683,7 @@ public struct UpdateDomainAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainAssociationInputBody: Swift.Equatable {
+struct UpdateDomainAssociationInputBody {
     let enableAutoSubDomain: Swift.Bool?
     let subDomainSettings: [AmplifyClientTypes.SubDomainSetting]?
     let autoSubDomainCreationPatterns: [Swift.String]?
@@ -7746,7 +7746,7 @@ extension UpdateDomainAssociationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the update domain association request.
-public struct UpdateDomainAssociationOutput: Swift.Equatable {
+public struct UpdateDomainAssociationOutput {
     /// Describes a domain association, which associates a custom domain with an Amplify app.
     /// This member is required.
     public var domainAssociation: AmplifyClientTypes.DomainAssociation?
@@ -7759,7 +7759,7 @@ public struct UpdateDomainAssociationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDomainAssociationOutputBody: Swift.Equatable {
+struct UpdateDomainAssociationOutputBody {
     let domainAssociation: AmplifyClientTypes.DomainAssociation?
 }
 
@@ -7865,7 +7865,7 @@ extension UpdateWebhookInput {
 }
 
 /// The request structure for the update webhook request.
-public struct UpdateWebhookInput: Swift.Equatable {
+public struct UpdateWebhookInput {
     /// The name for a branch that is part of an Amplify app.
     public var branchName: Swift.String?
     /// The description for a webhook.
@@ -7886,7 +7886,7 @@ public struct UpdateWebhookInput: Swift.Equatable {
     }
 }
 
-struct UpdateWebhookInputBody: Swift.Equatable {
+struct UpdateWebhookInputBody {
     let branchName: Swift.String?
     let description: Swift.String?
 }
@@ -7919,7 +7919,7 @@ extension UpdateWebhookOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result structure for the update webhook request.
-public struct UpdateWebhookOutput: Swift.Equatable {
+public struct UpdateWebhookOutput {
     /// Describes a webhook that connects repository events to an Amplify app.
     /// This member is required.
     public var webhook: AmplifyClientTypes.Webhook?
@@ -7932,7 +7932,7 @@ public struct UpdateWebhookOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWebhookOutputBody: Swift.Equatable {
+struct UpdateWebhookOutputBody {
     let webhook: AmplifyClientTypes.Webhook?
 }
 
@@ -8020,7 +8020,7 @@ extension AmplifyClientTypes.Webhook: Swift.Codable {
 
 extension AmplifyClientTypes {
     /// Describes a webhook that connects repository events to an Amplify app.
-    public struct Webhook: Swift.Equatable {
+    public struct Webhook {
         /// The name for a branch that is part of an Amplify app.
         /// This member is required.
         public var branchName: Swift.String?

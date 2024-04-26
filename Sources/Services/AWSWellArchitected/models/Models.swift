@@ -43,7 +43,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -98,7 +98,7 @@ extension WellArchitectedClientTypes.AccountJiraConfigurationInput: Swift.Codabl
 
 extension WellArchitectedClientTypes {
     /// Account-level: Input for the Jira configuration.
-    public struct AccountJiraConfigurationInput: Swift.Equatable {
+    public struct AccountJiraConfigurationInput {
         /// Account-level: Configuration status of the Jira integration.
         public var integrationStatus: WellArchitectedClientTypes.IntegrationStatusInput?
         /// Account-level: Jira issue management status.
@@ -175,7 +175,7 @@ extension WellArchitectedClientTypes.AccountJiraConfigurationOutput: Swift.Codab
 
 extension WellArchitectedClientTypes {
     /// Account-level: Output configuration of the Jira integration.
-    public struct AccountJiraConfigurationOutput: Swift.Equatable {
+    public struct AccountJiraConfigurationOutput {
         /// Account-level: Configuration status of the Jira integration.
         public var integrationStatus: WellArchitectedClientTypes.IntegrationStatus?
         /// Account-level: Jira issue management status.
@@ -312,7 +312,7 @@ extension WellArchitectedClientTypes.AdditionalResources: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The choice level additional resources for a custom lens. This field does not apply to Amazon Web Services official lenses.
-    public struct AdditionalResources: Swift.Equatable {
+    public struct AdditionalResources {
         /// The URLs for additional resources, either helpful resources or improvement plans, for a custom lens. Up to five additional URLs can be specified.
         public var content: [WellArchitectedClientTypes.ChoiceContent]?
         /// Type of additional resource for a custom lens.
@@ -471,7 +471,7 @@ extension WellArchitectedClientTypes.Answer: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// An answer of the question.
-    public struct Answer: Swift.Equatable {
+    public struct Answer {
         /// A list of selected choices to a question in your workload.
         public var choiceAnswers: [WellArchitectedClientTypes.ChoiceAnswer]?
         /// List of choices available for a question.
@@ -699,7 +699,7 @@ extension WellArchitectedClientTypes.AnswerSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// An answer summary of a lens review in a workload.
-    public struct AnswerSummary: Swift.Equatable {
+    public struct AnswerSummary {
         /// A list of selected choices to a question in your workload.
         public var choiceAnswerSummaries: [WellArchitectedClientTypes.ChoiceAnswerSummary]?
         /// List of choices available for a question.
@@ -780,7 +780,7 @@ extension AssociateLensesInput {
 }
 
 /// Input to associate lens reviews.
-public struct AssociateLensesInput: Swift.Equatable {
+public struct AssociateLensesInput {
     /// List of lens aliases to associate or disassociate with a workload. Up to 10 lenses can be specified. Identify a lens using its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAliases: [Swift.String]?
@@ -798,7 +798,7 @@ public struct AssociateLensesInput: Swift.Equatable {
     }
 }
 
-struct AssociateLensesInputBody: Swift.Equatable {
+struct AssociateLensesInputBody {
     let lensAliases: [Swift.String]?
 }
 
@@ -828,7 +828,7 @@ extension AssociateLensesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateLensesOutput: Swift.Equatable {
+public struct AssociateLensesOutput {
 
     public init() { }
 }
@@ -875,7 +875,7 @@ extension AssociateProfilesInput {
     }
 }
 
-public struct AssociateProfilesInput: Swift.Equatable {
+public struct AssociateProfilesInput {
     /// The list of profile ARNs to associate with the workload.
     /// This member is required.
     public var profileArns: [Swift.String]?
@@ -893,7 +893,7 @@ public struct AssociateProfilesInput: Swift.Equatable {
     }
 }
 
-struct AssociateProfilesInputBody: Swift.Equatable {
+struct AssociateProfilesInputBody {
     let profileArns: [Swift.String]?
 }
 
@@ -923,7 +923,7 @@ extension AssociateProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateProfilesOutput: Swift.Equatable {
+public struct AssociateProfilesOutput {
 
     public init() { }
 }
@@ -971,7 +971,7 @@ extension WellArchitectedClientTypes.BestPractice: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A best practice, or question choice, that has been identified as a risk in this question.
-    public struct BestPractice: Swift.Equatable {
+    public struct BestPractice {
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The title of a choice.
@@ -1082,7 +1082,7 @@ extension WellArchitectedClientTypes.CheckDetail: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Account details for a Well-Architected best practice in relation to Trusted Advisor checks.
-    public struct CheckDetail: Swift.Equatable {
+    public struct CheckDetail {
         /// An Amazon Web Services account ID.
         public var accountId: Swift.String?
         /// The ID of a choice.
@@ -1345,7 +1345,7 @@ extension WellArchitectedClientTypes.CheckSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Trusted Advisor check summary.
-    public struct CheckSummary: Swift.Equatable {
+    public struct CheckSummary {
         /// Account summary associated to the check.
         public var accountSummary: [Swift.String:Swift.Int]?
         /// The ID of a choice.
@@ -1462,7 +1462,7 @@ extension WellArchitectedClientTypes.Choice: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A choice available to answer question.
-    public struct Choice: Swift.Equatable {
+    public struct Choice {
         /// The additional resources for a choice in a custom lens. A choice can have up to two additional resources: one of type HELPFUL_RESOURCE, one of type IMPROVEMENT_PLAN, or both.
         public var additionalResources: [WellArchitectedClientTypes.AdditionalResources]?
         /// The ID of a choice.
@@ -1535,7 +1535,7 @@ extension WellArchitectedClientTypes.ChoiceAnswer: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A choice that has been answered on a question in your workload.
-    public struct ChoiceAnswer: Swift.Equatable {
+    public struct ChoiceAnswer {
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The notes associated with a choice.
@@ -1594,7 +1594,7 @@ extension WellArchitectedClientTypes.ChoiceAnswerSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A choice summary that has been answered on a question in your workload.
-    public struct ChoiceAnswerSummary: Swift.Equatable {
+    public struct ChoiceAnswerSummary {
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The reason why a choice is non-applicable to a question in your workload.
@@ -1643,7 +1643,7 @@ extension WellArchitectedClientTypes.ChoiceContent: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The choice content.
-    public struct ChoiceContent: Swift.Equatable {
+    public struct ChoiceContent {
         /// The display text for the choice content.
         public var displayText: Swift.String?
         /// The URL for the choice content.
@@ -1694,7 +1694,7 @@ extension WellArchitectedClientTypes.ChoiceImprovementPlan: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The choice level improvement plan.
-    public struct ChoiceImprovementPlan: Swift.Equatable {
+    public struct ChoiceImprovementPlan {
         /// The ID of a choice.
         public var choiceId: Swift.String?
         /// The display text for the improvement plan.
@@ -1825,7 +1825,7 @@ extension WellArchitectedClientTypes.ChoiceUpdate: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A list of choices to be updated.
-    public struct ChoiceUpdate: Swift.Equatable {
+    public struct ChoiceUpdate {
         /// The notes associated with a choice.
         public var notes: Swift.String?
         /// The reason why a choice is non-applicable to a question in your workload.
@@ -1903,7 +1903,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -2014,7 +2014,7 @@ extension WellArchitectedClientTypes.ConsolidatedReportMetric: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A metric that contributes to the consolidated report.
-    public struct ConsolidatedReportMetric: Swift.Equatable {
+    public struct ConsolidatedReportMetric {
         /// The metrics for the lenses in the workload.
         public var lenses: [WellArchitectedClientTypes.LensMetric]?
         /// The total number of lenses applied to the workload.
@@ -2083,7 +2083,7 @@ extension CreateLensShareInput {
     }
 }
 
-public struct CreateLensShareInput: Swift.Equatable {
+public struct CreateLensShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2106,7 +2106,7 @@ public struct CreateLensShareInput: Swift.Equatable {
     }
 }
 
-struct CreateLensShareInputBody: Swift.Equatable {
+struct CreateLensShareInputBody {
     let sharedWith: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -2138,7 +2138,7 @@ extension CreateLensShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLensShareOutput: Swift.Equatable {
+public struct CreateLensShareOutput {
     /// The ID associated with the share.
     public var shareId: Swift.String?
 
@@ -2150,7 +2150,7 @@ public struct CreateLensShareOutput: Swift.Equatable {
     }
 }
 
-struct CreateLensShareOutputBody: Swift.Equatable {
+struct CreateLensShareOutputBody {
     let shareId: Swift.String?
 }
 
@@ -2214,7 +2214,7 @@ extension CreateLensVersionInput {
     }
 }
 
-public struct CreateLensVersionInput: Swift.Equatable {
+public struct CreateLensVersionInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2241,7 +2241,7 @@ public struct CreateLensVersionInput: Swift.Equatable {
     }
 }
 
-struct CreateLensVersionInputBody: Swift.Equatable {
+struct CreateLensVersionInputBody {
     let lensVersion: Swift.String?
     let isMajorVersion: Swift.Bool?
     let clientRequestToken: Swift.String?
@@ -2279,7 +2279,7 @@ extension CreateLensVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLensVersionOutput: Swift.Equatable {
+public struct CreateLensVersionOutput {
     /// The ARN for the lens.
     public var lensArn: Swift.String?
     /// The version of the lens.
@@ -2295,7 +2295,7 @@ public struct CreateLensVersionOutput: Swift.Equatable {
     }
 }
 
-struct CreateLensVersionOutputBody: Swift.Equatable {
+struct CreateLensVersionOutputBody {
     let lensArn: Swift.String?
     let lensVersion: Swift.String?
 }
@@ -2360,7 +2360,7 @@ extension CreateMilestoneInput {
 }
 
 /// Input for milestone creation.
-public struct CreateMilestoneInput: Swift.Equatable {
+public struct CreateMilestoneInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2383,7 +2383,7 @@ public struct CreateMilestoneInput: Swift.Equatable {
     }
 }
 
-struct CreateMilestoneInputBody: Swift.Equatable {
+struct CreateMilestoneInputBody {
     let milestoneName: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -2418,7 +2418,7 @@ extension CreateMilestoneOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a create milestone call.
-public struct CreateMilestoneOutput: Swift.Equatable {
+public struct CreateMilestoneOutput {
     /// The milestone number. A workload can have a maximum of 100 milestones.
     public var milestoneNumber: Swift.Int?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -2434,7 +2434,7 @@ public struct CreateMilestoneOutput: Swift.Equatable {
     }
 }
 
-struct CreateMilestoneOutputBody: Swift.Equatable {
+struct CreateMilestoneOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
 }
@@ -2513,7 +2513,7 @@ extension CreateProfileInput {
     }
 }
 
-public struct CreateProfileInput: Swift.Equatable {
+public struct CreateProfileInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2545,7 +2545,7 @@ public struct CreateProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileInputBody: Swift.Equatable {
+struct CreateProfileInputBody {
     let profileName: Swift.String?
     let profileDescription: Swift.String?
     let profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
@@ -2609,7 +2609,7 @@ extension CreateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileOutput: Swift.Equatable {
+public struct CreateProfileOutput {
     /// The profile ARN.
     public var profileArn: Swift.String?
     /// Version of the profile.
@@ -2625,7 +2625,7 @@ public struct CreateProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileOutputBody: Swift.Equatable {
+struct CreateProfileOutputBody {
     let profileArn: Swift.String?
     let profileVersion: Swift.String?
 }
@@ -2688,7 +2688,7 @@ extension CreateProfileShareInput {
     }
 }
 
-public struct CreateProfileShareInput: Swift.Equatable {
+public struct CreateProfileShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2711,7 +2711,7 @@ public struct CreateProfileShareInput: Swift.Equatable {
     }
 }
 
-struct CreateProfileShareInputBody: Swift.Equatable {
+struct CreateProfileShareInputBody {
     let sharedWith: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -2745,7 +2745,7 @@ extension CreateProfileShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateProfileShareOutput: Swift.Equatable {
+public struct CreateProfileShareOutput {
     /// The profile ARN.
     public var profileArn: Swift.String?
     /// The ID associated with the share.
@@ -2761,7 +2761,7 @@ public struct CreateProfileShareOutput: Swift.Equatable {
     }
 }
 
-struct CreateProfileShareOutputBody: Swift.Equatable {
+struct CreateProfileShareOutputBody {
     let shareId: Swift.String?
     let profileArn: Swift.String?
 }
@@ -2844,7 +2844,7 @@ extension CreateReviewTemplateInput {
     }
 }
 
-public struct CreateReviewTemplateInput: Swift.Equatable {
+public struct CreateReviewTemplateInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -2880,7 +2880,7 @@ public struct CreateReviewTemplateInput: Swift.Equatable {
     }
 }
 
-struct CreateReviewTemplateInputBody: Swift.Equatable {
+struct CreateReviewTemplateInputBody {
     let templateName: Swift.String?
     let description: Swift.String?
     let lenses: [Swift.String]?
@@ -2946,7 +2946,7 @@ extension CreateReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateReviewTemplateOutput: Swift.Equatable {
+public struct CreateReviewTemplateOutput {
     /// The review template ARN.
     public var templateArn: Swift.String?
 
@@ -2958,7 +2958,7 @@ public struct CreateReviewTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CreateReviewTemplateOutputBody: Swift.Equatable {
+struct CreateReviewTemplateOutputBody {
     let templateArn: Swift.String?
 }
 
@@ -3018,7 +3018,7 @@ extension CreateTemplateShareInput {
     }
 }
 
-public struct CreateTemplateShareInput: Swift.Equatable {
+public struct CreateTemplateShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -3041,7 +3041,7 @@ public struct CreateTemplateShareInput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateShareInputBody: Swift.Equatable {
+struct CreateTemplateShareInputBody {
     let sharedWith: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -3075,7 +3075,7 @@ extension CreateTemplateShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateTemplateShareOutput: Swift.Equatable {
+public struct CreateTemplateShareOutput {
     /// The ID associated with the share.
     public var shareId: Swift.String?
     /// The review template ARN.
@@ -3091,7 +3091,7 @@ public struct CreateTemplateShareOutput: Swift.Equatable {
     }
 }
 
-struct CreateTemplateShareOutputBody: Swift.Equatable {
+struct CreateTemplateShareOutputBody {
     let templateArn: Swift.String?
     let shareId: Swift.String?
 }
@@ -3252,7 +3252,7 @@ extension CreateWorkloadInput {
 }
 
 /// Input for workload creation.
-public struct CreateWorkloadInput: Swift.Equatable {
+public struct CreateWorkloadInput {
     /// The list of Amazon Web Services account IDs associated with the workload.
     public var accountIds: [Swift.String]?
     /// List of AppRegistry application ARNs associated to the workload.
@@ -3399,7 +3399,7 @@ public struct CreateWorkloadInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkloadInputBody: Swift.Equatable {
+struct CreateWorkloadInputBody {
     let workloadName: Swift.String?
     let description: Swift.String?
     let environment: WellArchitectedClientTypes.WorkloadEnvironment?
@@ -3587,7 +3587,7 @@ extension CreateWorkloadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a create workload call.
-public struct CreateWorkloadOutput: Swift.Equatable {
+public struct CreateWorkloadOutput {
     /// The ARN for the workload.
     public var workloadArn: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3603,7 +3603,7 @@ public struct CreateWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkloadOutputBody: Swift.Equatable {
+struct CreateWorkloadOutputBody {
     let workloadId: Swift.String?
     let workloadArn: Swift.String?
 }
@@ -3672,7 +3672,7 @@ extension CreateWorkloadShareInput {
 }
 
 /// Input for Create Workload Share
-public struct CreateWorkloadShareInput: Swift.Equatable {
+public struct CreateWorkloadShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -3700,7 +3700,7 @@ public struct CreateWorkloadShareInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkloadShareInputBody: Swift.Equatable {
+struct CreateWorkloadShareInputBody {
     let sharedWith: Swift.String?
     let permissionType: WellArchitectedClientTypes.PermissionType?
     let clientRequestToken: Swift.String?
@@ -3739,7 +3739,7 @@ extension CreateWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for Create Workload Share
-public struct CreateWorkloadShareOutput: Swift.Equatable {
+public struct CreateWorkloadShareOutput {
     /// The ID associated with the share.
     public var shareId: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -3755,7 +3755,7 @@ public struct CreateWorkloadShareOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkloadShareOutputBody: Swift.Equatable {
+struct CreateWorkloadShareOutputBody {
     let workloadId: Swift.String?
     let shareId: Swift.String?
 }
@@ -3854,7 +3854,7 @@ extension DeleteLensInput {
     }
 }
 
-public struct DeleteLensInput: Swift.Equatable {
+public struct DeleteLensInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -3877,7 +3877,7 @@ public struct DeleteLensInput: Swift.Equatable {
     }
 }
 
-struct DeleteLensInputBody: Swift.Equatable {
+struct DeleteLensInputBody {
 }
 
 extension DeleteLensInputBody: Swift.Decodable {
@@ -3891,7 +3891,7 @@ extension DeleteLensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLensOutput: Swift.Equatable {
+public struct DeleteLensOutput {
 
     public init() { }
 }
@@ -3939,7 +3939,7 @@ extension DeleteLensShareInput {
     }
 }
 
-public struct DeleteLensShareInput: Swift.Equatable {
+public struct DeleteLensShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -3962,7 +3962,7 @@ public struct DeleteLensShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteLensShareInputBody: Swift.Equatable {
+struct DeleteLensShareInputBody {
 }
 
 extension DeleteLensShareInputBody: Swift.Decodable {
@@ -3976,7 +3976,7 @@ extension DeleteLensShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLensShareOutput: Swift.Equatable {
+public struct DeleteLensShareOutput {
 
     public init() { }
 }
@@ -4021,7 +4021,7 @@ extension DeleteProfileInput {
     }
 }
 
-public struct DeleteProfileInput: Swift.Equatable {
+public struct DeleteProfileInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4039,7 +4039,7 @@ public struct DeleteProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileInputBody: Swift.Equatable {
+struct DeleteProfileInputBody {
 }
 
 extension DeleteProfileInputBody: Swift.Decodable {
@@ -4053,7 +4053,7 @@ extension DeleteProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileOutput: Swift.Equatable {
+public struct DeleteProfileOutput {
 
     public init() { }
 }
@@ -4101,7 +4101,7 @@ extension DeleteProfileShareInput {
     }
 }
 
-public struct DeleteProfileShareInput: Swift.Equatable {
+public struct DeleteProfileShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4124,7 +4124,7 @@ public struct DeleteProfileShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteProfileShareInputBody: Swift.Equatable {
+struct DeleteProfileShareInputBody {
 }
 
 extension DeleteProfileShareInputBody: Swift.Decodable {
@@ -4138,7 +4138,7 @@ extension DeleteProfileShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteProfileShareOutput: Swift.Equatable {
+public struct DeleteProfileShareOutput {
 
     public init() { }
 }
@@ -4183,7 +4183,7 @@ extension DeleteReviewTemplateInput {
     }
 }
 
-public struct DeleteReviewTemplateInput: Swift.Equatable {
+public struct DeleteReviewTemplateInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4201,7 +4201,7 @@ public struct DeleteReviewTemplateInput: Swift.Equatable {
     }
 }
 
-struct DeleteReviewTemplateInputBody: Swift.Equatable {
+struct DeleteReviewTemplateInputBody {
 }
 
 extension DeleteReviewTemplateInputBody: Swift.Decodable {
@@ -4215,7 +4215,7 @@ extension DeleteReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteReviewTemplateOutput: Swift.Equatable {
+public struct DeleteReviewTemplateOutput {
 
     public init() { }
 }
@@ -4263,7 +4263,7 @@ extension DeleteTemplateShareInput {
     }
 }
 
-public struct DeleteTemplateShareInput: Swift.Equatable {
+public struct DeleteTemplateShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4286,7 +4286,7 @@ public struct DeleteTemplateShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteTemplateShareInputBody: Swift.Equatable {
+struct DeleteTemplateShareInputBody {
 }
 
 extension DeleteTemplateShareInputBody: Swift.Decodable {
@@ -4300,7 +4300,7 @@ extension DeleteTemplateShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteTemplateShareOutput: Swift.Equatable {
+public struct DeleteTemplateShareOutput {
 
     public init() { }
 }
@@ -4346,7 +4346,7 @@ extension DeleteWorkloadInput {
 }
 
 /// Input for workload deletion.
-public struct DeleteWorkloadInput: Swift.Equatable {
+public struct DeleteWorkloadInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4364,7 +4364,7 @@ public struct DeleteWorkloadInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkloadInputBody: Swift.Equatable {
+struct DeleteWorkloadInputBody {
 }
 
 extension DeleteWorkloadInputBody: Swift.Decodable {
@@ -4378,7 +4378,7 @@ extension DeleteWorkloadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkloadOutput: Swift.Equatable {
+public struct DeleteWorkloadOutput {
 
     public init() { }
 }
@@ -4427,7 +4427,7 @@ extension DeleteWorkloadShareInput {
 }
 
 /// Input for Delete Workload Share
-public struct DeleteWorkloadShareInput: Swift.Equatable {
+public struct DeleteWorkloadShareInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -4450,7 +4450,7 @@ public struct DeleteWorkloadShareInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkloadShareInputBody: Swift.Equatable {
+struct DeleteWorkloadShareInputBody {
 }
 
 extension DeleteWorkloadShareInputBody: Swift.Decodable {
@@ -4464,7 +4464,7 @@ extension DeleteWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkloadShareOutput: Swift.Equatable {
+public struct DeleteWorkloadShareOutput {
 
     public init() { }
 }
@@ -4547,7 +4547,7 @@ extension DisassociateLensesInput {
 }
 
 /// Input to disassociate lens reviews.
-public struct DisassociateLensesInput: Swift.Equatable {
+public struct DisassociateLensesInput {
     /// List of lens aliases to associate or disassociate with a workload. Up to 10 lenses can be specified. Identify a lens using its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAliases: [Swift.String]?
@@ -4565,7 +4565,7 @@ public struct DisassociateLensesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateLensesInputBody: Swift.Equatable {
+struct DisassociateLensesInputBody {
     let lensAliases: [Swift.String]?
 }
 
@@ -4595,7 +4595,7 @@ extension DisassociateLensesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateLensesOutput: Swift.Equatable {
+public struct DisassociateLensesOutput {
 
     public init() { }
 }
@@ -4642,7 +4642,7 @@ extension DisassociateProfilesInput {
     }
 }
 
-public struct DisassociateProfilesInput: Swift.Equatable {
+public struct DisassociateProfilesInput {
     /// The list of profile ARNs to disassociate from the workload.
     /// This member is required.
     public var profileArns: [Swift.String]?
@@ -4660,7 +4660,7 @@ public struct DisassociateProfilesInput: Swift.Equatable {
     }
 }
 
-struct DisassociateProfilesInputBody: Swift.Equatable {
+struct DisassociateProfilesInputBody {
     let profileArns: [Swift.String]?
 }
 
@@ -4690,7 +4690,7 @@ extension DisassociateProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateProfilesOutput: Swift.Equatable {
+public struct DisassociateProfilesOutput {
 
     public init() { }
 }
@@ -4765,7 +4765,7 @@ extension ExportLensInput {
     }
 }
 
-public struct ExportLensInput: Swift.Equatable {
+public struct ExportLensInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -4782,7 +4782,7 @@ public struct ExportLensInput: Swift.Equatable {
     }
 }
 
-struct ExportLensInputBody: Swift.Equatable {
+struct ExportLensInputBody {
 }
 
 extension ExportLensInputBody: Swift.Decodable {
@@ -4803,7 +4803,7 @@ extension ExportLensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ExportLensOutput: Swift.Equatable {
+public struct ExportLensOutput {
     /// The JSON representation of a lens.
     public var lensJSON: Swift.String?
 
@@ -4815,7 +4815,7 @@ public struct ExportLensOutput: Swift.Equatable {
     }
 }
 
-struct ExportLensOutputBody: Swift.Equatable {
+struct ExportLensOutputBody {
     let lensJSON: Swift.String?
 }
 
@@ -4875,7 +4875,7 @@ extension GetAnswerInput {
 }
 
 /// Input to get answer.
-public struct GetAnswerInput: Swift.Equatable {
+public struct GetAnswerInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -4902,7 +4902,7 @@ public struct GetAnswerInput: Swift.Equatable {
     }
 }
 
-struct GetAnswerInputBody: Swift.Equatable {
+struct GetAnswerInputBody {
 }
 
 extension GetAnswerInputBody: Swift.Decodable {
@@ -4932,7 +4932,7 @@ extension GetAnswerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get answer call.
-public struct GetAnswerOutput: Swift.Equatable {
+public struct GetAnswerOutput {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -4960,7 +4960,7 @@ public struct GetAnswerOutput: Swift.Equatable {
     }
 }
 
-struct GetAnswerOutputBody: Swift.Equatable {
+struct GetAnswerOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
@@ -5040,7 +5040,7 @@ extension GetConsolidatedReportInput {
     }
 }
 
-public struct GetConsolidatedReportInput: Swift.Equatable {
+public struct GetConsolidatedReportInput {
     /// The format of the consolidated report. For PDF, Base64String is returned. For JSON, Metrics is returned.
     /// This member is required.
     public var format: WellArchitectedClientTypes.ReportFormat?
@@ -5065,7 +5065,7 @@ public struct GetConsolidatedReportInput: Swift.Equatable {
     }
 }
 
-struct GetConsolidatedReportInputBody: Swift.Equatable {
+struct GetConsolidatedReportInputBody {
 }
 
 extension GetConsolidatedReportInputBody: Swift.Decodable {
@@ -5090,7 +5090,7 @@ extension GetConsolidatedReportOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetConsolidatedReportOutput: Swift.Equatable {
+public struct GetConsolidatedReportOutput {
     /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file. Only returned by [GetConsolidatedReport] when PDF format is requested.
     public var base64String: Swift.String?
     /// The metrics that make up the consolidated report. Only returned when JSON format is requested.
@@ -5110,7 +5110,7 @@ public struct GetConsolidatedReportOutput: Swift.Equatable {
     }
 }
 
-struct GetConsolidatedReportOutputBody: Swift.Equatable {
+struct GetConsolidatedReportOutputBody {
     let metrics: [WellArchitectedClientTypes.ConsolidatedReportMetric]?
     let nextToken: Swift.String?
     let base64String: Swift.String?
@@ -5165,12 +5165,12 @@ extension GetGlobalSettingsInput {
     }
 }
 
-public struct GetGlobalSettingsInput: Swift.Equatable {
+public struct GetGlobalSettingsInput {
 
     public init() { }
 }
 
-struct GetGlobalSettingsInputBody: Swift.Equatable {
+struct GetGlobalSettingsInputBody {
 }
 
 extension GetGlobalSettingsInputBody: Swift.Decodable {
@@ -5195,7 +5195,7 @@ extension GetGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetGlobalSettingsOutput: Swift.Equatable {
+public struct GetGlobalSettingsOutput {
     /// Discovery integration status.
     public var discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
     /// Jira configuration status.
@@ -5215,7 +5215,7 @@ public struct GetGlobalSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetGlobalSettingsOutputBody: Swift.Equatable {
+struct GetGlobalSettingsOutputBody {
     let organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
     let discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
     let jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationOutput?
@@ -5275,7 +5275,7 @@ extension GetLensInput {
     }
 }
 
-public struct GetLensInput: Swift.Equatable {
+public struct GetLensInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -5292,7 +5292,7 @@ public struct GetLensInput: Swift.Equatable {
     }
 }
 
-struct GetLensInputBody: Swift.Equatable {
+struct GetLensInputBody {
 }
 
 extension GetLensInputBody: Swift.Decodable {
@@ -5313,7 +5313,7 @@ extension GetLensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLensOutput: Swift.Equatable {
+public struct GetLensOutput {
     /// A lens return object.
     public var lens: WellArchitectedClientTypes.Lens?
 
@@ -5325,7 +5325,7 @@ public struct GetLensOutput: Swift.Equatable {
     }
 }
 
-struct GetLensOutputBody: Swift.Equatable {
+struct GetLensOutputBody {
     let lens: WellArchitectedClientTypes.Lens?
 }
 
@@ -5382,7 +5382,7 @@ extension GetLensReviewInput {
 }
 
 /// Input to get lens review.
-public struct GetLensReviewInput: Swift.Equatable {
+public struct GetLensReviewInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -5404,7 +5404,7 @@ public struct GetLensReviewInput: Swift.Equatable {
     }
 }
 
-struct GetLensReviewInputBody: Swift.Equatable {
+struct GetLensReviewInputBody {
 }
 
 extension GetLensReviewInputBody: Swift.Decodable {
@@ -5430,7 +5430,7 @@ extension GetLensReviewOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get lens review call.
-public struct GetLensReviewOutput: Swift.Equatable {
+public struct GetLensReviewOutput {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.LensReview?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -5450,7 +5450,7 @@ public struct GetLensReviewOutput: Swift.Equatable {
     }
 }
 
-struct GetLensReviewOutputBody: Swift.Equatable {
+struct GetLensReviewOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensReview: WellArchitectedClientTypes.LensReview?
@@ -5515,7 +5515,7 @@ extension GetLensReviewReportInput {
 }
 
 /// Input to get lens review report.
-public struct GetLensReviewReportInput: Swift.Equatable {
+public struct GetLensReviewReportInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -5537,7 +5537,7 @@ public struct GetLensReviewReportInput: Swift.Equatable {
     }
 }
 
-struct GetLensReviewReportInputBody: Swift.Equatable {
+struct GetLensReviewReportInputBody {
 }
 
 extension GetLensReviewReportInputBody: Swift.Decodable {
@@ -5563,7 +5563,7 @@ extension GetLensReviewReportOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get lens review report call.
-public struct GetLensReviewReportOutput: Swift.Equatable {
+public struct GetLensReviewReportOutput {
     /// A report of a lens review.
     public var lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -5583,7 +5583,7 @@ public struct GetLensReviewReportOutput: Swift.Equatable {
     }
 }
 
-struct GetLensReviewReportOutputBody: Swift.Equatable {
+struct GetLensReviewReportOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensReviewReport: WellArchitectedClientTypes.LensReviewReport?
@@ -5648,7 +5648,7 @@ extension GetLensVersionDifferenceInput {
     }
 }
 
-public struct GetLensVersionDifferenceInput: Swift.Equatable {
+public struct GetLensVersionDifferenceInput {
     /// The base version of the lens.
     public var baseLensVersion: Swift.String?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -5669,7 +5669,7 @@ public struct GetLensVersionDifferenceInput: Swift.Equatable {
     }
 }
 
-struct GetLensVersionDifferenceInputBody: Swift.Equatable {
+struct GetLensVersionDifferenceInputBody {
 }
 
 extension GetLensVersionDifferenceInputBody: Swift.Decodable {
@@ -5700,7 +5700,7 @@ extension GetLensVersionDifferenceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLensVersionDifferenceOutput: Swift.Equatable {
+public struct GetLensVersionDifferenceOutput {
     /// The base version of the lens.
     public var baseLensVersion: Swift.String?
     /// The latest version of the lens.
@@ -5732,7 +5732,7 @@ public struct GetLensVersionDifferenceOutput: Swift.Equatable {
     }
 }
 
-struct GetLensVersionDifferenceOutputBody: Swift.Equatable {
+struct GetLensVersionDifferenceOutputBody {
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
     let baseLensVersion: Swift.String?
@@ -5797,7 +5797,7 @@ extension GetMilestoneInput {
 }
 
 /// Input to get a milestone.
-public struct GetMilestoneInput: Swift.Equatable {
+public struct GetMilestoneInput {
     /// The milestone number. A workload can have a maximum of 100 milestones.
     /// This member is required.
     public var milestoneNumber: Swift.Int?
@@ -5815,7 +5815,7 @@ public struct GetMilestoneInput: Swift.Equatable {
     }
 }
 
-struct GetMilestoneInputBody: Swift.Equatable {
+struct GetMilestoneInputBody {
 }
 
 extension GetMilestoneInputBody: Swift.Decodable {
@@ -5839,7 +5839,7 @@ extension GetMilestoneOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get milestone call.
-public struct GetMilestoneOutput: Swift.Equatable {
+public struct GetMilestoneOutput {
     /// A milestone return object.
     public var milestone: WellArchitectedClientTypes.Milestone?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -5855,7 +5855,7 @@ public struct GetMilestoneOutput: Swift.Equatable {
     }
 }
 
-struct GetMilestoneOutputBody: Swift.Equatable {
+struct GetMilestoneOutputBody {
     let workloadId: Swift.String?
     let milestone: WellArchitectedClientTypes.Milestone?
 }
@@ -5912,7 +5912,7 @@ extension GetProfileInput {
     }
 }
 
-public struct GetProfileInput: Swift.Equatable {
+public struct GetProfileInput {
     /// The profile ARN.
     /// This member is required.
     public var profileArn: Swift.String?
@@ -5929,7 +5929,7 @@ public struct GetProfileInput: Swift.Equatable {
     }
 }
 
-struct GetProfileInputBody: Swift.Equatable {
+struct GetProfileInputBody {
 }
 
 extension GetProfileInputBody: Swift.Decodable {
@@ -5950,7 +5950,7 @@ extension GetProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileOutput: Swift.Equatable {
+public struct GetProfileOutput {
     /// The profile.
     public var profile: WellArchitectedClientTypes.Profile?
 
@@ -5962,7 +5962,7 @@ public struct GetProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileOutputBody: Swift.Equatable {
+struct GetProfileOutputBody {
     let profile: WellArchitectedClientTypes.Profile?
 }
 
@@ -6000,12 +6000,12 @@ extension GetProfileTemplateInput {
     }
 }
 
-public struct GetProfileTemplateInput: Swift.Equatable {
+public struct GetProfileTemplateInput {
 
     public init() { }
 }
 
-struct GetProfileTemplateInputBody: Swift.Equatable {
+struct GetProfileTemplateInputBody {
 }
 
 extension GetProfileTemplateInputBody: Swift.Decodable {
@@ -6026,7 +6026,7 @@ extension GetProfileTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetProfileTemplateOutput: Swift.Equatable {
+public struct GetProfileTemplateOutput {
     /// The profile template.
     public var profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
 
@@ -6038,7 +6038,7 @@ public struct GetProfileTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetProfileTemplateOutputBody: Swift.Equatable {
+struct GetProfileTemplateOutputBody {
     let profileTemplate: WellArchitectedClientTypes.ProfileTemplate?
 }
 
@@ -6085,7 +6085,7 @@ extension GetReviewTemplateAnswerInput {
     }
 }
 
-public struct GetReviewTemplateAnswerInput: Swift.Equatable {
+public struct GetReviewTemplateAnswerInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -6108,7 +6108,7 @@ public struct GetReviewTemplateAnswerInput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateAnswerInputBody: Swift.Equatable {
+struct GetReviewTemplateAnswerInputBody {
 }
 
 extension GetReviewTemplateAnswerInputBody: Swift.Decodable {
@@ -6133,7 +6133,7 @@ extension GetReviewTemplateAnswerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReviewTemplateAnswerOutput: Swift.Equatable {
+public struct GetReviewTemplateAnswerOutput {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -6153,7 +6153,7 @@ public struct GetReviewTemplateAnswerOutput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateAnswerOutputBody: Swift.Equatable {
+struct GetReviewTemplateAnswerOutputBody {
     let templateArn: Swift.String?
     let lensAlias: Swift.String?
     let answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
@@ -6202,7 +6202,7 @@ extension GetReviewTemplateInput {
     }
 }
 
-public struct GetReviewTemplateInput: Swift.Equatable {
+public struct GetReviewTemplateInput {
     /// The review template ARN.
     /// This member is required.
     public var templateArn: Swift.String?
@@ -6215,7 +6215,7 @@ public struct GetReviewTemplateInput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateInputBody: Swift.Equatable {
+struct GetReviewTemplateInputBody {
 }
 
 extension GetReviewTemplateInputBody: Swift.Decodable {
@@ -6237,7 +6237,7 @@ extension GetReviewTemplateLensReviewInput {
     }
 }
 
-public struct GetReviewTemplateLensReviewInput: Swift.Equatable {
+public struct GetReviewTemplateLensReviewInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -6255,7 +6255,7 @@ public struct GetReviewTemplateLensReviewInput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateLensReviewInputBody: Swift.Equatable {
+struct GetReviewTemplateLensReviewInputBody {
 }
 
 extension GetReviewTemplateLensReviewInputBody: Swift.Decodable {
@@ -6278,7 +6278,7 @@ extension GetReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReviewTemplateLensReviewOutput: Swift.Equatable {
+public struct GetReviewTemplateLensReviewOutput {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
     /// The review template ARN.
@@ -6294,7 +6294,7 @@ public struct GetReviewTemplateLensReviewOutput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateLensReviewOutputBody: Swift.Equatable {
+struct GetReviewTemplateLensReviewOutputBody {
     let templateArn: Swift.String?
     let lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
 }
@@ -6341,7 +6341,7 @@ extension GetReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetReviewTemplateOutput: Swift.Equatable {
+public struct GetReviewTemplateOutput {
     /// The review template.
     public var reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
 
@@ -6353,7 +6353,7 @@ public struct GetReviewTemplateOutput: Swift.Equatable {
     }
 }
 
-struct GetReviewTemplateOutputBody: Swift.Equatable {
+struct GetReviewTemplateOutputBody {
     let reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
 }
 
@@ -6395,7 +6395,7 @@ extension GetWorkloadInput {
 }
 
 /// Input to get a workload.
-public struct GetWorkloadInput: Swift.Equatable {
+public struct GetWorkloadInput {
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     /// This member is required.
     public var workloadId: Swift.String?
@@ -6408,7 +6408,7 @@ public struct GetWorkloadInput: Swift.Equatable {
     }
 }
 
-struct GetWorkloadInputBody: Swift.Equatable {
+struct GetWorkloadInputBody {
 }
 
 extension GetWorkloadInputBody: Swift.Decodable {
@@ -6430,7 +6430,7 @@ extension GetWorkloadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a get workload call.
-public struct GetWorkloadOutput: Swift.Equatable {
+public struct GetWorkloadOutput {
     /// A workload return object.
     public var workload: WellArchitectedClientTypes.Workload?
 
@@ -6442,7 +6442,7 @@ public struct GetWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkloadOutputBody: Swift.Equatable {
+struct GetWorkloadOutputBody {
     let workload: WellArchitectedClientTypes.Workload?
 }
 
@@ -6508,7 +6508,7 @@ extension ImportLensInput {
     }
 }
 
-public struct ImportLensInput: Swift.Equatable {
+public struct ImportLensInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -6534,7 +6534,7 @@ public struct ImportLensInput: Swift.Equatable {
     }
 }
 
-struct ImportLensInputBody: Swift.Equatable {
+struct ImportLensInputBody {
     let lensAlias: Swift.String?
     let jsonString: Swift.String?
     let clientRequestToken: Swift.String?
@@ -6585,7 +6585,7 @@ extension ImportLensOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ImportLensOutput: Swift.Equatable {
+public struct ImportLensOutput {
     /// The ARN for the lens that was created or updated.
     public var lensArn: Swift.String?
     /// The status of the imported lens.
@@ -6601,7 +6601,7 @@ public struct ImportLensOutput: Swift.Equatable {
     }
 }
 
-struct ImportLensOutputBody: Swift.Equatable {
+struct ImportLensOutputBody {
     let lensArn: Swift.String?
     let status: WellArchitectedClientTypes.ImportLensStatus?
 }
@@ -6742,7 +6742,7 @@ extension WellArchitectedClientTypes.ImprovementSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// An improvement summary of a lens review in a workload.
-    public struct ImprovementSummary: Swift.Equatable {
+    public struct ImprovementSummary {
         /// The improvement plan URL for a question in an Amazon Web Services official lenses. This value is only available if the question has been answered. This value does not apply to custom lenses.
         public var improvementPlanUrl: Swift.String?
         /// The improvement plan details.
@@ -6911,7 +6911,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -6986,7 +6986,7 @@ extension WellArchitectedClientTypes.JiraConfiguration: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Configuration of the Jira integration.
-    public struct JiraConfiguration: Swift.Equatable {
+    public struct JiraConfiguration {
         /// The URL of the associated Jira issue.
         public var jiraIssueUrl: Swift.String?
         /// The date and time recorded.
@@ -7037,7 +7037,7 @@ extension WellArchitectedClientTypes.JiraSelectedQuestionConfiguration: Swift.Co
 
 extension WellArchitectedClientTypes {
     /// Selected questions in the workload.
-    public struct JiraSelectedQuestionConfiguration: Swift.Equatable {
+    public struct JiraSelectedQuestionConfiguration {
         /// Selected pillars in the workload.
         public var selectedPillars: [WellArchitectedClientTypes.SelectedPillar]?
 
@@ -7120,7 +7120,7 @@ extension WellArchitectedClientTypes.Lens: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A lens return object.
-    public struct Lens: Swift.Equatable {
+    public struct Lens {
         /// The description of the lens.
         public var description: Swift.String?
         /// The ARN of a lens.
@@ -7215,7 +7215,7 @@ extension WellArchitectedClientTypes.LensMetric: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A metric for a particular lens in a workload.
-    public struct LensMetric: Swift.Equatable {
+    public struct LensMetric {
         /// The lens ARN.
         public var lensArn: Swift.String?
         /// The metrics for the pillars in a lens.
@@ -7378,7 +7378,7 @@ extension WellArchitectedClientTypes.LensReview: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A lens review of a question.
-    public struct LensReview: Swift.Equatable {
+    public struct LensReview {
         /// Jira configuration status of the Lens review.
         public var jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -7473,7 +7473,7 @@ extension WellArchitectedClientTypes.LensReviewReport: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A report of a lens review.
-    public struct LensReviewReport: Swift.Equatable {
+    public struct LensReviewReport {
         /// The Base64-encoded string representation of a lens review report. This data can be used to create a PDF file. Only returned by [GetConsolidatedReport] when PDF format is requested.
         public var base64String: Swift.String?
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -7600,7 +7600,7 @@ extension WellArchitectedClientTypes.LensReviewSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A lens review summary of a workload.
-    public struct LensReviewSummary: Swift.Equatable {
+    public struct LensReviewSummary {
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
@@ -7685,7 +7685,7 @@ extension WellArchitectedClientTypes.LensShareSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A lens share summary return object.
-    public struct LensShareSummary: Swift.Equatable {
+    public struct LensShareSummary {
         /// The ID associated with the share.
         public var shareId: Swift.String?
         /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
@@ -7862,7 +7862,7 @@ extension WellArchitectedClientTypes.LensSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A lens summary of a lens.
-    public struct LensSummary: Swift.Equatable {
+    public struct LensSummary {
         /// The date and time recorded.
         public var createdAt: ClientRuntime.Date?
         /// The description of the lens.
@@ -8010,7 +8010,7 @@ extension WellArchitectedClientTypes.LensUpgradeSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Lens upgrade summary return object.
-    public struct LensUpgradeSummary: Swift.Equatable {
+    public struct LensUpgradeSummary {
         /// The current version of the lens.
         public var currentLensVersion: Swift.String?
         /// The latest version of the lens.
@@ -8094,7 +8094,7 @@ extension ListAnswersInput {
 }
 
 /// Input to list answers.
-public struct ListAnswersInput: Swift.Equatable {
+public struct ListAnswersInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -8132,7 +8132,7 @@ public struct ListAnswersInput: Swift.Equatable {
     }
 }
 
-struct ListAnswersInputBody: Swift.Equatable {
+struct ListAnswersInputBody {
 }
 
 extension ListAnswersInputBody: Swift.Decodable {
@@ -8164,7 +8164,7 @@ extension ListAnswersOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list answers call.
-public struct ListAnswersOutput: Swift.Equatable {
+public struct ListAnswersOutput {
     /// List of answer summaries of lens review in a workload.
     public var answerSummaries: [WellArchitectedClientTypes.AnswerSummary]?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -8196,7 +8196,7 @@ public struct ListAnswersOutput: Swift.Equatable {
     }
 }
 
-struct ListAnswersOutputBody: Swift.Equatable {
+struct ListAnswersOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
@@ -8299,7 +8299,7 @@ extension ListCheckDetailsInput {
     }
 }
 
-public struct ListCheckDetailsInput: Swift.Equatable {
+public struct ListCheckDetailsInput {
     /// The ID of a choice.
     /// This member is required.
     public var choiceId: Swift.String?
@@ -8340,7 +8340,7 @@ public struct ListCheckDetailsInput: Swift.Equatable {
     }
 }
 
-struct ListCheckDetailsInputBody: Swift.Equatable {
+struct ListCheckDetailsInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let lensArn: Swift.String?
@@ -8390,7 +8390,7 @@ extension ListCheckDetailsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCheckDetailsOutput: Swift.Equatable {
+public struct ListCheckDetailsOutput {
     /// The details about the Trusted Advisor checks related to the Well-Architected best practice.
     public var checkDetails: [WellArchitectedClientTypes.CheckDetail]?
     /// The token to use to retrieve the next set of results.
@@ -8406,7 +8406,7 @@ public struct ListCheckDetailsOutput: Swift.Equatable {
     }
 }
 
-struct ListCheckDetailsOutputBody: Swift.Equatable {
+struct ListCheckDetailsOutputBody {
     let checkDetails: [WellArchitectedClientTypes.CheckDetail]?
     let nextToken: Swift.String?
 }
@@ -8493,7 +8493,7 @@ extension ListCheckSummariesInput {
     }
 }
 
-public struct ListCheckSummariesInput: Swift.Equatable {
+public struct ListCheckSummariesInput {
     /// The ID of a choice.
     /// This member is required.
     public var choiceId: Swift.String?
@@ -8534,7 +8534,7 @@ public struct ListCheckSummariesInput: Swift.Equatable {
     }
 }
 
-struct ListCheckSummariesInputBody: Swift.Equatable {
+struct ListCheckSummariesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
     let lensArn: Swift.String?
@@ -8584,7 +8584,7 @@ extension ListCheckSummariesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCheckSummariesOutput: Swift.Equatable {
+public struct ListCheckSummariesOutput {
     /// List of Trusted Advisor summaries related to the Well-Architected best practice.
     public var checkSummaries: [WellArchitectedClientTypes.CheckSummary]?
     /// The token to use to retrieve the next set of results.
@@ -8600,7 +8600,7 @@ public struct ListCheckSummariesOutput: Swift.Equatable {
     }
 }
 
-struct ListCheckSummariesOutputBody: Swift.Equatable {
+struct ListCheckSummariesOutputBody {
     let checkSummaries: [WellArchitectedClientTypes.CheckSummary]?
     let nextToken: Swift.String?
 }
@@ -8686,7 +8686,7 @@ extension ListLensReviewImprovementsInput {
 }
 
 /// Input to list lens review improvements.
-public struct ListLensReviewImprovementsInput: Swift.Equatable {
+public struct ListLensReviewImprovementsInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -8724,7 +8724,7 @@ public struct ListLensReviewImprovementsInput: Swift.Equatable {
     }
 }
 
-struct ListLensReviewImprovementsInputBody: Swift.Equatable {
+struct ListLensReviewImprovementsInputBody {
 }
 
 extension ListLensReviewImprovementsInputBody: Swift.Decodable {
@@ -8756,7 +8756,7 @@ extension ListLensReviewImprovementsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list lens review improvements call.
-public struct ListLensReviewImprovementsOutput: Swift.Equatable {
+public struct ListLensReviewImprovementsOutput {
     /// List of improvement summaries of lens review in a workload.
     public var improvementSummaries: [WellArchitectedClientTypes.ImprovementSummary]?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -8788,7 +8788,7 @@ public struct ListLensReviewImprovementsOutput: Swift.Equatable {
     }
 }
 
-struct ListLensReviewImprovementsOutputBody: Swift.Equatable {
+struct ListLensReviewImprovementsOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensAlias: Swift.String?
@@ -8879,7 +8879,7 @@ extension ListLensReviewsInput {
 }
 
 /// Input to list lens reviews.
-public struct ListLensReviewsInput: Swift.Equatable {
+public struct ListLensReviewsInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -8904,7 +8904,7 @@ public struct ListLensReviewsInput: Swift.Equatable {
     }
 }
 
-struct ListLensReviewsInputBody: Swift.Equatable {
+struct ListLensReviewsInputBody {
 }
 
 extension ListLensReviewsInputBody: Swift.Decodable {
@@ -8932,7 +8932,7 @@ extension ListLensReviewsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list lens reviews call.
-public struct ListLensReviewsOutput: Swift.Equatable {
+public struct ListLensReviewsOutput {
     /// List of lens summaries of lens reviews of a workload.
     public var lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
     /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -8956,7 +8956,7 @@ public struct ListLensReviewsOutput: Swift.Equatable {
     }
 }
 
-struct ListLensReviewsOutputBody: Swift.Equatable {
+struct ListLensReviewsOutputBody {
     let workloadId: Swift.String?
     let milestoneNumber: Swift.Int?
     let lensReviewSummaries: [WellArchitectedClientTypes.LensReviewSummary]?
@@ -9042,7 +9042,7 @@ extension ListLensSharesInput {
     }
 }
 
-public struct ListLensSharesInput: Swift.Equatable {
+public struct ListLensSharesInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -9071,7 +9071,7 @@ public struct ListLensSharesInput: Swift.Equatable {
     }
 }
 
-struct ListLensSharesInputBody: Swift.Equatable {
+struct ListLensSharesInputBody {
 }
 
 extension ListLensSharesInputBody: Swift.Decodable {
@@ -9094,7 +9094,7 @@ extension ListLensSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLensSharesOutput: Swift.Equatable {
+public struct ListLensSharesOutput {
     /// A list of lens share summaries.
     public var lensShareSummaries: [WellArchitectedClientTypes.LensShareSummary]?
     /// The token to use to retrieve the next set of results.
@@ -9110,7 +9110,7 @@ public struct ListLensSharesOutput: Swift.Equatable {
     }
 }
 
-struct ListLensSharesOutputBody: Swift.Equatable {
+struct ListLensSharesOutputBody {
     let lensShareSummaries: [WellArchitectedClientTypes.LensShareSummary]?
     let nextToken: Swift.String?
 }
@@ -9190,7 +9190,7 @@ extension ListLensesInput {
 }
 
 /// Input to list lenses.
-public struct ListLensesInput: Swift.Equatable {
+public struct ListLensesInput {
     /// The full name of the lens.
     public var lensName: Swift.String?
     /// The status of lenses to be returned.
@@ -9218,7 +9218,7 @@ public struct ListLensesInput: Swift.Equatable {
     }
 }
 
-struct ListLensesInputBody: Swift.Equatable {
+struct ListLensesInputBody {
 }
 
 extension ListLensesInputBody: Swift.Decodable {
@@ -9242,7 +9242,7 @@ extension ListLensesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list lenses call.
-public struct ListLensesOutput: Swift.Equatable {
+public struct ListLensesOutput {
     /// List of lens summaries of available lenses.
     public var lensSummaries: [WellArchitectedClientTypes.LensSummary]?
     /// The token to use to retrieve the next set of results.
@@ -9258,7 +9258,7 @@ public struct ListLensesOutput: Swift.Equatable {
     }
 }
 
-struct ListLensesOutputBody: Swift.Equatable {
+struct ListLensesOutputBody {
     let lensSummaries: [WellArchitectedClientTypes.LensSummary]?
     let nextToken: Swift.String?
 }
@@ -9329,7 +9329,7 @@ extension ListMilestonesInput {
 }
 
 /// Input to list all milestones for a workload.
-public struct ListMilestonesInput: Swift.Equatable {
+public struct ListMilestonesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -9350,7 +9350,7 @@ public struct ListMilestonesInput: Swift.Equatable {
     }
 }
 
-struct ListMilestonesInputBody: Swift.Equatable {
+struct ListMilestonesInputBody {
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
 }
@@ -9387,7 +9387,7 @@ extension ListMilestonesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list milestones call.
-public struct ListMilestonesOutput: Swift.Equatable {
+public struct ListMilestonesOutput {
     /// A list of milestone summaries.
     public var milestoneSummaries: [WellArchitectedClientTypes.MilestoneSummary]?
     /// The token to use to retrieve the next set of results.
@@ -9407,7 +9407,7 @@ public struct ListMilestonesOutput: Swift.Equatable {
     }
 }
 
-struct ListMilestonesOutputBody: Swift.Equatable {
+struct ListMilestonesOutputBody {
     let workloadId: Swift.String?
     let milestoneSummaries: [WellArchitectedClientTypes.MilestoneSummary]?
     let nextToken: Swift.String?
@@ -9487,7 +9487,7 @@ extension ListNotificationsInput {
     }
 }
 
-public struct ListNotificationsInput: Swift.Equatable {
+public struct ListNotificationsInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -9511,7 +9511,7 @@ public struct ListNotificationsInput: Swift.Equatable {
     }
 }
 
-struct ListNotificationsInputBody: Swift.Equatable {
+struct ListNotificationsInputBody {
     let workloadId: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -9553,7 +9553,7 @@ extension ListNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListNotificationsOutput: Swift.Equatable {
+public struct ListNotificationsOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// List of lens notification summaries in a workload.
@@ -9569,7 +9569,7 @@ public struct ListNotificationsOutput: Swift.Equatable {
     }
 }
 
-struct ListNotificationsOutputBody: Swift.Equatable {
+struct ListNotificationsOutputBody {
     let notificationSummaries: [WellArchitectedClientTypes.NotificationSummary]?
     let nextToken: Swift.String?
 }
@@ -9639,7 +9639,7 @@ extension ListProfileNotificationsInput {
     }
 }
 
-public struct ListProfileNotificationsInput: Swift.Equatable {
+public struct ListProfileNotificationsInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -9659,7 +9659,7 @@ public struct ListProfileNotificationsInput: Swift.Equatable {
     }
 }
 
-struct ListProfileNotificationsInputBody: Swift.Equatable {
+struct ListProfileNotificationsInputBody {
 }
 
 extension ListProfileNotificationsInputBody: Swift.Decodable {
@@ -9682,7 +9682,7 @@ extension ListProfileNotificationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfileNotificationsOutput: Swift.Equatable {
+public struct ListProfileNotificationsOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Notification summaries.
@@ -9698,7 +9698,7 @@ public struct ListProfileNotificationsOutput: Swift.Equatable {
     }
 }
 
-struct ListProfileNotificationsOutputBody: Swift.Equatable {
+struct ListProfileNotificationsOutputBody {
     let notificationSummaries: [WellArchitectedClientTypes.ProfileNotificationSummary]?
     let nextToken: Swift.String?
 }
@@ -9775,7 +9775,7 @@ extension ListProfileSharesInput {
     }
 }
 
-public struct ListProfileSharesInput: Swift.Equatable {
+public struct ListProfileSharesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -9804,7 +9804,7 @@ public struct ListProfileSharesInput: Swift.Equatable {
     }
 }
 
-struct ListProfileSharesInputBody: Swift.Equatable {
+struct ListProfileSharesInputBody {
 }
 
 extension ListProfileSharesInputBody: Swift.Decodable {
@@ -9827,7 +9827,7 @@ extension ListProfileSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfileSharesOutput: Swift.Equatable {
+public struct ListProfileSharesOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Profile share summaries.
@@ -9843,7 +9843,7 @@ public struct ListProfileSharesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfileSharesOutputBody: Swift.Equatable {
+struct ListProfileSharesOutputBody {
     let profileShareSummaries: [WellArchitectedClientTypes.ProfileShareSummary]?
     let nextToken: Swift.String?
 }
@@ -9918,7 +9918,7 @@ extension ListProfilesInput {
     }
 }
 
-public struct ListProfilesInput: Swift.Equatable {
+public struct ListProfilesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -9942,7 +9942,7 @@ public struct ListProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListProfilesInputBody: Swift.Equatable {
+struct ListProfilesInputBody {
 }
 
 extension ListProfilesInputBody: Swift.Decodable {
@@ -9965,7 +9965,7 @@ extension ListProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListProfilesOutput: Swift.Equatable {
+public struct ListProfilesOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// Profile summaries.
@@ -9981,7 +9981,7 @@ public struct ListProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListProfilesOutputBody: Swift.Equatable {
+struct ListProfilesOutputBody {
     let profileSummaries: [WellArchitectedClientTypes.ProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -10057,7 +10057,7 @@ extension ListReviewTemplateAnswersInput {
     }
 }
 
-public struct ListReviewTemplateAnswersInput: Swift.Equatable {
+public struct ListReviewTemplateAnswersInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -10087,7 +10087,7 @@ public struct ListReviewTemplateAnswersInput: Swift.Equatable {
     }
 }
 
-struct ListReviewTemplateAnswersInputBody: Swift.Equatable {
+struct ListReviewTemplateAnswersInputBody {
 }
 
 extension ListReviewTemplateAnswersInputBody: Swift.Decodable {
@@ -10114,7 +10114,7 @@ extension ListReviewTemplateAnswersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReviewTemplateAnswersOutput: Swift.Equatable {
+public struct ListReviewTemplateAnswersOutput {
     /// List of answer summaries of a lens review in a review template.
     public var answerSummaries: [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -10138,7 +10138,7 @@ public struct ListReviewTemplateAnswersOutput: Swift.Equatable {
     }
 }
 
-struct ListReviewTemplateAnswersOutputBody: Swift.Equatable {
+struct ListReviewTemplateAnswersOutputBody {
     let templateArn: Swift.String?
     let lensAlias: Swift.String?
     let answerSummaries: [WellArchitectedClientTypes.ReviewTemplateAnswerSummary]?
@@ -10213,7 +10213,7 @@ extension ListReviewTemplatesInput {
     }
 }
 
-public struct ListReviewTemplatesInput: Swift.Equatable {
+public struct ListReviewTemplatesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -10229,7 +10229,7 @@ public struct ListReviewTemplatesInput: Swift.Equatable {
     }
 }
 
-struct ListReviewTemplatesInputBody: Swift.Equatable {
+struct ListReviewTemplatesInputBody {
 }
 
 extension ListReviewTemplatesInputBody: Swift.Decodable {
@@ -10252,7 +10252,7 @@ extension ListReviewTemplatesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListReviewTemplatesOutput: Swift.Equatable {
+public struct ListReviewTemplatesOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// List of review templates.
@@ -10268,7 +10268,7 @@ public struct ListReviewTemplatesOutput: Swift.Equatable {
     }
 }
 
-struct ListReviewTemplatesOutputBody: Swift.Equatable {
+struct ListReviewTemplatesOutputBody {
     let reviewTemplates: [WellArchitectedClientTypes.ReviewTemplateSummary]?
     let nextToken: Swift.String?
 }
@@ -10355,7 +10355,7 @@ extension ListShareInvitationsInput {
 }
 
 /// Input for List Share Invitations
-public struct ListShareInvitationsInput: Swift.Equatable {
+public struct ListShareInvitationsInput {
     /// An optional string added to the beginning of each lens name returned in the results.
     public var lensNamePrefix: Swift.String?
     /// The maximum number of results to return for this request.
@@ -10391,7 +10391,7 @@ public struct ListShareInvitationsInput: Swift.Equatable {
     }
 }
 
-struct ListShareInvitationsInputBody: Swift.Equatable {
+struct ListShareInvitationsInputBody {
 }
 
 extension ListShareInvitationsInputBody: Swift.Decodable {
@@ -10415,7 +10415,7 @@ extension ListShareInvitationsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for List Share Invitations
-public struct ListShareInvitationsOutput: Swift.Equatable {
+public struct ListShareInvitationsOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// List of share invitation summaries in a workload.
@@ -10431,7 +10431,7 @@ public struct ListShareInvitationsOutput: Swift.Equatable {
     }
 }
 
-struct ListShareInvitationsOutputBody: Swift.Equatable {
+struct ListShareInvitationsOutputBody {
     let shareInvitationSummaries: [WellArchitectedClientTypes.ShareInvitationSummary]?
     let nextToken: Swift.String?
 }
@@ -10484,7 +10484,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN for the workload.
     /// This member is required.
     public var workloadArn: Swift.String?
@@ -10497,7 +10497,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -10518,7 +10518,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// The tags for the resource.
     public var tags: [Swift.String:Swift.String]?
 
@@ -10530,7 +10530,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -10601,7 +10601,7 @@ extension ListTemplateSharesInput {
     }
 }
 
-public struct ListTemplateSharesInput: Swift.Equatable {
+public struct ListTemplateSharesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -10630,7 +10630,7 @@ public struct ListTemplateSharesInput: Swift.Equatable {
     }
 }
 
-struct ListTemplateSharesInputBody: Swift.Equatable {
+struct ListTemplateSharesInputBody {
 }
 
 extension ListTemplateSharesInputBody: Swift.Decodable {
@@ -10655,7 +10655,7 @@ extension ListTemplateSharesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTemplateSharesOutput: Swift.Equatable {
+public struct ListTemplateSharesOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The review template ARN.
@@ -10675,7 +10675,7 @@ public struct ListTemplateSharesOutput: Swift.Equatable {
     }
 }
 
-struct ListTemplateSharesOutputBody: Swift.Equatable {
+struct ListTemplateSharesOutputBody {
     let templateArn: Swift.String?
     let templateShareSummaries: [WellArchitectedClientTypes.TemplateShareSummary]?
     let nextToken: Swift.String?
@@ -10758,7 +10758,7 @@ extension ListWorkloadSharesInput {
 }
 
 /// Input for List Workload Share
-public struct ListWorkloadSharesInput: Swift.Equatable {
+public struct ListWorkloadSharesInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -10787,7 +10787,7 @@ public struct ListWorkloadSharesInput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadSharesInputBody: Swift.Equatable {
+struct ListWorkloadSharesInputBody {
 }
 
 extension ListWorkloadSharesInputBody: Swift.Decodable {
@@ -10813,7 +10813,7 @@ extension ListWorkloadSharesOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for List Workload Share
-public struct ListWorkloadSharesOutput: Swift.Equatable {
+public struct ListWorkloadSharesOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -10833,7 +10833,7 @@ public struct ListWorkloadSharesOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadSharesOutputBody: Swift.Equatable {
+struct ListWorkloadSharesOutputBody {
     let workloadId: Swift.String?
     let workloadShareSummaries: [WellArchitectedClientTypes.WorkloadShareSummary]?
     let nextToken: Swift.String?
@@ -10910,7 +10910,7 @@ extension ListWorkloadsInput {
 }
 
 /// Input to list all workloads.
-public struct ListWorkloadsInput: Swift.Equatable {
+public struct ListWorkloadsInput {
     /// The maximum number of results to return for this request.
     public var maxResults: Swift.Int?
     /// The token to use to retrieve the next set of results.
@@ -10930,7 +10930,7 @@ public struct ListWorkloadsInput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsInputBody: Swift.Equatable {
+struct ListWorkloadsInputBody {
     let workloadNamePrefix: Swift.String?
     let nextToken: Swift.String?
     let maxResults: Swift.Int?
@@ -10969,7 +10969,7 @@ extension ListWorkloadsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a list workloads call.
-public struct ListWorkloadsOutput: Swift.Equatable {
+public struct ListWorkloadsOutput {
     /// The token to use to retrieve the next set of results.
     public var nextToken: Swift.String?
     /// A list of workload summaries.
@@ -10985,7 +10985,7 @@ public struct ListWorkloadsOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkloadsOutputBody: Swift.Equatable {
+struct ListWorkloadsOutputBody {
     let workloadSummaries: [WellArchitectedClientTypes.WorkloadSummary]?
     let nextToken: Swift.String?
 }
@@ -11096,7 +11096,7 @@ extension WellArchitectedClientTypes.Milestone: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A milestone return object.
-    public struct Milestone: Swift.Equatable {
+    public struct Milestone {
         /// The name of the milestone in a workload. Milestone names must be unique within a workload.
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -11161,7 +11161,7 @@ extension WellArchitectedClientTypes.MilestoneSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A milestone summary return object.
-    public struct MilestoneSummary: Swift.Equatable {
+    public struct MilestoneSummary {
         /// The name of the milestone in a workload. Milestone names must be unique within a workload.
         public var milestoneName: Swift.String?
         /// The milestone number. A workload can have a maximum of 100 milestones.
@@ -11214,7 +11214,7 @@ extension WellArchitectedClientTypes.NotificationSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A notification summary return object.
-    public struct NotificationSummary: Swift.Equatable {
+    public struct NotificationSummary {
         /// Summary of lens upgrade.
         public var lensUpgradeSummary: WellArchitectedClientTypes.LensUpgradeSummary?
         /// The type of notification.
@@ -11380,7 +11380,7 @@ extension WellArchitectedClientTypes.PillarDifference: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A pillar difference return object.
-    public struct PillarDifference: Swift.Equatable {
+    public struct PillarDifference {
         /// Indicates the type of change to the pillar.
         public var differenceStatus: WellArchitectedClientTypes.DifferenceStatus?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -11463,7 +11463,7 @@ extension WellArchitectedClientTypes.PillarMetric: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A metric for a particular pillar in a lens.
-    public struct PillarMetric: Swift.Equatable {
+    public struct PillarMetric {
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// The questions that have been identified as risks in the pillar.
@@ -11554,7 +11554,7 @@ extension WellArchitectedClientTypes.PillarReviewSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A pillar review summary of a lens review.
-    public struct PillarReviewSummary: Swift.Equatable {
+    public struct PillarReviewSummary {
         /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -11683,7 +11683,7 @@ extension WellArchitectedClientTypes.Profile: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A profile.
-    public struct Profile: Swift.Equatable {
+    public struct Profile {
         /// The date and time recorded.
         public var createdAt: ClientRuntime.Date?
         /// An Amazon Web Services account ID.
@@ -11766,7 +11766,7 @@ extension WellArchitectedClientTypes.ProfileChoice: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The profile choice.
-    public struct ProfileChoice: Swift.Equatable {
+    public struct ProfileChoice {
         /// The description of a choice.
         public var choiceDescription: Swift.String?
         /// The ID of a choice.
@@ -11845,7 +11845,7 @@ extension WellArchitectedClientTypes.ProfileNotificationSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The profile notification summary.
-    public struct ProfileNotificationSummary: Swift.Equatable {
+    public struct ProfileNotificationSummary {
         /// The current profile version.
         public var currentProfileVersion: Swift.String?
         /// The latest profile version.
@@ -12028,7 +12028,7 @@ extension WellArchitectedClientTypes.ProfileQuestion: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A profile question.
-    public struct ProfileQuestion: Swift.Equatable {
+    public struct ProfileQuestion {
         /// The maximum number of selected choices.
         public var maxSelectedChoices: Swift.Int?
         /// The minimum number of selected choices.
@@ -12105,7 +12105,7 @@ extension WellArchitectedClientTypes.ProfileQuestionUpdate: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// An update to a profile question.
-    public struct ProfileQuestionUpdate: Swift.Equatable {
+    public struct ProfileQuestionUpdate {
         /// The ID of the question.
         public var questionId: Swift.String?
         /// The selected choices.
@@ -12162,7 +12162,7 @@ extension WellArchitectedClientTypes.ProfileShareSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Summary of a profile share.
-    public struct ProfileShareSummary: Swift.Equatable {
+    public struct ProfileShareSummary {
         /// The ID associated with the share.
         public var shareId: Swift.String?
         /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
@@ -12245,7 +12245,7 @@ extension WellArchitectedClientTypes.ProfileSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Summary of a profile.
-    public struct ProfileSummary: Swift.Equatable {
+    public struct ProfileSummary {
         /// The date and time recorded.
         public var createdAt: ClientRuntime.Date?
         /// An Amazon Web Services account ID.
@@ -12334,7 +12334,7 @@ extension WellArchitectedClientTypes.ProfileTemplate: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The profile template.
-    public struct ProfileTemplate: Swift.Equatable {
+    public struct ProfileTemplate {
         /// The date and time recorded.
         public var createdAt: ClientRuntime.Date?
         /// The name of the profile template.
@@ -12393,7 +12393,7 @@ extension WellArchitectedClientTypes.ProfileTemplateChoice: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A profile template choice.
-    public struct ProfileTemplateChoice: Swift.Equatable {
+    public struct ProfileTemplateChoice {
         /// The description of a choice.
         public var choiceDescription: Swift.String?
         /// The ID of a choice.
@@ -12478,7 +12478,7 @@ extension WellArchitectedClientTypes.ProfileTemplateQuestion: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A profile template question.
-    public struct ProfileTemplateQuestion: Swift.Equatable {
+    public struct ProfileTemplateQuestion {
         /// The maximum number of choices selected.
         public var maxSelectedChoices: Swift.Int?
         /// The minimum number of choices selected.
@@ -12577,7 +12577,7 @@ extension WellArchitectedClientTypes.QuestionDifference: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A question difference return object.
-    public struct QuestionDifference: Swift.Equatable {
+    public struct QuestionDifference {
         /// Indicates the type of change to the question.
         public var differenceStatus: WellArchitectedClientTypes.DifferenceStatus?
         /// The ID of the question.
@@ -12644,7 +12644,7 @@ extension WellArchitectedClientTypes.QuestionMetric: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A metric for a particular question in the pillar.
-    public struct QuestionMetric: Swift.Equatable {
+    public struct QuestionMetric {
         /// The best practices, or choices, that have been identified as contributing to risk in a question.
         public var bestPractices: [WellArchitectedClientTypes.BestPractice]?
         /// The ID of the question.
@@ -12817,7 +12817,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -12958,7 +12958,7 @@ extension WellArchitectedClientTypes.ReviewTemplate: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A review template.
-    public struct ReviewTemplate: Swift.Equatable {
+    public struct ReviewTemplate {
         /// The review template description.
         public var description: Swift.String?
         /// The lenses applied to the review template.
@@ -13147,7 +13147,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswer: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// An answer of the question.
-    public struct ReviewTemplateAnswer: Swift.Equatable {
+    public struct ReviewTemplateAnswer {
         /// The status of whether or not this question has been answered.
         public var answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus?
         /// A list of selected choices to a question in your review template.
@@ -13356,7 +13356,7 @@ extension WellArchitectedClientTypes.ReviewTemplateAnswerSummary: Swift.Codable 
 
 extension WellArchitectedClientTypes {
     /// The summary of review template answers.
-    public struct ReviewTemplateAnswerSummary: Swift.Equatable {
+    public struct ReviewTemplateAnswerSummary {
         /// The status of whether or not this question has been answered.
         public var answerStatus: WellArchitectedClientTypes.ReviewTemplateAnswerStatus?
         /// A list of selected choices to a question in the review template.
@@ -13505,7 +13505,7 @@ extension WellArchitectedClientTypes.ReviewTemplateLensReview: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The lens review of a review template.
-    public struct ReviewTemplateLensReview: Swift.Equatable {
+    public struct ReviewTemplateLensReview {
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The lens ARN.
@@ -13606,7 +13606,7 @@ extension WellArchitectedClientTypes.ReviewTemplatePillarReviewSummary: Swift.Co
 
 extension WellArchitectedClientTypes {
     /// Summary of a review template.
-    public struct ReviewTemplatePillarReviewSummary: Swift.Equatable {
+    public struct ReviewTemplatePillarReviewSummary {
         /// The notes associated with the workload. For a review template, these are the notes that will be associated with the workload when the template is applied.
         public var notes: Swift.String?
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
@@ -13701,7 +13701,7 @@ extension WellArchitectedClientTypes.ReviewTemplateSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Summary of a review template.
-    public struct ReviewTemplateSummary: Swift.Equatable {
+    public struct ReviewTemplateSummary {
         /// Description of the review template.
         public var description: Swift.String?
         /// Lenses associated with the review template.
@@ -13852,7 +13852,7 @@ extension WellArchitectedClientTypes.SelectedPillar: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The selected pillar.
-    public struct SelectedPillar: Swift.Equatable {
+    public struct SelectedPillar {
         /// The ID used to identify a pillar, for example, security. A pillar is identified by its [PillarReviewSummary$PillarId].
         public var pillarId: Swift.String?
         /// Selected question IDs in the selected pillar.
@@ -13937,7 +13937,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -14026,7 +14026,7 @@ extension WellArchitectedClientTypes.ShareInvitation: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The share invitation.
-    public struct ShareInvitation: Swift.Equatable {
+    public struct ShareInvitation {
         /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
         public var lensAlias: Swift.String?
         /// The ARN for the lens.
@@ -14190,7 +14190,7 @@ extension WellArchitectedClientTypes.ShareInvitationSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A share invitation summary return object.
-    public struct ShareInvitationSummary: Swift.Equatable {
+    public struct ShareInvitationSummary {
         /// The ARN for the lens.
         public var lensArn: Swift.String?
         /// The full name of the lens.
@@ -14367,7 +14367,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The tags for the resource.
     /// This member is required.
     public var tags: [Swift.String:Swift.String]?
@@ -14385,7 +14385,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -14415,7 +14415,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -14471,7 +14471,7 @@ extension WellArchitectedClientTypes.TemplateShareSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Summary of a review template share.
-    public struct TemplateShareSummary: Swift.Equatable {
+    public struct TemplateShareSummary {
         /// The ID associated with the share.
         public var shareId: Swift.String?
         /// The Amazon Web Services account ID, organization ID, or organizational unit (OU) ID with which the workload, lens, profile, or review template is shared.
@@ -14550,7 +14550,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let quotaCode: Swift.String?
     let serviceCode: Swift.String?
@@ -14632,7 +14632,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// A list of tag keys. Existing tags of the resource whose keys are members of this list are removed from the resource.
     /// This member is required.
     public var tagKeys: [Swift.String]?
@@ -14650,7 +14650,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -14664,7 +14664,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -14733,7 +14733,7 @@ extension UpdateAnswerInput {
 }
 
 /// Input to update answer.
-public struct UpdateAnswerInput: Swift.Equatable {
+public struct UpdateAnswerInput {
     /// A list of choices to update on a question in your workload. The String key corresponds to the choice ID to be updated.
     public var choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     /// Defines whether this question is applicable to a lens review.
@@ -14776,7 +14776,7 @@ public struct UpdateAnswerInput: Swift.Equatable {
     }
 }
 
-struct UpdateAnswerInputBody: Swift.Equatable {
+struct UpdateAnswerInputBody {
     let selectedChoices: [Swift.String]?
     let choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     let notes: Swift.String?
@@ -14845,7 +14845,7 @@ extension UpdateAnswerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a update answer call.
-public struct UpdateAnswerOutput: Swift.Equatable {
+public struct UpdateAnswerOutput {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.Answer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -14869,7 +14869,7 @@ public struct UpdateAnswerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAnswerOutputBody: Swift.Equatable {
+struct UpdateAnswerOutputBody {
     let workloadId: Swift.String?
     let lensAlias: Swift.String?
     let lensArn: Swift.String?
@@ -14941,7 +14941,7 @@ extension UpdateGlobalSettingsInput {
     }
 }
 
-public struct UpdateGlobalSettingsInput: Swift.Equatable {
+public struct UpdateGlobalSettingsInput {
     /// The status of discovery support settings.
     public var discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
     /// The status of Jira integration settings.
@@ -14961,7 +14961,7 @@ public struct UpdateGlobalSettingsInput: Swift.Equatable {
     }
 }
 
-struct UpdateGlobalSettingsInputBody: Swift.Equatable {
+struct UpdateGlobalSettingsInputBody {
     let organizationSharingStatus: WellArchitectedClientTypes.OrganizationSharingStatus?
     let discoveryIntegrationStatus: WellArchitectedClientTypes.DiscoveryIntegrationStatus?
     let jiraConfiguration: WellArchitectedClientTypes.AccountJiraConfigurationInput?
@@ -14990,7 +14990,7 @@ extension UpdateGlobalSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateGlobalSettingsOutput: Swift.Equatable {
+public struct UpdateGlobalSettingsOutput {
 
     public init() { }
 }
@@ -15037,7 +15037,7 @@ extension UpdateIntegrationInput {
     }
 }
 
-public struct UpdateIntegrationInput: Swift.Equatable {
+public struct UpdateIntegrationInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     /// This member is required.
     public var clientRequestToken: Swift.String?
@@ -15060,7 +15060,7 @@ public struct UpdateIntegrationInput: Swift.Equatable {
     }
 }
 
-struct UpdateIntegrationInputBody: Swift.Equatable {
+struct UpdateIntegrationInputBody {
     let clientRequestToken: Swift.String?
     let integratingService: WellArchitectedClientTypes.IntegratingService?
 }
@@ -15085,7 +15085,7 @@ extension UpdateIntegrationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateIntegrationOutput: Swift.Equatable {
+public struct UpdateIntegrationOutput {
 
     public init() { }
 }
@@ -15144,7 +15144,7 @@ extension UpdateLensReviewInput {
 }
 
 /// Input for update lens review.
-public struct UpdateLensReviewInput: Swift.Equatable {
+public struct UpdateLensReviewInput {
     /// Configuration of the Jira integration.
     public var jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -15174,7 +15174,7 @@ public struct UpdateLensReviewInput: Swift.Equatable {
     }
 }
 
-struct UpdateLensReviewInputBody: Swift.Equatable {
+struct UpdateLensReviewInputBody {
     let lensNotes: Swift.String?
     let pillarNotes: [Swift.String:Swift.String]?
     let jiraConfiguration: WellArchitectedClientTypes.JiraSelectedQuestionConfiguration?
@@ -15222,7 +15222,7 @@ extension UpdateLensReviewOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of a update lens review call.
-public struct UpdateLensReviewOutput: Swift.Equatable {
+public struct UpdateLensReviewOutput {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.LensReview?
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
@@ -15238,7 +15238,7 @@ public struct UpdateLensReviewOutput: Swift.Equatable {
     }
 }
 
-struct UpdateLensReviewOutputBody: Swift.Equatable {
+struct UpdateLensReviewOutputBody {
     let workloadId: Swift.String?
     let lensReview: WellArchitectedClientTypes.LensReview?
 }
@@ -15304,7 +15304,7 @@ extension UpdateProfileInput {
     }
 }
 
-public struct UpdateProfileInput: Swift.Equatable {
+public struct UpdateProfileInput {
     /// The profile ARN.
     /// This member is required.
     public var profileArn: Swift.String?
@@ -15325,7 +15325,7 @@ public struct UpdateProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileInputBody: Swift.Equatable {
+struct UpdateProfileInputBody {
     let profileDescription: Swift.String?
     let profileQuestions: [WellArchitectedClientTypes.ProfileQuestionUpdate]?
 }
@@ -15366,7 +15366,7 @@ extension UpdateProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateProfileOutput: Swift.Equatable {
+public struct UpdateProfileOutput {
     /// The profile.
     public var profile: WellArchitectedClientTypes.Profile?
 
@@ -15378,7 +15378,7 @@ public struct UpdateProfileOutput: Swift.Equatable {
     }
 }
 
-struct UpdateProfileOutputBody: Swift.Equatable {
+struct UpdateProfileOutputBody {
     let profile: WellArchitectedClientTypes.Profile?
 }
 
@@ -15461,7 +15461,7 @@ extension UpdateReviewTemplateAnswerInput {
     }
 }
 
-public struct UpdateReviewTemplateAnswerInput: Swift.Equatable {
+public struct UpdateReviewTemplateAnswerInput {
     /// A list of choices to be updated.
     public var choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     /// Defines whether this question is applicable to a lens review.
@@ -15504,7 +15504,7 @@ public struct UpdateReviewTemplateAnswerInput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateAnswerInputBody: Swift.Equatable {
+struct UpdateReviewTemplateAnswerInputBody {
     let selectedChoices: [Swift.String]?
     let choiceUpdates: [Swift.String:WellArchitectedClientTypes.ChoiceUpdate]?
     let notes: Swift.String?
@@ -15570,7 +15570,7 @@ extension UpdateReviewTemplateAnswerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReviewTemplateAnswerOutput: Swift.Equatable {
+public struct UpdateReviewTemplateAnswerOutput {
     /// An answer of the question.
     public var answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -15590,7 +15590,7 @@ public struct UpdateReviewTemplateAnswerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateAnswerOutputBody: Swift.Equatable {
+struct UpdateReviewTemplateAnswerOutputBody {
     let templateArn: Swift.String?
     let lensAlias: Swift.String?
     let answer: WellArchitectedClientTypes.ReviewTemplateAnswer?
@@ -15675,7 +15675,7 @@ extension UpdateReviewTemplateInput {
     }
 }
 
-public struct UpdateReviewTemplateInput: Swift.Equatable {
+public struct UpdateReviewTemplateInput {
     /// The review template description.
     public var description: Swift.String?
     /// A list of lens aliases or ARNs to apply to the review template.
@@ -15708,7 +15708,7 @@ public struct UpdateReviewTemplateInput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateInputBody: Swift.Equatable {
+struct UpdateReviewTemplateInputBody {
     let templateName: Swift.String?
     let description: Swift.String?
     let notes: Swift.String?
@@ -15791,7 +15791,7 @@ extension UpdateReviewTemplateLensReviewInput {
     }
 }
 
-public struct UpdateReviewTemplateLensReviewInput: Swift.Equatable {
+public struct UpdateReviewTemplateLensReviewInput {
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
     /// This member is required.
     public var lensAlias: Swift.String?
@@ -15817,7 +15817,7 @@ public struct UpdateReviewTemplateLensReviewInput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateLensReviewInputBody: Swift.Equatable {
+struct UpdateReviewTemplateLensReviewInputBody {
     let lensNotes: Swift.String?
     let pillarNotes: [Swift.String:Swift.String]?
 }
@@ -15860,7 +15860,7 @@ extension UpdateReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct UpdateReviewTemplateLensReviewOutput: Swift.Equatable {
+public struct UpdateReviewTemplateLensReviewOutput {
     /// A lens review of a question.
     public var lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
     /// The review template ARN.
@@ -15876,7 +15876,7 @@ public struct UpdateReviewTemplateLensReviewOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateLensReviewOutputBody: Swift.Equatable {
+struct UpdateReviewTemplateLensReviewOutputBody {
     let templateArn: Swift.String?
     let lensReview: WellArchitectedClientTypes.ReviewTemplateLensReview?
 }
@@ -15924,7 +15924,7 @@ extension UpdateReviewTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateReviewTemplateOutput: Swift.Equatable {
+public struct UpdateReviewTemplateOutput {
     /// A review template.
     public var reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
 
@@ -15936,7 +15936,7 @@ public struct UpdateReviewTemplateOutput: Swift.Equatable {
     }
 }
 
-struct UpdateReviewTemplateOutputBody: Swift.Equatable {
+struct UpdateReviewTemplateOutputBody {
     let reviewTemplate: WellArchitectedClientTypes.ReviewTemplate?
 }
 
@@ -15992,7 +15992,7 @@ extension UpdateShareInvitationInput {
 }
 
 /// Input for Update Share Invitation
-public struct UpdateShareInvitationInput: Swift.Equatable {
+public struct UpdateShareInvitationInput {
     /// Share invitation action taken by contributor.
     /// This member is required.
     public var shareInvitationAction: WellArchitectedClientTypes.ShareInvitationAction?
@@ -16010,7 +16010,7 @@ public struct UpdateShareInvitationInput: Swift.Equatable {
     }
 }
 
-struct UpdateShareInvitationInputBody: Swift.Equatable {
+struct UpdateShareInvitationInputBody {
     let shareInvitationAction: WellArchitectedClientTypes.ShareInvitationAction?
 }
 
@@ -16038,7 +16038,7 @@ extension UpdateShareInvitationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateShareInvitationOutput: Swift.Equatable {
+public struct UpdateShareInvitationOutput {
     /// The updated workload or custom lens share invitation.
     public var shareInvitation: WellArchitectedClientTypes.ShareInvitation?
 
@@ -16050,7 +16050,7 @@ public struct UpdateShareInvitationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateShareInvitationOutputBody: Swift.Equatable {
+struct UpdateShareInvitationOutputBody {
     let shareInvitation: WellArchitectedClientTypes.ShareInvitation?
 }
 
@@ -16185,7 +16185,7 @@ extension UpdateWorkloadInput {
 }
 
 /// Input to update a workload.
-public struct UpdateWorkloadInput: Swift.Equatable {
+public struct UpdateWorkloadInput {
     /// The list of Amazon Web Services account IDs associated with the workload.
     public var accountIds: [Swift.String]?
     /// List of AppRegistry application ARNs to associate to the workload.
@@ -16320,7 +16320,7 @@ public struct UpdateWorkloadInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadInputBody: Swift.Equatable {
+struct UpdateWorkloadInputBody {
     let workloadName: Swift.String?
     let description: Swift.String?
     let environment: WellArchitectedClientTypes.WorkloadEnvironment?
@@ -16458,7 +16458,7 @@ extension UpdateWorkloadOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Output of an update workload call.
-public struct UpdateWorkloadOutput: Swift.Equatable {
+public struct UpdateWorkloadOutput {
     /// A workload return object.
     public var workload: WellArchitectedClientTypes.Workload?
 
@@ -16470,7 +16470,7 @@ public struct UpdateWorkloadOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadOutputBody: Swift.Equatable {
+struct UpdateWorkloadOutputBody {
     let workload: WellArchitectedClientTypes.Workload?
 }
 
@@ -16529,7 +16529,7 @@ extension UpdateWorkloadShareInput {
 }
 
 /// Input for Update Workload Share
-public struct UpdateWorkloadShareInput: Swift.Equatable {
+public struct UpdateWorkloadShareInput {
     /// Permission granted on a share request.
     /// This member is required.
     public var permissionType: WellArchitectedClientTypes.PermissionType?
@@ -16552,7 +16552,7 @@ public struct UpdateWorkloadShareInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadShareInputBody: Swift.Equatable {
+struct UpdateWorkloadShareInputBody {
     let permissionType: WellArchitectedClientTypes.PermissionType?
 }
 
@@ -16583,7 +16583,7 @@ extension UpdateWorkloadShareOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Input for Update Workload Share
-public struct UpdateWorkloadShareOutput: Swift.Equatable {
+public struct UpdateWorkloadShareOutput {
     /// The ID assigned to the workload. This ID is unique within an Amazon Web Services Region.
     public var workloadId: Swift.String?
     /// A workload share return object.
@@ -16599,7 +16599,7 @@ public struct UpdateWorkloadShareOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkloadShareOutputBody: Swift.Equatable {
+struct UpdateWorkloadShareOutputBody {
     let workloadId: Swift.String?
     let workloadShare: WellArchitectedClientTypes.WorkloadShare?
 }
@@ -16665,7 +16665,7 @@ extension UpgradeLensReviewInput {
     }
 }
 
-public struct UpgradeLensReviewInput: Swift.Equatable {
+public struct UpgradeLensReviewInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     public var clientRequestToken: Swift.String?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -16692,7 +16692,7 @@ public struct UpgradeLensReviewInput: Swift.Equatable {
     }
 }
 
-struct UpgradeLensReviewInputBody: Swift.Equatable {
+struct UpgradeLensReviewInputBody {
     let milestoneName: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -16717,7 +16717,7 @@ extension UpgradeLensReviewOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpgradeLensReviewOutput: Swift.Equatable {
+public struct UpgradeLensReviewOutput {
 
     public init() { }
 }
@@ -16769,7 +16769,7 @@ extension UpgradeProfileVersionInput {
     }
 }
 
-public struct UpgradeProfileVersionInput: Swift.Equatable {
+public struct UpgradeProfileVersionInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     public var clientRequestToken: Swift.String?
     /// The name of the milestone in a workload. Milestone names must be unique within a workload.
@@ -16795,7 +16795,7 @@ public struct UpgradeProfileVersionInput: Swift.Equatable {
     }
 }
 
-struct UpgradeProfileVersionInputBody: Swift.Equatable {
+struct UpgradeProfileVersionInputBody {
     let milestoneName: Swift.String?
     let clientRequestToken: Swift.String?
 }
@@ -16820,7 +16820,7 @@ extension UpgradeProfileVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpgradeProfileVersionOutput: Swift.Equatable {
+public struct UpgradeProfileVersionOutput {
 
     public init() { }
 }
@@ -16868,7 +16868,7 @@ extension UpgradeReviewTemplateLensReviewInput {
     }
 }
 
-public struct UpgradeReviewTemplateLensReviewInput: Swift.Equatable {
+public struct UpgradeReviewTemplateLensReviewInput {
     /// A unique case-sensitive string used to ensure that this request is idempotent (executes only once). You should not reuse the same token for other requests. If you retry a request with the same client request token and the same parameters after the original request has completed successfully, the result of the original request is returned. This token is listed as required, however, if you do not specify it, the Amazon Web Services SDKs automatically generate one for you. If you are not using the Amazon Web Services SDK or the CLI, you must provide this token or the request will fail.
     public var clientRequestToken: Swift.String?
     /// The alias of the lens. For Amazon Web Services official lenses, this is either the lens alias, such as serverless, or the lens ARN, such as arn:aws:wellarchitected:us-east-1::lens/serverless. Note that some operations (such as ExportLens and CreateLensShare) are not permitted on Amazon Web Services official lenses. For custom lenses, this is the lens ARN, such as arn:aws:wellarchitected:us-west-2:123456789012:lens/0123456789abcdef01234567890abcdef. Each lens is identified by its [LensSummary$LensAlias].
@@ -16890,7 +16890,7 @@ public struct UpgradeReviewTemplateLensReviewInput: Swift.Equatable {
     }
 }
 
-struct UpgradeReviewTemplateLensReviewInputBody: Swift.Equatable {
+struct UpgradeReviewTemplateLensReviewInputBody {
     let clientRequestToken: Swift.String?
 }
 
@@ -16911,7 +16911,7 @@ extension UpgradeReviewTemplateLensReviewOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpgradeReviewTemplateLensReviewOutput: Swift.Equatable {
+public struct UpgradeReviewTemplateLensReviewOutput {
 
     public init() { }
 }
@@ -16985,7 +16985,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: WellArchitectedClientTypes.ValidationExceptionReason?
     let fields: [WellArchitectedClientTypes.ValidationExceptionField]?
@@ -17045,7 +17045,7 @@ extension WellArchitectedClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Stores information about a field passed inside a request that resulted in an exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Description of the error.
         /// This member is required.
         public var message: Swift.String?
@@ -17137,7 +17137,7 @@ extension WellArchitectedClientTypes.VersionDifferences: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The differences between the base and latest versions of the lens.
-    public struct VersionDifferences: Swift.Equatable {
+    public struct VersionDifferences {
         /// The differences between the base and latest versions of the lens.
         public var pillarDifferences: [WellArchitectedClientTypes.PillarDifference]?
 
@@ -17456,7 +17456,7 @@ extension WellArchitectedClientTypes.Workload: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A workload return object.
-    public struct Workload: Swift.Equatable {
+    public struct Workload {
         /// The list of Amazon Web Services account IDs associated with the workload.
         public var accountIds: [Swift.String]?
         /// List of AppRegistry application ARNs associated to the workload.
@@ -17671,7 +17671,7 @@ extension WellArchitectedClientTypes.WorkloadDiscoveryConfig: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// Discovery configuration associated to the workload.
-    public struct WorkloadDiscoveryConfig: Swift.Equatable {
+    public struct WorkloadDiscoveryConfig {
         /// Discovery integration status in respect to Trusted Advisor for the workload.
         public var trustedAdvisorIntegrationStatus: WellArchitectedClientTypes.TrustedAdvisorIntegrationStatus?
         /// The mode to use for identifying resources associated with the workload. You can specify WORKLOAD_METADATA, APP_REGISTRY, or both.
@@ -17832,7 +17832,7 @@ extension WellArchitectedClientTypes.WorkloadJiraConfigurationInput: Swift.Codab
 
 extension WellArchitectedClientTypes {
     /// Workload-level: Input for the Jira configuration.
-    public struct WorkloadJiraConfigurationInput: Swift.Equatable {
+    public struct WorkloadJiraConfigurationInput {
         /// Workload-level: Jira issue management status.
         public var issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus?
         /// Workload-level: Jira issue management type.
@@ -17893,7 +17893,7 @@ extension WellArchitectedClientTypes.WorkloadJiraConfigurationOutput: Swift.Coda
 
 extension WellArchitectedClientTypes {
     /// Workload-level: Output configuration of the Jira integration.
-    public struct WorkloadJiraConfigurationOutput: Swift.Equatable {
+    public struct WorkloadJiraConfigurationOutput {
         /// Workload-level: Jira issue management status.
         public var issueManagementStatus: WellArchitectedClientTypes.WorkloadIssueManagementStatus?
         /// Workload-level: Jira issue management type.
@@ -17946,7 +17946,7 @@ extension WellArchitectedClientTypes.WorkloadProfile: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// The profile associated with a workload.
-    public struct WorkloadProfile: Swift.Equatable {
+    public struct WorkloadProfile {
         /// The profile ARN.
         public var profileArn: Swift.String?
         /// The profile version.
@@ -18021,7 +18021,7 @@ extension WellArchitectedClientTypes.WorkloadShare: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A workload share return object.
-    public struct WorkloadShare: Swift.Equatable {
+    public struct WorkloadShare {
         /// Permission granted on a share request.
         public var permissionType: WellArchitectedClientTypes.PermissionType?
         /// The ID associated with the share.
@@ -18104,7 +18104,7 @@ extension WellArchitectedClientTypes.WorkloadShareSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A workload share summary return object.
-    public struct WorkloadShareSummary: Swift.Equatable {
+    public struct WorkloadShareSummary {
         /// Permission granted on a share request.
         public var permissionType: WellArchitectedClientTypes.PermissionType?
         /// The ID associated with the share.
@@ -18257,7 +18257,7 @@ extension WellArchitectedClientTypes.WorkloadSummary: Swift.Codable {
 
 extension WellArchitectedClientTypes {
     /// A workload summary return object.
-    public struct WorkloadSummary: Swift.Equatable {
+    public struct WorkloadSummary {
         /// The improvement status for a workload.
         public var improvementStatus: WellArchitectedClientTypes.WorkloadImprovementStatus?
         /// The list of lenses associated with the workload. Each lens is identified by its [LensSummary$LensAlias]. If a review template that specifies lenses is applied to the workload, those lenses are applied to the workload in addition to these lenses.

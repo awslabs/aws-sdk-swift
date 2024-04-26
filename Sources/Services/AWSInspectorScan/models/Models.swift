@@ -42,7 +42,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
 }
 
@@ -116,7 +116,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
     let reason: InspectorScanClientTypes.InternalServerExceptionReason?
 }
@@ -224,7 +224,7 @@ extension ScanSbomInput {
     }
 }
 
-public struct ScanSbomInput: Swift.Equatable {
+public struct ScanSbomInput {
     /// The output format for the vulnerability report.
     public var outputFormat: InspectorScanClientTypes.OutputFormat?
     /// The JSON file for the SBOM you want to scan. The SBOM must be in CycloneDX 1.5 format.
@@ -241,7 +241,7 @@ public struct ScanSbomInput: Swift.Equatable {
     }
 }
 
-struct ScanSbomInputBody: Swift.Equatable {
+struct ScanSbomInputBody {
     let sbom: ClientRuntime.Document?
     let outputFormat: InspectorScanClientTypes.OutputFormat?
 }
@@ -273,7 +273,7 @@ extension ScanSbomOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ScanSbomOutput: Swift.Equatable {
+public struct ScanSbomOutput {
     /// The vulnerability report for the scanned SBOM.
     public var sbom: ClientRuntime.Document?
 
@@ -285,7 +285,7 @@ public struct ScanSbomOutput: Swift.Equatable {
     }
 }
 
-struct ScanSbomOutputBody: Swift.Equatable {
+struct ScanSbomOutputBody {
     let sbom: ClientRuntime.Document?
 }
 
@@ -364,7 +364,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -433,7 +433,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: InspectorScanClientTypes.ValidationExceptionReason?
     let fields: [InspectorScanClientTypes.ValidationExceptionField]?
@@ -493,7 +493,7 @@ extension InspectorScanClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension InspectorScanClientTypes {
     /// The request has failed validation due to missing required fields or having invalid inputs.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The validation exception message.
         /// This member is required.
         public var message: Swift.String?

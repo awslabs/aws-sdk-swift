@@ -151,7 +151,7 @@ extension GenerateDataSetInput {
 }
 
 /// Container for the parameters to the GenerateDataSet operation.
-public struct GenerateDataSetInput: Swift.Equatable {
+public struct GenerateDataSetInput {
     /// (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file. These key-value pairs can be used to correlated responses with tracking information from other systems.
     public var customerDefinedValues: [Swift.String:Swift.String]?
     /// The date a data set was published. For daily data sets, provide a date with day-level granularity for the desired day. For monthly data sets except those with prefix disbursed_amount, provide a date with month-level granularity for the desired month (the day value will be ignored). For data sets with prefix disbursed_amount, provide a date with day-level granularity for the desired day. For these data sets we will look backwards in time over the range of 31 days until the first data set is found (the latest one).
@@ -242,7 +242,7 @@ public struct GenerateDataSetInput: Swift.Equatable {
     }
 }
 
-struct GenerateDataSetInputBody: Swift.Equatable {
+struct GenerateDataSetInputBody {
     let dataSetType: MarketplaceCommerceAnalyticsClientTypes.DataSetType?
     let dataSetPublicationDate: ClientRuntime.Date?
     let roleNameArn: Swift.String?
@@ -304,7 +304,7 @@ extension GenerateDataSetOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Container for the result of the GenerateDataSet operation.
-public struct GenerateDataSetOutput: Swift.Equatable {
+public struct GenerateDataSetOutput {
     /// A unique identifier representing a specific request to the GenerateDataSet operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
@@ -316,7 +316,7 @@ public struct GenerateDataSetOutput: Swift.Equatable {
     }
 }
 
-struct GenerateDataSetOutputBody: Swift.Equatable {
+struct GenerateDataSetOutputBody {
     let dataSetRequestId: Swift.String?
 }
 
@@ -385,7 +385,7 @@ public struct MarketplaceCommerceAnalyticsException: ClientRuntime.ModeledError,
     }
 }
 
-struct MarketplaceCommerceAnalyticsExceptionBody: Swift.Equatable {
+struct MarketplaceCommerceAnalyticsExceptionBody {
     let message: Swift.String?
 }
 
@@ -450,7 +450,7 @@ extension StartSupportDataExportInput {
 
 /// This target has been deprecated. Container for the parameters to the StartSupportDataExport operation.
 @available(*, deprecated, message: "This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.")
-public struct StartSupportDataExportInput: Swift.Equatable {
+public struct StartSupportDataExportInput {
     /// This target has been deprecated. (Optional) Key-value pairs which will be returned, unmodified, in the Amazon SNS notification message and the data set metadata file.
     public var customerDefinedValues: [Swift.String:Swift.String]?
     /// This target has been deprecated. Specifies the data set type to be written to the output csv file. The data set types customer_support_contacts_data and test_customer_support_contacts_data both result in a csv file containing the following fields: Product Id, Product Code, Customer Guid, Subscription Guid, Subscription Start Date, Organization, AWS Account Id, Given Name, Surname, Telephone Number, Email, Title, Country Code, ZIP Code, Operation Type, and Operation Time.
@@ -495,7 +495,7 @@ public struct StartSupportDataExportInput: Swift.Equatable {
     }
 }
 
-struct StartSupportDataExportInputBody: Swift.Equatable {
+struct StartSupportDataExportInputBody {
     let dataSetType: MarketplaceCommerceAnalyticsClientTypes.SupportDataSetType?
     let fromDate: ClientRuntime.Date?
     let roleNameArn: Swift.String?
@@ -558,7 +558,7 @@ extension StartSupportDataExportOutput: ClientRuntime.HttpResponseBinding {
 
 /// This target has been deprecated. Container for the result of the StartSupportDataExport operation.
 @available(*, deprecated, message: "This target has been deprecated. As of December 2022 Product Support Connection is no longer supported.")
-public struct StartSupportDataExportOutput: Swift.Equatable {
+public struct StartSupportDataExportOutput {
     /// This target has been deprecated. A unique identifier representing a specific request to the StartSupportDataExport operation. This identifier can be used to correlate a request with notifications from the SNS topic.
     public var dataSetRequestId: Swift.String?
 
@@ -570,7 +570,7 @@ public struct StartSupportDataExportOutput: Swift.Equatable {
     }
 }
 
-struct StartSupportDataExportOutputBody: Swift.Equatable {
+struct StartSupportDataExportOutputBody {
     let dataSetRequestId: Swift.String?
 }
 

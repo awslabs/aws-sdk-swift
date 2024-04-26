@@ -29,7 +29,7 @@ extension DeadlineClientTypes.AcceleratorCountRange: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The range for the GPU fleet acceleration.
-    public struct AcceleratorCountRange: Swift.Equatable {
+    public struct AcceleratorCountRange {
         /// The maximum GPU for the accelerator.
         public var max: Swift.Int?
         /// The minimum GPU for the accelerator.
@@ -75,7 +75,7 @@ extension DeadlineClientTypes.AcceleratorTotalMemoryMiBRange: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The range for memory, in MiB, to use for the accelerator.
-    public struct AcceleratorTotalMemoryMiBRange: Swift.Equatable {
+    public struct AcceleratorTotalMemoryMiBRange {
         /// The maximum amount of memory to use for the accelerator, measured in MiB.
         public var max: Swift.Int?
         /// The minimum amount of memory to use for the accelerator, measured in MiB.
@@ -170,7 +170,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let context: [Swift.String:Swift.String]?
 }
@@ -220,7 +220,7 @@ extension DeadlineClientTypes.AssignedEnvironmentEnterSessionActionDefinition: S
 
 extension DeadlineClientTypes {
     /// The assigned starting environment for a worker during session.
-    public struct AssignedEnvironmentEnterSessionActionDefinition: Swift.Equatable {
+    public struct AssignedEnvironmentEnterSessionActionDefinition {
         /// The environment ID of the assigned environment at the start of a session.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -256,7 +256,7 @@ extension DeadlineClientTypes.AssignedEnvironmentExitSessionActionDefinition: Sw
 
 extension DeadlineClientTypes {
     /// The assigned environment when a worker exits a session.
-    public struct AssignedEnvironmentExitSessionActionDefinition: Swift.Equatable {
+    public struct AssignedEnvironmentExitSessionActionDefinition {
         /// The environment ID of the assigned environment when exiting a session.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -322,7 +322,7 @@ extension DeadlineClientTypes.AssignedSession: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The assigned session for the worker.
-    public struct AssignedSession: Swift.Equatable {
+    public struct AssignedSession {
         /// The job ID for the assigned session.
         /// This member is required.
         public var jobId: Swift.String?
@@ -379,7 +379,7 @@ extension DeadlineClientTypes.AssignedSessionAction: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The action for a session defined by the session action ID.
-    public struct AssignedSessionAction: Swift.Equatable {
+    public struct AssignedSessionAction {
         /// The definition of the assigned session action.
         /// This member is required.
         public var definition: DeadlineClientTypes.AssignedSessionActionDefinition?
@@ -452,7 +452,7 @@ extension DeadlineClientTypes.AssignedSessionActionDefinition: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The definition of the assigned session action.
-    public enum AssignedSessionActionDefinition: Swift.Equatable {
+    public enum AssignedSessionActionDefinition {
         /// The environment a session starts on.
         case enventer(DeadlineClientTypes.AssignedEnvironmentEnterSessionActionDefinition)
         /// The environment a session exits from.
@@ -487,7 +487,7 @@ extension DeadlineClientTypes.AssignedSyncInputJobAttachmentsSessionActionDefini
 
 extension DeadlineClientTypes {
     /// The details for an assigned session action as it relates to a job attachment.
-    public struct AssignedSyncInputJobAttachmentsSessionActionDefinition: Swift.Equatable {
+    public struct AssignedSyncInputJobAttachmentsSessionActionDefinition {
         /// The step ID.
         public var stepId: Swift.String?
 
@@ -551,7 +551,7 @@ extension DeadlineClientTypes.AssignedTaskRunSessionActionDefinition: Swift.Cust
 
 extension DeadlineClientTypes {
     /// The specific task, step, and parameters to include.
-    public struct AssignedTaskRunSessionActionDefinition: Swift.Equatable {
+    public struct AssignedTaskRunSessionActionDefinition {
         /// The parameters to include.
         /// This member is required.
         public var parameters: [Swift.String:DeadlineClientTypes.TaskParameterValue]?
@@ -610,7 +610,7 @@ extension AssociateMemberToFarmInput {
     }
 }
 
-public struct AssociateMemberToFarmInput: Swift.Equatable {
+public struct AssociateMemberToFarmInput {
     /// The ID of the farm to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -643,7 +643,7 @@ public struct AssociateMemberToFarmInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberToFarmInputBody: Swift.Equatable {
+struct AssociateMemberToFarmInputBody {
     let principalType: DeadlineClientTypes.DeadlinePrincipalType?
     let identityStoreId: Swift.String?
     let membershipLevel: DeadlineClientTypes.MembershipLevel?
@@ -672,7 +672,7 @@ extension AssociateMemberToFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberToFarmOutput: Swift.Equatable {
+public struct AssociateMemberToFarmOutput {
 
     public init() { }
 }
@@ -730,7 +730,7 @@ extension AssociateMemberToFleetInput {
     }
 }
 
-public struct AssociateMemberToFleetInput: Swift.Equatable {
+public struct AssociateMemberToFleetInput {
     /// The farm ID of the fleet to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -768,7 +768,7 @@ public struct AssociateMemberToFleetInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberToFleetInputBody: Swift.Equatable {
+struct AssociateMemberToFleetInputBody {
     let principalType: DeadlineClientTypes.DeadlinePrincipalType?
     let identityStoreId: Swift.String?
     let membershipLevel: DeadlineClientTypes.MembershipLevel?
@@ -797,7 +797,7 @@ extension AssociateMemberToFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberToFleetOutput: Swift.Equatable {
+public struct AssociateMemberToFleetOutput {
 
     public init() { }
 }
@@ -858,7 +858,7 @@ extension AssociateMemberToJobInput {
     }
 }
 
-public struct AssociateMemberToJobInput: Swift.Equatable {
+public struct AssociateMemberToJobInput {
     /// The farm ID of the job to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -901,7 +901,7 @@ public struct AssociateMemberToJobInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberToJobInputBody: Swift.Equatable {
+struct AssociateMemberToJobInputBody {
     let principalType: DeadlineClientTypes.DeadlinePrincipalType?
     let identityStoreId: Swift.String?
     let membershipLevel: DeadlineClientTypes.MembershipLevel?
@@ -930,7 +930,7 @@ extension AssociateMemberToJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberToJobOutput: Swift.Equatable {
+public struct AssociateMemberToJobOutput {
 
     public init() { }
 }
@@ -988,7 +988,7 @@ extension AssociateMemberToQueueInput {
     }
 }
 
-public struct AssociateMemberToQueueInput: Swift.Equatable {
+public struct AssociateMemberToQueueInput {
     /// The farm ID of the queue to associate with the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1026,7 +1026,7 @@ public struct AssociateMemberToQueueInput: Swift.Equatable {
     }
 }
 
-struct AssociateMemberToQueueInputBody: Swift.Equatable {
+struct AssociateMemberToQueueInputBody {
     let principalType: DeadlineClientTypes.DeadlinePrincipalType?
     let identityStoreId: Swift.String?
     let membershipLevel: DeadlineClientTypes.MembershipLevel?
@@ -1055,7 +1055,7 @@ extension AssociateMemberToQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssociateMemberToQueueOutput: Swift.Equatable {
+public struct AssociateMemberToQueueOutput {
 
     public init() { }
 }
@@ -1089,7 +1089,7 @@ extension AssumeFleetRoleForReadInput {
     }
 }
 
-public struct AssumeFleetRoleForReadInput: Swift.Equatable {
+public struct AssumeFleetRoleForReadInput {
     /// The farm ID for the fleet's farm.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1107,7 +1107,7 @@ public struct AssumeFleetRoleForReadInput: Swift.Equatable {
     }
 }
 
-struct AssumeFleetRoleForReadInputBody: Swift.Equatable {
+struct AssumeFleetRoleForReadInputBody {
 }
 
 extension AssumeFleetRoleForReadInputBody: Swift.Decodable {
@@ -1134,7 +1134,7 @@ extension AssumeFleetRoleForReadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeFleetRoleForReadOutput: Swift.Equatable {
+public struct AssumeFleetRoleForReadOutput {
     /// The credentials for the fleet role.
     /// This member is required.
     public var credentials: DeadlineClientTypes.AwsCredentials?
@@ -1147,7 +1147,7 @@ public struct AssumeFleetRoleForReadOutput: Swift.Equatable {
     }
 }
 
-struct AssumeFleetRoleForReadOutputBody: Swift.Equatable {
+struct AssumeFleetRoleForReadOutputBody {
     let credentials: DeadlineClientTypes.AwsCredentials?
 }
 
@@ -1194,7 +1194,7 @@ extension AssumeFleetRoleForWorkerInput {
     }
 }
 
-public struct AssumeFleetRoleForWorkerInput: Swift.Equatable {
+public struct AssumeFleetRoleForWorkerInput {
     /// The farm ID for the fleet's farm.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1217,7 +1217,7 @@ public struct AssumeFleetRoleForWorkerInput: Swift.Equatable {
     }
 }
 
-struct AssumeFleetRoleForWorkerInputBody: Swift.Equatable {
+struct AssumeFleetRoleForWorkerInputBody {
 }
 
 extension AssumeFleetRoleForWorkerInputBody: Swift.Decodable {
@@ -1244,7 +1244,7 @@ extension AssumeFleetRoleForWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeFleetRoleForWorkerOutput: Swift.Equatable {
+public struct AssumeFleetRoleForWorkerOutput {
     /// The credentials for the worker.
     /// This member is required.
     public var credentials: DeadlineClientTypes.AwsCredentials?
@@ -1257,7 +1257,7 @@ public struct AssumeFleetRoleForWorkerOutput: Swift.Equatable {
     }
 }
 
-struct AssumeFleetRoleForWorkerOutputBody: Swift.Equatable {
+struct AssumeFleetRoleForWorkerOutputBody {
     let credentials: DeadlineClientTypes.AwsCredentials?
 }
 
@@ -1302,7 +1302,7 @@ extension AssumeQueueRoleForReadInput {
     }
 }
 
-public struct AssumeQueueRoleForReadInput: Swift.Equatable {
+public struct AssumeQueueRoleForReadInput {
     /// The farm ID of the farm containing the queue.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1320,7 +1320,7 @@ public struct AssumeQueueRoleForReadInput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForReadInputBody: Swift.Equatable {
+struct AssumeQueueRoleForReadInputBody {
 }
 
 extension AssumeQueueRoleForReadInputBody: Swift.Decodable {
@@ -1347,7 +1347,7 @@ extension AssumeQueueRoleForReadOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeQueueRoleForReadOutput: Swift.Equatable {
+public struct AssumeQueueRoleForReadOutput {
     /// The credentials for the queue role.
     /// This member is required.
     public var credentials: DeadlineClientTypes.AwsCredentials?
@@ -1360,7 +1360,7 @@ public struct AssumeQueueRoleForReadOutput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForReadOutputBody: Swift.Equatable {
+struct AssumeQueueRoleForReadOutputBody {
     let credentials: DeadlineClientTypes.AwsCredentials?
 }
 
@@ -1404,7 +1404,7 @@ extension AssumeQueueRoleForUserInput {
     }
 }
 
-public struct AssumeQueueRoleForUserInput: Swift.Equatable {
+public struct AssumeQueueRoleForUserInput {
     /// The farm ID of the queue that the user assumes the role for.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1422,7 +1422,7 @@ public struct AssumeQueueRoleForUserInput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForUserInputBody: Swift.Equatable {
+struct AssumeQueueRoleForUserInputBody {
 }
 
 extension AssumeQueueRoleForUserInputBody: Swift.Decodable {
@@ -1449,7 +1449,7 @@ extension AssumeQueueRoleForUserOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeQueueRoleForUserOutput: Swift.Equatable {
+public struct AssumeQueueRoleForUserOutput {
     /// The credentials for the queue role that a user has access to.
     /// This member is required.
     public var credentials: DeadlineClientTypes.AwsCredentials?
@@ -1462,7 +1462,7 @@ public struct AssumeQueueRoleForUserOutput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForUserOutputBody: Swift.Equatable {
+struct AssumeQueueRoleForUserOutputBody {
     let credentials: DeadlineClientTypes.AwsCredentials?
 }
 
@@ -1523,7 +1523,7 @@ extension AssumeQueueRoleForWorkerInput {
     }
 }
 
-public struct AssumeQueueRoleForWorkerInput: Swift.Equatable {
+public struct AssumeQueueRoleForWorkerInput {
     /// The farm ID of the worker assuming the queue role.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1551,7 +1551,7 @@ public struct AssumeQueueRoleForWorkerInput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForWorkerInputBody: Swift.Equatable {
+struct AssumeQueueRoleForWorkerInputBody {
 }
 
 extension AssumeQueueRoleForWorkerInputBody: Swift.Decodable {
@@ -1578,7 +1578,7 @@ extension AssumeQueueRoleForWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AssumeQueueRoleForWorkerOutput: Swift.Equatable {
+public struct AssumeQueueRoleForWorkerOutput {
     /// The Amazon Web Services credentials for the role that the worker is assuming.
     public var credentials: DeadlineClientTypes.AwsCredentials?
 
@@ -1590,7 +1590,7 @@ public struct AssumeQueueRoleForWorkerOutput: Swift.Equatable {
     }
 }
 
-struct AssumeQueueRoleForWorkerOutputBody: Swift.Equatable {
+struct AssumeQueueRoleForWorkerOutputBody {
     let credentials: DeadlineClientTypes.AwsCredentials?
 }
 
@@ -1661,7 +1661,7 @@ extension DeadlineClientTypes.Attachments: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The attachments for jobs.
-    public struct Attachments: Swift.Equatable {
+    public struct Attachments {
         /// The file system.
         public var fileSystem: DeadlineClientTypes.JobAttachmentsFileSystem?
         /// A list of manifests which describe job attachment configurations.
@@ -1792,7 +1792,7 @@ extension DeadlineClientTypes.AwsCredentials: Swift.CustomDebugStringConvertible
 
 extension DeadlineClientTypes {
     /// The Identity and Access Management credentials.
-    public struct AwsCredentials: Swift.Equatable {
+    public struct AwsCredentials {
         /// The IAM access key ID.
         /// This member is required.
         public var accessKeyId: Swift.String?
@@ -1854,7 +1854,7 @@ extension BatchGetJobEntityInput {
     }
 }
 
-public struct BatchGetJobEntityInput: Swift.Equatable {
+public struct BatchGetJobEntityInput {
     /// The farm ID of the worker that's fetching job details. The worker must have an assignment on a job to fetch job details.
     /// This member is required.
     public var farmId: Swift.String?
@@ -1882,7 +1882,7 @@ public struct BatchGetJobEntityInput: Swift.Equatable {
     }
 }
 
-struct BatchGetJobEntityInputBody: Swift.Equatable {
+struct BatchGetJobEntityInputBody {
     let identifiers: [DeadlineClientTypes.JobEntityIdentifiersUnion]?
 }
 
@@ -1921,7 +1921,7 @@ extension BatchGetJobEntityOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetJobEntityOutput: Swift.Equatable {
+public struct BatchGetJobEntityOutput {
     /// A list of the job entities, or details, in the batch.
     /// This member is required.
     public var entities: [DeadlineClientTypes.JobEntity]?
@@ -1939,7 +1939,7 @@ public struct BatchGetJobEntityOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetJobEntityOutputBody: Swift.Equatable {
+struct BatchGetJobEntityOutputBody {
     let entities: [DeadlineClientTypes.JobEntity]?
     let errors: [DeadlineClientTypes.GetJobEntityError]?
 }
@@ -2030,7 +2030,7 @@ extension DeadlineClientTypes.BudgetActionToAdd: Swift.CustomDebugStringConverti
 
 extension DeadlineClientTypes {
     /// The budget action to add.
-    public struct BudgetActionToAdd: Swift.Equatable {
+    public struct BudgetActionToAdd {
         /// A description for the budget action to add.
         public var description: Swift.String?
         /// The percentage threshold for the budget action to add.
@@ -2081,7 +2081,7 @@ extension DeadlineClientTypes.BudgetActionToRemove: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The budget action to remove.
-    public struct BudgetActionToRemove: Swift.Equatable {
+    public struct BudgetActionToRemove {
         /// The percentage threshold for the budget action to remove.
         /// This member is required.
         public var thresholdPercentage: Swift.Float?
@@ -2162,7 +2162,7 @@ extension DeadlineClientTypes.BudgetSchedule: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The start and end time of the budget.
-    public enum BudgetSchedule: Swift.Equatable {
+    public enum BudgetSchedule {
         /// The fixed start and end time of the budget's schedule.
         case fixed(DeadlineClientTypes.FixedBudgetSchedule)
         case sdkUnknown(Swift.String)
@@ -2288,7 +2288,7 @@ extension DeadlineClientTypes.BudgetSummary: Swift.CustomDebugStringConvertible 
 
 extension DeadlineClientTypes {
     /// The budget summary.
-    public struct BudgetSummary: Swift.Equatable {
+    public struct BudgetSummary {
         /// The approximate dollar limit of the budget.
         /// This member is required.
         public var approximateDollarLimit: Swift.Float?
@@ -2506,7 +2506,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let reason: DeadlineClientTypes.ConflictExceptionReason?
     let resourceId: Swift.String?
@@ -2609,7 +2609,7 @@ extension DeadlineClientTypes.ConsumedUsages: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The consumed usage for the resource.
-    public struct ConsumedUsages: Swift.Equatable {
+    public struct ConsumedUsages {
         /// The amount of the budget consumed.
         /// This member is required.
         public var approximateDollarUsage: Swift.Float?
@@ -2653,7 +2653,7 @@ extension CopyJobTemplateInput {
     }
 }
 
-public struct CopyJobTemplateInput: Swift.Equatable {
+public struct CopyJobTemplateInput {
     /// The farm ID to copy.
     /// This member is required.
     public var farmId: Swift.String?
@@ -2681,7 +2681,7 @@ public struct CopyJobTemplateInput: Swift.Equatable {
     }
 }
 
-struct CopyJobTemplateInputBody: Swift.Equatable {
+struct CopyJobTemplateInputBody {
     let targetS3Location: DeadlineClientTypes.S3Location?
 }
 
@@ -2709,7 +2709,7 @@ extension CopyJobTemplateOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CopyJobTemplateOutput: Swift.Equatable {
+public struct CopyJobTemplateOutput {
     /// The format of the job template, either JSON or YAML.
     /// This member is required.
     public var templateType: DeadlineClientTypes.JobTemplateType?
@@ -2722,7 +2722,7 @@ public struct CopyJobTemplateOutput: Swift.Equatable {
     }
 }
 
-struct CopyJobTemplateOutputBody: Swift.Equatable {
+struct CopyJobTemplateOutputBody {
     let templateType: DeadlineClientTypes.JobTemplateType?
 }
 
@@ -2847,7 +2847,7 @@ extension CreateBudgetInput {
     }
 }
 
-public struct CreateBudgetInput: Swift.Equatable {
+public struct CreateBudgetInput {
     /// The budget actions to specify what happens when the budget runs out.
     /// This member is required.
     public var actions: [DeadlineClientTypes.BudgetActionToAdd]?
@@ -2893,7 +2893,7 @@ public struct CreateBudgetInput: Swift.Equatable {
     }
 }
 
-struct CreateBudgetInputBody: Swift.Equatable {
+struct CreateBudgetInputBody {
     let usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -2950,7 +2950,7 @@ extension CreateBudgetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateBudgetOutput: Swift.Equatable {
+public struct CreateBudgetOutput {
     /// The budget ID.
     /// This member is required.
     public var budgetId: Swift.String?
@@ -2963,7 +2963,7 @@ public struct CreateBudgetOutput: Swift.Equatable {
     }
 }
 
-struct CreateBudgetOutputBody: Swift.Equatable {
+struct CreateBudgetOutputBody {
     let budgetId: Swift.String?
 }
 
@@ -3046,7 +3046,7 @@ extension CreateFarmInput {
     }
 }
 
-public struct CreateFarmInput: Swift.Equatable {
+public struct CreateFarmInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The description of the farm.
@@ -3075,7 +3075,7 @@ public struct CreateFarmInput: Swift.Equatable {
     }
 }
 
-struct CreateFarmInputBody: Swift.Equatable {
+struct CreateFarmInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let kmsKeyArn: Swift.String?
@@ -3124,7 +3124,7 @@ extension CreateFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFarmOutput: Swift.Equatable {
+public struct CreateFarmOutput {
     /// The farm ID.
     /// This member is required.
     public var farmId: Swift.String?
@@ -3137,7 +3137,7 @@ public struct CreateFarmOutput: Swift.Equatable {
     }
 }
 
-struct CreateFarmOutputBody: Swift.Equatable {
+struct CreateFarmOutputBody {
     let farmId: Swift.String?
 }
 
@@ -3235,7 +3235,7 @@ extension CreateFleetInput {
     }
 }
 
-public struct CreateFleetInput: Swift.Equatable {
+public struct CreateFleetInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The configuration settings for the fleet. Customer managed fleets are self-managed. Service managed Amazon EC2 fleets are managed by Deadline Cloud.
@@ -3284,7 +3284,7 @@ public struct CreateFleetInput: Swift.Equatable {
     }
 }
 
-struct CreateFleetInputBody: Swift.Equatable {
+struct CreateFleetInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -3345,7 +3345,7 @@ extension CreateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFleetOutput: Swift.Equatable {
+public struct CreateFleetOutput {
     /// The fleet ID.
     /// This member is required.
     public var fleetId: Swift.String?
@@ -3358,7 +3358,7 @@ public struct CreateFleetOutput: Swift.Equatable {
     }
 }
 
-struct CreateFleetOutputBody: Swift.Equatable {
+struct CreateFleetOutputBody {
     let fleetId: Swift.String?
 }
 
@@ -3467,7 +3467,7 @@ extension CreateJobInput {
     }
 }
 
-public struct CreateJobInput: Swift.Equatable {
+public struct CreateJobInput {
     /// The attachments for the job. Attach files required for the job to run to a render job.
     public var attachments: DeadlineClientTypes.Attachments?
     /// The unique token which the server uses to recognize retries of the same request.
@@ -3528,7 +3528,7 @@ public struct CreateJobInput: Swift.Equatable {
     }
 }
 
-struct CreateJobInputBody: Swift.Equatable {
+struct CreateJobInputBody {
     let template: Swift.String?
     let templateType: DeadlineClientTypes.JobTemplateType?
     let priority: Swift.Int?
@@ -3597,7 +3597,7 @@ extension CreateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateJobOutput: Swift.Equatable {
+public struct CreateJobOutput {
     /// The job ID.
     /// This member is required.
     public var jobId: Swift.String?
@@ -3610,7 +3610,7 @@ public struct CreateJobOutput: Swift.Equatable {
     }
 }
 
-struct CreateJobOutputBody: Swift.Equatable {
+struct CreateJobOutputBody {
     let jobId: Swift.String?
 }
 
@@ -3726,7 +3726,7 @@ extension CreateLicenseEndpointInput {
     }
 }
 
-public struct CreateLicenseEndpointInput: Swift.Equatable {
+public struct CreateLicenseEndpointInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The security group IDs.
@@ -3757,7 +3757,7 @@ public struct CreateLicenseEndpointInput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseEndpointInputBody: Swift.Equatable {
+struct CreateLicenseEndpointInputBody {
     let vpcId: Swift.String?
     let subnetIds: [Swift.String]?
     let securityGroupIds: [Swift.String]?
@@ -3824,7 +3824,7 @@ extension CreateLicenseEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateLicenseEndpointOutput: Swift.Equatable {
+public struct CreateLicenseEndpointOutput {
     /// The license endpoint ID.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -3837,7 +3837,7 @@ public struct CreateLicenseEndpointOutput: Swift.Equatable {
     }
 }
 
-struct CreateLicenseEndpointOutputBody: Swift.Equatable {
+struct CreateLicenseEndpointOutputBody {
     let licenseEndpointId: Swift.String?
 }
 
@@ -3912,7 +3912,7 @@ extension CreateMonitorInput {
     }
 }
 
-public struct CreateMonitorInput: Swift.Equatable {
+public struct CreateMonitorInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The name that you give the monitor that is displayed in the Deadline Cloud console.
@@ -3944,7 +3944,7 @@ public struct CreateMonitorInput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorInputBody: Swift.Equatable {
+struct CreateMonitorInputBody {
     let displayName: Swift.String?
     let identityCenterInstanceArn: Swift.String?
     let subdomain: Swift.String?
@@ -3986,7 +3986,7 @@ extension CreateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateMonitorOutput: Swift.Equatable {
+public struct CreateMonitorOutput {
     /// The Amazon Resource Name (ARN) that IAM Identity Center assigns to the monitor.
     /// This member is required.
     public var identityCenterApplicationArn: Swift.String?
@@ -4004,7 +4004,7 @@ public struct CreateMonitorOutput: Swift.Equatable {
     }
 }
 
-struct CreateMonitorOutputBody: Swift.Equatable {
+struct CreateMonitorOutputBody {
     let monitorId: Swift.String?
     let identityCenterApplicationArn: Swift.String?
 }
@@ -4089,7 +4089,7 @@ extension CreateQueueEnvironmentInput {
     }
 }
 
-public struct CreateQueueEnvironmentInput: Swift.Equatable {
+public struct CreateQueueEnvironmentInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID of the farm to connect to the environment.
@@ -4126,7 +4126,7 @@ public struct CreateQueueEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueEnvironmentInputBody: Swift.Equatable {
+struct CreateQueueEnvironmentInputBody {
     let priority: Swift.Int?
     let templateType: DeadlineClientTypes.EnvironmentTemplateType?
     let template: Swift.String?
@@ -4162,7 +4162,7 @@ extension CreateQueueEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQueueEnvironmentOutput: Swift.Equatable {
+public struct CreateQueueEnvironmentOutput {
     /// The queue environment ID.
     /// This member is required.
     public var queueEnvironmentId: Swift.String?
@@ -4175,7 +4175,7 @@ public struct CreateQueueEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct CreateQueueEnvironmentOutputBody: Swift.Equatable {
+struct CreateQueueEnvironmentOutputBody {
     let queueEnvironmentId: Swift.String?
 }
 
@@ -4234,7 +4234,7 @@ extension CreateQueueFleetAssociationInput {
     }
 }
 
-public struct CreateQueueFleetAssociationInput: Swift.Equatable {
+public struct CreateQueueFleetAssociationInput {
     /// The ID of the farm that the queue and fleet belong to.
     /// This member is required.
     public var farmId: Swift.String?
@@ -4257,7 +4257,7 @@ public struct CreateQueueFleetAssociationInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueFleetAssociationInputBody: Swift.Equatable {
+struct CreateQueueFleetAssociationInputBody {
     let queueId: Swift.String?
     let fleetId: Swift.String?
 }
@@ -4282,7 +4282,7 @@ extension CreateQueueFleetAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQueueFleetAssociationOutput: Swift.Equatable {
+public struct CreateQueueFleetAssociationOutput {
 
     public init() { }
 }
@@ -4382,7 +4382,7 @@ extension CreateQueueInput {
     }
 }
 
-public struct CreateQueueInput: Swift.Equatable {
+public struct CreateQueueInput {
     /// The storage profile IDs to include in the queue.
     public var allowedStorageProfileIds: [Swift.String]?
     /// The unique token which the server uses to recognize retries of the same request.
@@ -4436,7 +4436,7 @@ public struct CreateQueueInput: Swift.Equatable {
     }
 }
 
-struct CreateQueueInputBody: Swift.Equatable {
+struct CreateQueueInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
@@ -4523,7 +4523,7 @@ extension CreateQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateQueueOutput: Swift.Equatable {
+public struct CreateQueueOutput {
     /// The queue ID.
     /// This member is required.
     public var queueId: Swift.String?
@@ -4536,7 +4536,7 @@ public struct CreateQueueOutput: Swift.Equatable {
     }
 }
 
-struct CreateQueueOutputBody: Swift.Equatable {
+struct CreateQueueOutputBody {
     let queueId: Swift.String?
 }
 
@@ -4613,7 +4613,7 @@ extension CreateStorageProfileInput {
     }
 }
 
-public struct CreateStorageProfileInput: Swift.Equatable {
+public struct CreateStorageProfileInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The display name of the storage profile.
@@ -4644,7 +4644,7 @@ public struct CreateStorageProfileInput: Swift.Equatable {
     }
 }
 
-struct CreateStorageProfileInputBody: Swift.Equatable {
+struct CreateStorageProfileInputBody {
     let displayName: Swift.String?
     let osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
     let fileSystemLocations: [DeadlineClientTypes.FileSystemLocation]?
@@ -4689,7 +4689,7 @@ extension CreateStorageProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateStorageProfileOutput: Swift.Equatable {
+public struct CreateStorageProfileOutput {
     /// The storage profile ID.
     /// This member is required.
     public var storageProfileId: Swift.String?
@@ -4702,7 +4702,7 @@ public struct CreateStorageProfileOutput: Swift.Equatable {
     }
 }
 
-struct CreateStorageProfileOutputBody: Swift.Equatable {
+struct CreateStorageProfileOutputBody {
     let storageProfileId: Swift.String?
 }
 
@@ -4771,7 +4771,7 @@ extension CreateWorkerInput {
     }
 }
 
-public struct CreateWorkerInput: Swift.Equatable {
+public struct CreateWorkerInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID of the farm to connect to the worker.
@@ -4797,7 +4797,7 @@ public struct CreateWorkerInput: Swift.Equatable {
     }
 }
 
-struct CreateWorkerInputBody: Swift.Equatable {
+struct CreateWorkerInputBody {
     let hostProperties: DeadlineClientTypes.HostPropertiesRequest?
 }
 
@@ -4825,7 +4825,7 @@ extension CreateWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateWorkerOutput: Swift.Equatable {
+public struct CreateWorkerOutput {
     /// The worker ID.
     /// This member is required.
     public var workerId: Swift.String?
@@ -4838,7 +4838,7 @@ public struct CreateWorkerOutput: Swift.Equatable {
     }
 }
 
-struct CreateWorkerOutputBody: Swift.Equatable {
+struct CreateWorkerOutputBody {
     let workerId: Swift.String?
 }
 
@@ -4903,7 +4903,7 @@ extension DeadlineClientTypes.CustomerManagedFleetConfiguration: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a customer managed fleet configuration.
-    public struct CustomerManagedFleetConfiguration: Swift.Equatable {
+    public struct CustomerManagedFleetConfiguration {
         /// The Auto Scaling mode for the customer managed fleet configuration.
         /// This member is required.
         public var mode: DeadlineClientTypes.AutoScalingMode?
@@ -5067,7 +5067,7 @@ extension DeadlineClientTypes.CustomerManagedWorkerCapabilities: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The worker capabilities for a customer managed workflow.
-    public struct CustomerManagedWorkerCapabilities: Swift.Equatable {
+    public struct CustomerManagedWorkerCapabilities {
         /// The range of the accelerator.
         public var acceleratorCount: DeadlineClientTypes.AcceleratorCountRange?
         /// The total memory (MiB) for the customer managed worker capabilities.
@@ -5150,7 +5150,7 @@ extension DeadlineClientTypes.DateTimeFilterExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The time stamp in date-time format.
-    public struct DateTimeFilterExpression: Swift.Equatable {
+    public struct DateTimeFilterExpression {
         /// The date and time.
         /// This member is required.
         public var dateTime: ClientRuntime.Date?
@@ -5257,7 +5257,7 @@ extension DeleteBudgetInput {
     }
 }
 
-public struct DeleteBudgetInput: Swift.Equatable {
+public struct DeleteBudgetInput {
     /// The budget ID of the budget to delete.
     /// This member is required.
     public var budgetId: Swift.String?
@@ -5275,7 +5275,7 @@ public struct DeleteBudgetInput: Swift.Equatable {
     }
 }
 
-struct DeleteBudgetInputBody: Swift.Equatable {
+struct DeleteBudgetInputBody {
 }
 
 extension DeleteBudgetInputBody: Swift.Decodable {
@@ -5289,7 +5289,7 @@ extension DeleteBudgetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteBudgetOutput: Swift.Equatable {
+public struct DeleteBudgetOutput {
 
     public init() { }
 }
@@ -5319,7 +5319,7 @@ extension DeleteFarmInput {
     }
 }
 
-public struct DeleteFarmInput: Swift.Equatable {
+public struct DeleteFarmInput {
     /// The farm ID of the farm to delete.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5332,7 +5332,7 @@ public struct DeleteFarmInput: Swift.Equatable {
     }
 }
 
-struct DeleteFarmInputBody: Swift.Equatable {
+struct DeleteFarmInputBody {
 }
 
 extension DeleteFarmInputBody: Swift.Decodable {
@@ -5346,7 +5346,7 @@ extension DeleteFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFarmOutput: Swift.Equatable {
+public struct DeleteFarmOutput {
 
     public init() { }
 }
@@ -5390,7 +5390,7 @@ extension DeleteFleetInput {
     }
 }
 
-public struct DeleteFleetInput: Swift.Equatable {
+public struct DeleteFleetInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID of the farm to remove from the fleet.
@@ -5412,7 +5412,7 @@ public struct DeleteFleetInput: Swift.Equatable {
     }
 }
 
-struct DeleteFleetInputBody: Swift.Equatable {
+struct DeleteFleetInputBody {
 }
 
 extension DeleteFleetInputBody: Swift.Decodable {
@@ -5426,7 +5426,7 @@ extension DeleteFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFleetOutput: Swift.Equatable {
+public struct DeleteFleetOutput {
 
     public init() { }
 }
@@ -5457,7 +5457,7 @@ extension DeleteLicenseEndpointInput {
     }
 }
 
-public struct DeleteLicenseEndpointInput: Swift.Equatable {
+public struct DeleteLicenseEndpointInput {
     /// The license endpoint ID of the license endpoint to delete.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -5470,7 +5470,7 @@ public struct DeleteLicenseEndpointInput: Swift.Equatable {
     }
 }
 
-struct DeleteLicenseEndpointInputBody: Swift.Equatable {
+struct DeleteLicenseEndpointInputBody {
 }
 
 extension DeleteLicenseEndpointInputBody: Swift.Decodable {
@@ -5484,7 +5484,7 @@ extension DeleteLicenseEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLicenseEndpointOutput: Swift.Equatable {
+public struct DeleteLicenseEndpointOutput {
 
     public init() { }
 }
@@ -5518,7 +5518,7 @@ extension DeleteMeteredProductInput {
     }
 }
 
-public struct DeleteMeteredProductInput: Swift.Equatable {
+public struct DeleteMeteredProductInput {
     /// The ID of the license endpoint from which to remove the metered product.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -5536,7 +5536,7 @@ public struct DeleteMeteredProductInput: Swift.Equatable {
     }
 }
 
-struct DeleteMeteredProductInputBody: Swift.Equatable {
+struct DeleteMeteredProductInputBody {
 }
 
 extension DeleteMeteredProductInputBody: Swift.Decodable {
@@ -5550,7 +5550,7 @@ extension DeleteMeteredProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMeteredProductOutput: Swift.Equatable {
+public struct DeleteMeteredProductOutput {
 
     public init() { }
 }
@@ -5580,7 +5580,7 @@ extension DeleteMonitorInput {
     }
 }
 
-public struct DeleteMonitorInput: Swift.Equatable {
+public struct DeleteMonitorInput {
     /// The unique identifier of the monitor to delete. This ID is returned by the CreateMonitor operation, and is included in the response to the GetMonitor operation.
     /// This member is required.
     public var monitorId: Swift.String?
@@ -5593,7 +5593,7 @@ public struct DeleteMonitorInput: Swift.Equatable {
     }
 }
 
-struct DeleteMonitorInputBody: Swift.Equatable {
+struct DeleteMonitorInputBody {
 }
 
 extension DeleteMonitorInputBody: Swift.Decodable {
@@ -5607,7 +5607,7 @@ extension DeleteMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteMonitorOutput: Swift.Equatable {
+public struct DeleteMonitorOutput {
 
     public init() { }
 }
@@ -5643,7 +5643,7 @@ extension DeleteQueueEnvironmentInput {
     }
 }
 
-public struct DeleteQueueEnvironmentInput: Swift.Equatable {
+public struct DeleteQueueEnvironmentInput {
     /// The farm ID of the farm from which to remove the queue environment.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5666,7 +5666,7 @@ public struct DeleteQueueEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueEnvironmentInputBody: Swift.Equatable {
+struct DeleteQueueEnvironmentInputBody {
 }
 
 extension DeleteQueueEnvironmentInputBody: Swift.Decodable {
@@ -5680,7 +5680,7 @@ extension DeleteQueueEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueEnvironmentOutput: Swift.Equatable {
+public struct DeleteQueueEnvironmentOutput {
 
     public init() { }
 }
@@ -5715,7 +5715,7 @@ extension DeleteQueueFleetAssociationInput {
     }
 }
 
-public struct DeleteQueueFleetAssociationInput: Swift.Equatable {
+public struct DeleteQueueFleetAssociationInput {
     /// The farm ID of the farm that holds the queue-fleet association.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5738,7 +5738,7 @@ public struct DeleteQueueFleetAssociationInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueFleetAssociationInputBody: Swift.Equatable {
+struct DeleteQueueFleetAssociationInputBody {
 }
 
 extension DeleteQueueFleetAssociationInputBody: Swift.Decodable {
@@ -5752,7 +5752,7 @@ extension DeleteQueueFleetAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueFleetAssociationOutput: Swift.Equatable {
+public struct DeleteQueueFleetAssociationOutput {
 
     public init() { }
 }
@@ -5786,7 +5786,7 @@ extension DeleteQueueInput {
     }
 }
 
-public struct DeleteQueueInput: Swift.Equatable {
+public struct DeleteQueueInput {
     /// The ID of the farm from which to remove the queue.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5804,7 +5804,7 @@ public struct DeleteQueueInput: Swift.Equatable {
     }
 }
 
-struct DeleteQueueInputBody: Swift.Equatable {
+struct DeleteQueueInputBody {
 }
 
 extension DeleteQueueInputBody: Swift.Decodable {
@@ -5818,7 +5818,7 @@ extension DeleteQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteQueueOutput: Swift.Equatable {
+public struct DeleteQueueOutput {
 
     public init() { }
 }
@@ -5852,7 +5852,7 @@ extension DeleteStorageProfileInput {
     }
 }
 
-public struct DeleteStorageProfileInput: Swift.Equatable {
+public struct DeleteStorageProfileInput {
     /// The farm ID of the farm from which to remove the storage profile.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5870,7 +5870,7 @@ public struct DeleteStorageProfileInput: Swift.Equatable {
     }
 }
 
-struct DeleteStorageProfileInputBody: Swift.Equatable {
+struct DeleteStorageProfileInputBody {
 }
 
 extension DeleteStorageProfileInputBody: Swift.Decodable {
@@ -5884,7 +5884,7 @@ extension DeleteStorageProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteStorageProfileOutput: Swift.Equatable {
+public struct DeleteStorageProfileOutput {
 
     public init() { }
 }
@@ -5919,7 +5919,7 @@ extension DeleteWorkerInput {
     }
 }
 
-public struct DeleteWorkerInput: Swift.Equatable {
+public struct DeleteWorkerInput {
     /// The farm ID of the worker to delete.
     /// This member is required.
     public var farmId: Swift.String?
@@ -5942,7 +5942,7 @@ public struct DeleteWorkerInput: Swift.Equatable {
     }
 }
 
-struct DeleteWorkerInputBody: Swift.Equatable {
+struct DeleteWorkerInputBody {
 }
 
 extension DeleteWorkerInputBody: Swift.Decodable {
@@ -5956,7 +5956,7 @@ extension DeleteWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteWorkerOutput: Swift.Equatable {
+public struct DeleteWorkerOutput {
 
     public init() { }
 }
@@ -6048,7 +6048,7 @@ extension DeadlineClientTypes.DependencyCounts: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The number of dependencies for the consumer.
-    public struct DependencyCounts: Swift.Equatable {
+    public struct DependencyCounts {
         /// The number of consumers resolved.
         /// This member is required.
         public var consumersResolved: Swift.Int?
@@ -6120,7 +6120,7 @@ extension DisassociateMemberFromFarmInput {
     }
 }
 
-public struct DisassociateMemberFromFarmInput: Swift.Equatable {
+public struct DisassociateMemberFromFarmInput {
     /// The farm ID of the farm to disassociate from the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -6138,7 +6138,7 @@ public struct DisassociateMemberFromFarmInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberFromFarmInputBody: Swift.Equatable {
+struct DisassociateMemberFromFarmInputBody {
 }
 
 extension DisassociateMemberFromFarmInputBody: Swift.Decodable {
@@ -6152,7 +6152,7 @@ extension DisassociateMemberFromFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberFromFarmOutput: Swift.Equatable {
+public struct DisassociateMemberFromFarmOutput {
 
     public init() { }
 }
@@ -6188,7 +6188,7 @@ extension DisassociateMemberFromFleetInput {
     }
 }
 
-public struct DisassociateMemberFromFleetInput: Swift.Equatable {
+public struct DisassociateMemberFromFleetInput {
     /// The farm ID of the fleet to disassociate a member from.
     /// This member is required.
     public var farmId: Swift.String?
@@ -6211,7 +6211,7 @@ public struct DisassociateMemberFromFleetInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberFromFleetInputBody: Swift.Equatable {
+struct DisassociateMemberFromFleetInputBody {
 }
 
 extension DisassociateMemberFromFleetInputBody: Swift.Decodable {
@@ -6225,7 +6225,7 @@ extension DisassociateMemberFromFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberFromFleetOutput: Swift.Equatable {
+public struct DisassociateMemberFromFleetOutput {
 
     public init() { }
 }
@@ -6265,7 +6265,7 @@ extension DisassociateMemberFromJobInput {
     }
 }
 
-public struct DisassociateMemberFromJobInput: Swift.Equatable {
+public struct DisassociateMemberFromJobInput {
     /// The farm ID for the job to disassociate from the member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -6293,7 +6293,7 @@ public struct DisassociateMemberFromJobInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberFromJobInputBody: Swift.Equatable {
+struct DisassociateMemberFromJobInputBody {
 }
 
 extension DisassociateMemberFromJobInputBody: Swift.Decodable {
@@ -6307,7 +6307,7 @@ extension DisassociateMemberFromJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberFromJobOutput: Swift.Equatable {
+public struct DisassociateMemberFromJobOutput {
 
     public init() { }
 }
@@ -6343,7 +6343,7 @@ extension DisassociateMemberFromQueueInput {
     }
 }
 
-public struct DisassociateMemberFromQueueInput: Swift.Equatable {
+public struct DisassociateMemberFromQueueInput {
     /// The farm ID for the queue to disassociate from a member.
     /// This member is required.
     public var farmId: Swift.String?
@@ -6366,7 +6366,7 @@ public struct DisassociateMemberFromQueueInput: Swift.Equatable {
     }
 }
 
-struct DisassociateMemberFromQueueInputBody: Swift.Equatable {
+struct DisassociateMemberFromQueueInputBody {
 }
 
 extension DisassociateMemberFromQueueInputBody: Swift.Decodable {
@@ -6380,7 +6380,7 @@ extension DisassociateMemberFromQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DisassociateMemberFromQueueOutput: Swift.Equatable {
+public struct DisassociateMemberFromQueueOutput {
 
     public init() { }
 }
@@ -6434,7 +6434,7 @@ extension DeadlineClientTypes.Ec2EbsVolume: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Specifies the EBS volume.
-    public struct Ec2EbsVolume: Swift.Equatable {
+    public struct Ec2EbsVolume {
         /// The IOPS per volume.
         public var iops: Swift.Int?
         /// The EBS volume size in GiB.
@@ -6532,7 +6532,7 @@ extension DeadlineClientTypes.EnvironmentDetailsEntity: Swift.CustomDebugStringC
 
 extension DeadlineClientTypes {
     /// The details of a specified environment.
-    public struct EnvironmentDetailsEntity: Swift.Equatable {
+    public struct EnvironmentDetailsEntity {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6601,7 +6601,7 @@ extension DeadlineClientTypes.EnvironmentDetailsError: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The error details for the environment.
-    public struct EnvironmentDetailsError: Swift.Equatable {
+    public struct EnvironmentDetailsError {
         /// The error code.
         /// This member is required.
         public var code: DeadlineClientTypes.JobEntityErrorCode?
@@ -6658,7 +6658,7 @@ extension DeadlineClientTypes.EnvironmentDetailsIdentifiers: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The IDs of the job and environment.
-    public struct EnvironmentDetailsIdentifiers: Swift.Equatable {
+    public struct EnvironmentDetailsIdentifiers {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6699,7 +6699,7 @@ extension DeadlineClientTypes.EnvironmentEnterSessionActionDefinition: Swift.Cod
 
 extension DeadlineClientTypes {
     /// The environment ID to use to enter a session action.
-    public struct EnvironmentEnterSessionActionDefinition: Swift.Equatable {
+    public struct EnvironmentEnterSessionActionDefinition {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6735,7 +6735,7 @@ extension DeadlineClientTypes.EnvironmentEnterSessionActionDefinitionSummary: Sw
 
 extension DeadlineClientTypes {
     /// Defines the environment a session action enters in.
-    public struct EnvironmentEnterSessionActionDefinitionSummary: Swift.Equatable {
+    public struct EnvironmentEnterSessionActionDefinitionSummary {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6771,7 +6771,7 @@ extension DeadlineClientTypes.EnvironmentExitSessionActionDefinition: Swift.Coda
 
 extension DeadlineClientTypes {
     /// Defines the environment a session action exits from.
-    public struct EnvironmentExitSessionActionDefinition: Swift.Equatable {
+    public struct EnvironmentExitSessionActionDefinition {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6807,7 +6807,7 @@ extension DeadlineClientTypes.EnvironmentExitSessionActionDefinitionSummary: Swi
 
 extension DeadlineClientTypes {
     /// A summary of the environment details for which a session action to exits.
-    public struct EnvironmentExitSessionActionDefinitionSummary: Swift.Equatable {
+    public struct EnvironmentExitSessionActionDefinitionSummary {
         /// The environment ID.
         /// This member is required.
         public var environmentId: Swift.String?
@@ -6899,7 +6899,7 @@ extension DeadlineClientTypes.FarmMember: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The member of a farm.
-    public struct FarmMember: Swift.Equatable {
+    public struct FarmMember {
         /// The farm ID of the farm member.
         /// This member is required.
         public var farmId: Swift.String?
@@ -6991,7 +6991,7 @@ extension DeadlineClientTypes.FarmSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The summary of details for a farm.
-    public struct FarmSummary: Swift.Equatable {
+    public struct FarmSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -7060,7 +7060,7 @@ extension DeadlineClientTypes.FieldSortExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The field sorting order and name of the field.
-    public struct FieldSortExpression: Swift.Equatable {
+    public struct FieldSortExpression {
         /// The name of the field.
         /// This member is required.
         public var name: Swift.String?
@@ -7119,7 +7119,7 @@ extension DeadlineClientTypes.FileSystemLocation: Swift.CustomDebugStringConvert
 
 extension DeadlineClientTypes {
     /// The details of the file system location for the resource.
-    public struct FileSystemLocation: Swift.Equatable {
+    public struct FileSystemLocation {
         /// The location name.
         /// This member is required.
         public var name: Swift.String?
@@ -7203,7 +7203,7 @@ extension DeadlineClientTypes.FixedBudgetSchedule: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a fixed budget schedule.
-    public struct FixedBudgetSchedule: Swift.Equatable {
+    public struct FixedBudgetSchedule {
         /// When the budget ends.
         /// This member is required.
         public var endTime: ClientRuntime.Date?
@@ -7256,7 +7256,7 @@ extension DeadlineClientTypes.FleetAmountCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The fleet amount and attribute capabilities.
-    public struct FleetAmountCapability: Swift.Equatable {
+    public struct FleetAmountCapability {
         /// The maximum amount of the fleet worker capability.
         public var max: Swift.Float?
         /// The minimum amount of fleet worker capability.
@@ -7319,7 +7319,7 @@ extension DeadlineClientTypes.FleetAttributeCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Defines the fleet's capability name, minimum, and maximum.
-    public struct FleetAttributeCapability: Swift.Equatable {
+    public struct FleetAttributeCapability {
         /// The name of the fleet attribute capability for the worker.
         /// This member is required.
         public var name: Swift.String?
@@ -7390,7 +7390,7 @@ extension DeadlineClientTypes.FleetCapabilities: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The amounts and attributes of fleets.
-    public struct FleetCapabilities: Swift.Equatable {
+    public struct FleetCapabilities {
         /// Amount capabilities of the fleet.
         public var amounts: [DeadlineClientTypes.FleetAmountCapability]?
         /// Attribute capabilities of the fleet.
@@ -7445,7 +7445,7 @@ extension DeadlineClientTypes.FleetConfiguration: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Fleet configuration details.
-    public enum FleetConfiguration: Swift.Equatable {
+    public enum FleetConfiguration {
         /// The customer managed fleets within a fleet configuration.
         case customermanaged(DeadlineClientTypes.CustomerManagedFleetConfiguration)
         /// The service managed Amazon EC2 instances for a fleet configuration.
@@ -7506,7 +7506,7 @@ extension DeadlineClientTypes.FleetMember: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The fleet member.
-    public struct FleetMember: Swift.Equatable {
+    public struct FleetMember {
         /// The farm ID.
         /// This member is required.
         public var farmId: Swift.String?
@@ -7686,7 +7686,7 @@ extension DeadlineClientTypes.FleetSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a fleet.
-    public struct FleetSummary: Swift.Equatable {
+    public struct FleetSummary {
         /// The Auto Scaling status of a fleet.
         public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
         /// The configuration details for the fleet.
@@ -7775,7 +7775,7 @@ extension GetBudgetInput {
     }
 }
 
-public struct GetBudgetInput: Swift.Equatable {
+public struct GetBudgetInput {
     /// The budget ID.
     /// This member is required.
     public var budgetId: Swift.String?
@@ -7793,7 +7793,7 @@ public struct GetBudgetInput: Swift.Equatable {
     }
 }
 
-struct GetBudgetInputBody: Swift.Equatable {
+struct GetBudgetInputBody {
 }
 
 extension GetBudgetInputBody: Swift.Decodable {
@@ -7845,7 +7845,7 @@ extension GetBudgetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetBudgetOutput: Swift.Equatable {
+public struct GetBudgetOutput {
     /// The budget actions for the budget.
     /// This member is required.
     public var actions: [DeadlineClientTypes.ResponseBudgetAction]?
@@ -7923,7 +7923,7 @@ public struct GetBudgetOutput: Swift.Equatable {
     }
 }
 
-struct GetBudgetOutputBody: Swift.Equatable {
+struct GetBudgetOutputBody {
     let budgetId: Swift.String?
     let usageTrackingResource: DeadlineClientTypes.UsageTrackingResource?
     let status: DeadlineClientTypes.BudgetStatus?
@@ -8025,7 +8025,7 @@ extension GetFarmInput {
     }
 }
 
-public struct GetFarmInput: Swift.Equatable {
+public struct GetFarmInput {
     /// The farm ID of the farm.
     /// This member is required.
     public var farmId: Swift.String?
@@ -8038,7 +8038,7 @@ public struct GetFarmInput: Swift.Equatable {
     }
 }
 
-struct GetFarmInputBody: Swift.Equatable {
+struct GetFarmInputBody {
 }
 
 extension GetFarmInputBody: Swift.Decodable {
@@ -8078,7 +8078,7 @@ extension GetFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFarmOutput: Swift.Equatable {
+public struct GetFarmOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -8123,7 +8123,7 @@ public struct GetFarmOutput: Swift.Equatable {
     }
 }
 
-struct GetFarmOutputBody: Swift.Equatable {
+struct GetFarmOutputBody {
     let farmId: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -8195,7 +8195,7 @@ extension GetFleetInput {
     }
 }
 
-public struct GetFleetInput: Swift.Equatable {
+public struct GetFleetInput {
     /// The farm ID of the farm in the fleet.
     /// This member is required.
     public var farmId: Swift.String?
@@ -8213,7 +8213,7 @@ public struct GetFleetInput: Swift.Equatable {
     }
 }
 
-struct GetFleetInputBody: Swift.Equatable {
+struct GetFleetInputBody {
 }
 
 extension GetFleetInputBody: Swift.Decodable {
@@ -8271,7 +8271,7 @@ extension GetFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFleetOutput: Swift.Equatable {
+public struct GetFleetOutput {
     /// The Auto Scaling status of the fleet. Either GROWING, STEADY, or SHRINKING.
     public var autoScalingStatus: DeadlineClientTypes.AutoScalingStatus?
     /// Outlines what the fleet is capable of for minimums, maximums, and naming, in addition to attribute names and values.
@@ -8358,7 +8358,7 @@ public struct GetFleetOutput: Swift.Equatable {
     }
 }
 
-struct GetFleetOutputBody: Swift.Equatable {
+struct GetFleetOutputBody {
     let fleetId: Swift.String?
     let farmId: Swift.String?
     let displayName: Swift.String?
@@ -8506,7 +8506,7 @@ extension DeadlineClientTypes.GetJobEntityError: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The error for the job entity.
-    public enum GetJobEntityError: Swift.Equatable {
+    public enum GetJobEntityError {
         /// The job details for the failed job entity.
         case jobdetails(DeadlineClientTypes.JobDetailsError)
         /// The job attachment details for the failed job entity.
@@ -8536,7 +8536,7 @@ extension GetJobInput {
     }
 }
 
-public struct GetJobInput: Swift.Equatable {
+public struct GetJobInput {
     /// The farm ID of the farm in the job.
     /// This member is required.
     public var farmId: Swift.String?
@@ -8559,7 +8559,7 @@ public struct GetJobInput: Swift.Equatable {
     }
 }
 
-struct GetJobInputBody: Swift.Equatable {
+struct GetJobInputBody {
 }
 
 extension GetJobInputBody: Swift.Decodable {
@@ -8623,7 +8623,7 @@ extension GetJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetJobOutput: Swift.Equatable {
+public struct GetJobOutput {
     /// The attachments for the job.
     public var attachments: DeadlineClientTypes.Attachments?
     /// The date and time the resource was created.
@@ -8718,7 +8718,7 @@ public struct GetJobOutput: Swift.Equatable {
     }
 }
 
-struct GetJobOutputBody: Swift.Equatable {
+struct GetJobOutputBody {
     let jobId: Swift.String?
     let name: Swift.String?
     let lifecycleStatus: DeadlineClientTypes.JobLifecycleStatus?
@@ -8853,7 +8853,7 @@ extension GetLicenseEndpointInput {
     }
 }
 
-public struct GetLicenseEndpointInput: Swift.Equatable {
+public struct GetLicenseEndpointInput {
     /// The license endpoint ID.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -8866,7 +8866,7 @@ public struct GetLicenseEndpointInput: Swift.Equatable {
     }
 }
 
-struct GetLicenseEndpointInputBody: Swift.Equatable {
+struct GetLicenseEndpointInputBody {
 }
 
 extension GetLicenseEndpointInputBody: Swift.Decodable {
@@ -8899,7 +8899,7 @@ extension GetLicenseEndpointOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLicenseEndpointOutput: Swift.Equatable {
+public struct GetLicenseEndpointOutput {
     /// The DNS name.
     public var dnsName: Swift.String?
     /// The license endpoint ID.
@@ -8938,7 +8938,7 @@ public struct GetLicenseEndpointOutput: Swift.Equatable {
     }
 }
 
-struct GetLicenseEndpointOutputBody: Swift.Equatable {
+struct GetLicenseEndpointOutputBody {
     let licenseEndpointId: Swift.String?
     let status: DeadlineClientTypes.LicenseEndpointStatus?
     let statusMessage: Swift.String?
@@ -9021,7 +9021,7 @@ extension GetMonitorInput {
     }
 }
 
-public struct GetMonitorInput: Swift.Equatable {
+public struct GetMonitorInput {
     /// The unique identifier for the monitor. This ID is returned by the CreateMonitor operation.
     /// This member is required.
     public var monitorId: Swift.String?
@@ -9034,7 +9034,7 @@ public struct GetMonitorInput: Swift.Equatable {
     }
 }
 
-struct GetMonitorInputBody: Swift.Equatable {
+struct GetMonitorInputBody {
 }
 
 extension GetMonitorInputBody: Swift.Decodable {
@@ -9075,7 +9075,7 @@ extension GetMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMonitorOutput: Swift.Equatable {
+public struct GetMonitorOutput {
     /// The UNIX timestamp of the date and time that the monitor was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -9136,7 +9136,7 @@ public struct GetMonitorOutput: Swift.Equatable {
     }
 }
 
-struct GetMonitorOutputBody: Swift.Equatable {
+struct GetMonitorOutputBody {
     let monitorId: Swift.String?
     let displayName: Swift.String?
     let subdomain: Swift.String?
@@ -9223,7 +9223,7 @@ extension GetQueueEnvironmentInput {
     }
 }
 
-public struct GetQueueEnvironmentInput: Swift.Equatable {
+public struct GetQueueEnvironmentInput {
     /// The farm ID for the queue environment.
     /// This member is required.
     public var farmId: Swift.String?
@@ -9246,7 +9246,7 @@ public struct GetQueueEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct GetQueueEnvironmentInputBody: Swift.Equatable {
+struct GetQueueEnvironmentInputBody {
 }
 
 extension GetQueueEnvironmentInputBody: Swift.Decodable {
@@ -9288,7 +9288,7 @@ extension GetQueueEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueueEnvironmentOutput: Swift.Equatable {
+public struct GetQueueEnvironmentOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -9339,7 +9339,7 @@ public struct GetQueueEnvironmentOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueEnvironmentOutputBody: Swift.Equatable {
+struct GetQueueEnvironmentOutputBody {
     let queueEnvironmentId: Swift.String?
     let name: Swift.String?
     let priority: Swift.Int?
@@ -9418,7 +9418,7 @@ extension GetQueueFleetAssociationInput {
     }
 }
 
-public struct GetQueueFleetAssociationInput: Swift.Equatable {
+public struct GetQueueFleetAssociationInput {
     /// The farm ID of the farm that contains the queue-fleet association.
     /// This member is required.
     public var farmId: Swift.String?
@@ -9441,7 +9441,7 @@ public struct GetQueueFleetAssociationInput: Swift.Equatable {
     }
 }
 
-struct GetQueueFleetAssociationInputBody: Swift.Equatable {
+struct GetQueueFleetAssociationInputBody {
 }
 
 extension GetQueueFleetAssociationInputBody: Swift.Decodable {
@@ -9474,7 +9474,7 @@ extension GetQueueFleetAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueueFleetAssociationOutput: Swift.Equatable {
+public struct GetQueueFleetAssociationOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -9515,7 +9515,7 @@ public struct GetQueueFleetAssociationOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueFleetAssociationOutputBody: Swift.Equatable {
+struct GetQueueFleetAssociationOutputBody {
     let queueId: Swift.String?
     let fleetId: Swift.String?
     let status: DeadlineClientTypes.QueueFleetAssociationStatus?
@@ -9583,7 +9583,7 @@ extension GetQueueInput {
     }
 }
 
-public struct GetQueueInput: Swift.Equatable {
+public struct GetQueueInput {
     /// The farm ID of the farm in the queue.
     /// This member is required.
     public var farmId: Swift.String?
@@ -9601,7 +9601,7 @@ public struct GetQueueInput: Swift.Equatable {
     }
 }
 
-struct GetQueueInputBody: Swift.Equatable {
+struct GetQueueInputBody {
 }
 
 extension GetQueueInputBody: Swift.Decodable {
@@ -9657,7 +9657,7 @@ extension GetQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetQueueOutput: Swift.Equatable {
+public struct GetQueueOutput {
     /// The storage profile IDs for the queue.
     public var allowedStorageProfileIds: [Swift.String]?
     /// The reason the queue was blocked.
@@ -9742,7 +9742,7 @@ public struct GetQueueOutput: Swift.Equatable {
     }
 }
 
-struct GetQueueOutputBody: Swift.Equatable {
+struct GetQueueOutputBody {
     let queueId: Swift.String?
     let displayName: Swift.String?
     let description: Swift.String?
@@ -9870,7 +9870,7 @@ extension GetSessionActionInput {
     }
 }
 
-public struct GetSessionActionInput: Swift.Equatable {
+public struct GetSessionActionInput {
     /// The farm ID for the session action.
     /// This member is required.
     public var farmId: Swift.String?
@@ -9898,7 +9898,7 @@ public struct GetSessionActionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionActionInputBody: Swift.Equatable {
+struct GetSessionActionInputBody {
 }
 
 extension GetSessionActionInputBody: Swift.Decodable {
@@ -9942,7 +9942,7 @@ extension GetSessionActionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionActionOutput: Swift.Equatable {
+public struct GetSessionActionOutput {
     /// The session action definition.
     /// This member is required.
     public var definition: DeadlineClientTypes.SessionActionDefinition?
@@ -9994,7 +9994,7 @@ public struct GetSessionActionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionActionOutputBody: Swift.Equatable {
+struct GetSessionActionOutputBody {
     let sessionActionId: Swift.String?
     let status: DeadlineClientTypes.SessionActionStatus?
     let startedAt: ClientRuntime.Date?
@@ -10080,7 +10080,7 @@ extension GetSessionInput {
     }
 }
 
-public struct GetSessionInput: Swift.Equatable {
+public struct GetSessionInput {
     /// The farm ID for the session.
     /// This member is required.
     public var farmId: Swift.String?
@@ -10108,7 +10108,7 @@ public struct GetSessionInput: Swift.Equatable {
     }
 }
 
-struct GetSessionInputBody: Swift.Equatable {
+struct GetSessionInputBody {
 }
 
 extension GetSessionInputBody: Swift.Decodable {
@@ -10151,7 +10151,7 @@ extension GetSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSessionOutput: Swift.Equatable {
+public struct GetSessionOutput {
     /// The date and time the resource ended running.
     public var endedAt: ClientRuntime.Date?
     /// The fleet ID for the session.
@@ -10213,7 +10213,7 @@ public struct GetSessionOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionOutputBody: Swift.Equatable {
+struct GetSessionOutputBody {
     let sessionId: Swift.String?
     let fleetId: Swift.String?
     let workerId: Swift.String?
@@ -10320,7 +10320,7 @@ extension GetSessionsStatisticsAggregationInput {
     }
 }
 
-public struct GetSessionsStatisticsAggregationInput: Swift.Equatable {
+public struct GetSessionsStatisticsAggregationInput {
     /// The identifier returned by the StartSessionsStatisticsAggregation operation that identifies the aggregated statistics.
     /// This member is required.
     public var aggregationId: Swift.String?
@@ -10346,7 +10346,7 @@ public struct GetSessionsStatisticsAggregationInput: Swift.Equatable {
     }
 }
 
-struct GetSessionsStatisticsAggregationInputBody: Swift.Equatable {
+struct GetSessionsStatisticsAggregationInputBody {
 }
 
 extension GetSessionsStatisticsAggregationInputBody: Swift.Decodable {
@@ -10373,7 +10373,7 @@ extension GetSessionsStatisticsAggregationOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetSessionsStatisticsAggregationOutput: Swift.Equatable {
+public struct GetSessionsStatisticsAggregationOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The statistics for the specified fleets or queues.
@@ -10398,7 +10398,7 @@ public struct GetSessionsStatisticsAggregationOutput: Swift.Equatable {
     }
 }
 
-struct GetSessionsStatisticsAggregationOutputBody: Swift.Equatable {
+struct GetSessionsStatisticsAggregationOutputBody {
     let statistics: [DeadlineClientTypes.Statistics]?
     let nextToken: Swift.String?
     let status: DeadlineClientTypes.SessionsStatisticsAggregationStatus?
@@ -10469,7 +10469,7 @@ extension GetStepInput {
     }
 }
 
-public struct GetStepInput: Swift.Equatable {
+public struct GetStepInput {
     /// The farm ID for the step.
     /// This member is required.
     public var farmId: Swift.String?
@@ -10497,7 +10497,7 @@ public struct GetStepInput: Swift.Equatable {
     }
 }
 
-struct GetStepInputBody: Swift.Equatable {
+struct GetStepInputBody {
 }
 
 extension GetStepInputBody: Swift.Decodable {
@@ -10555,7 +10555,7 @@ extension GetStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStepOutput: Swift.Equatable {
+public struct GetStepOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -10638,7 +10638,7 @@ public struct GetStepOutput: Swift.Equatable {
     }
 }
 
-struct GetStepOutputBody: Swift.Equatable {
+struct GetStepOutputBody {
     let stepId: Swift.String?
     let name: Swift.String?
     let lifecycleStatus: DeadlineClientTypes.StepLifecycleStatus?
@@ -10758,7 +10758,7 @@ extension GetStorageProfileForQueueInput {
     }
 }
 
-public struct GetStorageProfileForQueueInput: Swift.Equatable {
+public struct GetStorageProfileForQueueInput {
     /// The farm ID for the queue in storage profile.
     /// This member is required.
     public var farmId: Swift.String?
@@ -10781,7 +10781,7 @@ public struct GetStorageProfileForQueueInput: Swift.Equatable {
     }
 }
 
-struct GetStorageProfileForQueueInputBody: Swift.Equatable {
+struct GetStorageProfileForQueueInputBody {
 }
 
 extension GetStorageProfileForQueueInputBody: Swift.Decodable {
@@ -10808,7 +10808,7 @@ extension GetStorageProfileForQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStorageProfileForQueueOutput: Swift.Equatable {
+public struct GetStorageProfileForQueueOutput {
     /// The display name of the storage profile connected to a queue.
     /// This member is required.
     public var displayName: Swift.String?
@@ -10835,7 +10835,7 @@ public struct GetStorageProfileForQueueOutput: Swift.Equatable {
     }
 }
 
-struct GetStorageProfileForQueueOutputBody: Swift.Equatable {
+struct GetStorageProfileForQueueOutputBody {
     let storageProfileId: Swift.String?
     let displayName: Swift.String?
     let osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
@@ -10900,7 +10900,7 @@ extension GetStorageProfileInput {
     }
 }
 
-public struct GetStorageProfileInput: Swift.Equatable {
+public struct GetStorageProfileInput {
     /// The farm ID for the storage profile.
     /// This member is required.
     public var farmId: Swift.String?
@@ -10918,7 +10918,7 @@ public struct GetStorageProfileInput: Swift.Equatable {
     }
 }
 
-struct GetStorageProfileInputBody: Swift.Equatable {
+struct GetStorageProfileInputBody {
 }
 
 extension GetStorageProfileInputBody: Swift.Decodable {
@@ -10953,7 +10953,7 @@ extension GetStorageProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetStorageProfileOutput: Swift.Equatable {
+public struct GetStorageProfileOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -10998,7 +10998,7 @@ public struct GetStorageProfileOutput: Swift.Equatable {
     }
 }
 
-struct GetStorageProfileOutputBody: Swift.Equatable {
+struct GetStorageProfileOutputBody {
     let storageProfileId: Swift.String?
     let displayName: Swift.String?
     let osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
@@ -11088,7 +11088,7 @@ extension GetTaskInput {
     }
 }
 
-public struct GetTaskInput: Swift.Equatable {
+public struct GetTaskInput {
     /// The farm ID of the farm connected to the task.
     /// This member is required.
     public var farmId: Swift.String?
@@ -11121,7 +11121,7 @@ public struct GetTaskInput: Swift.Equatable {
     }
 }
 
-struct GetTaskInputBody: Swift.Equatable {
+struct GetTaskInputBody {
 }
 
 extension GetTaskInputBody: Swift.Decodable {
@@ -11169,7 +11169,7 @@ extension GetTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetTaskOutput: Swift.Equatable {
+public struct GetTaskOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -11229,7 +11229,7 @@ public struct GetTaskOutput: Swift.Equatable {
     }
 }
 
-struct GetTaskOutputBody: Swift.Equatable {
+struct GetTaskOutputBody {
     let taskId: Swift.String?
     let createdAt: ClientRuntime.Date?
     let createdBy: Swift.String?
@@ -11329,7 +11329,7 @@ extension GetWorkerInput {
     }
 }
 
-public struct GetWorkerInput: Swift.Equatable {
+public struct GetWorkerInput {
     /// The farm ID for the worker.
     /// This member is required.
     public var farmId: Swift.String?
@@ -11352,7 +11352,7 @@ public struct GetWorkerInput: Swift.Equatable {
     }
 }
 
-struct GetWorkerInputBody: Swift.Equatable {
+struct GetWorkerInputBody {
 }
 
 extension GetWorkerInputBody: Swift.Decodable {
@@ -11391,7 +11391,7 @@ extension GetWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetWorkerOutput: Swift.Equatable {
+public struct GetWorkerOutput {
     /// The date and time the resource was created.
     /// This member is required.
     public var createdAt: ClientRuntime.Date?
@@ -11445,7 +11445,7 @@ public struct GetWorkerOutput: Swift.Equatable {
     }
 }
 
-struct GetWorkerOutputBody: Swift.Equatable {
+struct GetWorkerOutputBody {
     let workerId: Swift.String?
     let farmId: Swift.String?
     let fleetId: Swift.String?
@@ -11539,7 +11539,7 @@ extension DeadlineClientTypes.HostPropertiesRequest: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The host property details.
-    public struct HostPropertiesRequest: Swift.Equatable {
+    public struct HostPropertiesRequest {
         /// The host name.
         public var hostName: Swift.String?
         /// The IP address of the host.
@@ -11596,7 +11596,7 @@ extension DeadlineClientTypes.HostPropertiesResponse: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The host property details.
-    public struct HostPropertiesResponse: Swift.Equatable {
+    public struct HostPropertiesResponse {
         /// The ARN of the host EC2 instance.
         public var ec2InstanceArn: Swift.String?
         /// The instance type of the host EC2 instance.
@@ -11671,7 +11671,7 @@ public struct InternalServerErrorException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct InternalServerErrorExceptionBody: Swift.Equatable {
+struct InternalServerErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -11738,7 +11738,7 @@ extension DeadlineClientTypes.IpAddresses: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The IP addresses for a host.
-    public struct IpAddresses: Swift.Equatable {
+    public struct IpAddresses {
         /// The IpV4 address of the network.
         public var ipV4Addresses: [Swift.String]?
         /// The IpV6 address for the network and node component.
@@ -11783,7 +11783,7 @@ extension DeadlineClientTypes.JobAttachmentDetailsEntity: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The job attachments.
-    public struct JobAttachmentDetailsEntity: Swift.Equatable {
+    public struct JobAttachmentDetailsEntity {
         /// The job attachments.
         /// This member is required.
         public var attachments: DeadlineClientTypes.Attachments?
@@ -11836,7 +11836,7 @@ extension DeadlineClientTypes.JobAttachmentDetailsError: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The error details for job attachments.
-    public struct JobAttachmentDetailsError: Swift.Equatable {
+    public struct JobAttachmentDetailsError {
         /// The error code.
         /// This member is required.
         public var code: DeadlineClientTypes.JobEntityErrorCode?
@@ -11882,7 +11882,7 @@ extension DeadlineClientTypes.JobAttachmentDetailsIdentifiers: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Identifier details for job attachments.
-    public struct JobAttachmentDetailsIdentifiers: Swift.Equatable {
+    public struct JobAttachmentDetailsIdentifiers {
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
@@ -11924,7 +11924,7 @@ extension DeadlineClientTypes.JobAttachmentSettings: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The job attachment settings. These are the Amazon S3 bucket name and the Amazon S3 prefix.
-    public struct JobAttachmentSettings: Swift.Equatable {
+    public struct JobAttachmentSettings {
         /// The root prefix.
         /// This member is required.
         public var rootPrefix: Swift.String?
@@ -12068,7 +12068,7 @@ extension DeadlineClientTypes.JobDetailsEntity: Swift.CustomDebugStringConvertib
 
 extension DeadlineClientTypes {
     /// The job details for a specific job.
-    public struct JobDetailsEntity: Swift.Equatable {
+    public struct JobDetailsEntity {
         /// The job attachment settings.
         public var jobAttachmentSettings: DeadlineClientTypes.JobAttachmentSettings?
         /// The job ID.
@@ -12146,7 +12146,7 @@ extension DeadlineClientTypes.JobDetailsError: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a job error.
-    public struct JobDetailsError: Swift.Equatable {
+    public struct JobDetailsError {
         /// The error code.
         /// This member is required.
         public var code: DeadlineClientTypes.JobEntityErrorCode?
@@ -12192,7 +12192,7 @@ extension DeadlineClientTypes.JobDetailsIdentifiers: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The identifiers for a job.
-    public struct JobDetailsIdentifiers: Swift.Equatable {
+    public struct JobDetailsIdentifiers {
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
@@ -12260,7 +12260,7 @@ extension DeadlineClientTypes.JobEntity: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a job entity.
-    public enum JobEntity: Swift.Equatable {
+    public enum JobEntity {
         /// The job details.
         case jobdetails(DeadlineClientTypes.JobDetailsEntity)
         /// The job attachment details.
@@ -12371,7 +12371,7 @@ extension DeadlineClientTypes.JobEntityIdentifiersUnion: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a job entity identifier.
-    public enum JobEntityIdentifiersUnion: Swift.Equatable {
+    public enum JobEntityIdentifiersUnion {
         /// The job details.
         case jobdetails(DeadlineClientTypes.JobDetailsIdentifiers)
         /// The job attachment details.
@@ -12495,7 +12495,7 @@ extension DeadlineClientTypes.JobMember: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details for a job member.
-    public struct JobMember: Swift.Equatable {
+    public struct JobMember {
         /// The farm ID.
         /// This member is required.
         public var farmId: Swift.String?
@@ -12593,7 +12593,7 @@ extension DeadlineClientTypes.JobParameter: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of job parameters.
-    public enum JobParameter: Swift.Equatable {
+    public enum JobParameter {
         /// A signed integer represented as a string.
         case int(Swift.String)
         /// A double precision IEEE-754 floating point number represented as a string.
@@ -12640,7 +12640,7 @@ extension DeadlineClientTypes.JobRunAsUser: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Identifies the user for a job.
-    public struct JobRunAsUser: Swift.Equatable {
+    public struct JobRunAsUser {
         /// The user and group that the jobs in the queue run as.
         public var posix: DeadlineClientTypes.PosixUser?
         /// Specifies whether the job should run using the queue's system user or if the job should run using the worker agent system user.
@@ -12803,7 +12803,7 @@ extension DeadlineClientTypes.JobSearchSummary: Swift.CustomDebugStringConvertib
 
 extension DeadlineClientTypes {
     /// The details of a job search.
-    public struct JobSearchSummary: Swift.Equatable {
+    public struct JobSearchSummary {
         /// The date and time the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user or system that created this resource.
@@ -13020,7 +13020,7 @@ extension DeadlineClientTypes.JobSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// A summary of job details.
-    public struct JobSummary: Swift.Equatable {
+    public struct JobSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -13274,7 +13274,7 @@ extension DeadlineClientTypes.LicenseEndpointSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details for a license endpoint.
-    public struct LicenseEndpointSummary: Swift.Equatable {
+    public struct LicenseEndpointSummary {
         /// The license endpoint ID.
         public var licenseEndpointId: Swift.String?
         /// The status of the license endpoint.
@@ -13323,7 +13323,7 @@ extension ListAvailableMeteredProductsInput {
     }
 }
 
-public struct ListAvailableMeteredProductsInput: Swift.Equatable {
+public struct ListAvailableMeteredProductsInput {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null to start from the beginning.
@@ -13339,7 +13339,7 @@ public struct ListAvailableMeteredProductsInput: Swift.Equatable {
     }
 }
 
-struct ListAvailableMeteredProductsInputBody: Swift.Equatable {
+struct ListAvailableMeteredProductsInputBody {
 }
 
 extension ListAvailableMeteredProductsInputBody: Swift.Decodable {
@@ -13362,7 +13362,7 @@ extension ListAvailableMeteredProductsOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct ListAvailableMeteredProductsOutput: Swift.Equatable {
+public struct ListAvailableMeteredProductsOutput {
     /// The metered products.
     /// This member is required.
     public var meteredProducts: [DeadlineClientTypes.MeteredProductSummary]?
@@ -13379,7 +13379,7 @@ public struct ListAvailableMeteredProductsOutput: Swift.Equatable {
     }
 }
 
-struct ListAvailableMeteredProductsOutputBody: Swift.Equatable {
+struct ListAvailableMeteredProductsOutputBody {
     let meteredProducts: [DeadlineClientTypes.MeteredProductSummary]?
     let nextToken: Swift.String?
 }
@@ -13450,7 +13450,7 @@ extension ListBudgetsInput {
     }
 }
 
-public struct ListBudgetsInput: Swift.Equatable {
+public struct ListBudgetsInput {
     /// The farm ID associated with the budgets.
     /// This member is required.
     public var farmId: Swift.String?
@@ -13475,7 +13475,7 @@ public struct ListBudgetsInput: Swift.Equatable {
     }
 }
 
-struct ListBudgetsInputBody: Swift.Equatable {
+struct ListBudgetsInputBody {
 }
 
 extension ListBudgetsInputBody: Swift.Decodable {
@@ -13498,7 +13498,7 @@ extension ListBudgetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListBudgetsOutput: Swift.Equatable {
+public struct ListBudgetsOutput {
     /// The budgets to include on the list.
     /// This member is required.
     public var budgets: [DeadlineClientTypes.BudgetSummary]?
@@ -13515,7 +13515,7 @@ public struct ListBudgetsOutput: Swift.Equatable {
     }
 }
 
-struct ListBudgetsOutputBody: Swift.Equatable {
+struct ListBudgetsOutputBody {
     let nextToken: Swift.String?
     let budgets: [DeadlineClientTypes.BudgetSummary]?
 }
@@ -13585,7 +13585,7 @@ extension ListFarmMembersInput {
     }
 }
 
-public struct ListFarmMembersInput: Swift.Equatable {
+public struct ListFarmMembersInput {
     /// The farm ID.
     /// This member is required.
     public var farmId: Swift.String?
@@ -13606,7 +13606,7 @@ public struct ListFarmMembersInput: Swift.Equatable {
     }
 }
 
-struct ListFarmMembersInputBody: Swift.Equatable {
+struct ListFarmMembersInputBody {
 }
 
 extension ListFarmMembersInputBody: Swift.Decodable {
@@ -13629,7 +13629,7 @@ extension ListFarmMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFarmMembersOutput: Swift.Equatable {
+public struct ListFarmMembersOutput {
     /// The members on the list.
     /// This member is required.
     public var members: [DeadlineClientTypes.FarmMember]?
@@ -13646,7 +13646,7 @@ public struct ListFarmMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListFarmMembersOutputBody: Swift.Equatable {
+struct ListFarmMembersOutputBody {
     let members: [DeadlineClientTypes.FarmMember]?
     let nextToken: Swift.String?
 }
@@ -13717,7 +13717,7 @@ extension ListFarmsInput {
     }
 }
 
-public struct ListFarmsInput: Swift.Equatable {
+public struct ListFarmsInput {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null to start from the beginning.
@@ -13737,7 +13737,7 @@ public struct ListFarmsInput: Swift.Equatable {
     }
 }
 
-struct ListFarmsInputBody: Swift.Equatable {
+struct ListFarmsInputBody {
 }
 
 extension ListFarmsInputBody: Swift.Decodable {
@@ -13760,7 +13760,7 @@ extension ListFarmsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFarmsOutput: Swift.Equatable {
+public struct ListFarmsOutput {
     /// Farms on the list.
     /// This member is required.
     public var farms: [DeadlineClientTypes.FarmSummary]?
@@ -13777,7 +13777,7 @@ public struct ListFarmsOutput: Swift.Equatable {
     }
 }
 
-struct ListFarmsOutputBody: Swift.Equatable {
+struct ListFarmsOutputBody {
     let nextToken: Swift.String?
     let farms: [DeadlineClientTypes.FarmSummary]?
 }
@@ -13849,7 +13849,7 @@ extension ListFleetMembersInput {
     }
 }
 
-public struct ListFleetMembersInput: Swift.Equatable {
+public struct ListFleetMembersInput {
     /// The farm ID of the fleet.
     /// This member is required.
     public var farmId: Swift.String?
@@ -13875,7 +13875,7 @@ public struct ListFleetMembersInput: Swift.Equatable {
     }
 }
 
-struct ListFleetMembersInputBody: Swift.Equatable {
+struct ListFleetMembersInputBody {
 }
 
 extension ListFleetMembersInputBody: Swift.Decodable {
@@ -13898,7 +13898,7 @@ extension ListFleetMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetMembersOutput: Swift.Equatable {
+public struct ListFleetMembersOutput {
     /// The members on the list.
     /// This member is required.
     public var members: [DeadlineClientTypes.FleetMember]?
@@ -13915,7 +13915,7 @@ public struct ListFleetMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetMembersOutputBody: Swift.Equatable {
+struct ListFleetMembersOutputBody {
     let members: [DeadlineClientTypes.FleetMember]?
     let nextToken: Swift.String?
 }
@@ -13997,7 +13997,7 @@ extension ListFleetsInput {
     }
 }
 
-public struct ListFleetsInput: Swift.Equatable {
+public struct ListFleetsInput {
     /// The display names of a list of fleets.
     public var displayName: Swift.String?
     /// The farm ID of the fleets.
@@ -14030,7 +14030,7 @@ public struct ListFleetsInput: Swift.Equatable {
     }
 }
 
-struct ListFleetsInputBody: Swift.Equatable {
+struct ListFleetsInputBody {
 }
 
 extension ListFleetsInputBody: Swift.Decodable {
@@ -14053,7 +14053,7 @@ extension ListFleetsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFleetsOutput: Swift.Equatable {
+public struct ListFleetsOutput {
     /// The fleets on the list.
     /// This member is required.
     public var fleets: [DeadlineClientTypes.FleetSummary]?
@@ -14070,7 +14070,7 @@ public struct ListFleetsOutput: Swift.Equatable {
     }
 }
 
-struct ListFleetsOutputBody: Swift.Equatable {
+struct ListFleetsOutputBody {
     let fleets: [DeadlineClientTypes.FleetSummary]?
     let nextToken: Swift.String?
 }
@@ -14146,7 +14146,7 @@ extension ListJobMembersInput {
     }
 }
 
-public struct ListJobMembersInput: Swift.Equatable {
+public struct ListJobMembersInput {
     /// The farm ID of the job to list.
     /// This member is required.
     public var farmId: Swift.String?
@@ -14177,7 +14177,7 @@ public struct ListJobMembersInput: Swift.Equatable {
     }
 }
 
-struct ListJobMembersInputBody: Swift.Equatable {
+struct ListJobMembersInputBody {
 }
 
 extension ListJobMembersInputBody: Swift.Decodable {
@@ -14200,7 +14200,7 @@ extension ListJobMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobMembersOutput: Swift.Equatable {
+public struct ListJobMembersOutput {
     /// The members on the list.
     /// This member is required.
     public var members: [DeadlineClientTypes.JobMember]?
@@ -14217,7 +14217,7 @@ public struct ListJobMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListJobMembersOutputBody: Swift.Equatable {
+struct ListJobMembersOutputBody {
     let members: [DeadlineClientTypes.JobMember]?
     let nextToken: Swift.String?
 }
@@ -14294,7 +14294,7 @@ extension ListJobsInput {
     }
 }
 
-public struct ListJobsInput: Swift.Equatable {
+public struct ListJobsInput {
     /// The farm ID for the jobs.
     /// This member is required.
     public var farmId: Swift.String?
@@ -14324,7 +14324,7 @@ public struct ListJobsInput: Swift.Equatable {
     }
 }
 
-struct ListJobsInputBody: Swift.Equatable {
+struct ListJobsInputBody {
 }
 
 extension ListJobsInputBody: Swift.Decodable {
@@ -14347,7 +14347,7 @@ extension ListJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListJobsOutput: Swift.Equatable {
+public struct ListJobsOutput {
     /// The jobs on the list.
     /// This member is required.
     public var jobs: [DeadlineClientTypes.JobSummary]?
@@ -14364,7 +14364,7 @@ public struct ListJobsOutput: Swift.Equatable {
     }
 }
 
-struct ListJobsOutputBody: Swift.Equatable {
+struct ListJobsOutputBody {
     let jobs: [DeadlineClientTypes.JobSummary]?
     let nextToken: Swift.String?
 }
@@ -14431,7 +14431,7 @@ extension ListLicenseEndpointsInput {
     }
 }
 
-public struct ListLicenseEndpointsInput: Swift.Equatable {
+public struct ListLicenseEndpointsInput {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null to start from the beginning.
@@ -14447,7 +14447,7 @@ public struct ListLicenseEndpointsInput: Swift.Equatable {
     }
 }
 
-struct ListLicenseEndpointsInputBody: Swift.Equatable {
+struct ListLicenseEndpointsInputBody {
 }
 
 extension ListLicenseEndpointsInputBody: Swift.Decodable {
@@ -14470,7 +14470,7 @@ extension ListLicenseEndpointsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLicenseEndpointsOutput: Swift.Equatable {
+public struct ListLicenseEndpointsOutput {
     /// The license endpoints.
     /// This member is required.
     public var licenseEndpoints: [DeadlineClientTypes.LicenseEndpointSummary]?
@@ -14487,7 +14487,7 @@ public struct ListLicenseEndpointsOutput: Swift.Equatable {
     }
 }
 
-struct ListLicenseEndpointsOutputBody: Swift.Equatable {
+struct ListLicenseEndpointsOutputBody {
     let licenseEndpoints: [DeadlineClientTypes.LicenseEndpointSummary]?
     let nextToken: Swift.String?
 }
@@ -14557,7 +14557,7 @@ extension ListMeteredProductsInput {
     }
 }
 
-public struct ListMeteredProductsInput: Swift.Equatable {
+public struct ListMeteredProductsInput {
     /// The license endpoint ID to include on the list of metered products.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -14578,7 +14578,7 @@ public struct ListMeteredProductsInput: Swift.Equatable {
     }
 }
 
-struct ListMeteredProductsInputBody: Swift.Equatable {
+struct ListMeteredProductsInputBody {
 }
 
 extension ListMeteredProductsInputBody: Swift.Decodable {
@@ -14601,7 +14601,7 @@ extension ListMeteredProductsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMeteredProductsOutput: Swift.Equatable {
+public struct ListMeteredProductsOutput {
     /// The metered products to list.
     /// This member is required.
     public var meteredProducts: [DeadlineClientTypes.MeteredProductSummary]?
@@ -14618,7 +14618,7 @@ public struct ListMeteredProductsOutput: Swift.Equatable {
     }
 }
 
-struct ListMeteredProductsOutputBody: Swift.Equatable {
+struct ListMeteredProductsOutputBody {
     let meteredProducts: [DeadlineClientTypes.MeteredProductSummary]?
     let nextToken: Swift.String?
 }
@@ -14685,7 +14685,7 @@ extension ListMonitorsInput {
     }
 }
 
-public struct ListMonitorsInput: Swift.Equatable {
+public struct ListMonitorsInput {
     /// The maximum number of results to return. Use this parameter with NextToken to get results as a set of sequential pages.
     public var maxResults: Swift.Int?
     /// The token for the next set of results, or null to start from the beginning.
@@ -14701,7 +14701,7 @@ public struct ListMonitorsInput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsInputBody: Swift.Equatable {
+struct ListMonitorsInputBody {
 }
 
 extension ListMonitorsInputBody: Swift.Decodable {
@@ -14724,7 +14724,7 @@ extension ListMonitorsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListMonitorsOutput: Swift.Equatable {
+public struct ListMonitorsOutput {
     /// A list of MonitorSummary objects that describe your monitors in the Deadline Cloud.
     /// This member is required.
     public var monitors: [DeadlineClientTypes.MonitorSummary]?
@@ -14741,7 +14741,7 @@ public struct ListMonitorsOutput: Swift.Equatable {
     }
 }
 
-struct ListMonitorsOutputBody: Swift.Equatable {
+struct ListMonitorsOutputBody {
     let nextToken: Swift.String?
     let monitors: [DeadlineClientTypes.MonitorSummary]?
 }
@@ -14813,7 +14813,7 @@ extension ListQueueEnvironmentsInput {
     }
 }
 
-public struct ListQueueEnvironmentsInput: Swift.Equatable {
+public struct ListQueueEnvironmentsInput {
     /// The farm ID for the queue environment list.
     /// This member is required.
     public var farmId: Swift.String?
@@ -14839,7 +14839,7 @@ public struct ListQueueEnvironmentsInput: Swift.Equatable {
     }
 }
 
-struct ListQueueEnvironmentsInputBody: Swift.Equatable {
+struct ListQueueEnvironmentsInputBody {
 }
 
 extension ListQueueEnvironmentsInputBody: Swift.Decodable {
@@ -14862,7 +14862,7 @@ extension ListQueueEnvironmentsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueueEnvironmentsOutput: Swift.Equatable {
+public struct ListQueueEnvironmentsOutput {
     /// The environments to include in the queue environments list.
     /// This member is required.
     public var environments: [DeadlineClientTypes.QueueEnvironmentSummary]?
@@ -14879,7 +14879,7 @@ public struct ListQueueEnvironmentsOutput: Swift.Equatable {
     }
 }
 
-struct ListQueueEnvironmentsOutputBody: Swift.Equatable {
+struct ListQueueEnvironmentsOutputBody {
     let environments: [DeadlineClientTypes.QueueEnvironmentSummary]?
     let nextToken: Swift.String?
 }
@@ -14957,7 +14957,7 @@ extension ListQueueFleetAssociationsInput {
     }
 }
 
-public struct ListQueueFleetAssociationsInput: Swift.Equatable {
+public struct ListQueueFleetAssociationsInput {
     /// The farm ID for the queue-fleet association list.
     /// This member is required.
     public var farmId: Swift.String?
@@ -14986,7 +14986,7 @@ public struct ListQueueFleetAssociationsInput: Swift.Equatable {
     }
 }
 
-struct ListQueueFleetAssociationsInputBody: Swift.Equatable {
+struct ListQueueFleetAssociationsInputBody {
 }
 
 extension ListQueueFleetAssociationsInputBody: Swift.Decodable {
@@ -15009,7 +15009,7 @@ extension ListQueueFleetAssociationsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueueFleetAssociationsOutput: Swift.Equatable {
+public struct ListQueueFleetAssociationsOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The queue-fleet associations on the list.
@@ -15026,7 +15026,7 @@ public struct ListQueueFleetAssociationsOutput: Swift.Equatable {
     }
 }
 
-struct ListQueueFleetAssociationsOutputBody: Swift.Equatable {
+struct ListQueueFleetAssociationsOutputBody {
     let queueFleetAssociations: [DeadlineClientTypes.QueueFleetAssociationSummary]?
     let nextToken: Swift.String?
 }
@@ -15098,7 +15098,7 @@ extension ListQueueMembersInput {
     }
 }
 
-public struct ListQueueMembersInput: Swift.Equatable {
+public struct ListQueueMembersInput {
     /// The farm ID for the queue.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15124,7 +15124,7 @@ public struct ListQueueMembersInput: Swift.Equatable {
     }
 }
 
-struct ListQueueMembersInputBody: Swift.Equatable {
+struct ListQueueMembersInputBody {
 }
 
 extension ListQueueMembersInputBody: Swift.Decodable {
@@ -15147,7 +15147,7 @@ extension ListQueueMembersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueueMembersOutput: Swift.Equatable {
+public struct ListQueueMembersOutput {
     /// The members on the list.
     /// This member is required.
     public var members: [DeadlineClientTypes.QueueMember]?
@@ -15164,7 +15164,7 @@ public struct ListQueueMembersOutput: Swift.Equatable {
     }
 }
 
-struct ListQueueMembersOutputBody: Swift.Equatable {
+struct ListQueueMembersOutputBody {
     let members: [DeadlineClientTypes.QueueMember]?
     let nextToken: Swift.String?
 }
@@ -15242,7 +15242,7 @@ extension ListQueuesInput {
     }
 }
 
-public struct ListQueuesInput: Swift.Equatable {
+public struct ListQueuesInput {
     /// The farm ID of the queue.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15277,7 +15277,7 @@ public struct ListQueuesInput: Swift.Equatable {
     }
 }
 
-struct ListQueuesInputBody: Swift.Equatable {
+struct ListQueuesInputBody {
 }
 
 extension ListQueuesInputBody: Swift.Decodable {
@@ -15300,7 +15300,7 @@ extension ListQueuesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListQueuesOutput: Swift.Equatable {
+public struct ListQueuesOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The queues on the list.
@@ -15317,7 +15317,7 @@ public struct ListQueuesOutput: Swift.Equatable {
     }
 }
 
-struct ListQueuesOutputBody: Swift.Equatable {
+struct ListQueuesOutputBody {
     let queues: [DeadlineClientTypes.QueueSummary]?
     let nextToken: Swift.String?
 }
@@ -15401,7 +15401,7 @@ extension ListSessionActionsInput {
     }
 }
 
-public struct ListSessionActionsInput: Swift.Equatable {
+public struct ListSessionActionsInput {
     /// The farm ID for the session actions list.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15440,7 +15440,7 @@ public struct ListSessionActionsInput: Swift.Equatable {
     }
 }
 
-struct ListSessionActionsInputBody: Swift.Equatable {
+struct ListSessionActionsInputBody {
 }
 
 extension ListSessionActionsInputBody: Swift.Decodable {
@@ -15463,7 +15463,7 @@ extension ListSessionActionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionActionsOutput: Swift.Equatable {
+public struct ListSessionActionsOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The session actions.
@@ -15480,7 +15480,7 @@ public struct ListSessionActionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionActionsOutputBody: Swift.Equatable {
+struct ListSessionActionsOutputBody {
     let sessionActions: [DeadlineClientTypes.SessionActionSummary]?
     let nextToken: Swift.String?
 }
@@ -15556,7 +15556,7 @@ extension ListSessionsForWorkerInput {
     }
 }
 
-public struct ListSessionsForWorkerInput: Swift.Equatable {
+public struct ListSessionsForWorkerInput {
     /// The farm ID for the session.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15587,7 +15587,7 @@ public struct ListSessionsForWorkerInput: Swift.Equatable {
     }
 }
 
-struct ListSessionsForWorkerInputBody: Swift.Equatable {
+struct ListSessionsForWorkerInputBody {
 }
 
 extension ListSessionsForWorkerInputBody: Swift.Decodable {
@@ -15610,7 +15610,7 @@ extension ListSessionsForWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionsForWorkerOutput: Swift.Equatable {
+public struct ListSessionsForWorkerOutput {
     /// The token for the next set of results, or null to start from the beginning.
     public var nextToken: Swift.String?
     /// The sessions in the response.
@@ -15627,7 +15627,7 @@ public struct ListSessionsForWorkerOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionsForWorkerOutputBody: Swift.Equatable {
+struct ListSessionsForWorkerOutputBody {
     let sessions: [DeadlineClientTypes.WorkerSessionSummary]?
     let nextToken: Swift.String?
 }
@@ -15703,7 +15703,7 @@ extension ListSessionsInput {
     }
 }
 
-public struct ListSessionsInput: Swift.Equatable {
+public struct ListSessionsInput {
     /// The farm ID for the list of sessions.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15734,7 +15734,7 @@ public struct ListSessionsInput: Swift.Equatable {
     }
 }
 
-struct ListSessionsInputBody: Swift.Equatable {
+struct ListSessionsInputBody {
 }
 
 extension ListSessionsInputBody: Swift.Decodable {
@@ -15757,7 +15757,7 @@ extension ListSessionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSessionsOutput: Swift.Equatable {
+public struct ListSessionsOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The sessions on the list.
@@ -15774,7 +15774,7 @@ public struct ListSessionsOutput: Swift.Equatable {
     }
 }
 
-struct ListSessionsOutputBody: Swift.Equatable {
+struct ListSessionsOutputBody {
     let sessions: [DeadlineClientTypes.SessionSummary]?
     let nextToken: Swift.String?
 }
@@ -15853,7 +15853,7 @@ extension ListStepConsumersInput {
     }
 }
 
-public struct ListStepConsumersInput: Swift.Equatable {
+public struct ListStepConsumersInput {
     /// The farm ID for the list of step consumers.
     /// This member is required.
     public var farmId: Swift.String?
@@ -15889,7 +15889,7 @@ public struct ListStepConsumersInput: Swift.Equatable {
     }
 }
 
-struct ListStepConsumersInputBody: Swift.Equatable {
+struct ListStepConsumersInputBody {
 }
 
 extension ListStepConsumersInputBody: Swift.Decodable {
@@ -15912,7 +15912,7 @@ extension ListStepConsumersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStepConsumersOutput: Swift.Equatable {
+public struct ListStepConsumersOutput {
     /// The consumers on the list.
     /// This member is required.
     public var consumers: [DeadlineClientTypes.StepConsumer]?
@@ -15929,7 +15929,7 @@ public struct ListStepConsumersOutput: Swift.Equatable {
     }
 }
 
-struct ListStepConsumersOutputBody: Swift.Equatable {
+struct ListStepConsumersOutputBody {
     let consumers: [DeadlineClientTypes.StepConsumer]?
     let nextToken: Swift.String?
 }
@@ -16008,7 +16008,7 @@ extension ListStepDependenciesInput {
     }
 }
 
-public struct ListStepDependenciesInput: Swift.Equatable {
+public struct ListStepDependenciesInput {
     /// The farm ID for the step dependencies list.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16044,7 +16044,7 @@ public struct ListStepDependenciesInput: Swift.Equatable {
     }
 }
 
-struct ListStepDependenciesInputBody: Swift.Equatable {
+struct ListStepDependenciesInputBody {
 }
 
 extension ListStepDependenciesInputBody: Swift.Decodable {
@@ -16067,7 +16067,7 @@ extension ListStepDependenciesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStepDependenciesOutput: Swift.Equatable {
+public struct ListStepDependenciesOutput {
     /// The dependencies on the list.
     /// This member is required.
     public var dependencies: [DeadlineClientTypes.StepDependency]?
@@ -16084,7 +16084,7 @@ public struct ListStepDependenciesOutput: Swift.Equatable {
     }
 }
 
-struct ListStepDependenciesOutputBody: Swift.Equatable {
+struct ListStepDependenciesOutputBody {
     let dependencies: [DeadlineClientTypes.StepDependency]?
     let nextToken: Swift.String?
 }
@@ -16160,7 +16160,7 @@ extension ListStepsInput {
     }
 }
 
-public struct ListStepsInput: Swift.Equatable {
+public struct ListStepsInput {
     /// The farm ID to include on the list of steps.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16191,7 +16191,7 @@ public struct ListStepsInput: Swift.Equatable {
     }
 }
 
-struct ListStepsInputBody: Swift.Equatable {
+struct ListStepsInputBody {
 }
 
 extension ListStepsInputBody: Swift.Decodable {
@@ -16214,7 +16214,7 @@ extension ListStepsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStepsOutput: Swift.Equatable {
+public struct ListStepsOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The steps on the list.
@@ -16231,7 +16231,7 @@ public struct ListStepsOutput: Swift.Equatable {
     }
 }
 
-struct ListStepsOutputBody: Swift.Equatable {
+struct ListStepsOutputBody {
     let steps: [DeadlineClientTypes.StepSummary]?
     let nextToken: Swift.String?
 }
@@ -16304,7 +16304,7 @@ extension ListStorageProfilesForQueueInput {
     }
 }
 
-public struct ListStorageProfilesForQueueInput: Swift.Equatable {
+public struct ListStorageProfilesForQueueInput {
     /// The farm ID of the queue's storage profile.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16330,7 +16330,7 @@ public struct ListStorageProfilesForQueueInput: Swift.Equatable {
     }
 }
 
-struct ListStorageProfilesForQueueInputBody: Swift.Equatable {
+struct ListStorageProfilesForQueueInputBody {
 }
 
 extension ListStorageProfilesForQueueInputBody: Swift.Decodable {
@@ -16353,7 +16353,7 @@ extension ListStorageProfilesForQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStorageProfilesForQueueOutput: Swift.Equatable {
+public struct ListStorageProfilesForQueueOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The storage profiles in the queue.
@@ -16370,7 +16370,7 @@ public struct ListStorageProfilesForQueueOutput: Swift.Equatable {
     }
 }
 
-struct ListStorageProfilesForQueueOutputBody: Swift.Equatable {
+struct ListStorageProfilesForQueueOutputBody {
     let storageProfiles: [DeadlineClientTypes.StorageProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -16440,7 +16440,7 @@ extension ListStorageProfilesInput {
     }
 }
 
-public struct ListStorageProfilesInput: Swift.Equatable {
+public struct ListStorageProfilesInput {
     /// The farm ID of the storage profile.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16461,7 +16461,7 @@ public struct ListStorageProfilesInput: Swift.Equatable {
     }
 }
 
-struct ListStorageProfilesInputBody: Swift.Equatable {
+struct ListStorageProfilesInputBody {
 }
 
 extension ListStorageProfilesInputBody: Swift.Decodable {
@@ -16484,7 +16484,7 @@ extension ListStorageProfilesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListStorageProfilesOutput: Swift.Equatable {
+public struct ListStorageProfilesOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The storage profiles.
@@ -16501,7 +16501,7 @@ public struct ListStorageProfilesOutput: Swift.Equatable {
     }
 }
 
-struct ListStorageProfilesOutputBody: Swift.Equatable {
+struct ListStorageProfilesOutputBody {
     let storageProfiles: [DeadlineClientTypes.StorageProfileSummary]?
     let nextToken: Swift.String?
 }
@@ -16555,7 +16555,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The resource ARN to list tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -16568,7 +16568,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -16589,7 +16589,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// Each tag consists of a tag key and a tag value. Tag keys and values are both required, but tag values can be empty strings.
     public var tags: [Swift.String:Swift.String]?
 
@@ -16601,7 +16601,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -16676,7 +16676,7 @@ extension ListTasksInput {
     }
 }
 
-public struct ListTasksInput: Swift.Equatable {
+public struct ListTasksInput {
     /// The farm ID connected to the tasks.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16712,7 +16712,7 @@ public struct ListTasksInput: Swift.Equatable {
     }
 }
 
-struct ListTasksInputBody: Swift.Equatable {
+struct ListTasksInputBody {
 }
 
 extension ListTasksInputBody: Swift.Decodable {
@@ -16735,7 +16735,7 @@ extension ListTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTasksOutput: Swift.Equatable {
+public struct ListTasksOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// Tasks for the job.
@@ -16752,7 +16752,7 @@ public struct ListTasksOutput: Swift.Equatable {
     }
 }
 
-struct ListTasksOutputBody: Swift.Equatable {
+struct ListTasksOutputBody {
     let tasks: [DeadlineClientTypes.TaskSummary]?
     let nextToken: Swift.String?
 }
@@ -16825,7 +16825,7 @@ extension ListWorkersInput {
     }
 }
 
-public struct ListWorkersInput: Swift.Equatable {
+public struct ListWorkersInput {
     /// The farm ID connected to the workers.
     /// This member is required.
     public var farmId: Swift.String?
@@ -16851,7 +16851,7 @@ public struct ListWorkersInput: Swift.Equatable {
     }
 }
 
-struct ListWorkersInputBody: Swift.Equatable {
+struct ListWorkersInputBody {
 }
 
 extension ListWorkersInputBody: Swift.Decodable {
@@ -16874,7 +16874,7 @@ extension ListWorkersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListWorkersOutput: Swift.Equatable {
+public struct ListWorkersOutput {
     /// If Deadline Cloud returns nextToken, then there are more results available. The value of nextToken is a unique pagination token for each page. To retrieve the next page, call the operation again using the returned token. Keep all other arguments unchanged. If no results remain, then nextToken is set to null. Each pagination token expires after 24 hours. If you provide a token that isn't valid, then you receive an HTTP 400 ValidationException error.
     public var nextToken: Swift.String?
     /// The workers on the list.
@@ -16891,7 +16891,7 @@ public struct ListWorkersOutput: Swift.Equatable {
     }
 }
 
-struct ListWorkersOutputBody: Swift.Equatable {
+struct ListWorkersOutputBody {
     let nextToken: Swift.String?
     let workers: [DeadlineClientTypes.WorkerSummary]?
 }
@@ -16998,7 +16998,7 @@ extension DeadlineClientTypes.LogConfiguration: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Log configuration details.
-    public struct LogConfiguration: Swift.Equatable {
+    public struct LogConfiguration {
         /// The log configuration error details.
         public var error: Swift.String?
         /// The log drivers for worker related logs.
@@ -17126,7 +17126,7 @@ extension DeadlineClientTypes.ManifestProperties: Swift.CustomDebugStringConvert
 
 extension DeadlineClientTypes {
     /// The details of the manifest that links a job's source information.
-    public struct ManifestProperties: Swift.Equatable {
+    public struct ManifestProperties {
         /// The file system location name.
         public var fileSystemLocationName: Swift.String?
         /// The has value of the file.
@@ -17227,7 +17227,7 @@ extension DeadlineClientTypes.MemoryMiBRange: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The range of memory in MiB.
-    public struct MemoryMiBRange: Swift.Equatable {
+    public struct MemoryMiBRange {
         /// The maximum amount of memory (in MiB).
         public var max: Swift.Int?
         /// The minimum amount of memory (in MiB).
@@ -17285,7 +17285,7 @@ extension DeadlineClientTypes.MeteredProductSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a metered product.
-    public struct MeteredProductSummary: Swift.Equatable {
+    public struct MeteredProductSummary {
         /// The family to which the metered product belongs.
         /// This member is required.
         public var family: Swift.String?
@@ -17396,7 +17396,7 @@ extension DeadlineClientTypes.MonitorSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Provides information about a monitor in Deadline Cloud.
-    public struct MonitorSummary: Swift.Equatable {
+    public struct MonitorSummary {
         /// The UNIX timestamp of the date and time that the monitor was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -17492,7 +17492,7 @@ extension DeadlineClientTypes.ParameterFilterExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a filtered search for parameters.
-    public struct ParameterFilterExpression: Swift.Equatable {
+    public struct ParameterFilterExpression {
         /// The name of the parameter to filter on.
         /// This member is required.
         public var name: Swift.String?
@@ -17544,7 +17544,7 @@ extension DeadlineClientTypes.ParameterSortExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Organizes parameters according to your specifications.
-    public struct ParameterSortExpression: Swift.Equatable {
+    public struct ParameterSortExpression {
         /// The parameter name to sort by.
         /// This member is required.
         public var name: Swift.String?
@@ -17603,7 +17603,7 @@ extension DeadlineClientTypes.ParameterSpace: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a search for two or more step parameters.
-    public struct ParameterSpace: Swift.Equatable {
+    public struct ParameterSpace {
         /// The combination expression to use in the search.
         public var combination: Swift.String?
         /// The parameters to search for.
@@ -17693,7 +17693,7 @@ extension DeadlineClientTypes.PathMappingRule: Swift.CustomDebugStringConvertibl
 
 extension DeadlineClientTypes {
     /// The details of a source and destination path.
-    public struct PathMappingRule: Swift.Equatable {
+    public struct PathMappingRule {
         /// The destination path.
         /// This member is required.
         public var destinationPath: Swift.String?
@@ -17783,7 +17783,7 @@ extension DeadlineClientTypes.PosixUser: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The POSIX user.
-    public struct PosixUser: Swift.Equatable {
+    public struct PosixUser {
         /// The name of the POSIX user's group.
         /// This member is required.
         public var group: Swift.String?
@@ -17816,7 +17816,7 @@ extension PutMeteredProductInput {
     }
 }
 
-public struct PutMeteredProductInput: Swift.Equatable {
+public struct PutMeteredProductInput {
     /// The license endpoint ID to add to the metered product.
     /// This member is required.
     public var licenseEndpointId: Swift.String?
@@ -17834,7 +17834,7 @@ public struct PutMeteredProductInput: Swift.Equatable {
     }
 }
 
-struct PutMeteredProductInputBody: Swift.Equatable {
+struct PutMeteredProductInputBody {
 }
 
 extension PutMeteredProductInputBody: Swift.Decodable {
@@ -17848,7 +17848,7 @@ extension PutMeteredProductOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutMeteredProductOutput: Swift.Equatable {
+public struct PutMeteredProductOutput {
 
     public init() { }
 }
@@ -17933,7 +17933,7 @@ extension DeadlineClientTypes.QueueEnvironmentSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The summary of a queue environment.
-    public struct QueueEnvironmentSummary: Swift.Equatable {
+    public struct QueueEnvironmentSummary {
         /// The name of the queue environment.
         /// This member is required.
         public var name: Swift.String?
@@ -18053,7 +18053,7 @@ extension DeadlineClientTypes.QueueFleetAssociationSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a queue-fleet association.
-    public struct QueueFleetAssociationSummary: Swift.Equatable {
+    public struct QueueFleetAssociationSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -18155,7 +18155,7 @@ extension DeadlineClientTypes.QueueMember: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a queue member.
-    public struct QueueMember: Swift.Equatable {
+    public struct QueueMember {
         /// The farm ID.
         /// This member is required.
         public var farmId: Swift.String?
@@ -18305,7 +18305,7 @@ extension DeadlineClientTypes.QueueSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a queue summary.
-    public struct QueueSummary: Swift.Equatable {
+    public struct QueueSummary {
         /// The reason the queue is blocked, if applicable.
         public var blockedReason: DeadlineClientTypes.QueueBlockedReason?
         /// The date and time the resource was created.
@@ -18422,7 +18422,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceId: Swift.String?
     let resourceType: Swift.String?
@@ -18497,7 +18497,7 @@ extension DeadlineClientTypes.ResponseBudgetAction: Swift.CustomDebugStringConve
 
 extension DeadlineClientTypes {
     /// The details of a budget action.
-    public struct ResponseBudgetAction: Swift.Equatable {
+    public struct ResponseBudgetAction {
         /// The budget action description.
         public var description: Swift.String?
         /// The percentage threshold for the budget.
@@ -18580,7 +18580,7 @@ extension DeadlineClientTypes.S3Location: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The Amazon S3 location information.
-    public struct S3Location: Swift.Equatable {
+    public struct S3Location {
         /// The name of the Amazon S3 bucket.
         /// This member is required.
         public var bucketName: Swift.String?
@@ -18661,7 +18661,7 @@ extension DeadlineClientTypes.SearchFilterExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The type of search filter to apply.
-    public indirect enum SearchFilterExpression: Swift.Equatable {
+    public indirect enum SearchFilterExpression {
         /// Filters based on date and time.
         case datetimefilter(DeadlineClientTypes.DateTimeFilterExpression)
         /// Filters by parameter.
@@ -18716,7 +18716,7 @@ extension DeadlineClientTypes.SearchGroupedFilterExpressions: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The filter expression, AND or OR, to use when searching among a group of search strings in a resource. You can use two groupings per search each within parenthesis ().
-    public struct SearchGroupedFilterExpressions: Swift.Equatable {
+    public struct SearchGroupedFilterExpressions {
         /// The filters to use for the search.
         /// This member is required.
         public var filters: [DeadlineClientTypes.SearchFilterExpression]?
@@ -18781,7 +18781,7 @@ extension SearchJobsInput {
     }
 }
 
-public struct SearchJobsInput: Swift.Equatable {
+public struct SearchJobsInput {
     /// The farm ID of the job.
     /// This member is required.
     public var farmId: Swift.String?
@@ -18816,7 +18816,7 @@ public struct SearchJobsInput: Swift.Equatable {
     }
 }
 
-struct SearchJobsInputBody: Swift.Equatable {
+struct SearchJobsInputBody {
     let queueIds: [Swift.String]?
     let filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
     let sortExpressions: [DeadlineClientTypes.SearchSortExpression]?
@@ -18882,7 +18882,7 @@ extension SearchJobsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchJobsOutput: Swift.Equatable {
+public struct SearchJobsOutput {
     /// The jobs in the search.
     /// This member is required.
     public var jobs: [DeadlineClientTypes.JobSearchSummary]?
@@ -18904,7 +18904,7 @@ public struct SearchJobsOutput: Swift.Equatable {
     }
 }
 
-struct SearchJobsOutputBody: Swift.Equatable {
+struct SearchJobsOutputBody {
     let jobs: [DeadlineClientTypes.JobSearchSummary]?
     let nextItemOffset: Swift.Int?
     let totalResults: Swift.Int?
@@ -18997,7 +18997,7 @@ extension DeadlineClientTypes.SearchSortExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The resources to search.
-    public enum SearchSortExpression: Swift.Equatable {
+    public enum SearchSortExpression {
         /// Options for sorting a particular user's jobs first.
         case userjobsfirst(DeadlineClientTypes.UserJobsFirst)
         /// Options for sorting by a field.
@@ -19058,7 +19058,7 @@ extension SearchStepsInput {
     }
 }
 
-public struct SearchStepsInput: Swift.Equatable {
+public struct SearchStepsInput {
     /// The farm ID to use for the step search.
     /// This member is required.
     public var farmId: Swift.String?
@@ -19097,7 +19097,7 @@ public struct SearchStepsInput: Swift.Equatable {
     }
 }
 
-struct SearchStepsInputBody: Swift.Equatable {
+struct SearchStepsInputBody {
     let queueIds: [Swift.String]?
     let jobId: Swift.String?
     let filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
@@ -19167,7 +19167,7 @@ extension SearchStepsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchStepsOutput: Swift.Equatable {
+public struct SearchStepsOutput {
     /// The next incremental starting point after the defined itemOffset.
     public var nextItemOffset: Swift.Int?
     /// The steps in the search.
@@ -19189,7 +19189,7 @@ public struct SearchStepsOutput: Swift.Equatable {
     }
 }
 
-struct SearchStepsOutputBody: Swift.Equatable {
+struct SearchStepsOutputBody {
     let steps: [DeadlineClientTypes.StepSearchSummary]?
     let nextItemOffset: Swift.Int?
     let totalResults: Swift.Int?
@@ -19286,7 +19286,7 @@ extension SearchTasksInput {
     }
 }
 
-public struct SearchTasksInput: Swift.Equatable {
+public struct SearchTasksInput {
     /// The farm ID of the task.
     /// This member is required.
     public var farmId: Swift.String?
@@ -19325,7 +19325,7 @@ public struct SearchTasksInput: Swift.Equatable {
     }
 }
 
-struct SearchTasksInputBody: Swift.Equatable {
+struct SearchTasksInputBody {
     let queueIds: [Swift.String]?
     let jobId: Swift.String?
     let filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
@@ -19395,7 +19395,7 @@ extension SearchTasksOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchTasksOutput: Swift.Equatable {
+public struct SearchTasksOutput {
     /// The next incremental starting point after the defined itemOffset.
     public var nextItemOffset: Swift.Int?
     /// Tasks in the search.
@@ -19417,7 +19417,7 @@ public struct SearchTasksOutput: Swift.Equatable {
     }
 }
 
-struct SearchTasksOutputBody: Swift.Equatable {
+struct SearchTasksOutputBody {
     let tasks: [DeadlineClientTypes.TaskSearchSummary]?
     let nextItemOffset: Swift.Int?
     let totalResults: Swift.Int?
@@ -19486,7 +19486,7 @@ extension DeadlineClientTypes.SearchTermFilterExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Searches for a particular search term.
-    public struct SearchTermFilterExpression: Swift.Equatable {
+    public struct SearchTermFilterExpression {
         /// The term to search for.
         /// This member is required.
         public var searchTerm: Swift.String?
@@ -19546,7 +19546,7 @@ extension SearchWorkersInput {
     }
 }
 
-public struct SearchWorkersInput: Swift.Equatable {
+public struct SearchWorkersInput {
     /// The farm ID in the workers search.
     /// This member is required.
     public var farmId: Swift.String?
@@ -19581,7 +19581,7 @@ public struct SearchWorkersInput: Swift.Equatable {
     }
 }
 
-struct SearchWorkersInputBody: Swift.Equatable {
+struct SearchWorkersInputBody {
     let fleetIds: [Swift.String]?
     let filterExpressions: DeadlineClientTypes.SearchGroupedFilterExpressions?
     let sortExpressions: [DeadlineClientTypes.SearchSortExpression]?
@@ -19647,7 +19647,7 @@ extension SearchWorkersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct SearchWorkersOutput: Swift.Equatable {
+public struct SearchWorkersOutput {
     /// The next incremental starting point after the defined itemOffset.
     public var nextItemOffset: Swift.Int?
     /// The total number of results in the search.
@@ -19669,7 +19669,7 @@ public struct SearchWorkersOutput: Swift.Equatable {
     }
 }
 
-struct SearchWorkersOutputBody: Swift.Equatable {
+struct SearchWorkersOutputBody {
     let workers: [DeadlineClientTypes.WorkerSearchSummary]?
     let nextItemOffset: Swift.Int?
     let totalResults: Swift.Int?
@@ -19744,7 +19744,7 @@ extension DeadlineClientTypes.ServiceManagedEc2FleetConfiguration: Swift.Codable
 
 extension DeadlineClientTypes {
     /// The configuration details for a service managed Amazon EC2 fleet.
-    public struct ServiceManagedEc2FleetConfiguration: Swift.Equatable {
+    public struct ServiceManagedEc2FleetConfiguration {
         /// The Amazon EC2 instance capabilities.
         /// This member is required.
         public var instanceCapabilities: DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities?
@@ -19881,7 +19881,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceCapabilities: Swift.Codab
 
 extension DeadlineClientTypes {
     /// The Amazon EC2 instance capabilities.
-    public struct ServiceManagedEc2InstanceCapabilities: Swift.Equatable {
+    public struct ServiceManagedEc2InstanceCapabilities {
         /// The allowable Amazon EC2 instance types.
         public var allowedInstanceTypes: [Swift.String]?
         /// The CPU architecture type.
@@ -19952,7 +19952,7 @@ extension DeadlineClientTypes.ServiceManagedEc2InstanceMarketOptions: Swift.Coda
 
 extension DeadlineClientTypes {
     /// The details of the Amazon EC2 instance market options for a service managed fleet.
-    public struct ServiceManagedEc2InstanceMarketOptions: Swift.Equatable {
+    public struct ServiceManagedEc2InstanceMarketOptions {
         /// The Amazon EC2 instance type.
         /// This member is required.
         public var type: DeadlineClientTypes.Ec2MarketType?
@@ -20079,7 +20079,7 @@ public struct ServiceQuotaExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct ServiceQuotaExceededExceptionBody: Swift.Equatable {
+struct ServiceQuotaExceededExceptionBody {
     let message: Swift.String?
     let reason: DeadlineClientTypes.ServiceQuotaExceededExceptionReason?
     let resourceType: Swift.String?
@@ -20213,7 +20213,7 @@ extension DeadlineClientTypes.SessionActionDefinition: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The definition of the session action.
-    public enum SessionActionDefinition: Swift.Equatable {
+    public enum SessionActionDefinition {
         /// The environment to enter into.
         case enventer(DeadlineClientTypes.EnvironmentEnterSessionActionDefinition)
         /// The environment to exit from.
@@ -20280,7 +20280,7 @@ extension DeadlineClientTypes.SessionActionDefinitionSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a session action definition.
-    public enum SessionActionDefinitionSummary: Swift.Equatable {
+    public enum SessionActionDefinitionSummary {
         /// The environment to enter into.
         case enventer(DeadlineClientTypes.EnvironmentEnterSessionActionDefinitionSummary)
         /// The environment to exit from.
@@ -20410,7 +20410,7 @@ extension DeadlineClientTypes.SessionActionSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a session action.
-    public struct SessionActionSummary: Swift.Equatable {
+    public struct SessionActionSummary {
         /// The session action definition.
         /// This member is required.
         public var definition: DeadlineClientTypes.SessionActionDefinitionSummary?
@@ -20590,7 +20590,7 @@ extension DeadlineClientTypes.SessionSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The summary of a session.
-    public struct SessionSummary: Swift.Equatable {
+    public struct SessionSummary {
         /// The date and time the resource ended running.
         public var endedAt: ClientRuntime.Date?
         /// The fleet ID.
@@ -20740,7 +20740,7 @@ extension DeadlineClientTypes.SessionsStatisticsResources: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Specifies the fleet IDs or queue IDs to return statistics. You can specify only fleet IDs or queue IDS, not both.
-    public enum SessionsStatisticsResources: Swift.Equatable {
+    public enum SessionsStatisticsResources {
         /// One to 10 queue IDs that specify the queues to return statistics for. If you specify the queueIds field, you can't specify the fleetIds field.
         case queueids([Swift.String])
         /// One to 10 fleet IDs that specify the fleets to return statistics for. If you specify the fleetIds field, you can't specify the queueIds field.
@@ -20835,7 +20835,7 @@ extension StartSessionsStatisticsAggregationInput {
     }
 }
 
-public struct StartSessionsStatisticsAggregationInput: Swift.Equatable {
+public struct StartSessionsStatisticsAggregationInput {
     /// The Linux timestamp of the date and time that the statistics end.
     /// This member is required.
     public var endTime: ClientRuntime.Date?
@@ -20881,7 +20881,7 @@ public struct StartSessionsStatisticsAggregationInput: Swift.Equatable {
     }
 }
 
-struct StartSessionsStatisticsAggregationInputBody: Swift.Equatable {
+struct StartSessionsStatisticsAggregationInputBody {
     let resourceIds: DeadlineClientTypes.SessionsStatisticsResources?
     let startTime: ClientRuntime.Date?
     let endTime: ClientRuntime.Date?
@@ -20951,7 +20951,7 @@ extension StartSessionsStatisticsAggregationOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct StartSessionsStatisticsAggregationOutput: Swift.Equatable {
+public struct StartSessionsStatisticsAggregationOutput {
     /// A unique identifier for the aggregated statistics. Use this identifier with the GetAggregatedStatisticsForSessions operation to return the statistics.
     /// This member is required.
     public var aggregationId: Swift.String?
@@ -20964,7 +20964,7 @@ public struct StartSessionsStatisticsAggregationOutput: Swift.Equatable {
     }
 }
 
-struct StartSessionsStatisticsAggregationOutputBody: Swift.Equatable {
+struct StartSessionsStatisticsAggregationOutputBody {
     let aggregationId: Swift.String?
 }
 
@@ -21088,7 +21088,7 @@ extension DeadlineClientTypes.Statistics: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// A list of statistics for a session.
-    public struct Statistics: Swift.Equatable {
+    public struct Statistics {
         /// The end time for the aggregation.
         public var aggregationEndTime: ClientRuntime.Date?
         /// The start time for the aggregation.
@@ -21192,7 +21192,7 @@ extension DeadlineClientTypes.Stats: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The minimum, maximum, average, and sum.
-    public struct Stats: Swift.Equatable {
+    public struct Stats {
         /// The average of the usage statistics.
         public var avg: Swift.Double?
         /// The maximum among the usage statistics.
@@ -21257,7 +21257,7 @@ extension DeadlineClientTypes.StepAmountCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details outlining the minimum and maximum capability of a step.
-    public struct StepAmountCapability: Swift.Equatable {
+    public struct StepAmountCapability {
         /// The maximum amount.
         public var max: Swift.Double?
         /// The minimum amount.
@@ -21341,7 +21341,7 @@ extension DeadlineClientTypes.StepAttributeCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The list of step attributes.
-    public struct StepAttributeCapability: Swift.Equatable {
+    public struct StepAttributeCapability {
         /// Requires all of the step attribute values.
         public var allOf: [Swift.String]?
         /// Requires any of the step attributes in a given list.
@@ -21391,7 +21391,7 @@ extension DeadlineClientTypes.StepConsumer: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a step consumer.
-    public struct StepConsumer: Swift.Equatable {
+    public struct StepConsumer {
         /// The step consumer status.
         /// This member is required.
         public var status: DeadlineClientTypes.DependencyConsumerResolutionStatus?
@@ -21438,7 +21438,7 @@ extension DeadlineClientTypes.StepDependency: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of step dependency.
-    public struct StepDependency: Swift.Equatable {
+    public struct StepDependency {
         /// The step dependency status.
         /// This member is required.
         public var status: DeadlineClientTypes.DependencyConsumerResolutionStatus?
@@ -21520,7 +21520,7 @@ extension DeadlineClientTypes.StepDetailsEntity: Swift.CustomDebugStringConverti
 
 extension DeadlineClientTypes {
     /// The details of a step entity.
-    public struct StepDetailsEntity: Swift.Equatable {
+    public struct StepDetailsEntity {
         /// The dependencies for a step.
         /// This member is required.
         public var dependencies: [Swift.String]?
@@ -21594,7 +21594,7 @@ extension DeadlineClientTypes.StepDetailsError: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of the step error.
-    public struct StepDetailsError: Swift.Equatable {
+    public struct StepDetailsError {
         /// The error code.
         /// This member is required.
         public var code: DeadlineClientTypes.JobEntityErrorCode?
@@ -21651,7 +21651,7 @@ extension DeadlineClientTypes.StepDetailsIdentifiers: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of identifiers for a step.
-    public struct StepDetailsIdentifiers: Swift.Equatable {
+    public struct StepDetailsIdentifiers {
         /// The job ID.
         /// This member is required.
         public var jobId: Swift.String?
@@ -21736,7 +21736,7 @@ extension DeadlineClientTypes.StepParameter: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a step parameter.
-    public struct StepParameter: Swift.Equatable {
+    public struct StepParameter {
         /// The name of the parameter.
         /// This member is required.
         public var name: Swift.String?
@@ -21845,7 +21845,7 @@ extension DeadlineClientTypes.StepRequiredCapabilities: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of required step capabilities.
-    public struct StepRequiredCapabilities: Swift.Equatable {
+    public struct StepRequiredCapabilities {
         /// The capability amounts that the step requires.
         /// This member is required.
         public var amounts: [DeadlineClientTypes.StepAmountCapability]?
@@ -21970,7 +21970,7 @@ extension DeadlineClientTypes.StepSearchSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a step search.
-    public struct StepSearchSummary: Swift.Equatable {
+    public struct StepSearchSummary {
         /// The date and time the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The date and time the resource ended running.
@@ -22163,7 +22163,7 @@ extension DeadlineClientTypes.StepSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details for a step.
-    public struct StepSummary: Swift.Equatable {
+    public struct StepSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -22368,7 +22368,7 @@ extension DeadlineClientTypes.StorageProfileSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a storage profile.
-    public struct StorageProfileSummary: Swift.Equatable {
+    public struct StorageProfileSummary {
         /// The display name of the storage profile summary to update.
         /// This member is required.
         public var displayName: Swift.String?
@@ -22426,7 +22426,7 @@ extension DeadlineClientTypes.StringFilterExpression: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Searches for a particular string.
-    public struct StringFilterExpression: Swift.Equatable {
+    public struct StringFilterExpression {
         /// The field name to search.
         /// This member is required.
         public var name: Swift.String?
@@ -22472,7 +22472,7 @@ extension DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinition: Sw
 
 extension DeadlineClientTypes {
     /// The job attachment in a session action to sync.
-    public struct SyncInputJobAttachmentsSessionActionDefinition: Swift.Equatable {
+    public struct SyncInputJobAttachmentsSessionActionDefinition {
         /// The step ID for the step in the job attachment.
         public var stepId: Swift.String?
 
@@ -22507,7 +22507,7 @@ extension DeadlineClientTypes.SyncInputJobAttachmentsSessionActionDefinitionSumm
 
 extension DeadlineClientTypes {
     /// The details of a synced job attachment.
-    public struct SyncInputJobAttachmentsSessionActionDefinitionSummary: Swift.Equatable {
+    public struct SyncInputJobAttachmentsSessionActionDefinitionSummary {
         /// The step ID of the step in the job attachment.
         public var stepId: Swift.String?
 
@@ -22547,7 +22547,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the resource to apply tags to.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -22564,7 +22564,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -22594,7 +22594,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -22668,7 +22668,7 @@ extension DeadlineClientTypes.TaskParameterValue: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The data types for the task parameters.
-    public enum TaskParameterValue: Swift.Equatable {
+    public enum TaskParameterValue {
         /// A signed integer represented as a string.
         case int(Swift.String)
         /// A double precision IEEE-754 floating point number represented as a string.
@@ -22732,7 +22732,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinition: Swift.CustomDebugS
 
 extension DeadlineClientTypes {
     /// The task, step, and parameters for the task run in the session action.
-    public struct TaskRunSessionActionDefinition: Swift.Equatable {
+    public struct TaskRunSessionActionDefinition {
         /// The task parameters.
         /// This member is required.
         public var parameters: [Swift.String:DeadlineClientTypes.TaskParameterValue]?
@@ -22784,7 +22784,7 @@ extension DeadlineClientTypes.TaskRunSessionActionDefinitionSummary: Swift.Codab
 
 extension DeadlineClientTypes {
     /// The details of a task run in a session action.
-    public struct TaskRunSessionActionDefinitionSummary: Swift.Equatable {
+    public struct TaskRunSessionActionDefinitionSummary {
         /// The step ID.
         /// This member is required.
         public var stepId: Swift.String?
@@ -22958,7 +22958,7 @@ extension DeadlineClientTypes.TaskSearchSummary: Swift.CustomDebugStringConverti
 
 extension DeadlineClientTypes {
     /// The details of a task search.
-    public struct TaskSearchSummary: Swift.Equatable {
+    public struct TaskSearchSummary {
         /// The date and time the resource ended running.
         public var endedAt: ClientRuntime.Date?
         /// The number of times that the task failed and was retried.
@@ -23112,7 +23112,7 @@ extension DeadlineClientTypes.TaskSummary: Swift.CustomDebugStringConvertible {
 
 extension DeadlineClientTypes {
     /// The details of a task.
-    public struct TaskSummary: Swift.Equatable {
+    public struct TaskSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -23285,7 +23285,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -23348,7 +23348,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the resource to remove the tag from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -23366,7 +23366,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -23380,7 +23380,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -23473,7 +23473,7 @@ extension UpdateBudgetInput {
     }
 }
 
-public struct UpdateBudgetInput: Swift.Equatable {
+public struct UpdateBudgetInput {
     /// The budget actions to add. Budget actions specify what happens when the budget runs out.
     public var actionsToAdd: [DeadlineClientTypes.BudgetActionToAdd]?
     /// The budget actions to remove from the budget.
@@ -23527,7 +23527,7 @@ public struct UpdateBudgetInput: Swift.Equatable {
     }
 }
 
-struct UpdateBudgetInputBody: Swift.Equatable {
+struct UpdateBudgetInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let status: DeadlineClientTypes.BudgetStatus?
@@ -23590,7 +23590,7 @@ extension UpdateBudgetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateBudgetOutput: Swift.Equatable {
+public struct UpdateBudgetOutput {
 
     public init() { }
 }
@@ -23642,7 +23642,7 @@ extension UpdateFarmInput {
     }
 }
 
-public struct UpdateFarmInput: Swift.Equatable {
+public struct UpdateFarmInput {
     /// The description of the farm to update.
     public var description: Swift.String?
     /// The display name of the farm to update.
@@ -23663,7 +23663,7 @@ public struct UpdateFarmInput: Swift.Equatable {
     }
 }
 
-struct UpdateFarmInputBody: Swift.Equatable {
+struct UpdateFarmInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
 }
@@ -23688,7 +23688,7 @@ extension UpdateFarmOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFarmOutput: Swift.Equatable {
+public struct UpdateFarmOutput {
 
     public init() { }
 }
@@ -23770,7 +23770,7 @@ extension UpdateFleetInput {
     }
 }
 
-public struct UpdateFleetInput: Swift.Equatable {
+public struct UpdateFleetInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The fleet configuration to update.
@@ -23816,7 +23816,7 @@ public struct UpdateFleetInput: Swift.Equatable {
     }
 }
 
-struct UpdateFleetInputBody: Swift.Equatable {
+struct UpdateFleetInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let roleArn: Swift.String?
@@ -23857,7 +23857,7 @@ extension UpdateFleetOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFleetOutput: Swift.Equatable {
+public struct UpdateFleetOutput {
 
     public init() { }
 }
@@ -23934,7 +23934,7 @@ extension UpdateJobInput {
     }
 }
 
-public struct UpdateJobInput: Swift.Equatable {
+public struct UpdateJobInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID of the job to update.
@@ -23981,7 +23981,7 @@ public struct UpdateJobInput: Swift.Equatable {
     }
 }
 
-struct UpdateJobInputBody: Swift.Equatable {
+struct UpdateJobInputBody {
     let targetTaskRunStatus: DeadlineClientTypes.JobTargetTaskRunStatus?
     let priority: Swift.Int?
     let maxFailedTasksCount: Swift.Int?
@@ -24047,7 +24047,7 @@ extension UpdateJobOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateJobOutput: Swift.Equatable {
+public struct UpdateJobOutput {
 
     public init() { }
 }
@@ -24099,7 +24099,7 @@ extension UpdateMonitorInput {
     }
 }
 
-public struct UpdateMonitorInput: Swift.Equatable {
+public struct UpdateMonitorInput {
     /// The new value to use for the monitor's display name.
     public var displayName: Swift.String?
     /// The unique identifier of the monitor to update.
@@ -24124,7 +24124,7 @@ public struct UpdateMonitorInput: Swift.Equatable {
     }
 }
 
-struct UpdateMonitorInputBody: Swift.Equatable {
+struct UpdateMonitorInputBody {
     let subdomain: Swift.String?
     let displayName: Swift.String?
     let roleArn: Swift.String?
@@ -24153,7 +24153,7 @@ extension UpdateMonitorOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateMonitorOutput: Swift.Equatable {
+public struct UpdateMonitorOutput {
 
     public init() { }
 }
@@ -24226,7 +24226,7 @@ extension UpdateQueueEnvironmentInput {
     }
 }
 
-public struct UpdateQueueEnvironmentInput: Swift.Equatable {
+public struct UpdateQueueEnvironmentInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID of the queue environment to update.
@@ -24265,7 +24265,7 @@ public struct UpdateQueueEnvironmentInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueEnvironmentInputBody: Swift.Equatable {
+struct UpdateQueueEnvironmentInputBody {
     let priority: Swift.Int?
     let templateType: DeadlineClientTypes.EnvironmentTemplateType?
     let template: Swift.String?
@@ -24294,7 +24294,7 @@ extension UpdateQueueEnvironmentOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueEnvironmentOutput: Swift.Equatable {
+public struct UpdateQueueEnvironmentOutput {
 
     public init() { }
 }
@@ -24343,7 +24343,7 @@ extension UpdateQueueFleetAssociationInput {
     }
 }
 
-public struct UpdateQueueFleetAssociationInput: Swift.Equatable {
+public struct UpdateQueueFleetAssociationInput {
     /// The farm ID to update.
     /// This member is required.
     public var farmId: Swift.String?
@@ -24371,7 +24371,7 @@ public struct UpdateQueueFleetAssociationInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueFleetAssociationInputBody: Swift.Equatable {
+struct UpdateQueueFleetAssociationInputBody {
     let status: DeadlineClientTypes.UpdateQueueFleetAssociationStatus?
 }
 
@@ -24392,7 +24392,7 @@ extension UpdateQueueFleetAssociationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueFleetAssociationOutput: Swift.Equatable {
+public struct UpdateQueueFleetAssociationOutput {
 
     public init() { }
 }
@@ -24537,7 +24537,7 @@ extension UpdateQueueInput {
     }
 }
 
-public struct UpdateQueueInput: Swift.Equatable {
+public struct UpdateQueueInput {
     /// The storage profile IDs to add.
     public var allowedStorageProfileIdsToAdd: [Swift.String]?
     /// The storage profile ID to remove.
@@ -24599,7 +24599,7 @@ public struct UpdateQueueInput: Swift.Equatable {
     }
 }
 
-struct UpdateQueueInputBody: Swift.Equatable {
+struct UpdateQueueInputBody {
     let displayName: Swift.String?
     let description: Swift.String?
     let defaultBudgetAction: DeadlineClientTypes.DefaultQueueBudgetAction?
@@ -24692,7 +24692,7 @@ extension UpdateQueueOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateQueueOutput: Swift.Equatable {
+public struct UpdateQueueOutput {
 
     public init() { }
 }
@@ -24755,7 +24755,7 @@ extension UpdateSessionInput {
     }
 }
 
-public struct UpdateSessionInput: Swift.Equatable {
+public struct UpdateSessionInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID to update in the session.
@@ -24792,7 +24792,7 @@ public struct UpdateSessionInput: Swift.Equatable {
     }
 }
 
-struct UpdateSessionInputBody: Swift.Equatable {
+struct UpdateSessionInputBody {
     let targetLifecycleStatus: DeadlineClientTypes.SessionLifecycleTargetStatus?
 }
 
@@ -24813,7 +24813,7 @@ extension UpdateSessionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSessionOutput: Swift.Equatable {
+public struct UpdateSessionOutput {
 
     public init() { }
 }
@@ -24877,7 +24877,7 @@ extension UpdateStepInput {
     }
 }
 
-public struct UpdateStepInput: Swift.Equatable {
+public struct UpdateStepInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID to update.
@@ -24914,7 +24914,7 @@ public struct UpdateStepInput: Swift.Equatable {
     }
 }
 
-struct UpdateStepInputBody: Swift.Equatable {
+struct UpdateStepInputBody {
     let targetTaskRunStatus: DeadlineClientTypes.StepTargetTaskRunStatus?
 }
 
@@ -24935,7 +24935,7 @@ extension UpdateStepOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStepOutput: Swift.Equatable {
+public struct UpdateStepOutput {
 
     public init() { }
 }
@@ -25011,7 +25011,7 @@ extension UpdateStorageProfileInput {
     }
 }
 
-public struct UpdateStorageProfileInput: Swift.Equatable {
+public struct UpdateStorageProfileInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The display name of the storage profile to update.
@@ -25049,7 +25049,7 @@ public struct UpdateStorageProfileInput: Swift.Equatable {
     }
 }
 
-struct UpdateStorageProfileInputBody: Swift.Equatable {
+struct UpdateStorageProfileInputBody {
     let displayName: Swift.String?
     let osFamily: DeadlineClientTypes.StorageProfileOperatingSystemFamily?
     let fileSystemLocationsToAdd: [DeadlineClientTypes.FileSystemLocation]?
@@ -25100,7 +25100,7 @@ extension UpdateStorageProfileOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateStorageProfileOutput: Swift.Equatable {
+public struct UpdateStorageProfileOutput {
 
     public init() { }
 }
@@ -25166,7 +25166,7 @@ extension UpdateTaskInput {
     }
 }
 
-public struct UpdateTaskInput: Swift.Equatable {
+public struct UpdateTaskInput {
     /// The unique token which the server uses to recognize retries of the same request.
     public var clientToken: Swift.String?
     /// The farm ID to update.
@@ -25208,7 +25208,7 @@ public struct UpdateTaskInput: Swift.Equatable {
     }
 }
 
-struct UpdateTaskInputBody: Swift.Equatable {
+struct UpdateTaskInputBody {
     let targetRunStatus: DeadlineClientTypes.TaskTargetRunStatus?
 }
 
@@ -25229,7 +25229,7 @@ extension UpdateTaskOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateTaskOutput: Swift.Equatable {
+public struct UpdateTaskOutput {
 
     public init() { }
 }
@@ -25287,7 +25287,7 @@ extension UpdateWorkerInput {
     }
 }
 
-public struct UpdateWorkerInput: Swift.Equatable {
+public struct UpdateWorkerInput {
     /// The worker capabilities to update.
     public var capabilities: DeadlineClientTypes.WorkerCapabilities?
     /// The farm ID to update.
@@ -25322,7 +25322,7 @@ public struct UpdateWorkerInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkerInputBody: Swift.Equatable {
+struct UpdateWorkerInputBody {
     let status: DeadlineClientTypes.UpdatedWorkerStatus?
     let capabilities: DeadlineClientTypes.WorkerCapabilities?
     let hostProperties: DeadlineClientTypes.HostPropertiesRequest?
@@ -25358,7 +25358,7 @@ extension UpdateWorkerOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkerOutput: Swift.Equatable {
+public struct UpdateWorkerOutput {
     /// The worker log to update.
     public var log: DeadlineClientTypes.LogConfiguration?
 
@@ -25370,7 +25370,7 @@ public struct UpdateWorkerOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkerOutputBody: Swift.Equatable {
+struct UpdateWorkerOutputBody {
     let log: DeadlineClientTypes.LogConfiguration?
 }
 
@@ -25434,7 +25434,7 @@ extension UpdateWorkerScheduleInput {
     }
 }
 
-public struct UpdateWorkerScheduleInput: Swift.Equatable {
+public struct UpdateWorkerScheduleInput {
     /// The farm ID to update.
     /// This member is required.
     public var farmId: Swift.String?
@@ -25461,7 +25461,7 @@ public struct UpdateWorkerScheduleInput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkerScheduleInputBody: Swift.Equatable {
+struct UpdateWorkerScheduleInputBody {
     let updatedSessionActions: [Swift.String:DeadlineClientTypes.UpdatedSessionActionInfo]?
 }
 
@@ -25504,7 +25504,7 @@ extension UpdateWorkerScheduleOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateWorkerScheduleOutput: Swift.Equatable {
+public struct UpdateWorkerScheduleOutput {
     /// The assigned sessions to update.
     /// This member is required.
     public var assignedSessions: [Swift.String:DeadlineClientTypes.AssignedSession]?
@@ -25531,7 +25531,7 @@ public struct UpdateWorkerScheduleOutput: Swift.Equatable {
     }
 }
 
-struct UpdateWorkerScheduleOutputBody: Swift.Equatable {
+struct UpdateWorkerScheduleOutputBody {
     let assignedSessions: [Swift.String:DeadlineClientTypes.AssignedSession]?
     let cancelSessionActions: [Swift.String:[Swift.String]]?
     let desiredWorkerStatus: DeadlineClientTypes.DesiredWorkerStatus?
@@ -25662,7 +25662,7 @@ extension DeadlineClientTypes.UpdatedSessionActionInfo: Swift.CustomDebugStringC
 
 extension DeadlineClientTypes {
     /// The updated session action information as it relates to completion and progress of the session.
-    public struct UpdatedSessionActionInfo: Swift.Equatable {
+    public struct UpdatedSessionActionInfo {
         /// The status of the session upon completion.
         public var completedStatus: DeadlineClientTypes.CompletedStatus?
         /// The date and time the resource ended running.
@@ -25849,7 +25849,7 @@ extension DeadlineClientTypes.UsageTrackingResource: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The usage details of the allotted budget.
-    public enum UsageTrackingResource: Swift.Equatable {
+    public enum UsageTrackingResource {
         /// The queue ID.
         case queueid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -25910,7 +25910,7 @@ extension DeadlineClientTypes.UserJobsFirst: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Allows setting a specific user's job to run first.
-    public struct UserJobsFirst: Swift.Equatable {
+    public struct UserJobsFirst {
         /// The user's ID.
         /// This member is required.
         public var userIdentityId: Swift.String?
@@ -25952,7 +25952,7 @@ extension DeadlineClientTypes.VCpuCountRange: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The allowable range of vCPU processing power for the fleet.
-    public struct VCpuCountRange: Swift.Equatable {
+    public struct VCpuCountRange {
         /// The maximum amount of vCPU.
         public var max: Swift.Int?
         /// The minimum amount of vCPU.
@@ -26030,7 +26030,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let message: Swift.String?
     let reason: DeadlineClientTypes.ValidationExceptionReason?
     let fieldList: [DeadlineClientTypes.ValidationExceptionField]?
@@ -26103,7 +26103,7 @@ extension DeadlineClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// The error message for the validation exception.
         /// This member is required.
         public var message: Swift.String?
@@ -26188,7 +26188,7 @@ extension DeadlineClientTypes.WindowsUser: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The Windows user details.
-    public struct WindowsUser: Swift.Equatable {
+    public struct WindowsUser {
         /// The password ARN for the Windows user.
         /// This member is required.
         public var passwordArn: Swift.String?
@@ -26235,7 +26235,7 @@ extension DeadlineClientTypes.WorkerAmountCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of the worker amount capability.
-    public struct WorkerAmountCapability: Swift.Equatable {
+    public struct WorkerAmountCapability {
         /// The name of the worker amount capability.
         /// This member is required.
         public var name: Swift.String?
@@ -26294,7 +26294,7 @@ extension DeadlineClientTypes.WorkerAttributeCapability: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of the worker attribute capability.
-    public struct WorkerAttributeCapability: Swift.Equatable {
+    public struct WorkerAttributeCapability {
         /// The name of the worker attribute capability.
         /// This member is required.
         public var name: Swift.String?
@@ -26365,7 +26365,7 @@ extension DeadlineClientTypes.WorkerCapabilities: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details for worker capabilities.
-    public struct WorkerCapabilities: Swift.Equatable {
+    public struct WorkerCapabilities {
         /// The worker capabilities amounts on a list of worker capabilities.
         /// This member is required.
         public var amounts: [DeadlineClientTypes.WorkerAmountCapability]?
@@ -26448,7 +26448,7 @@ extension DeadlineClientTypes.WorkerSearchSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The details of a worker search.
-    public struct WorkerSearchSummary: Swift.Equatable {
+    public struct WorkerSearchSummary {
         /// The date and time the resource was created.
         public var createdAt: ClientRuntime.Date?
         /// The user or system that created this resource.
@@ -26547,7 +26547,7 @@ extension DeadlineClientTypes.WorkerSessionSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// Summarizes the session for a particular worker.
-    public struct WorkerSessionSummary: Swift.Equatable {
+    public struct WorkerSessionSummary {
         /// The date and time the resource ended running.
         public var endedAt: ClientRuntime.Date?
         /// The job ID for the job associated with the worker's session.
@@ -26715,7 +26715,7 @@ extension DeadlineClientTypes.WorkerSummary: Swift.Codable {
 
 extension DeadlineClientTypes {
     /// The summary of details for a worker.
-    public struct WorkerSummary: Swift.Equatable {
+    public struct WorkerSummary {
         /// The date and time the resource was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?

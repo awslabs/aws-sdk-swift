@@ -47,7 +47,7 @@ extension LambdaClientTypes.AccountLimit: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Limits that are related to concurrency and storage. All file and storage sizes are in bytes.
-    public struct AccountLimit: Swift.Equatable {
+    public struct AccountLimit {
         /// The maximum size of a function's deployment package and layers when they're extracted.
         public var codeSizeUnzipped: Swift.Int
         /// The maximum size of a deployment package when it's uploaded directly to Lambda. Use Amazon S3 for larger files.
@@ -104,7 +104,7 @@ extension LambdaClientTypes.AccountUsage: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The number of functions and amount of storage in use.
-    public struct AccountUsage: Swift.Equatable {
+    public struct AccountUsage {
         /// The number of Lambda functions.
         public var functionCount: Swift.Int
         /// The amount of storage space, in bytes, that's being used by deployment packages and layer archives.
@@ -172,7 +172,7 @@ extension AddLayerVersionPermissionInput {
     }
 }
 
-public struct AddLayerVersionPermissionInput: Swift.Equatable {
+public struct AddLayerVersionPermissionInput {
     /// The API action that grants access to the layer. For example, lambda:GetLayerVersion.
     /// This member is required.
     public var action: Swift.String?
@@ -213,7 +213,7 @@ public struct AddLayerVersionPermissionInput: Swift.Equatable {
     }
 }
 
-struct AddLayerVersionPermissionInputBody: Swift.Equatable {
+struct AddLayerVersionPermissionInputBody {
     let statementId: Swift.String?
     let action: Swift.String?
     let principal: Swift.String?
@@ -255,7 +255,7 @@ extension AddLayerVersionPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddLayerVersionPermissionOutput: Swift.Equatable {
+public struct AddLayerVersionPermissionOutput {
     /// A unique identifier for the current revision of the policy.
     public var revisionId: Swift.String?
     /// The permission statement.
@@ -271,7 +271,7 @@ public struct AddLayerVersionPermissionOutput: Swift.Equatable {
     }
 }
 
-struct AddLayerVersionPermissionOutputBody: Swift.Equatable {
+struct AddLayerVersionPermissionOutputBody {
     let statement: Swift.String?
     let revisionId: Swift.String?
 }
@@ -375,7 +375,7 @@ extension AddPermissionInput {
     }
 }
 
-public struct AddPermissionInput: Swift.Equatable {
+public struct AddPermissionInput {
     /// The action that the principal can use on the function. For example, lambda:InvokeFunction or lambda:GetFunction.
     /// This member is required.
     public var action: Swift.String?
@@ -440,7 +440,7 @@ public struct AddPermissionInput: Swift.Equatable {
     }
 }
 
-struct AddPermissionInputBody: Swift.Equatable {
+struct AddPermissionInputBody {
     let statementId: Swift.String?
     let action: Swift.String?
     let principal: Swift.String?
@@ -500,7 +500,7 @@ extension AddPermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct AddPermissionOutput: Swift.Equatable {
+public struct AddPermissionOutput {
     /// The permission statement that's added to the function policy.
     public var statement: Swift.String?
 
@@ -512,7 +512,7 @@ public struct AddPermissionOutput: Swift.Equatable {
     }
 }
 
-struct AddPermissionOutputBody: Swift.Equatable {
+struct AddPermissionOutputBody {
     let statement: Swift.String?
 }
 
@@ -596,7 +596,7 @@ extension LambdaClientTypes.AliasConfiguration: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-    public struct AliasConfiguration: Swift.Equatable {
+    public struct AliasConfiguration {
         /// The Amazon Resource Name (ARN) of the alias.
         public var aliasArn: Swift.String?
         /// A description of the alias.
@@ -663,7 +663,7 @@ extension LambdaClientTypes.AliasRoutingConfiguration: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The [traffic-shifting](https://docs.aws.amazon.com/lambda/latest/dg/lambda-traffic-shifting-using-aliases.html) configuration of a Lambda function alias.
-    public struct AliasRoutingConfiguration: Swift.Equatable {
+    public struct AliasRoutingConfiguration {
         /// The second version, and the percentage of traffic that's routed to it.
         public var additionalVersionWeights: [Swift.String:Swift.Double]?
 
@@ -710,7 +710,7 @@ extension LambdaClientTypes.AllowedPublishers: Swift.Codable {
 
 extension LambdaClientTypes {
     /// List of signing profiles that can sign a code package.
-    public struct AllowedPublishers: Swift.Equatable {
+    public struct AllowedPublishers {
         /// The Amazon Resource Name (ARN) for each of the signing profiles. A signing profile defines a trusted user who can sign a code package.
         /// This member is required.
         public var signingProfileVersionArns: [Swift.String]?
@@ -746,7 +746,7 @@ extension LambdaClientTypes.AmazonManagedKafkaEventSourceConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
-    public struct AmazonManagedKafkaEventSourceConfig: Swift.Equatable {
+    public struct AmazonManagedKafkaEventSourceConfig {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id).
         public var consumerGroupId: Swift.String?
 
@@ -887,7 +887,7 @@ extension LambdaClientTypes.CodeSigningConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a [Code signing configuration](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html).
-    public struct CodeSigningConfig: Swift.Equatable {
+    public struct CodeSigningConfig {
         /// List of allowed publishers.
         /// This member is required.
         public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
@@ -970,7 +970,7 @@ public struct CodeSigningConfigNotFoundException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct CodeSigningConfigNotFoundExceptionBody: Swift.Equatable {
+struct CodeSigningConfigNotFoundExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -1011,7 +1011,7 @@ extension LambdaClientTypes.CodeSigningPolicies: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Code signing configuration [policies](https://docs.aws.amazon.com/lambda/latest/dg/configuration-codesigning.html#config-codesigning-policies) specify the validation failure action for signature mismatch or expiry.
-    public struct CodeSigningPolicies: Swift.Equatable {
+    public struct CodeSigningPolicies {
         /// Code signing configuration policy for deployment validation failure. If you set the policy to Enforce, Lambda blocks the deployment request if signature validation checks fail. If you set the policy to Warn, Lambda allows the deployment and creates a CloudWatch log. Default value: Warn
         public var untrustedArtifactOnDeployment: LambdaClientTypes.CodeSigningPolicy?
 
@@ -1102,7 +1102,7 @@ public struct CodeStorageExceededException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct CodeStorageExceededExceptionBody: Swift.Equatable {
+struct CodeStorageExceededExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -1166,7 +1166,7 @@ public struct CodeVerificationFailedException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct CodeVerificationFailedExceptionBody: Swift.Equatable {
+struct CodeVerificationFailedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -1206,7 +1206,7 @@ extension LambdaClientTypes.Concurrency: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    public struct Concurrency: Swift.Equatable {
+    public struct Concurrency {
         /// The number of concurrent executions that are reserved for this function. For more information, see [Managing Lambda reserved concurrency](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html).
         public var reservedConcurrentExecutions: Swift.Int?
 
@@ -1319,7 +1319,7 @@ extension LambdaClientTypes.Cors: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your Lambda function URL. Use CORS to grant access to your function URL from any origin. You can also use CORS to control access for specific HTTP headers and methods in requests to your function URL.
-    public struct Cors: Swift.Equatable {
+    public struct Cors {
         /// Whether to allow cookies or other credentials in requests to your function URL. The default is false.
         public var allowCredentials: Swift.Bool?
         /// The HTTP headers that origins can include in requests to your function URL. For example: Date, Keep-Alive, X-Custom-Header.
@@ -1388,7 +1388,7 @@ extension CreateAliasInput {
     }
 }
 
-public struct CreateAliasInput: Swift.Equatable {
+public struct CreateAliasInput {
     /// A description of the alias.
     public var description: Swift.String?
     /// The name or ARN of the Lambda function. Name formats
@@ -1428,7 +1428,7 @@ public struct CreateAliasInput: Swift.Equatable {
     }
 }
 
-struct CreateAliasInputBody: Swift.Equatable {
+struct CreateAliasInputBody {
     let name: Swift.String?
     let functionVersion: Swift.String?
     let description: Swift.String?
@@ -1479,7 +1479,7 @@ extension CreateAliasOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct CreateAliasOutput: Swift.Equatable {
+public struct CreateAliasOutput {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
     /// A description of the alias.
@@ -1511,7 +1511,7 @@ public struct CreateAliasOutput: Swift.Equatable {
     }
 }
 
-struct CreateAliasOutputBody: Swift.Equatable {
+struct CreateAliasOutputBody {
     let aliasArn: Swift.String?
     let name: Swift.String?
     let functionVersion: Swift.String?
@@ -1590,7 +1590,7 @@ extension CreateCodeSigningConfigInput {
     }
 }
 
-public struct CreateCodeSigningConfigInput: Swift.Equatable {
+public struct CreateCodeSigningConfigInput {
     /// Signing profiles for this code signing configuration.
     /// This member is required.
     public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
@@ -1611,7 +1611,7 @@ public struct CreateCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateCodeSigningConfigInputBody: Swift.Equatable {
+struct CreateCodeSigningConfigInputBody {
     let description: Swift.String?
     let allowedPublishers: LambdaClientTypes.AllowedPublishers?
     let codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
@@ -1647,7 +1647,7 @@ extension CreateCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCodeSigningConfigOutput: Swift.Equatable {
+public struct CreateCodeSigningConfigOutput {
     /// The code signing configuration.
     /// This member is required.
     public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
@@ -1660,7 +1660,7 @@ public struct CreateCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateCodeSigningConfigOutputBody: Swift.Equatable {
+struct CreateCodeSigningConfigOutputBody {
     let codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
 }
 
@@ -1808,7 +1808,7 @@ extension CreateEventSourceMappingInput {
     }
 }
 
-public struct CreateEventSourceMappingInput: Swift.Equatable {
+public struct CreateEventSourceMappingInput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
@@ -1946,7 +1946,7 @@ public struct CreateEventSourceMappingInput: Swift.Equatable {
     }
 }
 
-struct CreateEventSourceMappingInputBody: Swift.Equatable {
+struct CreateEventSourceMappingInputBody {
     let eventSourceArn: Swift.String?
     let functionName: Swift.String?
     let enabled: Swift.Bool?
@@ -2151,7 +2151,7 @@ extension CreateEventSourceMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct CreateEventSourceMappingOutput: Swift.Equatable {
+public struct CreateEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
@@ -2267,7 +2267,7 @@ public struct CreateEventSourceMappingOutput: Swift.Equatable {
     }
 }
 
-struct CreateEventSourceMappingOutputBody: Swift.Equatable {
+struct CreateEventSourceMappingOutputBody {
     let uuid: Swift.String?
     let startingPosition: LambdaClientTypes.EventSourcePosition?
     let startingPositionTimestamp: ClientRuntime.Date?
@@ -2562,7 +2562,7 @@ extension CreateFunctionInput {
     }
 }
 
-public struct CreateFunctionInput: Swift.Equatable {
+public struct CreateFunctionInput {
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The code for the function.
@@ -2678,7 +2678,7 @@ public struct CreateFunctionInput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionInputBody: Swift.Equatable {
+struct CreateFunctionInputBody {
     let functionName: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
     let role: Swift.String?
@@ -2905,7 +2905,7 @@ extension CreateFunctionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about a function's configuration.
-public struct CreateFunctionOutput: Swift.Equatable {
+public struct CreateFunctionOutput {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The SHA256 hash of the function's deployment package.
@@ -3057,7 +3057,7 @@ public struct CreateFunctionOutput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionOutputBody: Swift.Equatable {
+struct CreateFunctionOutputBody {
     let functionName: Swift.String?
     let functionArn: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
@@ -3302,7 +3302,7 @@ extension CreateFunctionUrlConfigInput {
     }
 }
 
-public struct CreateFunctionUrlConfigInput: Swift.Equatable {
+public struct CreateFunctionUrlConfigInput {
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -3345,7 +3345,7 @@ public struct CreateFunctionUrlConfigInput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionUrlConfigInputBody: Swift.Equatable {
+struct CreateFunctionUrlConfigInputBody {
     let authType: LambdaClientTypes.FunctionUrlAuthType?
     let cors: LambdaClientTypes.Cors?
     let invokeMode: LambdaClientTypes.InvokeMode?
@@ -3391,7 +3391,7 @@ extension CreateFunctionUrlConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateFunctionUrlConfigOutput: Swift.Equatable {
+public struct CreateFunctionUrlConfigOutput {
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -3431,7 +3431,7 @@ public struct CreateFunctionUrlConfigOutput: Swift.Equatable {
     }
 }
 
-struct CreateFunctionUrlConfigOutputBody: Swift.Equatable {
+struct CreateFunctionUrlConfigOutputBody {
     let functionUrl: Swift.String?
     let functionArn: Swift.String?
     let authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -3503,7 +3503,7 @@ extension LambdaClientTypes.DeadLetterConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The [dead-letter queue](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#dlq) for failed asynchronous invocations.
-    public struct DeadLetterConfig: Swift.Equatable {
+    public struct DeadLetterConfig {
         /// The Amazon Resource Name (ARN) of an Amazon SQS queue or Amazon SNS topic.
         public var targetArn: Swift.String?
 
@@ -3530,7 +3530,7 @@ extension DeleteAliasInput {
     }
 }
 
-public struct DeleteAliasInput: Swift.Equatable {
+public struct DeleteAliasInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -3557,7 +3557,7 @@ public struct DeleteAliasInput: Swift.Equatable {
     }
 }
 
-struct DeleteAliasInputBody: Swift.Equatable {
+struct DeleteAliasInputBody {
 }
 
 extension DeleteAliasInputBody: Swift.Decodable {
@@ -3571,7 +3571,7 @@ extension DeleteAliasOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAliasOutput: Swift.Equatable {
+public struct DeleteAliasOutput {
 
     public init() { }
 }
@@ -3600,7 +3600,7 @@ extension DeleteCodeSigningConfigInput {
     }
 }
 
-public struct DeleteCodeSigningConfigInput: Swift.Equatable {
+public struct DeleteCodeSigningConfigInput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -3613,7 +3613,7 @@ public struct DeleteCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteCodeSigningConfigInputBody: Swift.Equatable {
+struct DeleteCodeSigningConfigInputBody {
 }
 
 extension DeleteCodeSigningConfigInputBody: Swift.Decodable {
@@ -3627,7 +3627,7 @@ extension DeleteCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCodeSigningConfigOutput: Swift.Equatable {
+public struct DeleteCodeSigningConfigOutput {
 
     public init() { }
 }
@@ -3656,7 +3656,7 @@ extension DeleteEventSourceMappingInput {
     }
 }
 
-public struct DeleteEventSourceMappingInput: Swift.Equatable {
+public struct DeleteEventSourceMappingInput {
     /// The identifier of the event source mapping.
     /// This member is required.
     public var uuid: Swift.String?
@@ -3669,7 +3669,7 @@ public struct DeleteEventSourceMappingInput: Swift.Equatable {
     }
 }
 
-struct DeleteEventSourceMappingInputBody: Swift.Equatable {
+struct DeleteEventSourceMappingInputBody {
 }
 
 extension DeleteEventSourceMappingInputBody: Swift.Decodable {
@@ -3743,7 +3743,7 @@ extension DeleteEventSourceMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct DeleteEventSourceMappingOutput: Swift.Equatable {
+public struct DeleteEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
@@ -3859,7 +3859,7 @@ public struct DeleteEventSourceMappingOutput: Swift.Equatable {
     }
 }
 
-struct DeleteEventSourceMappingOutputBody: Swift.Equatable {
+struct DeleteEventSourceMappingOutputBody {
     let uuid: Swift.String?
     let startingPosition: LambdaClientTypes.EventSourcePosition?
     let startingPositionTimestamp: ClientRuntime.Date?
@@ -4041,7 +4041,7 @@ extension DeleteFunctionCodeSigningConfigInput {
     }
 }
 
-public struct DeleteFunctionCodeSigningConfigInput: Swift.Equatable {
+public struct DeleteFunctionCodeSigningConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -4063,7 +4063,7 @@ public struct DeleteFunctionCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionCodeSigningConfigInputBody: Swift.Equatable {
+struct DeleteFunctionCodeSigningConfigInputBody {
 }
 
 extension DeleteFunctionCodeSigningConfigInputBody: Swift.Decodable {
@@ -4077,7 +4077,7 @@ extension DeleteFunctionCodeSigningConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteFunctionCodeSigningConfigOutput: Swift.Equatable {
+public struct DeleteFunctionCodeSigningConfigOutput {
 
     public init() { }
 }
@@ -4108,7 +4108,7 @@ extension DeleteFunctionConcurrencyInput {
     }
 }
 
-public struct DeleteFunctionConcurrencyInput: Swift.Equatable {
+public struct DeleteFunctionConcurrencyInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -4130,7 +4130,7 @@ public struct DeleteFunctionConcurrencyInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionConcurrencyInputBody: Swift.Equatable {
+struct DeleteFunctionConcurrencyInputBody {
 }
 
 extension DeleteFunctionConcurrencyInputBody: Swift.Decodable {
@@ -4144,7 +4144,7 @@ extension DeleteFunctionConcurrencyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFunctionConcurrencyOutput: Swift.Equatable {
+public struct DeleteFunctionConcurrencyOutput {
 
     public init() { }
 }
@@ -4186,7 +4186,7 @@ extension DeleteFunctionEventInvokeConfigInput {
     }
 }
 
-public struct DeleteFunctionEventInvokeConfigInput: Swift.Equatable {
+public struct DeleteFunctionEventInvokeConfigInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
@@ -4212,7 +4212,7 @@ public struct DeleteFunctionEventInvokeConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionEventInvokeConfigInputBody: Swift.Equatable {
+struct DeleteFunctionEventInvokeConfigInputBody {
 }
 
 extension DeleteFunctionEventInvokeConfigInputBody: Swift.Decodable {
@@ -4226,7 +4226,7 @@ extension DeleteFunctionEventInvokeConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct DeleteFunctionEventInvokeConfigOutput: Swift.Equatable {
+public struct DeleteFunctionEventInvokeConfigOutput {
 
     public init() { }
 }
@@ -4268,7 +4268,7 @@ extension DeleteFunctionInput {
     }
 }
 
-public struct DeleteFunctionInput: Swift.Equatable {
+public struct DeleteFunctionInput {
     /// The name or ARN of the Lambda function or version. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:1 (with version).
@@ -4294,7 +4294,7 @@ public struct DeleteFunctionInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionInputBody: Swift.Equatable {
+struct DeleteFunctionInputBody {
 }
 
 extension DeleteFunctionInputBody: Swift.Decodable {
@@ -4308,7 +4308,7 @@ extension DeleteFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFunctionOutput: Swift.Equatable {
+public struct DeleteFunctionOutput {
 
     public init() { }
 }
@@ -4350,7 +4350,7 @@ extension DeleteFunctionUrlConfigInput {
     }
 }
 
-public struct DeleteFunctionUrlConfigInput: Swift.Equatable {
+public struct DeleteFunctionUrlConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -4376,7 +4376,7 @@ public struct DeleteFunctionUrlConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteFunctionUrlConfigInputBody: Swift.Equatable {
+struct DeleteFunctionUrlConfigInputBody {
 }
 
 extension DeleteFunctionUrlConfigInputBody: Swift.Decodable {
@@ -4390,7 +4390,7 @@ extension DeleteFunctionUrlConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteFunctionUrlConfigOutput: Swift.Equatable {
+public struct DeleteFunctionUrlConfigOutput {
 
     public init() { }
 }
@@ -4422,7 +4422,7 @@ extension DeleteLayerVersionInput {
     }
 }
 
-public struct DeleteLayerVersionInput: Swift.Equatable {
+public struct DeleteLayerVersionInput {
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
     public var layerName: Swift.String?
@@ -4440,7 +4440,7 @@ public struct DeleteLayerVersionInput: Swift.Equatable {
     }
 }
 
-struct DeleteLayerVersionInputBody: Swift.Equatable {
+struct DeleteLayerVersionInputBody {
 }
 
 extension DeleteLayerVersionInputBody: Swift.Decodable {
@@ -4454,7 +4454,7 @@ extension DeleteLayerVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteLayerVersionOutput: Swift.Equatable {
+public struct DeleteLayerVersionOutput {
 
     public init() { }
 }
@@ -4495,7 +4495,7 @@ extension DeleteProvisionedConcurrencyConfigInput {
     }
 }
 
-public struct DeleteProvisionedConcurrencyConfigInput: Swift.Equatable {
+public struct DeleteProvisionedConcurrencyConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -4522,7 +4522,7 @@ public struct DeleteProvisionedConcurrencyConfigInput: Swift.Equatable {
     }
 }
 
-struct DeleteProvisionedConcurrencyConfigInputBody: Swift.Equatable {
+struct DeleteProvisionedConcurrencyConfigInputBody {
 }
 
 extension DeleteProvisionedConcurrencyConfigInputBody: Swift.Decodable {
@@ -4536,7 +4536,7 @@ extension DeleteProvisionedConcurrencyConfigOutput: ClientRuntime.HttpResponseBi
     }
 }
 
-public struct DeleteProvisionedConcurrencyConfigOutput: Swift.Equatable {
+public struct DeleteProvisionedConcurrencyConfigOutput {
 
     public init() { }
 }
@@ -4583,7 +4583,7 @@ extension LambdaClientTypes.DestinationConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// A configuration object that specifies the destination of an event after Lambda processes it.
-    public struct DestinationConfig: Swift.Equatable {
+    public struct DestinationConfig {
         /// The destination configuration for failed invocations.
         public var onFailure: LambdaClientTypes.OnFailure?
         /// The destination configuration for successful invocations.
@@ -4634,7 +4634,7 @@ extension LambdaClientTypes.DocumentDBEventSourceConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Specific configuration settings for a DocumentDB event source.
-    public struct DocumentDBEventSourceConfig: Swift.Equatable {
+    public struct DocumentDBEventSourceConfig {
         /// The name of the collection to consume within the database. If you do not specify a collection, Lambda consumes all collections.
         public var collectionName: Swift.String?
         /// The name of the database to consume within the DocumentDB cluster.
@@ -4700,7 +4700,7 @@ public struct EC2AccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct EC2AccessDeniedExceptionBody: Swift.Equatable {
+struct EC2AccessDeniedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -4764,7 +4764,7 @@ public struct EC2ThrottledException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct EC2ThrottledExceptionBody: Swift.Equatable {
+struct EC2ThrottledExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -4833,7 +4833,7 @@ public struct EC2UnexpectedException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct EC2UnexpectedExceptionBody: Swift.Equatable {
+struct EC2UnexpectedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
     let ec2ErrorCode: Swift.String?
@@ -4901,7 +4901,7 @@ public struct EFSIOException: ClientRuntime.ModeledError, AWSClientRuntime.AWSSe
     }
 }
 
-struct EFSIOExceptionBody: Swift.Equatable {
+struct EFSIOExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -4965,7 +4965,7 @@ public struct EFSMountConnectivityException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct EFSMountConnectivityExceptionBody: Swift.Equatable {
+struct EFSMountConnectivityExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -5029,7 +5029,7 @@ public struct EFSMountFailureException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct EFSMountFailureExceptionBody: Swift.Equatable {
+struct EFSMountFailureExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -5093,7 +5093,7 @@ public struct EFSMountTimeoutException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct EFSMountTimeoutExceptionBody: Swift.Equatable {
+struct EFSMountTimeoutExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -5157,7 +5157,7 @@ public struct ENILimitReachedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct ENILimitReachedExceptionBody: Swift.Equatable {
+struct ENILimitReachedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -5244,7 +5244,7 @@ extension LambdaClientTypes.Environment: Swift.CustomDebugStringConvertible {
 
 extension LambdaClientTypes {
     /// A function's environment variable settings. You can use environment variables to adjust your function's behavior without updating code. An environment variable is a pair of strings that are stored in a function's version-specific configuration.
-    public struct Environment: Swift.Equatable {
+    public struct Environment {
         /// Environment variable key-value pairs. For more information, see [Using Lambda environment variables](https://docs.aws.amazon.com/lambda/latest/dg/configuration-envvars.html).
         public var variables: [Swift.String:Swift.String]?
 
@@ -5290,7 +5290,7 @@ extension LambdaClientTypes.EnvironmentError: Swift.CustomDebugStringConvertible
 
 extension LambdaClientTypes {
     /// Error messages for environment variables that couldn't be applied.
-    public struct EnvironmentError: Swift.Equatable {
+    public struct EnvironmentError {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -5352,7 +5352,7 @@ extension LambdaClientTypes.EnvironmentResponse: Swift.CustomDebugStringConverti
 
 extension LambdaClientTypes {
     /// The results of an operation to update or read environment variables. If the operation succeeds, the response contains the environment variables. If it fails, the response contains details about the error.
-    public struct EnvironmentResponse: Swift.Equatable {
+    public struct EnvironmentResponse {
         /// Error messages for environment variables that couldn't be applied.
         public var error: LambdaClientTypes.EnvironmentError?
         /// Environment variable key-value pairs. Omitted from CloudTrail logs.
@@ -5391,7 +5391,7 @@ extension LambdaClientTypes.EphemeralStorage: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The size of the function's /tmp directory in MB. The default value is 512, but can be any whole number between 512 and 10,240 MB. For more information, see [Configuring ephemeral storage (console)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-function-common.html#configuration-ephemeral-storage).
-    public struct EphemeralStorage: Swift.Equatable {
+    public struct EphemeralStorage {
         /// The size of the function's /tmp directory.
         /// This member is required.
         public var size: Swift.Int?
@@ -5631,7 +5631,7 @@ extension LambdaClientTypes.EventSourceMappingConfiguration: Swift.Codable {
 
 extension LambdaClientTypes {
     /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-    public struct EventSourceMappingConfiguration: Swift.Equatable {
+    public struct EventSourceMappingConfiguration {
         /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
         public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
         /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
@@ -5811,7 +5811,7 @@ extension LambdaClientTypes.FileSystemConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about the connection between a Lambda function and an [Amazon EFS file system](https://docs.aws.amazon.com/lambda/latest/dg/configuration-filesystem.html).
-    public struct FileSystemConfig: Swift.Equatable {
+    public struct FileSystemConfig {
         /// The Amazon Resource Name (ARN) of the Amazon EFS access point that provides access to the file system.
         /// This member is required.
         public var arn: Swift.String?
@@ -5852,7 +5852,7 @@ extension LambdaClientTypes.Filter: Swift.Codable {
 
 extension LambdaClientTypes {
     /// A structure within a FilterCriteria object that defines an event filtering pattern.
-    public struct Filter: Swift.Equatable {
+    public struct Filter {
         /// A filter pattern. For more information on the syntax of a filter pattern, see [ Filter rule syntax](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventfiltering.html#filtering-syntax).
         public var pattern: Swift.String?
 
@@ -5899,7 +5899,7 @@ extension LambdaClientTypes.FilterCriteria: Swift.Codable {
 
 extension LambdaClientTypes {
     /// An object that contains the filters for an event source.
-    public struct FilterCriteria: Swift.Equatable {
+    public struct FilterCriteria {
         /// A list of filters.
         public var filters: [LambdaClientTypes.Filter]?
 
@@ -5995,7 +5995,7 @@ extension LambdaClientTypes.FunctionCode: Swift.CustomDebugStringConvertible {
 
 extension LambdaClientTypes {
     /// The code for the Lambda function. You can either specify an object in Amazon S3, upload a .zip file archive deployment package directly, or specify the URI of a container image.
-    public struct FunctionCode: Swift.Equatable {
+    public struct FunctionCode {
         /// URI of a [container image](https://docs.aws.amazon.com/lambda/latest/dg/lambda-images.html) in the Amazon ECR registry.
         public var imageUri: Swift.String?
         /// An Amazon S3 bucket in the same Amazon Web Services Region as your function. The bucket can be in a different Amazon Web Services account.
@@ -6064,7 +6064,7 @@ extension LambdaClientTypes.FunctionCodeLocation: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a function's deployment package.
-    public struct FunctionCodeLocation: Swift.Equatable {
+    public struct FunctionCodeLocation {
         /// URI of a container image in the Amazon ECR registry.
         public var imageUri: Swift.String?
         /// A presigned URL that you can use to download the deployment package.
@@ -6357,7 +6357,7 @@ extension LambdaClientTypes.FunctionConfiguration: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a function's configuration.
-    public struct FunctionConfiguration: Swift.Equatable {
+    public struct FunctionConfiguration {
         /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
         public var architectures: [LambdaClientTypes.Architecture]?
         /// The SHA256 hash of the function's deployment package.
@@ -6555,7 +6555,7 @@ extension LambdaClientTypes.FunctionEventInvokeConfig: Swift.Codable {
 }
 
 extension LambdaClientTypes {
-    public struct FunctionEventInvokeConfig: Swift.Equatable {
+    public struct FunctionEventInvokeConfig {
         /// A destination for events after they have been sent to a function for processing. Destinations
         ///
         /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -6711,7 +6711,7 @@ extension LambdaClientTypes.FunctionUrlConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a Lambda function URL.
-    public struct FunctionUrlConfig: Swift.Equatable {
+    public struct FunctionUrlConfig {
         /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
         /// This member is required.
         public var authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -6794,12 +6794,12 @@ extension GetAccountSettingsInput {
     }
 }
 
-public struct GetAccountSettingsInput: Swift.Equatable {
+public struct GetAccountSettingsInput {
 
     public init() { }
 }
 
-struct GetAccountSettingsInputBody: Swift.Equatable {
+struct GetAccountSettingsInputBody {
 }
 
 extension GetAccountSettingsInputBody: Swift.Decodable {
@@ -6822,7 +6822,7 @@ extension GetAccountSettingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountSettingsOutput: Swift.Equatable {
+public struct GetAccountSettingsOutput {
     /// Limits that are related to concurrency and code storage.
     public var accountLimit: LambdaClientTypes.AccountLimit?
     /// The number of functions and amount of storage in use.
@@ -6838,7 +6838,7 @@ public struct GetAccountSettingsOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountSettingsOutputBody: Swift.Equatable {
+struct GetAccountSettingsOutputBody {
     let accountLimit: LambdaClientTypes.AccountLimit?
     let accountUsage: LambdaClientTypes.AccountUsage?
 }
@@ -6883,7 +6883,7 @@ extension GetAliasInput {
     }
 }
 
-public struct GetAliasInput: Swift.Equatable {
+public struct GetAliasInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -6910,7 +6910,7 @@ public struct GetAliasInput: Swift.Equatable {
     }
 }
 
-struct GetAliasInputBody: Swift.Equatable {
+struct GetAliasInputBody {
 }
 
 extension GetAliasInputBody: Swift.Decodable {
@@ -6942,7 +6942,7 @@ extension GetAliasOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct GetAliasOutput: Swift.Equatable {
+public struct GetAliasOutput {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
     /// A description of the alias.
@@ -6974,7 +6974,7 @@ public struct GetAliasOutput: Swift.Equatable {
     }
 }
 
-struct GetAliasOutputBody: Swift.Equatable {
+struct GetAliasOutputBody {
     let aliasArn: Swift.String?
     let name: Swift.String?
     let functionVersion: Swift.String?
@@ -7034,7 +7034,7 @@ extension GetCodeSigningConfigInput {
     }
 }
 
-public struct GetCodeSigningConfigInput: Swift.Equatable {
+public struct GetCodeSigningConfigInput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -7047,7 +7047,7 @@ public struct GetCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct GetCodeSigningConfigInputBody: Swift.Equatable {
+struct GetCodeSigningConfigInputBody {
 }
 
 extension GetCodeSigningConfigInputBody: Swift.Decodable {
@@ -7068,7 +7068,7 @@ extension GetCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetCodeSigningConfigOutput: Swift.Equatable {
+public struct GetCodeSigningConfigOutput {
     /// The code signing configuration
     /// This member is required.
     public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
@@ -7081,7 +7081,7 @@ public struct GetCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetCodeSigningConfigOutputBody: Swift.Equatable {
+struct GetCodeSigningConfigOutputBody {
     let codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
 }
 
@@ -7120,7 +7120,7 @@ extension GetEventSourceMappingInput {
     }
 }
 
-public struct GetEventSourceMappingInput: Swift.Equatable {
+public struct GetEventSourceMappingInput {
     /// The identifier of the event source mapping.
     /// This member is required.
     public var uuid: Swift.String?
@@ -7133,7 +7133,7 @@ public struct GetEventSourceMappingInput: Swift.Equatable {
     }
 }
 
-struct GetEventSourceMappingInputBody: Swift.Equatable {
+struct GetEventSourceMappingInputBody {
 }
 
 extension GetEventSourceMappingInputBody: Swift.Decodable {
@@ -7207,7 +7207,7 @@ extension GetEventSourceMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct GetEventSourceMappingOutput: Swift.Equatable {
+public struct GetEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
@@ -7323,7 +7323,7 @@ public struct GetEventSourceMappingOutput: Swift.Equatable {
     }
 }
 
-struct GetEventSourceMappingOutputBody: Swift.Equatable {
+struct GetEventSourceMappingOutputBody {
     let uuid: Swift.String?
     let startingPosition: LambdaClientTypes.EventSourcePosition?
     let startingPositionTimestamp: ClientRuntime.Date?
@@ -7503,7 +7503,7 @@ extension GetFunctionCodeSigningConfigInput {
     }
 }
 
-public struct GetFunctionCodeSigningConfigInput: Swift.Equatable {
+public struct GetFunctionCodeSigningConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -7525,7 +7525,7 @@ public struct GetFunctionCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionCodeSigningConfigInputBody: Swift.Equatable {
+struct GetFunctionCodeSigningConfigInputBody {
 }
 
 extension GetFunctionCodeSigningConfigInputBody: Swift.Decodable {
@@ -7548,7 +7548,7 @@ extension GetFunctionCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetFunctionCodeSigningConfigOutput: Swift.Equatable {
+public struct GetFunctionCodeSigningConfigOutput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -7575,7 +7575,7 @@ public struct GetFunctionCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionCodeSigningConfigOutputBody: Swift.Equatable {
+struct GetFunctionCodeSigningConfigOutputBody {
     let codeSigningConfigArn: Swift.String?
     let functionName: Swift.String?
 }
@@ -7619,7 +7619,7 @@ extension GetFunctionConcurrencyInput {
     }
 }
 
-public struct GetFunctionConcurrencyInput: Swift.Equatable {
+public struct GetFunctionConcurrencyInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -7641,7 +7641,7 @@ public struct GetFunctionConcurrencyInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionConcurrencyInputBody: Swift.Equatable {
+struct GetFunctionConcurrencyInputBody {
 }
 
 extension GetFunctionConcurrencyInputBody: Swift.Decodable {
@@ -7662,7 +7662,7 @@ extension GetFunctionConcurrencyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFunctionConcurrencyOutput: Swift.Equatable {
+public struct GetFunctionConcurrencyOutput {
     /// The number of simultaneous executions that are reserved for the function.
     public var reservedConcurrentExecutions: Swift.Int?
 
@@ -7674,7 +7674,7 @@ public struct GetFunctionConcurrencyOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionConcurrencyOutputBody: Swift.Equatable {
+struct GetFunctionConcurrencyOutputBody {
     let reservedConcurrentExecutions: Swift.Int?
 }
 
@@ -7726,7 +7726,7 @@ extension GetFunctionConfigurationInput {
     }
 }
 
-public struct GetFunctionConfigurationInput: Swift.Equatable {
+public struct GetFunctionConfigurationInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
@@ -7752,7 +7752,7 @@ public struct GetFunctionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionConfigurationInputBody: Swift.Equatable {
+struct GetFunctionConfigurationInputBody {
 }
 
 extension GetFunctionConfigurationInputBody: Swift.Decodable {
@@ -7844,7 +7844,7 @@ extension GetFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about a function's configuration.
-public struct GetFunctionConfigurationOutput: Swift.Equatable {
+public struct GetFunctionConfigurationOutput {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The SHA256 hash of the function's deployment package.
@@ -7996,7 +7996,7 @@ public struct GetFunctionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionConfigurationOutputBody: Swift.Equatable {
+struct GetFunctionConfigurationOutputBody {
     let functionName: Swift.String?
     let functionArn: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
@@ -8215,7 +8215,7 @@ extension GetFunctionEventInvokeConfigInput {
     }
 }
 
-public struct GetFunctionEventInvokeConfigInput: Swift.Equatable {
+public struct GetFunctionEventInvokeConfigInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name - my-function (name-only), my-function:v1 (with alias).
@@ -8241,7 +8241,7 @@ public struct GetFunctionEventInvokeConfigInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionEventInvokeConfigInputBody: Swift.Equatable {
+struct GetFunctionEventInvokeConfigInputBody {
 }
 
 extension GetFunctionEventInvokeConfigInputBody: Swift.Decodable {
@@ -8270,7 +8270,7 @@ extension GetFunctionEventInvokeConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct GetFunctionEventInvokeConfigOutput: Swift.Equatable {
+public struct GetFunctionEventInvokeConfigOutput {
     /// A destination for events after they have been sent to a function for processing. Destinations
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -8306,7 +8306,7 @@ public struct GetFunctionEventInvokeConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionEventInvokeConfigOutputBody: Swift.Equatable {
+struct GetFunctionEventInvokeConfigOutputBody {
     let lastModified: ClientRuntime.Date?
     let functionArn: Swift.String?
     let maximumRetryAttempts: Swift.Int?
@@ -8374,7 +8374,7 @@ extension GetFunctionInput {
     }
 }
 
-public struct GetFunctionInput: Swift.Equatable {
+public struct GetFunctionInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
@@ -8400,7 +8400,7 @@ public struct GetFunctionInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionInputBody: Swift.Equatable {
+struct GetFunctionInputBody {
 }
 
 extension GetFunctionInputBody: Swift.Decodable {
@@ -8427,7 +8427,7 @@ extension GetFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFunctionOutput: Swift.Equatable {
+public struct GetFunctionOutput {
     /// The deployment package of the function or version.
     public var code: LambdaClientTypes.FunctionCodeLocation?
     /// The function's [reserved concurrency](https://docs.aws.amazon.com/lambda/latest/dg/concurrent-executions.html).
@@ -8451,7 +8451,7 @@ public struct GetFunctionOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionOutputBody: Swift.Equatable {
+struct GetFunctionOutputBody {
     let configuration: LambdaClientTypes.FunctionConfiguration?
     let code: LambdaClientTypes.FunctionCodeLocation?
     let tags: [Swift.String:Swift.String]?
@@ -8524,7 +8524,7 @@ extension GetFunctionUrlConfigInput {
     }
 }
 
-public struct GetFunctionUrlConfigInput: Swift.Equatable {
+public struct GetFunctionUrlConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -8550,7 +8550,7 @@ public struct GetFunctionUrlConfigInput: Swift.Equatable {
     }
 }
 
-struct GetFunctionUrlConfigInputBody: Swift.Equatable {
+struct GetFunctionUrlConfigInputBody {
 }
 
 extension GetFunctionUrlConfigInputBody: Swift.Decodable {
@@ -8583,7 +8583,7 @@ extension GetFunctionUrlConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFunctionUrlConfigOutput: Swift.Equatable {
+public struct GetFunctionUrlConfigOutput {
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -8628,7 +8628,7 @@ public struct GetFunctionUrlConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetFunctionUrlConfigOutputBody: Swift.Equatable {
+struct GetFunctionUrlConfigOutputBody {
     let functionUrl: Swift.String?
     let functionArn: Swift.String?
     let authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -8704,7 +8704,7 @@ extension GetLayerVersionByArnInput {
     }
 }
 
-public struct GetLayerVersionByArnInput: Swift.Equatable {
+public struct GetLayerVersionByArnInput {
     /// The ARN of the layer version.
     /// This member is required.
     public var arn: Swift.String?
@@ -8717,7 +8717,7 @@ public struct GetLayerVersionByArnInput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionByArnInputBody: Swift.Equatable {
+struct GetLayerVersionByArnInputBody {
 }
 
 extension GetLayerVersionByArnInputBody: Swift.Decodable {
@@ -8754,7 +8754,7 @@ extension GetLayerVersionByArnOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLayerVersionByArnOutput: Swift.Equatable {
+public struct GetLayerVersionByArnOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
     /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -8798,7 +8798,7 @@ public struct GetLayerVersionByArnOutput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionByArnOutputBody: Swift.Equatable {
+struct GetLayerVersionByArnOutputBody {
     let content: LambdaClientTypes.LayerVersionContentOutput?
     let layerArn: Swift.String?
     let layerVersionArn: Swift.String?
@@ -8891,7 +8891,7 @@ extension GetLayerVersionInput {
     }
 }
 
-public struct GetLayerVersionInput: Swift.Equatable {
+public struct GetLayerVersionInput {
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
     public var layerName: Swift.String?
@@ -8909,7 +8909,7 @@ public struct GetLayerVersionInput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionInputBody: Swift.Equatable {
+struct GetLayerVersionInputBody {
 }
 
 extension GetLayerVersionInputBody: Swift.Decodable {
@@ -8946,7 +8946,7 @@ extension GetLayerVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLayerVersionOutput: Swift.Equatable {
+public struct GetLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
     /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -8990,7 +8990,7 @@ public struct GetLayerVersionOutput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionOutputBody: Swift.Equatable {
+struct GetLayerVersionOutputBody {
     let content: LambdaClientTypes.LayerVersionContentOutput?
     let layerArn: Swift.String?
     let layerVersionArn: Swift.String?
@@ -9083,7 +9083,7 @@ extension GetLayerVersionPolicyInput {
     }
 }
 
-public struct GetLayerVersionPolicyInput: Swift.Equatable {
+public struct GetLayerVersionPolicyInput {
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
     public var layerName: Swift.String?
@@ -9101,7 +9101,7 @@ public struct GetLayerVersionPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionPolicyInputBody: Swift.Equatable {
+struct GetLayerVersionPolicyInputBody {
 }
 
 extension GetLayerVersionPolicyInputBody: Swift.Decodable {
@@ -9124,7 +9124,7 @@ extension GetLayerVersionPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetLayerVersionPolicyOutput: Swift.Equatable {
+public struct GetLayerVersionPolicyOutput {
     /// The policy document.
     public var policy: Swift.String?
     /// A unique identifier for the current revision of the policy.
@@ -9140,7 +9140,7 @@ public struct GetLayerVersionPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetLayerVersionPolicyOutputBody: Swift.Equatable {
+struct GetLayerVersionPolicyOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -9196,7 +9196,7 @@ extension GetPolicyInput {
     }
 }
 
-public struct GetPolicyInput: Swift.Equatable {
+public struct GetPolicyInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
@@ -9222,7 +9222,7 @@ public struct GetPolicyInput: Swift.Equatable {
     }
 }
 
-struct GetPolicyInputBody: Swift.Equatable {
+struct GetPolicyInputBody {
 }
 
 extension GetPolicyInputBody: Swift.Decodable {
@@ -9245,7 +9245,7 @@ extension GetPolicyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetPolicyOutput: Swift.Equatable {
+public struct GetPolicyOutput {
     /// The resource-based policy.
     public var policy: Swift.String?
     /// A unique identifier for the current revision of the policy.
@@ -9261,7 +9261,7 @@ public struct GetPolicyOutput: Swift.Equatable {
     }
 }
 
-struct GetPolicyOutputBody: Swift.Equatable {
+struct GetPolicyOutputBody {
     let policy: Swift.String?
     let revisionId: Swift.String?
 }
@@ -9319,7 +9319,7 @@ extension GetProvisionedConcurrencyConfigInput {
     }
 }
 
-public struct GetProvisionedConcurrencyConfigInput: Swift.Equatable {
+public struct GetProvisionedConcurrencyConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -9346,7 +9346,7 @@ public struct GetProvisionedConcurrencyConfigInput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedConcurrencyConfigInputBody: Swift.Equatable {
+struct GetProvisionedConcurrencyConfigInputBody {
 }
 
 extension GetProvisionedConcurrencyConfigInputBody: Swift.Decodable {
@@ -9377,7 +9377,7 @@ extension GetProvisionedConcurrencyConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct GetProvisionedConcurrencyConfigOutput: Swift.Equatable {
+public struct GetProvisionedConcurrencyConfigOutput {
     /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
     public var allocatedProvisionedConcurrentExecutions: Swift.Int?
     /// The amount of provisioned concurrency available.
@@ -9409,7 +9409,7 @@ public struct GetProvisionedConcurrencyConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetProvisionedConcurrencyConfigOutputBody: Swift.Equatable {
+struct GetProvisionedConcurrencyConfigOutputBody {
     let requestedProvisionedConcurrentExecutions: Swift.Int?
     let availableProvisionedConcurrentExecutions: Swift.Int?
     let allocatedProvisionedConcurrentExecutions: Swift.Int?
@@ -9482,7 +9482,7 @@ extension GetRuntimeManagementConfigInput {
     }
 }
 
-public struct GetRuntimeManagementConfigInput: Swift.Equatable {
+public struct GetRuntimeManagementConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -9508,7 +9508,7 @@ public struct GetRuntimeManagementConfigInput: Swift.Equatable {
     }
 }
 
-struct GetRuntimeManagementConfigInputBody: Swift.Equatable {
+struct GetRuntimeManagementConfigInputBody {
 }
 
 extension GetRuntimeManagementConfigInputBody: Swift.Decodable {
@@ -9533,7 +9533,7 @@ extension GetRuntimeManagementConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetRuntimeManagementConfigOutput: Swift.Equatable {
+public struct GetRuntimeManagementConfigOutput {
     /// The Amazon Resource Name (ARN) of your function.
     public var functionArn: Swift.String?
     /// The ARN of the runtime the function is configured to use. If the runtime update mode is Manual, the ARN is returned, otherwise null is returned.
@@ -9553,7 +9553,7 @@ public struct GetRuntimeManagementConfigOutput: Swift.Equatable {
     }
 }
 
-struct GetRuntimeManagementConfigOutputBody: Swift.Equatable {
+struct GetRuntimeManagementConfigOutputBody {
     let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
     let runtimeVersionArn: Swift.String?
     let functionArn: Swift.String?
@@ -9648,7 +9648,7 @@ extension LambdaClientTypes.ImageConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Configuration values that override the container image Dockerfile settings. For more information, see [Container image settings](https://docs.aws.amazon.com/lambda/latest/dg/images-create.html#images-parms).
-    public struct ImageConfig: Swift.Equatable {
+    public struct ImageConfig {
         /// Specifies parameters that you want to pass in with ENTRYPOINT.
         public var command: [Swift.String]?
         /// Specifies the entry point to their application, which is typically the location of the runtime executable.
@@ -9702,7 +9702,7 @@ extension LambdaClientTypes.ImageConfigError: Swift.CustomDebugStringConvertible
 
 extension LambdaClientTypes {
     /// Error response to GetFunctionConfiguration.
-    public struct ImageConfigError: Swift.Equatable {
+    public struct ImageConfigError {
         /// Error code.
         public var errorCode: Swift.String?
         /// Error message.
@@ -9747,7 +9747,7 @@ extension LambdaClientTypes.ImageConfigResponse: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Response to a GetFunctionConfiguration request.
-    public struct ImageConfigResponse: Swift.Equatable {
+    public struct ImageConfigResponse {
         /// Error response to GetFunctionConfiguration.
         public var error: LambdaClientTypes.ImageConfigError?
         /// Configuration values that override the container image Dockerfile.
@@ -9809,7 +9809,7 @@ public struct InvalidCodeSignatureException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InvalidCodeSignatureExceptionBody: Swift.Equatable {
+struct InvalidCodeSignatureExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -9875,7 +9875,7 @@ public struct InvalidParameterValueException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidParameterValueExceptionBody: Swift.Equatable {
+struct InvalidParameterValueExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -9941,7 +9941,7 @@ public struct InvalidRequestContentException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidRequestContentExceptionBody: Swift.Equatable {
+struct InvalidRequestContentExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -10005,7 +10005,7 @@ public struct InvalidRuntimeException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidRuntimeExceptionBody: Swift.Equatable {
+struct InvalidRuntimeExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -10069,7 +10069,7 @@ public struct InvalidSecurityGroupIDException: ClientRuntime.ModeledError, AWSCl
     }
 }
 
-struct InvalidSecurityGroupIDExceptionBody: Swift.Equatable {
+struct InvalidSecurityGroupIDExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -10133,7 +10133,7 @@ public struct InvalidSubnetIDException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct InvalidSubnetIDExceptionBody: Swift.Equatable {
+struct InvalidSubnetIDExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -10197,7 +10197,7 @@ public struct InvalidZipFileException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InvalidZipFileExceptionBody: Swift.Equatable {
+struct InvalidZipFileExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -10276,7 +10276,7 @@ extension InvokeAsyncInput {
 }
 
 @available(*, deprecated)
-public struct InvokeAsyncInput: Swift.Equatable {
+public struct InvokeAsyncInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -10303,7 +10303,7 @@ public struct InvokeAsyncInput: Swift.Equatable {
     }
 }
 
-struct InvokeAsyncInputBody: Swift.Equatable {
+struct InvokeAsyncInputBody {
     let invokeArgs: ClientRuntime.ByteStream?
 }
 
@@ -10327,7 +10327,7 @@ extension InvokeAsyncOutput: ClientRuntime.HttpResponseBinding {
 
 /// A success response (202 Accepted) indicates that the request is queued for invocation.
 @available(*, deprecated)
-public struct InvokeAsyncOutput: Swift.Equatable {
+public struct InvokeAsyncOutput {
     /// The status code.
     public var status: Swift.Int
 
@@ -10339,7 +10339,7 @@ public struct InvokeAsyncOutput: Swift.Equatable {
     }
 }
 
-struct InvokeAsyncOutputBody: Swift.Equatable {
+struct InvokeAsyncOutputBody {
     let status: Swift.Int
 }
 
@@ -10427,7 +10427,7 @@ extension InvokeInput {
     }
 }
 
-public struct InvokeInput: Swift.Equatable {
+public struct InvokeInput {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object. Lambda passes the ClientContext object to your function for synchronous invocations only.
     public var clientContext: Swift.String?
     /// The name or ARN of the Lambda function, version, or alias. Name formats
@@ -10475,7 +10475,7 @@ public struct InvokeInput: Swift.Equatable {
     }
 }
 
-struct InvokeInputBody: Swift.Equatable {
+struct InvokeInputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -10557,7 +10557,7 @@ extension InvokeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeOutput: Swift.Equatable {
+public struct InvokeOutput {
     /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
     public var executedVersion: Swift.String?
     /// If present, indicates that an error occurred during function execution. Details about the error are included in the response payload.
@@ -10585,7 +10585,7 @@ public struct InvokeOutput: Swift.Equatable {
     }
 }
 
-struct InvokeOutputBody: Swift.Equatable {
+struct InvokeOutputBody {
     let statusCode: Swift.Int
     let payload: ClientRuntime.Data?
 }
@@ -10671,7 +10671,7 @@ extension LambdaClientTypes.InvokeResponseStreamUpdate: Swift.CustomDebugStringC
 
 extension LambdaClientTypes {
     /// A chunk of the streamed response payload.
-    public struct InvokeResponseStreamUpdate: Swift.Equatable {
+    public struct InvokeResponseStreamUpdate {
         /// Data returned by your Lambda function.
         public var payload: ClientRuntime.Data?
 
@@ -10718,7 +10718,7 @@ extension LambdaClientTypes.InvokeWithResponseStreamCompleteEvent: Swift.Codable
 
 extension LambdaClientTypes {
     /// A response confirming that the event stream is complete.
-    public struct InvokeWithResponseStreamCompleteEvent: Swift.Equatable {
+    public struct InvokeWithResponseStreamCompleteEvent {
         /// An error code.
         public var errorCode: Swift.String?
         /// The details of any returned error.
@@ -10797,7 +10797,7 @@ extension InvokeWithResponseStreamInput {
     }
 }
 
-public struct InvokeWithResponseStreamInput: Swift.Equatable {
+public struct InvokeWithResponseStreamInput {
     /// Up to 3,583 bytes of base64-encoded data about the invoking client to pass to the function in the context object.
     public var clientContext: Swift.String?
     /// The name or ARN of the Lambda function. Name formats
@@ -10843,7 +10843,7 @@ public struct InvokeWithResponseStreamInput: Swift.Equatable {
     }
 }
 
-struct InvokeWithResponseStreamInputBody: Swift.Equatable {
+struct InvokeWithResponseStreamInputBody {
     let payload: ClientRuntime.Data?
 }
 
@@ -10882,7 +10882,7 @@ extension InvokeWithResponseStreamOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct InvokeWithResponseStreamOutput: Swift.Equatable {
+public struct InvokeWithResponseStreamOutput {
     /// The stream of response payloads.
     public var eventStream: AsyncThrowingStream<LambdaClientTypes.InvokeWithResponseStreamResponseEvent, Swift.Error>?
     /// The version of the function that executed. When you invoke a function with an alias, this indicates which version the alias resolved to.
@@ -10981,7 +10981,7 @@ extension LambdaClientTypes.InvokeWithResponseStreamResponseEvent: ClientRuntime
 
 extension LambdaClientTypes {
     /// An object that includes a chunk of the response payload. When the stream has ended, Lambda includes a InvokeComplete object.
-    public enum InvokeWithResponseStreamResponseEvent: Swift.Equatable {
+    public enum InvokeWithResponseStreamResponseEvent {
         /// A chunk of the streamed response payload.
         case payloadchunk(LambdaClientTypes.InvokeResponseStreamUpdate)
         /// An object that's returned when the stream has ended and all the payload chunks have been returned.
@@ -11035,7 +11035,7 @@ public struct KMSAccessDeniedException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct KMSAccessDeniedExceptionBody: Swift.Equatable {
+struct KMSAccessDeniedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -11099,7 +11099,7 @@ public struct KMSDisabledException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct KMSDisabledExceptionBody: Swift.Equatable {
+struct KMSDisabledExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -11163,7 +11163,7 @@ public struct KMSInvalidStateException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct KMSInvalidStateExceptionBody: Swift.Equatable {
+struct KMSInvalidStateExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -11227,7 +11227,7 @@ public struct KMSNotFoundException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct KMSNotFoundExceptionBody: Swift.Equatable {
+struct KMSNotFoundExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -11412,7 +11412,7 @@ extension LambdaClientTypes.Layer: Swift.Codable {
 
 extension LambdaClientTypes {
     /// An [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct Layer: Swift.Equatable {
+    public struct Layer {
         /// The Amazon Resource Name (ARN) of the function layer.
         public var arn: Swift.String?
         /// The size of the layer archive in bytes.
@@ -11482,7 +11482,7 @@ extension LambdaClientTypes.LayerVersionContentInput: Swift.CustomDebugStringCon
 
 extension LambdaClientTypes {
     /// A ZIP archive that contains the contents of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html). You can specify either an Amazon S3 location, or upload a layer archive directly.
-    public struct LayerVersionContentInput: Swift.Equatable {
+    public struct LayerVersionContentInput {
         /// The Amazon S3 bucket of the layer archive.
         public var s3Bucket: Swift.String?
         /// The Amazon S3 key of the layer archive.
@@ -11553,7 +11553,7 @@ extension LambdaClientTypes.LayerVersionContentOutput: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayerVersionContentOutput: Swift.Equatable {
+    public struct LayerVersionContentOutput {
         /// The SHA-256 hash of the layer archive.
         public var codeSha256: Swift.String?
         /// The size of the layer archive in bytes.
@@ -11664,7 +11664,7 @@ extension LambdaClientTypes.LayerVersionsListItem: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about a version of an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayerVersionsListItem: Swift.Equatable {
+    public struct LayerVersionsListItem {
         /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
         public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
         /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -11735,7 +11735,7 @@ extension LambdaClientTypes.LayersListItem: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Details about an [Lambda layer](https://docs.aws.amazon.com/lambda/latest/dg/configuration-layers.html).
-    public struct LayersListItem: Swift.Equatable {
+    public struct LayersListItem {
         /// The newest version of the layer.
         public var latestMatchingVersion: LambdaClientTypes.LayerVersionsListItem?
         /// The Amazon Resource Name (ARN) of the function layer.
@@ -11787,7 +11787,7 @@ extension ListAliasesInput {
     }
 }
 
-public struct ListAliasesInput: Swift.Equatable {
+public struct ListAliasesInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -11821,7 +11821,7 @@ public struct ListAliasesInput: Swift.Equatable {
     }
 }
 
-struct ListAliasesInputBody: Swift.Equatable {
+struct ListAliasesInputBody {
 }
 
 extension ListAliasesInputBody: Swift.Decodable {
@@ -11844,7 +11844,7 @@ extension ListAliasesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListAliasesOutput: Swift.Equatable {
+public struct ListAliasesOutput {
     /// A list of aliases.
     public var aliases: [LambdaClientTypes.AliasConfiguration]?
     /// The pagination token that's included if more results are available.
@@ -11860,7 +11860,7 @@ public struct ListAliasesOutput: Swift.Equatable {
     }
 }
 
-struct ListAliasesOutputBody: Swift.Equatable {
+struct ListAliasesOutputBody {
     let nextMarker: Swift.String?
     let aliases: [LambdaClientTypes.AliasConfiguration]?
 }
@@ -11926,7 +11926,7 @@ extension ListCodeSigningConfigsInput {
     }
 }
 
-public struct ListCodeSigningConfigsInput: Swift.Equatable {
+public struct ListCodeSigningConfigsInput {
     /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
     public var marker: Swift.String?
     /// Maximum number of items to return.
@@ -11942,7 +11942,7 @@ public struct ListCodeSigningConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListCodeSigningConfigsInputBody: Swift.Equatable {
+struct ListCodeSigningConfigsInputBody {
 }
 
 extension ListCodeSigningConfigsInputBody: Swift.Decodable {
@@ -11965,7 +11965,7 @@ extension ListCodeSigningConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListCodeSigningConfigsOutput: Swift.Equatable {
+public struct ListCodeSigningConfigsOutput {
     /// The code signing configurations
     public var codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
     /// The pagination token that's included if more results are available.
@@ -11981,7 +11981,7 @@ public struct ListCodeSigningConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListCodeSigningConfigsOutputBody: Swift.Equatable {
+struct ListCodeSigningConfigsOutputBody {
     let nextMarker: Swift.String?
     let codeSigningConfigs: [LambdaClientTypes.CodeSigningConfig]?
 }
@@ -12053,7 +12053,7 @@ extension ListEventSourceMappingsInput {
     }
 }
 
-public struct ListEventSourceMappingsInput: Swift.Equatable {
+public struct ListEventSourceMappingsInput {
     /// The Amazon Resource Name (ARN) of the event source.
     ///
     /// * Amazon Kinesis – The ARN of the data stream or a stream consumer.
@@ -12100,7 +12100,7 @@ public struct ListEventSourceMappingsInput: Swift.Equatable {
     }
 }
 
-struct ListEventSourceMappingsInputBody: Swift.Equatable {
+struct ListEventSourceMappingsInputBody {
 }
 
 extension ListEventSourceMappingsInputBody: Swift.Decodable {
@@ -12123,7 +12123,7 @@ extension ListEventSourceMappingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListEventSourceMappingsOutput: Swift.Equatable {
+public struct ListEventSourceMappingsOutput {
     /// A list of event source mappings.
     public var eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]?
     /// A pagination token that's returned when the response doesn't contain all event source mappings.
@@ -12139,7 +12139,7 @@ public struct ListEventSourceMappingsOutput: Swift.Equatable {
     }
 }
 
-struct ListEventSourceMappingsOutputBody: Swift.Equatable {
+struct ListEventSourceMappingsOutputBody {
     let nextMarker: Swift.String?
     let eventSourceMappings: [LambdaClientTypes.EventSourceMappingConfiguration]?
 }
@@ -12208,7 +12208,7 @@ extension ListFunctionEventInvokeConfigsInput {
     }
 }
 
-public struct ListFunctionEventInvokeConfigsInput: Swift.Equatable {
+public struct ListFunctionEventInvokeConfigsInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - my-function.
@@ -12238,7 +12238,7 @@ public struct ListFunctionEventInvokeConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionEventInvokeConfigsInputBody: Swift.Equatable {
+struct ListFunctionEventInvokeConfigsInputBody {
 }
 
 extension ListFunctionEventInvokeConfigsInputBody: Swift.Decodable {
@@ -12261,7 +12261,7 @@ extension ListFunctionEventInvokeConfigsOutput: ClientRuntime.HttpResponseBindin
     }
 }
 
-public struct ListFunctionEventInvokeConfigsOutput: Swift.Equatable {
+public struct ListFunctionEventInvokeConfigsOutput {
     /// A list of configurations.
     public var functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]?
     /// The pagination token that's included if more results are available.
@@ -12277,7 +12277,7 @@ public struct ListFunctionEventInvokeConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionEventInvokeConfigsOutputBody: Swift.Equatable {
+struct ListFunctionEventInvokeConfigsOutputBody {
     let functionEventInvokeConfigs: [LambdaClientTypes.FunctionEventInvokeConfig]?
     let nextMarker: Swift.String?
 }
@@ -12346,7 +12346,7 @@ extension ListFunctionUrlConfigsInput {
     }
 }
 
-public struct ListFunctionUrlConfigsInput: Swift.Equatable {
+public struct ListFunctionUrlConfigsInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -12376,7 +12376,7 @@ public struct ListFunctionUrlConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionUrlConfigsInputBody: Swift.Equatable {
+struct ListFunctionUrlConfigsInputBody {
 }
 
 extension ListFunctionUrlConfigsInputBody: Swift.Decodable {
@@ -12399,7 +12399,7 @@ extension ListFunctionUrlConfigsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFunctionUrlConfigsOutput: Swift.Equatable {
+public struct ListFunctionUrlConfigsOutput {
     /// A list of function URL configurations.
     /// This member is required.
     public var functionUrlConfigs: [LambdaClientTypes.FunctionUrlConfig]?
@@ -12416,7 +12416,7 @@ public struct ListFunctionUrlConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionUrlConfigsOutputBody: Swift.Equatable {
+struct ListFunctionUrlConfigsOutputBody {
     let functionUrlConfigs: [LambdaClientTypes.FunctionUrlConfig]?
     let nextMarker: Swift.String?
 }
@@ -12485,7 +12485,7 @@ extension ListFunctionsByCodeSigningConfigInput {
     }
 }
 
-public struct ListFunctionsByCodeSigningConfigInput: Swift.Equatable {
+public struct ListFunctionsByCodeSigningConfigInput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -12506,7 +12506,7 @@ public struct ListFunctionsByCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionsByCodeSigningConfigInputBody: Swift.Equatable {
+struct ListFunctionsByCodeSigningConfigInputBody {
 }
 
 extension ListFunctionsByCodeSigningConfigInputBody: Swift.Decodable {
@@ -12529,7 +12529,7 @@ extension ListFunctionsByCodeSigningConfigOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct ListFunctionsByCodeSigningConfigOutput: Swift.Equatable {
+public struct ListFunctionsByCodeSigningConfigOutput {
     /// The function ARNs.
     public var functionArns: [Swift.String]?
     /// The pagination token that's included if more results are available.
@@ -12545,7 +12545,7 @@ public struct ListFunctionsByCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionsByCodeSigningConfigOutputBody: Swift.Equatable {
+struct ListFunctionsByCodeSigningConfigOutputBody {
     let nextMarker: Swift.String?
     let functionArns: [Swift.String]?
 }
@@ -12618,7 +12618,7 @@ extension ListFunctionsInput {
     }
 }
 
-public struct ListFunctionsInput: Swift.Equatable {
+public struct ListFunctionsInput {
     /// Set to ALL to include entries for all published versions of each function.
     public var functionVersion: LambdaClientTypes.FunctionVersion?
     /// Specify the pagination token that's returned by a previous request to retrieve the next page of results.
@@ -12642,7 +12642,7 @@ public struct ListFunctionsInput: Swift.Equatable {
     }
 }
 
-struct ListFunctionsInputBody: Swift.Equatable {
+struct ListFunctionsInputBody {
 }
 
 extension ListFunctionsInputBody: Swift.Decodable {
@@ -12666,7 +12666,7 @@ extension ListFunctionsOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A list of Lambda functions.
-public struct ListFunctionsOutput: Swift.Equatable {
+public struct ListFunctionsOutput {
     /// A list of Lambda functions.
     public var functions: [LambdaClientTypes.FunctionConfiguration]?
     /// The pagination token that's included if more results are available.
@@ -12682,7 +12682,7 @@ public struct ListFunctionsOutput: Swift.Equatable {
     }
 }
 
-struct ListFunctionsOutputBody: Swift.Equatable {
+struct ListFunctionsOutputBody {
     let nextMarker: Swift.String?
     let functions: [LambdaClientTypes.FunctionConfiguration]?
 }
@@ -12758,7 +12758,7 @@ extension ListLayerVersionsInput {
     }
 }
 
-public struct ListLayerVersionsInput: Swift.Equatable {
+public struct ListLayerVersionsInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
     /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -12787,7 +12787,7 @@ public struct ListLayerVersionsInput: Swift.Equatable {
     }
 }
 
-struct ListLayerVersionsInputBody: Swift.Equatable {
+struct ListLayerVersionsInputBody {
 }
 
 extension ListLayerVersionsInputBody: Swift.Decodable {
@@ -12810,7 +12810,7 @@ extension ListLayerVersionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLayerVersionsOutput: Swift.Equatable {
+public struct ListLayerVersionsOutput {
     /// A list of versions.
     public var layerVersions: [LambdaClientTypes.LayerVersionsListItem]?
     /// A pagination token returned when the response doesn't contain all versions.
@@ -12826,7 +12826,7 @@ public struct ListLayerVersionsOutput: Swift.Equatable {
     }
 }
 
-struct ListLayerVersionsOutputBody: Swift.Equatable {
+struct ListLayerVersionsOutputBody {
     let nextMarker: Swift.String?
     let layerVersions: [LambdaClientTypes.LayerVersionsListItem]?
 }
@@ -12900,7 +12900,7 @@ extension ListLayersInput {
     }
 }
 
-public struct ListLayersInput: Swift.Equatable {
+public struct ListLayersInput {
     /// The compatible [instruction set architecture](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitecture: LambdaClientTypes.Architecture?
     /// A runtime identifier. For example, java21. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -12924,7 +12924,7 @@ public struct ListLayersInput: Swift.Equatable {
     }
 }
 
-struct ListLayersInputBody: Swift.Equatable {
+struct ListLayersInputBody {
 }
 
 extension ListLayersInputBody: Swift.Decodable {
@@ -12947,7 +12947,7 @@ extension ListLayersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLayersOutput: Swift.Equatable {
+public struct ListLayersOutput {
     /// A list of function layers.
     public var layers: [LambdaClientTypes.LayersListItem]?
     /// A pagination token returned when the response doesn't contain all layers.
@@ -12963,7 +12963,7 @@ public struct ListLayersOutput: Swift.Equatable {
     }
 }
 
-struct ListLayersOutputBody: Swift.Equatable {
+struct ListLayersOutputBody {
     let nextMarker: Swift.String?
     let layers: [LambdaClientTypes.LayersListItem]?
 }
@@ -13032,7 +13032,7 @@ extension ListProvisionedConcurrencyConfigsInput {
     }
 }
 
-public struct ListProvisionedConcurrencyConfigsInput: Swift.Equatable {
+public struct ListProvisionedConcurrencyConfigsInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -13062,7 +13062,7 @@ public struct ListProvisionedConcurrencyConfigsInput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedConcurrencyConfigsInputBody: Swift.Equatable {
+struct ListProvisionedConcurrencyConfigsInputBody {
 }
 
 extension ListProvisionedConcurrencyConfigsInputBody: Swift.Decodable {
@@ -13085,7 +13085,7 @@ extension ListProvisionedConcurrencyConfigsOutput: ClientRuntime.HttpResponseBin
     }
 }
 
-public struct ListProvisionedConcurrencyConfigsOutput: Swift.Equatable {
+public struct ListProvisionedConcurrencyConfigsOutput {
     /// The pagination token that's included if more results are available.
     public var nextMarker: Swift.String?
     /// A list of provisioned concurrency configurations.
@@ -13101,7 +13101,7 @@ public struct ListProvisionedConcurrencyConfigsOutput: Swift.Equatable {
     }
 }
 
-struct ListProvisionedConcurrencyConfigsOutputBody: Swift.Equatable {
+struct ListProvisionedConcurrencyConfigsOutputBody {
     let provisionedConcurrencyConfigs: [LambdaClientTypes.ProvisionedConcurrencyConfigListItem]?
     let nextMarker: Swift.String?
 }
@@ -13154,7 +13154,7 @@ extension ListTagsInput {
     }
 }
 
-public struct ListTagsInput: Swift.Equatable {
+public struct ListTagsInput {
     /// The function's Amazon Resource Name (ARN). Note: Lambda does not support adding tags to aliases or versions.
     /// This member is required.
     public var resource: Swift.String?
@@ -13167,7 +13167,7 @@ public struct ListTagsInput: Swift.Equatable {
     }
 }
 
-struct ListTagsInputBody: Swift.Equatable {
+struct ListTagsInputBody {
 }
 
 extension ListTagsInputBody: Swift.Decodable {
@@ -13188,7 +13188,7 @@ extension ListTagsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsOutput: Swift.Equatable {
+public struct ListTagsOutput {
     /// The function's tags.
     public var tags: [Swift.String:Swift.String]?
 
@@ -13200,7 +13200,7 @@ public struct ListTagsOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsOutputBody: Swift.Equatable {
+struct ListTagsOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -13265,7 +13265,7 @@ extension ListVersionsByFunctionInput {
     }
 }
 
-public struct ListVersionsByFunctionInput: Swift.Equatable {
+public struct ListVersionsByFunctionInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name - MyFunction.
@@ -13295,7 +13295,7 @@ public struct ListVersionsByFunctionInput: Swift.Equatable {
     }
 }
 
-struct ListVersionsByFunctionInputBody: Swift.Equatable {
+struct ListVersionsByFunctionInputBody {
 }
 
 extension ListVersionsByFunctionInputBody: Swift.Decodable {
@@ -13318,7 +13318,7 @@ extension ListVersionsByFunctionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListVersionsByFunctionOutput: Swift.Equatable {
+public struct ListVersionsByFunctionOutput {
     /// The pagination token that's included if more results are available.
     public var nextMarker: Swift.String?
     /// A list of Lambda function versions.
@@ -13334,7 +13334,7 @@ public struct ListVersionsByFunctionOutput: Swift.Equatable {
     }
 }
 
-struct ListVersionsByFunctionOutputBody: Swift.Equatable {
+struct ListVersionsByFunctionOutputBody {
     let nextMarker: Swift.String?
     let versions: [LambdaClientTypes.FunctionConfiguration]?
 }
@@ -13480,7 +13480,7 @@ extension LambdaClientTypes.LoggingConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The function's Amazon CloudWatch Logs configuration settings.
-    public struct LoggingConfig: Swift.Equatable {
+    public struct LoggingConfig {
         /// Set this property to filter the application logs for your function that Lambda sends to CloudWatch. Lambda only sends application logs at the selected level of detail and lower, where TRACE is the highest level and FATAL is the lowest.
         public var applicationLogLevel: LambdaClientTypes.ApplicationLogLevel?
         /// The format in which Lambda sends your function's application and system logs to CloudWatch. Select between plain text and structured JSON.
@@ -13527,7 +13527,7 @@ extension LambdaClientTypes.OnFailure: Swift.Codable {
 
 extension LambdaClientTypes {
     /// A destination for events that failed processing.
-    public struct OnFailure: Swift.Equatable {
+    public struct OnFailure {
         /// The Amazon Resource Name (ARN) of the destination resource. To retain records of [asynchronous invocations](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-async-destinations), you can configure an Amazon SNS topic, Amazon SQS queue, Lambda function, or Amazon EventBridge event bus as the destination. To retain records of failed invocations from [Kinesis and DynamoDB event sources](https://docs.aws.amazon.com/lambda/latest/dg/invocation-eventsourcemapping.html#event-source-mapping-destinations), you can configure an Amazon SNS topic or Amazon SQS queue as the destination. To retain records of failed invocations from [self-managed Kafka](https://docs.aws.amazon.com/lambda/latest/dg/with-kafka.html#services-smaa-onfailure-destination) or [Amazon MSK](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-onfailure-destination), you can configure an Amazon SNS topic, Amazon SQS queue, or Amazon S3 bucket as the destination.
         public var destination: Swift.String?
 
@@ -13562,7 +13562,7 @@ extension LambdaClientTypes.OnSuccess: Swift.Codable {
 
 extension LambdaClientTypes {
     /// A destination for events that were processed successfully.
-    public struct OnSuccess: Swift.Equatable {
+    public struct OnSuccess {
         /// The Amazon Resource Name (ARN) of the destination resource.
         public var destination: Swift.String?
 
@@ -13652,7 +13652,7 @@ public struct PolicyLengthExceededException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct PolicyLengthExceededExceptionBody: Swift.Equatable {
+struct PolicyLengthExceededExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -13718,7 +13718,7 @@ public struct PreconditionFailedException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct PreconditionFailedExceptionBody: Swift.Equatable {
+struct PreconditionFailedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -13795,7 +13795,7 @@ extension LambdaClientTypes.ProvisionedConcurrencyConfigListItem: Swift.Codable 
 
 extension LambdaClientTypes {
     /// Details about the provisioned concurrency configuration for a function alias or version.
-    public struct ProvisionedConcurrencyConfigListItem: Swift.Equatable {
+    public struct ProvisionedConcurrencyConfigListItem {
         /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
         public var allocatedProvisionedConcurrentExecutions: Swift.Int?
         /// The amount of provisioned concurrency available.
@@ -13877,7 +13877,7 @@ public struct ProvisionedConcurrencyConfigNotFoundException: ClientRuntime.Model
     }
 }
 
-struct ProvisionedConcurrencyConfigNotFoundExceptionBody: Swift.Equatable {
+struct ProvisionedConcurrencyConfigNotFoundExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -13977,7 +13977,7 @@ extension PublishLayerVersionInput {
     }
 }
 
-public struct PublishLayerVersionInput: Swift.Equatable {
+public struct PublishLayerVersionInput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
     /// A list of compatible [function runtimes](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html). Used for filtering with [ListLayers] and [ListLayerVersions]. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -14017,7 +14017,7 @@ public struct PublishLayerVersionInput: Swift.Equatable {
     }
 }
 
-struct PublishLayerVersionInputBody: Swift.Equatable {
+struct PublishLayerVersionInputBody {
     let description: Swift.String?
     let content: LambdaClientTypes.LayerVersionContentInput?
     let compatibleRuntimes: [LambdaClientTypes.Runtime]?
@@ -14095,7 +14095,7 @@ extension PublishLayerVersionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PublishLayerVersionOutput: Swift.Equatable {
+public struct PublishLayerVersionOutput {
     /// A list of compatible [instruction set architectures](https://docs.aws.amazon.com/lambda/latest/dg/foundation-arch.html).
     public var compatibleArchitectures: [LambdaClientTypes.Architecture]?
     /// The layer's compatible runtimes. The following list includes deprecated runtimes. For more information, see [Runtime deprecation policy](https://docs.aws.amazon.com/lambda/latest/dg/lambda-runtimes.html#runtime-support-policy).
@@ -14139,7 +14139,7 @@ public struct PublishLayerVersionOutput: Swift.Equatable {
     }
 }
 
-struct PublishLayerVersionOutputBody: Swift.Equatable {
+struct PublishLayerVersionOutputBody {
     let content: LambdaClientTypes.LayerVersionContentOutput?
     let layerArn: Swift.String?
     let layerVersionArn: Swift.String?
@@ -14251,7 +14251,7 @@ extension PublishVersionInput {
     }
 }
 
-public struct PublishVersionInput: Swift.Equatable {
+public struct PublishVersionInput {
     /// Only publish a version if the hash value matches the value that's specified. Use this option to avoid publishing a version if the function code has changed since you last updated it. You can get the hash for the version that you uploaded from the output of [UpdateFunctionCode].
     public var codeSha256: Swift.String?
     /// A description for the version to override the description in the function configuration.
@@ -14285,7 +14285,7 @@ public struct PublishVersionInput: Swift.Equatable {
     }
 }
 
-struct PublishVersionInputBody: Swift.Equatable {
+struct PublishVersionInputBody {
     let codeSha256: Swift.String?
     let description: Swift.String?
     let revisionId: Swift.String?
@@ -14392,7 +14392,7 @@ extension PublishVersionOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about a function's configuration.
-public struct PublishVersionOutput: Swift.Equatable {
+public struct PublishVersionOutput {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The SHA256 hash of the function's deployment package.
@@ -14544,7 +14544,7 @@ public struct PublishVersionOutput: Swift.Equatable {
     }
 }
 
-struct PublishVersionOutputBody: Swift.Equatable {
+struct PublishVersionOutputBody {
     let functionName: Swift.String?
     let functionArn: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
@@ -14767,7 +14767,7 @@ extension PutFunctionCodeSigningConfigInput {
     }
 }
 
-public struct PutFunctionCodeSigningConfigInput: Swift.Equatable {
+public struct PutFunctionCodeSigningConfigInput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -14794,7 +14794,7 @@ public struct PutFunctionCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct PutFunctionCodeSigningConfigInputBody: Swift.Equatable {
+struct PutFunctionCodeSigningConfigInputBody {
     let codeSigningConfigArn: Swift.String?
 }
 
@@ -14824,7 +14824,7 @@ extension PutFunctionCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct PutFunctionCodeSigningConfigOutput: Swift.Equatable {
+public struct PutFunctionCodeSigningConfigOutput {
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
     /// This member is required.
     public var codeSigningConfigArn: Swift.String?
@@ -14851,7 +14851,7 @@ public struct PutFunctionCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct PutFunctionCodeSigningConfigOutputBody: Swift.Equatable {
+struct PutFunctionCodeSigningConfigOutputBody {
     let codeSigningConfigArn: Swift.String?
     let functionName: Swift.String?
 }
@@ -14910,7 +14910,7 @@ extension PutFunctionConcurrencyInput {
     }
 }
 
-public struct PutFunctionConcurrencyInput: Swift.Equatable {
+public struct PutFunctionConcurrencyInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -14937,7 +14937,7 @@ public struct PutFunctionConcurrencyInput: Swift.Equatable {
     }
 }
 
-struct PutFunctionConcurrencyInputBody: Swift.Equatable {
+struct PutFunctionConcurrencyInputBody {
     let reservedConcurrentExecutions: Swift.Int?
 }
 
@@ -14965,7 +14965,7 @@ extension PutFunctionConcurrencyOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutFunctionConcurrencyOutput: Swift.Equatable {
+public struct PutFunctionConcurrencyOutput {
     /// The number of concurrent executions that are reserved for this function. For more information, see [Managing Lambda reserved concurrency](https://docs.aws.amazon.com/lambda/latest/dg/configuration-concurrency.html).
     public var reservedConcurrentExecutions: Swift.Int?
 
@@ -14977,7 +14977,7 @@ public struct PutFunctionConcurrencyOutput: Swift.Equatable {
     }
 }
 
-struct PutFunctionConcurrencyOutputBody: Swift.Equatable {
+struct PutFunctionConcurrencyOutputBody {
     let reservedConcurrentExecutions: Swift.Int?
 }
 
@@ -15051,7 +15051,7 @@ extension PutFunctionEventInvokeConfigInput {
     }
 }
 
-public struct PutFunctionEventInvokeConfigInput: Swift.Equatable {
+public struct PutFunctionEventInvokeConfigInput {
     /// A destination for events after they have been sent to a function for processing. Destinations
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -15097,7 +15097,7 @@ public struct PutFunctionEventInvokeConfigInput: Swift.Equatable {
     }
 }
 
-struct PutFunctionEventInvokeConfigInputBody: Swift.Equatable {
+struct PutFunctionEventInvokeConfigInputBody {
     let maximumRetryAttempts: Swift.Int?
     let maximumEventAgeInSeconds: Swift.Int?
     let destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -15141,7 +15141,7 @@ extension PutFunctionEventInvokeConfigOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct PutFunctionEventInvokeConfigOutput: Swift.Equatable {
+public struct PutFunctionEventInvokeConfigOutput {
     /// A destination for events after they have been sent to a function for processing. Destinations
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -15177,7 +15177,7 @@ public struct PutFunctionEventInvokeConfigOutput: Swift.Equatable {
     }
 }
 
-struct PutFunctionEventInvokeConfigOutputBody: Swift.Equatable {
+struct PutFunctionEventInvokeConfigOutputBody {
     let lastModified: ClientRuntime.Date?
     let functionArn: Swift.String?
     let maximumRetryAttempts: Swift.Int?
@@ -15261,7 +15261,7 @@ extension PutProvisionedConcurrencyConfigInput {
     }
 }
 
-public struct PutProvisionedConcurrencyConfigInput: Swift.Equatable {
+public struct PutProvisionedConcurrencyConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -15293,7 +15293,7 @@ public struct PutProvisionedConcurrencyConfigInput: Swift.Equatable {
     }
 }
 
-struct PutProvisionedConcurrencyConfigInputBody: Swift.Equatable {
+struct PutProvisionedConcurrencyConfigInputBody {
     let provisionedConcurrentExecutions: Swift.Int?
 }
 
@@ -15331,7 +15331,7 @@ extension PutProvisionedConcurrencyConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct PutProvisionedConcurrencyConfigOutput: Swift.Equatable {
+public struct PutProvisionedConcurrencyConfigOutput {
     /// The amount of provisioned concurrency allocated. When a weighted alias is used during linear and canary deployments, this value fluctuates depending on the amount of concurrency that is provisioned for the function versions.
     public var allocatedProvisionedConcurrentExecutions: Swift.Int?
     /// The amount of provisioned concurrency available.
@@ -15363,7 +15363,7 @@ public struct PutProvisionedConcurrencyConfigOutput: Swift.Equatable {
     }
 }
 
-struct PutProvisionedConcurrencyConfigOutputBody: Swift.Equatable {
+struct PutProvisionedConcurrencyConfigOutputBody {
     let requestedProvisionedConcurrentExecutions: Swift.Int?
     let availableProvisionedConcurrentExecutions: Swift.Int?
     let allocatedProvisionedConcurrentExecutions: Swift.Int?
@@ -15453,7 +15453,7 @@ extension PutRuntimeManagementConfigInput {
     }
 }
 
-public struct PutRuntimeManagementConfigInput: Swift.Equatable {
+public struct PutRuntimeManagementConfigInput {
     /// The name or ARN of the Lambda function. Name formats
     ///
     /// * Function name – my-function.
@@ -15494,7 +15494,7 @@ public struct PutRuntimeManagementConfigInput: Swift.Equatable {
     }
 }
 
-struct PutRuntimeManagementConfigInputBody: Swift.Equatable {
+struct PutRuntimeManagementConfigInputBody {
     let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
     let runtimeVersionArn: Swift.String?
 }
@@ -15530,7 +15530,7 @@ extension PutRuntimeManagementConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct PutRuntimeManagementConfigOutput: Swift.Equatable {
+public struct PutRuntimeManagementConfigOutput {
     /// The ARN of the function
     /// This member is required.
     public var functionArn: Swift.String?
@@ -15552,7 +15552,7 @@ public struct PutRuntimeManagementConfigOutput: Swift.Equatable {
     }
 }
 
-struct PutRuntimeManagementConfigOutputBody: Swift.Equatable {
+struct PutRuntimeManagementConfigOutputBody {
     let updateRuntimeOn: LambdaClientTypes.UpdateRuntimeOn?
     let functionArn: Swift.String?
     let runtimeVersionArn: Swift.String?
@@ -15637,7 +15637,7 @@ public struct RecursiveInvocationException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct RecursiveInvocationExceptionBody: Swift.Equatable {
+struct RecursiveInvocationExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -15685,7 +15685,7 @@ extension RemoveLayerVersionPermissionInput {
     }
 }
 
-public struct RemoveLayerVersionPermissionInput: Swift.Equatable {
+public struct RemoveLayerVersionPermissionInput {
     /// The name or Amazon Resource Name (ARN) of the layer.
     /// This member is required.
     public var layerName: Swift.String?
@@ -15712,7 +15712,7 @@ public struct RemoveLayerVersionPermissionInput: Swift.Equatable {
     }
 }
 
-struct RemoveLayerVersionPermissionInputBody: Swift.Equatable {
+struct RemoveLayerVersionPermissionInputBody {
 }
 
 extension RemoveLayerVersionPermissionInputBody: Swift.Decodable {
@@ -15726,7 +15726,7 @@ extension RemoveLayerVersionPermissionOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct RemoveLayerVersionPermissionOutput: Swift.Equatable {
+public struct RemoveLayerVersionPermissionOutput {
 
     public init() { }
 }
@@ -15775,7 +15775,7 @@ extension RemovePermissionInput {
     }
 }
 
-public struct RemovePermissionInput: Swift.Equatable {
+public struct RemovePermissionInput {
     /// The name or ARN of the Lambda function, version, or alias. Name formats
     ///
     /// * Function name – my-function (name-only), my-function:v1 (with alias).
@@ -15810,7 +15810,7 @@ public struct RemovePermissionInput: Swift.Equatable {
     }
 }
 
-struct RemovePermissionInputBody: Swift.Equatable {
+struct RemovePermissionInputBody {
 }
 
 extension RemovePermissionInputBody: Swift.Decodable {
@@ -15824,7 +15824,7 @@ extension RemovePermissionOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RemovePermissionOutput: Swift.Equatable {
+public struct RemovePermissionOutput {
 
     public init() { }
 }
@@ -15888,7 +15888,7 @@ public struct RequestTooLargeException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct RequestTooLargeExceptionBody: Swift.Equatable {
+struct RequestTooLargeExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -15954,7 +15954,7 @@ public struct ResourceConflictException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceConflictExceptionBody: Swift.Equatable {
+struct ResourceConflictExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16018,7 +16018,7 @@ public struct ResourceInUseException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct ResourceInUseExceptionBody: Swift.Equatable {
+struct ResourceInUseExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16082,7 +16082,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16148,7 +16148,7 @@ public struct ResourceNotReadyException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotReadyExceptionBody: Swift.Equatable {
+struct ResourceNotReadyExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16367,7 +16367,7 @@ extension LambdaClientTypes.RuntimeVersionConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The ARN of the runtime and any errors that occured.
-    public struct RuntimeVersionConfig: Swift.Equatable {
+    public struct RuntimeVersionConfig {
         /// Error response when Lambda is unable to retrieve the runtime version for a function.
         public var error: LambdaClientTypes.RuntimeVersionError?
         /// The ARN of the runtime version you want the function to use.
@@ -16417,7 +16417,7 @@ extension LambdaClientTypes.RuntimeVersionError: Swift.CustomDebugStringConverti
 
 extension LambdaClientTypes {
     /// Any error returned when the runtime version information for the function could not be retrieved.
-    public struct RuntimeVersionError: Swift.Equatable {
+    public struct RuntimeVersionError {
         /// The error code.
         public var errorCode: Swift.String?
         /// The error message.
@@ -16456,7 +16456,7 @@ extension LambdaClientTypes.ScalingConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// (Amazon SQS only) The scaling configuration for the event source. To remove the configuration, pass an empty value.
-    public struct ScalingConfig: Swift.Equatable {
+    public struct ScalingConfig {
         /// Limits the number of concurrent instances that the Amazon SQS event source can invoke.
         public var maximumConcurrency: Swift.Int?
 
@@ -16513,7 +16513,7 @@ extension LambdaClientTypes.SelfManagedEventSource: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The self-managed Apache Kafka cluster for your event source.
-    public struct SelfManagedEventSource: Swift.Equatable {
+    public struct SelfManagedEventSource {
         /// The list of bootstrap servers for your Kafka brokers in the following format: "KAFKA_BOOTSTRAP_SERVERS": ["abc.xyz.com:xxxx","abc2.xyz.com:xxxx"].
         public var endpoints: [Swift.String:[Swift.String]]?
 
@@ -16548,7 +16548,7 @@ extension LambdaClientTypes.SelfManagedKafkaEventSourceConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// Specific configuration settings for a self-managed Apache Kafka event source.
-    public struct SelfManagedKafkaEventSourceConfig: Swift.Equatable {
+    public struct SelfManagedKafkaEventSourceConfig {
         /// The identifier for the Kafka consumer group to join. The consumer group ID must be unique among all your Kafka event sources. After creating a Kafka event source mapping with the consumer group ID specified, you cannot update this value. For more information, see [Customizable consumer group ID](https://docs.aws.amazon.com/lambda/latest/dg/with-msk.html#services-msk-consumer-group-id).
         public var consumerGroupId: Swift.String?
 
@@ -16606,7 +16606,7 @@ public struct ServiceException: ClientRuntime.ModeledError, AWSClientRuntime.AWS
     }
 }
 
-struct ServiceExceptionBody: Swift.Equatable {
+struct ServiceExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16647,7 +16647,7 @@ extension LambdaClientTypes.SnapStart: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The function's [Lambda SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting. Set ApplyOn to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
-    public struct SnapStart: Swift.Equatable {
+    public struct SnapStart {
         /// Set to PublishedVersions to create a snapshot of the initialized execution environment when you publish a function version.
         public var applyOn: LambdaClientTypes.SnapStartApplyOn?
 
@@ -16737,7 +16737,7 @@ public struct SnapStartException: ClientRuntime.ModeledError, AWSClientRuntime.A
     }
 }
 
-struct SnapStartExceptionBody: Swift.Equatable {
+struct SnapStartExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16801,7 +16801,7 @@ public struct SnapStartNotReadyException: ClientRuntime.ModeledError, AWSClientR
     }
 }
 
-struct SnapStartNotReadyExceptionBody: Swift.Equatable {
+struct SnapStartNotReadyExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16880,7 +16880,7 @@ extension LambdaClientTypes.SnapStartResponse: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The function's [SnapStart](https://docs.aws.amazon.com/lambda/latest/dg/snapstart.html) setting.
-    public struct SnapStartResponse: Swift.Equatable {
+    public struct SnapStartResponse {
         /// When set to PublishedVersions, Lambda creates a snapshot of the execution environment when you publish a function version.
         public var applyOn: LambdaClientTypes.SnapStartApplyOn?
         /// When you provide a [qualified Amazon Resource Name (ARN)](https://docs.aws.amazon.com/lambda/latest/dg/configuration-versions.html#versioning-versions-using), this response element indicates whether SnapStart is activated for the specified function version.
@@ -16942,7 +16942,7 @@ public struct SnapStartTimeoutException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct SnapStartTimeoutExceptionBody: Swift.Equatable {
+struct SnapStartTimeoutExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -16989,7 +16989,7 @@ extension LambdaClientTypes.SourceAccessConfiguration: Swift.Codable {
 
 extension LambdaClientTypes {
     /// To secure and define access to your event source, you can specify the authentication protocol, VPC components, or virtual host.
-    public struct SourceAccessConfiguration: Swift.Equatable {
+    public struct SourceAccessConfiguration {
         /// The type of authentication protocol, VPC components, or virtual host for your event source. For example: "Type":"SASL_SCRAM_512_AUTH".
         ///
         /// * BASIC_AUTH – (Amazon MQ) The Secrets Manager secret that stores your broker credentials.
@@ -17255,7 +17255,7 @@ public struct SubnetIPAddressLimitReachedException: ClientRuntime.ModeledError, 
     }
 }
 
-struct SubnetIPAddressLimitReachedExceptionBody: Swift.Equatable {
+struct SubnetIPAddressLimitReachedExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -17336,7 +17336,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The function's Amazon Resource Name (ARN).
     /// This member is required.
     public var resource: Swift.String?
@@ -17354,7 +17354,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -17384,7 +17384,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -17506,7 +17506,7 @@ public struct TooManyRequestsException: ClientRuntime.ModeledError, AWSClientRun
     }
 }
 
-struct TooManyRequestsExceptionBody: Swift.Equatable {
+struct TooManyRequestsExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
     let reason: LambdaClientTypes.ThrottleReason?
@@ -17551,7 +17551,7 @@ extension LambdaClientTypes.TracingConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The function's [X-Ray](https://docs.aws.amazon.com/lambda/latest/dg/services-xray.html) tracing configuration. To sample and record incoming requests, set Mode to Active.
-    public struct TracingConfig: Swift.Equatable {
+    public struct TracingConfig {
         /// The tracing mode.
         public var mode: LambdaClientTypes.TracingMode?
 
@@ -17586,7 +17586,7 @@ extension LambdaClientTypes.TracingConfigResponse: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The function's X-Ray tracing configuration.
-    public struct TracingConfigResponse: Swift.Equatable {
+    public struct TracingConfigResponse {
         /// The tracing mode.
         public var mode: LambdaClientTypes.TracingMode?
 
@@ -17676,7 +17676,7 @@ public struct UnsupportedMediaTypeException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct UnsupportedMediaTypeExceptionBody: Swift.Equatable {
+struct UnsupportedMediaTypeExceptionBody {
     let type: Swift.String?
     let message: Swift.String?
 }
@@ -17722,7 +17722,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The function's Amazon Resource Name (ARN).
     /// This member is required.
     public var resource: Swift.String?
@@ -17740,7 +17740,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -17754,7 +17754,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -17812,7 +17812,7 @@ extension UpdateAliasInput {
     }
 }
 
-public struct UpdateAliasInput: Swift.Equatable {
+public struct UpdateAliasInput {
     /// A description of the alias.
     public var description: Swift.String?
     /// The name or ARN of the Lambda function. Name formats
@@ -17855,7 +17855,7 @@ public struct UpdateAliasInput: Swift.Equatable {
     }
 }
 
-struct UpdateAliasInputBody: Swift.Equatable {
+struct UpdateAliasInputBody {
     let functionVersion: Swift.String?
     let description: Swift.String?
     let routingConfig: LambdaClientTypes.AliasRoutingConfiguration?
@@ -17906,7 +17906,7 @@ extension UpdateAliasOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Provides configuration information about a Lambda function [alias](https://docs.aws.amazon.com/lambda/latest/dg/configuration-aliases.html).
-public struct UpdateAliasOutput: Swift.Equatable {
+public struct UpdateAliasOutput {
     /// The Amazon Resource Name (ARN) of the alias.
     public var aliasArn: Swift.String?
     /// A description of the alias.
@@ -17938,7 +17938,7 @@ public struct UpdateAliasOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAliasOutputBody: Swift.Equatable {
+struct UpdateAliasOutputBody {
     let aliasArn: Swift.String?
     let name: Swift.String?
     let functionVersion: Swift.String?
@@ -18021,7 +18021,7 @@ extension UpdateCodeSigningConfigInput {
     }
 }
 
-public struct UpdateCodeSigningConfigInput: Swift.Equatable {
+public struct UpdateCodeSigningConfigInput {
     /// Signing profiles for this code signing configuration.
     public var allowedPublishers: LambdaClientTypes.AllowedPublishers?
     /// The The Amazon Resource Name (ARN) of the code signing configuration.
@@ -18046,7 +18046,7 @@ public struct UpdateCodeSigningConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateCodeSigningConfigInputBody: Swift.Equatable {
+struct UpdateCodeSigningConfigInputBody {
     let description: Swift.String?
     let allowedPublishers: LambdaClientTypes.AllowedPublishers?
     let codeSigningPolicies: LambdaClientTypes.CodeSigningPolicies?
@@ -18082,7 +18082,7 @@ extension UpdateCodeSigningConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateCodeSigningConfigOutput: Swift.Equatable {
+public struct UpdateCodeSigningConfigOutput {
     /// The code signing configuration
     /// This member is required.
     public var codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
@@ -18095,7 +18095,7 @@ public struct UpdateCodeSigningConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateCodeSigningConfigOutputBody: Swift.Equatable {
+struct UpdateCodeSigningConfigOutputBody {
     let codeSigningConfig: LambdaClientTypes.CodeSigningConfig?
 }
 
@@ -18209,7 +18209,7 @@ extension UpdateEventSourceMappingInput {
     }
 }
 
-public struct UpdateEventSourceMappingInput: Swift.Equatable {
+public struct UpdateEventSourceMappingInput {
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB).
     ///
     /// * Amazon Kinesis – Default 100. Max 10,000.
@@ -18307,7 +18307,7 @@ public struct UpdateEventSourceMappingInput: Swift.Equatable {
     }
 }
 
-struct UpdateEventSourceMappingInputBody: Swift.Equatable {
+struct UpdateEventSourceMappingInputBody {
     let functionName: Swift.String?
     let enabled: Swift.Bool?
     let batchSize: Swift.Int?
@@ -18462,7 +18462,7 @@ extension UpdateEventSourceMappingOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// A mapping between an Amazon Web Services resource and a Lambda function. For details, see [CreateEventSourceMapping].
-public struct UpdateEventSourceMappingOutput: Swift.Equatable {
+public struct UpdateEventSourceMappingOutput {
     /// Specific configuration settings for an Amazon Managed Streaming for Apache Kafka (Amazon MSK) event source.
     public var amazonManagedKafkaEventSourceConfig: LambdaClientTypes.AmazonManagedKafkaEventSourceConfig?
     /// The maximum number of records in each batch that Lambda pulls from your stream or queue and sends to your function. Lambda passes all of the records in the batch to the function in a single call, up to the payload limit for synchronous invocation (6 MB). Default value: Varies by service. For Amazon SQS, the default is 10. For all other services, the default is 100. Related setting: When you set BatchSize to a value greater than 10, you must set MaximumBatchingWindowInSeconds to at least 1.
@@ -18578,7 +18578,7 @@ public struct UpdateEventSourceMappingOutput: Swift.Equatable {
     }
 }
 
-struct UpdateEventSourceMappingOutputBody: Swift.Equatable {
+struct UpdateEventSourceMappingOutputBody {
     let uuid: Swift.String?
     let startingPosition: LambdaClientTypes.EventSourcePosition?
     let startingPositionTimestamp: ClientRuntime.Date?
@@ -18813,7 +18813,7 @@ extension UpdateFunctionCodeInput {
     }
 }
 
-public struct UpdateFunctionCodeInput: Swift.Equatable {
+public struct UpdateFunctionCodeInput {
     /// The instruction set architecture that the function supports. Enter a string array with one of the valid values (arm64 or x86_64). The default value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// Set to true to validate the request parameters and access permissions without modifying the function code.
@@ -18871,7 +18871,7 @@ public struct UpdateFunctionCodeInput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionCodeInputBody: Swift.Equatable {
+struct UpdateFunctionCodeInputBody {
     let zipFile: ClientRuntime.Data?
     let s3Bucket: Swift.String?
     let s3Key: Swift.String?
@@ -19011,7 +19011,7 @@ extension UpdateFunctionCodeOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about a function's configuration.
-public struct UpdateFunctionCodeOutput: Swift.Equatable {
+public struct UpdateFunctionCodeOutput {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The SHA256 hash of the function's deployment package.
@@ -19163,7 +19163,7 @@ public struct UpdateFunctionCodeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionCodeOutputBody: Swift.Equatable {
+struct UpdateFunctionCodeOutputBody {
     let functionName: Swift.String?
     let functionArn: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
@@ -19463,7 +19463,7 @@ extension UpdateFunctionConfigurationInput {
     }
 }
 
-public struct UpdateFunctionConfigurationInput: Swift.Equatable {
+public struct UpdateFunctionConfigurationInput {
     /// A dead-letter queue configuration that specifies the queue or topic where Lambda sends asynchronous events when they fail processing. For more information, see [Dead-letter queues](https://docs.aws.amazon.com/lambda/latest/dg/invocation-async.html#invocation-dlq).
     public var deadLetterConfig: LambdaClientTypes.DeadLetterConfig?
     /// A description of the function.
@@ -19557,7 +19557,7 @@ public struct UpdateFunctionConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionConfigurationInputBody: Swift.Equatable {
+struct UpdateFunctionConfigurationInputBody {
     let role: Swift.String?
     let handler: Swift.String?
     let description: Swift.String?
@@ -19742,7 +19742,7 @@ extension UpdateFunctionConfigurationOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Details about a function's configuration.
-public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
+public struct UpdateFunctionConfigurationOutput {
     /// The instruction set architecture that the function supports. Architecture is a string array with one of the valid values. The default architecture value is x86_64.
     public var architectures: [LambdaClientTypes.Architecture]?
     /// The SHA256 hash of the function's deployment package.
@@ -19894,7 +19894,7 @@ public struct UpdateFunctionConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionConfigurationOutputBody: Swift.Equatable {
+struct UpdateFunctionConfigurationOutputBody {
     let functionName: Swift.String?
     let functionArn: Swift.String?
     let runtime: LambdaClientTypes.Runtime?
@@ -20139,7 +20139,7 @@ extension UpdateFunctionEventInvokeConfigInput {
     }
 }
 
-public struct UpdateFunctionEventInvokeConfigInput: Swift.Equatable {
+public struct UpdateFunctionEventInvokeConfigInput {
     /// A destination for events after they have been sent to a function for processing. Destinations
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -20185,7 +20185,7 @@ public struct UpdateFunctionEventInvokeConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionEventInvokeConfigInputBody: Swift.Equatable {
+struct UpdateFunctionEventInvokeConfigInputBody {
     let maximumRetryAttempts: Swift.Int?
     let maximumEventAgeInSeconds: Swift.Int?
     let destinationConfig: LambdaClientTypes.DestinationConfig?
@@ -20229,7 +20229,7 @@ extension UpdateFunctionEventInvokeConfigOutput: ClientRuntime.HttpResponseBindi
     }
 }
 
-public struct UpdateFunctionEventInvokeConfigOutput: Swift.Equatable {
+public struct UpdateFunctionEventInvokeConfigOutput {
     /// A destination for events after they have been sent to a function for processing. Destinations
     ///
     /// * Function - The Amazon Resource Name (ARN) of a Lambda function.
@@ -20265,7 +20265,7 @@ public struct UpdateFunctionEventInvokeConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionEventInvokeConfigOutputBody: Swift.Equatable {
+struct UpdateFunctionEventInvokeConfigOutputBody {
     let lastModified: ClientRuntime.Date?
     let functionArn: Swift.String?
     let maximumRetryAttempts: Swift.Int?
@@ -20355,7 +20355,7 @@ extension UpdateFunctionUrlConfigInput {
     }
 }
 
-public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
+public struct UpdateFunctionUrlConfigInput {
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
     /// The [cross-origin resource sharing (CORS)](https://developer.mozilla.org/en-US/docs/Web/HTTP/CORS) settings for your function URL.
@@ -20397,7 +20397,7 @@ public struct UpdateFunctionUrlConfigInput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionUrlConfigInputBody: Swift.Equatable {
+struct UpdateFunctionUrlConfigInputBody {
     let authType: LambdaClientTypes.FunctionUrlAuthType?
     let cors: LambdaClientTypes.Cors?
     let invokeMode: LambdaClientTypes.InvokeMode?
@@ -20445,7 +20445,7 @@ extension UpdateFunctionUrlConfigOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateFunctionUrlConfigOutput: Swift.Equatable {
+public struct UpdateFunctionUrlConfigOutput {
     /// The type of authentication that your function URL uses. Set to AWS_IAM if you want to restrict access to authenticated users only. Set to NONE if you want to bypass IAM authentication to create a public endpoint. For more information, see [Security and auth model for Lambda function URLs](https://docs.aws.amazon.com/lambda/latest/dg/urls-auth.html).
     /// This member is required.
     public var authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -20490,7 +20490,7 @@ public struct UpdateFunctionUrlConfigOutput: Swift.Equatable {
     }
 }
 
-struct UpdateFunctionUrlConfigOutputBody: Swift.Equatable {
+struct UpdateFunctionUrlConfigOutputBody {
     let functionUrl: Swift.String?
     let functionArn: Swift.String?
     let authType: LambdaClientTypes.FunctionUrlAuthType?
@@ -20637,7 +20637,7 @@ extension LambdaClientTypes.VpcConfig: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The VPC security groups and subnets that are attached to a Lambda function. For more information, see [Configuring a Lambda function to access resources in a VPC](https://docs.aws.amazon.com/lambda/latest/dg/configuration-vpc.html).
-    public struct VpcConfig: Swift.Equatable {
+    public struct VpcConfig {
         /// Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
         public var ipv6AllowedForDualStack: Swift.Bool?
         /// A list of VPC security group IDs.
@@ -20722,7 +20722,7 @@ extension LambdaClientTypes.VpcConfigResponse: Swift.Codable {
 
 extension LambdaClientTypes {
     /// The VPC security groups and subnets that are attached to a Lambda function.
-    public struct VpcConfigResponse: Swift.Equatable {
+    public struct VpcConfigResponse {
         /// Allows outbound IPv6 traffic on VPC functions that are connected to dual-stack subnets.
         public var ipv6AllowedForDualStack: Swift.Bool?
         /// A list of VPC security group IDs.

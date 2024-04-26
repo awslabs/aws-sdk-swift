@@ -30,7 +30,7 @@ extension BatchMeterUsageInput {
 }
 
 /// A BatchMeterUsageRequest contains UsageRecords, which indicate quantities of usage within your application.
-public struct BatchMeterUsageInput: Swift.Equatable {
+public struct BatchMeterUsageInput {
     /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
     /// This member is required.
     public var productCode: Swift.String?
@@ -48,7 +48,7 @@ public struct BatchMeterUsageInput: Swift.Equatable {
     }
 }
 
-struct BatchMeterUsageInputBody: Swift.Equatable {
+struct BatchMeterUsageInputBody {
     let usageRecords: [MarketplaceMeteringClientTypes.UsageRecord]?
     let productCode: Swift.String?
 }
@@ -92,7 +92,7 @@ extension BatchMeterUsageOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// Contains the UsageRecords processed by BatchMeterUsage and any records that have failed due to transient error.
-public struct BatchMeterUsageOutput: Swift.Equatable {
+public struct BatchMeterUsageOutput {
     /// Contains all UsageRecords processed by BatchMeterUsage. These records were either honored by AWS Marketplace Metering Service or were invalid. Invalid records should be fixed before being resubmitted.
     public var results: [MarketplaceMeteringClientTypes.UsageRecordResult]?
     /// Contains all UsageRecords that were not processed by BatchMeterUsage. This is a list of UsageRecords. You can retry the failed request by making another BatchMeterUsage call with this list as input in the BatchMeterUsageRequest.
@@ -108,7 +108,7 @@ public struct BatchMeterUsageOutput: Swift.Equatable {
     }
 }
 
-struct BatchMeterUsageOutputBody: Swift.Equatable {
+struct BatchMeterUsageOutputBody {
     let results: [MarketplaceMeteringClientTypes.UsageRecordResult]?
     let unprocessedRecords: [MarketplaceMeteringClientTypes.UsageRecord]?
 }
@@ -204,7 +204,7 @@ public struct CustomerNotEntitledException: ClientRuntime.ModeledError, AWSClien
     }
 }
 
-struct CustomerNotEntitledExceptionBody: Swift.Equatable {
+struct CustomerNotEntitledExceptionBody {
     let message: Swift.String?
 }
 
@@ -259,7 +259,7 @@ public struct DisabledApiException: ClientRuntime.ModeledError, AWSClientRuntime
     }
 }
 
-struct DisabledApiExceptionBody: Swift.Equatable {
+struct DisabledApiExceptionBody {
     let message: Swift.String?
 }
 
@@ -314,7 +314,7 @@ public struct DuplicateRequestException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct DuplicateRequestExceptionBody: Swift.Equatable {
+struct DuplicateRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -369,7 +369,7 @@ public struct ExpiredTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct ExpiredTokenExceptionBody: Swift.Equatable {
+struct ExpiredTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -424,7 +424,7 @@ public struct InternalServiceErrorException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct InternalServiceErrorExceptionBody: Swift.Equatable {
+struct InternalServiceErrorExceptionBody {
     let message: Swift.String?
 }
 
@@ -479,7 +479,7 @@ public struct InvalidCustomerIdentifierException: ClientRuntime.ModeledError, AW
     }
 }
 
-struct InvalidCustomerIdentifierExceptionBody: Swift.Equatable {
+struct InvalidCustomerIdentifierExceptionBody {
     let message: Swift.String?
 }
 
@@ -534,7 +534,7 @@ public struct InvalidEndpointRegionException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidEndpointRegionExceptionBody: Swift.Equatable {
+struct InvalidEndpointRegionExceptionBody {
     let message: Swift.String?
 }
 
@@ -589,7 +589,7 @@ public struct InvalidProductCodeException: ClientRuntime.ModeledError, AWSClient
     }
 }
 
-struct InvalidProductCodeExceptionBody: Swift.Equatable {
+struct InvalidProductCodeExceptionBody {
     let message: Swift.String?
 }
 
@@ -644,7 +644,7 @@ public struct InvalidPublicKeyVersionException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidPublicKeyVersionExceptionBody: Swift.Equatable {
+struct InvalidPublicKeyVersionExceptionBody {
     let message: Swift.String?
 }
 
@@ -699,7 +699,7 @@ public struct InvalidRegionException: ClientRuntime.ModeledError, AWSClientRunti
     }
 }
 
-struct InvalidRegionExceptionBody: Swift.Equatable {
+struct InvalidRegionExceptionBody {
     let message: Swift.String?
 }
 
@@ -754,7 +754,7 @@ public struct InvalidTagException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct InvalidTagExceptionBody: Swift.Equatable {
+struct InvalidTagExceptionBody {
     let message: Swift.String?
 }
 
@@ -809,7 +809,7 @@ public struct InvalidTokenException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct InvalidTokenExceptionBody: Swift.Equatable {
+struct InvalidTokenExceptionBody {
     let message: Swift.String?
 }
 
@@ -864,7 +864,7 @@ public struct InvalidUsageAllocationsException: ClientRuntime.ModeledError, AWSC
     }
 }
 
-struct InvalidUsageAllocationsExceptionBody: Swift.Equatable {
+struct InvalidUsageAllocationsExceptionBody {
     let message: Swift.String?
 }
 
@@ -919,7 +919,7 @@ public struct InvalidUsageDimensionException: ClientRuntime.ModeledError, AWSCli
     }
 }
 
-struct InvalidUsageDimensionExceptionBody: Swift.Equatable {
+struct InvalidUsageDimensionExceptionBody {
     let message: Swift.String?
 }
 
@@ -980,7 +980,7 @@ extension MeterUsageInput {
     }
 }
 
-public struct MeterUsageInput: Swift.Equatable {
+public struct MeterUsageInput {
     /// Checks whether you have the permissions required for the action, but does not make the request. If you have the permissions, the request returns DryRunOperation; otherwise, it returns UnauthorizedException. Defaults to false if not specified.
     public var dryRun: Swift.Bool?
     /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -1015,7 +1015,7 @@ public struct MeterUsageInput: Swift.Equatable {
     }
 }
 
-struct MeterUsageInputBody: Swift.Equatable {
+struct MeterUsageInputBody {
     let productCode: Swift.String?
     let timestamp: ClientRuntime.Date?
     let usageDimension: Swift.String?
@@ -1072,7 +1072,7 @@ extension MeterUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct MeterUsageOutput: Swift.Equatable {
+public struct MeterUsageOutput {
     /// Metering record id.
     public var meteringRecordId: Swift.String?
 
@@ -1084,7 +1084,7 @@ public struct MeterUsageOutput: Swift.Equatable {
     }
 }
 
-struct MeterUsageOutputBody: Swift.Equatable {
+struct MeterUsageOutputBody {
     let meteringRecordId: Swift.String?
 }
 
@@ -1159,7 +1159,7 @@ public struct PlatformNotSupportedException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct PlatformNotSupportedExceptionBody: Swift.Equatable {
+struct PlatformNotSupportedExceptionBody {
     let message: Swift.String?
 }
 
@@ -1203,7 +1203,7 @@ extension RegisterUsageInput {
     }
 }
 
-public struct RegisterUsageInput: Swift.Equatable {
+public struct RegisterUsageInput {
     /// (Optional) To scope down the registration to a specific running software instance and guard against replay attacks.
     public var nonce: Swift.String?
     /// Product code is used to uniquely identify a product in AWS Marketplace. The product code should be the same as the one used during the publishing of a new product.
@@ -1225,7 +1225,7 @@ public struct RegisterUsageInput: Swift.Equatable {
     }
 }
 
-struct RegisterUsageInputBody: Swift.Equatable {
+struct RegisterUsageInputBody {
     let productCode: Swift.String?
     let publicKeyVersion: Swift.Int?
     let nonce: Swift.String?
@@ -1263,7 +1263,7 @@ extension RegisterUsageOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct RegisterUsageOutput: Swift.Equatable {
+public struct RegisterUsageOutput {
     /// (Optional) Only included when public key version has expired
     public var publicKeyRotationTimestamp: ClientRuntime.Date?
     /// JWT Token
@@ -1279,7 +1279,7 @@ public struct RegisterUsageOutput: Swift.Equatable {
     }
 }
 
-struct RegisterUsageOutputBody: Swift.Equatable {
+struct RegisterUsageOutputBody {
     let publicKeyRotationTimestamp: ClientRuntime.Date?
     let signature: Swift.String?
 }
@@ -1338,7 +1338,7 @@ extension ResolveCustomerInput {
 }
 
 /// Contains input to the ResolveCustomer operation.
-public struct ResolveCustomerInput: Swift.Equatable {
+public struct ResolveCustomerInput {
     /// When a buyer visits your website during the registration process, the buyer submits a registration token through the browser. The registration token is resolved to obtain a CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
     /// This member is required.
     public var registrationToken: Swift.String?
@@ -1351,7 +1351,7 @@ public struct ResolveCustomerInput: Swift.Equatable {
     }
 }
 
-struct ResolveCustomerInputBody: Swift.Equatable {
+struct ResolveCustomerInputBody {
     let registrationToken: Swift.String?
 }
 
@@ -1384,7 +1384,7 @@ extension ResolveCustomerOutput: ClientRuntime.HttpResponseBinding {
 }
 
 /// The result of the ResolveCustomer operation. Contains the CustomerIdentifier along with the CustomerAWSAccountId and ProductCode.
-public struct ResolveCustomerOutput: Swift.Equatable {
+public struct ResolveCustomerOutput {
     /// The CustomerAWSAccountId provides the AWS account ID associated with the CustomerIdentifier for the individual customer.
     public var customerAWSAccountId: Swift.String?
     /// The CustomerIdentifier is used to identify an individual customer in your application. Calls to BatchMeterUsage require CustomerIdentifiers for each UsageRecord.
@@ -1404,7 +1404,7 @@ public struct ResolveCustomerOutput: Swift.Equatable {
     }
 }
 
-struct ResolveCustomerOutputBody: Swift.Equatable {
+struct ResolveCustomerOutputBody {
     let customerIdentifier: Swift.String?
     let productCode: Swift.String?
     let customerAWSAccountId: Swift.String?
@@ -1470,7 +1470,7 @@ extension MarketplaceMeteringClientTypes.Tag: Swift.Codable {
 
 extension MarketplaceMeteringClientTypes {
     /// Metadata assigned to an allocation. Each tag is made up of a key and a value.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// One part of a key-value pair that makes up a tag. A key is a label that acts like a category for the specific tag values.
         /// This member is required.
         public var key: Swift.String?
@@ -1529,7 +1529,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
 }
 
@@ -1584,7 +1584,7 @@ public struct TimestampOutOfBoundsException: ClientRuntime.ModeledError, AWSClie
     }
 }
 
-struct TimestampOutOfBoundsExceptionBody: Swift.Equatable {
+struct TimestampOutOfBoundsExceptionBody {
     let message: Swift.String?
 }
 
@@ -1639,7 +1639,7 @@ extension MarketplaceMeteringClientTypes.UsageAllocation: Swift.Codable {
 
 extension MarketplaceMeteringClientTypes {
     /// Usage allocations allow you to split usage into buckets by tags. Each UsageAllocation indicates the usage quantity for a specific set of tags.
-    public struct UsageAllocation: Swift.Equatable {
+    public struct UsageAllocation {
         /// The total quantity allocated to this bucket of usage.
         /// This member is required.
         public var allocatedUsageQuantity: Swift.Int?
@@ -1715,7 +1715,7 @@ extension MarketplaceMeteringClientTypes.UsageRecord: Swift.Codable {
 
 extension MarketplaceMeteringClientTypes {
     /// A UsageRecord indicates a quantity of usage for a given product, customer, dimension and time. Multiple requests with the same UsageRecords as input will be de-duplicated to prevent double charges.
-    public struct UsageRecord: Swift.Equatable {
+    public struct UsageRecord {
         /// The CustomerIdentifier is obtained through the ResolveCustomer operation and represents an individual buyer in your application.
         /// This member is required.
         public var customerIdentifier: Swift.String?
@@ -1781,7 +1781,7 @@ extension MarketplaceMeteringClientTypes.UsageRecordResult: Swift.Codable {
 
 extension MarketplaceMeteringClientTypes {
     /// A UsageRecordResult indicates the status of a given UsageRecord processed by BatchMeterUsage.
-    public struct UsageRecordResult: Swift.Equatable {
+    public struct UsageRecordResult {
         /// The MeteringRecordId is a unique identifier for this metering event.
         public var meteringRecordId: Swift.String?
         /// The UsageRecordResultStatus indicates the status of an individual UsageRecord processed by BatchMeterUsage.

@@ -62,7 +62,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let resourceId: Swift.String?
@@ -135,7 +135,7 @@ extension CodeGuruSecurityClientTypes.AccountFindingsMetric: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// A summary of findings metrics in an account.
-    public struct AccountFindingsMetric: Swift.Equatable {
+    public struct AccountFindingsMetric {
         /// The number of closed findings of each severity in an account on the specified date.
         public var closedFindings: CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity?
         /// The date from which the finding metrics were retrieved.
@@ -236,7 +236,7 @@ extension CodeGuruSecurityClientTypes.BatchGetFindingsError: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Contains information about the error that caused a finding to fail to be retrieved.
-    public struct BatchGetFindingsError: Swift.Equatable {
+    public struct BatchGetFindingsError {
         /// A code associated with the type of error.
         /// This member is required.
         public var errorCode: CodeGuruSecurityClientTypes.ErrorCode?
@@ -289,7 +289,7 @@ extension BatchGetFindingsInput {
     }
 }
 
-public struct BatchGetFindingsInput: Swift.Equatable {
+public struct BatchGetFindingsInput {
     /// A list of finding identifiers. Each identifier consists of a scanName and a findingId. You retrieve the findingId when you call GetFindings.
     /// This member is required.
     public var findingIdentifiers: [CodeGuruSecurityClientTypes.FindingIdentifier]?
@@ -302,7 +302,7 @@ public struct BatchGetFindingsInput: Swift.Equatable {
     }
 }
 
-struct BatchGetFindingsInputBody: Swift.Equatable {
+struct BatchGetFindingsInputBody {
     let findingIdentifiers: [CodeGuruSecurityClientTypes.FindingIdentifier]?
 }
 
@@ -341,7 +341,7 @@ extension BatchGetFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct BatchGetFindingsOutput: Swift.Equatable {
+public struct BatchGetFindingsOutput {
     /// A list of errors for individual findings which were not fetched. Each BatchGetFindingsError contains the scanName, findingId, errorCode and error message.
     /// This member is required.
     public var failedFindings: [CodeGuruSecurityClientTypes.BatchGetFindingsError]?
@@ -359,7 +359,7 @@ public struct BatchGetFindingsOutput: Swift.Equatable {
     }
 }
 
-struct BatchGetFindingsOutputBody: Swift.Equatable {
+struct BatchGetFindingsOutputBody {
     let findings: [CodeGuruSecurityClientTypes.Finding]?
     let failedFindings: [CodeGuruSecurityClientTypes.BatchGetFindingsError]?
 }
@@ -438,7 +438,7 @@ extension CodeGuruSecurityClientTypes.CategoryWithFindingNum: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a finding category with open findings.
-    public struct CategoryWithFindingNum: Swift.Equatable {
+    public struct CategoryWithFindingNum {
         /// The name of the finding category. A finding category is determined by the detector that detected the finding.
         public var categoryName: Swift.String?
         /// The number of open findings in the category.
@@ -485,7 +485,7 @@ extension CodeGuruSecurityClientTypes.CodeLine: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// The line of code where a finding was detected.
-    public struct CodeLine: Swift.Equatable {
+    public struct CodeLine {
         /// The code that contains a vulnerability.
         public var content: Swift.String?
         /// The code line number.
@@ -565,7 +565,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let resourceId: Swift.String?
@@ -636,7 +636,7 @@ extension CreateScanInput {
     }
 }
 
-public struct CreateScanInput: Swift.Equatable {
+public struct CreateScanInput {
     /// The type of analysis you want CodeGuru Security to perform in the scan, either Security or All. The Security type only generates findings related to security. The All type generates both security findings and quality findings. Defaults to Security type if missing.
     public var analysisType: CodeGuruSecurityClientTypes.AnalysisType?
     /// The idempotency token for the request. Amazon CodeGuru Security uses this value to prevent the accidental creation of duplicate scans if there are failures and retries.
@@ -674,7 +674,7 @@ public struct CreateScanInput: Swift.Equatable {
     }
 }
 
-struct CreateScanInputBody: Swift.Equatable {
+struct CreateScanInputBody {
     let clientToken: Swift.String?
     let resourceId: CodeGuruSecurityClientTypes.ResourceId?
     let scanName: Swift.String?
@@ -739,7 +739,7 @@ extension CreateScanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateScanOutput: Swift.Equatable {
+public struct CreateScanOutput {
     /// The identifier for the resource object that contains resources that were scanned.
     /// This member is required.
     public var resourceId: CodeGuruSecurityClientTypes.ResourceId?
@@ -771,7 +771,7 @@ public struct CreateScanOutput: Swift.Equatable {
     }
 }
 
-struct CreateScanOutputBody: Swift.Equatable {
+struct CreateScanOutputBody {
     let scanName: Swift.String?
     let runId: Swift.String?
     let resourceId: CodeGuruSecurityClientTypes.ResourceId?
@@ -839,7 +839,7 @@ extension CreateUploadUrlInput {
     }
 }
 
-public struct CreateUploadUrlInput: Swift.Equatable {
+public struct CreateUploadUrlInput {
     /// The name of the scan that will use the uploaded resource. CodeGuru Security uses the unique scan name to track revisions across multiple scans of the same resource. Use this scanName when you call CreateScan on the code resource you upload to this URL.
     /// This member is required.
     public var scanName: Swift.String?
@@ -852,7 +852,7 @@ public struct CreateUploadUrlInput: Swift.Equatable {
     }
 }
 
-struct CreateUploadUrlInputBody: Swift.Equatable {
+struct CreateUploadUrlInputBody {
     let scanName: Swift.String?
 }
 
@@ -889,7 +889,7 @@ extension CreateUploadUrlOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateUploadUrlOutput: Swift.Equatable {
+public struct CreateUploadUrlOutput {
     /// The identifier for the uploaded code resource.
     /// This member is required.
     public var codeArtifactId: Swift.String?
@@ -912,7 +912,7 @@ public struct CreateUploadUrlOutput: Swift.Equatable {
     }
 }
 
-struct CreateUploadUrlOutputBody: Swift.Equatable {
+struct CreateUploadUrlOutputBody {
     let s3Url: Swift.String?
     let requestHeaders: [Swift.String:Swift.String]?
     let codeArtifactId: Swift.String?
@@ -980,7 +980,7 @@ extension CodeGuruSecurityClientTypes.EncryptionConfig: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about account-level configuration.
-    public struct EncryptionConfig: Swift.Equatable {
+    public struct EncryptionConfig {
         /// The KMS key ARN to use for encryption. This must be provided as a header when uploading your code resource.
         public var kmsKeyArn: Swift.String?
 
@@ -1092,7 +1092,7 @@ extension CodeGuruSecurityClientTypes.FilePath: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about the location of security vulnerabilities that Amazon CodeGuru Security detected in your code.
-    public struct FilePath: Swift.Equatable {
+    public struct FilePath {
         /// A list of CodeLine objects that describe where the security vulnerability appears in your code.
         public var codeSnippet: [CodeGuruSecurityClientTypes.CodeLine]?
         /// The last line number of the code snippet where the security vulnerability appears in your code.
@@ -1245,7 +1245,7 @@ extension CodeGuruSecurityClientTypes.Finding: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a finding that was detected in your code.
-    public struct Finding: Swift.Equatable {
+    public struct Finding {
         /// The time when the finding was created.
         public var createdAt: ClientRuntime.Date?
         /// A description of the finding.
@@ -1346,7 +1346,7 @@ extension CodeGuruSecurityClientTypes.FindingIdentifier: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// An object that contains information about a finding and the scan that generated it.
-    public struct FindingIdentifier: Swift.Equatable {
+    public struct FindingIdentifier {
         /// The identifier for a finding.
         /// This member is required.
         public var findingId: Swift.String?
@@ -1411,7 +1411,7 @@ extension CodeGuruSecurityClientTypes.FindingMetricsValuePerSeverity: Swift.Coda
 
 extension CodeGuruSecurityClientTypes {
     /// The severity of the issue in the code that generated a finding.
-    public struct FindingMetricsValuePerSeverity: Swift.Equatable {
+    public struct FindingMetricsValuePerSeverity {
         /// The severity of the finding is critical and should be addressed immediately.
         public var critical: Swift.Double?
         /// The severity of the finding is high and should be addressed as a near-term priority.
@@ -1448,12 +1448,12 @@ extension GetAccountConfigurationInput {
     }
 }
 
-public struct GetAccountConfigurationInput: Swift.Equatable {
+public struct GetAccountConfigurationInput {
 
     public init() { }
 }
 
-struct GetAccountConfigurationInputBody: Swift.Equatable {
+struct GetAccountConfigurationInputBody {
 }
 
 extension GetAccountConfigurationInputBody: Swift.Decodable {
@@ -1474,7 +1474,7 @@ extension GetAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetAccountConfigurationOutput: Swift.Equatable {
+public struct GetAccountConfigurationOutput {
     /// An EncryptionConfig object that contains the KMS key ARN to use for encryption. By default, CodeGuru Security uses an AWS-managed key for encryption. To specify your own key, call UpdateAccountConfiguration.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
@@ -1487,7 +1487,7 @@ public struct GetAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetAccountConfigurationOutputBody: Swift.Equatable {
+struct GetAccountConfigurationOutputBody {
     let encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 }
 
@@ -1547,7 +1547,7 @@ extension GetFindingsInput {
     }
 }
 
-public struct GetFindingsInput: Swift.Equatable {
+public struct GetFindingsInput {
     /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
@@ -1572,7 +1572,7 @@ public struct GetFindingsInput: Swift.Equatable {
     }
 }
 
-struct GetFindingsInputBody: Swift.Equatable {
+struct GetFindingsInputBody {
 }
 
 extension GetFindingsInputBody: Swift.Decodable {
@@ -1595,7 +1595,7 @@ extension GetFindingsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetFindingsOutput: Swift.Equatable {
+public struct GetFindingsOutput {
     /// A list of findings generated by the specified scan.
     public var findings: [CodeGuruSecurityClientTypes.Finding]?
     /// A pagination token. You can use this in future calls to GetFindings to continue listing results after the current page.
@@ -1611,7 +1611,7 @@ public struct GetFindingsOutput: Swift.Equatable {
     }
 }
 
-struct GetFindingsOutputBody: Swift.Equatable {
+struct GetFindingsOutputBody {
     let findings: [CodeGuruSecurityClientTypes.Finding]?
     let nextToken: Swift.String?
 }
@@ -1677,7 +1677,7 @@ extension GetMetricsSummaryInput {
     }
 }
 
-public struct GetMetricsSummaryInput: Swift.Equatable {
+public struct GetMetricsSummaryInput {
     /// The date you want to retrieve summary metrics from, rounded to the nearest day. The date must be within the past two years since metrics data is only stored for two years. If a date outside of this range is passed, the response will be empty.
     /// This member is required.
     public var date: ClientRuntime.Date?
@@ -1690,7 +1690,7 @@ public struct GetMetricsSummaryInput: Swift.Equatable {
     }
 }
 
-struct GetMetricsSummaryInputBody: Swift.Equatable {
+struct GetMetricsSummaryInputBody {
 }
 
 extension GetMetricsSummaryInputBody: Swift.Decodable {
@@ -1711,7 +1711,7 @@ extension GetMetricsSummaryOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetMetricsSummaryOutput: Swift.Equatable {
+public struct GetMetricsSummaryOutput {
     /// The summary metrics from the specified date.
     public var metricsSummary: CodeGuruSecurityClientTypes.MetricsSummary?
 
@@ -1723,7 +1723,7 @@ public struct GetMetricsSummaryOutput: Swift.Equatable {
     }
 }
 
-struct GetMetricsSummaryOutputBody: Swift.Equatable {
+struct GetMetricsSummaryOutputBody {
     let metricsSummary: CodeGuruSecurityClientTypes.MetricsSummary?
 }
 
@@ -1775,7 +1775,7 @@ extension GetScanInput {
     }
 }
 
-public struct GetScanInput: Swift.Equatable {
+public struct GetScanInput {
     /// UUID that identifies the individual scan run you want to view details about. You retrieve this when you call the CreateScan operation. Defaults to the latest scan run if missing.
     public var runId: Swift.String?
     /// The name of the scan you want to view details about.
@@ -1792,7 +1792,7 @@ public struct GetScanInput: Swift.Equatable {
     }
 }
 
-struct GetScanInputBody: Swift.Equatable {
+struct GetScanInputBody {
 }
 
 extension GetScanInputBody: Swift.Decodable {
@@ -1827,7 +1827,7 @@ extension GetScanOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetScanOutput: Swift.Equatable {
+public struct GetScanOutput {
     /// The type of analysis CodeGuru Security performed in the scan, either Security or All. The Security type only generates findings related to security. The All type generates both security findings and quality findings.
     /// This member is required.
     public var analysisType: CodeGuruSecurityClientTypes.AnalysisType?
@@ -1872,7 +1872,7 @@ public struct GetScanOutput: Swift.Equatable {
     }
 }
 
-struct GetScanOutputBody: Swift.Equatable {
+struct GetScanOutputBody {
     let scanName: Swift.String?
     let runId: Swift.String?
     let scanState: CodeGuruSecurityClientTypes.ScanState?
@@ -1976,7 +1976,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let error: Swift.String?
     let message: Swift.String?
 }
@@ -2031,7 +2031,7 @@ extension ListFindingsMetricsInput {
     }
 }
 
-public struct ListFindingsMetricsInput: Swift.Equatable {
+public struct ListFindingsMetricsInput {
     /// The end date of the interval which you want to retrieve metrics from.
     /// This member is required.
     public var endDate: ClientRuntime.Date?
@@ -2057,7 +2057,7 @@ public struct ListFindingsMetricsInput: Swift.Equatable {
     }
 }
 
-struct ListFindingsMetricsInputBody: Swift.Equatable {
+struct ListFindingsMetricsInputBody {
 }
 
 extension ListFindingsMetricsInputBody: Swift.Decodable {
@@ -2080,7 +2080,7 @@ extension ListFindingsMetricsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListFindingsMetricsOutput: Swift.Equatable {
+public struct ListFindingsMetricsOutput {
     /// A list of AccountFindingsMetric objects retrieved from the specified time interval.
     public var findingsMetrics: [CodeGuruSecurityClientTypes.AccountFindingsMetric]?
     /// A pagination token. You can use this in future calls to ListFindingMetrics to continue listing results after the current page.
@@ -2096,7 +2096,7 @@ public struct ListFindingsMetricsOutput: Swift.Equatable {
     }
 }
 
-struct ListFindingsMetricsOutputBody: Swift.Equatable {
+struct ListFindingsMetricsOutputBody {
     let findingsMetrics: [CodeGuruSecurityClientTypes.AccountFindingsMetric]?
     let nextToken: Swift.String?
 }
@@ -2162,7 +2162,7 @@ extension ListScansInput {
     }
 }
 
-public struct ListScansInput: Swift.Equatable {
+public struct ListScansInput {
     /// The maximum number of results to return in the response. Use this parameter when paginating results. If additional results exist beyond the number you specify, the nextToken element is returned in the response. Use nextToken in a subsequent request to retrieve additional results.
     public var maxResults: Swift.Int?
     /// A token to use for paginating results that are returned in the response. Set the value of this parameter to null for the first request. For subsequent calls, use the nextToken value returned from the previous request to continue listing results after the first page.
@@ -2178,7 +2178,7 @@ public struct ListScansInput: Swift.Equatable {
     }
 }
 
-struct ListScansInputBody: Swift.Equatable {
+struct ListScansInputBody {
 }
 
 extension ListScansInputBody: Swift.Decodable {
@@ -2201,7 +2201,7 @@ extension ListScansOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListScansOutput: Swift.Equatable {
+public struct ListScansOutput {
     /// A pagination token. You can use this in future calls to ListScans to continue listing results after the current page.
     public var nextToken: Swift.String?
     /// A list of ScanSummary objects with information about all scans in an account.
@@ -2217,7 +2217,7 @@ public struct ListScansOutput: Swift.Equatable {
     }
 }
 
-struct ListScansOutputBody: Swift.Equatable {
+struct ListScansOutputBody {
     let summaries: [CodeGuruSecurityClientTypes.ScanSummary]?
     let nextToken: Swift.String?
 }
@@ -2270,7 +2270,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -2283,7 +2283,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -2304,7 +2304,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of key-value pairs used to tag an existing scan. A tag is a custom attribute label with two parts:
     ///
     /// * A tag key. For example, CostCenter, Environment, or Secret. Tag keys are case sensitive.
@@ -2320,7 +2320,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -2442,7 +2442,7 @@ extension CodeGuruSecurityClientTypes.MetricsSummary: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about summary metrics in an account.
-    public struct MetricsSummary: Swift.Equatable {
+    public struct MetricsSummary {
         /// A list of CategoryWithFindingNum objects for the top 5 finding categories with the most open findings in an account.
         public var categoriesWithMostFindings: [CodeGuruSecurityClientTypes.CategoryWithFindingNum]?
         /// The date from which the metrics summary information was retrieved.
@@ -2499,7 +2499,7 @@ extension CodeGuruSecurityClientTypes.Recommendation: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about the recommended course of action to remediate a finding.
-    public struct Recommendation: Swift.Equatable {
+    public struct Recommendation {
         /// The recommended course of action to remediate the finding.
         public var text: Swift.String?
         /// The URL address to the recommendation for remediating the finding.
@@ -2556,7 +2556,7 @@ extension CodeGuruSecurityClientTypes.Remediation: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about how to remediate a finding.
-    public struct Remediation: Swift.Equatable {
+    public struct Remediation {
         /// An object that contains information about the recommended course of action to remediate a finding.
         public var recommendation: CodeGuruSecurityClientTypes.Recommendation?
         /// A list of SuggestedFix objects. Each object contains information about a suggested code fix to remediate the finding.
@@ -2601,7 +2601,7 @@ extension CodeGuruSecurityClientTypes.Resource: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a resource, such as an Amazon S3 bucket or AWS Lambda function, that contains a finding.
-    public struct Resource: Swift.Equatable {
+    public struct Resource {
         /// The identifier for the resource.
         public var id: Swift.String?
         /// The identifier for a section of the resource, such as an AWS Lambda layer.
@@ -2648,7 +2648,7 @@ extension CodeGuruSecurityClientTypes.ResourceId: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// The identifier for a resource object that contains resources where a finding was detected.
-    public enum ResourceId: Swift.Equatable {
+    public enum ResourceId {
         /// The identifier for the code file uploaded to the resource where a finding was detected.
         case codeartifactid(Swift.String)
         case sdkUnknown(Swift.String)
@@ -2718,7 +2718,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let resourceId: Swift.String?
@@ -2773,7 +2773,7 @@ extension CodeGuruSecurityClientTypes.ScanNameWithFindingNum: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a scan with open findings.
-    public struct ScanNameWithFindingNum: Swift.Equatable {
+    public struct ScanNameWithFindingNum {
         /// The number of open findings generated by a scan.
         public var findingNumber: Swift.Int?
         /// The name of the scan.
@@ -2877,7 +2877,7 @@ extension CodeGuruSecurityClientTypes.ScanSummary: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a scan.
-    public struct ScanSummary: Swift.Equatable {
+    public struct ScanSummary {
         /// The time when the scan was created.
         /// This member is required.
         public var createdAt: ClientRuntime.Date?
@@ -3050,7 +3050,7 @@ extension CodeGuruSecurityClientTypes.SuggestedFix: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about the suggested code fix to remediate a finding.
-    public struct SuggestedFix: Swift.Equatable {
+    public struct SuggestedFix {
         /// The suggested code to add to your file.
         public var code: Swift.String?
         /// A description of the suggested code fix and why it is being suggested.
@@ -3094,7 +3094,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3116,7 +3116,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [Swift.String:Swift.String]?
 }
 
@@ -3146,7 +3146,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -3227,7 +3227,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let serviceCode: Swift.String?
@@ -3281,7 +3281,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The ARN of the ScanName object. You can retrieve this ARN by calling ListScans or GetScan.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -3299,7 +3299,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -3313,7 +3313,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -3354,7 +3354,7 @@ extension UpdateAccountConfigurationInput {
     }
 }
 
-public struct UpdateAccountConfigurationInput: Swift.Equatable {
+public struct UpdateAccountConfigurationInput {
     /// The KMS key ARN you want to use for encryption. Defaults to service-side encryption if missing.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
@@ -3367,7 +3367,7 @@ public struct UpdateAccountConfigurationInput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountConfigurationInputBody: Swift.Equatable {
+struct UpdateAccountConfigurationInputBody {
     let encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 }
 
@@ -3395,7 +3395,7 @@ extension UpdateAccountConfigurationOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateAccountConfigurationOutput: Swift.Equatable {
+public struct UpdateAccountConfigurationOutput {
     /// An EncryptionConfig object that contains the KMS key ARN to use for encryption.
     /// This member is required.
     public var encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
@@ -3408,7 +3408,7 @@ public struct UpdateAccountConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateAccountConfigurationOutputBody: Swift.Equatable {
+struct UpdateAccountConfigurationOutputBody {
     let encryptionConfig: CodeGuruSecurityClientTypes.EncryptionConfig?
 }
 
@@ -3500,7 +3500,7 @@ public struct ValidationException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ValidationExceptionBody: Swift.Equatable {
+struct ValidationExceptionBody {
     let errorCode: Swift.String?
     let message: Swift.String?
     let reason: CodeGuruSecurityClientTypes.ValidationExceptionReason?
@@ -3564,7 +3564,7 @@ extension CodeGuruSecurityClientTypes.ValidationExceptionField: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a validation exception.
-    public struct ValidationExceptionField: Swift.Equatable {
+    public struct ValidationExceptionField {
         /// Describes the exception.
         /// This member is required.
         public var message: Swift.String?
@@ -3694,7 +3694,7 @@ extension CodeGuruSecurityClientTypes.Vulnerability: Swift.Codable {
 
 extension CodeGuruSecurityClientTypes {
     /// Information about a security vulnerability that Amazon CodeGuru Security detected.
-    public struct Vulnerability: Swift.Equatable {
+    public struct Vulnerability {
         /// An object that describes the location of the detected security vulnerability in your code.
         public var filePath: CodeGuruSecurityClientTypes.FilePath?
         /// The identifier for the vulnerability.

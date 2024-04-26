@@ -47,7 +47,7 @@ public struct AccessDeniedException: ClientRuntime.ModeledError, AWSClientRuntim
     }
 }
 
-struct AccessDeniedExceptionBody: Swift.Equatable {
+struct AccessDeniedExceptionBody {
     let message: Swift.String?
     let errorCode: Swift.String?
 }
@@ -126,7 +126,7 @@ extension SecurityLakeClientTypes.AwsIdentity: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The AWS identity.
-    public struct AwsIdentity: Swift.Equatable {
+    public struct AwsIdentity {
         /// The external ID used to estalish trust relationship with the AWS identity.
         /// This member is required.
         public var externalId: Swift.String?
@@ -209,7 +209,7 @@ extension SecurityLakeClientTypes.AwsLogSourceConfiguration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The Security Lake logs source configuration file describes the information needed to generate Security Lake logs.
-    public struct AwsLogSourceConfiguration: Swift.Equatable {
+    public struct AwsLogSourceConfiguration {
         /// Specify the Amazon Web Services account information where you want to enable Security Lake.
         public var accounts: [Swift.String]?
         /// Specify the Regions where you want to enable Security Lake.
@@ -314,7 +314,7 @@ extension SecurityLakeClientTypes.AwsLogSourceResource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Amazon Security Lake can collect logs and events from natively-supported Amazon Web Services services.
-    public struct AwsLogSourceResource: Swift.Equatable {
+    public struct AwsLogSourceResource {
         /// The name for a Amazon Web Services source. This must be a Regionally unique value.
         public var sourceName: SecurityLakeClientTypes.AwsLogSourceName?
         /// The version for a Amazon Web Services source. This must be a Regionally unique value.
@@ -371,7 +371,7 @@ public struct BadRequestException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct BadRequestExceptionBody: Swift.Equatable {
+struct BadRequestExceptionBody {
     let message: Swift.String?
 }
 
@@ -438,7 +438,7 @@ public struct ConflictException: ClientRuntime.ModeledError, AWSClientRuntime.AW
     }
 }
 
-struct ConflictExceptionBody: Swift.Equatable {
+struct ConflictExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
     let resourceType: Swift.String?
@@ -485,7 +485,7 @@ extension CreateAwsLogSourceInput {
     }
 }
 
-public struct CreateAwsLogSourceInput: Swift.Equatable {
+public struct CreateAwsLogSourceInput {
     /// Specify the natively-supported Amazon Web Services service to add as a source in Security Lake.
     /// This member is required.
     public var sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
@@ -498,7 +498,7 @@ public struct CreateAwsLogSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateAwsLogSourceInputBody: Swift.Equatable {
+struct CreateAwsLogSourceInputBody {
     let sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 }
 
@@ -535,7 +535,7 @@ extension CreateAwsLogSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateAwsLogSourceOutput: Swift.Equatable {
+public struct CreateAwsLogSourceOutput {
     /// Lists all accounts in which enabling a natively supported Amazon Web Service as a Security Lake source failed. The failure occurred as these accounts are not part of an organization.
     public var failed: [Swift.String]?
 
@@ -547,7 +547,7 @@ public struct CreateAwsLogSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateAwsLogSourceOutputBody: Swift.Equatable {
+struct CreateAwsLogSourceOutputBody {
     let failed: [Swift.String]?
 }
 
@@ -623,7 +623,7 @@ extension CreateCustomLogSourceInput {
     }
 }
 
-public struct CreateCustomLogSourceInput: Swift.Equatable {
+public struct CreateCustomLogSourceInput {
     /// The configuration for the third-party custom source.
     /// This member is required.
     public var configuration: SecurityLakeClientTypes.CustomLogSourceConfiguration?
@@ -707,7 +707,7 @@ public struct CreateCustomLogSourceInput: Swift.Equatable {
     }
 }
 
-struct CreateCustomLogSourceInputBody: Swift.Equatable {
+struct CreateCustomLogSourceInputBody {
     let sourceName: Swift.String?
     let sourceVersion: Swift.String?
     let eventClasses: [Swift.String]?
@@ -756,7 +756,7 @@ extension CreateCustomLogSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateCustomLogSourceOutput: Swift.Equatable {
+public struct CreateCustomLogSourceOutput {
     /// The created third-party custom source.
     public var source: SecurityLakeClientTypes.CustomLogSourceResource?
 
@@ -768,7 +768,7 @@ public struct CreateCustomLogSourceOutput: Swift.Equatable {
     }
 }
 
-struct CreateCustomLogSourceOutputBody: Swift.Equatable {
+struct CreateCustomLogSourceOutputBody {
     let source: SecurityLakeClientTypes.CustomLogSourceResource?
 }
 
@@ -828,7 +828,7 @@ extension CreateDataLakeExceptionSubscriptionInput {
     }
 }
 
-public struct CreateDataLakeExceptionSubscriptionInput: Swift.Equatable {
+public struct CreateDataLakeExceptionSubscriptionInput {
     /// The expiration period and time-to-live (TTL).
     public var exceptionTimeToLive: Swift.Int?
     /// The Amazon Web Services account where you want to receive exception notifications.
@@ -850,7 +850,7 @@ public struct CreateDataLakeExceptionSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct CreateDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+struct CreateDataLakeExceptionSubscriptionInputBody {
     let subscriptionProtocol: Swift.String?
     let notificationEndpoint: Swift.String?
     let exceptionTimeToLive: Swift.Int?
@@ -879,7 +879,7 @@ extension CreateDataLakeExceptionSubscriptionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct CreateDataLakeExceptionSubscriptionOutput: Swift.Equatable {
+public struct CreateDataLakeExceptionSubscriptionOutput {
 
     public init() { }
 }
@@ -934,7 +934,7 @@ extension CreateDataLakeInput {
     }
 }
 
-public struct CreateDataLakeInput: Swift.Equatable {
+public struct CreateDataLakeInput {
     /// Specify the Region or Regions that will contribute data to the rollup region.
     /// This member is required.
     public var configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
@@ -956,7 +956,7 @@ public struct CreateDataLakeInput: Swift.Equatable {
     }
 }
 
-struct CreateDataLakeInputBody: Swift.Equatable {
+struct CreateDataLakeInputBody {
     let configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
     let metaStoreManagerRoleArn: Swift.String?
     let tags: [SecurityLakeClientTypes.Tag]?
@@ -1021,7 +1021,7 @@ extension CreateDataLakeOrganizationConfigurationInput {
     }
 }
 
-public struct CreateDataLakeOrganizationConfigurationInput: Swift.Equatable {
+public struct CreateDataLakeOrganizationConfigurationInput {
     /// Enable Security Lake with the specified configuration settings, to begin collecting security data for new accounts in your organization.
     public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 
@@ -1033,7 +1033,7 @@ public struct CreateDataLakeOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct CreateDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+struct CreateDataLakeOrganizationConfigurationInputBody {
     let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 }
 
@@ -1063,7 +1063,7 @@ extension CreateDataLakeOrganizationConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct CreateDataLakeOrganizationConfigurationOutput: Swift.Equatable {
+public struct CreateDataLakeOrganizationConfigurationOutput {
 
     public init() { }
 }
@@ -1096,7 +1096,7 @@ extension CreateDataLakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateDataLakeOutput: Swift.Equatable {
+public struct CreateDataLakeOutput {
     /// The created Security Lake configuration object.
     public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 
@@ -1108,7 +1108,7 @@ public struct CreateDataLakeOutput: Swift.Equatable {
     }
 }
 
-struct CreateDataLakeOutputBody: Swift.Equatable {
+struct CreateDataLakeOutputBody {
     let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 }
 
@@ -1198,7 +1198,7 @@ extension CreateSubscriberInput {
     }
 }
 
-public struct CreateSubscriberInput: Swift.Equatable {
+public struct CreateSubscriberInput {
     /// The Amazon S3 or Lake Formation access type.
     public var accessTypes: [SecurityLakeClientTypes.AccessType]?
     /// The supported Amazon Web Services from which logs and events are collected. Security Lake supports log and event collection for natively supported Amazon Web Services.
@@ -1233,7 +1233,7 @@ public struct CreateSubscriberInput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriberInputBody: Swift.Equatable {
+struct CreateSubscriberInputBody {
     let subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     let subscriberName: Swift.String?
     let subscriberDescription: Swift.String?
@@ -1319,7 +1319,7 @@ extension CreateSubscriberNotificationInput {
     }
 }
 
-public struct CreateSubscriberNotificationInput: Swift.Equatable {
+public struct CreateSubscriberNotificationInput {
     /// Specify the configuration using which you want to create the subscriber notification.
     /// This member is required.
     public var configuration: SecurityLakeClientTypes.NotificationConfiguration?
@@ -1337,7 +1337,7 @@ public struct CreateSubscriberNotificationInput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriberNotificationInputBody: Swift.Equatable {
+struct CreateSubscriberNotificationInputBody {
     let configuration: SecurityLakeClientTypes.NotificationConfiguration?
 }
 
@@ -1365,7 +1365,7 @@ extension CreateSubscriberNotificationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct CreateSubscriberNotificationOutput: Swift.Equatable {
+public struct CreateSubscriberNotificationOutput {
     /// The subscriber endpoint to which exception messages are posted.
     public var subscriberEndpoint: Swift.String?
 
@@ -1377,7 +1377,7 @@ public struct CreateSubscriberNotificationOutput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriberNotificationOutputBody: Swift.Equatable {
+struct CreateSubscriberNotificationOutputBody {
     let subscriberEndpoint: Swift.String?
 }
 
@@ -1421,7 +1421,7 @@ extension CreateSubscriberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct CreateSubscriberOutput: Swift.Equatable {
+public struct CreateSubscriberOutput {
     /// Retrieve information about the subscriber created using the CreateSubscriber API.
     public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
@@ -1433,7 +1433,7 @@ public struct CreateSubscriberOutput: Swift.Equatable {
     }
 }
 
-struct CreateSubscriberOutputBody: Swift.Equatable {
+struct CreateSubscriberOutputBody {
     let subscriber: SecurityLakeClientTypes.SubscriberResource?
 }
 
@@ -1498,7 +1498,7 @@ extension SecurityLakeClientTypes.CustomLogSourceAttributes: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The attributes of a third-party custom source.
-    public struct CustomLogSourceAttributes: Swift.Equatable {
+    public struct CustomLogSourceAttributes {
         /// The ARN of the Glue crawler.
         public var crawlerArn: Swift.String?
         /// The ARN of the Glue database where results are written, such as: arn:aws:daylight:us-east-1::database/sometable/*.
@@ -1547,7 +1547,7 @@ extension SecurityLakeClientTypes.CustomLogSourceConfiguration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The configuration for the third-party custom source.
-    public struct CustomLogSourceConfiguration: Swift.Equatable {
+    public struct CustomLogSourceConfiguration {
         /// The configuration for the Glue Crawler for the third-party custom source.
         /// This member is required.
         public var crawlerConfiguration: SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration?
@@ -1588,7 +1588,7 @@ extension SecurityLakeClientTypes.CustomLogSourceCrawlerConfiguration: Swift.Cod
 
 extension SecurityLakeClientTypes {
     /// The configuration for the Glue Crawler for the third-party custom source.
-    public struct CustomLogSourceCrawlerConfiguration: Swift.Equatable {
+    public struct CustomLogSourceCrawlerConfiguration {
         /// The Amazon Resource Name (ARN) of the Identity and Access Management (IAM) role to be used by the Glue crawler. The recommended IAM policies are:
         ///
         /// * The managed policy AWSGlueServiceRole
@@ -1634,7 +1634,7 @@ extension SecurityLakeClientTypes.CustomLogSourceProvider: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The details of the log provider for a third-party custom source.
-    public struct CustomLogSourceProvider: Swift.Equatable {
+    public struct CustomLogSourceProvider {
         /// The location of the partition in the Amazon S3 bucket for Security Lake.
         public var location: Swift.String?
         /// The ARN of the IAM role to be used by the entity putting logs into your custom source partition. Security Lake will apply the correct access policies to this role, but you must first manually create the trust policy for this role. The IAM role name must start with the text 'Security Lake'. The IAM role must trust the logProviderAccountId to assume the role.
@@ -1691,7 +1691,7 @@ extension SecurityLakeClientTypes.CustomLogSourceResource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Amazon Security Lake can collect logs and events from third-party custom sources.
-    public struct CustomLogSourceResource: Swift.Equatable {
+    public struct CustomLogSourceResource {
         /// The attributes of a third-party custom source.
         public var attributes: SecurityLakeClientTypes.CustomLogSourceAttributes?
         /// The details of the log provider for a third-party custom source.
@@ -1756,7 +1756,7 @@ extension SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration: Swi
 
 extension SecurityLakeClientTypes {
     /// Automatically enable new organization accounts as member accounts from an Amazon Security Lake administrator account.
-    public struct DataLakeAutoEnableNewAccountConfiguration: Swift.Equatable {
+    public struct DataLakeAutoEnableNewAccountConfiguration {
         /// The Amazon Web Services Regions where Security Lake is automatically enabled.
         /// This member is required.
         public var region: Swift.String?
@@ -1815,7 +1815,7 @@ extension SecurityLakeClientTypes.DataLakeConfiguration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Provides details of Amazon Security Lake object.
-    public struct DataLakeConfiguration: Swift.Equatable {
+    public struct DataLakeConfiguration {
         /// Provides encryption details of Amazon Security Lake object.
         public var encryptionConfiguration: SecurityLakeClientTypes.DataLakeEncryptionConfiguration?
         /// Provides lifecycle details of Amazon Security Lake object.
@@ -1863,7 +1863,7 @@ extension SecurityLakeClientTypes.DataLakeEncryptionConfiguration: Swift.Codable
 
 extension SecurityLakeClientTypes {
     /// Provides encryption details of Amazon Security Lake object.
-    public struct DataLakeEncryptionConfiguration: Swift.Equatable {
+    public struct DataLakeEncryptionConfiguration {
         /// The id of KMS encryption key used by Amazon Security Lake to encrypt the Security Lake object.
         public var kmsKeyId: Swift.String?
 
@@ -1916,7 +1916,7 @@ extension SecurityLakeClientTypes.DataLakeException: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The details for an Amazon Security Lake exception.
-    public struct DataLakeException: Swift.Equatable {
+    public struct DataLakeException {
         /// The underlying exception of a Security Lake exception.
         public var exception: Swift.String?
         /// The Amazon Web Services Regions where the exception occurred.
@@ -1981,7 +1981,7 @@ extension SecurityLakeClientTypes.DataLakeLifecycleConfiguration: Swift.Codable 
 
 extension SecurityLakeClientTypes {
     /// Provides lifecycle details of Amazon Security Lake object.
-    public struct DataLakeLifecycleConfiguration: Swift.Equatable {
+    public struct DataLakeLifecycleConfiguration {
         /// Provides data expiration details of Amazon Security Lake object.
         public var expiration: SecurityLakeClientTypes.DataLakeLifecycleExpiration?
         /// Provides data storage transition details of Amazon Security Lake object.
@@ -2020,7 +2020,7 @@ extension SecurityLakeClientTypes.DataLakeLifecycleExpiration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Provide expiration lifecycle details of Amazon Security Lake object.
-    public struct DataLakeLifecycleExpiration: Swift.Equatable {
+    public struct DataLakeLifecycleExpiration {
         /// Number of days before data expires in the Amazon Security Lake object.
         public var days: Swift.Int?
 
@@ -2061,7 +2061,7 @@ extension SecurityLakeClientTypes.DataLakeLifecycleTransition: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Provide transition lifecycle details of Amazon Security Lake object.
-    public struct DataLakeLifecycleTransition: Swift.Equatable {
+    public struct DataLakeLifecycleTransition {
         /// Number of days before data transitions to a different S3 Storage Class in the Amazon Security Lake object.
         public var days: Swift.Int?
         /// The range of storage classes that you can choose from based on the data access, resiliency, and cost requirements of your workloads.
@@ -2118,7 +2118,7 @@ extension SecurityLakeClientTypes.DataLakeReplicationConfiguration: Swift.Codabl
 
 extension SecurityLakeClientTypes {
     /// Provides replication details for objects stored in the Amazon Security Lake data lake.
-    public struct DataLakeReplicationConfiguration: Swift.Equatable {
+    public struct DataLakeReplicationConfiguration {
         /// Specifies one or more centralized rollup Regions. The Amazon Web Services Region specified in the region parameter of the [CreateDataLake](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_CreateDataLake.html) or [UpdateDataLake](https://docs.aws.amazon.com/security-lake/latest/APIReference/API_UpdateDataLake.html) operations contributes data to the rollup Region or Regions specified in this parameter. Replication enables automatic, asynchronous copying of objects across Amazon S3 buckets. S3 buckets that are configured for object replication can be owned by the same Amazon Web Services account or by different accounts. You can replicate objects to a single destination bucket or to multiple destination buckets. The destination buckets can be in different Regions or within the same Region as the source bucket.
         public var regions: [Swift.String]?
         /// Replication settings for the Amazon S3 buckets. This parameter uses the Identity and Access Management (IAM) role you created that is managed by Security Lake, to ensure the replication setting is correct.
@@ -2199,7 +2199,7 @@ extension SecurityLakeClientTypes.DataLakeResource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Provides details of Amazon Security Lake object.
-    public struct DataLakeResource: Swift.Equatable {
+    public struct DataLakeResource {
         /// Retrieves the status of the configuration operation for an account in Amazon Security Lake.
         public var createStatus: SecurityLakeClientTypes.DataLakeStatus?
         /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
@@ -2306,7 +2306,7 @@ extension SecurityLakeClientTypes.DataLakeSource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Amazon Security Lake collects logs and events from supported Amazon Web Services and custom sources. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
-    public struct DataLakeSource: Swift.Equatable {
+    public struct DataLakeSource {
         /// The ID of the Security Lake account for which logs are collected.
         public var account: Swift.String?
         /// The Open Cybersecurity Schema Framework (OCSF) event classes which describes the type of data that the custom source will send to Security Lake. The supported event classes are:
@@ -2417,7 +2417,7 @@ extension SecurityLakeClientTypes.DataLakeSourceStatus: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Retrieves the Logs status for the Amazon Security Lake account.
-    public struct DataLakeSourceStatus: Swift.Equatable {
+    public struct DataLakeSourceStatus {
         /// Defines path the stored logs are available which has information on your systems, applications, and services.
         public var resource: Swift.String?
         /// The health status of services, including error codes and patterns.
@@ -2500,7 +2500,7 @@ extension SecurityLakeClientTypes.DataLakeUpdateException: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The details of the last UpdateDataLake or DeleteDataLake API request which failed.
-    public struct DataLakeUpdateException: Swift.Equatable {
+    public struct DataLakeUpdateException {
         /// The reason code for the exception of the last UpdateDataLake or DeleteDataLake API request.
         public var code: Swift.String?
         /// The reason for the exception of the last UpdateDataLakeor DeleteDataLake API request.
@@ -2551,7 +2551,7 @@ extension SecurityLakeClientTypes.DataLakeUpdateStatus: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The status of the last UpdateDataLake or DeleteDataLake API request. This is set to Completed after the configuration is updated, or removed if deletion of the data lake is successful.
-    public struct DataLakeUpdateStatus: Swift.Equatable {
+    public struct DataLakeUpdateStatus {
         /// The details of the last UpdateDataLakeor DeleteDataLake API request which failed.
         public var exception: SecurityLakeClientTypes.DataLakeUpdateException?
         /// The unique ID for the last UpdateDataLake or DeleteDataLake API request.
@@ -2596,7 +2596,7 @@ extension DeleteAwsLogSourceInput {
     }
 }
 
-public struct DeleteAwsLogSourceInput: Swift.Equatable {
+public struct DeleteAwsLogSourceInput {
     /// Specify the natively-supported Amazon Web Services service to remove as a source in Security Lake.
     /// This member is required.
     public var sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
@@ -2609,7 +2609,7 @@ public struct DeleteAwsLogSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteAwsLogSourceInputBody: Swift.Equatable {
+struct DeleteAwsLogSourceInputBody {
     let sources: [SecurityLakeClientTypes.AwsLogSourceConfiguration]?
 }
 
@@ -2646,7 +2646,7 @@ extension DeleteAwsLogSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteAwsLogSourceOutput: Swift.Equatable {
+public struct DeleteAwsLogSourceOutput {
     /// Deletion of the Amazon Web Services sources failed as the account is not a part of the organization.
     public var failed: [Swift.String]?
 
@@ -2658,7 +2658,7 @@ public struct DeleteAwsLogSourceOutput: Swift.Equatable {
     }
 }
 
-struct DeleteAwsLogSourceOutputBody: Swift.Equatable {
+struct DeleteAwsLogSourceOutputBody {
     let failed: [Swift.String]?
 }
 
@@ -2721,7 +2721,7 @@ extension DeleteCustomLogSourceInput {
     }
 }
 
-public struct DeleteCustomLogSourceInput: Swift.Equatable {
+public struct DeleteCustomLogSourceInput {
     /// The source name of custom log source that you want to delete.
     /// This member is required.
     public var sourceName: Swift.String?
@@ -2738,7 +2738,7 @@ public struct DeleteCustomLogSourceInput: Swift.Equatable {
     }
 }
 
-struct DeleteCustomLogSourceInputBody: Swift.Equatable {
+struct DeleteCustomLogSourceInputBody {
 }
 
 extension DeleteCustomLogSourceInputBody: Swift.Decodable {
@@ -2752,7 +2752,7 @@ extension DeleteCustomLogSourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteCustomLogSourceOutput: Swift.Equatable {
+public struct DeleteCustomLogSourceOutput {
 
     public init() { }
 }
@@ -2780,12 +2780,12 @@ extension DeleteDataLakeExceptionSubscriptionInput {
     }
 }
 
-public struct DeleteDataLakeExceptionSubscriptionInput: Swift.Equatable {
+public struct DeleteDataLakeExceptionSubscriptionInput {
 
     public init() { }
 }
 
-struct DeleteDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+struct DeleteDataLakeExceptionSubscriptionInputBody {
 }
 
 extension DeleteDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
@@ -2799,7 +2799,7 @@ extension DeleteDataLakeExceptionSubscriptionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct DeleteDataLakeExceptionSubscriptionOutput: Swift.Equatable {
+public struct DeleteDataLakeExceptionSubscriptionOutput {
 
     public init() { }
 }
@@ -2843,7 +2843,7 @@ extension DeleteDataLakeInput {
     }
 }
 
-public struct DeleteDataLakeInput: Swift.Equatable {
+public struct DeleteDataLakeInput {
     /// The list of Regions where Security Lake is enabled.
     /// This member is required.
     public var regions: [Swift.String]?
@@ -2856,7 +2856,7 @@ public struct DeleteDataLakeInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataLakeInputBody: Swift.Equatable {
+struct DeleteDataLakeInputBody {
     let regions: [Swift.String]?
 }
 
@@ -2904,7 +2904,7 @@ extension DeleteDataLakeOrganizationConfigurationInput {
     }
 }
 
-public struct DeleteDataLakeOrganizationConfigurationInput: Swift.Equatable {
+public struct DeleteDataLakeOrganizationConfigurationInput {
     /// Turns off automatic enablement of Security Lake for member accounts that are added to an organization.
     public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 
@@ -2916,7 +2916,7 @@ public struct DeleteDataLakeOrganizationConfigurationInput: Swift.Equatable {
     }
 }
 
-struct DeleteDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+struct DeleteDataLakeOrganizationConfigurationInputBody {
     let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 }
 
@@ -2946,7 +2946,7 @@ extension DeleteDataLakeOrganizationConfigurationOutput: ClientRuntime.HttpRespo
     }
 }
 
-public struct DeleteDataLakeOrganizationConfigurationOutput: Swift.Equatable {
+public struct DeleteDataLakeOrganizationConfigurationOutput {
 
     public init() { }
 }
@@ -2972,7 +2972,7 @@ extension DeleteDataLakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteDataLakeOutput: Swift.Equatable {
+public struct DeleteDataLakeOutput {
 
     public init() { }
 }
@@ -3003,7 +3003,7 @@ extension DeleteSubscriberInput {
     }
 }
 
-public struct DeleteSubscriberInput: Swift.Equatable {
+public struct DeleteSubscriberInput {
     /// A value created by Security Lake that uniquely identifies your DeleteSubscriber API request.
     /// This member is required.
     public var subscriberId: Swift.String?
@@ -3016,7 +3016,7 @@ public struct DeleteSubscriberInput: Swift.Equatable {
     }
 }
 
-struct DeleteSubscriberInputBody: Swift.Equatable {
+struct DeleteSubscriberInputBody {
 }
 
 extension DeleteSubscriberInputBody: Swift.Decodable {
@@ -3035,7 +3035,7 @@ extension DeleteSubscriberNotificationInput {
     }
 }
 
-public struct DeleteSubscriberNotificationInput: Swift.Equatable {
+public struct DeleteSubscriberNotificationInput {
     /// The ID of the Security Lake subscriber account.
     /// This member is required.
     public var subscriberId: Swift.String?
@@ -3048,7 +3048,7 @@ public struct DeleteSubscriberNotificationInput: Swift.Equatable {
     }
 }
 
-struct DeleteSubscriberNotificationInputBody: Swift.Equatable {
+struct DeleteSubscriberNotificationInputBody {
 }
 
 extension DeleteSubscriberNotificationInputBody: Swift.Decodable {
@@ -3062,7 +3062,7 @@ extension DeleteSubscriberNotificationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct DeleteSubscriberNotificationOutput: Swift.Equatable {
+public struct DeleteSubscriberNotificationOutput {
 
     public init() { }
 }
@@ -3088,7 +3088,7 @@ extension DeleteSubscriberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct DeleteSubscriberOutput: Swift.Equatable {
+public struct DeleteSubscriberOutput {
 
     public init() { }
 }
@@ -3116,12 +3116,12 @@ extension DeregisterDataLakeDelegatedAdministratorInput {
     }
 }
 
-public struct DeregisterDataLakeDelegatedAdministratorInput: Swift.Equatable {
+public struct DeregisterDataLakeDelegatedAdministratorInput {
 
     public init() { }
 }
 
-struct DeregisterDataLakeDelegatedAdministratorInputBody: Swift.Equatable {
+struct DeregisterDataLakeDelegatedAdministratorInputBody {
 }
 
 extension DeregisterDataLakeDelegatedAdministratorInputBody: Swift.Decodable {
@@ -3135,7 +3135,7 @@ extension DeregisterDataLakeDelegatedAdministratorOutput: ClientRuntime.HttpResp
     }
 }
 
-public struct DeregisterDataLakeDelegatedAdministratorOutput: Swift.Equatable {
+public struct DeregisterDataLakeDelegatedAdministratorOutput {
 
     public init() { }
 }
@@ -3163,12 +3163,12 @@ extension GetDataLakeExceptionSubscriptionInput {
     }
 }
 
-public struct GetDataLakeExceptionSubscriptionInput: Swift.Equatable {
+public struct GetDataLakeExceptionSubscriptionInput {
 
     public init() { }
 }
 
-struct GetDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+struct GetDataLakeExceptionSubscriptionInputBody {
 }
 
 extension GetDataLakeExceptionSubscriptionInputBody: Swift.Decodable {
@@ -3193,7 +3193,7 @@ extension GetDataLakeExceptionSubscriptionOutput: ClientRuntime.HttpResponseBind
     }
 }
 
-public struct GetDataLakeExceptionSubscriptionOutput: Swift.Equatable {
+public struct GetDataLakeExceptionSubscriptionOutput {
     /// The expiration period and time-to-live (TTL).
     public var exceptionTimeToLive: Swift.Int?
     /// The Amazon Web Services account where you receive exception notifications.
@@ -3213,7 +3213,7 @@ public struct GetDataLakeExceptionSubscriptionOutput: Swift.Equatable {
     }
 }
 
-struct GetDataLakeExceptionSubscriptionOutputBody: Swift.Equatable {
+struct GetDataLakeExceptionSubscriptionOutputBody {
     let subscriptionProtocol: Swift.String?
     let notificationEndpoint: Swift.String?
     let exceptionTimeToLive: Swift.Int?
@@ -3260,12 +3260,12 @@ extension GetDataLakeOrganizationConfigurationInput {
     }
 }
 
-public struct GetDataLakeOrganizationConfigurationInput: Swift.Equatable {
+public struct GetDataLakeOrganizationConfigurationInput {
 
     public init() { }
 }
 
-struct GetDataLakeOrganizationConfigurationInputBody: Swift.Equatable {
+struct GetDataLakeOrganizationConfigurationInputBody {
 }
 
 extension GetDataLakeOrganizationConfigurationInputBody: Swift.Decodable {
@@ -3286,7 +3286,7 @@ extension GetDataLakeOrganizationConfigurationOutput: ClientRuntime.HttpResponse
     }
 }
 
-public struct GetDataLakeOrganizationConfigurationOutput: Swift.Equatable {
+public struct GetDataLakeOrganizationConfigurationOutput {
     /// The configuration for new accounts.
     public var autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 
@@ -3298,7 +3298,7 @@ public struct GetDataLakeOrganizationConfigurationOutput: Swift.Equatable {
     }
 }
 
-struct GetDataLakeOrganizationConfigurationOutputBody: Swift.Equatable {
+struct GetDataLakeOrganizationConfigurationOutputBody {
     let autoEnableNewAccount: [SecurityLakeClientTypes.DataLakeAutoEnableNewAccountConfiguration]?
 }
 
@@ -3370,7 +3370,7 @@ extension GetDataLakeSourcesInput {
     }
 }
 
-public struct GetDataLakeSourcesInput: Swift.Equatable {
+public struct GetDataLakeSourcesInput {
     /// The Amazon Web Services account ID for which a static snapshot of the current Amazon Web Services Region, including enabled accounts and log sources, is retrieved.
     public var accounts: [Swift.String]?
     /// The maximum limit of accounts for which the static snapshot of the current Region, including enabled accounts and log sources, is retrieved.
@@ -3390,7 +3390,7 @@ public struct GetDataLakeSourcesInput: Swift.Equatable {
     }
 }
 
-struct GetDataLakeSourcesInputBody: Swift.Equatable {
+struct GetDataLakeSourcesInputBody {
     let accounts: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3439,7 +3439,7 @@ extension GetDataLakeSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetDataLakeSourcesOutput: Swift.Equatable {
+public struct GetDataLakeSourcesOutput {
     /// The Amazon Resource Name (ARN) created by you to provide to the subscriber. For more information about ARNs and how to use them in policies, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/subscriber-management.html).
     public var dataLakeArn: Swift.String?
     /// The list of enabled accounts and enabled sources.
@@ -3459,7 +3459,7 @@ public struct GetDataLakeSourcesOutput: Swift.Equatable {
     }
 }
 
-struct GetDataLakeSourcesOutputBody: Swift.Equatable {
+struct GetDataLakeSourcesOutputBody {
     let dataLakeArn: Swift.String?
     let dataLakeSources: [SecurityLakeClientTypes.DataLakeSource]?
     let nextToken: Swift.String?
@@ -3518,7 +3518,7 @@ extension GetSubscriberInput {
     }
 }
 
-public struct GetSubscriberInput: Swift.Equatable {
+public struct GetSubscriberInput {
     /// A value created by Amazon Security Lake that uniquely identifies your GetSubscriber API request.
     /// This member is required.
     public var subscriberId: Swift.String?
@@ -3531,7 +3531,7 @@ public struct GetSubscriberInput: Swift.Equatable {
     }
 }
 
-struct GetSubscriberInputBody: Swift.Equatable {
+struct GetSubscriberInputBody {
 }
 
 extension GetSubscriberInputBody: Swift.Decodable {
@@ -3552,7 +3552,7 @@ extension GetSubscriberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct GetSubscriberOutput: Swift.Equatable {
+public struct GetSubscriberOutput {
     /// The subscriber information for the specified subscriber ID.
     public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
@@ -3564,7 +3564,7 @@ public struct GetSubscriberOutput: Swift.Equatable {
     }
 }
 
-struct GetSubscriberOutputBody: Swift.Equatable {
+struct GetSubscriberOutputBody {
     let subscriber: SecurityLakeClientTypes.SubscriberResource?
 }
 
@@ -3673,7 +3673,7 @@ extension SecurityLakeClientTypes.HttpsNotificationConfiguration: Swift.Codable 
 
 extension SecurityLakeClientTypes {
     /// The configurations for HTTPS subscriber notification.
-    public struct HttpsNotificationConfiguration: Swift.Equatable {
+    public struct HttpsNotificationConfiguration {
         /// The key name for the notification subscription.
         public var authorizationApiKeyName: Swift.String?
         /// The key value for the notification subscription.
@@ -3744,7 +3744,7 @@ public struct InternalServerException: ClientRuntime.ModeledError, AWSClientRunt
     }
 }
 
-struct InternalServerExceptionBody: Swift.Equatable {
+struct InternalServerExceptionBody {
     let message: Swift.String?
 }
 
@@ -3791,7 +3791,7 @@ extension ListDataLakeExceptionsInput {
     }
 }
 
-public struct ListDataLakeExceptionsInput: Swift.Equatable {
+public struct ListDataLakeExceptionsInput {
     /// List the maximum number of failures in Security Lake.
     public var maxResults: Swift.Int?
     /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -3811,7 +3811,7 @@ public struct ListDataLakeExceptionsInput: Swift.Equatable {
     }
 }
 
-struct ListDataLakeExceptionsInputBody: Swift.Equatable {
+struct ListDataLakeExceptionsInputBody {
     let regions: [Swift.String]?
     let maxResults: Swift.Int?
     let nextToken: Swift.String?
@@ -3858,7 +3858,7 @@ extension ListDataLakeExceptionsOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataLakeExceptionsOutput: Swift.Equatable {
+public struct ListDataLakeExceptionsOutput {
     /// Lists the failures that cannot be retried in the current Region.
     public var exceptions: [SecurityLakeClientTypes.DataLakeException]?
     /// List if there are more results available. The value of nextToken is a unique pagination token for each page. Repeat the call using the returned token to retrieve the next page. Keep all other arguments unchanged. Each pagination token expires after 24 hours. Using an expired pagination token will return an HTTP 400 InvalidToken error.
@@ -3874,7 +3874,7 @@ public struct ListDataLakeExceptionsOutput: Swift.Equatable {
     }
 }
 
-struct ListDataLakeExceptionsOutputBody: Swift.Equatable {
+struct ListDataLakeExceptionsOutputBody {
     let exceptions: [SecurityLakeClientTypes.DataLakeException]?
     let nextToken: Swift.String?
 }
@@ -3940,7 +3940,7 @@ extension ListDataLakesInput {
     }
 }
 
-public struct ListDataLakesInput: Swift.Equatable {
+public struct ListDataLakesInput {
     /// The list of Regions where Security Lake is enabled.
     public var regions: [Swift.String]?
 
@@ -3952,7 +3952,7 @@ public struct ListDataLakesInput: Swift.Equatable {
     }
 }
 
-struct ListDataLakesInputBody: Swift.Equatable {
+struct ListDataLakesInputBody {
 }
 
 extension ListDataLakesInputBody: Swift.Decodable {
@@ -3973,7 +3973,7 @@ extension ListDataLakesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListDataLakesOutput: Swift.Equatable {
+public struct ListDataLakesOutput {
     /// Retrieves the Security Lake configuration object.
     public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 
@@ -3985,7 +3985,7 @@ public struct ListDataLakesOutput: Swift.Equatable {
     }
 }
 
-struct ListDataLakesOutputBody: Swift.Equatable {
+struct ListDataLakesOutputBody {
     let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 }
 
@@ -4071,7 +4071,7 @@ extension ListLogSourcesInput {
     }
 }
 
-public struct ListLogSourcesInput: Swift.Equatable {
+public struct ListLogSourcesInput {
     /// The list of Amazon Web Services accounts for which log sources are displayed.
     public var accounts: [Swift.String]?
     /// The maximum number of accounts for which the log sources are displayed.
@@ -4099,7 +4099,7 @@ public struct ListLogSourcesInput: Swift.Equatable {
     }
 }
 
-struct ListLogSourcesInputBody: Swift.Equatable {
+struct ListLogSourcesInputBody {
     let accounts: [Swift.String]?
     let regions: [Swift.String]?
     let sources: [SecurityLakeClientTypes.LogSourceResource]?
@@ -4172,7 +4172,7 @@ extension ListLogSourcesOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListLogSourcesOutput: Swift.Equatable {
+public struct ListLogSourcesOutput {
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The list of log sources in your organization that send data to the data lake.
@@ -4188,7 +4188,7 @@ public struct ListLogSourcesOutput: Swift.Equatable {
     }
 }
 
-struct ListLogSourcesOutputBody: Swift.Equatable {
+struct ListLogSourcesOutputBody {
     let sources: [SecurityLakeClientTypes.LogSource]?
     let nextToken: Swift.String?
 }
@@ -4256,7 +4256,7 @@ extension ListSubscribersInput {
     }
 }
 
-public struct ListSubscribersInput: Swift.Equatable {
+public struct ListSubscribersInput {
     /// The maximum number of accounts for which the configuration is displayed.
     public var maxResults: Swift.Int?
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
@@ -4272,7 +4272,7 @@ public struct ListSubscribersInput: Swift.Equatable {
     }
 }
 
-struct ListSubscribersInputBody: Swift.Equatable {
+struct ListSubscribersInputBody {
 }
 
 extension ListSubscribersInputBody: Swift.Decodable {
@@ -4295,7 +4295,7 @@ extension ListSubscribersOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListSubscribersOutput: Swift.Equatable {
+public struct ListSubscribersOutput {
     /// If nextToken is returned, there are more results available. You can repeat the call using the returned token to retrieve the next page.
     public var nextToken: Swift.String?
     /// The subscribers available for the specified Security Lake account ID.
@@ -4311,7 +4311,7 @@ public struct ListSubscribersOutput: Swift.Equatable {
     }
 }
 
-struct ListSubscribersOutputBody: Swift.Equatable {
+struct ListSubscribersOutputBody {
     let subscribers: [SecurityLakeClientTypes.SubscriberResource]?
     let nextToken: Swift.String?
 }
@@ -4366,7 +4366,7 @@ extension ListTagsForResourceInput {
     }
 }
 
-public struct ListTagsForResourceInput: Swift.Equatable {
+public struct ListTagsForResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource for which you want to retrieve the tags.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -4379,7 +4379,7 @@ public struct ListTagsForResourceInput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceInputBody: Swift.Equatable {
+struct ListTagsForResourceInputBody {
 }
 
 extension ListTagsForResourceInputBody: Swift.Decodable {
@@ -4400,7 +4400,7 @@ extension ListTagsForResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct ListTagsForResourceOutput: Swift.Equatable {
+public struct ListTagsForResourceOutput {
     /// An array of objects, one for each tag (key and value) that’s associated with the Amazon Security Lake resource.
     public var tags: [SecurityLakeClientTypes.Tag]?
 
@@ -4412,7 +4412,7 @@ public struct ListTagsForResourceOutput: Swift.Equatable {
     }
 }
 
-struct ListTagsForResourceOutputBody: Swift.Equatable {
+struct ListTagsForResourceOutputBody {
     let tags: [SecurityLakeClientTypes.Tag]?
 }
 
@@ -4498,7 +4498,7 @@ extension SecurityLakeClientTypes.LogSource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Amazon Security Lake can collect logs and events from natively-supported Amazon Web Services services and custom sources.
-    public struct LogSource: Swift.Equatable {
+    public struct LogSource {
         /// Specify the account from which you want to collect logs.
         public var account: Swift.String?
         /// Specify the Regions from which you want to collect logs.
@@ -4557,7 +4557,7 @@ extension SecurityLakeClientTypes.LogSourceResource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The supported source types from which logs and events are collected in Amazon Security Lake. For a list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
-    public enum LogSourceResource: Swift.Equatable {
+    public enum LogSourceResource {
         /// Amazon Security Lake supports log and event collection for natively supported Amazon Web Services. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
         case awslogsource(SecurityLakeClientTypes.AwsLogSourceResource)
         /// Amazon Security Lake supports custom source types. For more information, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/custom-sources.html).
@@ -4604,7 +4604,7 @@ extension SecurityLakeClientTypes.NotificationConfiguration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Specify the configurations you want to use for subscriber notification to notify the subscriber when new data is written to the data lake for sources that the subscriber consumes in Security Lake.
-    public enum NotificationConfiguration: Swift.Equatable {
+    public enum NotificationConfiguration {
         /// The configurations for SQS subscriber notification.
         case sqsnotificationconfiguration(SecurityLakeClientTypes.SqsNotificationConfiguration)
         /// The configurations for HTTPS subscriber notification.
@@ -4634,7 +4634,7 @@ extension RegisterDataLakeDelegatedAdministratorInput {
     }
 }
 
-public struct RegisterDataLakeDelegatedAdministratorInput: Swift.Equatable {
+public struct RegisterDataLakeDelegatedAdministratorInput {
     /// The Amazon Web Services account ID of the Security Lake delegated administrator.
     /// This member is required.
     public var accountId: Swift.String?
@@ -4647,7 +4647,7 @@ public struct RegisterDataLakeDelegatedAdministratorInput: Swift.Equatable {
     }
 }
 
-struct RegisterDataLakeDelegatedAdministratorInputBody: Swift.Equatable {
+struct RegisterDataLakeDelegatedAdministratorInputBody {
     let accountId: Swift.String?
 }
 
@@ -4668,7 +4668,7 @@ extension RegisterDataLakeDelegatedAdministratorOutput: ClientRuntime.HttpRespon
     }
 }
 
-public struct RegisterDataLakeDelegatedAdministratorOutput: Swift.Equatable {
+public struct RegisterDataLakeDelegatedAdministratorOutput {
 
     public init() { }
 }
@@ -4740,7 +4740,7 @@ public struct ResourceNotFoundException: ClientRuntime.ModeledError, AWSClientRu
     }
 }
 
-struct ResourceNotFoundExceptionBody: Swift.Equatable {
+struct ResourceNotFoundExceptionBody {
     let message: Swift.String?
     let resourceName: Swift.String?
     let resourceType: Swift.String?
@@ -4814,7 +4814,7 @@ extension SecurityLakeClientTypes.SqsNotificationConfiguration: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// The configurations for SQS subscriber notification.
-    public struct SqsNotificationConfiguration: Swift.Equatable {
+    public struct SqsNotificationConfiguration {
 
         public init() { }
     }
@@ -4950,7 +4950,7 @@ extension SecurityLakeClientTypes.SubscriberResource: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// Provides details about the Amazon Security Lake account subscription. Subscribers are notified of new objects for a source as the data is written to your Amazon S3 bucket for Security Lake.
-    public struct SubscriberResource: Swift.Equatable {
+    public struct SubscriberResource {
         /// You can choose to notify subscribers of new objects with an Amazon Simple Queue Service (Amazon SQS) queue or through messaging to an HTTPS endpoint provided by the subscriber. Subscribers can consume data by directly querying Lake Formation tables in your Amazon S3 bucket through services like Amazon Athena. This subscription type is defined as LAKEFORMATION.
         public var accessTypes: [SecurityLakeClientTypes.AccessType]?
         /// The date and time when the subscriber was created.
@@ -5090,7 +5090,7 @@ extension SecurityLakeClientTypes.Tag: Swift.Codable {
 
 extension SecurityLakeClientTypes {
     /// A tag is a label that you can define and associate with Amazon Web Services resources, including certain types of Amazon Security Lake resources. Tags can help you identify, categorize, and manage resources in different ways, such as by owner, environment, or other criteria. You can associate tags with the following types of Security Lake resources: subscribers, and the data lake configuration for your Amazon Web Services account in individual Amazon Web Services Regions. A resource can have up to 50 tags. Each tag consists of a required tag key and an associated tag value. A tag key is a general label that acts as a category for a more specific tag value. Each tag key must be unique and it can have only one tag value. A tag value acts as a descriptor for a tag key. Tag keys and values are case sensitive. They can contain letters, numbers, spaces, or the following symbols: _ . : / = + @ - For more information, see [Tagging Amazon Security Lake resources](https://docs.aws.amazon.com/security-lake/latest/userguide/tagging-resources.html) in the Amazon Security Lake User Guide.
-    public struct Tag: Swift.Equatable {
+    public struct Tag {
         /// The name of the tag. This is a general label that acts as a category for a more specific tag value (value).
         /// This member is required.
         public var key: Swift.String?
@@ -5136,7 +5136,7 @@ extension TagResourceInput {
     }
 }
 
-public struct TagResourceInput: Swift.Equatable {
+public struct TagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to add or update the tags for.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5154,7 +5154,7 @@ public struct TagResourceInput: Swift.Equatable {
     }
 }
 
-struct TagResourceInputBody: Swift.Equatable {
+struct TagResourceInputBody {
     let tags: [SecurityLakeClientTypes.Tag]?
 }
 
@@ -5184,7 +5184,7 @@ extension TagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct TagResourceOutput: Swift.Equatable {
+public struct TagResourceOutput {
 
     public init() { }
 }
@@ -5265,7 +5265,7 @@ public struct ThrottlingException: ClientRuntime.ModeledError, AWSClientRuntime.
     }
 }
 
-struct ThrottlingExceptionBody: Swift.Equatable {
+struct ThrottlingExceptionBody {
     let message: Swift.String?
     let serviceCode: Swift.String?
     let quotaCode: Swift.String?
@@ -5315,7 +5315,7 @@ extension UntagResourceInput {
     }
 }
 
-public struct UntagResourceInput: Swift.Equatable {
+public struct UntagResourceInput {
     /// The Amazon Resource Name (ARN) of the Amazon Security Lake resource to remove one or more tags from.
     /// This member is required.
     public var resourceArn: Swift.String?
@@ -5333,7 +5333,7 @@ public struct UntagResourceInput: Swift.Equatable {
     }
 }
 
-struct UntagResourceInputBody: Swift.Equatable {
+struct UntagResourceInputBody {
 }
 
 extension UntagResourceInputBody: Swift.Decodable {
@@ -5347,7 +5347,7 @@ extension UntagResourceOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UntagResourceOutput: Swift.Equatable {
+public struct UntagResourceOutput {
 
     public init() { }
 }
@@ -5396,7 +5396,7 @@ extension UpdateDataLakeExceptionSubscriptionInput {
     }
 }
 
-public struct UpdateDataLakeExceptionSubscriptionInput: Swift.Equatable {
+public struct UpdateDataLakeExceptionSubscriptionInput {
     /// The time-to-live (TTL) for the exception message to remain.
     public var exceptionTimeToLive: Swift.Int?
     /// The account that is subscribed to receive exception notifications.
@@ -5418,7 +5418,7 @@ public struct UpdateDataLakeExceptionSubscriptionInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataLakeExceptionSubscriptionInputBody: Swift.Equatable {
+struct UpdateDataLakeExceptionSubscriptionInputBody {
     let subscriptionProtocol: Swift.String?
     let notificationEndpoint: Swift.String?
     let exceptionTimeToLive: Swift.Int?
@@ -5447,7 +5447,7 @@ extension UpdateDataLakeExceptionSubscriptionOutput: ClientRuntime.HttpResponseB
     }
 }
 
-public struct UpdateDataLakeExceptionSubscriptionOutput: Swift.Equatable {
+public struct UpdateDataLakeExceptionSubscriptionOutput {
 
     public init() { }
 }
@@ -5495,7 +5495,7 @@ extension UpdateDataLakeInput {
     }
 }
 
-public struct UpdateDataLakeInput: Swift.Equatable {
+public struct UpdateDataLakeInput {
     /// Specify the Region or Regions that will contribute data to the rollup region.
     /// This member is required.
     public var configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
@@ -5512,7 +5512,7 @@ public struct UpdateDataLakeInput: Swift.Equatable {
     }
 }
 
-struct UpdateDataLakeInputBody: Swift.Equatable {
+struct UpdateDataLakeInputBody {
     let configurations: [SecurityLakeClientTypes.DataLakeConfiguration]?
     let metaStoreManagerRoleArn: Swift.String?
 }
@@ -5553,7 +5553,7 @@ extension UpdateDataLakeOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateDataLakeOutput: Swift.Equatable {
+public struct UpdateDataLakeOutput {
     /// The created Security Lake configuration object.
     public var dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 
@@ -5565,7 +5565,7 @@ public struct UpdateDataLakeOutput: Swift.Equatable {
     }
 }
 
-struct UpdateDataLakeOutputBody: Swift.Equatable {
+struct UpdateDataLakeOutputBody {
     let dataLakes: [SecurityLakeClientTypes.DataLakeResource]?
 }
 
@@ -5644,7 +5644,7 @@ extension UpdateSubscriberInput {
     }
 }
 
-public struct UpdateSubscriberInput: Swift.Equatable {
+public struct UpdateSubscriberInput {
     /// The supported Amazon Web Services from which logs and events are collected. For the list of supported Amazon Web Services, see the [Amazon Security Lake User Guide](https://docs.aws.amazon.com/security-lake/latest/userguide/internal-sources.html).
     public var sources: [SecurityLakeClientTypes.LogSourceResource]?
     /// The description of the Security Lake account subscriber.
@@ -5673,7 +5673,7 @@ public struct UpdateSubscriberInput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriberInputBody: Swift.Equatable {
+struct UpdateSubscriberInputBody {
     let subscriberIdentity: SecurityLakeClientTypes.AwsIdentity?
     let subscriberName: Swift.String?
     let subscriberDescription: Swift.String?
@@ -5733,7 +5733,7 @@ extension UpdateSubscriberNotificationInput {
     }
 }
 
-public struct UpdateSubscriberNotificationInput: Swift.Equatable {
+public struct UpdateSubscriberNotificationInput {
     /// The configuration for subscriber notification.
     /// This member is required.
     public var configuration: SecurityLakeClientTypes.NotificationConfiguration?
@@ -5751,7 +5751,7 @@ public struct UpdateSubscriberNotificationInput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriberNotificationInputBody: Swift.Equatable {
+struct UpdateSubscriberNotificationInputBody {
     let configuration: SecurityLakeClientTypes.NotificationConfiguration?
 }
 
@@ -5779,7 +5779,7 @@ extension UpdateSubscriberNotificationOutput: ClientRuntime.HttpResponseBinding 
     }
 }
 
-public struct UpdateSubscriberNotificationOutput: Swift.Equatable {
+public struct UpdateSubscriberNotificationOutput {
     /// The subscriber endpoint to which exception messages are posted.
     public var subscriberEndpoint: Swift.String?
 
@@ -5791,7 +5791,7 @@ public struct UpdateSubscriberNotificationOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriberNotificationOutputBody: Swift.Equatable {
+struct UpdateSubscriberNotificationOutputBody {
     let subscriberEndpoint: Swift.String?
 }
 
@@ -5835,7 +5835,7 @@ extension UpdateSubscriberOutput: ClientRuntime.HttpResponseBinding {
     }
 }
 
-public struct UpdateSubscriberOutput: Swift.Equatable {
+public struct UpdateSubscriberOutput {
     /// The updated subscriber information.
     public var subscriber: SecurityLakeClientTypes.SubscriberResource?
 
@@ -5847,7 +5847,7 @@ public struct UpdateSubscriberOutput: Swift.Equatable {
     }
 }
 
-struct UpdateSubscriberOutputBody: Swift.Equatable {
+struct UpdateSubscriberOutputBody {
     let subscriber: SecurityLakeClientTypes.SubscriberResource?
 }
 
