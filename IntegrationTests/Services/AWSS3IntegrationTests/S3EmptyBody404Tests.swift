@@ -38,7 +38,7 @@ class S3EmptyBody404Tests: S3XCTestCase {
         } catch let error as AWSServiceError & ClientRuntime.HTTPError where error.errorCode == "NotFound" {
 
             // The expected error has now been caught.  Verify that the body is empty and the status code is 404.
-            XCTAssertEqual(error.httpResponse.body, .data(nil))
+            XCTAssertTrue(error.httpResponse.body.isEmpty)
             XCTAssertEqual(error.httpResponse.statusCode, .notFound)
 
             // test passes.
